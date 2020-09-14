@@ -1,0 +1,74 @@
+<template>
+  <div class="header">
+    <div
+      class="open-drawer-button left-drawer material-icons"
+      @click="toggleLeftDrawer"
+    >
+      menu
+    </div>
+    <div class="name" v-if="channel">{{ channel.name }}</div>
+    <div
+      class="open-drawer-button right-drawer material-icons"
+      @click="toggleRightDrawer"
+    >
+      menu
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { ChannelsModule } from "@/store/modules/channels";
+import { DrawersModule } from "@/store/modules/drawers";
+import { Component, Vue } from "vue-property-decorator";
+
+@Component
+export default class MainApp extends Vue {
+  toggleLeftDrawer() {
+    DrawersModule.SetLeftDrawer(true);
+  }
+  toggleRightDrawer() {
+    DrawersModule.SetRightDrawer(true);
+  }
+  get isServerChannel() {
+    return this.$route.params.server_id;
+  }
+  get channel() {
+    return ChannelsModule.channels[this.$route.params.channel_id];
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.header {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 40px;
+  width: 100%;
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.3);
+}
+.name {
+  margin-left: 5px;
+}
+.open-drawer-button {
+  margin-left: 5px;
+  opacity: 0.7;
+  transition: 0.2s;
+  cursor: pointer;
+  display: none;
+  &:hover {
+    opacity: 1;
+  }
+}
+@media (max-width: 650px) {
+  .left-drawer {
+    display: block;
+  }
+}
+@media (max-width: 950px) {
+  .right-drawer {
+    display: block;
+  }
+}
+</style>
