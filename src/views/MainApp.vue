@@ -141,7 +141,6 @@ export default class MainApp extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/global.scss";
 .app {
   display: grid;
   grid-template:
@@ -173,7 +172,7 @@ export default class MainApp extends Vue {
   }
   .nav-bar {
     z-index: 111111;
-    background: $background-color;
+    background: var(--background-color);
   }
 }
 </style>

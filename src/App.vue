@@ -3,7 +3,6 @@
 </template>
 
 <style lang="scss">
-@import "@/styles/global.scss";
 body {
   margin: 0;
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -31,11 +30,11 @@ body {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: $primary-color;
+  background: var(--primary-color);
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: $primary-color;
+  background: var(--primary-color);
 }
 </style>

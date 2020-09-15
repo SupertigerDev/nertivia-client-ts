@@ -41,7 +41,6 @@ export default class MessageBoxArea extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/global.scss";
 .message-box {
   display: flex;
   flex-direction: column;
@@ -56,7 +55,6 @@ export default class MessageBoxArea extends Vue {
 
 .input-box {
   display: flex;
-  padding-top: 5px;
 }
 .textarea {
   outline: none;
@@ -64,6 +62,7 @@ export default class MessageBoxArea extends Vue {
   resize: none;
   font-size: 14px;
   margin: 5px;
+  margin-top: 12px;
   height: 20px;
   flex-shrink: 0;
   flex: 1;
@@ -87,7 +86,7 @@ export default class MessageBoxArea extends Vue {
   transition: 0.2s;
   user-select: none;
   &:hover {
-    background: $primary-color;
+    background: var(--primary-color);
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.6);
     opacity: 1;
   }

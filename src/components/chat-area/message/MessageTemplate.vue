@@ -20,6 +20,7 @@ import Bubble from "./Bubble.vue";
 export default class MessageLogs extends Vue {
   @Prop() private message!: Message;
   hover = false;
+
   get creator() {
     return this.message.creator;
   }

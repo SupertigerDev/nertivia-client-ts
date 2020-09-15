@@ -24,7 +24,6 @@ export default class MainApp extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/global.scss";
 .drawer {
   display: flex;
   height: 100%;
@@ -34,7 +33,7 @@ export default class MainApp extends Vue {
   flex-direction: column;
   height: 100%;
   width: 100%;
-  background: $drawer-bg-color;
+  background: var(--drawer-bg-color);
   border-top-left-radius: 10px;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
 }
@@ -44,7 +43,7 @@ export default class MainApp extends Vue {
     border-bottom-left-radius: 10px;
   }
   .drawer {
-    background: $background-color;
+    background: var(--background-color);
   }
 }
 </style>

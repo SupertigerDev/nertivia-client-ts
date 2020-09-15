@@ -2,7 +2,7 @@
   <div class="bubble" :class="{ me: isMessageCreatedByMe }">
     <div class="details">
       <div class="username">{{ creator.username }}</div>
-      <div class="date">{{ message.created }}</div>
+      <div class="date">{{ date }}</div>
     </div>
     <div class="message">{{ message.message }}</div>
   </div>
@@ -12,6 +12,7 @@
 import Message from "@/interfaces/Message";
 import { MeModule } from "@/store/modules/me";
 import { Component, Prop, Vue } from "vue-property-decorator";
+import friendlyDate from "@/utils/date";
 @Component
 export default class Bubble extends Vue {
   @Prop() private message!: Message;
@@ -21,13 +22,15 @@ export default class Bubble extends Vue {
   get isMessageCreatedByMe() {
     return this.message.creator.uniqueID === MeModule.user.uniqueID;
   }
+  get date() {
+    return friendlyDate(this.message.created);
+  }
 }
 </script>
 <style lang="scss" scoped>
-@import "@/styles/global.scss";
 $pointer-size: 10px;
 $message-background-color: #3a4750;
-$my-message-background-color: $primary-color;
+$my-message-background-color: var(--primary-color);
 // $my-message-background-color: #00aabb;
 
 .bubble {
@@ -63,9 +66,16 @@ $my-message-background-color: $primary-color;
 
 .details {
   display: flex;
-  .date {
-    opacity: 0.8;
+  align-items: center;
+  align-content: center;
+  margin-bottom: 3px;
+  .username {
+    font-weight: bold;
     font-size: 14px;
+  }
+  .date {
+    opacity: 0.6;
+    font-size: 12px;
     margin-left: 5px;
   }
 }

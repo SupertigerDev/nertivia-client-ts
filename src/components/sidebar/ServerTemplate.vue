@@ -38,7 +38,6 @@ export default class MainApp extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/global.scss";
 .server {
   display: flex;
   position: relative;
@@ -62,11 +61,11 @@ export default class MainApp extends Vue {
   }
 
   &:hover::after {
-    background: $primary-color;
+    background: var(--primary-color);
     opacity: 0.7;
   }
   &.selected::after {
-    background: $primary-color;
+    background: var(--primary-color);
     opacity: 1;
     top: 10px;
     width: 3px;

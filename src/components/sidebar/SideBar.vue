@@ -14,7 +14,6 @@ export default class MainApp extends Vue {}
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/global.scss";
 .side-bar {
   display: flex;
   flex-direction: column;

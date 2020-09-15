@@ -5,4 +5,5 @@ export default interface Message {
   creator: User;
   messageID: string;
   channelID: string;
+  created: number;
 }

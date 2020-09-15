@@ -49,7 +49,6 @@ export default class MainApp extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/global.scss";
 .nav-bar {
   display: flex;
   align-items: center;
@@ -72,7 +71,7 @@ export default class MainApp extends Vue {
   }
   &.selected {
     opacity: 1;
-    background-color: $primary-color;
+    background-color: var(--primary-color);
     border-radius: 4px;
   }
 }

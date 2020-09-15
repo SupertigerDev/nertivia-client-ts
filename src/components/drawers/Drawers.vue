@@ -71,7 +71,6 @@ export default class MainApp extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/global.scss";
 // Drawer Left
 .slide-enter-active,
 .slide-leave-active {
@@ -122,7 +121,7 @@ export default class MainApp extends Vue {
   flex: 1;
 }
 .drawer-wrapper {
-  background: $drawer-bg-color;
+  background: var(--drawer-bg-color);
   width: 300px;
   flex-shrink: 0;
   z-index: 999;

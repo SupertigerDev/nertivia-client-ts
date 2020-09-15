@@ -30,7 +30,6 @@ export default class ChannelTemplate extends Vue {
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/global.scss";
 .channel {
   display: flex;
   align-items: center;
@@ -47,7 +46,7 @@ export default class ChannelTemplate extends Vue {
     background: rgba(255, 255, 255, 0.1);
   }
   &.selected {
-    background: $primary-color;
+    background: var(--primary-color);
     color: white;
     .dot {
       opacity: 1;
