@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div class="app" :class="{ leftDrawerOpened: leftDrawerOpened }">
     <NavBar class="nav-bar" v-if="!isMobileWidth || leftDrawerOpened" />
     <Drawers class="drawers">
       <LeftDrawer slot="drawer-left" />
@@ -164,9 +164,12 @@ export default class MainApp extends Vue {
 }
 @media (max-width: 650px) {
   .app {
-    grid-template:
-      "panel panel" auto
-      "nav nav" 40px;
+    grid-template: "panel panel" auto;
+    &.leftDrawerOpened {
+      grid-template:
+        "panel panel" auto
+        "nav nav" 40px;
+    }
   }
   .nav-bar {
     z-index: 111111;
