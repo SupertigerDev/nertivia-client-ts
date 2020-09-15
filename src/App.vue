@@ -11,6 +11,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: #dddddd;
 }
+textarea {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+}
 html,
 body {
   height: 100%;

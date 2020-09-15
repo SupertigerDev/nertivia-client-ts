@@ -74,6 +74,7 @@ export default class MessageLogs extends Vue {
 
 .message-logs {
   display: flex;
+  height: 100%;
   flex-direction: column;
   overflow: auto;
 }

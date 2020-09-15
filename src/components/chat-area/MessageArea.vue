@@ -2,6 +2,7 @@
   <div class="message-area">
     <div class="loading" v-if="!channelMessages">Loading...</div>
     <MessageLogs :key="channelID" v-else />
+    <MessageBoxArea />
   </div>
 </template>
 
@@ -9,8 +10,9 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { MessagesModule } from "@/store/modules/messages";
 import MessageLogs from "./MessageLogs.vue";
+import MessageBoxArea from "./MessageBoxArea.vue";
 
-@Component({ components: { MessageLogs } })
+@Component({ components: { MessageLogs, MessageBoxArea } })
 export default class MessageArea extends Vue {
   mounted() {
     this.loadChannelMessages();
