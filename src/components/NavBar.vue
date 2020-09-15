@@ -59,7 +59,7 @@ export default class MainApp extends Vue {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 40px;
+  height: 35px;
   width: 71px;
   cursor: pointer;
   user-select: none;

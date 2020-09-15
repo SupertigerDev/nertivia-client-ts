@@ -48,10 +48,8 @@ export default class MainApp extends Vue {
   align-items: center;
   align-content: center;
   height: 73px;
-  background-image: linear-gradient(to right, #1fa2ff 0%, #1fa2ff 100%);
+  background-color: rgba(255, 255, 255, 0.07);
   color: white;
-  margin: 4px;
-  border-radius: 4px;
 }
 .avatar {
   margin-left: 10px;

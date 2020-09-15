@@ -34,13 +34,13 @@ export default class MainApp extends Vue {
   height: 100%;
   width: 100%;
   background: var(--drawer-bg-color);
-  border-top-left-radius: 10px;
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+  border-top-left-radius: 4px;
+  overflow: hidden;
 }
 @media (max-width: 650px) {
   .container {
     border-top-left-radius: 0px;
-    border-bottom-left-radius: 10px;
+    border-bottom-left-radius: 4px;
   }
   .drawer {
     background: var(--background-color);

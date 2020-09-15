@@ -28,20 +28,20 @@ export default class RightDrawer extends Vue {
             <virtual-list size={260} remain={40} variable={true}>
               {this.roleWithMembers.map(role => {
                 return [
-                  <div class="tab" style={{ height: "18px" }}>
+                  <div class="tab" style={{ height: "25px" }}>
                     {role.role.name} ({role.members.length})
                   </div>,
                   renderMembers(role.members)
                 ];
               })}
               {this.onlineMembersWithNoRoles.length > 0 && (
-                <div class="tab" style={{ height: "18px" }}>
+                <div class="tab" style={{ height: "25px" }}>
                   Online ({this.onlineMembersWithNoRoles.length})
                 </div>
               )}
               {renderMembers(this.onlineMembersWithNoRoles)}
               {this.offlineMembers.length > 0 && (
-                <div class="tab" style={{ height: "18px" }}>
+                <div class="tab" style={{ height: "25px" }}>
                   Offline ({this.offlineMembers.length})
                 </div>
               )}
@@ -109,7 +109,6 @@ export default class RightDrawer extends Vue {
   flex-direction: column;
   height: 100%;
   overflow: auto;
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
 }
 .members {
   display: flex;
@@ -120,12 +119,17 @@ export default class RightDrawer extends Vue {
 .header {
   display: flex;
   align-items: center;
+  background-color: rgba(255, 255, 255, 0.07);
   justify-content: center;
   height: 40px;
   flex-shrink: 0;
 }
 .tab {
+  display: flex;
+  align-items: center;
+  align-content: center;
   margin-left: 6px;
+  height: 25px;
   flex-shrink: 0;
 }
 </style>

@@ -40,4 +40,7 @@ export default class MessageArea extends Vue {
   height: 100%;
   overflow: hidden;
 }
+.loading {
+  height: 100%;
+}
 </style>

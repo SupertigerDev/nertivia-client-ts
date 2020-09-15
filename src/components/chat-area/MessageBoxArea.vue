@@ -2,10 +2,11 @@
   <div class="message-box">
     <div class="input-box">
       <textarea
-        v-bind:value="message"
+        v-bind:value="isConnected ? message : ''"
         @input="message = $event.target.value"
         ref="textarea"
         class="textarea"
+        :disabled="!isConnected"
         placeholder="Type your message"
       />
       <div class="material-icons send-button" v-if="message.trim().length">
@@ -16,6 +17,7 @@
 </template>
 
 <script lang="ts">
+import { MeModule } from "@/store/modules/me";
 import { Component, Vue, Watch } from "vue-property-decorator";
 
 @Component
@@ -37,6 +39,9 @@ export default class MessageBoxArea extends Vue {
       textarea.style.height = textarea.scrollHeight + "px";
     });
   }
+  get isConnected() {
+    return MeModule.connected;
+  }
 }
 </script>
 
@@ -44,13 +49,10 @@ export default class MessageBoxArea extends Vue {
 .message-box {
   display: flex;
   flex-direction: column;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  margin: 6px;
-  margin-top: 0;
+  background: rgba(255, 255, 255, 0.07);
+
   flex-shrink: 0;
   min-height: 45px;
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
 }
 
 .input-box {
@@ -81,13 +83,12 @@ export default class MessageBoxArea extends Vue {
   cursor: pointer;
   height: 35px;
   opacity: 0.8;
-  width: 35px;
+  width: 45px;
   border-radius: 5px;
   transition: 0.2s;
   user-select: none;
   &:hover {
     background: var(--primary-color);
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.6);
     opacity: 1;
   }
 }
