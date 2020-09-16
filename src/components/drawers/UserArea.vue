@@ -48,7 +48,7 @@ export default class MainApp extends Vue {
   align-items: center;
   align-content: center;
   height: 73px;
-  background-color: rgba(255, 255, 255, 0.07);
+  background-color: rgba(0, 0, 0, 0.3);
   color: white;
 }
 .avatar {

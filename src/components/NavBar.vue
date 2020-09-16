@@ -54,25 +54,27 @@ export default class MainApp extends Vue {
   align-items: center;
   flex-shrink: 0;
   height: 40px;
+  padding-left: 2px;
 }
 .item {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 35px;
+  height: 34px;
   width: 71px;
   cursor: pointer;
   user-select: none;
   opacity: 0.6;
   color: white;
   transition: 0.2s;
+  border-radius: 0;
   &:hover {
     opacity: 1;
   }
   &.selected {
+    border-radius: 4px;
     opacity: 1;
     background-color: var(--primary-color);
-    border-radius: 4px;
   }
 }
 </style>

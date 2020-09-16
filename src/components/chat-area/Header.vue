@@ -46,7 +46,7 @@ export default class MainApp extends Vue {
   height: 40px;
   width: 100%;
   flex-shrink: 0;
-  background: rgba(255, 255, 255, 0.07);
+  background-color: rgba(0, 0, 0, 0.3);
 }
 .name {
   margin-left: 5px;

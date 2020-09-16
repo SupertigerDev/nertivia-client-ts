@@ -23,32 +23,30 @@ export default class RightDrawer extends Vue {
     return (
       <div class="right-drawer">
         <div class="header">Members ({this.serverMembers.length})</div>
-        <transition mode="out-in">
-          <div class="members" key={this.server_id}>
-            <virtual-list size={260} remain={40} variable={true}>
-              {this.roleWithMembers.map(role => {
-                return [
-                  <div class="tab" style={{ height: "25px" }}>
-                    {role.role.name} ({role.members.length})
-                  </div>,
-                  renderMembers(role.members)
-                ];
-              })}
-              {this.onlineMembersWithNoRoles.length > 0 && (
+        <div class="members" key={this.server_id}>
+          <virtual-list size={260} remain={40} variable={true}>
+            {this.roleWithMembers.map(role => {
+              return [
                 <div class="tab" style={{ height: "25px" }}>
-                  Online ({this.onlineMembersWithNoRoles.length})
-                </div>
-              )}
-              {renderMembers(this.onlineMembersWithNoRoles)}
-              {this.offlineMembers.length > 0 && (
-                <div class="tab" style={{ height: "25px" }}>
-                  Offline ({this.offlineMembers.length})
-                </div>
-              )}
-              {renderMembers(this.offlineMembers)}
-            </virtual-list>
-          </div>
-        </transition>
+                  {role.role.name} ({role.members.length})
+                </div>,
+                renderMembers(role.members)
+              ];
+            })}
+            {this.onlineMembersWithNoRoles.length > 0 && (
+              <div class="tab" style={{ height: "25px" }}>
+                Online ({this.onlineMembersWithNoRoles.length})
+              </div>
+            )}
+            {renderMembers(this.onlineMembersWithNoRoles)}
+            {this.offlineMembers.length > 0 && (
+              <div class="tab" style={{ height: "25px" }}>
+                Offline ({this.offlineMembers.length})
+              </div>
+            )}
+            {renderMembers(this.offlineMembers)}
+          </virtual-list>
+        </div>
       </div>
     );
   }
@@ -119,7 +117,7 @@ export default class RightDrawer extends Vue {
 .header {
   display: flex;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.07);
+  background-color: rgba(0, 0, 0, 0.3);
   justify-content: center;
   height: 40px;
   flex-shrink: 0;
