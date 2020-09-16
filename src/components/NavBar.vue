@@ -16,16 +16,29 @@
     >
       dns
     </div>
+    <div class="gap" />
+    <AvatarImage
+      class="user-area-button"
+      size="25px"
+      :image-id="me.avatar"
+      :seed-id="me.uniqueID"
+    />
+    <div class="item material-icons" title="Settings">
+      settings
+    </div>
   </div>
 </template>
 
 <script lang="ts">
+const AvatarImage = () =>
+  import(/* webpackChunkName: "AvatarImage" */ "@/components/AvatarImage.vue");
+import { MeModule } from "@/store/modules/me";
 import { Component, Vue } from "vue-property-decorator";
 interface LastSelectedServer {
   channel_id: string;
   server_id: string;
 }
-@Component
+@Component({ components: { AvatarImage } })
 export default class MainApp extends Vue {
   changeTab(name: string) {
     const selectedServer = this.lastSelectedServer();
@@ -45,23 +58,31 @@ export default class MainApp extends Vue {
   get currentTab() {
     return this.$route.path.split("/")[2];
   }
+  get me() {
+    return MeModule.user;
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .nav-bar {
   display: flex;
+  flex-direction: column;
+  width: 60px;
   align-items: center;
   flex-shrink: 0;
-  height: 40px;
+  height: 100%;
   padding-left: 2px;
+}
+.gap {
+  flex: 1;
 }
 .item {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 34px;
-  width: 71px;
+  height: 50px;
+  width: 50px;
   cursor: pointer;
   user-select: none;
   opacity: 0.6;
@@ -75,6 +96,20 @@ export default class MainApp extends Vue {
     border-radius: 4px;
     opacity: 1;
     background-color: var(--primary-color);
+  }
+}
+.user-area-button {
+  transition: 0.2s;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+@media (max-width: 650px) {
+  .nav-bar {
+    height: 60px;
+    width: 100%;
+    flex-direction: row;
   }
 }
 </style>

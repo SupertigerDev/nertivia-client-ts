@@ -1,7 +1,6 @@
 <template>
   <div class="side-bar">
     <Servers />
-    test
   </div>
 </template>
 

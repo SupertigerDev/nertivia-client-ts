@@ -142,20 +142,11 @@ export default class MainApp extends Vue {
 
 <style lang="scss" scoped>
 .app {
-  display: grid;
-  grid-template:
-    "frame frame" auto
-    "nav nav" auto
-    "panel panel" 1fr / auto 1fr;
+  display: flex;
   height: 100%;
   overflow: hidden;
 }
-.nav-bar {
-  grid-area: nav;
-}
-.drawers {
-  grid-area: panel;
-}
+
 .content {
   display: flex;
   flex-direction: column;
@@ -163,16 +154,15 @@ export default class MainApp extends Vue {
 }
 @media (max-width: 650px) {
   .app {
-    grid-template: "panel panel" auto;
-    &.leftDrawerOpened {
-      grid-template:
-        "panel panel" auto
-        "nav nav" 40px;
-    }
+    flex-direction: column;
   }
   .nav-bar {
     z-index: 111111;
     background: var(--background-color);
+    order: 2;
+  }
+  .drawers {
+    order: 1;
   }
 }
 </style>
