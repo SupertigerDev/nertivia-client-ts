@@ -4,12 +4,17 @@
       <textarea
         v-bind:value="isConnected ? message : ''"
         @input="message = $event.target.value"
+        @keydown="keyDownEvent"
         ref="textarea"
         class="textarea"
         :disabled="!isConnected"
-        placeholder="Type your message"
+        :placeholder="isConnected ? 'Type your message' : 'Not Connected'"
       />
-      <div class="material-icons send-button" v-if="message.trim().length">
+      <div
+        class="material-icons send-button"
+        v-if="message.trim().length"
+        @click="sendMessage"
+      >
         send
       </div>
     </div>
@@ -18,6 +23,7 @@
 
 <script lang="ts">
 import { MeModule } from "@/store/modules/me";
+import { MessagesModule } from "@/store/modules/messages";
 import { Component, Vue, Watch } from "vue-property-decorator";
 
 @Component
@@ -27,6 +33,23 @@ export default class MessageBoxArea extends Vue {
   @Watch("message")
   messageChanged() {
     this.resizeTextArea();
+  }
+  keyDownEvent(e: KeyboardEvent) {
+    if (e.shiftKey) return;
+    if (e.code === "Enter") {
+      e.preventDefault();
+      this.sendMessage();
+      return;
+    }
+  }
+  sendMessage() {
+    if (!this.message.trim().length) return;
+    const message = this.message;
+    this.message = "";
+    MessagesModule.sendMessage({
+      message,
+      channelID: this.$route.params.channel_id
+    });
   }
   resizeTextArea() {
     this.$nextTick(() => {

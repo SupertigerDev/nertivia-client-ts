@@ -6,7 +6,7 @@ import {
   getModule
 } from "vuex-module-decorators";
 import store from "..";
-import { fetchMessages } from "@/services/messagesService";
+import { fetchMessages, postMessage } from "@/services/messagesService";
 import ky from "ky";
 import Message from "@/interfaces/Message";
 import Vue from "vue";
@@ -46,6 +46,10 @@ class Messages extends VuexModule {
         console.log(err.name);
         // console.log(err.response)
       });
+  }
+  @Action
+  public sendMessage(payload: {message: string, channelID: string}) {
+    postMessage(payload.message, "123", payload.channelID);
   }
 
   @Mutation
