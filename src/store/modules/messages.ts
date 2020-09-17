@@ -12,7 +12,7 @@ import Message from "@/interfaces/Message";
 import Vue from "vue";
 import { ScrollModule } from "./scroll";
 import router from "@/router";
-import { MeModule } from './me';
+import { MeModule } from "./me";
 
 interface MessagesObj {
   [key: string]: Message[];
@@ -32,7 +32,6 @@ function generateNum(n: number): string {
 
   return ("" + number).substring(add);
 }
-
 
 @Module({ dynamic: true, store, namespaced: true, name: "messages" })
 class Messages extends VuexModule {
@@ -68,7 +67,13 @@ class Messages extends VuexModule {
   public sendMessage(payload: { message: string; channelID: string }) {
     const tempID = generateNum(25);
     const creator: any = MeModule.user;
-    this.AddChannelMessage({channelID: payload.channelID, message: payload.message, tempID, created: Date.now(), creator})
+    this.AddChannelMessage({
+      channelID: payload.channelID,
+      message: payload.message,
+      tempID,
+      created: Date.now(),
+      creator
+    });
     postMessage(payload.message, tempID, payload.channelID);
   }
 

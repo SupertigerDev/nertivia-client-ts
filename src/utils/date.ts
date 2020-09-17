@@ -1,6 +1,6 @@
 enum Type {
   "12h" = "12h",
-  "24h" = "24h",
+  "24h" = "24h"
 }
 
 function formatAmPm(date: Date) {
@@ -68,7 +68,7 @@ function getFullDateWithTime(date: Date, type?: Type) {
     "Sep",
     "Oct",
     "Nov",
-    "Dec",
+    "Dec"
   ];
   const dayName = days[date.getDay()];
   const monthName = months[date.getMonth()];

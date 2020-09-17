@@ -74,7 +74,10 @@ const actions: ActionTree<any, any> = {
     MeModule.SetConnectionDetails({ connected: false, message: data });
   },
   socket_disconnect() {
-    MeModule.SetConnectionDetails({connected: false, message: "Connecting..."})
+    MeModule.SetConnectionDetails({
+      connected: false,
+      message: "Connecting..."
+    });
   },
   socket_success(context, data: SuccessEvent) {
     MeModule.SetConnectionDetails({ connected: true, message: null });
