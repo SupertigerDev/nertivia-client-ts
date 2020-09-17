@@ -1,11 +1,5 @@
 <template>
   <div class="user-area">
-    <AvatarImage
-      class="avatar"
-      size="40px"
-      :image-id="me.avatar"
-      :seed-id="me.uniqueID"
-    />
     <div class="user-details">
       <div class="user-and-tag">
         <span class="username">{{ me.username }}</span>
@@ -47,9 +41,13 @@ export default class MainApp extends Vue {
   display: flex;
   align-items: center;
   align-content: center;
-  height: 73px;
-  background-color: rgba(0, 0, 0, 0.3);
+  height: 50px;
+  background-color: #38404ce5;
+  border-radius: 4px;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(13px);
   color: white;
+  padding-right: 10px;
 }
 .avatar {
   margin-left: 10px;

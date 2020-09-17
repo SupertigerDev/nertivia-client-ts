@@ -4,7 +4,7 @@
       <MessageTemplate
         class="message"
         v-for="message in channelMessages"
-        :key="message.messageID"
+        :key="message.tempID || message.messageID"
         :message="message"
       />
     </transition-group>

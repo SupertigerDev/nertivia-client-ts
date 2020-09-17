@@ -12,10 +12,27 @@ import Message from "@/interfaces/Message";
 import Vue from "vue";
 import { ScrollModule } from "./scroll";
 import router from "@/router";
+import { MeModule } from './me';
 
 interface MessagesObj {
   [key: string]: Message[];
 }
+
+function generateNum(n: number): string {
+  const add = 1;
+  let max = 12 - add; // 12 is the min safe number Math.random() can generate without it starting to pad the end with zeros.
+
+  if (n > max) {
+    return generateNum(max) + generateNum(n - max);
+  }
+
+  max = Math.pow(10, n + add);
+  const min = max / 10; // Math.pow(10, n) basically
+  const number = Math.floor(Math.random() * (max - min + 1)) + min;
+
+  return ("" + number).substring(add);
+}
+
 
 @Module({ dynamic: true, store, namespaced: true, name: "messages" })
 class Messages extends VuexModule {
@@ -48,8 +65,11 @@ class Messages extends VuexModule {
       });
   }
   @Action
-  public sendMessage(payload: {message: string, channelID: string}) {
-    postMessage(payload.message, "123", payload.channelID);
+  public sendMessage(payload: { message: string; channelID: string }) {
+    const tempID = generateNum(25);
+    const creator: any = MeModule.user;
+    this.AddChannelMessage({channelID: payload.channelID, message: payload.message, tempID, created: Date.now(), creator})
+    postMessage(payload.message, tempID, payload.channelID);
   }
 
   @Mutation

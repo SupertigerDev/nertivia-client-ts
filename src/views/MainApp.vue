@@ -3,7 +3,7 @@
     <NavBar class="nav-bar" v-if="!isMobileWidth || leftDrawerOpened" />
     <Drawers class="drawers">
       <LeftDrawer slot="drawer-left" />
-      <RightDrawer slot="drawer-right" />
+      <RightDrawer slot="drawer-right" v-if="currentTab === 'servers'" />
       <div class="content" slot="content">
         <Header />
         <MessageArea />

@@ -17,29 +17,57 @@
       dns
     </div>
     <div class="gap" />
-    <AvatarImage
-      class="user-area-button"
-      size="25px"
-      :image-id="me.avatar"
-      :seed-id="me.uniqueID"
-    />
-    <div class="item material-icons" title="Settings">
+    <div
+      class="item me"
+      :class="{ selected: showUserArea }"
+      :title="me.username"
+      @click="showUserArea = !showUserArea"
+    >
+      <AvatarImage
+        class="avatar"
+        size="25px"
+        :image-id="me.avatar"
+        :seed-id="me.uniqueID"
+      />
+    </div>
+    <div
+      class="item material-icons"
+      title="Settings"
+      :class="{ selected: currentTab === 'settings' }"
+      @click="changeTab('settings')"
+    >
       settings
     </div>
+    <!-- Popouts -->
+    <UserArea
+      class="user-area"
+      v-if="showUserArea"
+      v-click-outside="clickOutsideUserArea"
+    />
   </div>
 </template>
 
 <script lang="ts">
 const AvatarImage = () =>
   import(/* webpackChunkName: "AvatarImage" */ "@/components/AvatarImage.vue");
+const UserArea = () =>
+  import(
+    /* webpackChunkName: "UserArea" */ "@/components/drawers/UserArea.vue"
+  );
 import { MeModule } from "@/store/modules/me";
 import { Component, Vue } from "vue-property-decorator";
 interface LastSelectedServer {
   channel_id: string;
   server_id: string;
 }
-@Component({ components: { AvatarImage } })
+@Component({ components: { AvatarImage, UserArea } })
 export default class MainApp extends Vue {
+  showUserArea = false;
+  clickOutsideUserArea(event: any) {
+    if (event.target.closest(".item.me")) return;
+    this.showUserArea = false;
+  }
+
   changeTab(name: string) {
     const selectedServer = this.lastSelectedServer();
     let path = name;
@@ -71,8 +99,8 @@ export default class MainApp extends Vue {
   width: 60px;
   align-items: center;
   flex-shrink: 0;
-  height: 100%;
-  padding-left: 2px;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
 .gap {
   flex: 1;
@@ -81,11 +109,13 @@ export default class MainApp extends Vue {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   height: 50px;
   width: 50px;
   cursor: pointer;
   user-select: none;
   opacity: 0.6;
+  z-index: 1111111;
   color: white;
   transition: 0.2s;
   border-radius: 0;
@@ -97,19 +127,43 @@ export default class MainApp extends Vue {
     opacity: 1;
     background-color: var(--primary-color);
   }
+  &.me.selected {
+    background-color: transparent;
+    transform: scale(1.5);
+  }
 }
 .user-area-button {
+  opacity: 1;
   transition: 0.2s;
   cursor: pointer;
   &:hover {
     transform: scale(1.1);
   }
 }
+.user-area {
+  position: absolute;
+  left: 60px;
+  bottom: 53px;
+  z-index: 11111112111;
+}
 @media (max-width: 650px) {
   .nav-bar {
     height: 60px;
     width: 100%;
     flex-direction: row;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .item:nth-child(1) {
+    margin-left: 4px;
+  }
+  .item:last-child {
+    margin-right: 4px;
+  }
+  .user-area {
+    bottom: 60px;
+    right: 5px;
+    left: initial;
   }
 }
 </style>

@@ -2,7 +2,7 @@
   <div class="drawer">
     <SideBar />
     <div class="container">
-      <UserArea />
+      <div class="header" v-if="selectedServer">{{ selectedServer.name }}</div>
       <ServerDrawer v-if="selectedServerID" />
     </div>
   </div>
@@ -14,11 +14,15 @@ import { Component, Vue } from "vue-property-decorator";
 import SideBar from "@/components/sidebar/SideBar.vue";
 import UserArea from "@/components/drawers/UserArea.vue";
 import ServerDrawer from "@/components/drawers/ServerDrawer.vue";
+import { ServersModule } from "@/store/modules/servers";
 
 @Component({ components: { SideBar, UserArea, ServerDrawer } })
 export default class MainApp extends Vue {
   get selectedServerID() {
     return this.$route.params.server_id;
+  }
+  get selectedServer() {
+    return ServersModule.servers[this.selectedServerID];
   }
 }
 </script>
@@ -36,6 +40,13 @@ export default class MainApp extends Vue {
   background: var(--drawer-bg-color);
   border-top-left-radius: 4px;
   overflow: hidden;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.3);
 }
 @media (max-width: 650px) {
   .container {

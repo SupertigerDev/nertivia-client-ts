@@ -20,7 +20,7 @@
     <transition name="slide-right">
       <div
         class="drawer-wrapper right"
-        v-if="!closeRightDrawer"
+        v-if="!closeRightDrawer && $slots['drawer-right']"
         :class="{ mobile: openRightDrawer }"
       >
         <slot name="drawer-right"></slot>
