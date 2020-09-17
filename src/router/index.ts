@@ -19,7 +19,7 @@ const routes: Array<RouteConfig> = [
     children: [
       { path: "servers/:server_id?/:channel_id?" },
       { path: "dms/:channel_id?" },
-      { path: "settings/" }
+      { path: "settings/:tab?" }
     ],
     name: "App",
     component: () =>

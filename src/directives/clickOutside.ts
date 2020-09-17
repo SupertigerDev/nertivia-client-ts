@@ -1,5 +1,3 @@
-import { DirectiveOptions } from "vue";
-
 const directive: any = {
   bind: function(el: any, binding: any, vnode: any) {
     el.clickOutsideEvent = function(event: any) {

@@ -2,24 +2,38 @@
   <div class="drawer">
     <SideBar />
     <div class="container">
-      <div class="header" v-if="selectedServer">{{ selectedServer.name }}</div>
-      <ServerDrawer v-if="selectedServerID" />
+      <div class="header">
+        {{ headerName }}
+      </div>
+      <ServerDrawer v-if="currentTab === 'servers'" />
+      <SettingsDrawer v-if="currentTab === 'settings'" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import _ from "lodash";
 
 import SideBar from "@/components/sidebar/SideBar.vue";
 import UserArea from "@/components/drawers/UserArea.vue";
 import ServerDrawer from "@/components/drawers/ServerDrawer.vue";
+import SettingsDrawer from "@/components/drawers/SettingsDrawer.vue";
 import { ServersModule } from "@/store/modules/servers";
 
-@Component({ components: { SideBar, UserArea, ServerDrawer } })
+@Component({ components: { SideBar, UserArea, ServerDrawer, SettingsDrawer } })
 export default class MainApp extends Vue {
+  get headerName() {
+    if (this.selectedServer) {
+      return this.selectedServer.name;
+    }
+    return _.capitalize(this.currentTab);
+  }
   get selectedServerID() {
     return this.$route.params.server_id;
+  }
+  get currentTab() {
+    return this.$route.path.split("/")[2];
   }
   get selectedServer() {
     return ServersModule.servers[this.selectedServerID];
