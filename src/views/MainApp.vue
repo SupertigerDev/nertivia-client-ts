@@ -5,8 +5,8 @@
       <LeftDrawer slot="drawer-left" />
       <RightDrawer slot="drawer-right" v-if="currentTab === 'servers'" />
       <div class="content" slot="content">
-        <Header />
-        <MessageArea />
+        <MessageArea v-if="currentTab === 'servers' || currentTab === 'dms'" />
+        <SettingsArea v-if="currentTab === 'settings'" />
       </div>
     </Drawers>
   </div>
@@ -34,11 +34,14 @@ const RightDrawer = () =>
   import(
     /* webpackChunkName: "RightDrawer" */ "@/components/drawers/RightDrawer.vue"
   );
-const Header = () =>
-  import(/* webpackChunkName: "Header" */ "@/components/chat-area/Header.vue");
+
 const MessageArea = () =>
   import(
     /* webpackChunkName: "MessageArea" */ "@/components/chat-area/MessageArea.vue"
+  );
+const SettingsArea = () =>
+  import(
+    /* webpackChunkName: "SettingsArea" */ "@/components/settings-area/SettingsArea.vue"
   );
 
 import { loadAllCacheToState } from "@/utils/localCache";
@@ -49,13 +52,28 @@ import { DrawersModule } from "@/store/modules/drawers";
 import WindowProperties from "@/utils/windowProperties";
 
 @Component({
-  components: { Drawers, LeftDrawer, Header, MessageArea, RightDrawer, NavBar }
+  components: {
+    Drawers,
+    LeftDrawer,
+    MessageArea,
+    RightDrawer,
+    NavBar,
+    SettingsArea
+  }
 })
 export default class MainApp extends Vue {
   mounted() {
     // set store and connect socket.
     this.$store.registerModule("socketIO", socketIOModule);
     this.$socket.client.connect();
+    // set primary color
+    const primaryColor = localStorage.getItem("primaryColor");
+    if (primaryColor) {
+      document.documentElement.style.setProperty(
+        "--primary-color",
+        primaryColor
+      );
+    }
   }
   beforeMount() {
     this.saveLastSelected();

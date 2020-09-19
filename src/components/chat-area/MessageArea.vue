@@ -1,5 +1,6 @@
 <template>
   <div class="message-area">
+    <Header :title="channel && channel.name" v-if="isServerChannel" />
     <div class="loading" v-if="!channelMessages">Loading...</div>
     <MessageLogs :key="channelID" v-else />
     <MessageBoxArea />
@@ -7,12 +8,14 @@
 </template>
 
 <script lang="ts">
+import Header from "@/components/Header.vue";
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { MessagesModule } from "@/store/modules/messages";
 import MessageLogs from "./MessageLogs.vue";
 import MessageBoxArea from "./MessageBoxArea.vue";
+import { ChannelsModule } from "@/store/modules/channels";
 
-@Component({ components: { MessageLogs, MessageBoxArea } })
+@Component({ components: { MessageLogs, MessageBoxArea, Header } })
 export default class MessageArea extends Vue {
   mounted() {
     this.loadChannelMessages();
@@ -29,6 +32,12 @@ export default class MessageArea extends Vue {
   }
   get channelID() {
     return this.$route.params.channel_id;
+  }
+  get isServerChannel() {
+    return this.$route.params.server_id;
+  }
+  get channel() {
+    return ChannelsModule.channels[this.channelID];
   }
 }
 </script>

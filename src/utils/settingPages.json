@@ -1,0 +1,12 @@
+{
+  "account": {
+    "name": "Account",
+    "icon": "account_circle",
+    "component": "Account"
+  },
+  "interface": {
+    "name": "Interface",
+    "icon": "view_quilt",
+    "component": "Interface"
+  }
+}

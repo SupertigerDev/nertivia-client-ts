@@ -6,9 +6,10 @@
     >
       menu
     </div>
-    <div class="name" v-if="channel">{{ channel.name }}</div>
+    <div class="name">{{ title }}</div>
     <div
       class="open-drawer-button right-drawer material-icons"
+      v-if="isServerChannel"
       @click="toggleRightDrawer"
     >
       menu
@@ -17,12 +18,12 @@
 </template>
 
 <script lang="ts">
-import { ChannelsModule } from "@/store/modules/channels";
 import { DrawersModule } from "@/store/modules/drawers";
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class MainApp extends Vue {
+  @Prop() private title!: string;
   toggleLeftDrawer() {
     DrawersModule.SetLeftDrawer(true);
   }
@@ -31,9 +32,6 @@ export default class MainApp extends Vue {
   }
   get isServerChannel() {
     return this.$route.params.server_id;
-  }
-  get channel() {
-    return ChannelsModule.channels[this.$route.params.channel_id];
   }
 }
 </script>
