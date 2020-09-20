@@ -1,5 +1,5 @@
 <template>
-  <div class="server-drawer">
+  <div class="settings-drawer">
     <div class="items">
       <div
         class="item"

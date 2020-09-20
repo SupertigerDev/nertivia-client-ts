@@ -51,9 +51,7 @@
 const AvatarImage = () =>
   import(/* webpackChunkName: "AvatarImage" */ "@/components/AvatarImage.vue");
 const UserArea = () =>
-  import(
-    /* webpackChunkName: "UserArea" */ "@/components/drawers/UserArea.vue"
-  );
+  import(/* webpackChunkName: "UserArea" */ "@/components/UserArea.vue");
 import { MeModule } from "@/store/modules/me";
 import { Component, Vue } from "vue-property-decorator";
 interface LastSelectedServer {

@@ -5,6 +5,7 @@
       <div class="header">
         {{ headerName }}
       </div>
+      <DirectMessageDrawer v-if="currentTab === 'dms'" />
       <ServerDrawer v-if="currentTab === 'servers'" />
       <SettingsDrawer v-if="currentTab === 'settings'" />
     </div>
@@ -15,13 +16,27 @@
 import { Component, Vue } from "vue-property-decorator";
 import _ from "lodash";
 
+const ServerDrawer = () =>
+  import(
+    /* webpackChunkName: "ServerDrawer" */ "@/components/drawers/server-drawer/ServerDrawer.vue"
+  );
+
+const SettingsDrawer = () =>
+  import(
+    /* webpackChunkName: "SettingsDrawer" */ "@/components/drawers/SettingsDrawer.vue"
+  );
+const DirectMessageDrawer = () =>
+  import(
+    /* webpackChunkName: "DirectMessageDrawer" */ "@/components/drawers/DirectMessageDrawer.vue"
+  );
+
 import SideBar from "@/components/sidebar/SideBar.vue";
-import UserArea from "@/components/drawers/UserArea.vue";
-import ServerDrawer from "@/components/drawers/ServerDrawer.vue";
-import SettingsDrawer from "@/components/drawers/SettingsDrawer.vue";
+
 import { ServersModule } from "@/store/modules/servers";
 
-@Component({ components: { SideBar, UserArea, ServerDrawer, SettingsDrawer } })
+@Component({
+  components: { SideBar, ServerDrawer, SettingsDrawer, DirectMessageDrawer }
+})
 export default class MainApp extends Vue {
   get headerName() {
     if (this.selectedServer) {

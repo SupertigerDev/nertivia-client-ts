@@ -16,7 +16,7 @@ import { Component, Vue } from "vue-property-decorator";
 
 const ChannelTemplate = () =>
   import(
-    /* webpackChunkName: "ChannelTemplate" */ "@/components/drawers/ChannelTemplate.vue"
+    /* webpackChunkName: "ChannelTemplate" */ "@/components/drawers/server-drawer/ChannelTemplate.vue"
   );
 @Component({ components: { ChannelTemplate } })
 export default class MainApp extends Vue {
