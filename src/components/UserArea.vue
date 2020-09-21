@@ -46,7 +46,6 @@ export default class MainApp extends Vue {
   border-radius: 4px;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(13px);
-  color: white;
   padding-right: 10px;
 }
 .avatar {

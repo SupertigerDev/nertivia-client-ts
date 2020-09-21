@@ -5,7 +5,12 @@
       <LeftDrawer slot="drawer-left" />
       <RightDrawer slot="drawer-right" v-if="currentTab === 'servers'" />
       <div class="content" slot="content">
-        <MessageArea v-if="currentTab === 'servers' || currentTab === 'dms'" />
+        <MessageArea
+          v-if="
+            currentTab === 'servers' ||
+              (currentTab === 'dms' && currentChannelID)
+          "
+        />
         <SettingsArea v-if="currentTab === 'settings'" />
       </div>
     </Drawers>
@@ -16,7 +21,6 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 
 import socketIOModule from "@/store/modules/socketIO/socketIOModule";
-import { FriendsModule } from "@/store/modules/friends";
 import { ServersModule } from "@/store/modules/servers";
 import { UsersModule } from "@/store/modules/users";
 import { MeModule } from "@/store/modules/me";
@@ -50,6 +54,7 @@ import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
 import { DrawersModule } from "@/store/modules/drawers";
 import WindowProperties from "@/utils/windowProperties";
+import { FriendsModule } from "@/store/modules/friends";
 
 @Component({
   components: {
@@ -96,6 +101,10 @@ export default class MainApp extends Vue {
       {
         storage: "users",
         state: UsersModule.InitUsers
+      },
+      {
+        storage: "friends",
+        state: FriendsModule.InitFriends
       },
       {
         storage: "serverRoles",
@@ -145,9 +154,6 @@ export default class MainApp extends Vue {
   }
   get users() {
     return UsersModule.users;
-  }
-  get friends() {
-    return FriendsModule.friendsWithUser;
   }
   get windowWidth() {
     return WindowProperties.resizeWidth;

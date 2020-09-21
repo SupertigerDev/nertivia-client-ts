@@ -40,7 +40,6 @@ $my-message-background-color: var(--primary-color);
   border-top-left-radius: 0;
   margin-left: 10px;
   padding: 5px;
-  color: white;
   &::after {
     content: "";
     position: absolute;

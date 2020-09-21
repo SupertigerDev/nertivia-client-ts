@@ -96,7 +96,7 @@ const actions: ActionTree<any, any> = {
       const friend = data.user.friends[i];
       const user = friend.recipient;
       users[user.uniqueID] = user;
-      friends[user.uniqueID] = { status: friend.status };
+      friends[user.uniqueID] = { status: friend.status, uniqueID: user.uniqueID };
     }
 
     // set servers

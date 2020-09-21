@@ -27,7 +27,7 @@ const SettingsDrawer = () =>
   );
 const DirectMessageDrawer = () =>
   import(
-    /* webpackChunkName: "DirectMessageDrawer" */ "@/components/drawers/DirectMessageDrawer.vue"
+    /* webpackChunkName: "DirectMessageDrawer" */ "@/components/drawers/direct-message-drawer/DirectMessageDrawer.vue"
   );
 
 import SideBar from "@/components/sidebar/SideBar.vue";
@@ -74,6 +74,7 @@ export default class MainApp extends Vue {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   height: 40px;
   background: rgba(0, 0, 0, 0.3);
 }

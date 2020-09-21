@@ -114,7 +114,6 @@ export default class MainApp extends Vue {
   user-select: none;
   opacity: 0.6;
   z-index: 1111111;
-  color: white;
   transition: 0.2s;
   border-radius: 0;
   &:hover {

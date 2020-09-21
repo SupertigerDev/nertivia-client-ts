@@ -49,15 +49,7 @@ export default class RightDrawer extends Vue {
   user-select: none;
   margin-right: 5px;
   transition: 0.2s;
-  color: white;
-  .username {
-    opacity: 0.7;
-    transition: 0.2s;
-  }
   &:hover {
-    .username {
-      opacity: 1;
-    }
     background: rgba(255, 255, 255, 0.1);
   }
 }

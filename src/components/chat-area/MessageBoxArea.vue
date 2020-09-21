@@ -101,7 +101,6 @@ export default class MessageBoxArea extends Vue {
   align-self: flex-end;
   margin-bottom: 5px;
   font-size: 25px;
-  color: white;
   margin-right: 5px;
   cursor: pointer;
   height: 35px;

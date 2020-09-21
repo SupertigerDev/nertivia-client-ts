@@ -43,7 +43,6 @@ export default class MainApp extends Vue {
 }
 .title {
   margin-bottom: 5px;
-  color: white;
 }
 .box {
   padding: 10px;

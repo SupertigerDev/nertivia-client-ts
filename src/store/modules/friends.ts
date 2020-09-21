@@ -7,10 +7,13 @@ import {
 } from "vuex-module-decorators";
 import store from "..";
 import User from "@/interfaces/User";
+import { saveCache } from '@/utils/localCache';
+import { PresencesModule } from './presences';
 
 interface FriendObj {
   [key: string]: {
     status: number;
+    uniqueID: string;
   };
 }
 
@@ -27,14 +30,16 @@ class Friends extends VuexModule {
   }
 
   get friendsWithUser() {
-    return Object.keys(this.friends).map(id => {
-      return this.friendWithUser(id);
+    return Object.values(this.friends).map(friend => {
+      const user: User = this.context.rootState.users.users[friend.uniqueID];
+      const presence = PresencesModule.presences[friend.uniqueID];
+      return {recipient: user, ...friend, presence}
     });
   }
 
   @Mutation
   private ADD_FRIEND(payload: { uniqueID: string; status: number }) {
-    this.friends[payload.uniqueID] = { status: payload.status };
+    this.friends[payload.uniqueID] = { status: payload.status, uniqueID: payload.uniqueID };
   }
 
   @Action
@@ -49,6 +54,7 @@ class Friends extends VuexModule {
 
   @Action
   public InitFriends(payload: FriendObj | any) {
+    saveCache("friends", payload);
     this.INIT_FRIENDS(payload);
   }
 }
