@@ -10,6 +10,7 @@ import { ServerMembersModule } from "../serverMembers";
 import { PresencesModule } from "../presences";
 import ServerRole from "@/interfaces/ServerRole";
 import { ServerRolesModule } from "../serverRoles";
+import DmChannel from "@/interfaces/DMChannel";
 
 const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
@@ -17,7 +18,14 @@ interface SuccessEvent {
   user: MeUser;
   serverMembers: ReturnedServerMember[];
   memberStatusArr: any[];
+  dms: ReturnedDmChannel[];
   serverRoles: ServerRole[];
+}
+
+interface ReturnedDmChannel {
+  lastMessaged: number;
+  channelID: string;
+  recipients: User[];
 }
 
 interface MeUser {
@@ -96,7 +104,10 @@ const actions: ActionTree<any, any> = {
       const friend = data.user.friends[i];
       const user = friend.recipient;
       users[user.uniqueID] = user;
-      friends[user.uniqueID] = { status: friend.status, uniqueID: user.uniqueID };
+      friends[user.uniqueID] = {
+        status: friend.status,
+        uniqueID: user.uniqueID
+      };
     }
 
     // set servers
@@ -159,6 +170,21 @@ const actions: ActionTree<any, any> = {
           return a.order - b.order;
         }
       );
+    }
+
+    // dm channel
+    for (let i = 0; i < data.dms.length; i++) {
+      const channel = data.dms[i];
+      if (channel.recipients)
+        for (let i = 0; i < channel.recipients.length; i++) {
+          const recipient = channel.recipients[i];
+          users[recipient.uniqueID] = recipient;
+        }
+      channels[channel.channelID] = {
+        channelID: channel.channelID,
+        lastMessaged: channel.lastMessaged,
+        recipients: channel.recipients?.map(r => r.uniqueID)
+      };
     }
 
     ServerRolesModule.InitServerRoles(serverRolesObj);

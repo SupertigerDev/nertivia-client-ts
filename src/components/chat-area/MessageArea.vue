@@ -1,6 +1,11 @@
 <template>
   <div class="message-area">
     <Header :title="channel && channel.name" v-if="isServerChannel" />
+    <Header
+      :title="DMChannel && DMChannel.recipients[0].username"
+      v-else-if="DMChannel && DMChannel.recipients"
+    />
+
     <div class="loading" v-if="!channelMessages">Loading...</div>
     <MessageLogs :key="channelID" v-else />
     <MessageBoxArea />
@@ -38,6 +43,9 @@ export default class MessageArea extends Vue {
   }
   get channel() {
     return ChannelsModule.channels[this.channelID];
+  }
+  get DMChannel() {
+    return ChannelsModule.getDMChannel(this.channelID);
   }
 }
 </script>
