@@ -8,7 +8,6 @@ import {
 import store from "..";
 import { saveCache } from "@/utils/localCache";
 import Channel from "@/interfaces/Channel";
-import DmChannel from "@/interfaces/DMChannel";
 import router from "@/router";
 import { getChannelByUserId } from "@/services/channelService";
 import ky from "ky";
@@ -40,13 +39,15 @@ class Channels extends VuexModule {
     };
   }
   get getDMChannels() {
-    const filter = Object.values(this.channels).filter(channel => channel.recipients);
+    const filter = Object.values(this.channels).filter(
+      channel => channel.recipients
+    );
     const map = filter.map(channel => {
       const recipients = channel.recipients?.map(
         uniqueID => UsersModule.users[uniqueID]
       );
       return { ...channel, recipients };
-    })
+    });
     return map;
   }
 
