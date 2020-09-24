@@ -12,6 +12,7 @@ import router from "@/router";
 import { getChannelByUserId } from "@/services/channelService";
 import ky from "ky";
 import { UsersModule } from "./users";
+import DmChannelWithUser from "@/interfaces/DmChannelWithUser";
 
 interface ChannelObj {
   [key: string]: Channel;
@@ -48,7 +49,7 @@ class Channels extends VuexModule {
       );
       return { ...channel, recipients };
     });
-    return map;
+    return (map as unknown) as Required<DmChannelWithUser>[];
   }
 
   @Mutation

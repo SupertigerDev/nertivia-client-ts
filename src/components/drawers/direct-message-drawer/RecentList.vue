@@ -13,6 +13,7 @@
 
 <script lang="ts">
 import { ChannelsModule } from "@/store/modules/channels";
+import { MeModule } from "@/store/modules/me";
 import { Component, Vue } from "vue-property-decorator";
 import FriendTemplate from "./FriendTemplate.vue";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -23,9 +24,19 @@ export default class RecentList extends Vue {
   get dmChannels() {
     return ChannelsModule.getDMChannels;
   }
+  get sortedChannels() {
+    return this.dmChannels.sort((a, b) => b.lastMessaged - a.lastMessaged);
+  }
+  get me() {
+    return MeModule.user;
+  }
 
   get recentListArr() {
-    return this.dmChannels;
+    // filter self (saved notes)
+    const filter = this.sortedChannels.filter(
+      c => c.recipients[0].uniqueID !== this.me.uniqueID
+    );
+    return filter;
   }
 }
 </script>
