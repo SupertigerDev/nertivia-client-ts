@@ -7,11 +7,12 @@
       <div class="content" slot="content">
         <MessageArea
           v-if="
-            currentTab === 'servers' ||
-              (currentTab === 'dms' && currentChannelID)
+            currentChannelID &&
+              (currentTab === 'servers' || currentTab === 'dms')
           "
         />
-        <SettingsArea v-if="currentTab === 'settings'" />
+        <SettingsArea v-else-if="currentTab === 'settings'" />
+        <Header :title="`Hello, ${me.username}!`" v-else />
       </div>
     </Drawers>
   </div>
@@ -25,6 +26,7 @@ import { ServersModule } from "@/store/modules/servers";
 import { UsersModule } from "@/store/modules/users";
 import { MeModule } from "@/store/modules/me";
 
+import Header from "@/components/Header.vue";
 const Drawers = () =>
   import(/* webpackChunkName: "Drawers" */ "@/components/drawers/Drawers.vue");
 const NavBar = () =>
@@ -63,6 +65,7 @@ import { FriendsModule } from "@/store/modules/friends";
     MessageArea,
     RightDrawer,
     NavBar,
+    Header,
     SettingsArea
   }
 })
@@ -81,6 +84,8 @@ export default class MainApp extends Vue {
     }
   }
   beforeMount() {
+    localStorage.removeItem("lastSelectedDMChannelID");
+    localStorage.removeItem("lastSelectedServer");
     this.saveLastSelected();
     this.loadCache();
   }
@@ -131,7 +136,7 @@ export default class MainApp extends Vue {
         channel_id: this.currentChannelID
       });
       localStorage.setItem("lastSelectedServer", json);
-    } else if (this.currentTab === "dms") {
+    } else if (this.currentTab === "dms" && this.currentChannelID) {
       localStorage.setItem("lastSelectedDMChannelID", this.currentChannelID);
     }
   }

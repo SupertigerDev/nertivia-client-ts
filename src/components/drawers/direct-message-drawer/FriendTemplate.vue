@@ -2,6 +2,7 @@
   <div class="friend">
     <div
       class="wrapper"
+      :class="{ selected: isFriendSelected }"
       @click="clickedEvent"
       @mouseover="hover = true"
       @mouseleave="hover = false"
@@ -27,12 +28,23 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 @Component({ components: { AvatarImage } })
 export default class FriendTemplate extends Vue {
   @Prop() private friend!: { recipient: User; status: number };
+  @Prop() private dmChannel!: { recipients: User[] };
   hover = false;
   clickedEvent() {
-    ChannelsModule.LoadDmChannel(this.friend.recipient.uniqueID);
+    ChannelsModule.LoadDmChannel(this.user.uniqueID);
   }
   get user() {
-    return this.friend.recipient;
+    if (this.friend) {
+      return this.friend.recipient;
+    } else {
+      return this.dmChannel.recipients[0];
+    }
+  }
+  get isFriendSelected() {
+    const channel = ChannelsModule.getDMChannel(this.$route.params.channel_id);
+    if (!channel) return undefined;
+    if (!channel.recipients) return undefined;
+    return channel.recipients[0].uniqueID === this.user.uniqueID;
   }
 }
 </script>
@@ -52,6 +64,10 @@ export default class FriendTemplate extends Vue {
   transition: 0.2s;
   &:hover {
     background: rgba(255, 255, 255, 0.1);
+  }
+  &.selected {
+    background: var(--primary-color);
+    color: white;
   }
 }
 .username {

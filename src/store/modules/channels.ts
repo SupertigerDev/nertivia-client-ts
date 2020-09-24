@@ -39,6 +39,16 @@ class Channels extends VuexModule {
       return { ...channel, recipients };
     };
   }
+  get getDMChannels() {
+    const filter = Object.values(this.channels).filter(channel => channel.recipients);
+    const map = filter.map(channel => {
+      const recipients = channel.recipients?.map(
+        uniqueID => UsersModule.users[uniqueID]
+      );
+      return { ...channel, recipients };
+    })
+    return map;
+  }
 
   @Mutation
   private INIT_CHANNELS(payload: ChannelObj | any) {

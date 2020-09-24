@@ -68,10 +68,15 @@ export default class MainApp extends Vue {
 
   changeTab(name: string) {
     const selectedServer = this.lastSelectedServer();
+    const selectedDmChannelId = this.lastSelectedDMChannelID();
     let path = name;
     if (this.currentTab === name) return;
-    if (name === "servers" && selectedServer) {
+    if (name === "servers" && selectedServer && selectedServer.server_id) {
       path += `/${selectedServer.server_id}/${selectedServer.channel_id}`;
+    }
+    if (name === "dms" && selectedDmChannelId) {
+      console.log("test");
+      path += `/${selectedDmChannelId}`;
     }
     this.$router.push("/app/" + path);
   }

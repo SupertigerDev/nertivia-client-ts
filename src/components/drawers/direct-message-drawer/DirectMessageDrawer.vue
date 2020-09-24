@@ -19,6 +19,7 @@
       </div>
     </div>
     <FriendList v-if="selectedTab === 0" />
+    <RecentList v-if="selectedTab === 1" />
   </div>
 </template>
 
@@ -27,10 +28,14 @@ const FriendList = () =>
   import(
     /* webpackChunkName: "FriendList" */ "@/components/drawers/direct-message-drawer/FriendList.vue"
   );
+const RecentList = () =>
+  import(
+    /* webpackChunkName: "RecentList" */ "@/components/drawers/direct-message-drawer/RecentList.vue"
+  );
 
 import { Component, Vue } from "vue-property-decorator";
 
-@Component({ components: { FriendList } })
+@Component({ components: { FriendList, RecentList } })
 export default class MainApp extends Vue {
   selectedTab = parseInt(localStorage.getItem("selectedDmTab") || "0");
 
