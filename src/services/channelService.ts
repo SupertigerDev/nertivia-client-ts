@@ -1,5 +1,4 @@
 import wrapper from "./wrapper";
-import Message from "@/interfaces/Message";
 import User from "@/interfaces/User";
 
 interface Response {

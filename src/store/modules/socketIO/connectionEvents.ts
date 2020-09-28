@@ -10,8 +10,8 @@ import { ServerMembersModule } from "../serverMembers";
 import { PresencesModule } from "../presences";
 import ServerRole from "@/interfaces/ServerRole";
 import { ServerRolesModule } from "../serverRoles";
-import DmChannel from "@/interfaces/DMChannel";
 import { LastSeenServerChannelsModule } from '../lastSeenServerChannel';
+
 
 const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
