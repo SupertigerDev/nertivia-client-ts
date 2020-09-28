@@ -1,4 +1,5 @@
 <script lang="tsx">
+import { DrawersModule } from "@/store/modules/drawers";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
 import { Component, Vue } from "vue-property-decorator";
@@ -98,6 +99,9 @@ export default class RightDrawer extends Vue {
   }
   get server_id() {
     return this.$route.params.server_id;
+  }
+  beforeDestroy() {
+    DrawersModule.SetRightDrawer(false);
   }
 }
 </script>

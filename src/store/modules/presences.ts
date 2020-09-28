@@ -11,7 +11,7 @@ interface PresencesObj {
   [key: string]: number;
 }
 
-@Module({ dynamic: true, store, namespaced: true, name: "preseces" })
+@Module({ dynamic: true, store, namespaced: true, name: "presences" })
 class Presences extends VuexModule {
   presences: PresencesObj = {};
 

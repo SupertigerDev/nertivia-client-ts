@@ -1,7 +1,10 @@
 <template>
   <div
     class="server"
-    :class="{ selected: isServerSelected }"
+    :class="{
+      selected: isServerSelected,
+      notification: serverNotificationExists
+    }"
     @click="serverClicked"
     @mouseover="hover = true"
     @mouseout="hover = false"
@@ -19,6 +22,7 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import Server from "@/interfaces/Server";
+import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 
 @Component({ components: { AvatarImage } })
 export default class MainApp extends Vue {
@@ -28,6 +32,14 @@ export default class MainApp extends Vue {
   serverClicked() {
     this.$router.push(
       `/app/servers/${this.server.server_id}/${this.server.default_channel_id}`
+    );
+  }
+
+  get serverNotificationExists() {
+    const notificationChannels =
+      LastSeenServerChannelsModule.allServerNotifications;
+    return notificationChannels.find(
+      channel => channel.server_id === this.server.server_id
     );
   }
 
@@ -70,6 +82,12 @@ export default class MainApp extends Vue {
     top: 10px;
     width: 3px;
     bottom: 10px;
+  }
+  &.notification {
+    &::after {
+      background: var(--alert-color);
+      opacity: 1;
+    }
   }
 }
 </style>

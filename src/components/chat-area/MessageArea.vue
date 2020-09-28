@@ -5,7 +5,6 @@
       :title="DMChannel && DMChannel.recipients[0].username"
       v-else-if="DMChannel && DMChannel.recipients"
     />
-
     <div class="loading" v-if="!channelMessages">Loading...</div>
     <MessageLogs :key="channelID" v-else />
     <MessageBoxArea />
@@ -31,7 +30,6 @@ export default class MessageArea extends Vue {
     if (!this.channelID) return;
     MessagesModule.FetchAndSetMessages(this.channelID);
   }
-
   get channelMessages() {
     return MessagesModule.channelMessages(this.channelID);
   }

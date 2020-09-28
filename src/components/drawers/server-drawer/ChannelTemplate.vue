@@ -1,17 +1,21 @@
 <template>
   <div
     class="channel"
-    :class="{ selected: isChannelSelected }"
+    :class="{
+      selected: isChannelSelected
+    }"
     @click="channelClicked"
   >
     <div class="dot"></div>
     <div class="name">{{ channel.name }}</div>
+    <div v-if="notificationExists" class="notification dot"></div>
   </div>
 </template>
 
 <script lang="ts">
 import Channel from "@/interfaces/Channel";
 import { DrawersModule } from "@/store/modules/drawers";
+import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
@@ -22,7 +26,11 @@ export default class ChannelTemplate extends Vue {
     DrawersModule.SetLeftDrawer(false);
     this.$router.push({ params: { channel_id: this.channel.channelID } });
   }
-
+  get notificationExists() {
+    return LastSeenServerChannelsModule.serverChannelNotification(
+      this.channel.channelID
+    );
+  }
   get isChannelSelected() {
     return this.$route.params.channel_id === this.channel.channelID;
   }
@@ -53,6 +61,11 @@ export default class ChannelTemplate extends Vue {
     }
   }
 }
+.name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .dot {
   height: 7px;
   width: 7px;
@@ -61,5 +74,14 @@ export default class ChannelTemplate extends Vue {
   margin-left: 10px;
   margin-right: 10px;
   border-radius: 50%;
+  flex-shrink: 0;
+  &.notification {
+    height: 10px;
+    width: 10px;
+    background: var(--alert-color);
+    margin: auto;
+    margin-right: 10px;
+    opacity: 1;
+  }
 }
 </style>

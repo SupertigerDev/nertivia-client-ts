@@ -10,7 +10,10 @@
     </div>
     <div
       class="item material-icons"
-      :class="{ selected: currentTab === 'servers' }"
+      :class="{
+        selected: currentTab === 'servers',
+        notification: serverNotificationExists
+      }"
       title="Servers"
       @click="changeTab('servers')"
     >
@@ -52,6 +55,7 @@ const AvatarImage = () =>
   import(/* webpackChunkName: "AvatarImage" */ "@/components/AvatarImage.vue");
 const UserArea = () =>
   import(/* webpackChunkName: "UserArea" */ "@/components/UserArea.vue");
+import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { MeModule } from "@/store/modules/me";
 import { Component, Vue } from "vue-property-decorator";
 interface LastSelectedServer {
@@ -75,7 +79,6 @@ export default class MainApp extends Vue {
       path += `/${selectedServer.server_id}/${selectedServer.channel_id}`;
     }
     if (name === "dms" && selectedDmChannelId) {
-      console.log("test");
       path += `/${selectedDmChannelId}`;
     }
     this.$router.push("/app/" + path);
@@ -91,6 +94,9 @@ export default class MainApp extends Vue {
   }
   get me() {
     return MeModule.user;
+  }
+  get serverNotificationExists() {
+    return LastSeenServerChannelsModule.allServerNotifications.length > 0;
   }
 }
 </script>
@@ -121,6 +127,7 @@ export default class MainApp extends Vue {
   z-index: 1111111;
   transition: 0.2s;
   border-radius: 0;
+  position: relative;
   &:hover {
     opacity: 1;
   }
@@ -132,6 +139,18 @@ export default class MainApp extends Vue {
   &.me.selected {
     background-color: transparent;
     transform: scale(1.5);
+  }
+  &.notification {
+    &::before {
+      content: "a";
+      position: absolute;
+      bottom: 10px;
+      right: 13px;
+      background-color: var(--alert-color);
+      border-radius: 50%;
+      height: 10px;
+      width: 10px;
+    }
   }
 }
 .user-area-button {

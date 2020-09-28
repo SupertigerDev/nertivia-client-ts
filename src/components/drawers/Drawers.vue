@@ -105,7 +105,7 @@ export default class MainApp extends Vue {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 99;
+  z-index: 99999;
 }
 
 .drawer-layout {
@@ -137,11 +137,12 @@ export default class MainApp extends Vue {
     top: 0;
     bottom: 0;
     height: 100%;
-    z-index: 999;
+    z-index: 99999;
   }
   &.right.mobile {
     left: initial;
     right: 0;
+    z-index: 99999;
   }
 }
 </style>

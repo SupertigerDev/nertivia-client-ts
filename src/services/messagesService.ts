@@ -1,5 +1,8 @@
 import wrapper from "./wrapper";
 import Message from "@/interfaces/Message";
+import Vue from 'vue';
+
+const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
 interface Response {
   channelID: string;
@@ -14,6 +17,6 @@ export function postMessage(
   channelID: string
 ): Promise<Response> {
   return wrapper
-    .post(`messages/channels/${channelID}`, { json: { message, tempID } })
+    .post(`messages/channels/${channelID}`, { json: { message, tempID, socketID: socket().id } })
     .json();
 }
