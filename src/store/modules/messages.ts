@@ -13,6 +13,7 @@ import Vue from "vue";
 import { ScrollModule } from "./scroll";
 import router from "@/router";
 import { MeModule } from "./me";
+import { ChannelsModule } from './channels';
 
 interface MessagesObj {
   [key: string]: Message[];
@@ -74,7 +75,12 @@ class Messages extends VuexModule {
       created: Date.now(),
       creator
     });
-    postMessage(payload.message, tempID, payload.channelID);
+    postMessage(payload.message, tempID, payload.channelID).then(res => {
+      ChannelsModule.updateChannel({
+        channelID: res.messageCreated.channelID,
+        update: { lastMessaged: Date.now() }
+      });
+    });
   }
 
   @Mutation

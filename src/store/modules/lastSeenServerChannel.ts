@@ -54,5 +54,16 @@ class LastSeenServerChannels extends VuexModule {
   public InitLastSeen(payload: LastSeenObj | any) {
     this.INIT_LAST_SEEN(payload);
   }
+
+  @Mutation
+  private SET_LAST_SEEN_CHANNEL(channelID: string) {
+    this.lastSeenServers[channelID] = Date.now();
+  }
+
+  @Action
+  public SetLastSeenChannel(channelID: string){
+    this.SET_LAST_SEEN_CHANNEL(channelID);
+  }
+
 }
 export const LastSeenServerChannelsModule = getModule(LastSeenServerChannels);

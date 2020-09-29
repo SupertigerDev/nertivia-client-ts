@@ -15,6 +15,9 @@
         :animateGif="hover"
       />
       <span class="username">{{ user.username }}</span>
+      <div class="notification" v-if="notification">
+        {{ notification.count }}
+      </div>
     </div>
   </div>
 </template>
@@ -23,6 +26,7 @@
 import AvatarImage from "@/components/AvatarImage.vue";
 import User from "@/interfaces/User";
 import { ChannelsModule } from "@/store/modules/channels";
+import { NotificationsModule } from "@/store/modules/notifications";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component({ components: { AvatarImage } })
@@ -35,7 +39,7 @@ export default class FriendTemplate extends Vue {
   }
   get user() {
     if (this.friend) {
-      return this.friend.recipient;
+      return this.friend.recipient || this.friend;
     } else {
       return this.dmChannel.recipients[0];
     }
@@ -45,6 +49,9 @@ export default class FriendTemplate extends Vue {
     if (!channel) return undefined;
     if (!channel.recipients) return undefined;
     return channel.recipients[0].uniqueID === this.user.uniqueID;
+  }
+  get notification() {
+    return NotificationsModule.notificationByUniqueID(this.user.uniqueID);
   }
 }
 </script>
@@ -78,5 +85,18 @@ export default class FriendTemplate extends Vue {
 .avatar {
   margin-right: 5px;
   margin-left: 5px;
+}
+.notification {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  font-size: 13px;
+  margin: auto;
+  margin-right: 10px;
+  width: 20px;
+  background-color: var(--alert-color);
+  border-radius: 50%;
 }
 </style>
