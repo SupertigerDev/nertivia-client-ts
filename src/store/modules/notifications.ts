@@ -43,5 +43,14 @@ class Notifications extends VuexModule {
   public InitNotifications(notification: Notification | any) {
     this.INIT_NOTIFICATIONS(notification);
   }
+  @Mutation
+  private DELETE_NOTIFICATION(channelID: string) {
+    this.notification = this.notification.filter(n => n.channelID !== channelID);
+  }
+
+  @Action
+  public DeleteNotification(channelID: string) {
+    this.DELETE_NOTIFICATION(channelID);
+  }
 }
 export const NotificationsModule = getModule(Notifications);

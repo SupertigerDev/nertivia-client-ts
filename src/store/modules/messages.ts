@@ -75,12 +75,7 @@ class Messages extends VuexModule {
       created: Date.now(),
       creator
     });
-    postMessage(payload.message, tempID, payload.channelID).then(res => {
-      ChannelsModule.updateChannel({
-        channelID: res.messageCreated.channelID,
-        update: { lastMessaged: Date.now() }
-      });
-    });
+    postMessage(payload.message, tempID, payload.channelID)
   }
 
   @Mutation

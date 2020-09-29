@@ -18,17 +18,43 @@ import { MessagesModule } from "@/store/modules/messages";
 import MessageLogs from "./MessageLogs.vue";
 import MessageBoxArea from "./MessageBoxArea.vue";
 import { ChannelsModule } from "@/store/modules/channels";
+import windowProperties from "@/utils/windowProperties";
+import { NotificationsModule } from "@/store/modules/notifications";
+import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 
 @Component({ components: { MessageLogs, MessageBoxArea, Header } })
 export default class MessageArea extends Vue {
   mounted() {
     this.loadChannelMessages();
+    this.dismissNotification();
   }
   @Watch("channelID")
+  channalChaned() {
+    this.loadChannelMessages();
+    this.dismissNotification();
+  }
   loadChannelMessages() {
     if (this.channelMessages) return;
     if (!this.channelID) return;
     MessagesModule.FetchAndSetMessages(this.channelID);
+  }
+  get isFocused() {
+    return windowProperties.isFocused;
+  }
+  dismissNotification() {
+    if (!this.isFocused) return;
+    if (!(this.hasServerNotification || this.hasDMNotification)) return;
+    this.$socket.client.emit("notification:dismiss", {
+      channelID: this.channelID
+    });
+  }
+  get hasServerNotification() {
+    return LastSeenServerChannelsModule.serverChannelNotification(
+      this.channelID
+    );
+  }
+  get hasDMNotification() {
+    return NotificationsModule.notificationByChannelID(this.channelID);
   }
   get channelMessages() {
     return MessagesModule.channelMessages(this.channelID);

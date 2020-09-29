@@ -105,6 +105,7 @@ const actions: ActionTree<any, any> = {
     });
   },
   socket_success(context, data: SuccessEvent) {
+    console.log(data.notifications)
     MeModule.SetConnectionDetails({ connected: true, message: null });
     MeModule.SetUser({
       email: data.user.email,
