@@ -93,11 +93,20 @@ class Channels extends VuexModule {
   }
 
   @Mutation
-  private UPDATE_CHANNEL(payload: {channelID: string, update: Partial<Channel>}) {
-    this.channels[payload.channelID] = {...this.channels[payload.channelID], ...payload.update}
+  private UPDATE_CHANNEL(payload: {
+    channelID: string;
+    update: Partial<Channel>;
+  }) {
+    this.channels[payload.channelID] = {
+      ...this.channels[payload.channelID],
+      ...payload.update
+    };
   }
   @Action
-  public updateChannel(payload: {channelID: string, update: Partial<Channel>}) {
+  public updateChannel(payload: {
+    channelID: string;
+    update: Partial<Channel>;
+  }) {
     if (!this.channels[payload.channelID]) return;
     this.UPDATE_CHANNEL(payload);
   }

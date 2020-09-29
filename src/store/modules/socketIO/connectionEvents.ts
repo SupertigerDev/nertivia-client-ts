@@ -10,8 +10,7 @@ import { ServerMembersModule } from "../serverMembers";
 import { PresencesModule } from "../presences";
 import ServerRole from "@/interfaces/ServerRole";
 import { ServerRolesModule } from "../serverRoles";
-import { LastSeenServerChannelsModule } from '../lastSeenServerChannel';
-
+import { LastSeenServerChannelsModule } from "../lastSeenServerChannel";
 
 const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
@@ -23,7 +22,6 @@ interface SuccessEvent {
   serverRoles: ServerRole[];
   lastSeenServerChannels: LastSeenServerChannels;
 }
-
 
 interface LastSeenServerChannels {
   [key: string]: number;
@@ -73,7 +71,7 @@ interface ReturnedChannel {
   channelID: string;
   name?: string;
   server_id?: string;
-  lastMessaged: number
+  lastMessaged: number;
 }
 
 const actions: ActionTree<any, any> = {
@@ -196,14 +194,13 @@ const actions: ActionTree<any, any> = {
       };
     }
 
-    
     ServerRolesModule.InitServerRoles(serverRolesObj);
     PresencesModule.InitPresences(presenceObj);
     ServerMembersModule.InitServerMembers(serverMembers);
     UsersModule.InitUsers(users);
     FriendsModule.InitFriends(friends);
     ServersModule.InitServers(servers);
-    LastSeenServerChannelsModule.InitLastSeen(data.lastSeenServerChannels)
+    LastSeenServerChannelsModule.InitLastSeen(data.lastSeenServerChannels);
     ChannelsModule.InitChannels(channels);
   }
 };
