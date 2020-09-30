@@ -34,6 +34,7 @@ class LastSeenServerChannels extends VuexModule {
   get serverChannelNotification() {
     return (channelID: string) => {
       const channel = ChannelsModule.channels[channelID];
+      if (!channel) return undefined;
       if (!channel.server_id) return undefined;
       if (!channel.lastMessaged) return undefined;
       const lastSeenStamp = this.lastSeenServers[channel.channelID];

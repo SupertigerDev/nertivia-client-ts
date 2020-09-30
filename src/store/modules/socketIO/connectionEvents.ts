@@ -105,7 +105,6 @@ const actions: ActionTree<any, any> = {
     });
   },
   socket_success(context, data: SuccessEvent) {
-    console.log(data.notifications)
     MeModule.SetConnectionDetails({ connected: true, message: null });
     MeModule.SetUser({
       email: data.user.email,
@@ -206,6 +205,13 @@ const actions: ActionTree<any, any> = {
       };
     }
 
+    const notifications: any = {};
+    for (let i = 0; i < data.notifications.length; i++) {
+      const notification = data.notifications[i];
+      notifications[notification.channelID] = notification;
+      
+    }
+
     ServerRolesModule.InitServerRoles(serverRolesObj);
     PresencesModule.InitPresences(presenceObj);
     ServerMembersModule.InitServerMembers(serverMembers);
@@ -213,7 +219,7 @@ const actions: ActionTree<any, any> = {
     FriendsModule.InitFriends(friends);
     ServersModule.InitServers(servers);
     LastSeenServerChannelsModule.InitLastSeen(data.lastSeenServerChannels);
-    NotificationsModule.InitNotifications(data.notifications);
+    NotificationsModule.InitNotifications(notifications);
     ChannelsModule.InitChannels(channels);
   }
 };

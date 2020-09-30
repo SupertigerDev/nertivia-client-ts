@@ -16,7 +16,7 @@
       />
       <span class="username">{{ user.username }}</span>
       <div class="notification" v-if="notification">
-        {{ notification.count }}
+        {{ notification.count > 99 ? "99" : notification.count }}
       </div>
     </div>
   </div>

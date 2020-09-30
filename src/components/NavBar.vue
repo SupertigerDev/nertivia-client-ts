@@ -2,7 +2,10 @@
   <div class="nav-bar">
     <div
       class="item material-icons"
-      :class="{ selected: currentTab === 'dms' }"
+      :class="{
+        selected: currentTab === 'dms',
+        notification: dmNotificationExists
+      }"
       title="Direct Messages"
       @click="changeTab('dms')"
     >
@@ -57,6 +60,7 @@ const UserArea = () =>
   import(/* webpackChunkName: "UserArea" */ "@/components/UserArea.vue");
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { MeModule } from "@/store/modules/me";
+import { NotificationsModule } from "@/store/modules/notifications";
 import { Component, Vue } from "vue-property-decorator";
 interface LastSelectedServer {
   channel_id: string;
@@ -97,6 +101,9 @@ export default class MainApp extends Vue {
   }
   get serverNotificationExists() {
     return LastSeenServerChannelsModule.allServerNotifications.length > 0;
+  }
+  get dmNotificationExists() {
+    return NotificationsModule.allDMNotifications.length > 0;
   }
 }
 </script>

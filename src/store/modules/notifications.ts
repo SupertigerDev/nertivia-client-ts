@@ -1,5 +1,5 @@
 import User from '@/interfaces/User';
-import { uniq } from 'lodash';
+import Vue from 'vue';
 import {
   Module,
   VuexModule,
@@ -14,43 +14,69 @@ interface Notification {
   channelID: string
   count: number
   lastMessageID: string
-  mentioned: boolean
-  recipient: string
+  mentioned?: boolean
+  recipient?: string
   sender: User
-  type: string
+  type?: string
 }
+interface NotificationObj {
+  [key: string]: Notification;
+}
+
 
 @Module({ dynamic: true, store, namespaced: true, name: "notifications" })
 class Notifications extends VuexModule {
-  notification: Notification[] = [];
+  notifications: NotificationObj = {};
 
   get newDMNotifications() {
-    return this.notification.filter(n => !ChannelsModule.channels[n.channelID])
+    return Object.values(this.notifications).filter(n => !ChannelsModule.channels[n.channelID])
+  }
+  get allDMNotifications() {
+    return Object.values(this.notifications).filter(n => {
+      const channel = ChannelsModule.channels[n.channelID];
+      if (!channel) return true;
+      if (channel.server_id) return false;
+      return true;
+    })
   }
   get notificationByChannelID() {
-    return (channelID: string) => this.notification.find(n => n.channelID === channelID)
+    return (channelID: string) => this.notifications[channelID]
   }
   get notificationByUniqueID() {
-    return (uniqueID: string) => this.notification.find(n => n.sender.uniqueID === uniqueID)
+    return (uniqueID: string) => Object.values(this.notifications).find(n => n.sender.uniqueID === uniqueID)
   }
 
   @Mutation
-  private INIT_NOTIFICATIONS(notification: Notification | any) {
-    this.notification = notification;
+  private INIT_NOTIFICATIONS(notification: NotificationObj | any) {
+    this.notifications = notification;
   }
 
   @Action
-  public InitNotifications(notification: Notification | any) {
+  public InitNotifications(notification: NotificationObj | any) {
     this.INIT_NOTIFICATIONS(notification);
   }
   @Mutation
   private DELETE_NOTIFICATION(channelID: string) {
-    this.notification = this.notification.filter(n => n.channelID !== channelID);
+    Vue.delete(this.notifications, channelID)
   }
 
   @Action
   public DeleteNotification(channelID: string) {
     this.DELETE_NOTIFICATION(channelID);
+  }
+
+  @Mutation
+  private ADD_NOTIFICATION(payload: {channelID: string, notification: Notification}) {
+    Vue.set(this.notifications, payload.channelID, payload.notification);
+  }
+  @Action
+  public AddNotification(payload: {channelID: string, notification: Notification}) {
+    this.ADD_NOTIFICATION({channelID: payload.channelID, notification: payload.notification})
+  }
+  @Action
+  public UpdateNotification(payload: {channelID: string, notification: Partial<Notification>}) {
+    const currentNotification = this.notifications[payload.channelID];
+    this.ADD_NOTIFICATION({channelID: payload.channelID, notification: {...currentNotification, ...payload.notification}})
   }
 }
 export const NotificationsModule = getModule(Notifications);

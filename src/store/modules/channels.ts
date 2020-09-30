@@ -13,6 +13,7 @@ import { getChannelByUserId } from "@/services/channelService";
 import ky from "ky";
 import { UsersModule } from "./users";
 import DmChannelWithUser from "@/interfaces/DmChannelWithUser";
+import Vue from "vue";
 
 interface ChannelObj {
   [key: string]: Channel;
@@ -63,7 +64,19 @@ class Channels extends VuexModule {
   }
   @Mutation
   private ADD_CHANNEL(payload: Channel) {
-    this.channels[payload.channelID] = payload;
+    Vue.set(this.channels, payload.channelID, payload)
+  }
+  @Action
+  public AddChannel(payload: Channel) {
+    this.ADD_CHANNEL(payload);
+  }
+  @Mutation
+  private REMOVE_CHANNEL(channelID: string) {
+    Vue.delete(this.channels, channelID)
+  }
+  @Action
+  public RemoveChannel(channelID: string) {
+    this.REMOVE_CHANNEL(channelID);
   }
   @Action
   public LoadDmChannel(uniqueID: string) {
@@ -82,7 +95,7 @@ class Channels extends VuexModule {
         }
         this.ADD_CHANNEL({
           channelID: res.channel.channelID,
-          recipients: res.channel.recipients.map(u => u.uniqueID)
+          recipients: res.channel.recipients.map(u => u.uniqueID),
         });
         router.push(`/app/dms/${res.channel.channelID}`);
       })

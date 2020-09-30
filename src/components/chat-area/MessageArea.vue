@@ -21,32 +21,45 @@ import { ChannelsModule } from "@/store/modules/channels";
 import windowProperties from "@/utils/windowProperties";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
+import { MeModule } from "@/store/modules/me";
 
 @Component({ components: { MessageLogs, MessageBoxArea, Header } })
 export default class MessageArea extends Vue {
-  mounted() {
-    this.loadChannelMessages();
-    this.dismissNotification();
-  }
-  @Watch("channelID")
-  channalChaned() {
-    this.loadChannelMessages();
-    this.dismissNotification();
-  }
   loadChannelMessages() {
+    if (!this.channel) return;
+    if (!this.isConnected) return;
     if (this.channelMessages) return;
     if (!this.channelID) return;
     MessagesModule.FetchAndSetMessages(this.channelID);
   }
-  get isFocused() {
-    return windowProperties.isFocused;
-  }
   dismissNotification() {
+    if (!this.isConnected) return;
     if (!this.isFocused) return;
     if (!(this.hasServerNotification || this.hasDMNotification)) return;
     this.$socket.client.emit("notification:dismiss", {
       channelID: this.channelID
     });
+  }
+
+  mounted() {
+    this.dismissNotification();
+    this.loadChannelMessages();
+  }
+  @Watch("isConnected")
+  onConnected() {
+    this.loadChannelMessages();
+  }
+  @Watch("channelID")
+  channalChanged() {
+    this.loadChannelMessages();
+    this.dismissNotification();
+  }
+  @Watch("isFocused")
+  onFocusChange() {
+    this.dismissNotification();
+  }
+  get isFocused() {
+    return windowProperties.isFocused;
   }
   get hasServerNotification() {
     return LastSeenServerChannelsModule.serverChannelNotification(
@@ -70,6 +83,9 @@ export default class MessageArea extends Vue {
   }
   get DMChannel() {
     return ChannelsModule.getDMChannel(this.channelID);
+  }
+  get isConnected() {
+    return MeModule.connected;
   }
 }
 </script>
