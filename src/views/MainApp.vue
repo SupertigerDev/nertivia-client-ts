@@ -8,12 +8,13 @@
         v-if="currentTab === 'servers' && currentChannelID"
       />
       <div class="content" slot="content">
-        <MessageArea
-          v-if="
-            currentChannelID &&
-              (currentTab === 'servers' || currentTab === 'dms')
-          "
-        />
+        <transition name="fade" appear>
+          <ConnectionStatus
+            v-if="showConnectionStatusPopout"
+            @close="showConnectionStatusPopout = false"
+          />
+        </transition>
+        <MessageArea v-if="showMessageArea" />
         <SettingsArea v-else-if="currentTab === 'settings'" />
         <Header :title="`Hello, ${me.username}!`" v-else />
       </div>
@@ -29,6 +30,7 @@ import { ServersModule } from "@/store/modules/servers";
 import { UsersModule } from "@/store/modules/users";
 import { MeModule } from "@/store/modules/me";
 
+import ConnectionStatus from "@/components/ConnectionStatusPopout.vue";
 import Header from "@/components/Header.vue";
 const Drawers = () =>
   import(/* webpackChunkName: "Drawers" */ "@/components/drawers/Drawers.vue");
@@ -69,10 +71,12 @@ import { FriendsModule } from "@/store/modules/friends";
     RightDrawer,
     NavBar,
     Header,
-    SettingsArea
+    SettingsArea,
+    ConnectionStatus
   }
 })
 export default class MainApp extends Vue {
+  showConnectionStatusPopout = true;
   mounted() {
     // set store and connect socket.
     this.$store.registerModule("socketIO", socketIOModule);
@@ -143,6 +147,18 @@ export default class MainApp extends Vue {
       localStorage.setItem("lastSelectedDMChannelID", this.currentChannelID);
     }
   }
+  @Watch("isConnected")
+  showConnectionPopout() {
+    if (!this.isConnected) {
+      this.showConnectionStatusPopout = true;
+    }
+  }
+
+  get showMessageArea() {
+    if (!this.currentChannelID) return false;
+    if (this.currentTab === "servers" || this.currentTab === "dms") return true;
+    return false;
+  }
 
   get currentChannelID() {
     return this.$route.params.channel_id;
@@ -160,6 +176,9 @@ export default class MainApp extends Vue {
   get me() {
     return MeModule.user;
   }
+  get isConnected() {
+    return MeModule.connected;
+  }
   get users() {
     return UsersModule.users;
   }
@@ -173,6 +192,14 @@ export default class MainApp extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: 0.3s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(-60px);
+}
 .app {
   display: flex;
   height: 100%;

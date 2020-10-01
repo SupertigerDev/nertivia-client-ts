@@ -89,7 +89,7 @@ const actions: ActionTree<any, any> = {
   socket_connect() {
     MeModule.SetConnectionDetails({
       connected: false,
-      message: "Connecting..."
+      message: "Authenticating..."
     });
     socket().emit("authentication", {
       token: localStorage.getItem("hauthid")
@@ -99,9 +99,15 @@ const actions: ActionTree<any, any> = {
     MeModule.SetConnectionDetails({ connected: false, message: data });
   },
   socket_disconnect() {
+    // MeModule.SetConnectionDetails({
+    //   connected: false,
+    //   message: "Connecting..."
+    // });
+  },
+  socket_reconnecting() {
     MeModule.SetConnectionDetails({
       connected: false,
-      message: "Connecting..."
+      message: "Reconnecting..."
     });
   },
   socket_success(context, data: SuccessEvent) {

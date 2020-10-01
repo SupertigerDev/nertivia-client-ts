@@ -17,6 +17,8 @@ import { MessagesModule } from "@/store/modules/messages";
 import MessageTemplate from "./message/MessageTemplate.vue";
 import { ScrollModule } from "@/store/modules/scroll";
 import windowProperties from "@/utils/windowProperties";
+import { NotificationsModule } from "@/store/modules/notifications";
+import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 
 @Component({ components: { MessageTemplate } })
 export default class MessageLogs extends Vue {
@@ -41,15 +43,33 @@ export default class MessageLogs extends Vue {
     const element = this.$refs.logs as Element;
     element.scrollTop = element.scrollHeight;
   }
+  dismissNotification() {
+    if (!this.windowIsFocused || !this.isScrolledDown) return;
+    if (!(this.hasServerNotification || this.hasDMNotification)) return;
+    this.$socket.client.emit("notification:dismiss", {
+      channelID: this.$route.params.channel_id
+    });
+  }
   @Watch("channelMessages")
   onMessageChanges() {
     if (this.isScrolledDown) {
+      this.dismissNotification();
       this.$nextTick(() => {
         this.scrollDown();
       });
     }
   }
 
+  get hasServerNotification() {
+    return LastSeenServerChannelsModule.serverChannelNotification(
+      this.$route.params.channel_id
+    );
+  }
+  get hasDMNotification() {
+    return NotificationsModule.notificationByChannelID(
+      this.$route.params.channel_id
+    );
+  }
   get windowIsFocused() {
     return windowProperties.isFocused;
   }

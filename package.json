@@ -15,6 +15,7 @@
     "ky": "^0.23.0",
     "lodash": "^4.17.20",
     "npm": "^6.14.8",
+    "portal-vue": "^2.1.7",
     "register-service-worker": "^1.7.1",
     "seed-color": "^2.0.1",
     "socket.io-client": "^2.3.0",
