@@ -5,17 +5,18 @@ import Vue from "vue";
 const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
 
-export function fetchMessages(channelID: string): Promise<any> {
-  return wrapper.get(`messages/channels/${channelID}`).json();
-}
-export function postMessage(
-  message: string,
-  tempID: string,
-  channelID: string
-): Promise<any> {
+
+export function postLogin(email: string, password: string, token: string): Promise<any> {
   return wrapper
-    .post(`messages/channels/${channelID}`, {
-      json: { message, tempID, socketID: socket().id }
+    .post(`user/login`, {
+      json: { email, password, token }
+    })
+    .json();
+}
+export function confirmEmail(email: string, code: string): Promise<any> {
+  return wrapper
+    .post(`user/register/confirm`, {
+      json: { email, code }
     })
     .json();
 }

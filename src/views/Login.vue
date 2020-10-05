@@ -5,36 +5,137 @@
       <div class="title">Login To Nertivia</div>
       <!-- Form -->
       <form
+        v-if="page === 0"
         class="form"
         action="#"
         @submit.prevent="formSubmit"
         @keydown="keyDownEvent"
       >
-        <customInput class="input" title="Email | username:tag" type="text" />
-        <customInput class="input" title="Password" type="password" />
+        <div class="other-error">{{ errors["other"] }}</div>
+        <customInput
+          class="input"
+          v-model="email"
+          title="Email | username:tag"
+          type="text"
+          :error="errors['email']"
+        />
+        <customInput
+          class="input"
+          v-model="password"
+          title="Password"
+          type="password"
+          :error="errors['password']"
+        />
         <a class="link" href="/register">Create An Account</a>
         <button class="button" type="submit">Login</button>
       </form>
       <!-- Captcha -->
-      <div class="captcha"></div>
+      <div class="captcha" v-if="page === 1">
+        <div class="sub-title">Verify that you're not a bot.</div>
+        <Captcha ref="captcha" @verify="captchaSubmit" />
+      </div>
+      <!-- Confirm Email -->
+      <div v-if="page === 2">
+        <div class="sub-title">Confirm your email before continuing.</div>
+        <div class="other-error">{{ errors["other"] }}</div>
+        <customInput
+          class="input"
+          v-model="confirmEmail"
+          title="Confirm Email"
+          type="text"
+          :error="errors['email_confirm']"
+        />
+      </div>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
+import Captcha from "@/components/Captcha.vue";
+import { postLogin, confirmEmail } from "@/services/authService";
+import router from "@/router";
 
-@Component({ components: { CustomInput } })
+@Component({ components: { CustomInput, Captcha } })
 export default class MainApp extends Vue {
+  page = 0;
+  email = "";
+  password = "";
+  confirmEmail = "";
+  errors: any = {};
+
+  @Watch("confirmEmail")
+  onEmailConfirmInput() {
+    const value = this.confirmEmail.trim();
+    if (value.length !== 10) return;
+    confirmEmail(this.email, value)
+      .then(data => {
+        localStorage.clear();
+        localStorage["hauthid"] = data.token;
+        location.href = "/app";
+      })
+      .catch(err => {
+        if (!err.response) return;
+        return err.response.json();
+      })
+      .then(res => {
+        if (!res) return (this.errors["other"] = "Unable to connect to server");
+        if (!res.error) return;
+        return (this.errors["other"] = res.error);
+      });
+  }
+
   keyDownEvent(event: KeyboardEvent) {
     if (event.keyCode === 13) {
       event.preventDefault();
       this.formSubmit();
     }
   }
-
+  captchaSubmit(token: string) {
+    this.login(token);
+  }
+  login(token: string) {
+    const email = this.email;
+    const password = this.password;
+    postLogin(email, password, token)
+      .then(data => {
+        if (data.action === "logged_in") {
+          localStorage.clear();
+          localStorage["hauthid"] = data.token;
+          location.href = "/app";
+          return;
+        }
+      })
+      .catch(err => {
+        this.page = 0;
+        if (!err.response) {
+          this.errors["other"] = "Unable to connect to server";
+          return;
+        }
+        return err.response.json();
+      })
+      .then(res => {
+        if (!res) return;
+        if (res.code === "CONFIRM_EMAIL") {
+          this.page = 2;
+          return;
+        }
+        if (!res.errors) return;
+        const errors: any = {};
+        for (let i = 0; i < res.errors.length; i++) {
+          const error = res.errors[i];
+          if (error.param === "email" || error.param === "password") {
+            errors[error.param] = error.msg;
+            continue;
+          }
+          errors["other"] = error.msg;
+        }
+        this.errors = errors;
+      });
+  }
   formSubmit() {
-    console.log("aye");
+    this.errors = {};
+    this.page = 1;
   }
 }
 </script>
@@ -65,6 +166,11 @@ export default class MainApp extends Vue {
   flex-shrink: 0;
   margin-bottom: 20px;
 }
+.sub-title {
+  text-align: center;
+  margin-bottom: 5px;
+  opacity: 0.8;
+}
 .form {
   display: flex;
   flex-direction: column;
@@ -74,6 +180,10 @@ export default class MainApp extends Vue {
   max-width: 250px;
   flex-shrink: 0;
   width: 100%;
+}
+.other-error {
+  color: var(--alert-color);
+  margin-bottom: 10px;
 }
 .button {
   align-self: center;

@@ -2,7 +2,12 @@
   <div class="input">
     <div class="content">
       <div class="title">{{ title }}</div>
-      <input class="main-input" :type="type || 'text'" />
+      <input
+        class="main-input"
+        :type="type || 'text'"
+        @input="inputEvent"
+        :value="value"
+      />
     </div>
     <div class="error-message">{{ error }}</div>
   </div>
@@ -11,12 +16,16 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 
-@Component
+@Component({ model: { prop: "value", event: "model" } })
 export default class CustomInput extends Vue {
   @Prop() private title!: string;
   @Prop() private placeholder!: string;
   @Prop() private type!: string;
   @Prop() private error!: string;
+  @Prop() private value!: string;
+  inputEvent(event: any) {
+    this.$emit("model", event.target.value);
+  }
 }
 </script>
 
