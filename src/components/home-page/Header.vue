@@ -4,7 +4,7 @@
     <div class="title">Nertivia</div>
     <div class="buttons">
       <a href="/login" class="button">Log In</a>
-      <div class="button join" @click="$emit('register-button')">
+      <div class="button join" @click="registerButton">
         Join Nertivia
       </div>
     </div>
@@ -27,6 +27,15 @@
     </div> -->
   </div>
 </template>
+<script>
+export default {
+  methods: {
+    registerButton() {
+      location.href = "https://nertivia.tk/register";
+    }
+  }
+};
+</script>
 
 <style scoped lang="scss">
 .fall-down-fast-enter-active,

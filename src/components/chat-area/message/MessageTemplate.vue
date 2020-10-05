@@ -30,9 +30,10 @@ export default class MessageLogs extends Vue {
 <style lang="scss" scoped>
 .message {
   display: flex;
-  white-space: break-spaces;
-  line-break: anywhere;
-  white-space: break-spaces;
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
   margin: 10px;
   margin-top: 3px;
   margin-bottom: 3px;
