@@ -7,5 +7,5 @@ export default interface Message {
   channelID: string;
   tempID?: string;
   created: number;
-  mentions?: User[]
+  mentions?: User[];
 }

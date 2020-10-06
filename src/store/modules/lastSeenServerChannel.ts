@@ -62,9 +62,8 @@ class LastSeenServerChannels extends VuexModule {
   }
 
   @Action
-  public SetLastSeenChannel(channelID: string){
+  public SetLastSeenChannel(channelID: string) {
     this.SET_LAST_SEEN_CHANNEL(channelID);
   }
-
 }
 export const LastSeenServerChannelsModule = getModule(LastSeenServerChannels);

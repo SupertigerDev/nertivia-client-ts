@@ -17,12 +17,13 @@ const routes: Array<RouteConfig> = [
   {
     path: "/login",
     name: "Login",
-    component: () => import(/* webpackChunkName: "Login" */ "../views/Login.vue"),
+    component: () =>
+      import(/* webpackChunkName: "Login" */ "../views/Login.vue"),
     beforeEnter(to, from, next) {
       if (localStorage["hauthid"]) {
         location.href = "/app";
         return;
-      };
+      }
       next();
     }
   },
@@ -40,7 +41,7 @@ const routes: Array<RouteConfig> = [
       if (!localStorage["hauthid"]) {
         location.href = "/login";
         return;
-      };
+      }
       Vue.use(VueSocketIo, io(config.socketIP, { autoConnect: false }), {
         store
       });

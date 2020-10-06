@@ -64,7 +64,7 @@ class Channels extends VuexModule {
   }
   @Mutation
   private ADD_CHANNEL(payload: Channel) {
-    Vue.set(this.channels, payload.channelID, payload)
+    Vue.set(this.channels, payload.channelID, payload);
   }
   @Action
   public AddChannel(payload: Channel) {
@@ -72,7 +72,7 @@ class Channels extends VuexModule {
   }
   @Mutation
   private REMOVE_CHANNEL(channelID: string) {
-    Vue.delete(this.channels, channelID)
+    Vue.delete(this.channels, channelID);
   }
   @Action
   public RemoveChannel(channelID: string) {
@@ -95,7 +95,7 @@ class Channels extends VuexModule {
         }
         this.ADD_CHANNEL({
           channelID: res.channel.channelID,
-          recipients: res.channel.recipients.map(u => u.uniqueID),
+          recipients: res.channel.recipients.map(u => u.uniqueID)
         });
         router.push(`/app/dms/${res.channel.channelID}`);
       })

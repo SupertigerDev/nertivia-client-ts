@@ -3,9 +3,9 @@ import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
-import PortalVue from "portal-vue"
+import PortalVue from "portal-vue";
 import clickOutside from "./directives/clickOutside";
-Vue.use(PortalVue)
+Vue.use(PortalVue);
 
 Vue.config.productionTip = false;
 Vue.directive("click-outside", clickOutside);

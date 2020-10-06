@@ -11,7 +11,7 @@ import { PresencesModule } from "../presences";
 import ServerRole from "@/interfaces/ServerRole";
 import { ServerRolesModule } from "../serverRoles";
 import { LastSeenServerChannelsModule } from "../lastSeenServerChannel";
-import { NotificationsModule } from '../notifications';
+import { NotificationsModule } from "../notifications";
 
 const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
@@ -22,17 +22,17 @@ interface SuccessEvent {
   dms: ReturnedDmChannel[];
   serverRoles: ServerRole[];
   lastSeenServerChannels: LastSeenServerChannels;
-  notifications: Notification[]
+  notifications: Notification[];
 }
 
 interface Notification {
-  channelID: string
-  count: number
-  lastMessageID: string
-  mentioned: boolean
-  recipient: string
-  sender: User
-  type: string
+  channelID: string;
+  count: number;
+  lastMessageID: string;
+  mentioned: boolean;
+  recipient: string;
+  sender: User;
+  type: string;
 }
 interface LastSeenServerChannels {
   [key: string]: number;
@@ -215,7 +215,6 @@ const actions: ActionTree<any, any> = {
     for (let i = 0; i < data.notifications.length; i++) {
       const notification = data.notifications[i];
       notifications[notification.channelID] = notification;
-      
     }
 
     ServerRolesModule.InitServerRoles(serverRolesObj);

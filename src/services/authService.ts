@@ -4,9 +4,11 @@ import Vue from "vue";
 
 const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
-
-
-export function postLogin(email: string, password: string, token: string): Promise<any> {
+export function postLogin(
+  email: string,
+  password: string,
+  token: string
+): Promise<any> {
   return wrapper
     .post(`user/login`, {
       json: { email, password, token }
