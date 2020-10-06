@@ -74,7 +74,7 @@ export default class MessageLogs extends Vue {
     return windowProperties.isFocused;
   }
   get channelMessages() {
-    return MessagesModule.channelMessages(this.$route.params.channel_id);
+    return MessagesModule.groupedChannelMessages(this.$route.params.channel_id);
   }
   get isScrolledDown() {
     return ScrollModule.isScrolledBottom;

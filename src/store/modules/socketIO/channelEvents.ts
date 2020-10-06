@@ -1,5 +1,4 @@
 import ChannelWithUser from "@/interfaces/DmChannelWithUser";
-import router from "@/router";
 import { ActionTree } from "vuex";
 import { ChannelsModule } from "../channels";
 import { UsersModule } from "../users";

@@ -1,6 +1,9 @@
 <template>
-  <div class="bubble" :class="{ me: isMessageCreatedByMe }">
-    <div class="details">
+  <div
+    class="bubble"
+    :class="{ me: isMessageCreatedByMe, grouped: message.grouped }"
+  >
+    <div class="details" v-if="!message.grouped">
       <div class="username">{{ creator.username }}</div>
       <div class="date">{{ date }}</div>
     </div>
@@ -15,7 +18,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import friendlyDate from "@/utils/date";
 @Component
 export default class Bubble extends Vue {
-  @Prop() private message!: Message;
+  @Prop() private message!: Message & { grouped: boolean };
   get creator() {
     return this.message.creator;
   }
@@ -57,6 +60,12 @@ $pointer-size: 10px;
     &::after {
       border-right-color: var(--my-chat-bubble-color);
     }
+  }
+  &.grouped {
+    border-radius: 4px;
+  }
+  &.grouped:after {
+    border-color: transparent;
   }
 }
 

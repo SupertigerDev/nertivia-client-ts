@@ -54,7 +54,6 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import Captcha from "@/components/Captcha.vue";
 import { postLogin, confirmEmail } from "@/services/authService";
-import router from "@/router";
 
 @Component({ components: { CustomInput, Captcha } })
 export default class MainApp extends Vue {

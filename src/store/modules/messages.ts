@@ -13,7 +13,6 @@ import Vue from "vue";
 import { ScrollModule } from "./scroll";
 import router from "@/router";
 import { MeModule } from "./me";
-import { ChannelsModule } from "./channels";
 
 interface MessagesObj {
   [key: string]: Message[];
@@ -42,6 +41,31 @@ class Messages extends VuexModule {
     return (id: string) => this.messages[id];
   }
 
+  get groupedChannelMessages() {
+    return (id: string) => {
+      const messages = this.messages[id];
+      const creatorMatch = (message1: Message, message2: Message) =>
+        message1.creator.uniqueID === message2.creator.uniqueID;
+      const isMoreThanAMinute = (beforeMs: number, currentMs: number) => {
+        return (currentMs - beforeMs) >= 60000
+      }
+      let count = 0;
+      return messages.map((currentMessage, index) => {
+        const beforeMessage = messages[index - 1];
+        if (!beforeMessage || !creatorMatch(beforeMessage, currentMessage)) {
+            count = 0;
+            return currentMessage;
+        }
+        if (count >= 4 || isMoreThanAMinute(beforeMessage.created, currentMessage.created)) {
+          count = 0;
+          return currentMessage
+        }
+        count += 1;
+        return { ...currentMessage, grouped: true };
+      });
+    };
+  }
+
   @Mutation
   private SET_CHANNEL_MESSAGES(payload: {
     messages: Message[];
@@ -66,16 +90,17 @@ class Messages extends VuexModule {
   }
   @Action
   public sendMessage(payload: { message: string; channelID: string }) {
+    const trimmedMessage = payload.message.trim();
     const tempID = generateNum(25);
     const creator: any = MeModule.user;
     this.AddChannelMessage({
       channelID: payload.channelID,
-      message: payload.message,
+      message: trimmedMessage,
       tempID,
       created: Date.now(),
       creator
     });
-    postMessage(payload.message, tempID, payload.channelID);
+    postMessage(trimmedMessage, tempID, payload.channelID);
   }
 
   @Mutation

@@ -1,8 +1,4 @@
 import wrapper from "./wrapper";
-import Message from "@/interfaces/Message";
-import Vue from "vue";
-
-const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
 export function postLogin(
   email: string,
