@@ -1,7 +1,10 @@
 <template>
   <div class="message-logs" ref="logs" @scroll.passive="onScroll">
     <transition-group :name="windowIsFocused ? 'message' : ''" tag="p">
-      <MessageTemplate
+      <component
+        v-bind:is="
+          message.type === 0 ? 'MessageTemplate' : 'ActionMessageTemplate'
+        "
         class="message"
         v-for="message in channelMessages"
         :key="message.tempID || message.messageID"
@@ -15,12 +18,13 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { MessagesModule } from "@/store/modules/messages";
 import MessageTemplate from "./message/MessageTemplate.vue";
+import ActionMessageTemplate from "./message/ActionMessageTemplate.vue";
 import { ScrollModule } from "@/store/modules/scroll";
 import windowProperties from "@/utils/windowProperties";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 
-@Component({ components: { MessageTemplate } })
+@Component({ components: { MessageTemplate, ActionMessageTemplate } })
 export default class MessageLogs extends Vue {
   mounted() {
     ScrollModule.SetScrolledBottom(true);

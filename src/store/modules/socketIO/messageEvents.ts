@@ -15,7 +15,7 @@ const actions: ActionTree<any, any> = {
       channelID: data.message.channelID,
       update: { lastMessaged: Date.now() }
     });
-    MessagesModule.AddChannelMessage(data.message);
+    MessagesModule.AddChannelMessage({...data.message, type: data.message.type || 0});
 
     // update last seen if message created by me.
     if (isMe && channel && channel.server_id) {

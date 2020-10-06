@@ -97,6 +97,7 @@ class Messages extends VuexModule {
       channelID: payload.channelID,
       message: trimmedMessage,
       tempID,
+      type: 0,
       created: Date.now(),
       creator
     });
