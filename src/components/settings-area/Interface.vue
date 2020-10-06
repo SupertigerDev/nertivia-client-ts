@@ -122,6 +122,7 @@ export default class MainApp extends Vue {
   padding: 5px;
   cursor: pointer;
   transition: 0.2s;
+  margin-top: 15px;
   &:hover {
     opacity: 1;
   }
