@@ -17,7 +17,7 @@ import { Vue, Component } from "vue-property-decorator";
 export default class SettingsArea extends Vue {
   mounted() {
     if (!this.selectedTab) {
-      this.$router.push({ params: { tab: "account" } });
+      this.$router.replace({ params: { tab: "account" } });
     }
   }
   get selectedTab() {

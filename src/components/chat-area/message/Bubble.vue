@@ -29,13 +29,10 @@ export default class Bubble extends Vue {
 </script>
 <style lang="scss" scoped>
 $pointer-size: 10px;
-$message-background-color: #3a4750;
-$my-message-background-color: var(--primary-color);
-// $my-message-background-color: #00aabb;
 
 .bubble {
   position: relative;
-  background: $message-background-color;
+  background: var(--others-chat-bubble-color);
   border-radius: 4px;
   border-top-left-radius: 0;
   margin-left: 10px;
@@ -50,15 +47,15 @@ $my-message-background-color: var(--primary-color);
 
     border: $pointer-size solid transparent;
 
-    border-right-color: $message-background-color;
+    border-right-color: var(--others-chat-bubble-color);
     border-left: 0;
     border-top: 0;
     margin-left: -$pointer-size;
   }
   &.me {
-    background: $my-message-background-color;
+    background: var(--my-chat-bubble-color);
     &::after {
-      border-right-color: $my-message-background-color;
+      border-right-color: var(--my-chat-bubble-color);
     }
   }
 }

@@ -121,7 +121,7 @@ export default class RightDrawer extends Vue {
 .header {
   display: flex;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: var(--side-header-bg-color);
   justify-content: center;
   height: 40px;
   flex-shrink: 0;

@@ -2,6 +2,23 @@
   <router-view />
 </template>
 
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import { getCustomCssVars, changeCssVar } from "@/utils/customCssVars";
+@Component
+export default class App extends Vue {
+  mounted() {
+    // set custom css colors
+    const customVars = getCustomCssVars();
+    for (let i = 0; i < Object.keys(customVars).length; i++) {
+      const key = Object.keys(customVars)[i];
+      const value = customVars[key];
+      changeCssVar(key, value, false);
+    }
+  }
+}
+</script>
+
 <style lang="scss">
 body {
   margin: 0;

@@ -76,7 +76,7 @@ export default class MainApp extends Vue {
   justify-content: center;
   flex-shrink: 0;
   height: 40px;
-  background: rgba(0, 0, 0, 0.3);
+  background-color: var(--side-header-bg-color);
 }
 @media (max-width: 650px) {
   .container {

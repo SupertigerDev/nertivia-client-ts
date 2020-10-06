@@ -81,14 +81,6 @@ export default class MainApp extends Vue {
     // set store and connect socket.
     this.$store.registerModule("socketIO", socketIOModule);
     this.$socket.client.connect();
-    // set primary color
-    const primaryColor = localStorage.getItem("primaryColor");
-    if (primaryColor) {
-      document.documentElement.style.setProperty(
-        "--primary-color",
-        primaryColor
-      );
-    }
   }
   beforeMount() {
     localStorage.removeItem("lastSelectedDMChannelID");
