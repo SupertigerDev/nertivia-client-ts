@@ -42,7 +42,7 @@ import {
 } from "@/utils/customCssVars";
 @Component
 export default class MainApp extends Vue {
-  lastClicked = null;
+  lastClicked: { key?: string; value?: string; custom?: string } = {};
   customVars = getCustomCssVars();
   get cssVarList() {
     return getAllCssVars()
@@ -53,8 +53,8 @@ export default class MainApp extends Vue {
       });
   }
   colorChanged(event: any) {
-    if (!this.lastClicked) return;
-    changeCssVar(this.lastClicked.key, event.target.value);
+    if (!this.lastClicked.key) return;
+    changeCssVar(this.lastClicked?.key, event.target.value);
     this.customVars = getCustomCssVars();
     event.target.value = "owo";
   }
