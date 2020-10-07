@@ -2,10 +2,11 @@
   <div class="message-logs" ref="logs" @scroll.passive="onScroll">
     <transition-group :name="windowIsFocused ? 'message' : ''" tag="p">
       <component
-        v-bind:is="
-          message.type === 0 ? 'MessageTemplate' : 'ActionMessageTemplate'
-        "
+        v-bind:is="messageType(message)"
         class="message"
+        @click.native="messageClicked"
+        @show-options="showMessageOptions = message"
+        :showOptions="showMessageOptions === message"
         v-for="message in channelMessages"
         :key="message.tempID || message.messageID"
         :message="message"
@@ -23,12 +24,18 @@ import { ScrollModule } from "@/store/modules/scroll";
 import windowProperties from "@/utils/windowProperties";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
+import Message from "@/interfaces/Message";
 
 @Component({ components: { MessageTemplate, ActionMessageTemplate } })
 export default class MessageLogs extends Vue {
+  showMessageOptions: Message | null = null;
   mounted() {
     ScrollModule.SetScrolledBottom(true);
     this.scrollDown();
+  }
+
+  messageClicked() {
+    this.showMessageOptions = null;
   }
 
   onScroll(event: { target: Element }) {
@@ -64,6 +71,10 @@ export default class MessageLogs extends Vue {
     }
   }
 
+  get messageType() {
+    return (message: any) =>
+      message.type === 0 ? "MessageTemplate" : "ActionMessageTemplate";
+  }
   get hasServerNotification() {
     return LastSeenServerChannelsModule.serverChannelNotification(
       this.$route.params.channel_id

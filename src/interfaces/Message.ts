@@ -6,7 +6,8 @@ export default interface Message {
   messageID?: string;
   channelID: string;
   tempID?: string;
-  type?: Type
+  type?: Type;
+  sending?: Sending
   created: number;
   mentions?: User[];
 }
@@ -16,6 +17,11 @@ enum Type {
   JOIN_MESSAGE,
   LEAVE_MESSAGE,
   KICK_MESSAGE,
-  BAN_MESSAGE,
+  BAN_MESSAGE
 }
 
+enum Sending {
+  SENDING,
+  SENT,
+  FAILED,
+}

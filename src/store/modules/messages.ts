@@ -41,24 +41,40 @@ class Messages extends VuexModule {
     return (id: string) => this.messages[id];
   }
 
+  // Group messages IF:
+  // They are sent in the same minute.
+  // They are sent by the same creator.
+  // The group is less than 4 messages.
   get groupedChannelMessages() {
     return (id: string) => {
       const messages = this.messages[id];
+      
       const creatorMatch = (message1: Message, message2: Message) =>
         message1.creator.uniqueID === message2.creator.uniqueID;
-      const isMoreThanAMinute = (beforeMs: number, currentMs: number) => {
-        return (currentMs - beforeMs) >= 60000
-      }
+
+      const isMoreThanAMinute = (beforeMessage: Message, afterMessage: Message) => {
+        const beforeDate = new Date(beforeMessage.created);
+        const afterDate = new Date(afterMessage.created);
+        const minutesMatch = () =>
+          beforeDate.getMinutes() === afterDate.getMinutes();
+        const hoursMatch = () => beforeDate.getHours() === afterDate.getHours();
+        return !(minutesMatch() && hoursMatch());
+      };
+      
       let count = 0;
       return messages.map((currentMessage, index) => {
         const beforeMessage = messages[index - 1];
         if (!beforeMessage || !creatorMatch(beforeMessage, currentMessage)) {
-            count = 0;
-            return currentMessage;
-        }
-        if (count >= 4 || isMoreThanAMinute(beforeMessage.created, currentMessage.created)) {
           count = 0;
-          return currentMessage
+          return currentMessage;
+        }
+
+        if (
+          count >= 4 ||
+          isMoreThanAMinute(beforeMessage, currentMessage)
+        ) {
+          count = 0;
+          return currentMessage;
         }
         count += 1;
         return { ...currentMessage, grouped: true };
@@ -98,10 +114,32 @@ class Messages extends VuexModule {
       message: trimmedMessage,
       tempID,
       type: 0,
+      sending: 0,
       created: Date.now(),
       creator
     });
-    postMessage(trimmedMessage, tempID, payload.channelID);
+    postMessage(trimmedMessage, tempID, payload.channelID).then(res => {
+      const message = res.messageCreated;
+      this.UpdateMessage({channelID: message.channelID, message: {...message, sending: 1}, tempID})
+      return true;
+    }).catch(async err => {
+      if (!err.response) return;
+      throw await err.response.json() 
+    }).catch(res => {
+      this.UpdateMessage({channelID: payload.channelID, message: {sending: 2}, tempID})
+      this.AddChannelMessage({
+        channelID: payload.channelID,
+        message: res.message,
+        messageID: Math.random().toString(),
+        type: 0,
+        created: Date.now(),
+        creator: {
+          username: "Beep Boop",
+          uniqueID: "0",
+          tag: "0000"
+        }
+      });
+    })
   }
 
   @Mutation
@@ -154,6 +192,19 @@ class Messages extends VuexModule {
     if (!this.channelMessages(payload.channelID)) return;
     this.ADD_CHANNEL_MESSAGE(payload);
     this.ClampChannelMessages(payload.channelID);
+  }
+  @Mutation
+  private UPDATE_MESSAGE(payload: {updateMessage: Message, index: number, channelID: string}) {
+    Vue.set(this.messages[payload.channelID], payload.index, payload.updateMessage)
+  }
+
+  @Action
+  public UpdateMessage(payload: {channelID: string, messageID?: string, tempID?: string, message: Partial<Message>}) {
+    const messages = this.channelMessages(payload.channelID)
+    if (!messages) return;
+    const findIndex = messages.findIndex(({messageID, tempID}) => payload.messageID ? payload.messageID === messageID : payload.tempID === tempID)
+    if (findIndex <= -1) return;
+    this.UPDATE_MESSAGE({index: findIndex, updateMessage: {...messages[findIndex], ...payload.message}, channelID: payload.channelID});
   }
 }
 export const MessagesModule = getModule(Messages);

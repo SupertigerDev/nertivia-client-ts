@@ -49,10 +49,7 @@ export default class ActionMessageTemplate extends Vue {
 .actionMessage {
   display: flex;
   flex-shrink: 0;
-  height: 60px;
-  align-items: center;
-  align-content: center;
-  justify-content: center;
+  margin: 10px;
 }
 
 .avatar {

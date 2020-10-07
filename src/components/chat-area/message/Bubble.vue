@@ -39,7 +39,7 @@ $pointer-size: 10px;
   border-radius: 4px;
   border-top-left-radius: 0;
   margin-left: 10px;
-  padding: 5px;
+  padding: 7px;
   &::after {
     content: "";
     position: absolute;
