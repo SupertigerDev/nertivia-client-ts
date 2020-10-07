@@ -3,7 +3,7 @@
     class="message-container"
     @mouseover="hover = true"
     @mouseout="hover = false"
-    @contextmenu.prevent="$emit('show-options')"
+    @contextmenu.prevent="$emit('show-options', true)"
   >
     <div class="container">
       <AvatarImage
@@ -18,11 +18,7 @@
       <Bubble :message="message" />
       <MessageSide :message="message" />
     </div>
-    <div class="options" :class="{ show: showOptions }">
-      <div class="button">Copy</div>
-      <div class="button">Edit</div>
-      <div class="button">Delete</div>
-    </div>
+    <MessageOptions v-if="showOptions" @close="$emit('show-options', false)" />
   </div>
 </template>
 
@@ -30,11 +26,12 @@
 import Message from "@/interfaces/Message";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
+import MessageOptions from "./MessageOptions.vue";
 import Bubble from "./Bubble.vue";
 import MessageSide from "./MessageSide.vue";
 import { time } from "@/utils/date";
 
-@Component({ components: { AvatarImage, Bubble, MessageSide } })
+@Component({ components: { AvatarImage, Bubble, MessageSide, MessageOptions } })
 export default class MessageLogs extends Vue {
   @Prop() private message!: Message & { grouped: boolean };
   @Prop() private showOptions!: boolean;
@@ -60,7 +57,6 @@ export default class MessageLogs extends Vue {
   padding: 10px;
   padding-top: 3px;
   padding-bottom: 3px;
-  transition: 0.2s;
 }
 .container {
   display: flex;
@@ -77,29 +73,6 @@ export default class MessageLogs extends Vue {
   align-self: center;
   flex-shrink: 0;
   transition: 0.2s;
-}
-.options {
-  display: flex;
-  align-items: center;
-  align-content: center;
-
-  height: 0;
-  opacity: 0;
-  transition: 0.2s;
-  margin-left: 45px;
-  &.show {
-    opacity: 1;
-    height: 20px;
-    margin-top: 5px;
-  }
-}
-.button {
-  margin-left: 5px;
-  cursor: pointer;
-  opacity: 0.7;
-  &:hover {
-    opacity: 1;
-  }
 }
 </style>
 

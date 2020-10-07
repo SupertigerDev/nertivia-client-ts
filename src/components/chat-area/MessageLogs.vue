@@ -4,8 +4,7 @@
       <component
         v-bind:is="messageType(message)"
         class="message"
-        @click.native="messageClicked"
-        @show-options="showMessageOptions = message"
+        @show-options="showMessageOptionEvent($event, message)"
         :showOptions="showMessageOptions === message"
         v-for="message in channelMessages"
         :key="message.tempID || message.messageID"
@@ -33,9 +32,10 @@ export default class MessageLogs extends Vue {
     ScrollModule.SetScrolledBottom(true);
     this.scrollDown();
   }
-
-  messageClicked() {
-    this.showMessageOptions = null;
+  showMessageOptionEvent(show: boolean, message: Message) {
+    if (!show) return (this.showMessageOptions = null);
+    this.showMessageOptions = message;
+    this.$nextTick(() => this.scrollDown(true));
   }
 
   onScroll(event: { target: Element }) {
@@ -50,7 +50,8 @@ export default class MessageLogs extends Vue {
     }
   }
 
-  scrollDown() {
+  scrollDown(ifScrolledDown = false) {
+    if (ifScrolledDown && !this.isScrolledDown) return;
     const element = this.$refs.logs as Element;
     element.scrollTop = element.scrollHeight;
   }
