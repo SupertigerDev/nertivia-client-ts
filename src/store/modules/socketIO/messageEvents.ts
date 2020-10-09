@@ -59,11 +59,18 @@ const actions: ActionTree<any, any> = {
       }
     }
   },
-  socket_deleteMessage(context, data: {channelID:string, messageID: string}) {
+  socket_deleteMessage(
+    context,
+    data: { channelID: string; messageID: string }
+  ) {
     MessagesModule.DeleteMessage(data);
   },
   socket_updateMessage(context, data: Message) {
-    MessagesModule.UpdateMessage({channelID: data.channelID, messageID: data.messageID, message: data})
+    MessagesModule.UpdateMessage({
+      channelID: data.channelID,
+      messageID: data.messageID,
+      message: data
+    });
   }
 };
 export default {

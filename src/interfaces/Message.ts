@@ -7,10 +7,10 @@ export default interface Message {
   channelID: string;
   tempID?: string;
   type?: Type;
-  sending?: Sending
+  sending?: Sending;
   created: number;
   mentions?: User[];
-  timeEdited?: number
+  timeEdited?: number;
 }
 
 enum Type {
@@ -24,5 +24,5 @@ enum Type {
 enum Sending {
   SENDING,
   SENT,
-  FAILED,
+  FAILED
 }
