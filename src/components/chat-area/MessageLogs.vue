@@ -4,11 +4,12 @@
       <component
         v-bind:is="messageType(message)"
         class="message"
-        @show-options="showMessageOptionEvent($event, message)"
-        :showOptions="showMessageOptions === message"
         v-for="message in channelMessages"
         :key="message.tempID || message.messageID"
         :message="message"
+        :openContext="openedMessageContextMenu === message"
+        @open-context="openedMessageContextMenu = message"
+        @close-context="openedMessageContextMenu = null"
       />
     </transition-group>
   </div>
@@ -27,15 +28,10 @@ import Message from "@/interfaces/Message";
 
 @Component({ components: { MessageTemplate, ActionMessageTemplate } })
 export default class MessageLogs extends Vue {
-  showMessageOptions: Message | null = null;
+  openedMessageContextMenu: Message | null = null;
   mounted() {
     ScrollModule.SetScrolledBottom(true);
     this.scrollDown();
-  }
-  showMessageOptionEvent(show: boolean, message: Message) {
-    if (!show) return (this.showMessageOptions = null);
-    this.showMessageOptions = message;
-    this.$nextTick(() => this.scrollDown(true));
   }
 
   onScroll(event: { target: Element }) {

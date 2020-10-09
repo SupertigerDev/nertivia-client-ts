@@ -46,7 +46,7 @@ export default class MessageBoxArea extends Vue {
     if (!this.message.trim().length) return;
     const message = this.message;
     this.message = "";
-    MessagesModule.sendMessage({
+    MessagesModule.SendMessage({
       message,
       channelID: this.$route.params.channel_id
     });

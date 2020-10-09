@@ -10,6 +10,7 @@ export default interface Message {
   sending?: Sending
   created: number;
   mentions?: User[];
+  timeEdited?: number
 }
 
 enum Type {

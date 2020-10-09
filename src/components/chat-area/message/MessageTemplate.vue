@@ -3,7 +3,7 @@
     class="message-container"
     @mouseover="hover = true"
     @mouseout="hover = false"
-    @contextmenu.prevent="$emit('show-options', true)"
+    @contextmenu.prevent="rightClickEvent"
   >
     <div class="container">
       <AvatarImage
@@ -18,7 +18,14 @@
       <Bubble :message="message" />
       <MessageSide :message="message" />
     </div>
-    <MessageOptions v-if="showOptions" @close="$emit('show-options', false)" />
+    <portal to="context-menus" v-if="openContext">
+      <MessageContextMenu
+        @close="$emit('close-context')"
+        :message="message"
+        :pos="contextPos"
+        :key="message.tempID || message.messageID"
+      />
+    </portal>
   </div>
 </template>
 
@@ -26,17 +33,25 @@
 import Message from "@/interfaces/Message";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
-import MessageOptions from "./MessageOptions.vue";
 import Bubble from "./Bubble.vue";
 import MessageSide from "./MessageSide.vue";
+import MessageContextMenu from "./MessageContextMenu.vue";
 import { time } from "@/utils/date";
 
-@Component({ components: { AvatarImage, Bubble, MessageSide, MessageOptions } })
+@Component({
+  components: { AvatarImage, Bubble, MessageSide, MessageContextMenu }
+})
 export default class MessageLogs extends Vue {
+  @Prop() private openContext!: boolean;
   @Prop() private message!: Message & { grouped: boolean };
-  @Prop() private showOptions!: boolean;
+
+  contextPos: { x?: number; y?: number } = {};
   hover = false;
 
+  rightClickEvent(event: MouseEvent) {
+    this.$emit("open-context");
+    this.contextPos = { x: event.pageX, y: event.pageY };
+  }
   get creator() {
     return this.message.creator;
   }

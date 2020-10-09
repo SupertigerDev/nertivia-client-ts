@@ -105,7 +105,7 @@ class Messages extends VuexModule {
       });
   }
   @Action
-  public sendMessage(payload: { message: string; channelID: string }) {
+  public SendMessage(payload: { message: string; channelID: string }) {
     const trimmedMessage = payload.message.trim();
     const tempID = generateNum(25);
     const creator: any = MeModule.user;
@@ -206,5 +206,20 @@ class Messages extends VuexModule {
     if (findIndex <= -1) return;
     this.UPDATE_MESSAGE({index: findIndex, updateMessage: {...messages[findIndex], ...payload.message}, channelID: payload.channelID});
   }
+
+  @Mutation 
+  private DELETE_MESSAGE(payload: {channelID: string, index: number}) {
+    Vue.delete(this.messages[payload.channelID], payload.index);
+  } 
+  @Action
+  public DeleteMessage(payload: {channelID: string, messageID: string}) {
+    const messages = this.channelMessages(payload.channelID);
+    if (!messages) return;
+    const index = messages.findIndex(m => m.messageID === payload.messageID);
+    if (index <= -1) return;
+    this.DELETE_MESSAGE({channelID: payload.channelID, index})
+
+  }
+
 }
 export const MessagesModule = getModule(Messages);

@@ -19,6 +19,10 @@
         <Header :title="`Hello, ${me.username}!`" v-else />
       </div>
     </Drawers>
+    <portal-target
+      name="context-menus"
+      style="position: absolute; top: 0; left:0; right:0; bottom:0; pointer-events: none;z-index: 99999999"
+    ></portal-target>
   </div>
 </template>
 

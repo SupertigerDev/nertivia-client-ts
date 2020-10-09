@@ -1,10 +1,17 @@
 <template>
   <div class="message-options">
-    <span class="material-icons options-button">
+    <span
+      class="material-icons options-button"
+      @click="$emit('show-context-menu')"
+    >
       more_vert
     </span>
-    <span class="material-icons message-status" v-if="sendingStatus">
-      {{ sendingStatus }}
+    <span
+      class="material-icons message-status"
+      v-if="sendingStatus"
+      :title="sendingStatus.title"
+    >
+      {{ sendingStatus.icon }}
     </span>
   </div>
 </template>
@@ -12,15 +19,20 @@
 <script lang="ts">
 import Message from "@/interfaces/Message";
 import { Component, Prop, Vue } from "vue-property-decorator";
+import friendlyDate from "@/utils/date";
 @Component
 export default class MessageOptions extends Vue {
   @Prop() private message!: Message & { grouped: boolean };
   get sendingStatus() {
     const sending = this.message.sending;
-    if (sending === undefined) return undefined;
-    if (sending === 0) return "query_builder";
-    if (sending === 1) return "done";
-    if (sending === 2) return "error_outline";
+    if (sending === 0) return { icon: "query_builder", title: "Sending..." };
+    if (this.message.timeEdited)
+      return {
+        icon: "edit",
+        title: "Edited " + friendlyDate(this.message.timeEdited)
+      };
+    if (sending === 1) return { icon: "done", title: "Sent" };
+    if (sending === 2) return { icon: "error_outline", title: "Not Sent" };
     return undefined;
   }
 }
@@ -41,5 +53,7 @@ export default class MessageOptions extends Vue {
   font-size: 14px;
   margin: auto;
   margin-bottom: 0;
+  user-select: none;
+  cursor: default;
 }
 </style>
