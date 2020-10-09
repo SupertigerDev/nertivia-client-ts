@@ -7,6 +7,7 @@ import {
 } from "vuex-module-decorators";
 import store from "..";
 import { ChannelsModule } from "./channels";
+import { NotificationsModule } from './notifications';
 
 interface LastSeenObj {
   [key: string]: number;
@@ -22,13 +23,16 @@ class LastSeenServerChannels extends VuexModule {
   lastSeenServers: LastSeenObj = {};
 
   get allServerNotifications() {
-    return Object.values(ChannelsModule.channels).filter(channel => {
-      if (!channel.server_id) return false;
-      if (!channel.lastMessaged) return false;
-      const lastSeenStamp = this.lastSeenServers[channel.channelID];
-      if (!lastSeenStamp) return false;
-      return lastSeenStamp < channel.lastMessaged;
-    });
+    const channelIDArr = Object.keys(ChannelsModule.channels);
+    const res = [];
+    for (let i = 0; i < channelIDArr.length; i++) {
+      const channelID = channelIDArr[i];
+      const notificationExists = this.serverChannelNotification(channelID);
+      if (notificationExists) {
+       res.push(notificationExists); 
+      }
+    }
+    return res;
   }
 
   get serverChannelNotification() {
@@ -40,10 +44,20 @@ class LastSeenServerChannels extends VuexModule {
       const lastSeenStamp = this.lastSeenServers[channel.channelID];
       if (!lastSeenStamp) return undefined;
       if (lastSeenStamp < channel.lastMessaged) {
-        return channel;
+        // check if being mentioned
+        const notification = NotificationsModule.notificationByChannelID(channelID);
+        return {...channel, mentioned: notification && notification.mentioned};
       }
       return undefined;
     };
+  }
+
+  get serverNotifications() {
+    return (server_id: string) => {
+      return this.allServerNotifications.filter(
+        channel => channel.server_id === server_id
+      );
+    }
   }
 
   @Mutation

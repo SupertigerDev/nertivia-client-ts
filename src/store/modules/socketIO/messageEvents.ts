@@ -27,8 +27,8 @@ const actions: ActionTree<any, any> = {
 
     // send notification if:
     // message created by not me
-    // channel doesn't exist || channel.server_id doesn't exist
-    if (!isMe && (!channel || !channel.server_id)) {
+    // server channel = mentioned
+    if (!isMe) {
       const notification = NotificationsModule.notificationByChannelID(
         data.message.channelID
       );
@@ -36,6 +36,7 @@ const actions: ActionTree<any, any> = {
         data.message.mentions &&
         data.message.mentions.find(u => u.uniqueID === MeModule.user.uniqueID)
       );
+      if (channel && channel.server_id && !mentioned) return;
       if (notification) {
         const updateNotification: any = {
           count: notification.count + 1

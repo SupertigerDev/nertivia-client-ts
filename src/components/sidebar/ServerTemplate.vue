@@ -3,7 +3,8 @@
     class="server"
     :class="{
       selected: isServerSelected,
-      notification: serverNotificationExists
+      notification: serverNotificationArr.length,
+      mentioned: mentionedNotificationExists
     }"
     @click="serverClicked"
     @mouseover="hover = true"
@@ -35,11 +36,12 @@ export default class MainApp extends Vue {
     );
   }
 
-  get serverNotificationExists() {
-    const notificationChannels =
-      LastSeenServerChannelsModule.allServerNotifications;
-    return notificationChannels.find(
-      channel => channel.server_id === this.server.server_id
+  get mentionedNotificationExists() {
+    return this.serverNotificationArr.find(c => c.mentioned);
+  }
+  get serverNotificationArr() {
+    return LastSeenServerChannelsModule.serverNotifications(
+      this.server.server_id
     );
   }
 
@@ -71,11 +73,6 @@ export default class MainApp extends Vue {
     transition: 0.1s;
     width: 2px;
   }
-
-  &:hover::after {
-    background: var(--primary-color);
-    opacity: 0.7;
-  }
   &.selected::after {
     background: var(--primary-color);
     opacity: 1;
@@ -83,11 +80,31 @@ export default class MainApp extends Vue {
     width: 3px;
     bottom: 10px;
   }
-  &.notification {
-    &::after {
-      background: var(--alert-color);
-      opacity: 1;
-    }
+  &:hover::after {
+    background: var(--primary-color);
+    opacity: 0.7;
+  }
+
+  &.notification::after {
+    background: var(--alert-color);
+    opacity: 1;
+  }
+
+  &.notification.mentioned::before {
+    content: "@";
+    position: absolute;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    display: flex;
+    font-size: 12px;
+    bottom: 2px;
+    right: 10px;
+    transition: 0.1s;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--alert-color);
   }
 }
 </style>

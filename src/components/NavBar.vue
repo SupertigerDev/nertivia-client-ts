@@ -15,7 +15,8 @@
       class="item material-icons"
       :class="{
         selected: currentTab === 'servers',
-        notification: serverNotificationExists
+        notification: serverNotificationExists,
+        mentioned: serverMentioned
       }"
       title="Servers"
       @click="changeTab('servers')"
@@ -99,6 +100,11 @@ export default class MainApp extends Vue {
   get me() {
     return MeModule.user;
   }
+  get serverMentioned() {
+    return LastSeenServerChannelsModule.allServerNotifications.find(
+      c => c.mentioned
+    );
+  }
   get serverNotificationExists() {
     return LastSeenServerChannelsModule.allServerNotifications.length > 0;
   }
@@ -150,6 +156,7 @@ export default class MainApp extends Vue {
   &.notification {
     &::before {
       content: "a";
+      color: white;
       position: absolute;
       bottom: 10px;
       right: 13px;
@@ -157,6 +164,20 @@ export default class MainApp extends Vue {
       border-radius: 50%;
       height: 10px;
       width: 10px;
+    }
+    &.mentioned::before {
+      content: "@";
+      display: flex;
+      font-family: Avenir, Helvetica, Arial, sans-serif;
+      color: white;
+      align-items: center;
+      align-content: center;
+      justify-content: center;
+      font-size: 12px;
+      width: 20px;
+      height: 20px;
+      bottom: 5px;
+      right: 10px;
     }
   }
 }

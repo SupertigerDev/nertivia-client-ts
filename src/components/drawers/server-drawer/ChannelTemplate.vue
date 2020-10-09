@@ -8,7 +8,13 @@
   >
     <div class="dot"></div>
     <div class="name">{{ channel.name }}</div>
-    <div v-if="notificationExists" class="notification dot"></div>
+    <div
+      v-if="notificationExists"
+      class="notification dot"
+      :class="{ mentioned: notificationExists.mentioned }"
+    >
+      {{ notificationExists.mentioned ? "@" : "" }}
+    </div>
   </div>
 </template>
 
@@ -82,6 +88,16 @@ export default class ChannelTemplate extends Vue {
     margin: auto;
     margin-right: 10px;
     opacity: 1;
+  }
+  &.mentioned {
+    color: white;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    display: flex;
+    font-size: 12px;
+    width: 20px;
+    height: 20px;
   }
 }
 </style>

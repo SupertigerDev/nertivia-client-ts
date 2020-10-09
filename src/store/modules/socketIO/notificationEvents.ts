@@ -9,7 +9,6 @@ const actions: ActionTree<any, any> = {
   ) {
     if (data.serverNotification) {
       LastSeenServerChannelsModule.SetLastSeenChannel(data.channelID);
-      return;
     }
     NotificationsModule.DeleteNotification(data.channelID);
   }
