@@ -7,7 +7,7 @@ import {
 } from "vuex-module-decorators";
 import store from "..";
 import { ChannelsModule } from "./channels";
-import { NotificationsModule } from './notifications';
+import { NotificationsModule } from "./notifications";
 
 interface LastSeenObj {
   [key: string]: number;
@@ -29,7 +29,7 @@ class LastSeenServerChannels extends VuexModule {
       const channelID = channelIDArr[i];
       const notificationExists = this.serverChannelNotification(channelID);
       if (notificationExists) {
-       res.push(notificationExists); 
+        res.push(notificationExists);
       }
     }
     return res;
@@ -45,8 +45,13 @@ class LastSeenServerChannels extends VuexModule {
       if (!lastSeenStamp) return undefined;
       if (lastSeenStamp < channel.lastMessaged) {
         // check if being mentioned
-        const notification = NotificationsModule.notificationByChannelID(channelID);
-        return {...channel, mentioned: notification && notification.mentioned};
+        const notification = NotificationsModule.notificationByChannelID(
+          channelID
+        );
+        return {
+          ...channel,
+          mentioned: notification && notification.mentioned
+        };
       }
       return undefined;
     };
@@ -57,7 +62,7 @@ class LastSeenServerChannels extends VuexModule {
       return this.allServerNotifications.filter(
         channel => channel.server_id === server_id
       );
-    }
+    };
   }
 
   @Mutation
