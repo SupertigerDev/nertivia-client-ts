@@ -7,16 +7,18 @@
       <div class="username">{{ creator.username }}</div>
       <div class="date">{{ date }}</div>
     </div>
-    <div class="message">{{ message.message }}</div>
+    <ImageMessageEmbed v-if="isFileImage" :message="message" />
+    <div class="message" v-if="message.message">{{ message.message }}</div>
   </div>
 </template>
 
 <script lang="ts">
 import Message from "@/interfaces/Message";
+import ImageMessageEmbed from "./ImageMessageEmbed.vue";
 import { MeModule } from "@/store/modules/me";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import friendlyDate from "@/utils/date";
-@Component
+@Component({ components: { ImageMessageEmbed } })
 export default class Bubble extends Vue {
   @Prop() private message!: Message & { grouped: boolean };
   get creator() {
@@ -25,6 +27,14 @@ export default class Bubble extends Vue {
   get isMessageCreatedByMe() {
     return this.message.creator.uniqueID === MeModule.user.uniqueID;
   }
+
+  get isFileImage() {
+    const files = this.message.files;
+    if (!files || !files.length) return false;
+    if (!files[0].dimensions) return false;
+    return true;
+  }
+
   get date() {
     return friendlyDate(this.message.created);
   }
@@ -67,6 +77,9 @@ $pointer-size: 10px;
   &.grouped:after {
     border-color: transparent;
   }
+}
+.message {
+  margin-top: 5px;
 }
 
 .details {

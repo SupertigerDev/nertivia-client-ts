@@ -1,5 +1,10 @@
 <template>
-  <div class="message-logs" ref="logs" @scroll.passive="onScroll">
+  <div
+    class="message-logs"
+    id="messageLogs"
+    ref="logs"
+    @scroll.passive="onScroll"
+  >
     <transition-group :name="windowIsFocused ? 'message' : ''" tag="p">
       <component
         v-bind:is="messageType(message)"

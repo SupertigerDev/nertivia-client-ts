@@ -11,6 +11,14 @@ export default interface Message {
   created: number;
   mentions?: User[];
   timeEdited?: number;
+  files?: File[]
+}
+
+interface File {
+  dimensions?: {height: number, width: number},
+  url: string,
+  fileID?: string
+  fileName?: string
 }
 
 enum Type {
