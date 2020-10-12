@@ -7,6 +7,9 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import ContextMenu from "@/components/ContextMenu.vue";
 import Message from "@/interfaces/Message";
 import { MeModule } from "@/store/modules/me";
+import { ServerMembersModule } from "@/store/modules/serverMembers";
+import perms from "@/constants/rolePermissions";
+import { ServersModule } from "@/store/modules/servers";
 
 @Component({ components: { ContextMenu } })
 export default class extends Vue {
@@ -40,9 +43,29 @@ export default class extends Vue {
   get messageCreatedByMe() {
     return MeModule.user.uniqueID === this.message.creator.uniqueID;
   }
+  // if the logged in user is the server owner
+  get isServerOwner() {
+    if (!this.serverID) return false;
+    const server = ServersModule.servers[this.serverID];
+    return MeModule.user.uniqueID === server.creator.uniqueID;
+  }
   get canDeleteMessage() {
     if (this.messageCreatedByMe) return true;
-    return false;
+    if (!this.serverID) return false;
+    if (this.isServerOwner) return true;
+    if (!MeModule.user.uniqueID) return false;
+    return ServerMembersModule.memberHasPermission(
+      MeModule.user.uniqueID,
+      this.serverID,
+      perms.ADMIN.value
+    );
+  }
+  get serverID() {
+    if (this.currentTab !== "servers") return undefined;
+    return this.$route.params.server_id;
+  }
+  get currentTab() {
+    return this.$route.path.split("/")[2];
   }
 }
 </script>
