@@ -33,18 +33,18 @@ class ServerRoles extends VuexModule {
       let perms = 0;
       if (!serverRoles) return 0;
       for (let i = 0; i < roleIdArr.length; i++) {
-        const role = serverRoles.find(r => r.id === roleIdArr[i])
-        if (!role) continue;   
-        perms = perms | role.permissions
+        const role = serverRoles.find(r => r.id === roleIdArr[i]);
+        if (!role) continue;
+        perms = perms | role.permissions;
       }
       return perms;
-    }
+    };
   }
 
   get defaultServerRole() {
     return (server_id: string) => {
       return this.serverRoles[server_id].find(role => role.default);
-    }
+    };
   }
 
   @Mutation
