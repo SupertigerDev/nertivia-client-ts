@@ -1,9 +1,9 @@
 <template>
   <div class="avatar">
     <div class="image" v-if="!imageId" :style="style">
-      <img loading="lazy" src="@/assets/profile-logo.png" />
+      <img src="@/assets/profile-logo.png" />
     </div>
-    <img loading="lazy" class="image" v-else :style="style" :src="src" />
+    <img class="image" v-else :style="style" :src="src" />
   </div>
 </template>
 

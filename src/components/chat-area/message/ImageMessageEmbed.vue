@@ -1,6 +1,6 @@
 <template>
   <div class="image-embed">
-    <img loading="lazy" :src="imageURL" />
+    <img :src="imageURL" />
   </div>
 </template>
 
