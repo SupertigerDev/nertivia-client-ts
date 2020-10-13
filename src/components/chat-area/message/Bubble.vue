@@ -4,11 +4,23 @@
     :class="{ me: isMessageCreatedByMe, grouped: message.grouped }"
   >
     <div class="details" v-if="!message.grouped">
-      <div class="username">{{ creator.username }}</div>
+      <div
+        class="username"
+        :style="{ color: roleColor }"
+        v-text="creator.username"
+      />
       <div class="date">{{ date }}</div>
     </div>
-    <ImageMessageEmbed v-if="isFileImage" :message="message" />
-    <div class="message" v-if="message.message">{{ message.message }}</div>
+    <div class="image-embed" v-if="isFileImage">
+      <ImageMessageEmbed :message="message" />
+      <!-- This is done like this to make the message bubble not look ugly when the message is larger than the image. -->
+      <div class="message" v-if="message.message" v-text="message.message" />
+    </div>
+    <div
+      class="message"
+      v-if="message.message && !isFileImage"
+      v-text="message.message"
+    />
   </div>
 </template>
 
@@ -18,9 +30,17 @@ import ImageMessageEmbed from "./ImageMessageEmbed.vue";
 import { MeModule } from "@/store/modules/me";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import friendlyDate from "@/utils/date";
+import { ServerMembersModule } from "@/store/modules/serverMembers";
 @Component({ components: { ImageMessageEmbed } })
 export default class Bubble extends Vue {
+  loadRoleColor = false;
   @Prop() private message!: Message & { grouped: boolean };
+
+  mounted() {
+    setTimeout(() => {
+      this.loadRoleColor = true;
+    }, 10);
+  }
   get creator() {
     return this.message.creator;
   }
@@ -37,6 +57,18 @@ export default class Bubble extends Vue {
 
   get date() {
     return friendlyDate(this.message.created);
+  }
+  get roleColor() {
+    if (!this.loadRoleColor) return undefined;
+    if (!this.server_id) return undefined;
+    const role = ServerMembersModule.firstMemberRole(
+      this.server_id,
+      this.creator.uniqueID
+    );
+    return role?.color;
+  }
+  get server_id() {
+    return this.$route.params.server_id;
   }
 }
 </script>
@@ -80,6 +112,9 @@ $pointer-size: 10px;
 }
 .message {
   margin-top: 5px;
+}
+.image-embed {
+  display: table-caption;
 }
 
 .details {

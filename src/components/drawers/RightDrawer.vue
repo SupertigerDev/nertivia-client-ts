@@ -36,7 +36,8 @@ export default class RightDrawer extends Vue {
             })}
             {this.onlineMembersWithNoRoles.length > 0 && (
               <div class="tab" style={{ height: "25px" }}>
-                Online ({this.onlineMembersWithNoRoles.length})
+                {this.defaultRole?.name ? this.defaultRole?.name : "Offline"} (
+                {this.onlineMembersWithNoRoles.length})
               </div>
             )}
             {renderMembers(this.onlineMembersWithNoRoles)}
@@ -83,6 +84,9 @@ export default class RightDrawer extends Vue {
   }
   get onlineMembers() {
     return this.serverMembers.filter(sm => sm.presence);
+  }
+  get defaultRole() {
+    return ServerRolesModule.defaultServerRole(this.server_id);
   }
   get onlineMembersWithNoRoles() {
     return this.onlineMembers.filter(member => {

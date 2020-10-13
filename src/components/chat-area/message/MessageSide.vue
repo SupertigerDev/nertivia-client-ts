@@ -21,7 +21,7 @@ import Message from "@/interfaces/Message";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import friendlyDate from "@/utils/date";
 @Component
-export default class MessageOptions extends Vue {
+export default class MessageSide extends Vue {
   @Prop() private message!: Message & { grouped: boolean };
   get sendingStatus() {
     const sending = this.message.sending;

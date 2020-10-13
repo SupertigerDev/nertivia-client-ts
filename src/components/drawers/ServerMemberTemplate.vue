@@ -20,9 +20,16 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
+import { ServerRolesModule } from "@/store/modules/serverRoles";
+import ServerMember from "@/interfaces/ServerMember";
+import User from "@/interfaces/User";
+import ServerRole from "@/interfaces/ServerRole";
 @Component({ components: { AvatarImage } })
 export default class RightDrawer extends Vue {
-  @Prop() private serverMember!: any;
+  @Prop() private serverMember!: ServerMember & {
+    member: User;
+    roles: ServerRole[];
+  };
   hover = false;
   get member() {
     return this.serverMember.member;
@@ -31,7 +38,13 @@ export default class RightDrawer extends Vue {
     if (this.serverMember.roles[0]) {
       return this.serverMember.roles[0].color;
     }
+    if (this.defaultRole && this.defaultRole.color) {
+      return this.defaultRole.color;
+    }
     return undefined;
+  }
+  get defaultRole() {
+    return ServerRolesModule.defaultServerRole(this.serverMember.server_id);
   }
 }
 </script>
