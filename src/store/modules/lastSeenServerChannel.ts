@@ -8,8 +8,8 @@ import {
 import store from "..";
 import { ChannelsModule } from "./channels";
 import { NotificationsModule } from "./notifications";
-import Vue from 'vue';
-import { MeModule } from './me';
+import Vue from "vue";
+import { MeModule } from "./me";
 interface LastSeenObj {
   [key: string]: number;
 }

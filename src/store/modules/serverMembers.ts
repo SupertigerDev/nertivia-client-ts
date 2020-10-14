@@ -34,15 +34,17 @@ class ServerMembers extends VuexModule {
 
   get firstMemberRole() {
     return (server_id: string, uniqueID: string) => {
-      const member = this.serverMembers.find(sm => sm.server_id === server_id && sm.uniqueID === uniqueID);
+      const member = this.serverMembers.find(
+        sm => sm.server_id === server_id && sm.uniqueID === uniqueID
+      );
       if (!member) return undefined;
       const roles = ServerRolesModule.bulkRolesById(
         server_id,
         member.roleIdArr
       );
       if (roles[0]) return roles[0];
-      return ServerRolesModule.defaultServerRole(server_id)
-    }
+      return ServerRolesModule.defaultServerRole(server_id);
+    };
   }
 
   get memberHasPermission() {
