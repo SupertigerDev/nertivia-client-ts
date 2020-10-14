@@ -121,6 +121,8 @@ export default class extends Vue {
   width: 100%;
   height: 1px;
   background: rgba(255, 255, 255, 0.2);
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
 .icon {
   font-size: 21px;

@@ -8,7 +8,8 @@ import {
 import store from "..";
 import { ChannelsModule } from "./channels";
 import { NotificationsModule } from "./notifications";
-
+import Vue from 'vue';
+import { MeModule } from './me';
 interface LastSeenObj {
   [key: string]: number;
 }
@@ -37,13 +38,13 @@ class LastSeenServerChannels extends VuexModule {
 
   get serverChannelNotification() {
     return (channelID: string) => {
+      if (!MeModule.connected) return undefined;
       const channel = ChannelsModule.channels[channelID];
       if (!channel) return undefined;
       if (!channel.server_id) return undefined;
       if (!channel.lastMessaged) return undefined;
       const lastSeenStamp = this.lastSeenServers[channel.channelID];
-      if (!lastSeenStamp) return undefined;
-      if (lastSeenStamp < channel.lastMessaged) {
+      if (!lastSeenStamp || lastSeenStamp < channel.lastMessaged) {
         // check if being mentioned
         const notification = NotificationsModule.notificationByChannelID(
           channelID
@@ -77,7 +78,7 @@ class LastSeenServerChannels extends VuexModule {
 
   @Mutation
   private SET_LAST_SEEN_CHANNEL(channelID: string) {
-    this.lastSeenServers[channelID] = Date.now();
+    Vue.set(this.lastSeenServers, channelID, Date.now());
   }
 
   @Action

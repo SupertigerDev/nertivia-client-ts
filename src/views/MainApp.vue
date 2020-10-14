@@ -66,6 +66,8 @@ import { ServerRolesModule } from "@/store/modules/serverRoles";
 import { DrawersModule } from "@/store/modules/drawers";
 import WindowProperties from "@/utils/windowProperties";
 import { FriendsModule } from "@/store/modules/friends";
+import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
+import { NotificationsModule } from "@/store/modules/notifications";
 
 @Component({
   components: {
@@ -129,6 +131,7 @@ export default class MainApp extends Vue {
     this.$store.unregisterModule("socketIO");
   }
 
+  // save last selected channels
   @Watch("currentChannelID")
   @Watch("currentServerID")
   @Watch("currentTab")
@@ -148,6 +151,36 @@ export default class MainApp extends Vue {
     if (!this.isConnected) {
       this.showConnectionStatusPopout = true;
     }
+  }
+  @Watch("firstServerNotification")
+  @Watch("firstDmNotification")
+  changeTitle() {
+    // DM Notification
+    if (this.firstDmNotification) {
+      this.setNotificationICO(true);
+      document.title = `(!) ${this.firstDmNotification.sender.username} - Nertivia BETA`;
+      return;
+    }
+    // Server Notification
+    const notification = this.firstServerNotification;
+    if (!notification?.server_id) {
+      document.title = "Nertivia BETA";
+      this.setNotificationICO(false);
+      return;
+    }
+    this.setNotificationICO(true);
+
+    const server = ServersModule.servers[notification.server_id];
+    document.title = `(!) ${server.name}#${notification.name} - Nertivia BETA`;
+  }
+
+  setNotificationICO(set: boolean) {
+    const icoSelector = document.querySelector("link[rel='icon']");
+    if (set) {
+      icoSelector?.setAttribute("href", "/img/icons/favicon-notification.ico");
+      return;
+    }
+    icoSelector?.setAttribute("href", "/img/icons/favicon-32x32.png");
   }
 
   get showMessageArea() {
@@ -183,6 +216,15 @@ export default class MainApp extends Vue {
   }
   get isMobileWidth() {
     return this.windowWidth <= 650;
+  }
+
+  get firstServerNotification() {
+    return LastSeenServerChannelsModule.allServerNotifications.sort(
+      (a, b) => (b.lastMessaged || 0) - (a.lastMessaged || 0)
+    )?.[0];
+  }
+  get firstDmNotification() {
+    return NotificationsModule.allDMNotifications?.[0];
   }
 }
 </script>
