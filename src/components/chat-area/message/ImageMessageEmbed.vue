@@ -1,6 +1,7 @@
 <template>
   <div class="image-embed">
-    <img :src="imageURL" />
+    <div class="gif" v-if="isGif">GIF</div>
+    <img v-if="loadImage" :src="pauseGifURL" />
   </div>
 </template>
 
@@ -12,9 +13,26 @@ import config from "@/config";
 @Component
 export default class ImageMessageEmbed extends Vue {
   @Prop() private message!: Message & { grouped: boolean };
+  loadImage = false;
+  intersectObserver: IntersectionObserver | null = null;
 
   mounted() {
     this.setDimensions();
+
+    this.intersectObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          this.loadImage = true;
+          this.intersectObserver?.unobserve(this.$el);
+          this.intersectObserver?.disconnect();
+        }
+      });
+    });
+    this.intersectObserver.observe(this.$el);
+  }
+  beforeDestroy() {
+    this.intersectObserver?.unobserve(this.$el);
+    this.intersectObserver?.disconnect();
   }
 
   clamp(num: number, min: number, max: number) {
@@ -56,6 +74,18 @@ export default class ImageMessageEmbed extends Vue {
       this.clamp(newDimentions.width, 0, srcWidth) + "px";
   }
 
+  // pause gif when window is not focused
+  get pauseGifURL() {
+    const isWindowFocused = windowProperties.isFocused;
+    let url = this.imageURL;
+    if (!isWindowFocused && this.isGif) {
+      url += `?type=webp`;
+    }
+    return url;
+  }
+  get isGif() {
+    return this.imageURL?.endsWith(".gif");
+  }
   get imageURL() {
     const file = this.message.files?.[0];
     if (!file) return undefined;
@@ -73,13 +103,29 @@ export default class ImageMessageEmbed extends Vue {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .image-embed {
   margin-top: 5px;
+  position: relative;
 }
 img {
   width: 100%;
   height: 100%;
   border-radius: 4px;
+}
+.image-embed:hover {
+  .gif {
+    opacity: 0;
+  }
+}
+.gif {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  padding: 3px;
+  border-radius: 4px;
+  transition: 0.2s;
 }
 </style>
