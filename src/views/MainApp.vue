@@ -224,7 +224,7 @@ export default class MainApp extends Vue {
     )?.[0];
   }
   get firstDmNotification() {
-    return NotificationsModule.allDMNotifications?.[0];
+    return NotificationsModule.allDMNotifications?.reverse()?.[0];
   }
 }
 </script>
