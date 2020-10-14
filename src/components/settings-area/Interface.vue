@@ -29,6 +29,14 @@
         Reset All Colors (Reload Required)
       </div>
     </div>
+    <div class="box">
+      <div class="title">Event Themes</div>
+      <div class="themes-list">
+        <div class="theme" @click="applyTheme('halloween')">
+          Apply Halloween Theme
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -61,6 +69,17 @@ export default class MainApp extends Vue {
   resetButton() {
     removeCustomCssVars();
     location.reload();
+  }
+  applyTheme(theme: string) {
+    if (theme === "halloween") {
+      changeCssVar("--primary-color", "#ff801f");
+      changeCssVar("--background-color", "#261d3e");
+      changeCssVar("--drawer-bg-color", "#291d4e");
+      changeCssVar("--main-header-bg-color", "#ff781f");
+      changeCssVar("--side-header-bg-color", "#d55c0b");
+      changeCssVar("--my-chat-bubble-color", "#e87b21");
+      changeCssVar("--others-chat-bubble-color", "#433a50");
+    }
   }
 }
 </script>
@@ -125,6 +144,17 @@ export default class MainApp extends Vue {
   margin-top: 15px;
   &:hover {
     opacity: 1;
+  }
+}
+.themes-list {
+  .theme {
+    padding: 5px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    background: rgb(255, 126, 21);
+    border-radius: 4px;
+    cursor: pointer;
   }
 }
 </style>
