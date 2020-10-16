@@ -43,6 +43,7 @@ export default class MessageBoxArea extends Vue {
     }
   }
   sendMessage() {
+    (this.$refs["textarea"] as HTMLElement).focus();
     if (!this.message.trim().length) return;
     const message = this.message;
     this.message = "";
