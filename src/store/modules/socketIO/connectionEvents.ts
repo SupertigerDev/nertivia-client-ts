@@ -23,7 +23,7 @@ interface SuccessEvent {
   serverRoles: ServerRole[];
   lastSeenServerChannels: LastSeenServerChannels;
   notifications: Notification[];
-  settings: Settings
+  settings: Settings;
 }
 interface Settings {
   server_position: string[];
@@ -98,7 +98,7 @@ function sortServers(servers: ReturnedServer[], positions?: string[]) {
     const index = tempServers.findIndex(s => s.server_id === serverID);
     if (index < 0) continue;
     sortServers.push(tempServers[index]);
-    tempServers.splice(index, 1); 
+    tempServers.splice(index, 1);
   }
   return [...sortServers.reverse(), ...tempServers];
 }
@@ -152,7 +152,10 @@ const actions: ActionTree<any, any> = {
     }
 
     // sort servers by user position.
-    const sortedServers = sortServers(data.user.servers, data.settings.server_position);
+    const sortedServers = sortServers(
+      data.user.servers,
+      data.settings.server_position
+    );
 
     // set servers
     const servers: any = {};
@@ -254,5 +257,3 @@ const actions: ActionTree<any, any> = {
 export default {
   actions
 };
-
-

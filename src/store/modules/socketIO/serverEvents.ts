@@ -1,6 +1,5 @@
-
 import { ActionTree } from "vuex";
-import { ServersModule } from '../servers';
+import { ServersModule } from "../servers";
 
 const actions: ActionTree<any, any> = {
   ["socket_self:serverPosition"](context, data: { server_position: string[] }) {
@@ -11,11 +10,10 @@ const actions: ActionTree<any, any> = {
       sortServers = {
         [serverID]: servers[serverID],
         ...sortServers
-      }      
+      };
     }
     ServersModule.InitServers(sortServers);
-  },
-
+  }
 };
 export default {
   actions
