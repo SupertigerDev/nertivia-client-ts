@@ -28,7 +28,7 @@ export default class MainApp extends Vue {
   }
   get selectedServerChannels() {
     if (!this.selectedDetails.server_id) return [];
-    return ChannelsModule.serverChannels(this.selectedDetails.server_id);
+    return ChannelsModule.sortedServerChannels(this.selectedDetails.server_id);
   }
 }
 </script>

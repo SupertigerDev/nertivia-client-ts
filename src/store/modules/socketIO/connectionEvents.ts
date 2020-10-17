@@ -23,6 +23,10 @@ interface SuccessEvent {
   serverRoles: ServerRole[];
   lastSeenServerChannels: LastSeenServerChannels;
   notifications: Notification[];
+  settings: Settings
+}
+interface Settings {
+  server_position: string[];
 }
 
 interface Notification {
@@ -85,6 +89,20 @@ interface ReturnedChannel {
   lastMessaged: number;
 }
 
+function sortServers(servers: ReturnedServer[], positions?: string[]) {
+  if (!positions) return servers;
+  const tempServers = [...servers];
+  const sortServers = [];
+  for (let i = 0; i < positions.length; i++) {
+    const serverID = positions[i];
+    const index = tempServers.findIndex(s => s.server_id === serverID);
+    if (index < 0) continue;
+    sortServers.push(tempServers[index]);
+    tempServers.splice(index, 1); 
+  }
+  return [...sortServers.reverse(), ...tempServers];
+}
+
 const actions: ActionTree<any, any> = {
   socket_connect() {
     MeModule.SetConnectionDetails({
@@ -133,11 +151,14 @@ const actions: ActionTree<any, any> = {
       };
     }
 
+    // sort servers by user position.
+    const sortedServers = sortServers(data.user.servers, data.settings.server_position);
+
     // set servers
     const servers: any = {};
     const channels: any = {};
-    for (let i = 0; i < data.user.servers.length; i++) {
-      const server = data.user.servers[i];
+    for (let i = 0; i < sortedServers.length; i++) {
+      const server = sortedServers[i];
       servers[server.server_id] = {
         avatar: server.avatar,
         banner: server.banner,
@@ -145,7 +166,8 @@ const actions: ActionTree<any, any> = {
         default_channel_id: server.default_channel_id,
         name: server.name,
         server_id: server.server_id,
-        verified: server.verified
+        verified: server.verified,
+        channel_position: server.channel_position
       };
       for (let x = 0; x < server.channels.length; x++) {
         const channel = server.channels[x];
@@ -228,6 +250,9 @@ const actions: ActionTree<any, any> = {
     ChannelsModule.InitChannels(channels);
   }
 };
+
 export default {
   actions
 };
+
+

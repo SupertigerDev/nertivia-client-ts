@@ -8,4 +8,5 @@ export default interface User {
   name: string;
   server_id: string;
   verified: boolean;
+  channel_position?: string[];
 }

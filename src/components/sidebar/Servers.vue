@@ -16,7 +16,7 @@ import ServerTemplate from "./ServerTemplate.vue";
 @Component({ components: { ServerTemplate } })
 export default class MainApp extends Vue {
   get Servers() {
-    return ServersModule.servers;
+    return Object.values(ServersModule.servers).reverse();
   }
 }
 </script>

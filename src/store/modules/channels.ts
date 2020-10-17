@@ -14,6 +14,7 @@ import ky from "ky";
 import { UsersModule } from "./users";
 import DmChannelWithUser from "@/interfaces/DmChannelWithUser";
 import Vue from "vue";
+import { ServersModule } from './servers';
 
 interface ChannelObj {
   [key: string]: Channel;
@@ -29,6 +30,21 @@ class Channels extends VuexModule {
         if (c.server_id) return c.server_id === id;
         else return false;
       });
+  }
+
+  get sortedServerChannels() {
+    return (id: string) => {
+      const server = ServersModule.servers[id];
+      const channel_position = server.channel_position
+      if (channel_position && channel_position.length) {
+        return this.serverChannels(id).sort((a, b) => {
+          const aIndex = channel_position.indexOf(a.channelID);
+          const bIndex = channel_position.indexOf(b.channelID);
+          return aIndex - bIndex;
+        })
+      }
+      return this.serverChannels(id);
+    }
   }
   get getDMChannel() {
     return (channelID: string) => {
