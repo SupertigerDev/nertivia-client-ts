@@ -60,7 +60,7 @@ const SettingsArea = () =>
   );
 const DashboardArea = () =>
   import(
-    /* webpackChunkName: "DashboardArea" */ "@/components/DashboardArea.vue"
+    /* webpackChunkName: "DashboardArea" */ "@/components/dashboard-area/DashboardArea.vue"
   );
 
 import { loadAllCacheToState } from "@/utils/localCache";

@@ -14,6 +14,7 @@ interface User {
   email?: string | null;
   avatar?: string | null;
   uniqueID?: string | null;
+  custom_status?: string;
 }
 
 @Module({ dynamic: true, store, namespaced: true, name: "me" })
