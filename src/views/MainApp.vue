@@ -16,7 +16,7 @@
         </transition>
         <MessageArea v-if="showMessageArea" />
         <SettingsArea v-else-if="currentTab === 'settings'" />
-        <Header :title="`Hello, ${me.username}!`" v-else />
+        <DashboardArea v-else />
       </div>
     </Drawers>
     <portal-target
@@ -58,6 +58,10 @@ const SettingsArea = () =>
   import(
     /* webpackChunkName: "SettingsArea" */ "@/components/settings-area/SettingsArea.vue"
   );
+const DashboardArea = () =>
+  import(
+    /* webpackChunkName: "DashboardArea" */ "@/components/DashboardArea.vue"
+  );
 
 import { loadAllCacheToState } from "@/utils/localCache";
 import { ChannelsModule } from "@/store/modules/channels";
@@ -78,7 +82,8 @@ import { NotificationsModule } from "@/store/modules/notifications";
     NavBar,
     Header,
     SettingsArea,
-    ConnectionStatus
+    ConnectionStatus,
+    DashboardArea
   }
 })
 export default class MainApp extends Vue {

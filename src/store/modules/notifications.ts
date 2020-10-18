@@ -1,4 +1,4 @@
-import User from "@/interfaces/User";
+import Notification from '@/interfaces/Notification';
 import Vue from "vue";
 import {
   Module,
@@ -10,15 +10,7 @@ import {
 import store from "..";
 import { ChannelsModule } from "./channels";
 
-interface Notification {
-  channelID: string;
-  count: number;
-  lastMessageID: string;
-  mentioned?: boolean;
-  recipient?: string;
-  sender: User;
-  type?: string;
-}
+
 interface NotificationObj {
   [key: string]: Notification;
 }
