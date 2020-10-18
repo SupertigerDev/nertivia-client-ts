@@ -1,4 +1,4 @@
-import Notification from '@/interfaces/Notification';
+import Notification from "@/interfaces/Notification";
 import Vue from "vue";
 import {
   Module,
@@ -9,7 +9,6 @@ import {
 } from "vuex-module-decorators";
 import store from "..";
 import { ChannelsModule } from "./channels";
-
 
 interface NotificationObj {
   [key: string]: Notification;
