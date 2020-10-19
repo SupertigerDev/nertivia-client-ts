@@ -3,6 +3,7 @@ import messageEvents from "./messageEvents";
 import notificationEvents from "./notificationEvents";
 import channelEvents from "./channelEvents";
 import serverEvents from "./serverEvents";
+import userEvents from "./userEvents";
 
 export default {
   namespace: true,
@@ -11,6 +12,7 @@ export default {
     messageEvents,
     notificationEvents,
     channelEvents,
-    serverEvents
+    serverEvents,
+    userEvents
   }
 };

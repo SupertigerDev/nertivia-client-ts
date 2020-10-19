@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <div class="title">
+    <div class="title" v-if="!hideTitle">
       Profile
     </div>
     <div class="content">
@@ -15,12 +15,12 @@
         <span class="username">{{ me.username }}</span
         ><span class="tag">:{{ me.tag }}</span>
       </div>
-      <div class="custom-status">
+      <div class="custom-status" v-if="connected">
         {{ me.custom_status }}
       </div>
       <div class="online-status">
-        <div class="dot" />
-        <div class="name">Online</div>
+        <div class="dot" :style="{ background: statusColor }" />
+        <div class="name">{{ statusName }}</div>
       </div>
       <div class="material-icons settings-icon" @click="settingsClicked">
         settings
@@ -30,17 +30,33 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Prop } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { MeModule } from "@/store/modules/me";
+import userStatuses from "@/constants/userStatuses";
 
 @Component({ components: { AvatarImage } })
 export default class ProfileCard extends Vue {
+  @Prop() private hideTitle!: boolean;
   settingsClicked() {
     this.$router.push("/app/settings/account");
   }
+  get connected() {
+    return MeModule.connected;
+  }
+  get connectionMessage() {
+    return MeModule.connectionMessage;
+  }
   get me() {
     return MeModule.user;
+  }
+  get statusColor() {
+    if (!this.connected) return userStatuses[0].color;
+    return userStatuses[this.me.status].color;
+  }
+  get statusName() {
+    if (!this.connected) return this.connectionMessage;
+    return userStatuses[this.me.status].name;
   }
 }
 </script>
@@ -49,12 +65,13 @@ export default class ProfileCard extends Vue {
   margin: 10px;
   margin-left: 5px;
   font-size: 20px;
+  position: absolute;
 }
 .card {
   position: relative;
   margin: 10px;
   margin-top: 10px;
-  background: #303844;
+  background: var(--card-color);
   padding: 5px;
   display: flex;
   flex-direction: column;
@@ -71,10 +88,13 @@ export default class ProfileCard extends Vue {
 .content {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  align-self: center;
+  justify-self: center;
+  margin: auto;
 }
 .avatar {
   align-self: center;
-  margin-top: 25px;
 }
 .info {
   margin-top: 15px;
@@ -112,8 +132,8 @@ export default class ProfileCard extends Vue {
   user-select: none;
   .dot {
     margin-right: 5px;
-    height: 15px;
-    width: 15px;
+    height: 12px;
+    width: 12px;
     border-radius: 50%;
     background: rgb(145, 255, 145);
   }

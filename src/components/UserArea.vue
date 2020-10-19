@@ -1,29 +1,15 @@
 <template>
   <div class="user-area">
-    <div class="user-details">
-      <div class="user-and-tag">
-        <span class="username">{{ me.username }}</span>
-        <span class="tag">:{{ me.tag }}</span>
-      </div>
-      <div class="status-details" v-if="connected">
-        <div class="status-color"></div>
-        <div class="custom-status">Click to add status.</div>
-      </div>
-      <div v-else>
-        {{ connectionMessage }}
-      </div>
-    </div>
+    <ProfileCard class="card" :hideTitle="true" />
   </div>
 </template>
 
 <script lang="ts">
 import { MeModule } from "@/store/modules/me";
 import { Component, Vue } from "vue-property-decorator";
+import ProfileCard from "@/components/dashboard-area/ProfileCard.vue";
 
-const AvatarImage = () =>
-  import(/* webpackChunkName: "AvatarImage" */ "@/components/AvatarImage.vue");
-
-@Component({ components: { AvatarImage } })
+@Component({ components: { ProfileCard } })
 export default class MainApp extends Vue {
   get connected() {
     return MeModule.connected;
@@ -36,42 +22,9 @@ export default class MainApp extends Vue {
   }
 }
 </script>
+
 <style lang="scss" scoped>
-.user-area {
-  display: flex;
-  align-items: center;
-  align-content: center;
-  height: 50px;
-  background-color: #38404ce5;
-  border-radius: 4px;
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(13px);
-  padding-right: 10px;
-}
-.avatar {
-  margin-left: 10px;
-}
-.user-details {
-  display: flex;
-  flex-direction: column;
-  margin-left: 10px;
-  .tag {
-    opacity: 0.7;
-  }
-}
-.status-details {
-  display: flex;
-  align-items: center;
-}
-.status-color {
-  height: 10px;
-  width: 10px;
-  border-radius: 50%;
-  background-color: rgb(139, 255, 145);
-  margin-right: 5px;
-}
-.custom-status {
-  font-size: 14px;
-  opacity: 0.8;
+.card {
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.6);
 }
 </style>

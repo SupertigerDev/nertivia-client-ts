@@ -8,24 +8,24 @@
       Mentions
     </div>
     <DashboardNotificationItem
-      v-for="(channel, i) in serverMentionedNotifications"
-      :key="i"
+      v-for="channel in serverMentionedNotifications"
+      :key="channel.channelID"
       :channel="channel"
     />
     <div class="item-title" v-if="dmNotifications.length">
       Direct Messages
     </div>
     <DashboardNotificationItem
-      v-for="(notification, i) in dmNotifications"
-      :key="i"
+      v-for="notification in dmNotifications"
+      :key="notification.channelID"
       :dmNotification="notification"
     />
     <div class="item-title" v-if="serverChannelNotifications.length">
       Servers
     </div>
     <DashboardNotificationItem
-      v-for="(channel, i) in serverChannelNotifications"
-      :key="i"
+      v-for="channel in serverChannelNotifications"
+      :key="channel.channelID"
       :channel="channel"
     />
   </div>
@@ -72,7 +72,7 @@ export default class DashboardArea extends Vue {
 .card {
   margin: 10px;
   margin-top: 10px;
-  background: rgba(0, 0, 0, 0.18);
+  background: var(--card-color);
   padding: 5px;
   display: flex;
   flex-direction: column;

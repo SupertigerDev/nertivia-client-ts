@@ -57,7 +57,8 @@ interface MeUser {
   avatar?: string | null;
   friends: Friend[];
   servers: ReturnedServer[];
-  custom_status?: string 
+  custom_status?: string;
+  status: number;
 }
 interface Friend {
   status: number;
@@ -137,7 +138,8 @@ const actions: ActionTree<any, any> = {
       avatar: data.user.avatar,
       tag: data.user.tag,
       uniqueID: data.user.uniqueID,
-      custom_status: data.user.custom_status
+      custom_status: data.user.custom_status,
+      status: data.user.status
     });
 
     // set friends

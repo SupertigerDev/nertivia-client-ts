@@ -15,6 +15,7 @@ interface User {
   avatar?: string | null;
   uniqueID?: string | null;
   custom_status?: string;
+  status: number;
 }
 
 @Module({ dynamic: true, store, namespaced: true, name: "me" })
@@ -24,7 +25,8 @@ class Me extends VuexModule {
     tag: null,
     email: null,
     avatar: null,
-    uniqueID: null
+    uniqueID: null,
+    status: 0
   };
   connected = false;
   connectionMessage: string | null = "Connecting...";
@@ -47,6 +49,16 @@ class Me extends VuexModule {
   }) {
     this.connected = payload.connected;
     this.connectionMessage = payload.message;
+  }
+
+  @Mutation
+  private UPDATE_USER(payload: Partial<User>) {
+    this.user = { ...this.user, ...payload };
+  }
+
+  @Action
+  public UpdateUser(payload: Partial<User>) {
+    this.UPDATE_USER(payload);
   }
 
   @Action
