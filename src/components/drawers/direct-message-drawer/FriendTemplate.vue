@@ -14,7 +14,13 @@
         size="30px"
         :animateGif="hover"
       />
-      <span class="username">{{ user.username }}</span>
+      <div class="details">
+        <div class="username">{{ user.username }}</div>
+        <div class="status" v-if="presenceDetails">
+          <div class="dot" :style="{ background: presenceDetails.color }" />
+          <div class="name">{{ presenceDetails.name }}</div>
+        </div>
+      </div>
       <div class="notification" v-if="notification">
         {{ notification.count > 99 ? "99" : notification.count }}
       </div>
@@ -24,9 +30,11 @@
 
 <script lang="ts">
 import AvatarImage from "@/components/AvatarImage.vue";
+import userStatuses from "@/constants/userStatuses";
 import User from "@/interfaces/User";
 import { ChannelsModule } from "@/store/modules/channels";
 import { NotificationsModule } from "@/store/modules/notifications";
+import { PresencesModule } from "@/store/modules/presences";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component({ components: { AvatarImage } })
@@ -43,6 +51,11 @@ export default class FriendTemplate extends Vue {
     } else {
       return this.dmChannel.recipients[0];
     }
+  }
+  get presenceDetails() {
+    const presence = PresencesModule.presences[this.user.uniqueID];
+    if (!presence) return undefined;
+    return userStatuses[presence || 0];
   }
   get isFriendSelected() {
     const channel = ChannelsModule.getDMChannel(this.$route.params.channel_id);
@@ -98,5 +111,21 @@ export default class FriendTemplate extends Vue {
   width: 20px;
   background-color: var(--alert-color);
   border-radius: 50%;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  font-size: 14px;
+  .name {
+    opacity: 0.8;
+  }
+  .dot {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    margin-right: 4px;
+  }
 }
 </style>

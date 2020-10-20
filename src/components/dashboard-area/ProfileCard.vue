@@ -56,7 +56,8 @@ export default class ProfileCard extends Vue {
   }
   get statusName() {
     if (!this.connected) return this.connectionMessage;
-    return userStatuses[this.me.status].name;
+    const name = userStatuses[this.me.status].name;
+    return name === "Offline" ? "Invisible" : name;
   }
 }
 </script>
@@ -135,7 +136,6 @@ export default class ProfileCard extends Vue {
     height: 12px;
     width: 12px;
     border-radius: 50%;
-    background: rgb(145, 255, 145);
   }
   .name {
     margin-top: 1px;

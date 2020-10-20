@@ -1,5 +1,5 @@
 <template>
-  <div class="image-embed">
+  <div class="image-embed" :class="{ animate: isWindowFocused && !loadImage }">
     <div class="gif" v-if="isGif">GIF</div>
     <img v-if="loadImage" :src="pauseGifURL" />
   </div>
@@ -22,7 +22,7 @@ export default class ImageMessageEmbed extends Vue {
     this.intersectObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          this.loadImage = true;
+          this.fetchImage();
           this.intersectObserver?.unobserve(this.$el);
           this.intersectObserver?.disconnect();
         }
@@ -34,7 +34,14 @@ export default class ImageMessageEmbed extends Vue {
     this.intersectObserver?.unobserve(this.$el);
     this.intersectObserver?.disconnect();
   }
-
+  fetchImage() {
+    const image = new Image();
+    image.onload = () => {
+      image.onload = null;
+      this.loadImage = true;
+    };
+    image.src = this.pauseGifURL || "";
+  }
   clamp(num: number, min: number, max: number) {
     return num <= min ? min : num >= max ? max : num;
   }
@@ -74,11 +81,13 @@ export default class ImageMessageEmbed extends Vue {
       this.clamp(newDimentions.width, 0, srcWidth) + "px";
   }
 
+  get isWindowFocused() {
+    return windowProperties.isFocused;
+  }
   // pause gif when window is not focused
   get pauseGifURL() {
-    const isWindowFocused = windowProperties.isFocused;
     let url = this.imageURL;
-    if (!isWindowFocused && this.isGif) {
+    if (!this.isWindowFocused && this.isGif) {
       url += `?type=webp`;
     }
     return url;
@@ -107,6 +116,8 @@ export default class ImageMessageEmbed extends Vue {
 .image-embed {
   margin-top: 5px;
   position: relative;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.4);
 }
 img {
   width: 100%;
@@ -127,5 +138,18 @@ img {
   padding: 3px;
   border-radius: 4px;
   transition: 0.2s;
+}
+.animate {
+  animation: animate 1s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+@keyframes animate {
+  from {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  to {
+    background: rgba(0, 0, 0, 0.5);
+  }
 }
 </style>
