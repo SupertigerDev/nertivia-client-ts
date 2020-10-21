@@ -72,6 +72,7 @@ export default class MainApp extends Vue {
   showUserArea = false;
   clickOutsideUserArea(event: any) {
     if (event.target.closest(".item.me")) return;
+    if (event.target.closest(".context")) return;
     this.showUserArea = false;
   }
 

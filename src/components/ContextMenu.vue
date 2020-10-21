@@ -9,11 +9,17 @@
       <div
         :class="{ seperator: item.type === 'seperator', item: !item.type }"
         v-for="(item, i) in items"
+        @click="itemClicked(item)"
         :key="i"
       >
         <div class="icon material-icons" v-if="item.icon && !item.type">
           {{ item.icon }}
         </div>
+        <div
+          class="dot"
+          v-if="type === 'dot' && item.color"
+          :style="{ background: item.color }"
+        />
         <div class="name" v-if="!item.type">{{ item.name }}</div>
       </div>
     </div>
@@ -31,14 +37,24 @@ interface ItemsProp {
 export default class extends Vue {
   @Prop() private pos!: { x?: number; y?: number };
   @Prop() private items!: ItemsProp[];
+  @Prop() private type!: string;
   height = 0;
   width = 0;
+  mount = false;
   clickOutside() {
+    if (!this.mount) return;
     this.$emit("close");
   }
   mounted() {
+    setTimeout(() => {
+      this.mount = true;
+    }, 10);
     this.height = this.$el.clientHeight;
     this.width = this.$el.clientWidth;
+  }
+  itemClicked(item: any) {
+    if (item.type === "seperator") return;
+    this.$emit("itemClick", item);
   }
   get clampPos() {
     const top = this.pos.y || 0;
@@ -126,5 +142,11 @@ export default class extends Vue {
 }
 .icon {
   font-size: 21px;
+}
+.dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  margin-right: 5px;
 }
 </style>
