@@ -10,12 +10,12 @@ const actions: ActionTree<any, any> = {
       uniqueID: data.uniqueID
     });
   },
-  socket_multiDeviceStatus(context, data: {status: number}) {
+  socket_multiDeviceStatus(context, data: { status: number }) {
     MeModule.UpdateUser({ status: data.status });
   },
-  socket_multiDeviceCustomStatus(context, data: {custom_status: string}) {
+  socket_multiDeviceCustomStatus(context, data: { custom_status: string }) {
     MeModule.UpdateUser({ custom_status: data.custom_status });
-  },
+  }
 };
 export default {
   actions
