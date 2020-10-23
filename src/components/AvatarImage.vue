@@ -11,6 +11,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 import seedColor from "seed-color";
+import config from "@/config";
 
 @Component
 export default class MainApp extends Vue {
@@ -20,7 +21,7 @@ export default class MainApp extends Vue {
   @Prop() private animateGif!: boolean;
 
   get src() {
-    let url = "https://media.nertivia.tk/" + this.imageId;
+    let url = config.nertiviaCDN + this.imageId;
     if (!this.isGif) return url;
     if (!this.animateGif) {
       url += "?type=webp";
