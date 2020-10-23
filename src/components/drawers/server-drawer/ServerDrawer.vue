@@ -1,18 +1,26 @@
 <template>
   <div class="server-drawer">
-    <transition name="zoom-fade" mode="out-in">
+    <transition
+      name="zoom-fade"
+      mode="out-in"
+      v-if="server && server.banner"
+      appear
+    >
       <div
         @mouseenter="bannerHover = true"
         @mouseleave="bannerHover = false"
         class="server-banner"
-        :key="selectedDetails.server_id"
-        v-if="server && server.banner"
+        :key="server.server_id"
       >
         <img :src="bannerURL" />
       </div>
     </transition>
-    <transition name="slide-fade" mode="out-in">
-      <div class="channels" :key="selectedDetails.server_id">
+    <transition name="slide-fade" mode="out-in" appear>
+      <div
+        class="channels"
+        :key="server.server_id"
+        :style="{ transitionDelay: server && server.banner ? '0.2s' : '0.1s' }"
+      >
         <ChannelTemplate
           v-for="channel in selectedServerChannels"
           :key="channel.channelID"
@@ -43,9 +51,12 @@ export default class MainApp extends Vue {
     return ServersModule.servers[this.selectedDetails.server_id];
   }
   get bannerURL() {
-    return `${config.nertiviaCDN}/${this.server.banner}${
-      this.bannerHover ? "" : "?type=webp"
-    }`;
+    const isGif = this.server.banner.endsWith(".gif");
+    let str = `${config.nertiviaCDN}/${this.server.banner}`;
+    if (isGif && !this.bannerHover) {
+      str = str + "?type=webp";
+    }
+    return str;
   }
   get selectedServerChannels() {
     if (!this.selectedDetails.server_id) return [];
@@ -56,14 +67,7 @@ export default class MainApp extends Vue {
 
 <style lang="scss" scoped>
 .slide-fade-enter-active {
-  transition: all 0.3s ease;
-  // transition-delay: 0.1s;
-}
-.slide-fade-leave-active {
-  transition: all 0.1s;
-}
-.slide-fade-leave-to {
-  opacity: 0;
+  transition: all 0.2s ease;
 }
 
 .slide-fade-enter {
@@ -72,13 +76,7 @@ export default class MainApp extends Vue {
 }
 
 .zoom-fade-enter-active {
-  transition: all 0.2s ease;
-}
-.zoom-fade-leave-active {
-  transition: all 0.1s;
-}
-.zoom-fade-leave-to {
-  opacity: 0;
+  transition: all 0.3s ease;
 }
 
 .zoom-fade-enter {

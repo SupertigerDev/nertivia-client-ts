@@ -6,7 +6,7 @@
         {{ headerName }}
       </div>
       <DirectMessageDrawer v-if="currentTab === 'dms'" />
-      <ServerDrawer v-if="currentTab === 'servers'" />
+      <ServerDrawer v-if="currentTab === 'servers'" :key="selectedServerID" />
       <SettingsDrawer v-if="currentTab === 'settings'" />
     </div>
   </div>
