@@ -1,44 +1,46 @@
 <template>
   <div class="popout-background" @click="backgroundClick">
     <div class="profile-popout">
-      <div class="top">
-        <div class="avatar-area">
-          <AvatarImage
-            :imageId="user.avatar"
-            :seedId="user.uniqueID"
-            :animateGif="true"
-            size="80px"
-            class="avatar"
-          />
-          <div class="user">
-            <span class="username">{{ user.username }}</span>
-            <span class="tag">:{{ user.tag }}</span>
-          </div>
-        </div>
-      </div>
-      <div class="details">
-        <div class="left">
-          <div class="custom-status">
-            <div
-              class="dot"
-              :style="{ background: presence.color }"
-              :title="presence.name"
+      <div class="content">
+        <div class="top">
+          <div class="avatar-area">
+            <AvatarImage
+              :imageId="user.avatar"
+              :seedId="user.uniqueID"
+              :animateGif="true"
+              size="80px"
+              class="avatar"
             />
-            <div class="name">{{ customStatus || presence.name }}</div>
+            <div class="user">
+              <span class="username">{{ user.username }}</span>
+              <span class="tag">:{{ user.tag }}</span>
+            </div>
           </div>
         </div>
-        <div class="right">
-          <div class="button">
-            <div class="material-icons">person_add</div>
-            Send Message
+        <div class="details">
+          <div class="left">
+            <div class="custom-status">
+              <div
+                class="dot"
+                :style="{ background: presence.color }"
+                :title="presence.name"
+              />
+              <div class="name">{{ customStatus || presence.name }}</div>
+            </div>
           </div>
-          <div class="button green">
-            <div class="material-icons">message</div>
-            Add Friend
-          </div>
-          <div class="button alert">
-            <div class="material-icons">block</div>
-            Block
+          <div class="right">
+            <div class="button">
+              <div class="material-icons">person_add</div>
+              Send Message
+            </div>
+            <div class="button green">
+              <div class="material-icons">message</div>
+              Add Friend
+            </div>
+            <div class="button alert">
+              <div class="material-icons">block</div>
+              Block
+            </div>
           </div>
         </div>
       </div>
@@ -87,7 +89,7 @@ export default class ProfilePopout extends Vue {
     if (!this.returnedUser) {
       return UsersModule.users[this.uniqueID];
     }
-    return this.returnedUser?.user;
+    return this.returnedUser.user;
   }
 }
 </script>
@@ -97,6 +99,21 @@ export default class ProfilePopout extends Vue {
   border-radius: 8px;
   width: 450px;
   height: 600px;
+}
+.content {
+  opacity: 0;
+  animation: showUp 0.2s;
+  animation-fill-mode: forwards;
+}
+@keyframes showUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 .top {
   background: var(--primary-color);
