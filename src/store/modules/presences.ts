@@ -7,6 +7,8 @@ import {
 } from "vuex-module-decorators";
 import store from "..";
 import Vue from "vue";
+import { memoize } from 'lodash';
+import { MeModule } from './me';
 
 interface PresencesObj {
   [key: string]: number;
@@ -15,6 +17,14 @@ interface PresencesObj {
 @Module({ dynamic: true, store, namespaced: true, name: "presences" })
 class Presences extends VuexModule {
   presences: PresencesObj = {};
+
+  get getPresence() {
+    return (uniqueID: string) => {
+      const myUniqueID = MeModule.user.uniqueID;
+      if (uniqueID === myUniqueID) return MeModule.user.status;
+      return this.presences[uniqueID];
+    }
+  }
 
   @Mutation
   private INIT_PRESENCES(payload: PresencesObj | any) {

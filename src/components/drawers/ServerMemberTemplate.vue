@@ -3,6 +3,7 @@
     class="server-member"
     @mouseover="hover = true"
     @mouseleave="hover = false"
+    @click="showProfile = true"
   >
     <AvatarImage
       class="avatar"
@@ -14,6 +15,9 @@
     <span class="username" :style="{ color: firstRoleColor }">{{
       member.username
     }}</span>
+    <portal to="popups" v-if="showProfile"
+      ><ProfilePopout :uniqueID="member.uniqueID"
+    /></portal>
   </div>
 </template>
 
@@ -24,8 +28,10 @@ import { ServerRolesModule } from "@/store/modules/serverRoles";
 import ServerMember from "@/interfaces/ServerMember";
 import User from "@/interfaces/User";
 import ServerRole from "@/interfaces/ServerRole";
-@Component({ components: { AvatarImage } })
+import ProfilePopout from "@/components/ProfilePopout.vue";
+@Component({ components: { AvatarImage, ProfilePopout } })
 export default class RightDrawer extends Vue {
+  showProfile = false;
   @Prop() private serverMember!: ServerMember & {
     member: User;
     roles: ServerRole[];

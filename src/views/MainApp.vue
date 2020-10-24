@@ -19,10 +19,8 @@
         <DashboardArea v-else />
       </div>
     </Drawers>
-    <portal-target
-      name="context-menus"
-      style="position: absolute; top: 0; left:0; right:0; bottom:0; pointer-events: none;z-index: 999999999999"
-    ></portal-target>
+    <portal-target name="context-menus" class="portal"></portal-target>
+    <portal-target name="popups" class="portal"></portal-target>
   </div>
 </template>
 
@@ -253,6 +251,15 @@ export default class MainApp extends Vue {
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+.portal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 999999999999;
 }
 @media (max-width: 650px) {
   .app {

@@ -53,7 +53,7 @@ export default class FriendTemplate extends Vue {
     }
   }
   get presenceDetails() {
-    const presence = PresencesModule.presences[this.user.uniqueID];
+    const presence = PresencesModule.getPresence(this.user.uniqueID);
     if (!presence) return undefined;
     return userStatuses[presence || 0];
   }

@@ -32,7 +32,7 @@ class Friends extends VuexModule {
   get friendsWithUser() {
     return Object.values(this.friends).map(friend => {
       const user: User = this.context.rootState.users.users[friend.uniqueID];
-      const presence = PresencesModule.presences[friend.uniqueID];
+      const presence = PresencesModule.getPresence(friend.uniqueID);
       return { recipient: user, ...friend, presence };
     });
   }

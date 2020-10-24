@@ -26,7 +26,7 @@ class ServerMembers extends VuexModule {
             server_id,
             sm.roleIdArr
           );
-          const presence = PresencesModule.presences[sm.uniqueID];
+          const presence = PresencesModule.getPresence(sm.uniqueID);
           return { member: user, ...sm, presence, roles };
         });
     };

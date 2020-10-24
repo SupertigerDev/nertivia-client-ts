@@ -1,3 +1,4 @@
+import User from '@/interfaces/User';
 import wrapper from "./wrapper";
 
 export function changeStatus(status: number): Promise<any> {
@@ -7,3 +8,14 @@ export function changeStatus(status: number): Promise<any> {
     })
     .json();
 }
+
+export interface ReturnedUser {
+  user: User
+}
+
+export function fetchUser(uniqueID: string): Promise<ReturnedUser> {
+  return wrapper
+    .get(`user/${uniqueID}`)
+    .json();
+}
+
