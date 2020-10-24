@@ -1,5 +1,5 @@
 <template>
-  <div class="popout-background">
+  <div class="popout-background" @click="backgroundClick">
     <div class="profile-popout">
       <div class="top">
         <div class="avatar-area">
@@ -59,6 +59,11 @@ import { UsersModule } from "@/store/modules/users";
 export default class ProfilePopout extends Vue {
   @Prop() private uniqueID!: string;
   returnedUser: ReturnedUser | null = null;
+  backgroundClick(event: any) {
+    if (event.target.classList.contains("popout-background")) {
+      this.$emit("close");
+    }
+  }
 
   mounted() {
     fetchUser(this.uniqueID).then(user => {

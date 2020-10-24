@@ -15,9 +15,9 @@
     <span class="username" :style="{ color: firstRoleColor }">{{
       member.username
     }}</span>
-    <portal to="popups" v-if="showProfile"
-      ><ProfilePopout :uniqueID="member.uniqueID"
-    /></portal>
+    <portal to="popups" v-if="showProfile">
+      <ProfilePopout :uniqueID="member.uniqueID" @close="showProfile = false" />
+    </portal>
   </div>
 </template>
 
