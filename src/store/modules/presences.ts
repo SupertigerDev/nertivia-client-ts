@@ -7,8 +7,7 @@ import {
 } from "vuex-module-decorators";
 import store from "..";
 import Vue from "vue";
-import { memoize } from 'lodash';
-import { MeModule } from './me';
+import { MeModule } from "./me";
 
 interface PresencesObj {
   [key: string]: number;
@@ -23,7 +22,7 @@ class Presences extends VuexModule {
       const myUniqueID = MeModule.user.uniqueID;
       if (uniqueID === myUniqueID) return MeModule.user.status;
       return this.presences[uniqueID];
-    }
+    };
   }
 
   @Mutation
