@@ -71,7 +71,7 @@
             <div class="icon material-icons">face</div>
             <span>{{ ageAndGender }}</span>
           </div>
-          <div class="joined" v-if="aboutMe">
+          <div class="joined" v-if="joiendAt">
             <div class="icon material-icons">event_note</div>
             <span
               >Joined <span class="dim">{{ joiendAt }}</span></span
@@ -127,6 +127,7 @@ export default class ProfilePopout extends Vue {
   }
 
   get joiendAt() {
+    if (!this.returnedUser) return undefined;
     return friendlyDate(this.returnedUser?.user.created || 0);
   }
 
