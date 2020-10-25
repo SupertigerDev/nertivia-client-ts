@@ -10,9 +10,21 @@ export function changeStatus(status: number): Promise<any> {
 }
 
 export interface ReturnedUser {
-  user: User;
+  user: User & UserExtra;
+}
+interface UserExtra {
+  about_me: AboutMe
+  created: number
 }
 
+interface AboutMe {
+  about_me: string;
+  age: string;
+  continent: string;
+  country: string;
+  gender: string;
+  name: string;
+}
 export function fetchUser(uniqueID: string): Promise<ReturnedUser> {
   return wrapper.get(`user/${uniqueID}`).json();
 }

@@ -56,8 +56,8 @@ export default class RightDrawer extends Vue {
     // sort by alphabet
     return ServerMembersModule.filteredServerMembers(this.server_id).sort(
       (a, b) => {
-        const usernameA = a.member.username;
-        const usernameB = b.member.username;
+        const usernameA = a.member.username.toLowerCase();
+        const usernameB = b.member.username.toLowerCase();
         if (usernameA < usernameB) return -1;
         if (usernameA > usernameB) return 1;
         return 0;

@@ -3,6 +3,17 @@
     <div class="profile-popout">
       <div class="content">
         <div class="top">
+          <img class="banner" v-if="banner" :src="banner" />
+          <input
+            type="file"
+            accept=".jpeg, .jpg, .png, .gif"
+            style="display: none"
+            ref="browseBanner"
+            @change="fileSelected"
+          />
+          <div class="link-button" @click="$refs.browseBanner.click()">
+            Click To Test Banner (WIP)
+          </div>
           <div class="avatar-area">
             <AvatarImage
               :imageId="user.avatar"
@@ -30,17 +41,48 @@
           </div>
           <div class="right">
             <div class="button">
-              <div class="material-icons">person_add</div>
+              <div class="material-icons">message</div>
               Send Message
             </div>
             <div class="button green">
-              <div class="material-icons">message</div>
+              <div class="material-icons">person_add</div>
               Add Friend
             </div>
             <div class="button alert">
               <div class="material-icons">block</div>
               Block
             </div>
+          </div>
+        </div>
+
+        <div class="other-details">
+          <div class="about" v-if="aboutMe && aboutMe.about_me">
+            <div class="icon material-icons">info_outline</div>
+            <span>{{ aboutMe.about_me }}</span>
+          </div>
+          <div
+            class="location"
+            v-if="aboutMe && (aboutMe.continent || aboutMe.country)"
+          >
+            <div class="icon material-icons">location_on</div>
+            <span>{{ aboutMe.country || aboutMe.continent }}</span>
+          </div>
+          <div class="gender" v-if="aboutMe && ageAndGender">
+            <div class="icon material-icons">face</div>
+            <span>{{ ageAndGender }}</span>
+          </div>
+          <div class="joined" v-if="aboutMe">
+            <div class="icon material-icons">event_note</div>
+            <span
+              >Joined <span class="dim">{{ joiendAt }}</span></span
+            >
+          </div>
+          <div class="suspend" v-if="aboutMe && aboutMe['Suspend Reason']">
+            <div class="icon material-icons">block</div>
+            <span
+              >Suspended
+              <span class="dim">{{ aboutMe["Suspend Reason"] }}</span></span
+            >
           </div>
         </div>
       </div>
@@ -55,22 +97,51 @@ import { PresencesModule } from "@/store/modules/presences";
 import userStatuses from "@/constants/userStatuses";
 import { fetchUser, ReturnedUser } from "@/services/userService";
 import { UsersModule } from "@/store/modules/users";
+import friendlyDate from "@/utils/date";
 @Component({
   components: { AvatarImage }
 })
 export default class ProfilePopout extends Vue {
   @Prop() private uniqueID!: string;
+  banner: any = null;
   returnedUser: ReturnedUser | null = null;
   backgroundClick(event: any) {
     if (event.target.classList.contains("popout-background")) {
       this.$emit("close");
     }
   }
+  fileSelected(event: any) {
+    const file = event.target.files[0];
+    event.target.value = "";
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.banner = reader.result;
+    };
+  }
 
   mounted() {
     fetchUser(this.uniqueID).then(user => {
       this.returnedUser = user;
     });
+  }
+
+  get joiendAt() {
+    return friendlyDate(this.returnedUser?.user.created || 0);
+  }
+
+  get ageAndGender() {
+    let finalText = "";
+    if (this.aboutMe?.gender && this.aboutMe.gender !== "Rather not say") {
+      finalText = this.aboutMe.gender;
+    }
+    if (this.aboutMe?.age && this.aboutMe.age !== "Rather not say") {
+      if (finalText) {
+        finalText += ", ";
+      }
+      finalText += this.aboutMe.age;
+    }
+    return finalText;
   }
 
   get presence() {
@@ -91,13 +162,16 @@ export default class ProfilePopout extends Vue {
     }
     return this.returnedUser.user;
   }
+  get aboutMe() {
+    return this.returnedUser?.user.about_me;
+  }
 }
 </script>
 <style lang="scss" scoped>
 .profile-popout {
   background: #222933;
   border-radius: 8px;
-  width: 450px;
+  width: 500px;
   height: 600px;
 }
 .content {
@@ -122,10 +196,19 @@ export default class ProfilePopout extends Vue {
   border-radius: 8px;
   position: relative;
 }
+.banner {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  position: relative;
+  z-index: 1;
+}
 .avatar-area {
   position: absolute;
   display: flex;
   flex-direction: column;
+  z-index: 2;
 
   bottom: -50px;
   left: 20px;
@@ -212,5 +295,67 @@ export default class ProfilePopout extends Vue {
   align-items: center;
   justify-content: center;
   pointer-events: all;
+}
+.link-button {
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  right: 10px;
+  opacity: 0.8;
+  cursor: pointer;
+  user-select: none;
+  &:hover {
+    opacity: 1;
+  }
+}
+.other-details {
+  margin-left: 10px;
+  margin-right: 10px;
+  .location,
+  .gender,
+  .joined,
+  .suspend,
+  .about {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    .material-icons {
+      margin-right: 10px;
+      align-self: flex-start;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    span {
+      word-break: break-word;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+  }
+  .dim {
+    color: rgba(255, 255, 255, 0.8);
+  }
+  .about {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .location {
+    .material-icons {
+      color: rgb(255, 73, 73);
+    }
+  }
+  .gender {
+    .material-icons {
+      color: rgb(255, 206, 73);
+    }
+  }
+  .joined {
+    .material-icons {
+      color: rgb(73, 131, 255);
+    }
+  }
+  .suspend {
+    .material-icons {
+      color: var(--alert-color);
+    }
+  }
 }
 </style>
