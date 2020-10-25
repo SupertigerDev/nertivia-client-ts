@@ -28,7 +28,10 @@ import { ServerRolesModule } from "@/store/modules/serverRoles";
 import ServerMember from "@/interfaces/ServerMember";
 import User from "@/interfaces/User";
 import ServerRole from "@/interfaces/ServerRole";
-import ProfilePopout from "@/components/ProfilePopout.vue";
+const ProfilePopout = () =>
+  import(
+    /* webpackChunkName: "ProfilePopout" */ "@/components/ProfilePopout.vue"
+  );
 @Component({ components: { AvatarImage, ProfilePopout } })
 export default class RightDrawer extends Vue {
   showProfile = false;
