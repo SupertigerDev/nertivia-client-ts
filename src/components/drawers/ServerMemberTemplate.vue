@@ -3,7 +3,7 @@
     class="server-member"
     @mouseover="hover = true"
     @mouseleave="hover = false"
-    @click="clickEvent"
+    @click="showProfile = true"
   >
     <AvatarImage
       class="avatar"
@@ -15,10 +15,13 @@
     <span class="username" :style="{ color: firstRoleColor }">{{
       member.username
     }}</span>
+    <portal to="popups" v-if="showProfile">
+      <ProfilePopout :uniqueID="member.uniqueID" @close="showProfile = false" />
+    </portal>
   </div>
 </template>
 
-<script lang="tsx">
+<script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
@@ -26,30 +29,14 @@ import ServerMember from "@/interfaces/ServerMember";
 import User from "@/interfaces/User";
 import ServerRole from "@/interfaces/ServerRole";
 import ProfilePopout from "@/components/ProfilePopout.vue";
-import { Wormhole } from "portal-vue";
 @Component({ components: { AvatarImage, ProfilePopout } })
 export default class RightDrawer extends Vue {
+  showProfile = false;
   @Prop() private serverMember!: ServerMember & {
     member: User;
     roles: ServerRole[];
   };
   hover = false;
-  clickEvent() {
-    const closePopup = () => {
-      Wormhole.close({
-        to: "popups",
-        from: "profile-popup"
-      });
-    };
-    const passengers = [
-      <profile-popout uniqueID={this.member.uniqueID} onClose={closePopup} />
-    ];
-    Wormhole.open({
-      to: "popups",
-      from: "profile-popup",
-      passengers
-    });
-  }
   get member() {
     return this.serverMember.member;
   }
