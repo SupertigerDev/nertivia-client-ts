@@ -12,7 +12,9 @@
         :imageId="user.avatar"
         :seedId="user.uniqueID"
         size="30px"
+        :willHaveClickEvent="true"
         :animateGif="hover"
+        @click.native="showProfile"
       />
       <div class="details">
         <div class="username">{{ user.username }}</div>
@@ -34,6 +36,7 @@ import userStatuses from "@/constants/userStatuses";
 import User from "@/interfaces/User";
 import { ChannelsModule } from "@/store/modules/channels";
 import { NotificationsModule } from "@/store/modules/notifications";
+import { PopoutModule } from "@/store/modules/popout";
 import { PresencesModule } from "@/store/modules/presences";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
@@ -42,8 +45,16 @@ export default class FriendTemplate extends Vue {
   @Prop() private friend!: { recipient: User; status: number };
   @Prop() private dmChannel!: { recipients: User[] };
   hover = false;
-  clickedEvent() {
-    ChannelsModule.LoadDmChannel(this.user.uniqueID);
+  clickedEvent(event) {
+    if (!event.target.closest(".avatar")) {
+      ChannelsModule.LoadDmChannel(this.user.uniqueID);
+    }
+  }
+  showProfile() {
+    PopoutModule.ShowPopout({
+      component: "profile-popout",
+      data: { uniqueID: this.user.uniqueID }
+    });
   }
   get user() {
     if (this.friend) {

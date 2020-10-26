@@ -8,10 +8,12 @@
     <div class="container">
       <AvatarImage
         :imageId="creator.avatar"
+        :willHaveClickEvent="true"
         :seedId="creator.uniqueID"
         :animateGif="hover"
         size="40px"
         v-if="!message.grouped"
+        @click.native="showProfile"
       />
       <!-- Used for grouped messages -->
       <div class="time" v-else>{{ friendlyTime }}</div>
@@ -37,6 +39,7 @@ import Bubble from "./Bubble.vue";
 import MessageSide from "./MessageSide.vue";
 import MessageContextMenu from "./MessageContextMenu.vue";
 import { time } from "@/utils/date";
+import { PopoutModule } from "@/store/modules/popout";
 
 @Component({
   components: { AvatarImage, Bubble, MessageSide, MessageContextMenu }
@@ -47,6 +50,13 @@ export default class MessageLogs extends Vue {
 
   contextPos: { x?: number; y?: number } = {};
   hover = false;
+
+  showProfile() {
+    PopoutModule.ShowPopout({
+      component: "profile-popout",
+      data: { uniqueID: this.creator.uniqueID }
+    });
+  }
 
   rightClickEvent(event: MouseEvent) {
     this.$emit("open-context");

@@ -5,11 +5,15 @@
       :imageId="message.creator.avatar"
       :seedId="message.creator.uniqueID"
       :animateGif="false"
+      :willHaveClickEvent="true"
       size="40px"
+      @click.native="showProfile"
     />
     <div class="details">
       <div class="message">
-        <span class="username">{{ message.creator.username }}</span
+        <span class="username" @click="showProfile">{{
+          message.creator.username
+        }}</span
         >&nbsp;
         <span class="msg" :style="{ color: type.color }">{{
           type.message
@@ -25,6 +29,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import Message from "@/interfaces/Message";
 import AvatarImage from "@/components/AvatarImage.vue";
 import friendlyTime from "@/utils/date";
+import { PopoutModule } from "@/store/modules/popout";
 
 const types = [
   {},
@@ -36,6 +41,13 @@ const types = [
 @Component({ components: { AvatarImage } })
 export default class ActionMessageTemplate extends Vue {
   @Prop() private message!: Message & { grouped: boolean };
+
+  showProfile() {
+    PopoutModule.ShowPopout({
+      component: "profile-popout",
+      data: { uniqueID: this.message.creator.uniqueID }
+    });
+  }
 
   get type() {
     return types[this.message.type || 0];
@@ -54,6 +66,12 @@ export default class ActionMessageTemplate extends Vue {
 
 .avatar {
   margin-right: 10px;
+}
+.username {
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 .message {
   text-align: center;

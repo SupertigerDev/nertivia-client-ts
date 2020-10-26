@@ -20,7 +20,7 @@
       </div>
     </Drawers>
     <portal-target name="context-menus" class="portal"></portal-target>
-    <portal-target name="popups" class="portal"></portal-target>
+    <Popouts />
   </div>
 </template>
 
@@ -34,6 +34,7 @@ import { MeModule } from "@/store/modules/me";
 
 import ConnectionStatus from "@/components/ConnectionStatusPopout.vue";
 import Header from "@/components/Header.vue";
+import Popouts from "@/components/Popouts.vue";
 const Drawers = () =>
   import(/* webpackChunkName: "Drawers" */ "@/components/drawers/Drawers.vue");
 const NavBar = () =>
@@ -81,7 +82,8 @@ import { NotificationsModule } from "@/store/modules/notifications";
     Header,
     SettingsArea,
     ConnectionStatus,
-    DashboardArea
+    DashboardArea,
+    Popouts
   }
 })
 export default class MainApp extends Vue {

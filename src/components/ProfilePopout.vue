@@ -1,7 +1,7 @@
 <template>
   <div class="popout-background" @click="backgroundClick">
     <div class="profile-popout">
-      <div class="content">
+      <div class="content animate-in">
         <div class="top">
           <img class="banner" v-if="banner" :src="banner" />
           <input
@@ -55,7 +55,7 @@
           </div>
         </div>
 
-        <div class="other-details">
+        <div class="other-details animate-in" v-if="returnedUser">
           <div class="about" v-if="aboutMe && aboutMe.about_me">
             <div class="icon material-icons">info_outline</div>
             <span>{{ aboutMe.about_me }}</span>
@@ -98,16 +98,17 @@ import userStatuses from "@/constants/userStatuses";
 import { fetchUser, ReturnedUser } from "@/services/userService";
 import { UsersModule } from "@/store/modules/users";
 import friendlyDate from "@/utils/date";
+import { PopoutModule } from "@/store/modules/popout";
 @Component({
   components: { AvatarImage }
 })
 export default class ProfilePopout extends Vue {
-  @Prop() private uniqueID!: string;
+  @Prop() private data!: { uniqueID: string };
   banner: any = null;
   returnedUser: ReturnedUser | null = null;
   backgroundClick(event: any) {
     if (event.target.classList.contains("popout-background")) {
-      this.$emit("close");
+      PopoutModule.ClosePopout();
     }
   }
   fileSelected(event: any) {
@@ -121,7 +122,7 @@ export default class ProfilePopout extends Vue {
   }
 
   mounted() {
-    fetchUser(this.uniqueID).then(user => {
+    fetchUser(this.data.uniqueID).then(user => {
       this.returnedUser = user;
     });
   }
@@ -159,7 +160,7 @@ export default class ProfilePopout extends Vue {
   }
   get user() {
     if (!this.returnedUser) {
-      return UsersModule.users[this.uniqueID];
+      return UsersModule.users[this.data.uniqueID];
     }
     return this.returnedUser.user;
   }
@@ -175,7 +176,7 @@ export default class ProfilePopout extends Vue {
   width: 500px;
   height: 600px;
 }
-.content {
+.animate-in {
   opacity: 0;
   animation: showUp 0.2s;
   animation-fill-mode: forwards;

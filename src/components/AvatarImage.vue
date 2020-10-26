@@ -1,9 +1,20 @@
 <template>
   <div class="avatar">
-    <div class="image" v-if="!imageId" :style="style">
+    <div
+      class="image"
+      v-if="!imageId"
+      :style="style"
+      :class="{ willHaveClickEvent }"
+    >
       <img src="@/assets/profile-logo.png" />
     </div>
-    <img class="image" v-else :style="style" :src="src" />
+    <img
+      class="image"
+      v-else
+      :style="style"
+      :src="src"
+      :class="{ willHaveClickEvent }"
+    />
   </div>
 </template>
 
@@ -18,6 +29,7 @@ export default class MainApp extends Vue {
   @Prop() private size!: string;
   @Prop() private imageId!: string;
   @Prop() private seedId!: string;
+  @Prop() private willHaveClickEvent!: boolean;
   @Prop() private animateGif!: boolean;
 
   get src() {
@@ -50,10 +62,18 @@ export default class MainApp extends Vue {
   display: flex;
   flex-shrink: 0;
   border-radius: 50%;
+  user-select: none;
 }
 img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+.willHaveClickEvent {
+  cursor: pointer;
+  transition: 0.2s;
+  &:hover {
+    opacity: 0.7;
+  }
 }
 </style>

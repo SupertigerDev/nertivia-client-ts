@@ -6,6 +6,7 @@
     <div class="details" v-if="!message.grouped">
       <div
         class="username"
+        @click="showProfile"
         :style="{ color: roleColor }"
         v-text="creator.username"
       />
@@ -31,10 +32,18 @@ import { MeModule } from "@/store/modules/me";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import friendlyDate from "@/utils/date";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
+import { PopoutModule } from "@/store/modules/popout";
 @Component({ components: { ImageMessageEmbed } })
 export default class Bubble extends Vue {
   loadRoleColor = false;
   @Prop() private message!: Message & { grouped: boolean };
+
+  showProfile() {
+    PopoutModule.ShowPopout({
+      component: "profile-popout",
+      data: { uniqueID: this.creator.uniqueID }
+    });
+  }
 
   mounted() {
     setTimeout(() => {
@@ -123,8 +132,12 @@ $pointer-size: 10px;
   align-content: center;
   margin-bottom: 3px;
   .username {
+    cursor: pointer;
     font-weight: bold;
     font-size: 14px;
+    &:hover {
+      text-decoration: underline;
+    }
   }
   .date {
     opacity: 0.6;
