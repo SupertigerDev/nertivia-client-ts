@@ -45,7 +45,7 @@ export default class FriendTemplate extends Vue {
   @Prop() private friend!: { recipient: User; status: number };
   @Prop() private dmChannel!: { recipients: User[] };
   hover = false;
-  clickedEvent(event) {
+  clickedEvent(event: any) {
     if (!event.target.closest(".avatar")) {
       ChannelsModule.LoadDmChannel(this.user.uniqueID);
     }

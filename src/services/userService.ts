@@ -13,8 +13,8 @@ export interface ReturnedUser {
   user: User & UserExtra;
 }
 interface UserExtra {
-  about_me: AboutMe
-  created: number
+  about_me: AboutMe;
+  created: number;
 }
 
 interface AboutMe {

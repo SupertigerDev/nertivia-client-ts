@@ -6,11 +6,11 @@ import {
   getModule
 } from "vuex-module-decorators";
 import store from "..";
-import Vue from 'vue';
+import Vue from "vue";
 
 interface PopoutInterface {
-  component: string | null; 
-  data: any; 
+  component: string | null;
+  data: any;
 }
 
 @Module({ dynamic: true, store, namespaced: true, name: "popout" })
@@ -21,13 +21,13 @@ class Popout extends VuexModule {
   };
 
   @Mutation
-  private SHOW_POPOUT(payload: {component: string, data: any}) {
+  private SHOW_POPOUT(payload: { component: string; data: any }) {
     Vue.set(this.popout, "component", payload.component);
     Vue.set(this.popout, "data", payload.data);
   }
 
   @Action
-  public ShowPopout(payload: {component: string, data: any}) {
+  public ShowPopout(payload: { component: string; data: any }) {
     this.SHOW_POPOUT(payload);
   }
 
