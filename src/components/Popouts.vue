@@ -16,8 +16,12 @@ const ProfilePopout = () =>
   import(
     /* webpackChunkName: "ProfilePopout" */ "@/components/ProfilePopout.vue"
   );
+const MiniProfilePopout = () =>
+  import(
+    /* webpackChunkName: "MiniProfilePopout" */ "@/components/MiniProfilePopout.vue"
+  );
 
-@Component({ components: { ProfilePopout } })
+@Component({ components: { ProfilePopout, MiniProfilePopout } })
 export default class MainApp extends Vue {
   get popup() {
     return PopoutModule.popout;

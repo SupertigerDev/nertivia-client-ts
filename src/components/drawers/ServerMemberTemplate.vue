@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
 import ServerMember from "@/interfaces/ServerMember";
@@ -34,6 +34,26 @@ export default class RightDrawer extends Vue {
     roles: ServerRole[];
   };
   hover = false;
+
+  @Watch("hover")
+  onHover() {
+    if (!this.hover && PopoutModule.popout.component === "MiniProfilePopout") {
+      PopoutModule.ClosePopout();
+      return;
+    }
+    setTimeout(() => {
+      if (!this.hover) return;
+      const rect = (this.$el as HTMLElement).getBoundingClientRect();
+      PopoutModule.ShowPopout({
+        component: "MiniProfilePopout",
+        data: {
+          x: rect.x,
+          y: rect.y,
+          member: this.serverMember
+        }
+      });
+    }, 500);
+  }
 
   showProfile() {
     PopoutModule.ShowPopout({
