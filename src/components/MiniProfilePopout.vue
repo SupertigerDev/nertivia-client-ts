@@ -1,5 +1,10 @@
 <template>
-  <div class="mini-profile" :style="clampPos">
+  <div
+    class="mini-profile"
+    :style="clampPos"
+    :key="user.uniqueID"
+    v-click-outside="clickOutside"
+  >
     <div class="content animate-in">
       <div class="top">
         <div class="avatar-area">
@@ -7,6 +12,7 @@
             size="80px"
             :imageId="user.avatar"
             :seedId="user.uniqueID"
+            @click.native="openFullProfile"
             :willHaveClickEvent="true"
             :animateGif="true"
           />
@@ -42,6 +48,7 @@ import userStatuses from "@/constants/userStatuses";
 import { PresencesModule } from "@/store/modules/presences";
 import { MeModule } from "@/store/modules/me";
 import WindowProperties from "@/utils/windowProperties";
+import { PopoutModule } from "@/store/modules/popout";
 
 interface ServerMember {
   member: User;
@@ -53,9 +60,19 @@ export default class MiniProfilePopout extends Vue {
   @Prop() private data!: { x: number; y: number; member?: ServerMember };
   height = 0;
   width = 0;
+  clickOutside(event: any) {
+    if (event.target.closest(".server-member")) return;
+    PopoutModule.ClosePopout();
+  }
   mounted() {
     this.height = this.$el.clientHeight;
     this.width = this.$el.clientWidth;
+  }
+  openFullProfile() {
+    PopoutModule.ShowPopout({
+      component: "profile-popout",
+      data: { uniqueID: this.user?.uniqueID }
+    });
   }
   get presence() {
     if (!this.user?.uniqueID) return userStatuses[0];

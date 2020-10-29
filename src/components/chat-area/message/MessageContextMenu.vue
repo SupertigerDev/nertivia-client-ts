@@ -1,5 +1,10 @@
 <template>
-  <ContextMenu :items="items" :pos="pos" @close="$emit('close')" />
+  <ContextMenu
+    :items="items"
+    :pos="pos"
+    @close="$emit('close')"
+    @itemClick="itemClick"
+  />
 </template>
 
 <script lang="ts">
@@ -10,6 +15,7 @@ import { MeModule } from "@/store/modules/me";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import perms from "@/constants/rolePermissions";
 import { ServersModule } from "@/store/modules/servers";
+import { deleteMessage } from "@/services/messagesService";
 
 @Component({ components: { ContextMenu } })
 export default class extends Vue {
@@ -39,6 +45,26 @@ export default class extends Vue {
     }
 
     return items;
+  }
+  itemClick(item: { name: string }) {
+    switch (item.name) {
+      case "Copy":
+        this.copyMessage();
+        break;
+      case "Delete":
+        this.deleteMessage();
+        break;
+      default:
+        break;
+    }
+  }
+  copyMessage() {
+    if (!this.message.message) return;
+    this.$copyText(this.message.message);
+  }
+  deleteMessage() {
+    if (!this.message.messageID) return;
+    deleteMessage(this.message.channelID, this.message.messageID);
   }
   get messageCreatedByMe() {
     return MeModule.user.uniqueID === this.message.creator.uniqueID;

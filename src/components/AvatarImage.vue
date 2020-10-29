@@ -1,20 +1,9 @@
 <template>
   <div class="avatar">
-    <div
-      class="image"
-      v-if="!imageId"
-      :style="style"
-      :class="{ willHaveClickEvent }"
-    >
-      <img src="@/assets/profile-logo.png" />
+    <div class="image" :style="style" :class="{ willHaveClickEvent }">
+      <img src="@/assets/profile-logo.png" v-if="!imageId" />
+      <img v-else :style="style" :src="src" :class="{ willHaveClickEvent }" />
     </div>
-    <img
-      class="image"
-      v-else
-      :style="style"
-      :src="src"
-      :class="{ willHaveClickEvent }"
-    />
   </div>
 </template>
 
@@ -23,6 +12,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 import seedColor from "seed-color";
 import config from "@/config";
+import WindowProperties from "@/utils/windowProperties";
 
 @Component
 export default class MainApp extends Vue {
@@ -35,10 +25,13 @@ export default class MainApp extends Vue {
   get src() {
     let url = config.nertiviaCDN + this.imageId;
     if (!this.isGif) return url;
-    if (!this.animateGif) {
+    if (!this.animateGif || !this.isFocused) {
       url += "?type=webp";
     }
     return url;
+  }
+  get isFocused() {
+    return WindowProperties.isFocused;
   }
   get isGif() {
     return this.imageId.endsWith(".gif");
@@ -61,8 +54,10 @@ export default class MainApp extends Vue {
 .image {
   display: flex;
   flex-shrink: 0;
-  border-radius: 50%;
   user-select: none;
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
 }
 img {
   width: 100%;
@@ -71,9 +66,19 @@ img {
 }
 .willHaveClickEvent {
   cursor: pointer;
-  transition: 0.2s;
-  &:hover {
-    opacity: 0.7;
+  &:before {
+    content: "";
+    transition: 0.2s;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0);
+    bottom: 0;
+    z-index: 999999999999;
+  }
+  &:hover:before {
+    background: rgba(0, 0, 0, 0.4);
   }
 }
 </style>

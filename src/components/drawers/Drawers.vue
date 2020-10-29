@@ -33,10 +33,12 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 import windowProperties from "@/utils/windowProperties";
 import { DrawersModule } from "@/store/modules/drawers";
+import { PopoutModule } from "@/store/modules/popout";
 
 @Component
 export default class MainApp extends Vue {
   closeAllDrawers() {
+    if (PopoutModule.popout.component) return;
     DrawersModule.SetLeftDrawer(false);
     DrawersModule.SetRightDrawer(false);
   }

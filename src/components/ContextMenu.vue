@@ -55,6 +55,7 @@ export default class extends Vue {
   itemClicked(item: any) {
     if (item.type === "seperator") return;
     this.$emit("itemClick", item);
+    this.$emit("close");
   }
   get clampPos() {
     const top = this.pos.y || 0;

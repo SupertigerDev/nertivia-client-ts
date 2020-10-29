@@ -35,30 +35,15 @@ export default class RightDrawer extends Vue {
   };
   hover = false;
 
-  @Watch("hover")
-  onHover() {
-    if (!this.hover && PopoutModule.popout.component === "MiniProfilePopout") {
-      PopoutModule.ClosePopout();
-      return;
-    }
-    setTimeout(() => {
-      if (!this.hover) return;
-      const rect = (this.$el as HTMLElement).getBoundingClientRect();
-      PopoutModule.ShowPopout({
-        component: "MiniProfilePopout",
-        data: {
-          x: rect.x,
-          y: rect.y,
-          member: this.serverMember
-        }
-      });
-    }, 500);
-  }
-
   showProfile() {
+    const rect = (this.$el as HTMLElement).getBoundingClientRect();
     PopoutModule.ShowPopout({
-      component: "profile-popout",
-      data: { uniqueID: this.member.uniqueID }
+      component: "MiniProfilePopout",
+      data: {
+        x: rect.x,
+        y: rect.y,
+        member: this.serverMember
+      }
     });
   }
   get member() {

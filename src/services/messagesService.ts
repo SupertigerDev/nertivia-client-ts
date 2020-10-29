@@ -15,6 +15,9 @@ interface ResponsePost {
 export function fetchMessages(channelID: string): Promise<ResponseFetch> {
   return wrapper.get(`messages/channels/${channelID}`).json();
 }
+export function deleteMessage(channelID: string, messageID: string): Promise<any> {
+  return wrapper.delete(`messages/${messageID}/channels/${channelID}`).json();
+}
 export function postMessage(
   message: string,
   tempID: string,

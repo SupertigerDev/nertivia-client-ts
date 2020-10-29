@@ -100,11 +100,10 @@ export default class MessageLogs extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.message-enter-active,
-.message-leave-active {
+.message-enter-active {
   transition: all 0.5s;
 }
-.message-enter, .message-leave-to /* .message-leave-active below version 2.1.8 */ {
+.message-enter {
   opacity: 0;
   transform: translateX(-30px);
 }
