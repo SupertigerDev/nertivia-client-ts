@@ -38,7 +38,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
 @Component
 export default class MainApp extends Vue {
   closeAllDrawers() {
-    if (PopoutsModule.popouts.component) return;
+    if (Object.keys(PopoutsModule.popouts).length) return;
     DrawersModule.SetLeftDrawer(false);
     DrawersModule.SetRightDrawer(false);
   }
