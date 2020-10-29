@@ -39,7 +39,7 @@ import Bubble from "./Bubble.vue";
 import MessageSide from "./MessageSide.vue";
 import MessageContextMenu from "./MessageContextMenu.vue";
 import { time } from "@/utils/date";
-import { PopoutModule } from "@/store/modules/popout";
+import { PopoutsModule } from "@/store/modules/popouts";
 
 @Component({
   components: { AvatarImage, Bubble, MessageSide, MessageContextMenu }
@@ -52,7 +52,9 @@ export default class MessageLogs extends Vue {
   hover = false;
 
   showProfile() {
-    PopoutModule.ShowPopout({
+    PopoutsModule.ShowPopout({
+      id: "profile",
+
       component: "profile-popout",
       data: { uniqueID: this.creator.uniqueID }
     });

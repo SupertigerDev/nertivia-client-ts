@@ -29,7 +29,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import Message from "@/interfaces/Message";
 import AvatarImage from "@/components/AvatarImage.vue";
 import friendlyTime from "@/utils/date";
-import { PopoutModule } from "@/store/modules/popout";
+import { PopoutsModule } from "@/store/modules/popouts";
 
 const types = [
   {},
@@ -43,7 +43,8 @@ export default class ActionMessageTemplate extends Vue {
   @Prop() private message!: Message & { grouped: boolean };
 
   showProfile() {
-    PopoutModule.ShowPopout({
+    PopoutsModule.ShowPopout({
+      id: "profile",
       component: "profile-popout",
       data: { uniqueID: this.message.creator.uniqueID }
     });

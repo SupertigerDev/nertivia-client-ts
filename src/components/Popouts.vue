@@ -1,7 +1,8 @@
 <template>
   <div class="popouts">
     <component
-      v-if="popup.component"
+      v-for="(popup, id) in popups"
+      :key="id"
       :is="popup.component"
       :data="popup.data"
     />
@@ -10,7 +11,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { PopoutModule } from "@/store/modules/popout";
+import { PopoutsModule } from "@/store/modules/popouts";
 
 const ProfilePopout = () =>
   import(
@@ -23,8 +24,8 @@ const MiniProfilePopout = () =>
 
 @Component({ components: { ProfilePopout, MiniProfilePopout } })
 export default class MainApp extends Vue {
-  get popup() {
-    return PopoutModule.popout;
+  get popups() {
+    return PopoutsModule.popouts;
   }
 }
 </script>

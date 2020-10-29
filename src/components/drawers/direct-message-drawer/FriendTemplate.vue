@@ -36,7 +36,7 @@ import userStatuses from "@/constants/userStatuses";
 import User from "@/interfaces/User";
 import { ChannelsModule } from "@/store/modules/channels";
 import { NotificationsModule } from "@/store/modules/notifications";
-import { PopoutModule } from "@/store/modules/popout";
+import { PopoutsModule } from "@/store/modules/popouts";
 import { PresencesModule } from "@/store/modules/presences";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
@@ -51,7 +51,8 @@ export default class FriendTemplate extends Vue {
     }
   }
   showProfile() {
-    PopoutModule.ShowPopout({
+    PopoutsModule.ShowPopout({
+      id: "profile",
       component: "profile-popout",
       data: { uniqueID: this.user.uniqueID }
     });

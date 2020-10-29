@@ -25,7 +25,7 @@ import { ServerRolesModule } from "@/store/modules/serverRoles";
 import ServerMember from "@/interfaces/ServerMember";
 import User from "@/interfaces/User";
 import ServerRole from "@/interfaces/ServerRole";
-import { PopoutModule } from "@/store/modules/popout";
+import { PopoutsModule } from "@/store/modules/popouts";
 
 @Component({ components: { AvatarImage } })
 export default class RightDrawer extends Vue {
@@ -37,7 +37,8 @@ export default class RightDrawer extends Vue {
 
   showProfile() {
     const rect = (this.$el as HTMLElement).getBoundingClientRect();
-    PopoutModule.ShowPopout({
+    PopoutsModule.ShowPopout({
+      id: "profile",
       component: "MiniProfilePopout",
       data: {
         x: rect.x,

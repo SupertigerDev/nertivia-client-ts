@@ -32,14 +32,15 @@ import { MeModule } from "@/store/modules/me";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import friendlyDate from "@/utils/date";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
-import { PopoutModule } from "@/store/modules/popout";
+import { PopoutsModule } from "@/store/modules/popouts";
 @Component({ components: { ImageMessageEmbed } })
 export default class Bubble extends Vue {
   loadRoleColor = false;
   @Prop() private message!: Message & { grouped: boolean };
 
   showProfile() {
-    PopoutModule.ShowPopout({
+    PopoutsModule.ShowPopout({
+      id: "profile",
       component: "profile-popout",
       data: { uniqueID: this.creator.uniqueID }
     });

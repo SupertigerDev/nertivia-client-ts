@@ -98,7 +98,7 @@ import userStatuses from "@/constants/userStatuses";
 import { fetchUser, ReturnedUser } from "@/services/userService";
 import { UsersModule } from "@/store/modules/users";
 import friendlyDate from "@/utils/date";
-import { PopoutModule } from "@/store/modules/popout";
+import { PopoutsModule } from "@/store/modules/popouts";
 @Component({
   components: { AvatarImage }
 })
@@ -108,7 +108,7 @@ export default class ProfilePopout extends Vue {
   returnedUser: ReturnedUser | null = null;
   backgroundClick(event: any) {
     if (event.target.classList.contains("popout-background")) {
-      PopoutModule.ClosePopout();
+      PopoutsModule.ClosePopout("profile");
     }
   }
   fileSelected(event: any) {

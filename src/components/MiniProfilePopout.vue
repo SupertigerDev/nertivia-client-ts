@@ -48,7 +48,7 @@ import userStatuses from "@/constants/userStatuses";
 import { PresencesModule } from "@/store/modules/presences";
 import { MeModule } from "@/store/modules/me";
 import WindowProperties from "@/utils/windowProperties";
-import { PopoutModule } from "@/store/modules/popout";
+import { PopoutsModule } from "@/store/modules/popouts";
 
 interface ServerMember {
   member: User;
@@ -62,14 +62,15 @@ export default class MiniProfilePopout extends Vue {
   width = 0;
   clickOutside(event: any) {
     if (event.target.closest(".server-member")) return;
-    PopoutModule.ClosePopout();
+    PopoutsModule.ClosePopout("profile");
   }
   mounted() {
     this.height = this.$el.clientHeight;
     this.width = this.$el.clientWidth;
   }
   openFullProfile() {
-    PopoutModule.ShowPopout({
+    PopoutsModule.ShowPopout({
+      id: "profile",
       component: "profile-popout",
       data: { uniqueID: this.user?.uniqueID }
     });
