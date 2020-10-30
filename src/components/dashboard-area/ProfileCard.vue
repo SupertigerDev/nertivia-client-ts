@@ -22,9 +22,6 @@
         <div class="dot" :style="{ background: statusColor }" />
         <div class="name">{{ statusName }}</div>
       </div>
-      <portal to="context-menus" v-if="statusPos">
-        <StatusListPopout :pos="statusPos" @close="statusPos = null" />
-      </portal>
       <div class="material-icons settings-icon" @click="settingsClicked">
         settings
       </div>
@@ -35,28 +32,29 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
-import StatusListPopout from "./StatusListPopout.vue";
 import { MeModule } from "@/store/modules/me";
 import userStatuses from "@/constants/userStatuses";
+import { PopoutsModule } from "@/store/modules/popouts";
 
-@Component({ components: { AvatarImage, StatusListPopout } })
+@Component({ components: { AvatarImage } })
 export default class ProfileCard extends Vue {
   @Prop() private hideTitle!: boolean;
-  statusPos: any = null;
   settingsClicked() {
     this.$router.push("/app/settings/account");
   }
   openStatusContext() {
-    const rect = (this.$refs
-      .currentStatus as HTMLElement).getBoundingClientRect();
-
+    const el = this.$refs.currentStatus as HTMLElement;
+    const rect = el.getBoundingClientRect();
     const contextWidth = 148;
     const rectWidth = rect.width;
-
-    this.statusPos = {
-      x: rect.left + rectWidth / 2 - contextWidth / 2,
-      y: rect.top + rect.height + 10
-    };
+    PopoutsModule.ShowPopout({
+      id: "context",
+      data: {
+        x: rect.left + rectWidth / 2 - contextWidth / 2,
+        y: rect.top + rect.height + 10
+      },
+      component: "StatusListContext"
+    });
   }
   get connected() {
     return MeModule.connected;

@@ -22,7 +22,22 @@ const MiniProfilePopout = () =>
     /* webpackChunkName: "MiniProfilePopout" */ "@/components/MiniProfilePopout.vue"
   );
 
-@Component({ components: { ProfilePopout, MiniProfilePopout } })
+const StatusListContext = () =>
+  import(
+    /* webpackChunkName: "StatusListContext" */ "@/components/dashboard-area/StatusListContext.vue"
+  );
+const MessageContextMenu = () =>
+  import(
+    /* webpackChunkName: "MessageContextMenu" */ "@/components/chat-area/message/MessageContextMenu.vue"
+  );
+@Component({
+  components: {
+    ProfilePopout,
+    MiniProfilePopout,
+    StatusListContext,
+    MessageContextMenu
+  }
+})
 export default class MainApp extends Vue {
   get popups() {
     return PopoutsModule.popouts;

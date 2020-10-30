@@ -20,14 +20,6 @@
       <Bubble :message="message" />
       <MessageSide :message="message" />
     </div>
-    <portal to="context-menus" v-if="openContext">
-      <MessageContextMenu
-        @close="$emit('close-context')"
-        :message="message"
-        :pos="contextPos"
-        :key="message.tempID || message.messageID"
-      />
-    </portal>
   </div>
 </template>
 
@@ -37,12 +29,11 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import Bubble from "./Bubble.vue";
 import MessageSide from "./MessageSide.vue";
-import MessageContextMenu from "./MessageContextMenu.vue";
 import { time } from "@/utils/date";
 import { PopoutsModule } from "@/store/modules/popouts";
 
 @Component({
-  components: { AvatarImage, Bubble, MessageSide, MessageContextMenu }
+  components: { AvatarImage, Bubble, MessageSide }
 })
 export default class MessageLogs extends Vue {
   @Prop() private openContext!: boolean;
@@ -54,7 +45,6 @@ export default class MessageLogs extends Vue {
   showProfile() {
     PopoutsModule.ShowPopout({
       id: "profile",
-
       component: "profile-popout",
       data: { uniqueID: this.creator.uniqueID }
     });
@@ -62,7 +52,11 @@ export default class MessageLogs extends Vue {
 
   rightClickEvent(event: MouseEvent) {
     this.$emit("open-context");
-    this.contextPos = { x: event.pageX, y: event.pageY };
+    PopoutsModule.ShowPopout({
+      id: "context",
+      component: "MessageContextMenu",
+      data: { x: event.pageX, y: event.pageY, message: this.message }
+    });
   }
   get creator() {
     return this.message.creator;

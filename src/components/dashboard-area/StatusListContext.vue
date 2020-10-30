@@ -4,7 +4,7 @@
       :items="items"
       :pos="pos"
       type="dot"
-      @close="$emit('close')"
+      @close="close"
       @itemClick="click"
     />
   </div>
@@ -15,10 +15,14 @@ import ContextMenu from "@/components/ContextMenu.vue";
 import userStatuses from "@/constants/userStatuses";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { changeStatus } from "@/services/userService";
+import { PopoutsModule } from "@/store/modules/popouts";
 
 @Component({ components: { ContextMenu } })
 export default class ProfileCard extends Vue {
-  @Prop() private pos!: { x?: number; y?: number };
+  @Prop() private data!: { x?: number; y?: number };
+  close() {
+    PopoutsModule.ClosePopout("context");
+  }
   click(item: any) {
     let index = 0;
     if (item.name !== "Invisible") {
@@ -28,7 +32,12 @@ export default class ProfileCard extends Vue {
     changeStatus(index);
     this.$emit("close");
   }
-
+  get pos() {
+    return {
+      x: this.data.x,
+      y: this.data.y
+    };
+  }
   get items() {
     const invis = { ...userStatuses[0], name: "Invisible" };
     const [, ...all] = userStatuses;

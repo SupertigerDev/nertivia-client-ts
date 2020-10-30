@@ -3,11 +3,9 @@ import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
-import PortalVue from "portal-vue";
 import clickOutside from "./directives/clickOutside";
 import clipboard from "vue-clipboard2";
 
-Vue.use(PortalVue);
 Vue.use(clipboard);
 
 Vue.config.productionTip = false;

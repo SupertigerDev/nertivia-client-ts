@@ -1,8 +1,9 @@
 <template>
   <ContextMenu
+    :key="message.tempID || message.messageID"
     :items="items"
     :pos="pos"
-    @close="$emit('close')"
+    @close="close"
     @itemClick="itemClick"
   />
 </template>
@@ -16,11 +17,38 @@ import { ServerMembersModule } from "@/store/modules/serverMembers";
 import perms from "@/constants/rolePermissions";
 import { ServersModule } from "@/store/modules/servers";
 import { deleteMessage } from "@/services/messagesService";
+import { PopoutsModule } from "@/store/modules/popouts";
 
 @Component({ components: { ContextMenu } })
 export default class extends Vue {
-  @Prop() private message!: Message & { grouped: boolean };
-  @Prop() private pos!: { x?: number; y?: number };
+  @Prop() private data!: {
+    x?: number;
+    y?: number;
+    message: Message & { grouped: boolean };
+  };
+  close() {
+    PopoutsModule.ClosePopout("context");
+  }
+  itemClick(item: { name: string }) {
+    switch (item.name) {
+      case "Copy":
+        this.copyMessage();
+        break;
+      case "Delete":
+        this.deleteMessage();
+        break;
+      default:
+        break;
+    }
+  }
+  copyMessage() {
+    if (!this.message.message) return;
+    this.$copyText(this.message.message);
+  }
+  deleteMessage() {
+    if (!this.message.messageID) return;
+    deleteMessage(this.message.channelID, this.message.messageID);
+  }
   get items() {
     const items: any = [
       {
@@ -45,26 +73,6 @@ export default class extends Vue {
     }
 
     return items;
-  }
-  itemClick(item: { name: string }) {
-    switch (item.name) {
-      case "Copy":
-        this.copyMessage();
-        break;
-      case "Delete":
-        this.deleteMessage();
-        break;
-      default:
-        break;
-    }
-  }
-  copyMessage() {
-    if (!this.message.message) return;
-    this.$copyText(this.message.message);
-  }
-  deleteMessage() {
-    if (!this.message.messageID) return;
-    deleteMessage(this.message.channelID, this.message.messageID);
   }
   get messageCreatedByMe() {
     return MeModule.user.uniqueID === this.message.creator.uniqueID;
@@ -92,6 +100,15 @@ export default class extends Vue {
   }
   get currentTab() {
     return this.$route.path.split("/")[2];
+  }
+  get pos() {
+    return {
+      x: this.data.x,
+      y: this.data.y
+    };
+  }
+  get message() {
+    return this.data.message;
   }
 }
 </script>
