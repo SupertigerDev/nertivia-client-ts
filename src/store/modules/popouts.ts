@@ -10,6 +10,7 @@ import Vue from "vue";
 
 interface PopoutInterface {
   id: string;
+  key?: string;
   component: string;
   data: any;
 }
@@ -22,12 +23,12 @@ class Popouts extends VuexModule {
   popouts: PopoutObj = {};
 
   @Mutation
-  private SHOW_POPOUT(payload: { id: string, component: string; data: any }) {
-    Vue.set(this.popouts, payload.id, {component: payload.component, data: payload.data});
+  private SHOW_POPOUT(payload: { id: string, component: string; data: any, key?: string }) {
+    Vue.set(this.popouts, payload.id, {component: payload.component, data: payload.data, key: payload.key});
   }
 
   @Action
-  public ShowPopout(payload: { id: string, component: string; data: any }) {
+  public ShowPopout(payload: { id: string, component: string; data: any, key?: string }) {
     this.SHOW_POPOUT(payload);
   }
 

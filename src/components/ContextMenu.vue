@@ -10,6 +10,7 @@
         :class="{ seperator: item.type === 'seperator', item: !item.type }"
         v-for="(item, i) in items"
         @click="itemClicked(item)"
+        @mouseover="itemHover(item, $event)"
         :key="i"
       >
         <div class="icon material-icons" v-if="item.icon && !item.type">
@@ -21,6 +22,9 @@
           :style="{ background: item.color }"
         />
         <div class="name" v-if="!item.type">{{ item.name }}</div>
+        <div v-if="item.nestContext" class="icon material-icons">
+          navigate_next
+        </div>
       </div>
     </div>
   </div>
@@ -53,10 +57,16 @@ export default class extends Vue {
     this.width = this.$el.clientWidth;
   }
   itemClicked(item: any) {
+    if (item.nestContext) return;
     if (item.type === "seperator") return;
     this.$emit("itemClick", item);
     this.$emit("close");
   }
+  itemHover(item: any, event: any) {
+    if (item.type === "seperator") return;
+    this.$emit("itemHover", { item, target: event.target.closest(".content") });
+  }
+
   get clampPos() {
     const top = this.pos.y || 0;
     const left = this.pos.x || 0;

@@ -1,10 +1,10 @@
 <template>
   <ContextMenu
-    :key="message.tempID || message.messageID"
     :items="items"
     :pos="pos"
     @close="close"
     @itemClick="itemClick"
+    @itemHover="itemHover"
   />
 </template>
 
@@ -21,6 +21,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
 
 @Component({ components: { ContextMenu } })
 export default class extends Vue {
+  lastItemHover = null;
   @Prop() private data!: {
     x?: number;
     y?: number;
@@ -28,6 +29,9 @@ export default class extends Vue {
   };
   close() {
     PopoutsModule.ClosePopout("context");
+  }
+  beforeDestroy() {
+    PopoutsModule.ClosePopout("hover-context");
   }
   itemClick(item: { name: string }) {
     switch (item.name) {
@@ -41,6 +45,23 @@ export default class extends Vue {
         break;
     }
   }
+  itemHover(data: any) {
+    if (data.item.name === "User") {
+      const rect = data.target.getBoundingClientRect();
+      PopoutsModule.ShowPopout({
+        id: "hover-context",
+        component: "UserContextMenu",
+        data: {
+          x: rect.x + this.$el.clientWidth + 3,
+          y: rect.y,
+          uniqueID: this.message.creator.uniqueID,
+          closeOnMouseLeave: true
+        }
+      });
+    } else {
+      PopoutsModule.ClosePopout("hover-context");
+    }
+  }
   copyMessage() {
     if (!this.message.message) return;
     this.$copyText(this.message.message);
@@ -51,6 +72,11 @@ export default class extends Vue {
   }
   get items() {
     const items: any = [
+      {
+        name: "User",
+        icon: "account_box",
+        nestContext: true
+      },
       {
         name: "Copy",
         icon: "developer_board"

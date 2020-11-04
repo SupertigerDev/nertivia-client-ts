@@ -36,7 +36,6 @@ import { PopoutsModule } from "@/store/modules/popouts";
   components: { AvatarImage, Bubble, MessageSide }
 })
 export default class MessageLogs extends Vue {
-  @Prop() private openContext!: boolean;
   @Prop() private message!: Message & { grouped: boolean };
 
   contextPos: { x?: number; y?: number } = {};
@@ -51,10 +50,10 @@ export default class MessageLogs extends Vue {
   }
 
   rightClickEvent(event: MouseEvent) {
-    this.$emit("open-context");
     PopoutsModule.ShowPopout({
       id: "context",
       component: "MessageContextMenu",
+      key: this.message.tempID || this.message.messageID,
       data: { x: event.pageX, y: event.pageY, message: this.message }
     });
   }

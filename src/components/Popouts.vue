@@ -2,9 +2,10 @@
   <div class="popouts">
     <component
       v-for="(popup, id) in popups"
-      :key="id"
+      :key="popup.key || id"
       :is="popup.component"
       :data="popup.data"
+      :identity="id"
     />
   </div>
 </template>
@@ -30,12 +31,17 @@ const MessageContextMenu = () =>
   import(
     /* webpackChunkName: "MessageContextMenu" */ "@/components/chat-area/message/MessageContextMenu.vue"
   );
+const UserContextMenu = () =>
+  import(
+    /* webpackChunkName: "UserContextMenu" */ "@/components/UserContextMenu.vue"
+  );
 @Component({
   components: {
     ProfilePopout,
     MiniProfilePopout,
     StatusListContext,
-    MessageContextMenu
+    MessageContextMenu,
+    UserContextMenu
   }
 })
 export default class MainApp extends Vue {
