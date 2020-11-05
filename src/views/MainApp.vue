@@ -98,6 +98,7 @@ export default class MainApp extends Vue {
     channel.addEventListener("message", event => {
       const client = this.$socket.client;
       if (event.data !== "ping") return;
+      if (WindowProperties.isFocused) return;
       if (!client.connected) return;
       client.emit("p");
     });
