@@ -91,6 +91,16 @@ export default class MainApp extends Vue {
     // set store and connect socket.
     this.$store.registerModule("socketIO", socketIOModule);
     this.$socket.client.connect();
+
+    const channel = new BroadcastChannel("sw-messages");
+
+    // hack to fix disconnects using service workers;
+    channel.addEventListener("message", event => {
+      const client = this.$socket.client;
+      if (event.data !== "ping") return;
+      if (!client.connected) return;
+      client.emit("p");
+    });
   }
   beforeMount() {
     localStorage.removeItem("lastSelectedDMChannelID");
