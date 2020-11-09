@@ -1,5 +1,6 @@
 <template>
   <ContextMenu
+    ref="context"
     :items="items"
     :pos="pos"
     @close="close"
@@ -54,6 +55,7 @@ export default class extends Vue {
         data: {
           x: rect.x + this.$el.clientWidth + 3,
           y: rect.y,
+          parentContextWidth: this.$refs.context.width,
           uniqueID: this.message.creator.uniqueID,
           closeOnMouseLeave: true
         }

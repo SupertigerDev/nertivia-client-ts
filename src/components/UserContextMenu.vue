@@ -1,19 +1,37 @@
 <template>
-  <ContextMenu :items="items" :pos="pos" @itemClick="itemClick" />
+  <ContextMenu ref="context" :items="items" :pos="pos" @itemClick="itemClick" />
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import ContextMenu from "@/components/ContextMenu.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
+import WindowProperties from "@/utils/windowProperties";
 
 @Component({ components: { ContextMenu } })
 export default class extends Vue {
+  x = 0;
   @Prop() private data!: {
     x?: number;
     y?: number;
     uniqueID: string;
+    parentContextWidth?: number;
   };
+
+  mounted() {
+    // move to right if cant fit with parent context.
+    if (this.data.parentContextWidth) {
+      if (!this.data.x) return;
+      const thisWidth = this.$refs.context.width;
+      // console.log(thisWidth);
+      const rightPos = this.data.x + thisWidth;
+      if (rightPos > WindowProperties.resizeWidth) {
+        this.x = this.data.x - (thisWidth + this.data.parentContextWidth + 5);
+      } else {
+        this.x = this.data.x;
+      }
+    }
+  }
   itemClick(item: any) {
     if (item.name === "View Profile") {
       PopoutsModule.ShowPopout({
@@ -45,7 +63,7 @@ export default class extends Vue {
   }
   get pos() {
     return {
-      x: this.data.x,
+      x: this.x,
       y: this.data.y
     };
   }
