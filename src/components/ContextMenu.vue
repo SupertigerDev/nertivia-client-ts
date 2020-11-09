@@ -45,6 +45,7 @@ export default class extends Vue {
   height = 0;
   width = 0;
   mount = false;
+  currentHoveringItem: any = null;
   clickOutside() {
     if (!this.mount) return;
     this.$emit("close");
@@ -57,14 +58,21 @@ export default class extends Vue {
     this.width = this.$el.clientWidth;
   }
   itemClicked(item: any) {
-    if (item.nestContext) return;
     if (item.type === "seperator") return;
     this.$emit("itemClick", item);
+    if (item.nestContext) return;
     this.$emit("close");
   }
   itemHover(item: any, event: any) {
-    if (item.type === "seperator") return;
-    this.$emit("itemHover", { item, target: event.target.closest(".content") });
+    this.currentHoveringItem = item;
+    setTimeout(() => {
+      if (item !== this.currentHoveringItem) return;
+      if (item.type === "seperator") return;
+      this.$emit("itemHover", {
+        item,
+        target: event.target.closest(".content")
+      });
+    }, 200);
   }
 
   get clampPos() {

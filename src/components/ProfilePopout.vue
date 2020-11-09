@@ -160,7 +160,7 @@ export default class ProfilePopout extends Vue {
   }
   get user() {
     if (!this.returnedUser) {
-      return UsersModule.users[this.data.uniqueID];
+      return UsersModule.users[this.data.uniqueID] || {};
     }
     return this.returnedUser.user;
   }

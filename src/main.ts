@@ -8,6 +8,10 @@ import clipboard from "vue-clipboard2";
 
 Vue.use(clipboard);
 
+Vue.prototype.$isMobile = /iphone|ipod|android|ie|blackberry|fennec/.test(
+  navigator.userAgent.toLowerCase()
+)
+
 Vue.config.productionTip = false;
 Vue.directive("click-outside", clickOutside);
 new Vue({

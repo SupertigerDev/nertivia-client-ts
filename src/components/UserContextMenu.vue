@@ -1,5 +1,11 @@
 <template>
-  <ContextMenu ref="context" :items="items" :pos="pos" @itemClick="itemClick" />
+  <ContextMenu
+    ref="context"
+    :items="items"
+    :pos="pos"
+    @itemClick="itemClick"
+    @close="close"
+  />
 </template>
 
 <script lang="ts">
@@ -10,27 +16,28 @@ import WindowProperties from "@/utils/windowProperties";
 
 @Component({ components: { ContextMenu } })
 export default class extends Vue {
-  x = 0;
+  x: number | null = null;
   @Prop() private data!: {
-    x?: number;
-    y?: number;
+    x: number;
+    y: number;
     uniqueID: string;
     parentContextWidth?: number;
   };
 
   mounted() {
     // move to right if cant fit with parent context.
+    this.x = this.data.x;
     if (this.data.parentContextWidth) {
       if (!this.data.x) return;
       const thisWidth = this.$refs.context.width;
-      // console.log(thisWidth);
       const rightPos = this.data.x + thisWidth;
       if (rightPos > WindowProperties.resizeWidth) {
         this.x = this.data.x - (thisWidth + this.data.parentContextWidth + 5);
-      } else {
-        this.x = this.data.x;
       }
     }
+  }
+  close() {
+    PopoutsModule.ClosePopout("context");
   }
   itemClick(item: any) {
     if (item.name === "View Profile") {

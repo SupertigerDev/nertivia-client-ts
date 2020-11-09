@@ -1,5 +1,5 @@
 <template>
-  <div class="actionMessage">
+  <div class="actionMessage" @contextmenu.prevent="rightClickEvent">
     <AvatarImage
       class="avatar"
       :imageId="message.creator.avatar"
@@ -42,6 +42,14 @@ const types = [
 export default class ActionMessageTemplate extends Vue {
   @Prop() private message!: Message & { grouped: boolean };
 
+  rightClickEvent(event: MouseEvent) {
+    PopoutsModule.ShowPopout({
+      id: "context",
+      component: "MessageContextMenu",
+      key: this.message.tempID || this.message.messageID,
+      data: { x: event.pageX, y: event.pageY, message: this.message }
+    });
+  }
   showProfile() {
     PopoutsModule.ShowPopout({
       id: "profile",

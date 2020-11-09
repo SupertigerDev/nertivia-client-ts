@@ -36,6 +36,14 @@ export default class extends Vue {
   }
   itemClick(item: { name: string }) {
     switch (item.name) {
+      case "User":
+        if (this.$isMobile) return;
+        PopoutsModule.ShowPopout({
+          id: "profile",
+          component: "profile-popout",
+          data: { uniqueID: this.message.creator.uniqueID }
+        });
+        break;
       case "Copy":
         this.copyMessage();
         break;
@@ -52,6 +60,7 @@ export default class extends Vue {
       PopoutsModule.ShowPopout({
         id: "hover-context",
         component: "UserContextMenu",
+        key: this.message.creator.uniqueID + rect.x + rect.y,
         data: {
           x: rect.x + this.$el.clientWidth + 3,
           y: rect.y,

@@ -3,6 +3,7 @@
     class="server-member"
     @mouseover="hover = true"
     @mouseleave="hover = false"
+    @contextmenu.prevent="rightClickEvent"
     @click="showProfile"
   >
     <AvatarImage
@@ -35,6 +36,18 @@ export default class RightDrawer extends Vue {
   };
   hover = false;
 
+  rightClickEvent(event: MouseEvent) {
+    PopoutsModule.ShowPopout({
+      id: "context",
+      component: "UserContextMenu",
+      key: this.member.uniqueID + event.clientX + event.clientY,
+      data: {
+        x: event.clientX,
+        y: event.clientY,
+        uniqueID: this.member.uniqueID
+      }
+    });
+  }
   showProfile() {
     const rect = (this.$el as HTMLElement).getBoundingClientRect();
     PopoutsModule.ShowPopout({
