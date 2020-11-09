@@ -28,6 +28,7 @@ export default class extends Vue {
     y?: number;
     message: Message & { grouped: boolean };
   };
+  $isMobile: boolean | undefined;
   close() {
     PopoutsModule.ClosePopout("context");
   }
@@ -64,7 +65,7 @@ export default class extends Vue {
         data: {
           x: rect.x + this.$el.clientWidth + 3,
           y: rect.y,
-          parentContextWidth: this.$refs.context.width,
+          parentContextWidth: (this.$refs.context as any).width,
           uniqueID: this.message.creator.uniqueID,
           closeOnMouseLeave: true
         }

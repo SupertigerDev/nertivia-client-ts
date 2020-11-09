@@ -50,13 +50,11 @@ export default class MessageLogs extends Vue {
   }
 
   rightClickEvent(event: MouseEvent) {
+    const id = this.message.tempID || this.message.messageID || "";
     PopoutsModule.ShowPopout({
       id: "context",
       component: "MessageContextMenu",
-      key:
-        (this.message.tempID || this.message.messageID) +
-        event.pageX +
-        event.pageY,
+      key: id + event.pageX + event.pageY,
       data: { x: event.pageX, y: event.pageY, message: this.message }
     });
   }

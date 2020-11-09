@@ -29,7 +29,7 @@ export default class extends Vue {
     this.x = this.data.x;
     if (this.data.parentContextWidth) {
       if (!this.data.x) return;
-      const thisWidth = this.$refs.context.width;
+      const thisWidth = (this.$refs.context as any).width;
       const rightPos = this.data.x + thisWidth;
       if (rightPos > WindowProperties.resizeWidth) {
         this.x = this.data.x - (thisWidth + this.data.parentContextWidth + 5);
