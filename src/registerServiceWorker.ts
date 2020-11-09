@@ -2,7 +2,7 @@
 
 import { register } from "register-service-worker";
 
- if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production") {
   register(`${process.env.BASE_URL}service-worker.js`, {
     ready(r) {
       console.log(
@@ -10,9 +10,9 @@ import { register } from "register-service-worker";
           "For more details, visit https://goo.gl/AFskqB"
       );
       // hack to fix socket io background disconnects
-      const channel = new BroadcastChannel('sw-messages');
+      const channel = new BroadcastChannel("sw-messages");
       setInterval(function() {
-        channel.postMessage('ping');
+        channel.postMessage("ping");
       }, 25000);
     },
     registered() {

@@ -23,12 +23,26 @@ class Popouts extends VuexModule {
   popouts: PopoutObj = {};
 
   @Mutation
-  private SHOW_POPOUT(payload: { id: string, component: string; data: any, key?: string }) {
-    Vue.set(this.popouts, payload.id, {component: payload.component, data: payload.data, key: payload.key});
+  private SHOW_POPOUT(payload: {
+    id: string;
+    component: string;
+    data: any;
+    key?: string;
+  }) {
+    Vue.set(this.popouts, payload.id, {
+      component: payload.component,
+      data: payload.data,
+      key: payload.key
+    });
   }
 
   @Action
-  public ShowPopout(payload: { id: string, component: string; data: any, key?: string }) {
+  public ShowPopout(payload: {
+    id: string;
+    component: string;
+    data: any;
+    key?: string;
+  }) {
     this.SHOW_POPOUT(payload);
   }
 
