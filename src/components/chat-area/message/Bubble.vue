@@ -6,6 +6,7 @@
     <div class="details" v-if="!message.grouped">
       <div
         class="username"
+        @contextmenu.prevent="userContext"
         @click="showProfile"
         :style="{ color: roleColor }"
         v-text="creator.username"
@@ -51,6 +52,19 @@ export default class Bubble extends Vue {
       this.loadRoleColor = true;
     }, 10);
   }
+  userContext(event: MouseEvent) {
+    PopoutsModule.ShowPopout({
+      id: "context",
+      component: "UserContextMenu",
+      key: this.message.creator.uniqueID + event.clientX + event.clientY,
+      data: {
+        x: event.clientX,
+        y: event.clientY,
+        uniqueID: this.message.creator.uniqueID
+      }
+    });
+  }
+
   get creator() {
     return this.message.creator;
   }

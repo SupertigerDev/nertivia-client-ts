@@ -3,7 +3,6 @@
     class="message-container"
     @mouseover="hover = true"
     @mouseout="hover = false"
-    @contextmenu.prevent="rightClickEvent"
   >
     <div class="container">
       <AvatarImage
@@ -14,6 +13,7 @@
         size="40px"
         v-if="!message.grouped"
         @click.native="showProfile"
+        @contextmenu.native.prevent="userContext"
       />
       <!-- Used for grouped messages -->
       <div class="time" v-else>{{ friendlyTime }}</div>
@@ -49,15 +49,19 @@ export default class MessageLogs extends Vue {
     });
   }
 
-  rightClickEvent(event: MouseEvent) {
-    const id = this.message.tempID || this.message.messageID || "";
+  userContext(event: MouseEvent) {
     PopoutsModule.ShowPopout({
       id: "context",
-      component: "MessageContextMenu",
-      key: id + event.pageX + event.pageY,
-      data: { x: event.pageX, y: event.pageY, message: this.message }
+      component: "UserContextMenu",
+      key: this.message.creator.uniqueID + event.clientX + event.clientY,
+      data: {
+        x: event.clientX,
+        y: event.clientY,
+        uniqueID: this.message.creator.uniqueID
+      }
     });
   }
+
   get creator() {
     return this.message.creator;
   }

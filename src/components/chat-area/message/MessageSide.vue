@@ -1,9 +1,6 @@
 <template>
   <div class="message-options">
-    <span
-      class="material-icons options-button"
-      @click="$emit('show-context-menu')"
-    >
+    <span class="material-icons options-button" @click="messageContext">
       more_vert
     </span>
     <span
@@ -20,9 +17,19 @@
 import Message from "@/interfaces/Message";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import friendlyDate from "@/utils/date";
+import { PopoutsModule } from "@/store/modules/popouts";
 @Component
 export default class MessageSide extends Vue {
   @Prop() private message!: Message & { grouped: boolean };
+  messageContext(event: MouseEvent) {
+    const id = this.message.tempID || this.message.messageID || "";
+    PopoutsModule.ShowPopout({
+      id: "context",
+      component: "MessageContextMenu",
+      key: id + event.pageX + event.pageY,
+      data: { x: event.pageX, y: event.pageY, message: this.message }
+    });
+  }
   get sendingStatus() {
     const sending = this.message.sending;
     if (sending === 0) return { icon: "query_builder", title: "Sending..." };
@@ -48,6 +55,8 @@ export default class MessageSide extends Vue {
 .options-button {
   font-size: 14px;
   opacity: 0;
+  cursor: pointer;
+  user-select: none;
 }
 .message-status {
   font-size: 14px;
