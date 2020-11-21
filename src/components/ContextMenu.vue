@@ -111,6 +111,7 @@ export default class extends Vue {
 .context {
   pointer-events: all;
   background: var(--context-menu-bg-color);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
   position: absolute;
   border-radius: 4px;
   overflow: hidden;
@@ -151,6 +152,7 @@ export default class extends Vue {
 }
 .name {
   margin-left: 5px;
+  flex: 1;
 }
 .seperator {
   width: 100%;

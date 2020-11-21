@@ -33,7 +33,7 @@
       <div class="title">Event Themes</div>
       <div class="themes-list">
         <div class="theme" @click="applyTheme('halloween')">
-          Apply Halloween Theme
+          Apply Halloween Theme 2020
         </div>
       </div>
     </div>

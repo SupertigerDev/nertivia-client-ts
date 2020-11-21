@@ -13,6 +13,10 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import ContextMenu from "@/components/ContextMenu.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
 import WindowProperties from "@/utils/windowProperties";
+import { ServerMembersModule } from "@/store/modules/serverMembers";
+import { MeModule } from "@/store/modules/me";
+import { ServersModule } from "@/store/modules/servers";
+import perms from "@/constants/rolePermissions";
 
 @Component({ components: { ContextMenu } })
 export default class extends Vue {
@@ -47,14 +51,29 @@ export default class extends Vue {
         data: { uniqueID: this.data.uniqueID }
       });
     }
+    if (item.name === "Edit Roles") {
+      PopoutsModule.ShowPopout({
+        id: "edit-role",
+        component: "edit-role",
+        data: { uniqueID: this.data.uniqueID, serverID: this.serverID }
+      });
+    }
   }
 
   get items() {
-    const items: any = [
+    let items: any = [
       {
         name: "View Profile",
         icon: "person"
-      },
+      }
+    ];
+
+    if (this.canManageRoles) {
+      items.push({ name: "Edit Roles", icon: "leaderboard" });
+    }
+
+    items = [
+      ...items,
       { type: "seperator" },
       {
         name: "Copy User:Tag",
@@ -73,6 +92,28 @@ export default class extends Vue {
       x: this.x,
       y: this.data.y
     };
+  }
+  get isServerOwner() {
+    if (!this.serverID) return false;
+    const server = ServersModule.servers[this.serverID];
+    return MeModule.user.uniqueID === server.creator.uniqueID;
+  }
+  get canManageRoles() {
+    if (!this.serverID) return false;
+    if (this.isServerOwner) return true;
+    if (!MeModule.user.uniqueID) return false;
+    return ServerMembersModule.memberHasPermission(
+      MeModule.user.uniqueID,
+      this.serverID,
+      perms.ADMIN.value | perms.MANAGE_ROLES.value
+    );
+  }
+  get serverID() {
+    if (this.currentTab !== "servers") return undefined;
+    return this.$route.params.server_id;
+  }
+  get currentTab() {
+    return this.$route.path.split("/")[2];
   }
 }
 </script>
