@@ -9,17 +9,24 @@ export function changeStatus(status: number): Promise<any> {
     .json();
 }
 
-export function addRole(serverID: string, uniqueID: string, roleID: string): Promise<any> {
+export function addRole(
+  serverID: string,
+  uniqueID: string,
+  roleID: string
+): Promise<any> {
   return wrapper
     .patch(`servers/${serverID}/members/${uniqueID}/roles/${roleID}`)
     .json();
 }
-export function removeRole(serverID: string, uniqueID: string, roleID: string): Promise<any> {
+export function removeRole(
+  serverID: string,
+  uniqueID: string,
+  roleID: string
+): Promise<any> {
   return wrapper
     .delete(`servers/${serverID}/members/${uniqueID}/roles/${roleID}`)
     .json();
 }
-
 
 export interface ReturnedUser {
   user: User & UserExtra;

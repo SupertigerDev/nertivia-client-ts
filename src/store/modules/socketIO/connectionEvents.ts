@@ -201,7 +201,7 @@ const actions: ActionTree<any, any> = {
         uniqueID: serverMember.member.uniqueID,
         server_id: serverMember.server_id,
         roleIdArr: serverMember.roles || []
-      }
+      };
       users[serverMember.member.uniqueID] = serverMember.member;
     }
 
