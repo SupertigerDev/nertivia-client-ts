@@ -3,6 +3,17 @@
     <div
       class="item material-icons"
       :class="{
+        selected: currentTab === 'explore',
+        notification: dmNotificationExists
+      }"
+      title="Explore"
+      @click="changeTab('explore')"
+    >
+      explore
+    </div>
+    <div
+      class="item material-icons"
+      :class="{
         selected: currentTab === 'dms',
         notification: dmNotificationExists
       }"

@@ -16,6 +16,7 @@
         </transition>
         <MessageArea v-if="showMessageArea" />
         <SettingsArea v-else-if="currentTab === 'settings'" />
+        <ExploreArea v-else-if="currentTab === 'explore'" />
         <DashboardArea v-else />
       </div>
     </Drawers>
@@ -56,6 +57,10 @@ const SettingsArea = () =>
   import(
     /* webpackChunkName: "SettingsArea" */ "@/components/settings-area/SettingsArea.vue"
   );
+const ExploreArea = () =>
+  import(
+    /* webpackChunkName: "ExploreArea" */ "@/components/explore-area/ExploreArea.vue"
+  );
 const DashboardArea = () =>
   import(
     /* webpackChunkName: "DashboardArea" */ "@/components/dashboard-area/DashboardArea.vue"
@@ -82,7 +87,8 @@ import { NotificationsModule } from "@/store/modules/notifications";
     SettingsArea,
     ConnectionStatus,
     DashboardArea,
-    Popouts
+    Popouts,
+    ExploreArea
   }
 })
 export default class MainApp extends Vue {
