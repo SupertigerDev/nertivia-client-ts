@@ -18,6 +18,10 @@ const ProfilePopout = () =>
   import(
     /* webpackChunkName: "ProfilePopout" */ "@/components/ProfilePopout.vue"
   );
+const EditRolesPopout = () =>
+  import(
+    /* webpackChunkName: "EditRolesPopout" */ "@/components/EditRolesPopout.vue"
+  );
 const MiniProfilePopout = () =>
   import(
     /* webpackChunkName: "MiniProfilePopout" */ "@/components/MiniProfilePopout.vue"
@@ -41,7 +45,8 @@ const UserContextMenu = () =>
     MiniProfilePopout,
     StatusListContext,
     MessageContextMenu,
-    UserContextMenu
+    UserContextMenu,
+    EditRolesPopout
   }
 })
 export default class MainApp extends Vue {

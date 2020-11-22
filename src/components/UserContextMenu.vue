@@ -54,7 +54,7 @@ export default class extends Vue {
     if (item.name === "Edit Roles") {
       PopoutsModule.ShowPopout({
         id: "edit-role",
-        component: "edit-role",
+        component: "edit-roles-popout",
         data: { uniqueID: this.data.uniqueID, serverID: this.serverID }
       });
     }

@@ -32,6 +32,16 @@ class ServerMembers extends VuexModule {
     };
   }
 
+  get memberHasRole() {
+    return (server_id: string, uniqueID: string, roleID: string) => {
+      const member = this.serverMembers.find(
+        sm => sm.server_id === server_id && sm.uniqueID === uniqueID
+      );
+      if (!member) return undefined;
+      return member.roleIdArr.includes(roleID);
+    };
+  }
+
   get firstMemberRole() {
     return (server_id: string, uniqueID: string) => {
       const member = this.serverMembers.find(
