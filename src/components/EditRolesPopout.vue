@@ -18,6 +18,7 @@
             :class="{ selected: role.hasRole }"
             v-for="role in serverRoles"
             :key="role.id"
+            @click="roleClicked(role)"
           >
             <div
               class="role-color"
@@ -42,6 +43,7 @@ import { UsersModule } from "@/store/modules/users";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
+import { addRole, removeRole } from "@/services/userService";
 @Component({
   components: { AvatarImage }
 })
@@ -52,15 +54,21 @@ export default class ProfilePopout extends Vue {
       PopoutsModule.ClosePopout("edit-role");
     }
   }
+  roleClicked(role: { hasRole: string; id: string }) {
+    const func = role.hasRole ? removeRole : addRole;
+    func(this.data.serverID, this.data.uniqueID, role.id);
+  }
   get serverRoles() {
     const serverID = this.data.serverID;
     const uniqueID = this.data.uniqueID;
-    return ServerRolesModule.serverRoles[this.data.serverID].map(role => {
-      if (ServerMembersModule.memberHasRole(serverID, uniqueID, role.id)) {
-        return { ...role, hasRole: true };
-      }
-      return role;
-    });
+    return ServerRolesModule.serverRoles[this.data.serverID]
+      .filter(r => !r.default && !r.bot)
+      .map(role => {
+        if (ServerMembersModule.memberHasRole(serverID, uniqueID, role.id)) {
+          return { ...role, hasRole: true };
+        }
+        return role;
+      });
   }
   get user() {
     return UsersModule.users[this.data.uniqueID] || {};

@@ -164,6 +164,7 @@ const actions: ActionTree<any, any> = {
     // set servers
     const servers: any = {};
     const channels: any = {};
+
     for (let i = 0; i < sortedServers.length; i++) {
       const server = sortedServers[i];
       servers[server.server_id] = {
@@ -186,16 +187,21 @@ const actions: ActionTree<any, any> = {
         };
       }
     }
+
     // server members
-    const serverMembers: any[] = [];
+    const serverMembers: any = {};
     for (let i = 0; i < data.serverMembers.length; i++) {
       const serverMember = data.serverMembers[i];
-      serverMembers.push({
+
+      if (!serverMembers[serverMember.server_id]) {
+        serverMembers[serverMember.server_id] = {};
+      }
+      serverMembers[serverMember.server_id][serverMember.member.uniqueID] = {
         type: serverMember.type,
         uniqueID: serverMember.member.uniqueID,
         server_id: serverMember.server_id,
         roleIdArr: serverMember.roles || []
-      });
+      }
       users[serverMember.member.uniqueID] = serverMember.member;
     }
 
