@@ -71,10 +71,19 @@ export default class extends Vue {
     if (this.canManageRoles) {
       items.push({ name: "Edit Roles", icon: "leaderboard" });
     }
+    if (this.hasBanPermission || this.hasKickPermission) {
+      items.push({ type: "seperator" });
+    }
+    if (this.hasKickPermission) {
+      items.push({ name: "Kick", icon: "exit_to_app", warn: true });
+    }
+    if (this.hasBanPermission) {
+      items.push({ name: "Ban", icon: "block", warn: true });
+    }
+    items.push({ type: "seperator" });
 
     items = [
       ...items,
-      { type: "seperator" },
       {
         name: "Copy User:Tag",
         icon: "developer_board"
@@ -106,6 +115,28 @@ export default class extends Vue {
       MeModule.user.uniqueID,
       this.serverID,
       perms.ADMIN.value | perms.MANAGE_ROLES.value
+    );
+  }
+  get hasBanPermission() {
+    if (!this.serverID) return false;
+    if (MeModule.user.uniqueID === this.data.uniqueID) return false;
+    if (this.isServerOwner) return true;
+    if (!MeModule.user.uniqueID) return false;
+    return ServerMembersModule.memberHasPermission(
+      MeModule.user.uniqueID,
+      this.serverID,
+      perms.ADMIN.value | perms.BAN_USER.value
+    );
+  }
+  get hasKickPermission() {
+    if (!this.serverID) return false;
+    if (MeModule.user.uniqueID === this.data.uniqueID) return false;
+    if (this.isServerOwner) return true;
+    if (!MeModule.user.uniqueID) return false;
+    return ServerMembersModule.memberHasPermission(
+      MeModule.user.uniqueID,
+      this.serverID,
+      perms.ADMIN.value | perms.KICK_USER.value
     );
   }
   get serverID() {

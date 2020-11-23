@@ -24,8 +24,15 @@ export default class ExploreArea extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.explore-server {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
 .server-list {
   display: flex;
+  overflow: auto;
   flex-wrap: wrap;
 }
 </style>

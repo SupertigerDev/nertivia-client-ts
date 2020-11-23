@@ -7,7 +7,11 @@
   >
     <div class="content">
       <div
-        :class="{ seperator: item.type === 'seperator', item: !item.type }"
+        :class="{
+          seperator: item.type === 'seperator',
+          item: !item.type,
+          warn: item.warn
+        }"
         v-for="(item, i) in items"
         @click="itemClicked(item)"
         @mouseover="itemHover(item, $event)"
@@ -148,6 +152,13 @@ export default class extends Vue {
   }
   &:active {
     transform: scale(0.9);
+  }
+  &.warn {
+    color: var(--alert-color);
+    &:hover {
+      background: var(--alert-color);
+      color: white;
+    }
   }
 }
 .name {
