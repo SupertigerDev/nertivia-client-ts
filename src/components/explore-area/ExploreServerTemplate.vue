@@ -19,13 +19,22 @@
             :animateGif="hovering"
           />
           <div class="name">{{ data.server.name }}</div>
-          <div class="member-count" title="Total Members">
-            <div class="material-icons">account_box</div>
-            {{ data.total_members.toLocaleString() }}
+          <div class="mid-info">
+            <div class="member-count" title="Total Members">
+              <div class="material-icons">account_box</div>
+              <span>{{ data.total_members.toLocaleString() }}</span>
+            </div>
+            <div class="creator" @click="showCreatorProfile">
+              <div class="twemoji"><img :src="tweCrown" /></div>
+              <div class="username">{{ data.creator.username }}</div>
+            </div>
           </div>
         </div>
         <div class="right">
-          <div class="button" v-if="!isJoined">Join</div>
+          <div class="button valid" v-if="isJoined" @click="visitClicked">
+            Visit
+          </div>
+          <div class="button" v-else>Join</div>
         </div>
       </div>
       <div class="details">
@@ -43,10 +52,24 @@ import AvatarImage from "@/components/AvatarImage.vue";
 import { ServerResponse } from "@/services/exploreService";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { ServersModule } from "@/store/modules/servers";
+import { PopoutsModule } from "@/store/modules/popouts";
 @Component({ components: { AvatarImage } })
 export default class ExploreServerTemplate extends Vue {
   hovering = false;
+  tweCrown = config.twemojiLocations + "1f451.svg";
   @Prop() private data!: ServerResponse;
+  showCreatorProfile() {
+    PopoutsModule.ShowPopout({
+      id: "profile",
+      component: "profile-popout",
+      data: { uniqueID: this.data.creator.uniqueID }
+    });
+  }
+  visitClicked() {
+    this.$router.push(
+      `/app/servers/${this.isJoined.server_id}/${this.isJoined.default_channel_id}`
+    );
+  }
   get isJoined() {
     return ServersModule.servers[this.data.server.server_id];
   }
@@ -133,6 +156,13 @@ export default class ExploreServerTemplate extends Vue {
   flex-direction: column;
   overflow: hidden;
 }
+.twemoji {
+  img {
+    height: 16px;
+    width: 16px;
+  }
+  margin-right: 5px;
+}
 .description {
   word-break: break-word;
   overflow: auto;
@@ -143,6 +173,23 @@ export default class ExploreServerTemplate extends Vue {
   margin-top: 20px;
   font-size: 18px;
 }
+.mid-info {
+  display: flex;
+  align-items: center;
+}
+.creator {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  opacity: 0.4;
+  transition: 0.2s;
+  &:hover {
+    opacity: 1;
+  }
+}
+.username {
+  color: white;
+}
 .member-count {
   margin-bottom: 5px;
   display: flex;
@@ -152,6 +199,11 @@ export default class ExploreServerTemplate extends Vue {
   .material-icons {
     font-size: 19px;
     margin-right: 5px;
+  }
+  span {
+    padding-right: 5px;
+    margin-right: 5px;
+    border-right: solid 1px white;
   }
 }
 .button {
@@ -165,6 +217,9 @@ export default class ExploreServerTemplate extends Vue {
   cursor: pointer;
   &:hover {
     opacity: 1;
+  }
+  &.valid {
+    background: #6c36ff;
   }
 }
 .avatar {
