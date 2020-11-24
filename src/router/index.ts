@@ -33,7 +33,7 @@ const routes: Array<RouteConfig> = [
       { path: "servers/:server_id?/:channel_id?" },
       { path: "dms/:channel_id?" },
       { path: "settings/:tab?" },
-      { path: "explore" },
+      { path: "explore" }
     ],
     name: "App",
     component: () =>
