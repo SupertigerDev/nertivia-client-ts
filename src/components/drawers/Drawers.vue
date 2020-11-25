@@ -114,6 +114,7 @@ export default class MainApp extends Vue {
   display: flex;
   height: 100%;
   width: 100%;
+  overflow: hidden;
   position: relative;
   min-height: 0;
 }
@@ -125,7 +126,6 @@ export default class MainApp extends Vue {
 .drawer-wrapper {
   background: var(--drawer-bg-color);
   width: 300px;
-  flex-shrink: 0;
   z-index: 999;
   &.left {
     width: 320px;

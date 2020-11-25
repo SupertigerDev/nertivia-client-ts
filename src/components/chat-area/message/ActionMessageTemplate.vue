@@ -1,5 +1,5 @@
 <template>
-  <div class="actionMessage" @contextmenu.prevent="rightClickEvent">
+  <div class="actionMessage">
     <AvatarImage
       class="avatar"
       :imageId="message.creator.avatar"
@@ -8,12 +8,15 @@
       :willHaveClickEvent="true"
       size="40px"
       @click.native="showProfile"
+      @contextmenu.native.prevent="showUserContext"
     />
     <div class="details">
       <div class="message">
-        <span class="username" @click="showProfile">{{
-          message.creator.username
-        }}</span
+        <span
+          class="username"
+          @click="showProfile"
+          @contextmenu.prevent="showUserContext"
+          >{{ message.creator.username }}</span
         >&nbsp;
         <span class="msg" :style="{ color: type.color }">{{
           type.message
@@ -21,6 +24,7 @@
       </div>
       <div class="time">{{ time }}</div>
     </div>
+    <MessageSide :message="message" />
   </div>
 </template>
 <script lang="ts">
@@ -30,6 +34,7 @@ import Message from "@/interfaces/Message";
 import AvatarImage from "@/components/AvatarImage.vue";
 import friendlyTime from "@/utils/date";
 import { PopoutsModule } from "@/store/modules/popouts";
+import MessageSide from "./MessageSide.vue";
 
 const types = [
   {},
@@ -38,16 +43,21 @@ const types = [
   { color: "#ff9914", message: "has been kicked" },
   { color: "#d92121", message: "has been banned" }
 ];
-@Component({ components: { AvatarImage } })
+@Component({ components: { AvatarImage, MessageSide } })
 export default class ActionMessageTemplate extends Vue {
   @Prop() private message!: Message & { grouped: boolean };
 
-  rightClickEvent(event: MouseEvent) {
+  showUserContext(event: MouseEvent) {
     PopoutsModule.ShowPopout({
       id: "context",
-      component: "MessageContextMenu",
-      key: this.message.tempID || this.message.messageID,
-      data: { x: event.pageX, y: event.pageY, message: this.message }
+      component: "UserContextMenu",
+      key: this.message.creator.uniqueID + event.clientX + event.clientY,
+      data: {
+        x: event.clientX,
+        y: event.clientY,
+        uniqueID: this.message.creator.uniqueID,
+        tempUser: this.message.creator
+      }
     });
   }
   showProfile() {
@@ -90,5 +100,12 @@ export default class ActionMessageTemplate extends Vue {
   font-size: 14px;
   margin-top: 5px;
   text-align: left;
+}
+</style>
+<style lang="scss">
+.actionMessage:hover {
+  .options-button {
+    opacity: 1;
+  }
 }
 </style>

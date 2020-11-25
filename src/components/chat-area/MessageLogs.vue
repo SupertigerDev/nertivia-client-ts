@@ -67,6 +67,12 @@ export default class MessageLogs extends Vue {
       });
     }
   }
+  @Watch("windowSize")
+  onWindowSizeChange() {
+    if (this.isScrolledDown) {
+      this.scrollDown();
+    }
+  }
 
   get messageType() {
     return (message: any) =>
@@ -91,6 +97,12 @@ export default class MessageLogs extends Vue {
   get isScrolledDown() {
     return ScrollModule.isScrolledBottom;
   }
+  get windowSize() {
+    return {
+      height: windowProperties.resizeHeight,
+      width: windowProperties.resizeWidth
+    };
+  }
 }
 </script>
 
@@ -107,6 +119,8 @@ export default class MessageLogs extends Vue {
   display: flex;
   height: 100%;
   flex-direction: column;
-  overflow: auto;
+  // overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 </style>

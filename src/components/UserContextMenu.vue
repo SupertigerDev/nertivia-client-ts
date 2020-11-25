@@ -17,6 +17,7 @@ import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { MeModule } from "@/store/modules/me";
 import { ServersModule } from "@/store/modules/servers";
 import perms from "@/constants/rolePermissions";
+import User from "@/interfaces/User";
 
 @Component({ components: { ContextMenu } })
 export default class extends Vue {
@@ -25,6 +26,7 @@ export default class extends Vue {
     x: number;
     y: number;
     uniqueID: string;
+    tempUser: User;
     parentContextWidth?: number;
   };
 
@@ -58,6 +60,18 @@ export default class extends Vue {
         data: { uniqueID: this.data.uniqueID, serverID: this.serverID }
       });
     }
+    if (item.name === "Kick" || item.name === "Ban") {
+      PopoutsModule.ShowPopout({
+        id: "ban-or-kick-user-popout",
+        component: "ban-or-kick-user-popout",
+        data: {
+          uniqueID: this.data.uniqueID,
+          serverID: this.serverID,
+          tempUser: this.data.tempUser,
+          action: item.name.toUpperCase()
+        }
+      });
+    }
   }
 
   get items() {
@@ -68,13 +82,13 @@ export default class extends Vue {
       }
     ];
 
-    if (this.canManageRoles) {
+    if (this.canManageRoles && this.userExistsInServer) {
       items.push({ name: "Edit Roles", icon: "leaderboard" });
     }
     if (this.hasBanPermission || this.hasKickPermission) {
       items.push({ type: "seperator" });
     }
-    if (this.hasKickPermission) {
+    if (this.hasKickPermission && this.userExistsInServer) {
       items.push({ name: "Kick", icon: "exit_to_app", warn: true });
     }
     if (this.hasBanPermission) {
@@ -145,6 +159,10 @@ export default class extends Vue {
   }
   get currentTab() {
     return this.$route.path.split("/")[2];
+  }
+  get userExistsInServer() {
+    if (!this.serverID) return undefined;
+    return ServerMembersModule.serverMembers[this.serverID][this.data.uniqueID];
   }
 }
 </script>

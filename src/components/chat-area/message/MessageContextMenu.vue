@@ -19,6 +19,7 @@ import perms from "@/constants/rolePermissions";
 import { ServersModule } from "@/store/modules/servers";
 import { deleteMessage } from "@/services/messagesService";
 import { PopoutsModule } from "@/store/modules/popouts";
+import User from "@/interfaces/User";
 
 @Component({ components: { ContextMenu } })
 export default class extends Vue {
@@ -26,6 +27,7 @@ export default class extends Vue {
   @Prop() private data!: {
     x?: number;
     y?: number;
+    tempUser: User;
     message: Message & { grouped: boolean };
   };
   $isMobile: boolean | undefined;
@@ -66,6 +68,7 @@ export default class extends Vue {
           x: rect.x + this.$el.clientWidth + 3,
           y: rect.y,
           parentContextWidth: (this.$refs.context as any).width,
+          tempUser: this.data.tempUser,
           uniqueID: this.message.creator.uniqueID,
           closeOnMouseLeave: true
         }
@@ -88,13 +91,15 @@ export default class extends Vue {
         name: "User",
         icon: "account_box",
         nestContext: true
-      },
-      {
-        name: "Copy",
-        icon: "developer_board"
       }
     ];
-    if (this.messageCreatedByMe) {
+    if (this.message.type === 0) {
+      items.push({
+        name: "Copy",
+        icon: "developer_board"
+      });
+    }
+    if (this.messageCreatedByMe && this.message.type === 0) {
       items.push({
         name: "Edit",
         icon: "edit"
@@ -105,7 +110,8 @@ export default class extends Vue {
         { type: "seperator" },
         {
           name: "Delete",
-          icon: "delete"
+          icon: "delete",
+          warn: true
         }
       );
     }

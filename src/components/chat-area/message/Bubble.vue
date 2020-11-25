@@ -58,6 +58,7 @@ export default class Bubble extends Vue {
       component: "UserContextMenu",
       key: this.message.creator.uniqueID + event.clientX + event.clientY,
       data: {
+        tempUser: this.message.creator,
         x: event.clientX,
         y: event.clientY,
         uniqueID: this.message.creator.uniqueID
@@ -106,6 +107,7 @@ $pointer-size: 10px;
   border-top-left-radius: 0;
   margin-left: 10px;
   padding: 7px;
+  overflow: hidden;
   &::after {
     content: "";
     position: absolute;

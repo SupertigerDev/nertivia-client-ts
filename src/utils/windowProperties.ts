@@ -1,5 +1,5 @@
 import Vue from "vue";
-import throttle from "lodash/throttle";
+// import throttle from "lodash/throttle";
 
 const WindowProperties = new Vue({
   data() {
@@ -13,10 +13,10 @@ const WindowProperties = new Vue({
     this.resizeWidth = window.innerWidth;
     this.resizeHeight = window.innerHeight;
 
-    let debouncedResize = null;
+    // let debouncedResize = null;
 
-    debouncedResize = throttle(this.onResize, 70);
-    window.addEventListener("resize", debouncedResize);
+    // debouncedResize = throttle(this.onResize, 70);
+    window.addEventListener("resize", this.onResize);
     window.addEventListener("focus", () => {
       this.isFocused = true;
     });

@@ -39,6 +39,10 @@ const UserContextMenu = () =>
   import(
     /* webpackChunkName: "UserContextMenu" */ "@/components/UserContextMenu.vue"
   );
+const BanOrKickUserPopout = () =>
+  import(
+    /* webpackChunkName: "BanOrKickUserPopout" */ "@/components/BanOrKickUserPopout.vue"
+  );
 @Component({
   components: {
     ProfilePopout,
@@ -46,7 +50,8 @@ const UserContextMenu = () =>
     StatusListContext,
     MessageContextMenu,
     UserContextMenu,
-    EditRolesPopout
+    EditRolesPopout,
+    BanOrKickUserPopout
   }
 })
 export default class MainApp extends Vue {

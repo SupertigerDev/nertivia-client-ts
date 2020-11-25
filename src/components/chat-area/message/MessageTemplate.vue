@@ -57,6 +57,7 @@ export default class MessageLogs extends Vue {
       data: {
         x: event.clientX,
         y: event.clientY,
+        tempUser: this.message.creator,
         uniqueID: this.message.creator.uniqueID
       }
     });
@@ -82,8 +83,10 @@ export default class MessageLogs extends Vue {
   padding: 10px;
   padding-top: 3px;
   padding-bottom: 3px;
+  overflow: hidden;
 }
 .container {
+  overflow: hidden;
   display: flex;
 }
 .message:hover {

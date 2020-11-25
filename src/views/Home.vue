@@ -95,7 +95,7 @@ a {
   padding: 10px;
   font-size: 14px;
   transition: 0.2s;
-  box-shadow: 0 0 13px 0 black;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
   background: var(--primary-color);
   align-items: center;
   justify-content: center;

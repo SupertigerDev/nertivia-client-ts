@@ -27,7 +27,12 @@ export default class MessageSide extends Vue {
       id: "context",
       component: "MessageContextMenu",
       key: id + event.pageX + event.pageY,
-      data: { x: event.pageX, y: event.pageY, message: this.message }
+      data: {
+        x: event.pageX,
+        y: event.pageY,
+        message: this.message,
+        tempUser: this.message.creator
+      }
     });
   }
   get sendingStatus() {
