@@ -32,6 +32,9 @@
     <div class="box">
       <div class="title">Event Themes</div>
       <div class="themes-list">
+        <div class="theme amoled" @click="applyTheme('amoled')">
+          Apply AMOLED Dark
+        </div>
         <div class="theme" @click="applyTheme('halloween')">
           Apply Halloween Theme 2020
         </div>
@@ -79,6 +82,15 @@ export default class MainApp extends Vue {
       changeCssVar("--side-header-bg-color", "#d55c0b");
       changeCssVar("--my-chat-bubble-color", "#e87b21");
       changeCssVar("--others-chat-bubble-color", "#433a50");
+    }
+    if (theme === "amoled") {
+      // changeCssVar("--primary-color", "#ff801f");
+      changeCssVar("--background-color", "black");
+      // changeCssVar("--drawer-bg-color", "#291d4e");
+      // changeCssVar("--main-header-bg-color", "#ff781f");
+      // changeCssVar("--side-header-bg-color", "#d55c0b");
+      // changeCssVar("--my-chat-bubble-color", "#e87b21");
+      // changeCssVar("--others-chat-bubble-color", "#433a50");
     }
   }
 }
@@ -155,6 +167,14 @@ export default class MainApp extends Vue {
     background: rgb(255, 126, 21);
     border-radius: 4px;
     cursor: pointer;
+    margin: 5px;
+    transition: 0.2s;
+    &:hover {
+      opacity: 0.7;
+    }
+    &.amoled {
+      background: black;
+    }
   }
 }
 </style>

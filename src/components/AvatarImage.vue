@@ -75,7 +75,7 @@ img {
     right: 0;
     background: rgba(0, 0, 0, 0);
     bottom: 0;
-    z-index: 999999999999;
+    z-index: 999;
   }
   &:hover:before {
     background: rgba(0, 0, 0, 0.4);

@@ -8,6 +8,7 @@ import {
 import store from "..";
 import { saveCache } from "@/utils/localCache";
 import ServerRole from "@/interfaces/ServerRole";
+import Vue from 'vue';
 
 // ServerRoleObj[server_id] = serverRole[]
 interface ServerRoleObj {
@@ -56,6 +57,15 @@ class ServerRoles extends VuexModule {
   public InitServerRoles(payload: ServerRoleObj | any) {
     saveCache("serverRoles", payload);
     this.INIT_SERVER_ROLES(payload);
+  }
+  @Mutation
+  private ADD_SERVER_ROLES(payload: {roles: ServerRole, serverID: string}) {
+    Vue.set(this.serverRoles, payload.serverID, payload.roles);
+  }
+
+  @Action
+  public AddServerRoles(payload: {roles: ServerRole, serverID: string}) {
+    this.ADD_SERVER_ROLES(payload);
   }
 }
 export const ServerRolesModule = getModule(ServerRoles);

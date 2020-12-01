@@ -28,6 +28,7 @@ class ServerMembers extends VuexModule {
 
   get filteredServerMembers() {
     return (server_id: string) => {
+      if (!this.serverMembers[server_id]) return [];
       return Object.values(this.serverMembers[server_id]).map(sm => {
         const user = UsersModule.users[sm.uniqueID];
         const roles = ServerRolesModule.bulkRolesById(server_id, sm.roleIdArr);
@@ -131,6 +132,15 @@ class ServerMembers extends VuexModule {
   public InitServerMembers(payload: Servers) {
     saveCache("serverMembers", payload);
     this.INIT_SERVER_MEMBERS(payload);
+  }
+  @Mutation
+  private ADD_SERVER_MEMBERS(payload: Servers) {
+    Vue.set(this, "serverMembers", {...this.serverMembers, ...payload})
+  }
+
+  @Action
+  public AddServerMembers(payload: Servers) {
+    this.ADD_SERVER_MEMBERS(payload);
   }
 }
 export const ServerMembersModule = getModule(ServerMembers);

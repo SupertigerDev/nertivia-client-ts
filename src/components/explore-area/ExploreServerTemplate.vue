@@ -6,7 +6,12 @@
     @mouseleave="hovering = false"
   >
     <div class="banner">
-      <img v-if="bannerURL" class="banner-img" :src="bannerURL" />
+      <img
+        loading="lazy"
+        v-if="bannerURL"
+        class="banner-img"
+        :src="bannerURL"
+      />
     </div>
     <div class="container">
       <div class="top">
@@ -34,7 +39,14 @@
           <div class="button valid" v-if="isJoined" @click="visitClicked">
             Visit
           </div>
-          <div class="button" v-else>Join</div>
+          <div
+            class="button"
+            :class="{ disabled: joining }"
+            v-else
+            @click="joinClicked"
+          >
+            {{ joining ? "Joining..." : "Join" }}
+          </div>
         </div>
       </div>
       <div class="details">
@@ -53,8 +65,10 @@ import { ServerResponse } from "@/services/exploreService";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { ServersModule } from "@/store/modules/servers";
 import { PopoutsModule } from "@/store/modules/popouts";
+import { joinServerById } from "@/services/serverService";
 @Component({ components: { AvatarImage } })
 export default class ExploreServerTemplate extends Vue {
+  joining = false;
   hovering = false;
   tweCrown = config.twemojiLocations + "1f451.svg";
   @Prop() private data!: ServerResponse;
@@ -69,6 +83,14 @@ export default class ExploreServerTemplate extends Vue {
     this.$router.push(
       `/app/servers/${this.isJoined.server_id}/${this.isJoined.default_channel_id}`
     );
+  }
+  joinClicked() {
+    this.joining = true;
+    joinServerById(this.data.server.server_id, {
+      socketID: this.$socket.client.id
+    }).finally(() => {
+      this.joining = false;
+    });
   }
   get isJoined() {
     return ServersModule.servers[this.data.server.server_id];
@@ -89,14 +111,13 @@ export default class ExploreServerTemplate extends Vue {
   background: rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
-  width: 300px;
   height: 280px;
+  min-width: 300px;
   border-radius: 10px;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
 
   position: relative;
   overflow: hidden;
-  margin: 10px;
   &:hover {
     .banner::after {
       background: rgba(0, 0, 0, 0);
@@ -220,6 +241,10 @@ export default class ExploreServerTemplate extends Vue {
   }
   &.valid {
     background: #6c36ff;
+  }
+  &.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 }
 .avatar {

@@ -87,6 +87,14 @@ class Channels extends VuexModule {
     this.ADD_CHANNEL(payload);
   }
   @Mutation
+  private ADD_CHANNELS(payload: ChannelObj) {
+    Vue.set(this, "channels", {...this.channels, ...payload});
+  }
+  @Action
+  public AddChannels(payload: ChannelObj) {
+    this.ADD_CHANNELS(payload);
+  }
+  @Mutation
   private REMOVE_CHANNEL(channelID: string) {
     Vue.delete(this.channels, channelID);
   }

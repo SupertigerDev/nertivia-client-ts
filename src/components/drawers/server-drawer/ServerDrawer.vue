@@ -15,7 +15,7 @@
         <img :src="bannerURL" />
       </div>
     </transition>
-    <transition name="slide-fade" mode="out-in" appear>
+    <transition name="slide-fade" mode="out-in" appear v-if="server">
       <div
         class="channels"
         :key="server.server_id"

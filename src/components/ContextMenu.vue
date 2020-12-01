@@ -7,27 +7,31 @@
   >
     <div class="content">
       <div
-        :class="{
-          seperator: item.type === 'seperator',
-          item: !item.type,
-          warn: item.warn
-        }"
+        class="item-container"
         v-for="(item, i) in items"
         @click="itemClicked(item)"
         @mouseover="itemHover(item, $event)"
         :key="i"
       >
-        <div class="icon material-icons" v-if="item.icon && !item.type">
-          {{ item.icon }}
-        </div>
         <div
-          class="dot"
-          v-if="type === 'dot' && item.color"
-          :style="{ background: item.color }"
-        />
-        <div class="name" v-if="!item.type">{{ item.name }}</div>
-        <div v-if="item.nestContext" class="icon material-icons">
-          navigate_next
+          :class="{
+            seperator: item.type === 'seperator',
+            item: !item.type,
+            warn: item.warn
+          }"
+        >
+          <div class="icon material-icons" v-if="item.icon && !item.type">
+            {{ item.icon }}
+          </div>
+          <div
+            class="dot"
+            v-if="type === 'dot' && item.color"
+            :style="{ background: item.color }"
+          />
+          <div class="name" v-if="!item.type">{{ item.name }}</div>
+          <div v-if="item.nestContext" class="icon material-icons">
+            navigate_next
+          </div>
         </div>
       </div>
     </div>

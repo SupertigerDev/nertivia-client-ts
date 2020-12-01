@@ -1,7 +1,14 @@
+import Channel from '@/interfaces/Channel';
 import { ActionTree } from "vuex";
+import { ChannelsModule } from '../channels';
 import { ServerMembersModule } from "../serverMembers";
 import { ServerRolesModule } from "../serverRoles";
 import { ServersModule } from "../servers";
+import Vue from "vue";
+import router from '@/router';
+import { UsersModule } from '../users';
+
+const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
 interface ServerMemberAddOrRemoveRole {
   role_id: string;
@@ -28,6 +35,70 @@ const actions: ActionTree<any, any> = {
       uniqueID: data.uniqueID,
       roleID: data.role_id
     });
+  },
+  ["socket_server:joined"](context, data: any) {
+    const channels: Channel[] = data.channels;
+    const socketID: string | undefined = data.socketID;
+    ServersModule.AddServer({
+      avatar: data.avatar,
+      banner: data.banner,
+      default_channel_id: data.default_channel_id,
+      creator: data.creator,
+      verified: data.verified,
+      channel_position: data.channel_position,
+      name: data.name,
+      server_id: data.server_id,
+    });
+
+    const channelObj: any = {};
+    for (let x = 0; x < channels.length; x++) {
+      const channel = channels[x];
+      channelObj[channel.channelID] = {
+        channelID: channel.channelID,
+        name: channel.name,
+        server_id: channel.server_id,
+        lastMessaged: channel.lastMessaged
+      };
+    }
+    ChannelsModule.AddChannels(channelObj);
+    if (socket().id === socketID) {
+      router.push(
+        `/app/servers/${data.server_id}/${data.default_channel_id}`
+      );
+    }
+
+
+  },
+  ["socket_server:members"](context, { serverMembers, memberPresences, memberCustomStatusArr, programActivityArr }) {
+    
+    const serverMembersObj: any = {};
+    const usersObj: any = {};
+    for (let i = 0; i < serverMembers.length; i++) {
+      const serverMember = serverMembers[i];
+
+      if (!serverMembersObj[serverMember.server_id]) {
+        serverMembersObj[serverMember.server_id] = {};
+      }
+      serverMembersObj[serverMember.server_id][serverMember.member.uniqueID] = {
+        type: serverMember.type,
+        uniqueID: serverMember.member.uniqueID,
+        server_id: serverMember.server_id,
+        roleIdArr: serverMember.roles || []
+      };
+      usersObj[serverMember.member.uniqueID] = serverMember.member;
+    }
+
+    UsersModule.AddUsers(usersObj);
+    ServerMembersModule.AddServerMembers(serverMembersObj);
+  },
+  ["socket_server:roles"](context, {roles, server_id}) {
+    // sort server roles by order
+    const orderedRoles = roles.sort(
+      (a: any, b: any) => {
+        return a.order - b.order;
+      }
+    );       
+    ServerRolesModule.AddServerRoles({roles: orderedRoles, serverID: server_id})
   },
   ["socket_serverMember:removeRole"](
     context,

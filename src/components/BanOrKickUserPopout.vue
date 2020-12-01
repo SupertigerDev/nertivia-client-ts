@@ -22,7 +22,17 @@
               <span style="font-weight: bold">{{ data.action }}</span>
               {{ user.username }}?
             </span>
-            <p></p>
+            <div class="buttons">
+              <div class="button" @click="close">Back</div>
+              <div
+                class="button warn"
+                @click="buttonClicked"
+                :class="{ disabled: requestSent }"
+              >
+                <span>{{ data.action === "BAN" ? "Ban" : "Kick" }}</span>
+                <span>{{ requestSent ? "ing..." : "" }}</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -34,21 +44,37 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { UsersModule } from "@/store/modules/users";
 import { PopoutsModule } from "@/store/modules/popouts";
+import { kickMember, banMember } from "@/services/serverService";
 import User from "@/interfaces/User";
 @Component({
   components: { AvatarImage }
 })
 export default class ProfilePopout extends Vue {
+  requestSent = false;
   @Prop() private data!: {
     uniqueID: string;
     serverID: string;
     action: string;
     tempUser: User;
   };
+  close() {
+    PopoutsModule.ClosePopout("ban-or-kick-user-popout");
+  }
   backgroundClick(event: any) {
     if (event.target.classList.contains("popout-background")) {
-      PopoutsModule.ClosePopout("ban-or-kick-user-popout");
+      this.close();
     }
+  }
+  buttonClicked() {
+    this.requestSent = true;
+    const fun = this.data.action === "BAN" ? banMember : kickMember;
+    fun(this.data.serverID, this.data.uniqueID)
+      .then(() => {
+        this.close();
+      })
+      .catch(err => {
+        this.requestSent = false;
+      });
   }
 
   get user() {
@@ -118,5 +144,33 @@ export default class ProfilePopout extends Vue {
 .description {
   margin-top: 40px;
   text-align: center;
+}
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+.button {
+  background: var(--primary-color);
+  margin: 10px;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 18px;
+  cursor: pointer;
+  user-select: none;
+  opacity: 0.8;
+  transition: 0.2s;
+  &:hover {
+    opacity: 1;
+  }
+  &.warn {
+    background: var(--alert-color);
+  }
+  &.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 }
 </style>

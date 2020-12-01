@@ -67,6 +67,7 @@ export default class RightDrawer extends Vue {
   get roleWithMembers() {
     const roleWithMembers = [];
     const consumedMemberIds: string[] = [];
+    if (!this.serverRoles) return [];
     for (let i = 0; i < this.serverRoles.length; i++) {
       const role = this.serverRoles[i];
       const members = this.onlineMembers.filter(member => {

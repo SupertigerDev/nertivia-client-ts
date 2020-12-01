@@ -27,12 +27,21 @@ export default class ExploreArea extends Vue {
 .explore-server {
   display: flex;
   flex-direction: column;
-  height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 .server-list {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 300px);
+  justify-content: center;
+  grid-gap: 20px;
+  padding: 20px;
   overflow: auto;
-  flex-wrap: wrap;
+  padding-bottom: 100px;
+}
+@media (max-width: 344px) {
+  .server-list {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
 }
 </style>
