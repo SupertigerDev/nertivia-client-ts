@@ -3,26 +3,28 @@
     class="bubble"
     :class="{ me: isMessageCreatedByMe, grouped: message.grouped }"
   >
-    <div class="details" v-if="!message.grouped">
+    <div class="bubble-inner">
+      <div class="details" v-if="!message.grouped">
+        <div
+          class="username"
+          @contextmenu.prevent="userContext"
+          @click="showProfile"
+          :style="{ color: roleColor }"
+          v-text="creator.username"
+        />
+        <div class="date">{{ date }}</div>
+      </div>
+      <div class="image-embed" v-if="isFileImage">
+        <ImageMessageEmbed :message="message" />
+        <!-- This is done like this to make the message bubble not look ugly when the message is larger than the image. -->
+        <div class="message" v-if="message.message" v-text="message.message" />
+      </div>
       <div
-        class="username"
-        @contextmenu.prevent="userContext"
-        @click="showProfile"
-        :style="{ color: roleColor }"
-        v-text="creator.username"
+        class="message"
+        v-if="message.message && !isFileImage"
+        v-text="message.message"
       />
-      <div class="date">{{ date }}</div>
     </div>
-    <div class="image-embed" v-if="isFileImage">
-      <ImageMessageEmbed :message="message" />
-      <!-- This is done like this to make the message bubble not look ugly when the message is larger than the image. -->
-      <div class="message" v-if="message.message" v-text="message.message" />
-    </div>
-    <div
-      class="message"
-      v-if="message.message && !isFileImage"
-      v-text="message.message"
-    />
   </div>
 </template>
 
@@ -107,7 +109,7 @@ $pointer-size: 10px;
   border-top-left-radius: 0;
   margin-left: 10px;
   padding: 7px;
-  overflow: hidden;
+
   &::after {
     content: "";
     position: absolute;
@@ -136,6 +138,10 @@ $pointer-size: 10px;
     border-color: transparent;
   }
 }
+.bubble-inner {
+  overflow: hidden;
+}
+
 .message {
   margin-top: 5px;
 }
