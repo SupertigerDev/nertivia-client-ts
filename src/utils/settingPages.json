@@ -4,6 +4,11 @@
     "icon": "account_circle",
     "component": "Account"
   },
+  "notification": {
+    "name": "Notification",
+    "icon": "notifications",
+    "component": "Notification"
+  },
   "interface": {
     "name": "Interface",
     "icon": "view_quilt",
