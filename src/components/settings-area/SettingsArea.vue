@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Header :title="selectedTab.name" />
-    <component :is="selectedTab.component" />
+    <Header v-if="selectedTab" :title="selectedTab.name" />
+    <component v-if="selectedTab" :is="selectedTab.component" />
   </div>
 </template>
 

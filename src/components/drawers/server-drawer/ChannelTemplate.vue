@@ -6,7 +6,8 @@
     }"
     @click="channelClicked"
   >
-    <div class="dot"></div>
+    <div class="muted material-icons" v-if="isMuted">notifications_off</div>
+    <div class="dot" v-else></div>
     <div class="name">{{ channel.name }}</div>
     <div
       v-if="notificationExists"
@@ -22,6 +23,7 @@
 import Channel from "@/interfaces/Channel";
 import { DrawersModule } from "@/store/modules/drawers";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
+import { MutedChannelsModule } from "@/store/modules/mutedChannels";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
@@ -36,6 +38,9 @@ export default class ChannelTemplate extends Vue {
     return LastSeenServerChannelsModule.serverChannelNotification(
       this.channel.channelID
     );
+  }
+  get isMuted() {
+    return MutedChannelsModule.mutedChannels.includes(this.channel.channelID);
   }
   get isChannelSelected() {
     return this.$route.params.channel_id === this.channel.channelID;
@@ -99,5 +104,10 @@ export default class ChannelTemplate extends Vue {
     width: 20px;
     height: 20px;
   }
+}
+.muted {
+  font-size: 18px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 </style>

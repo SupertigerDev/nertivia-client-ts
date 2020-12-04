@@ -5,6 +5,32 @@ import { ChannelsModule } from "../channels";
 import { MeModule } from "../me";
 import { LastSeenServerChannelsModule } from "../lastSeenServerChannel";
 import { NotificationsModule } from "../notifications";
+import notificationSound from '@/utils/notificationSound';
+import router from '@/router';
+import { MutedChannelsModule } from '../mutedChannels';
+import { MutedServersModule } from '../mutedServers';
+
+
+
+function playNotificationSound(mentioned: boolean, channelID: string) {
+  const focused = document.hasFocus();
+  const channelSelected = channelID === router.currentRoute.params.channel_id;
+  const tab = router.currentRoute.path.split("/")[2]
+
+  if (MutedServersModule.shouldMuteSeverSound(channelID)) {
+    return;
+  }
+  if (MutedChannelsModule.mutedChannels.includes(channelID)) {
+    return;
+  }
+  if (!focused) {
+    notificationSound.notification(mentioned);
+    return;
+  }
+  if (!(channelSelected && ["dms", "servers"].includes(tab))) {
+    notificationSound.notification(mentioned);
+  }
+}
 
 const actions: ActionTree<any, any> = {
   socket_receiveMessage(context, data: { message: Message }) {
@@ -36,6 +62,8 @@ const actions: ActionTree<any, any> = {
         data.message.mentions &&
         data.message.mentions.find(u => u.uniqueID === MeModule.user.uniqueID)
       );
+      // play notification sound.
+      playNotificationSound(mentioned, data.message.channelID);
       if (channel && channel.server_id && !mentioned) return;
       if (notification) {
         const updateNotification: any = {
@@ -74,6 +102,8 @@ const actions: ActionTree<any, any> = {
     });
   }
 };
+
+
 export default {
   actions
 };

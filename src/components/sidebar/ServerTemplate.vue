@@ -6,6 +6,7 @@
       notification: serverNotificationArr.length,
       mentioned: mentionedNotificationExists
     }"
+    @contextmenu.prevent="showContext"
     @click="serverClicked"
     @mouseover="hover = true"
     @mouseout="hover = false"
@@ -24,6 +25,7 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import Server from "@/interfaces/Server";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
+import { PopoutsModule } from "@/store/modules/popouts";
 
 @Component({ components: { AvatarImage } })
 export default class MainApp extends Vue {
@@ -34,6 +36,18 @@ export default class MainApp extends Vue {
     this.$router.push(
       `/app/servers/${this.server.server_id}/${this.server.default_channel_id}`
     );
+  }
+  showContext(event: MouseEvent) {
+    PopoutsModule.ShowPopout({
+      id: "context",
+      component: "ServerContextMenu",
+      key: this.server.server_id + event.clientX + event.clientY,
+      data: {
+        x: event.clientX,
+        y: event.clientY,
+        server_id: this.server.server_id
+      }
+    });
   }
 
   get mentionedNotificationExists() {

@@ -39,6 +39,10 @@ const UserContextMenu = () =>
   import(
     /* webpackChunkName: "UserContextMenu" */ "@/components/UserContextMenu.vue"
   );
+const ServerContextMenu = () =>
+  import(
+    /* webpackChunkName: "ServerContextMenu" */ "@/components/ServerContextMenu.vue"
+  );
 const BanOrKickUserPopout = () =>
   import(
     /* webpackChunkName: "BanOrKickUserPopout" */ "@/components/BanOrKickUserPopout.vue"
@@ -51,7 +55,8 @@ const BanOrKickUserPopout = () =>
     MessageContextMenu,
     UserContextMenu,
     EditRolesPopout,
-    BanOrKickUserPopout
+    BanOrKickUserPopout,
+    ServerContextMenu
   }
 })
 export default class MainApp extends Vue {

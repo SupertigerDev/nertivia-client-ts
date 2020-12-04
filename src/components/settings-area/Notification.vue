@@ -2,8 +2,12 @@
   <div class="notification">
     <div class="description">Change your notification settings. WIP.</div>
     <div class="box">
-      <Checkbox v-model="notificationSound" name="Notification Sound" />
-      <Checkbox v-model="desktopNotification" name="Desktop Notification" />
+      <Checkbox
+        v-model="notificationSound"
+        name="Notification Sound"
+        @change="notificationSoundToggled"
+      />
+      <!-- <Checkbox v-model="desktopNotification" name="Desktop Notification" /> -->
     </div>
   </div>
 </template>
@@ -15,7 +19,19 @@ import Checkbox from "@/components/Checkbox.vue";
 @Component({ components: { Checkbox } })
 export default class Notification extends Vue {
   notificationSound = false;
-  desktopNotification = true;
+  mounted() {
+    const state = localStorage["notificationSoundDisabled"];
+    if (state === undefined) {
+      this.notificationSound = true;
+      return;
+    }
+    this.notificationSound = !JSON.parse(state);
+  }
+
+  notificationSoundToggled(state: boolean) {
+    this.notificationSound = state;
+    localStorage["notificationSoundDisabled"] = !state;
+  }
 }
 </script>
 

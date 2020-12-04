@@ -9,6 +9,7 @@
       <div
         class="item-container"
         v-for="(item, i) in items"
+        :class="{ disabled: item.disabled }"
         @click="itemClicked(item)"
         @mouseover="itemHover(item, $event)"
         :key="i"
@@ -67,6 +68,7 @@ export default class extends Vue {
   }
   itemClicked(item: any) {
     if (item.type === "seperator") return;
+    if (item.disabled) return;
     this.$emit("itemClick", item);
     if (item.nestContext) return;
     this.$emit("close");
@@ -125,6 +127,8 @@ export default class extends Vue {
   overflow: hidden;
 }
 .content {
+  display: flex;
+  flex-direction: column;
   opacity: 0;
   animation: showUp 0.2s;
   animation-fill-mode: forwards;
@@ -140,7 +144,7 @@ export default class extends Vue {
   }
 }
 .item {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.6);
   cursor: pointer;
   user-select: none;
   transition: 0.2s;
@@ -150,6 +154,11 @@ export default class extends Vue {
   display: flex;
   align-content: center;
   align-items: center;
+  .icon {
+    transition: 0.2s;
+    font-size: 21px;
+    color: white;
+  }
   &:hover {
     background: var(--primary-color);
     color: white;
@@ -159,10 +168,22 @@ export default class extends Vue {
   }
   &.warn {
     color: var(--alert-color);
+    .icon {
+      color: var(--alert-color);
+    }
     &:hover {
       background: var(--alert-color);
       color: white;
+      .icon {
+        color: white;
+      }
     }
+  }
+}
+.disabled {
+  opacity: 0.4;
+  .item {
+    pointer-events: none;
   }
 }
 .name {
@@ -170,15 +191,14 @@ export default class extends Vue {
   flex: 1;
 }
 .seperator {
-  width: 100%;
+  margin-left: 10px;
+  margin-right: 10px;
   height: 1px;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.075);
   margin-top: 2px;
   margin-bottom: 2px;
 }
-.icon {
-  font-size: 21px;
-}
+
 .dot {
   height: 10px;
   width: 10px;
