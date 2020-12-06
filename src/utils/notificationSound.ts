@@ -1,6 +1,7 @@
-const newFriendSound = () => import("../assets/sounds/FriendRequest.mp3" as any)
-const mentionSound = () => import("../assets/sounds/Mention.mp3" as any)
-const messageSound = () => import("../assets/sounds/Message.mp3" as any)
+const newFriendSound = () =>
+  import("../assets/sounds/FriendRequest.mp3" as any);
+const mentionSound = () => import("../assets/sounds/Mention.mp3" as any);
+const messageSound = () => import("../assets/sounds/Message.mp3" as any);
 
 import store from "@/store/index";
 
@@ -16,10 +17,14 @@ function isNotificationDisabled() {
 export default {
   notification: async (mentioned: boolean) => {
     if (isBusy() || isNotificationDisabled()) return;
-    const audio = new Audio(mentioned ? (await mentionSound()).default : (await messageSound()).default);
+    const audio = new Audio(
+      mentioned
+        ? (await mentionSound()).default
+        : (await messageSound()).default
+    );
     audio.play();
   },
-  newFriend: async  () => {
+  newFriend: async () => {
     if (isBusy() || isNotificationDisabled()) return;
     const audio = new Audio((await newFriendSound()).default);
     audio.play();
