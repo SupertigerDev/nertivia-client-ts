@@ -1,6 +1,6 @@
-import messageSound from "@/assets/sounds/Message.mp3";
-import mentionSound from "@/assets/sounds/Mention.mp3";
-import newFriendSound from "@/assets/sounds/FriendRequest.mp3";
+const messageSound = require("@/assets/sounds/Message.mp3");
+const mentionSound = require("@/assets/sounds/Mention.mp3");
+const newFriendSound = require("@/assets/sounds/FriendRequest.mp3");
 
 import store from "@/store/index";
 
