@@ -1,12 +1,12 @@
-import Channel from '@/interfaces/Channel';
+import Channel from "@/interfaces/Channel";
 import { ActionTree } from "vuex";
-import { ChannelsModule } from '../channels';
+import { ChannelsModule } from "../channels";
 import { ServerMembersModule } from "../serverMembers";
 import { ServerRolesModule } from "../serverRoles";
 import { ServersModule } from "../servers";
 import Vue from "vue";
-import router from '@/router';
-import { UsersModule } from '../users';
+import router from "@/router";
+import { UsersModule } from "../users";
 
 const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
@@ -47,7 +47,7 @@ const actions: ActionTree<any, any> = {
       verified: data.verified,
       channel_position: data.channel_position,
       name: data.name,
-      server_id: data.server_id,
+      server_id: data.server_id
     });
 
     const channelObj: any = {};
@@ -62,15 +62,18 @@ const actions: ActionTree<any, any> = {
     }
     ChannelsModule.AddChannels(channelObj);
     if (socket().id === socketID) {
-      router.push(
-        `/app/servers/${data.server_id}/${data.default_channel_id}`
-      );
+      router.push(`/app/servers/${data.server_id}/${data.default_channel_id}`);
     }
-
-
   },
-  ["socket_server:members"](context, { serverMembers, memberPresences, memberCustomStatusArr, programActivityArr }) {
-    
+  ["socket_server:members"](
+    context,
+    {
+      serverMembers,
+      memberPresences,
+      memberCustomStatusArr,
+      programActivityArr
+    }
+  ) {
     const serverMembersObj: any = {};
     const usersObj: any = {};
     for (let i = 0; i < serverMembers.length; i++) {
@@ -91,14 +94,15 @@ const actions: ActionTree<any, any> = {
     UsersModule.AddUsers(usersObj);
     ServerMembersModule.AddServerMembers(serverMembersObj);
   },
-  ["socket_server:roles"](context, {roles, server_id}) {
+  ["socket_server:roles"](context, { roles, server_id }) {
     // sort server roles by order
-    const orderedRoles = roles.sort(
-      (a: any, b: any) => {
-        return a.order - b.order;
-      }
-    );       
-    ServerRolesModule.AddServerRoles({roles: orderedRoles, serverID: server_id})
+    const orderedRoles = roles.sort((a: any, b: any) => {
+      return a.order - b.order;
+    });
+    ServerRolesModule.AddServerRoles({
+      roles: orderedRoles,
+      serverID: server_id
+    });
   },
   ["socket_serverMember:removeRole"](
     context,

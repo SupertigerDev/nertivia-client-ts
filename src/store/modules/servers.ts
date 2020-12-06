@@ -8,7 +8,7 @@ import {
 import store from "..";
 import Server from "@/interfaces/Server";
 import { saveCache } from "@/utils/localCache";
-import Vue from 'vue';
+import Vue from "vue";
 
 interface ServerObj {
   [key: string]: Server;
@@ -29,8 +29,8 @@ class Servers extends VuexModule {
     this.INIT_SERVERS(payload);
   }
   @Mutation
-  private ADD_SERVER(payload: Server ) {
-    Vue.set(this.servers, payload.server_id, payload)
+  private ADD_SERVER(payload: Server) {
+    Vue.set(this.servers, payload.server_id, payload);
   }
 
   @Action

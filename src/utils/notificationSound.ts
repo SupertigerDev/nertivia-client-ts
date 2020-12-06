@@ -4,14 +4,11 @@ const newFriendSound = require("@/assets/sounds/FriendRequest.mp3");
 
 import store from "@/store/index";
 
-
-
-
 function isBusy() {
   return (store.state as any)?.me?.user?.status === 3;
 }
 function isNotificationDisabled() {
-  const state = localStorage["notificationSoundDisabled"]
+  const state = localStorage["notificationSoundDisabled"];
   if (state === undefined) return true;
   return JSON.parse(state);
 }
@@ -28,4 +25,3 @@ export default {
     audio.play();
   }
 };
-

@@ -8,7 +8,7 @@ import {
 import User from "@/interfaces/User";
 import store from "..";
 import { saveCache } from "@/utils/localCache";
-import Vue from 'vue';
+import Vue from "vue";
 
 interface UsersObj {
   [key: string]: User;
@@ -40,7 +40,7 @@ class Users extends VuexModule {
   }
   @Mutation
   private ADD_USERS(payload: UsersObj | any) {
-    Vue.set(this, "users", {...this.users, ...payload})
+    Vue.set(this, "users", { ...this.users, ...payload });
   }
 
   @Action

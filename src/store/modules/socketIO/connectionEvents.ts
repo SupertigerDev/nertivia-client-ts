@@ -12,9 +12,9 @@ import ServerRole from "@/interfaces/ServerRole";
 import { ServerRolesModule } from "../serverRoles";
 import { LastSeenServerChannelsModule } from "../lastSeenServerChannel";
 import { NotificationsModule } from "../notifications";
-import { MutedChannelsModule } from '../mutedChannels';
-import { isObjectLike } from 'lodash';
-import { MutedServersModule } from '../mutedServers';
+import { MutedChannelsModule } from "../mutedChannels";
+import { isObjectLike } from "lodash";
+import { MutedServersModule } from "../mutedServers";
 
 const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
@@ -28,7 +28,7 @@ interface SuccessEvent {
   notifications: Notification[];
   settings: Settings;
   mutedChannels: string[];
-  mutedServers: {muted: number, server_id: string}[]
+  mutedServers: { muted: number; server_id: string }[];
 }
 interface Settings {
   server_position: string[];
@@ -261,7 +261,7 @@ const actions: ActionTree<any, any> = {
     const mutedServersObj: any = {};
     for (let i = 0; i < data.mutedServers.length; i++) {
       const obj = data.mutedServers[i];
-      mutedServersObj[obj.server_id] = {type: obj.muted};
+      mutedServersObj[obj.server_id] = { type: obj.muted };
     }
 
     MutedServersModule.SetMutedServers(mutedServersObj);

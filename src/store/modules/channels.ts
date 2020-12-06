@@ -88,7 +88,7 @@ class Channels extends VuexModule {
   }
   @Mutation
   private ADD_CHANNELS(payload: ChannelObj) {
-    Vue.set(this, "channels", {...this.channels, ...payload});
+    Vue.set(this, "channels", { ...this.channels, ...payload });
   }
   @Action
   public AddChannels(payload: ChannelObj) {

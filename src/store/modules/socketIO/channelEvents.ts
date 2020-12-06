@@ -1,7 +1,7 @@
 import ChannelWithUser from "@/interfaces/DmChannelWithUser";
 import { ActionTree } from "vuex";
 import { ChannelsModule } from "../channels";
-import { MutedChannelsModule } from '../mutedChannels';
+import { MutedChannelsModule } from "../mutedChannels";
 import { UsersModule } from "../users";
 
 const actions: ActionTree<any, any> = {
@@ -19,12 +19,12 @@ const actions: ActionTree<any, any> = {
   ["socket_channel:remove"](context, data: { channelID: string }) {
     ChannelsModule.RemoveChannel(data.channelID);
   },
-  ["socket_channel:unmute"](context, data: {channelID: string}) {
-    MutedChannelsModule.RemoveMutedChannel(data.channelID)
+  ["socket_channel:unmute"](context, data: { channelID: string }) {
+    MutedChannelsModule.RemoveMutedChannel(data.channelID);
   },
-  ["socket_channel:mute"](context, data: {channelID: string}) {
-    MutedChannelsModule.AddMutedChannel(data.channelID)
-  },
+  ["socket_channel:mute"](context, data: { channelID: string }) {
+    MutedChannelsModule.AddMutedChannel(data.channelID);
+  }
 };
 export default {
   actions

@@ -135,7 +135,7 @@ class ServerMembers extends VuexModule {
   }
   @Mutation
   private ADD_SERVER_MEMBERS(payload: Servers) {
-    Vue.set(this, "serverMembers", {...this.serverMembers, ...payload})
+    Vue.set(this, "serverMembers", { ...this.serverMembers, ...payload });
   }
 
   @Action

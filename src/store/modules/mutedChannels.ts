@@ -38,6 +38,5 @@ class MutedChannels extends VuexModule {
   public RemoveMutedChannel(payload: string) {
     this.REMOVE_MUTED_CHANNEL(payload);
   }
-
 }
 export const MutedChannelsModule = getModule(MutedChannels);

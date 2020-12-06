@@ -10,7 +10,7 @@ import { ChannelsModule } from "./channels";
 import { NotificationsModule } from "./notifications";
 import Vue from "vue";
 import { MeModule } from "./me";
-import { MutedChannelsModule } from './mutedChannels';
+import { MutedChannelsModule } from "./mutedChannels";
 interface LastSeenObj {
   [key: string]: number;
 }
@@ -44,7 +44,8 @@ class LastSeenServerChannels extends VuexModule {
       if (!channel) return undefined;
       if (!channel.server_id) return undefined;
       if (!channel.lastMessaged) return undefined;
-      if (MutedChannelsModule.mutedChannels.includes(channelID)) return undefined;
+      if (MutedChannelsModule.mutedChannels.includes(channelID))
+        return undefined;
       const lastSeenStamp = this.lastSeenServers[channel.channelID];
       if (!lastSeenStamp || lastSeenStamp < channel.lastMessaged) {
         // check if being mentioned

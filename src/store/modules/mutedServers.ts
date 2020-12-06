@@ -9,8 +9,8 @@ import store from "..";
 
 interface MutedServerObj {
   [key: string]: {
-    type: number
-  }
+    type: number;
+  };
 }
 
 @Module({ dynamic: true, store, namespaced: true, name: "mutedServers" })
@@ -21,8 +21,8 @@ class MutedServers extends VuexModule {
     return (channelID: string) => {
       const muted = this.mutedServers[channelID];
       if (!muted) return false;
-      return muted.type >= 1
-    }
+      return muted.type >= 1;
+    };
   }
 
   @Mutation
@@ -34,6 +34,5 @@ class MutedServers extends VuexModule {
   public SetMutedServers(payload: MutedServerObj) {
     this.SET_MUTED_SERVERS(payload);
   }
-
 }
 export const MutedServersModule = getModule(MutedServers);

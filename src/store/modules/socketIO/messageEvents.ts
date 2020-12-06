@@ -5,17 +5,15 @@ import { ChannelsModule } from "../channels";
 import { MeModule } from "../me";
 import { LastSeenServerChannelsModule } from "../lastSeenServerChannel";
 import { NotificationsModule } from "../notifications";
-import notificationSound from '@/utils/notificationSound';
-import router from '@/router';
-import { MutedChannelsModule } from '../mutedChannels';
-import { MutedServersModule } from '../mutedServers';
-
-
+import notificationSound from "@/utils/notificationSound";
+import router from "@/router";
+import { MutedChannelsModule } from "../mutedChannels";
+import { MutedServersModule } from "../mutedServers";
 
 function playNotificationSound(mentioned: boolean, channelID: string) {
   const focused = document.hasFocus();
   const channelSelected = channelID === router.currentRoute.params.channel_id;
-  const tab = router.currentRoute.path.split("/")[2]
+  const tab = router.currentRoute.path.split("/")[2];
 
   if (MutedServersModule.shouldMuteSeverSound(channelID)) {
     return;
@@ -102,7 +100,6 @@ const actions: ActionTree<any, any> = {
     });
   }
 };
-
 
 export default {
   actions
