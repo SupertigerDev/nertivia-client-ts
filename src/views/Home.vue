@@ -30,8 +30,8 @@
       </div>
     </div>
     <div class="footer">
-      <a href="https://nertivia.tk/privacy">Privacy Policy</a>
-      <a href="https://nertivia.tk/terms-and-conditions"
+      <a href="https://nertivia.net/privacy">Privacy Policy</a>
+      <a href="https://nertivia.net/terms-and-conditions"
         >Terms And Conditions</a
       >
     </div>

@@ -31,7 +31,7 @@
 export default {
   methods: {
     registerButton() {
-      location.href = "https://nertivia.tk/register";
+      location.href = "https://nertivia.net/register";
     }
   }
 };
