@@ -9,7 +9,7 @@ function isBusy() {
 }
 function isNotificationDisabled() {
   const state = localStorage["notificationSoundDisabled"];
-  if (state === undefined) return true;
+  if (state === undefined) return false;
   return JSON.parse(state);
 }
 
