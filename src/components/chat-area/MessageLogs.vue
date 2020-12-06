@@ -26,12 +26,30 @@ import { ScrollModule } from "@/store/modules/scroll";
 import windowProperties from "@/utils/windowProperties";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
+import FileDragDrop from "@/utils/FileDragDrop";
 
 @Component({ components: { MessageTemplate, ActionMessageTemplate } })
 export default class MessageLogs extends Vue {
+  fileDragDropHandler: FileDragDrop | undefined;
   mounted() {
     ScrollModule.SetScrolledBottom(true);
     this.scrollDown();
+    this.fileDragDropHandler = new FileDragDrop();
+    this.fileDragDropHandler.onDragOver(this.fileDragOver);
+    this.fileDragDropHandler.onDrop(this.fileDrop);
+    this.fileDragDropHandler.onDragOut(this.fileDragOut);
+  }
+  destroyed() {
+    this.fileDragDropHandler?.destroy();
+  }
+  fileDragOver() {
+    console.log("dragOver");
+  }
+  fileDragOut() {
+    console.log("dragOut");
+  }
+  fileDrop(file: File) {
+    console.log(file);
   }
 
   onScroll(event: { target: Element }) {

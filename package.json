@@ -17,6 +17,7 @@
     "npm": "^7.0.6",
     "register-service-worker": "^1.7.1",
     "seed-color": "^2.0.1",
+    "seeded-color": "^1.0.1",
     "socket.io-client": "^2.3.1",
     "twemoji": "^13.0.1",
     "vue": "^2.6.11",

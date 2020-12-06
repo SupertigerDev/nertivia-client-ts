@@ -1,6 +1,18 @@
 <template>
   <div class="message-box">
     <div class="input-box">
+      <div
+        class="material-icons button attach-button"
+        @click="$refs.sendFileBrowse.click()"
+      >
+        attach_file
+      </div>
+      <input
+        type="file"
+        ref="sendFileBrowse"
+        style="display: none"
+        @change="attachmentChange"
+      />
       <textarea
         v-bind:value="isConnected ? message : ''"
         @input="message = $event.target.value"
@@ -11,7 +23,7 @@
         :placeholder="isConnected ? 'Type your message' : 'Not Connected'"
       />
       <div
-        class="material-icons send-button"
+        class="material-icons button send-button"
         v-if="message.trim().length"
         @click="sendMessage"
       >
@@ -24,12 +36,25 @@
 <script lang="ts">
 import { MeModule } from "@/store/modules/me";
 import { MessagesModule } from "@/store/modules/messages";
+import { PopoutsModule } from "@/store/modules/popouts";
 import { Component, Vue, Watch } from "vue-property-decorator";
 
 @Component
 export default class MessageBoxArea extends Vue {
   message = "";
 
+  mounted() {
+    this.resizeTextArea();
+  }
+  attachmentChange(event: any) {
+    const file: File = event.target.files[0];
+    event.target.value = "";
+    PopoutsModule.ShowPopout({
+      id: "file-upload",
+      component: "file-upload-dialog",
+      data: { file }
+    });
+  }
   @Watch("message")
   messageChanged() {
     this.resizeTextArea();
@@ -95,7 +120,7 @@ export default class MessageBoxArea extends Vue {
   background: transparent;
   color: white;
 }
-.send-button {
+.button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -105,7 +130,7 @@ export default class MessageBoxArea extends Vue {
   margin-right: 5px;
   cursor: pointer;
   height: 35px;
-  opacity: 0.8;
+  opacity: 0.7;
   width: 45px;
   border-radius: 5px;
   transition: 0.2s;
@@ -113,6 +138,9 @@ export default class MessageBoxArea extends Vue {
   &:hover {
     background: var(--primary-color);
     opacity: 1;
+  }
+  &.attach-button {
+    margin-left: 5px;
   }
 }
 </style>
