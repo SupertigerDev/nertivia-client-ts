@@ -1,6 +1,6 @@
-const messageSound = require("@/assets/sounds/Message.mp3");
-const mentionSound = require("@/assets/sounds/Mention.mp3");
-const newFriendSound = require("@/assets/sounds/FriendRequest.mp3");
+const newFriendSound = () => import("../assets/sounds/FriendRequest.mp3" as any)
+const mentionSound = () => import("../assets/sounds/Mention.mp3" as any)
+const messageSound = () => import("../assets/sounds/Message.mp3" as any)
 
 import store from "@/store/index";
 
@@ -14,14 +14,14 @@ function isNotificationDisabled() {
 }
 
 export default {
-  notification: (mentioned: boolean) => {
+  notification: async (mentioned: boolean) => {
     if (isBusy() || isNotificationDisabled()) return;
-    const audio = new Audio(mentioned ? mentionSound : messageSound);
+    const audio = new Audio(mentioned ? (await mentionSound()).default : (await messageSound()).default);
     audio.play();
   },
-  newFriend: () => {
+  newFriend: async  () => {
     if (isBusy() || isNotificationDisabled()) return;
-    const audio = new Audio(newFriendSound);
+    const audio = new Audio((await newFriendSound()).default);
     audio.play();
   }
 };
