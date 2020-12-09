@@ -29,6 +29,7 @@
         v-bind:value="isConnected ? message : ''"
         @input="message = $event.target.value"
         @keydown="keyDownEvent"
+        @paste="onPaste"
         ref="textarea"
         class="textarea"
         :disabled="!isConnected"
@@ -59,6 +60,19 @@ export default class MessageBoxArea extends Vue {
   mounted() {
     this.resizeTextArea();
   }
+  // ctrl + v event (for screenshots)
+  onPaste(event: any) {
+    const items = (event.clipboardData || event.originalEvent.clipboardData)
+      .items;
+    for (const index in items) {
+      const item = items[index];
+      if (item.kind === "file") {
+        const blob = item.getAsFile();
+        FileUploadModule.SetFile(blob);
+      }
+    }
+  }
+
   attachmentChange(event: any) {
     const file: File = event.target.files[0];
     event.target.value = "";
