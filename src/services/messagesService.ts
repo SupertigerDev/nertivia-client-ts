@@ -1,7 +1,7 @@
 import wrapper from "./wrapper";
 import Message from "@/interfaces/Message";
 import Vue from "vue";
-import config from '@/config'
+import config from "@/config";
 
 const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
@@ -40,32 +40,35 @@ export function postFormDataMessage(
   file: File,
   isImage: boolean,
   compress: boolean,
-  callback: (error: any, progress: number| null, done: boolean | null) => void
+  callback: (error: any, progress: number | null, done: boolean | null) => void
 ) {
   const formData = new FormData();
   if (message) {
-    formData.append('message', message)
+    formData.append("message", message);
   }
-  formData.append('upload_cdn', cdn.toString())
+  formData.append("upload_cdn", cdn.toString());
   if (isImage && compress) {
-    formData.append('compress', "1")
+    formData.append("compress", "1");
   }
-  formData.append('file', file)
+  formData.append("file", file);
 
   const request = new XMLHttpRequest();
-  request.open("POST", config.fetchPrefix + `/messages/channels/${channelID}`)
-  request.setRequestHeader("authorization", localStorage.getItem("hauthid") || "")
+  request.open("POST", config.fetchPrefix + `/messages/channels/${channelID}`);
+  request.setRequestHeader(
+    "authorization",
+    localStorage.getItem("hauthid") || ""
+  );
 
-  request.onreadystatechange = function (oEvent) {
+  request.onreadystatechange = function(oEvent) {
     if (request.readyState === 4) {
-        if (request.status === 200) {
-          callback(null, null, true);
-        } else {
-           callback(JSON.parse(request.response), null ,null);
-        }
+      if (request.status === 200) {
+        callback(null, null, true);
+      } else {
+        callback(JSON.parse(request.response), null, null);
+      }
     }
-};
-  request.upload.onprogress = (progressEvent) => {
+  };
+  request.upload.onprogress = progressEvent => {
     const percentCompleted = Math.round(
       (progressEvent.loaded * 100) / progressEvent.total
     );
@@ -74,7 +77,7 @@ export function postFormDataMessage(
     if (callback) callback(null, percentCompleted, null);
 
     return percentCompleted;
-  }
+  };
 
   request.send(formData);
 
