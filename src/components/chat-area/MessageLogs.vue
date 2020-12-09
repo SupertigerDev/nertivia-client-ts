@@ -7,12 +7,13 @@
   >
     <transition-group :name="windowIsFocused ? 'message' : ''" tag="p">
       <component
+        v-for="message in channelMessages"
         v-bind:is="messageType(message)"
         class="message"
-        v-for="message in channelMessages"
         :key="message.tempID || message.messageID"
         :message="message"
       />
+      <UploadQueue v-if="uploadQueue.length" key="upload-queue" />
     </transition-group>
   </div>
 </template>
@@ -21,14 +22,18 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { MessagesModule } from "@/store/modules/messages";
 import MessageTemplate from "./message/MessageTemplate.vue";
+import UploadQueue from "./message/UploadQueue.vue";
 import ActionMessageTemplate from "./message/ActionMessageTemplate.vue";
 import { ScrollModule } from "@/store/modules/scroll";
 import windowProperties from "@/utils/windowProperties";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import FileDragDrop from "@/utils/FileDragDrop";
+import { FileUploadModule } from "@/store/modules/fileUpload";
 
-@Component({ components: { MessageTemplate, ActionMessageTemplate } })
+@Component({
+  components: { MessageTemplate, ActionMessageTemplate, UploadQueue }
+})
 export default class MessageLogs extends Vue {
   fileDragDropHandler: FileDragDrop | undefined;
   mounted() {
@@ -39,7 +44,7 @@ export default class MessageLogs extends Vue {
     this.fileDragDropHandler.onDrop(this.fileDrop);
     this.fileDragDropHandler.onDragOut(this.fileDragOut);
   }
-  destroyed() {
+  beforeDestroy() {
     this.fileDragDropHandler?.destroy();
   }
   fileDragOver() {
@@ -91,6 +96,12 @@ export default class MessageLogs extends Vue {
       this.scrollDown();
     }
   }
+  @Watch("uploadQueue")
+  onUploadQueueChange() {
+    this.$nextTick(() => {
+      this.scrollDown(true);
+    });
+  }
 
   get messageType() {
     return (message: any) =>
@@ -120,6 +131,9 @@ export default class MessageLogs extends Vue {
       height: windowProperties.resizeHeight,
       width: windowProperties.resizeWidth
     };
+  }
+  get uploadQueue() {
+    return FileUploadModule.uploadQueue;
   }
 }
 </script>

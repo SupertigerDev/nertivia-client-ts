@@ -1,11 +1,23 @@
 <template>
   <div class="message-box">
+    <FileUpload
+      v-if="showUploadBox"
+      :key="showUploadBox.name + showUploadBox.size"
+    />
     <div class="input-box">
       <div
         class="material-icons button attach-button"
         @click="$refs.sendFileBrowse.click()"
+        v-if="!showUploadBox"
       >
         attach_file
+      </div>
+      <div
+        class="material-icons button close-button"
+        @click="removeAttachment"
+        v-else
+      >
+        close
       </div>
       <input
         type="file"
@@ -20,26 +32,27 @@
         ref="textarea"
         class="textarea"
         :disabled="!isConnected"
-        :placeholder="isConnected ? 'Type your message' : 'Not Connected'"
+        :placeholder="placeholderMessage"
       />
       <div
         class="material-icons button send-button"
-        v-if="message.trim().length"
+        v-if="message.trim().length || showUploadBox"
         @click="sendMessage"
       >
-        send
+        {{ showUploadBox ? "upload" : "send" }}
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import { FileUploadModule } from "@/store/modules/fileUpload";
+import FileUpload from "./FileUpload.vue";
 import { MeModule } from "@/store/modules/me";
 import { MessagesModule } from "@/store/modules/messages";
-import { PopoutsModule } from "@/store/modules/popouts";
 import { Component, Vue, Watch } from "vue-property-decorator";
 
-@Component
+@Component({ components: { FileUpload } })
 export default class MessageBoxArea extends Vue {
   message = "";
 
@@ -49,15 +62,19 @@ export default class MessageBoxArea extends Vue {
   attachmentChange(event: any) {
     const file: File = event.target.files[0];
     event.target.value = "";
-    PopoutsModule.ShowPopout({
-      id: "file-upload",
-      component: "file-upload-dialog",
-      data: { file }
-    });
+    FileUploadModule.SetFile(file);
+    (this.$refs["textarea"] as HTMLElement).focus();
+  }
+  removeAttachment() {
+    FileUploadModule.SetFile(undefined);
   }
   @Watch("message")
   messageChanged() {
     this.resizeTextArea();
+  }
+  @Watch("channelID")
+  onChannelIDChange() {
+    (this.$refs["textarea"] as HTMLElement).focus();
   }
   keyDownEvent(e: KeyboardEvent) {
     if (e.shiftKey) return;
@@ -69,13 +86,23 @@ export default class MessageBoxArea extends Vue {
   }
   sendMessage() {
     (this.$refs["textarea"] as HTMLElement).focus();
-    if (!this.message.trim().length) return;
     const message = this.message;
-    this.message = "";
-    MessagesModule.SendMessage({
-      message,
-      channelID: this.$route.params.channel_id
-    });
+
+    if (this.showUploadBox) {
+      this.message = "";
+      FileUploadModule.AddToQueue({
+        channelID: this.$route.params.channel_id,
+        message
+      });
+      return;
+    } else {
+      if (!this.message.trim().length) return;
+      this.message = "";
+      MessagesModule.SendMessage({
+        message,
+        channelID: this.$route.params.channel_id
+      });
+    }
   }
   resizeTextArea() {
     this.$nextTick(() => {
@@ -88,8 +115,23 @@ export default class MessageBoxArea extends Vue {
       textarea.style.height = textarea.scrollHeight + "px";
     });
   }
+  get placeholderMessage() {
+    if (!this.isConnected) {
+      return "Not Connected";
+    }
+    if (this.showUploadBox) {
+      return "Attach a message";
+    }
+    return "Type your message";
+  }
   get isConnected() {
     return MeModule.connected;
+  }
+  get showUploadBox() {
+    return FileUploadModule.file.file;
+  }
+  get channelID() {
+    return this.$route.params.channel_id;
   }
 }
 </script>
@@ -102,6 +144,7 @@ export default class MessageBoxArea extends Vue {
 
   flex-shrink: 0;
   min-height: 45px;
+  position: relative;
 }
 
 .input-box {
@@ -141,6 +184,13 @@ export default class MessageBoxArea extends Vue {
   }
   &.attach-button {
     margin-left: 5px;
+  }
+  &.close-button {
+    margin-left: 5px;
+    &:hover {
+      background: var(--alert-color);
+      opacity: 1;
+    }
   }
 }
 </style>

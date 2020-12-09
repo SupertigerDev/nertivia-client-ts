@@ -9,7 +9,7 @@
 import { Component, Model, Prop, Vue } from "vue-property-decorator";
 
 @Component
-export default class Checkbox extends Vue {
+export default class CheckBox extends Vue {
   @Model("change", { type: Boolean }) readonly checked!: boolean;
   @Prop() private name!: string;
   clicked() {
@@ -35,5 +35,6 @@ export default class Checkbox extends Vue {
   width: 15px;
   background: gray;
   margin: 5px;
+  margin-left: 0;
 }
 </style>

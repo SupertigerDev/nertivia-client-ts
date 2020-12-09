@@ -2,21 +2,21 @@
   <div class="notification">
     <div class="description">Change your notification settings. WIP.</div>
     <div class="box">
-      <Checkbox
+      <CheckBox
         v-model="notificationSound"
         name="Notification Sound"
         @change="notificationSoundToggled"
       />
-      <!-- <Checkbox v-model="desktopNotification" name="Desktop Notification" /> -->
+      <!-- <CheckBox v-model="desktopNotification" name="Desktop Notification" /> -->
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import Checkbox from "@/components/Checkbox.vue";
+import CheckBox from "@/components/CheckBox.vue";
 
-@Component({ components: { Checkbox } })
+@Component({ components: { CheckBox } })
 export default class Notification extends Vue {
   notificationSound = false;
   mounted() {

@@ -11,6 +11,7 @@
     "@hcaptcha/vue-hcaptcha": "^0.2.2",
     "@types/lodash": "^4.14.162",
     "core-js": "^3.6.5",
+    "filesize": "^6.1.0",
     "install": "^0.13.0",
     "ky": "^0.23.0",
     "lodash": "^4.17.20",
