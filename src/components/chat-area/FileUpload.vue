@@ -52,7 +52,7 @@ export default class MainApp extends Vue {
   display: flex;
   min-height: 80px;
   padding-right: 10px;
-  background: #393e46ef;
+  background: #2b2c2f;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.6);
   position: absolute;
   top: -90px;
