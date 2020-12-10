@@ -50,7 +50,6 @@ export default class MainApp extends Vue {
   margin-left: 5px;
 }
 .open-drawer-button {
-  margin-left: 5px;
   opacity: 0.7;
   transition: 0.2s;
   cursor: pointer;
@@ -61,11 +60,14 @@ export default class MainApp extends Vue {
 }
 @media (max-width: 650px) {
   .left-drawer {
+    margin-left: 5px;
     display: block;
   }
 }
 @media (max-width: 950px) {
   .right-drawer {
+    margin-right: 5px;
+    margin-left: auto;
     display: block;
   }
 }
