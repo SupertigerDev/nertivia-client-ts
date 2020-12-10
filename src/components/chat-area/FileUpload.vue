@@ -9,6 +9,7 @@
 
 <script lang="ts">
 import { FileUploadModule } from "@/store/modules/fileUpload";
+import fileSize from "filesize";
 import { Component, Vue } from "vue-property-decorator";
 import FileInput from "./FileInput.vue";
 import ImageInput from "./ImageInput.vue";
@@ -17,6 +18,12 @@ import ImageInput from "./ImageInput.vue";
 export default class MainApp extends Vue {
   height = "-90px";
   mounted() {
+    // file size check
+    const maxSize = 52424000; //50MB
+    if ((this.file?.size || 0) > maxSize) {
+      alert(`File size exeeded 50MB! (${fileSize(this.file?.size || 0)})`);
+      FileUploadModule.SetFile(undefined);
+    }
     document.addEventListener("keydown", this.keyDown);
     this.height =
       -((this.$refs.container as HTMLElement).clientHeight + 10) + "px";
