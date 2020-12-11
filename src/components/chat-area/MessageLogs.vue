@@ -5,7 +5,7 @@
     ref="logs"
     @scroll.passive="onScroll"
   >
-    <transition-group :name="windowIsFocused ? 'message' : ''" tag="p">
+    <transition-group :name="windowIsFocused ? 'message' : ''" tag="div">
       <component
         v-for="message in channelMessages"
         v-bind:is="messageType(message)"
@@ -160,5 +160,10 @@ export default class MessageLogs extends Vue {
   // overflow: auto;
   overflow-y: auto;
   overflow-x: hidden;
+}
+.message-logs::after {
+  content: "";
+  display: block;
+  padding-bottom: 20px;
 }
 </style>

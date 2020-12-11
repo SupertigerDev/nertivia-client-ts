@@ -4,6 +4,7 @@
       v-if="showUploadBox"
       :key="showUploadBox.name + showUploadBox.size"
     />
+    <TypingStatus />
     <div class="input-box">
       <div
         class="material-icons button attach-button"
@@ -49,16 +50,22 @@
 <script lang="ts">
 import { FileUploadModule } from "@/store/modules/fileUpload";
 import FileUpload from "./FileUpload.vue";
+import TypingStatus from "./TypingStatus.vue";
 import { MeModule } from "@/store/modules/me";
 import { MessagesModule } from "@/store/modules/messages";
+import { MessageInputModule } from "@/store/modules/messageInput";
 import { Component, Vue, Watch } from "vue-property-decorator";
+import WindowProperties from "@/utils/windowProperties";
+import { postTypingStatus } from "@/services/messagesService";
 
-@Component({ components: { FileUpload } })
+@Component({ components: { FileUpload, TypingStatus } })
 export default class MessageBoxArea extends Vue {
-  message = "";
-
+  postTypingTimeout: number | null = null;
   mounted() {
     this.resizeTextArea();
+  }
+  beforeDestroy() {
+    this.stopPostingTypingStatus();
   }
   // ctrl + v event (for screenshots)
   onPaste(event: any) {
@@ -89,6 +96,28 @@ export default class MessageBoxArea extends Vue {
   @Watch("channelID")
   onChannelIDChange() {
     (this.$refs["textarea"] as HTMLElement).focus();
+    this.stopPostingTypingStatus();
+  }
+  @Watch("message")
+  async postTypingStatus() {
+    if (!this.message.trim().length && this.postTypingTimeout) {
+      clearTimeout(this.postTypingTimeout);
+      this.postTypingTimeout = null;
+      return;
+    }
+    if (this.postTypingTimeout) return;
+    await postTypingStatus(this.channelID);
+    this.postTypingTimeout = setTimeout(() => {
+      this.postTypingTimeout = null;
+      if (!this.message.trim().length) return;
+      this.postTypingStatus();
+    }, 2000);
+  }
+  @Watch("isFocused")
+  onFocusChange() {
+    if (!this.isFocused) {
+      this.stopPostingTypingStatus();
+    }
   }
   keyDownEvent(e: KeyboardEvent) {
     if (e.shiftKey) return;
@@ -129,6 +158,10 @@ export default class MessageBoxArea extends Vue {
       textarea.style.height = textarea.scrollHeight + "px";
     });
   }
+  stopPostingTypingStatus() {
+    this.postTypingTimeout && clearTimeout(this.postTypingTimeout);
+    this.postTypingTimeout = null;
+  }
   get placeholderMessage() {
     if (!this.isConnected) {
       return "Not Connected";
@@ -141,11 +174,20 @@ export default class MessageBoxArea extends Vue {
   get isConnected() {
     return MeModule.connected;
   }
+  get isFocused() {
+    return WindowProperties.isFocused;
+  }
   get showUploadBox() {
     return FileUploadModule.file.file;
   }
   get channelID() {
     return this.$route.params.channel_id;
+  }
+  get message() {
+    return MessageInputModule.message;
+  }
+  set message(val) {
+    MessageInputModule.setMessage(val);
   }
 }
 </script>

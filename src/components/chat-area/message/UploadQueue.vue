@@ -28,8 +28,9 @@ export default class UploadQueue extends Vue {
 <style lang="scss" scoped>
 .upload-queue {
   display: flex;
-  background: rgba(255, 255, 255, 0.1);
+  background: #2b2c2f;
   flex-direction: column;
+  border-radius: 4px;
   margin: 10px;
   padding: 5px;
   margin-bottom: 0;
