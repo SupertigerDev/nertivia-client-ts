@@ -106,7 +106,7 @@ export default class MessageBoxArea extends Vue {
       return;
     }
     if (this.postTypingTimeout) return;
-    await postTypingStatus(this.channelID);
+    postTypingStatus(this.channelID);
     this.postTypingTimeout = setTimeout(() => {
       this.postTypingTimeout = null;
       if (!this.message.trim().length) return;
