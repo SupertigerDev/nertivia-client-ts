@@ -9,7 +9,7 @@ import notificationSound from "@/utils/notificationSound";
 import router from "@/router";
 import { MutedChannelsModule } from "../mutedChannels";
 import { MutedServersModule } from "../mutedServers";
-import {eventBus} from '@/utils/globalBus'
+import { eventBus } from "@/utils/globalBus";
 
 function playNotificationSound(mentioned: boolean, channelID: string) {
   const focused = document.hasFocus();
@@ -54,7 +54,7 @@ const actions: ActionTree<any, any> = {
     // message created by not me
     // server channel = mentioned
     if (!isMe) {
-      eventBus.$emit("newMessage", data.message)
+      eventBus.$emit("newMessage", data.message);
       const notification = NotificationsModule.notificationByChannelID(
         data.message.channelID
       );

@@ -3,7 +3,7 @@ export default class FileDragDrop {
   dragEnterBoundFunction: (event: any) => void;
   dropBoundFunction: (event: any) => void;
   dragLeaveBoundFunction: (event: any) => void;
-  lastTarget: Element | undefined
+  lastTarget: Element | undefined;
   constructor() {
     this._events = {};
 
@@ -27,7 +27,7 @@ export default class FileDragDrop {
   _dragOut(event: any) {
     event.preventDefault();
     if (event.target === this.lastTarget || event.target === document) {
-     this._events?.dragOut();
+      this._events?.dragOut();
     }
   }
   _dragEnter(event: any) {

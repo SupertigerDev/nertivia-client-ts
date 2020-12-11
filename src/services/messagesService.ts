@@ -32,15 +32,10 @@ export function postMessage(
       json: { message, tempID, socketID: socket().id }
     })
     .json();
-  }
-export function postTypingStatus( channelID: string ): Promise<ResponsePost> {
-  return wrapper
-    .post(`messages/${channelID}/typing`)
-    .json();
 }
-
-
-
+export function postTypingStatus(channelID: string): Promise<ResponsePost> {
+  return wrapper.post(`messages/${channelID}/typing`).json();
+}
 
 export function postFormDataMessage(
   message: string,

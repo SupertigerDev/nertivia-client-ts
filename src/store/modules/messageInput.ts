@@ -20,6 +20,5 @@ class MessageInput extends VuexModule {
   public setMessage(payload: string) {
     this.SET_MESSAGE(payload);
   }
-
 }
 export const MessageInputModule = getModule(MessageInput);
