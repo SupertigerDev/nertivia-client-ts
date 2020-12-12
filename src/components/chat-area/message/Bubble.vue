@@ -19,6 +19,7 @@
         <!-- This is done like this to make the message bubble not look ugly when the message is larger than the image. -->
         <div class="message" v-if="message.message" v-text="message.message" />
       </div>
+      <FileMessage v-else-if="file" :message="message" />
       <div
         class="message"
         v-if="message.message && !isFileImage"
@@ -31,12 +32,14 @@
 <script lang="ts">
 import Message from "@/interfaces/Message";
 import ImageMessageEmbed from "./ImageMessageEmbed.vue";
+import FileMessage from "./FileMessage.vue";
 import { MeModule } from "@/store/modules/me";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import friendlyDate from "@/utils/date";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { PopoutsModule } from "@/store/modules/popouts";
-@Component({ components: { ImageMessageEmbed } })
+import config from "@/config";
+@Component({ components: { ImageMessageEmbed, FileMessage } })
 export default class Bubble extends Vue {
   loadRoleColor = false;
   @Prop() private message!: Message & { grouped: boolean };
@@ -76,10 +79,21 @@ export default class Bubble extends Vue {
   }
 
   get isFileImage() {
-    const files = this.message.files;
-    if (!files || !files.length) return false;
-    if (!files[0].dimensions) return false;
+    if (!this.file) return false;
+    if (!this.file.dimensions) return false;
     return true;
+  }
+  get isVideo() {
+    if (!this.file) return false;
+    return this.file.fileName?.endsWith(".mp4");
+  }
+  get file() {
+    const files = this.message.files;
+    if (!files || !files.length) return undefined;
+    return files[0];
+  }
+  get fileUrl() {
+    return `${config.fetchPrefix}/files/${this.file?.fileID}/${this.file?.fileName}`;
   }
 
   get date() {
