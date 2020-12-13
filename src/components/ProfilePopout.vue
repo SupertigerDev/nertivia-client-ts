@@ -231,6 +231,7 @@ export default class ProfilePopout extends Vue {
   .left {
     display: flex;
     margin-top: 60px;
+    position: relative;
     flex: 1;
   }
   .right {
