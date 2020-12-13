@@ -168,6 +168,7 @@ export default class ExploreServerTemplate extends Vue {
 .top {
   display: flex;
   .left {
+    position: relative;
     flex: 1;
   }
 }
