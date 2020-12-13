@@ -195,7 +195,7 @@ export default class MessageBoxArea extends Vue {
 <style lang="scss" scoped>
 .message-box {
   display: flex;
-  flex-direction: column;
+  // flex-direction: column;
   background: rgba(255, 255, 255, 0.07);
 
   flex-shrink: 0;
@@ -205,6 +205,8 @@ export default class MessageBoxArea extends Vue {
 
 .input-box {
   display: flex;
+  flex: 1;
+  place-items: center;
 }
 .textarea {
   outline: none;
