@@ -35,7 +35,9 @@ export function postMessage(
 }
 
 export function editMessage(
-  messageID: string, channelID: string, data: any
+  messageID: string,
+  channelID: string,
+  data: any
 ): Promise<ResponsePost> {
   return wrapper
     .patch(`messages/${messageID}/channels/${channelID}`, {
@@ -43,7 +45,6 @@ export function editMessage(
     })
     .json();
 }
-
 
 export function postTypingStatus(channelID: string): Promise<ResponsePost> {
   return wrapper.post(`messages/${channelID}/typing`).json();
