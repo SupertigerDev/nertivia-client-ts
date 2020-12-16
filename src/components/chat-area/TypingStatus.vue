@@ -75,7 +75,7 @@ export default class MainApp extends Vue {
     this.$delete(this.typingObj[channelID], uniqueID);
   }
   onNewMessage(message: Message) {
-    const objExists = this.typingObj[message.channelID][
+    const objExists = this.typingObj[message.channelID]?.[
       message.creator.uniqueID
     ];
     if (objExists) {

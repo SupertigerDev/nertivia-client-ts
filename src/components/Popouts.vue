@@ -47,6 +47,10 @@ const BanOrKickUserPopout = () =>
   import(
     /* webpackChunkName: "BanOrKickUserPopout" */ "@/components/BanOrKickUserPopout.vue"
   );
+const DeleteMessagePopout = () =>
+  import(
+    /* webpackChunkName: "DeleteMessagePopout" */ "@/components/DeleteMessagePopout.vue"
+  );
 const DragDropPopout = () =>
   import(
     /* webpackChunkName: "DragDropPopout" */ "@/components/DragDropPopout.vue"
@@ -61,7 +65,8 @@ const DragDropPopout = () =>
     EditRolesPopout,
     BanOrKickUserPopout,
     ServerContextMenu,
-    DragDropPopout
+    DragDropPopout,
+    DeleteMessagePopout
   }
 })
 export default class MainApp extends Vue {

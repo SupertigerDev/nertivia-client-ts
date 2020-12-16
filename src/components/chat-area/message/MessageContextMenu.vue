@@ -17,9 +17,9 @@ import { MeModule } from "@/store/modules/me";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import perms from "@/constants/rolePermissions";
 import { ServersModule } from "@/store/modules/servers";
-import { deleteMessage } from "@/services/messagesService";
 import { PopoutsModule } from "@/store/modules/popouts";
 import User from "@/interfaces/User";
+import { eventBus } from "@/utils/globalBus";
 
 @Component({ components: { ContextMenu } })
 export default class extends Vue {
@@ -51,7 +51,17 @@ export default class extends Vue {
         this.copyMessage();
         break;
       case "Delete":
-        this.deleteMessage();
+        PopoutsModule.ShowPopout({
+          component: "delete-message-popout",
+          data: {
+            messageID: this.message.messageID,
+            channelID: this.message.channelID
+          },
+          id: "delete-message"
+        });
+        break;
+      case "Edit":
+        eventBus.$emit("editMessage", this.message.messageID);
         break;
       default:
         break;
@@ -80,10 +90,6 @@ export default class extends Vue {
   copyMessage() {
     if (!this.message.message) return;
     this.$copyText(this.message.message);
-  }
-  deleteMessage() {
-    if (!this.message.messageID) return;
-    deleteMessage(this.message.channelID, this.message.messageID);
   }
   get items() {
     const items: any = [

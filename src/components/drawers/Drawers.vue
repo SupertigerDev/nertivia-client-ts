@@ -120,7 +120,7 @@ export default class MainApp extends Vue {
 }
 .content-wrapper {
   display: flex;
-  width: 100%;
+  overflow: hidden;
   flex: 1;
 }
 .drawer-wrapper {

@@ -18,7 +18,7 @@
       <!-- Used for grouped messages -->
       <div class="time" v-else>{{ friendlyTime }}</div>
       <Bubble :message="message" />
-      <MessageSide :message="message" />
+      <MessageSide :message="message" v-if="!hideContext" />
     </div>
   </div>
 </template>
@@ -37,6 +37,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
 })
 export default class MessageLogs extends Vue {
   @Prop() private message!: Message & { grouped: boolean };
+  @Prop({ default: false }) private hideContext!: boolean;
 
   contextPos: { x?: number; y?: number } = {};
   hover = false;

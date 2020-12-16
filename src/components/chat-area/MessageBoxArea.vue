@@ -5,18 +5,23 @@
       :key="showUploadBox.name + showUploadBox.size"
     />
     <TypingStatus />
+    <EditPanel
+      v-if="editingMessageID"
+      :messageID="editingMessageID"
+      @close="editingMessageID = null"
+    />
     <div class="input-box">
       <div
         class="material-icons button attach-button"
         @click="$refs.sendFileBrowse.click()"
-        v-if="!showUploadBox"
+        v-if="!showUploadBox && !editingMessageID"
       >
         attach_file
       </div>
       <div
         class="material-icons button close-button"
         @click="removeAttachment"
-        v-else
+        v-else-if="showUploadBox"
       >
         close
       </div>
@@ -36,9 +41,25 @@
         :disabled="!isConnected"
         :placeholder="placeholderMessage"
       />
+
+      <div
+        v-if="message.trim().length && editingMessageID"
+        class="material-icons button send-button"
+        @click="sendMessage"
+      >
+        edit
+      </div>
+      <div
+        v-else-if="!message.length && editingMessageID"
+        class="material-icons button close-button"
+        @click="sendMessage"
+      >
+        delete
+      </div>
+
       <div
         class="material-icons button send-button"
-        v-if="message.trim().length || showUploadBox"
+        v-else-if="message.trim().length || showUploadBox"
         @click="sendMessage"
       >
         {{ showUploadBox ? "upload" : "send" }}
@@ -51,21 +72,29 @@
 import { FileUploadModule } from "@/store/modules/fileUpload";
 import FileUpload from "./FileUpload.vue";
 import TypingStatus from "./TypingStatus.vue";
+import EditPanel from "./EditPanel.vue";
 import { MeModule } from "@/store/modules/me";
 import { MessagesModule } from "@/store/modules/messages";
 import { MessageInputModule } from "@/store/modules/messageInput";
 import { Component, Vue, Watch } from "vue-property-decorator";
 import WindowProperties from "@/utils/windowProperties";
-import { postTypingStatus } from "@/services/messagesService";
+import { editMessage, postTypingStatus } from "@/services/messagesService";
+import Message from "@/interfaces/Message";
+import { eventBus } from "@/utils/globalBus";
+import { PopoutsModule } from "@/store/modules/popouts";
+import { stringSeed } from "seeded-color";
 
-@Component({ components: { FileUpload, TypingStatus } })
+@Component({ components: { FileUpload, TypingStatus, EditPanel } })
 export default class MessageBoxArea extends Vue {
   postTypingTimeout: number | null = null;
+  editingMessageID: string | null = null;
   mounted() {
     this.resizeTextArea();
+    eventBus.$on("editMessage", this.setEditMessage);
   }
   beforeDestroy() {
     this.stopPostingTypingStatus();
+    eventBus.$off("editMessage", this.setEditMessage);
   }
   // ctrl + v event (for screenshots)
   onPaste(event: any) {
@@ -78,6 +107,137 @@ export default class MessageBoxArea extends Vue {
         FileUploadModule.SetFile(blob);
       }
     }
+  }
+  keyDownEvent(e: KeyboardEvent) {
+    if (e.shiftKey) return;
+    if (e.key === "Enter") {
+      e.preventDefault();
+      this.sendMessage();
+      return;
+    }
+    if (e.key === "ArrowUp") {
+      if (this.message.trim()) return;
+      if (!this.channelMessages?.length) return;
+      const reversedMessages = [...this.channelMessages].reverse();
+      const message = reversedMessages.find(
+        m =>
+          m.creator.uniqueID === MeModule.user.uniqueID &&
+          !m.type &&
+          m.messageID
+      );
+      if (!message) return;
+      if (!message.messageID) return;
+      this.setEditMessage(undefined, message as Required<Message>);
+      e.preventDefault();
+      return;
+    }
+    if (e.key === "Escape") {
+      this.editingMessageID = null;
+      this.message = "";
+    }
+  }
+  setEditMessage(messageID?: string, message?: Required<Message>) {
+    (this.$refs["textarea"] as HTMLElement).focus();
+    if (message) {
+      FileUploadModule.SetFile(undefined);
+      this.editingMessageID = message.messageID;
+      this.message = message.message || "";
+    }
+    if (messageID) {
+      const message = this.channelMessages.find(m => m.messageID === messageID);
+      if (!message) return;
+      FileUploadModule.SetFile(undefined);
+      this.editingMessageID = message.messageID || null;
+      this.message = message.message || "";
+    }
+  }
+  sendMessage() {
+    (this.$refs["textarea"] as HTMLElement).focus();
+    const message = this.message;
+
+    if (this.editingMessageID) {
+      this.editMessage();
+      return;
+    }
+
+    if (this.showUploadBox) {
+      this.message = "";
+      FileUploadModule.AddToQueue({
+        channelID: this.$route.params.channel_id,
+        message
+      });
+      return;
+    } else {
+      if (!this.message.trim().length) return;
+      this.message = "";
+      MessagesModule.SendMessage({
+        message,
+        channelID: this.$route.params.channel_id
+      });
+    }
+  }
+
+  editMessage() {
+    if (!this.editingMessageID) return;
+    const message = this.message;
+    const messageID = this.editingMessageID;
+    const channelID = this.channelID;
+    if (!this.message.length) {
+      PopoutsModule.ShowPopout({
+        component: "delete-message-popout",
+        data: { messageID: this.editingMessageID, channelID: this.channelID },
+        id: "delete-message"
+      });
+      return;
+    }
+    this.message = "";
+    this.editingMessageID = null;
+
+    MessagesModule.UpdateMessage({
+      channelID,
+      messageID,
+      message: {
+        message,
+        sending: 0
+      }
+    });
+
+    editMessage(messageID, channelID, { message })
+      .then(() => {
+        MessagesModule.UpdateMessage({
+          channelID,
+          messageID,
+          message: {
+            sending: 1,
+            timeEdited: Date.now()
+          }
+        });
+      })
+      .catch(() => {
+        MessagesModule.UpdateMessage({
+          channelID,
+          messageID,
+          message: {
+            sending: 2,
+            timeEdited: undefined
+          }
+        });
+      });
+  }
+  resizeTextArea() {
+    this.$nextTick(() => {
+      const textarea = this.$refs.textarea as HTMLElement;
+      textarea.style.height = "";
+      if (textarea.scrollHeight >= 230) {
+        textarea.style.height = "230px";
+        return;
+      }
+      textarea.style.height = textarea.scrollHeight + "px";
+    });
+  }
+  stopPostingTypingStatus() {
+    this.postTypingTimeout && clearTimeout(this.postTypingTimeout);
+    this.postTypingTimeout = null;
   }
 
   attachmentChange(event: any) {
@@ -97,6 +257,7 @@ export default class MessageBoxArea extends Vue {
   onChannelIDChange() {
     (this.$refs["textarea"] as HTMLElement).focus();
     this.stopPostingTypingStatus();
+    this.editingMessageID = null;
   }
   @Watch("message")
   async postTypingStatus() {
@@ -119,49 +280,11 @@ export default class MessageBoxArea extends Vue {
       this.stopPostingTypingStatus();
     }
   }
-  keyDownEvent(e: KeyboardEvent) {
-    if (e.shiftKey) return;
-    if (e.code === "Enter") {
-      e.preventDefault();
-      this.sendMessage();
-      return;
-    }
+  @Watch("windowWidthSize")
+  onWidthResize() {
+    this.resizeTextArea();
   }
-  sendMessage() {
-    (this.$refs["textarea"] as HTMLElement).focus();
-    const message = this.message;
 
-    if (this.showUploadBox) {
-      this.message = "";
-      FileUploadModule.AddToQueue({
-        channelID: this.$route.params.channel_id,
-        message
-      });
-      return;
-    } else {
-      if (!this.message.trim().length) return;
-      this.message = "";
-      MessagesModule.SendMessage({
-        message,
-        channelID: this.$route.params.channel_id
-      });
-    }
-  }
-  resizeTextArea() {
-    this.$nextTick(() => {
-      const textarea = this.$refs.textarea as HTMLElement;
-      textarea.style.height = "";
-      if (textarea.scrollHeight >= 230) {
-        textarea.style.height = "230px";
-        return;
-      }
-      textarea.style.height = textarea.scrollHeight + "px";
-    });
-  }
-  stopPostingTypingStatus() {
-    this.postTypingTimeout && clearTimeout(this.postTypingTimeout);
-    this.postTypingTimeout = null;
-  }
   get placeholderMessage() {
     if (!this.isConnected) {
       return "Not Connected";
@@ -177,11 +300,17 @@ export default class MessageBoxArea extends Vue {
   get isFocused() {
     return WindowProperties.isFocused;
   }
+  get windowWidthSize() {
+    return WindowProperties.resizeWidth;
+  }
   get showUploadBox() {
     return FileUploadModule.file.file;
   }
   get channelID() {
     return this.$route.params.channel_id;
+  }
+  get channelMessages() {
+    return MessagesModule.channelMessages(this.channelID);
   }
   get message() {
     return MessageInputModule.message;
@@ -195,7 +324,7 @@ export default class MessageBoxArea extends Vue {
 <style lang="scss" scoped>
 .message-box {
   display: flex;
-  // flex-direction: column;
+  flex-direction: column;
   background: rgba(255, 255, 255, 0.07);
 
   flex-shrink: 0;

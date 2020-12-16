@@ -125,6 +125,7 @@ export default class extends Vue {
   position: absolute;
   border-radius: 4px;
   overflow: hidden;
+  z-index: 99999999999;
 }
 .content {
   display: flex;
