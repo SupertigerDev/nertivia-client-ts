@@ -1,5 +1,9 @@
 <template>
-  <div class="image-embed" :class="{ animate: isWindowFocused && !loadImage }">
+  <div
+    class="image-embed"
+    :class="{ animate: isWindowFocused && !loadImage }"
+    @click="onClick"
+  >
     <div class="gif" v-if="isGif">GIF</div>
     <img v-if="loadImage" :src="pauseGifURL" />
   </div>
@@ -10,6 +14,7 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import windowProperties from "@/utils/windowProperties";
 import Message from "@/interfaces/Message";
 import config from "@/config";
+import { PopoutsModule } from "@/store/modules/popouts";
 @Component
 export default class ImageMessageEmbed extends Vue {
   @Prop() private message!: Message & { grouped: boolean };
@@ -33,6 +38,15 @@ export default class ImageMessageEmbed extends Vue {
   beforeDestroy() {
     this.intersectObserver?.unobserve(this.$el);
     this.intersectObserver?.disconnect();
+  }
+  onClick() {
+    PopoutsModule.ShowPopout({
+      id: "image-preview-popout",
+      component: "image-preview-popout",
+      data: {
+        url: this.imageURL
+      }
+    });
   }
   fetchImage() {
     const image = new Image();
@@ -118,6 +132,20 @@ export default class ImageMessageEmbed extends Vue {
   position: relative;
   border-radius: 4px;
   background: rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  &:hover {
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 4px;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.3);
+    }
+  }
 }
 img {
   width: 100%;

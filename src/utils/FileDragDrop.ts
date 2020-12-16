@@ -1,3 +1,13 @@
+function isFile(evt: any) {
+  const dt = evt.dataTransfer;
+  for (let i = 0; i < dt.types.length; i++) {
+    if (dt.types[i] === "Files") {
+      return true;
+    }
+  }
+  return false;
+}
+
 export default class FileDragDrop {
   private _events: { dragEnter?: any; dragOut?: any; onDrop?: any };
   dragEnterBoundFunction: (event: any) => void;
@@ -33,11 +43,13 @@ export default class FileDragDrop {
   _dragEnter(event: any) {
     event.preventDefault();
     this.lastTarget = event.target; // cache the last target here
-    this._events?.dragEnter();
+    if (isFile(event)) {
+      this._events?.dragEnter();
+    }
   }
   _drop(event: any) {
     event.preventDefault();
-    if (event.dataTransfer.items) {
+    if (isFile(event)) {
       this._events?.onDrop(event.dataTransfer.files[0]);
     }
   }

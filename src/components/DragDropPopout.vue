@@ -10,15 +10,6 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import AvatarImage from "@/components/AvatarImage.vue";
-import { MeModule } from "@/store/modules/me";
-import { PresencesModule } from "@/store/modules/presences";
-import userStatuses from "@/constants/userStatuses";
-import { fetchUser, ReturnedUser } from "@/services/userService";
-import { UsersModule } from "@/store/modules/users";
-import friendlyDate from "@/utils/date";
-import { PopoutsModule } from "@/store/modules/popouts";
-import { FileUploadModule } from "@/store/modules/fileUpload";
 @Component
 export default class ProfilePopout extends Vue {}
 </script>

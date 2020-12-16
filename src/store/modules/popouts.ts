@@ -22,6 +22,10 @@ interface PopoutObj {
 class Popouts extends VuexModule {
   popouts: PopoutObj = {};
 
+  get isOpened() {
+    return (id: string) => this.popouts[id];
+  }
+
   @Mutation
   private SHOW_POPOUT(payload: {
     id: string;

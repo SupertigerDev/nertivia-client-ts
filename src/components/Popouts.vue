@@ -55,6 +55,10 @@ const DragDropPopout = () =>
   import(
     /* webpackChunkName: "DragDropPopout" */ "@/components/DragDropPopout.vue"
   );
+const ImagePreviewPopout = () =>
+  import(
+    /* webpackChunkName: "ImagePreviewPopout" */ "@/components/ImagePreviewPopout.vue"
+  );
 @Component({
   components: {
     ProfilePopout,
@@ -66,7 +70,8 @@ const DragDropPopout = () =>
     BanOrKickUserPopout,
     ServerContextMenu,
     DragDropPopout,
-    DeleteMessagePopout
+    DeleteMessagePopout,
+    ImagePreviewPopout
   }
 })
 export default class MainApp extends Vue {
