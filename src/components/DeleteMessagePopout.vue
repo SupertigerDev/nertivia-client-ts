@@ -33,7 +33,6 @@ import AvatarImage from "@/components/AvatarImage.vue";
 import MessageTemplate from "@/components/chat-area/message/MessageTemplate.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
 
-import Message from "@/interfaces/Message";
 import { deleteMessage } from "@/services/messagesService";
 import { MessagesModule } from "@/store/modules/messages";
 @Component({
