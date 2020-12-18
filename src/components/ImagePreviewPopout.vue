@@ -28,24 +28,27 @@ export default class ProfilePopout extends Vue {
 </script>
 <style lang="scss" scoped>
 .image-preview-popout {
-  overflow: hidden;
-  align-items: center;
-  align-content: center;
-  justify-content: center;
-  display: flex;
-  width: 90%;
-  user-select: none;
-  height: 90%;
+  margin: auto;
 }
 .image {
-  border-radius: 8px;
+  margin: auto;
   max-height: 100%;
   max-width: 100%;
+  width: auto;
+  height: auto;
+  border-radius: 8px;
 }
 .animate-in {
   opacity: 0;
   animation: showUp 0.2s;
   animation-fill-mode: forwards;
+  display: flex;
+  margin: auto;
+  height: 90%;
+  width: 90%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 @keyframes showUp {
   from {

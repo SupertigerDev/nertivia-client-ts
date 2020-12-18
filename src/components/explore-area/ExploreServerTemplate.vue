@@ -220,7 +220,7 @@ export default class ExploreServerTemplate extends Vue {
   font-size: 14px;
   .material-icons {
     font-size: 19px;
-    margin-right: 5px;
+    margin-right: 3px;
   }
   span {
     padding-right: 5px;

@@ -3,6 +3,16 @@
     <div
       class="item material-icons"
       :class="{
+        selected: currentTab === ''
+      }"
+      title="Dashboard"
+      @click="changeTab('')"
+    >
+      dashboard
+    </div>
+    <div
+      class="item material-icons"
+      :class="{
         selected: currentTab === 'explore'
       }"
       title="Explore"
@@ -10,6 +20,7 @@
     >
       explore
     </div>
+
     <div
       class="item material-icons"
       :class="{
