@@ -6,6 +6,15 @@ import io from "socket.io-client";
 import store from "../store/index";
 import config from "../config";
 
+const ExploreArea = () =>
+      import(/* webpackChunkName: "ExploreArea" */ "../components/explore-area/ExploreArea.vue")
+const SettingsArea = () =>
+      import(/* webpackChunkName: "ExploreArea" */ "../components/settings-area/SettingsArea.vue")
+const MessageArea = () =>
+      import(/* webpackChunkName: "ExploreArea" */ "../components/chat-area/MessageArea.vue")
+const DashboardArea = () =>
+      import(/* webpackChunkName: "ExploreArea" */ "../components/dashboard-area/DashboardArea.vue")
+
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
@@ -30,10 +39,13 @@ const routes: Array<RouteConfig> = [
   {
     path: "/app",
     children: [
-      { path: "servers/:server_id?/:channel_id?" },
-      { path: "dms/:channel_id?" },
-      { path: "settings/:tab?" },
-      { path: "explore" }
+      { path: "servers/:server_id/settings/:tab?", component: ExploreArea},
+      { path: "servers/:server_id/:channel_id", component: MessageArea, name: 'message-area' },
+      { path: "dms/:channel_id", component: MessageArea,name: 'message-area' },
+      { path: "settings/:tab?", component: SettingsArea },
+      { path: "explore", component: ExploreArea},
+      { path: "/", component: DashboardArea,  },
+      { path: "*" },
     ],
     name: "App",
     component: () =>

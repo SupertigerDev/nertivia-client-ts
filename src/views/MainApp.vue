@@ -14,10 +14,11 @@
             @close="showConnectionStatusPopout = false"
           />
         </transition>
-        <MessageArea v-if="showMessageArea" />
+        <!-- <MessageArea v-if="showMessageArea" />
         <SettingsArea v-else-if="currentTab === 'settings'" />
         <ExploreArea v-else-if="currentTab === 'explore'" />
-        <DashboardArea v-else />
+        <DashboardArea v-else /> -->
+        <router-view />
       </div>
     </Drawers>
     <Popouts />

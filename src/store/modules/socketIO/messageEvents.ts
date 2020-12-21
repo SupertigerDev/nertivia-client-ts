@@ -13,7 +13,7 @@ import { eventBus } from "@/utils/globalBus";
 
 function playNotificationSound(mentioned: boolean, channelID: string) {
   const focused = document.hasFocus();
-  const channelSelected = channelID === router.currentRoute.params.channel_id;
+  const channelSelected = ChannelsModule.isChannelOpen(channelID);
   const tab = router.currentRoute.path.split("/")[2];
 
   if (MutedServersModule.shouldMuteSeverSound(channelID)) {

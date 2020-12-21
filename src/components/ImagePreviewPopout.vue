@@ -46,8 +46,6 @@ export default class ProfilePopout extends Vue {
   margin: auto;
   height: 90%;
   width: 90%;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
 }
 @keyframes showUp {

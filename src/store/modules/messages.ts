@@ -11,8 +11,8 @@ import ky from "ky";
 import Message from "@/interfaces/Message";
 import Vue from "vue";
 import { ScrollModule } from "./scroll";
-import router from "@/router";
 import { MeModule } from "./me";
+import { ChannelsModule } from "./channels";
 
 interface MessagesObj {
   [key: string]: Message[];
@@ -184,10 +184,9 @@ class Messages extends VuexModule {
   @Action
   ClampChannelMessages(channelID: string) {
     const channelMessagesLength = this.channelMessages(channelID).length;
-    const isRouterChannelIDEqual =
-      channelID === router.currentRoute.params.channel_id;
+    const isChannelOpen = ChannelsModule.isChannelOpen(channelID);
     if (channelMessagesLength >= 60) {
-      if (!isRouterChannelIDEqual || ScrollModule.isScrolledBottom) {
+      if (!isChannelOpen || ScrollModule.isScrolledBottom) {
         this.CLAMP_CHANNEL_MESSAGES(channelID);
       }
     }

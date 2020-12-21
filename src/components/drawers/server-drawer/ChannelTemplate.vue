@@ -32,7 +32,9 @@ export default class ChannelTemplate extends Vue {
 
   channelClicked() {
     DrawersModule.SetLeftDrawer(false);
-    this.$router.push({ params: { channel_id: this.channel.channelID } });
+    this.$router.push(
+      `/app/servers/${this.channel.server_id}/${this.channel.channelID}`
+    );
   }
   get notificationExists() {
     return LastSeenServerChannelsModule.serverChannelNotification(
