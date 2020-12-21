@@ -35,9 +35,9 @@ class Channels extends VuexModule {
   get isChannelOpen() {
     return (channelID: string) => {
       const route = router.currentRoute;
-      if (route.name  !== "message-area") return;
+      if (route.name !== "message-area") return;
       return route.params.channel_id === channelID;
-    }
+    };
   }
 
   get sortedServerChannels() {
