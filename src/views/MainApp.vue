@@ -14,10 +14,6 @@
             @close="showConnectionStatusPopout = false"
           />
         </transition>
-        <!-- <MessageArea v-if="showMessageArea" />
-        <SettingsArea v-else-if="currentTab === 'settings'" />
-        <ExploreArea v-else-if="currentTab === 'explore'" />
-        <DashboardArea v-else /> -->
         <router-view />
       </div>
     </Drawers>
@@ -158,6 +154,7 @@ export default class MainApp extends Vue {
   @Watch("currentServerID")
   @Watch("currentTab")
   saveLastSelected() {
+    if (this.$route.name !== "message-area") return;
     if (this.currentTab === "servers") {
       const json = JSON.stringify({
         server_id: this.currentServerID,

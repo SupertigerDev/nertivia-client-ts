@@ -14,6 +14,7 @@ import ContextMenu from "@/components/ContextMenu.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { ServersModule } from "@/store/modules/servers";
 import { MeModule } from "@/store/modules/me";
+import router from "@/router";
 
 @Component({ components: { ContextMenu } })
 export default class extends Vue {
@@ -27,7 +28,25 @@ export default class extends Vue {
     PopoutsModule.ClosePopout("context");
   }
   itemClick(item: any) {
-    // owo
+    switch (item.name) {
+      case "Server Settings":
+        this.$router.push(
+          `/app/servers/${this.data.server_id}/settings/general`
+        );
+        break;
+      case "Manage Invites":
+        this.$router.push(
+          `/app/servers/${this.data.server_id}/settings/manage-invites`
+        );
+        break;
+      case "Manage Notification":
+        this.$router.push(
+          `/app/servers/${this.data.server_id}/settings/manage-notification`
+        );
+        break;
+      default:
+        break;
+    }
   }
 
   get items() {
