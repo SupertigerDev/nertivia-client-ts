@@ -15,6 +15,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import { ServersModule } from "@/store/modules/servers";
 import { MeModule } from "@/store/modules/me";
 import router from "@/router";
+import { ServerMembersModule } from "@/store/modules/serverMembers";
 
 @Component({ components: { ContextMenu } })
 export default class extends Vue {
@@ -59,7 +60,7 @@ export default class extends Vue {
       { type: "seperator" }
     ];
 
-    if (this.isServerOwner) {
+    if (this.isServerOwner || this.isAdmin) {
       items.push({
         name: "Server Settings",
         icon: "settings"
@@ -104,6 +105,12 @@ export default class extends Vue {
   }
   get isServerOwner() {
     return this.server.creator.uniqueID === MeModule.user.uniqueID;
+  }
+  get isAdmin() {
+    return ServerMembersModule.isAdmin(
+      MeModule.user.uniqueID || undefined,
+      this.server.server_id
+    );
   }
 }
 </script>

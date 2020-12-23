@@ -6,7 +6,11 @@
         {{ headerName }}
       </div>
       <DirectMessageDrawer v-if="currentTab === 'dms'" />
-      <ServerDrawer v-if="currentTab === 'servers'" :key="selectedServerID" />
+      <ServerDrawer
+        v-if="currentTab === 'servers' && !showServerSettings"
+        :key="selectedServerID"
+      />
+      <ServerSettingsDrawer v-if="showServerSettings" />
       <SettingsDrawer v-if="currentTab === 'settings'" />
     </div>
   </div>
@@ -19,6 +23,10 @@ import _ from "lodash";
 const ServerDrawer = () =>
   import(
     /* webpackChunkName: "ServerDrawer" */ "@/components/drawers/server-drawer/ServerDrawer.vue"
+  );
+const ServerSettingsDrawer = () =>
+  import(
+    /* webpackChunkName: "ServerSettingsDrawer" */ "@/components/drawers/server-drawer/ServerSettingsDrawer.vue"
   );
 
 const SettingsDrawer = () =>
@@ -35,7 +43,13 @@ import SideBar from "@/components/sidebar/SideBar.vue";
 import { ServersModule } from "@/store/modules/servers";
 
 @Component({
-  components: { SideBar, ServerDrawer, SettingsDrawer, DirectMessageDrawer }
+  components: {
+    SideBar,
+    ServerDrawer,
+    SettingsDrawer,
+    DirectMessageDrawer,
+    ServerSettingsDrawer
+  }
 })
 export default class MainApp extends Vue {
   get headerName() {
@@ -49,6 +63,9 @@ export default class MainApp extends Vue {
   }
   get currentTab() {
     return this.$route.path.split("/")[2];
+  }
+  get showServerSettings() {
+    return this.$route.name === "server-settings";
   }
   get selectedServer() {
     return ServersModule.servers[this.selectedServerID];

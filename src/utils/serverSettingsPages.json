@@ -1,0 +1,21 @@
+{
+  "general":{
+    "name": "General",
+    "id": "general",
+    "icon": "info",
+    "admin": true,
+    "component": "General"
+  },
+  "manage-invites": {
+    "name": "Manage Invites",
+    "id": "manage-invites",
+    "icon": "settings",
+    "component": "ManageInvites"
+  },
+  "manage-notification": {
+    "name": "Manage Notification",
+    "id": "manage-notification",
+    "icon": "notifications",
+    "component": "ManageNotification"
+  }
+}

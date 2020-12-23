@@ -7,6 +7,7 @@ import { ServersModule } from "../servers";
 import Vue from "vue";
 import router from "@/router";
 import { UsersModule } from "../users";
+import { MutedServersModule } from "../mutedServers";
 
 const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
@@ -113,6 +114,12 @@ const actions: ActionTree<any, any> = {
       uniqueID: data.uniqueID,
       roleID: data.role_id
     });
+  },
+  ["socket_server:mute"](
+    context,
+    data: {muted: number, server_id: string}
+  ) {
+    MutedServersModule.SetMutedServer({serverID: data.server_id, type: data.muted})
   }
 };
 export default {

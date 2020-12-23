@@ -6,6 +6,7 @@ import {
   getModule
 } from "vuex-module-decorators";
 import store from "..";
+import Vue from 'vue';
 
 interface MutedServerObj {
   [key: string]: {
@@ -33,6 +34,20 @@ class MutedServers extends VuexModule {
   @Action
   public SetMutedServers(payload: MutedServerObj) {
     this.SET_MUTED_SERVERS(payload);
+  }
+
+  @Mutation
+  private SET_MUTED_SERVER(payload: {serverID: string, type: number}) {
+    if (this.mutedServers[payload.serverID]) {
+      Vue.set(this.mutedServers[payload.serverID], "type", payload.type)
+      return;
+    } 
+    Vue.set(this.mutedServers, payload.serverID, {type: payload.type})
+  }
+
+  @Action
+  public SetMutedServer(payload:  {serverID: string, type: number}) {
+    this.SET_MUTED_SERVER(payload);
   }
 }
 export const MutedServersModule = getModule(MutedServers);

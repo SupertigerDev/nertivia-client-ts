@@ -46,23 +46,6 @@ const RightDrawer = () =>
     /* webpackChunkName: "RightDrawer" */ "@/components/drawers/RightDrawer.vue"
   );
 
-const MessageArea = () =>
-  import(
-    /* webpackChunkName: "MessageArea" */ "@/components/chat-area/MessageArea.vue"
-  );
-const SettingsArea = () =>
-  import(
-    /* webpackChunkName: "SettingsArea" */ "@/components/settings-area/SettingsArea.vue"
-  );
-const ExploreArea = () =>
-  import(
-    /* webpackChunkName: "ExploreArea" */ "@/components/explore-area/ExploreArea.vue"
-  );
-const DashboardArea = () =>
-  import(
-    /* webpackChunkName: "DashboardArea" */ "@/components/dashboard-area/DashboardArea.vue"
-  );
-
 import { loadAllCacheToState } from "@/utils/localCache";
 import { ChannelsModule } from "@/store/modules/channels";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
@@ -77,15 +60,11 @@ import { NotificationsModule } from "@/store/modules/notifications";
   components: {
     Drawers,
     LeftDrawer,
-    MessageArea,
     RightDrawer,
     NavBar,
     Header,
-    SettingsArea,
     ConnectionStatus,
-    DashboardArea,
-    Popouts,
-    ExploreArea
+    Popouts
   }
 })
 export default class MainApp extends Vue {

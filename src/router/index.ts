@@ -22,6 +22,10 @@ const DashboardArea = () =>
   import(
     /* webpackChunkName: "ExploreArea" */ "../components/dashboard-area/DashboardArea.vue"
   );
+const ServerSettingsArea = () =>
+  import(
+    /* webpackChunkName: "ServerSettingsArea" */ "../components/server-settings-area/ServerSettingsArea.vue"
+  );
 
 Vue.use(VueRouter);
 
@@ -47,7 +51,7 @@ const routes: Array<RouteConfig> = [
   {
     path: "/app",
     children: [
-      { path: "servers/:server_id/settings/:tab?", component: ExploreArea },
+      { path: "servers/:server_id/settings/:tab?", component: ServerSettingsArea, name: "server-settings" },
       {
         path: "servers/:server_id/:channel_id",
         component: MessageArea,
