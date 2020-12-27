@@ -11,6 +11,7 @@ import { NotificationsModule } from "./notifications";
 import Vue from "vue";
 import { MeModule } from "./me";
 import { MutedChannelsModule } from "./mutedChannels";
+import { MutedServersModule } from "./mutedServers";
 interface LastSeenObj {
   [key: string]: number;
 }
@@ -46,6 +47,9 @@ class LastSeenServerChannels extends VuexModule {
       if (!channel.lastMessaged) return undefined;
       if (MutedChannelsModule.mutedChannels.includes(channelID))
         return undefined;
+      if (MutedServersModule.shouldMuteServerNotification(channel.server_id)) {
+        return undefined;
+      }
       const lastSeenStamp = this.lastSeenServers[channel.channelID];
       if (!lastSeenStamp || lastSeenStamp < channel.lastMessaged) {
         // check if being mentioned
@@ -63,6 +67,9 @@ class LastSeenServerChannels extends VuexModule {
 
   get serverNotifications() {
     return (server_id: string) => {
+      if (MutedServersModule.shouldMuteServerNotification(server_id)) {
+        return [];
+      }
       return this.allServerNotifications.filter(
         channel => channel.server_id === server_id
       );

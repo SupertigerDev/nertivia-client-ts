@@ -21,10 +21,11 @@
 import { Vue, Component } from "vue-property-decorator";
 import RadioBox from "@/components/RadioBox.vue";
 import { MutedServersModule } from "@/store/modules/mutedServers";
+import { muteServer } from "@/services/serverService";
 @Component({ components: { RadioBox } })
 export default class ServerSettingsArea extends Vue {
   onRadioIndexChange(index: number) {
-    console.log(index);
+    muteServer(this.serverID, index);
   }
 
   get serverID() {
@@ -35,7 +36,7 @@ export default class ServerSettingsArea extends Vue {
     return MutedServersModule.mutedServers?.[this.serverID]?.type || 0;
   }
   set serverNotificationOption(val: number) {
-    //
+    MutedServersModule.SetMutedServer({ serverID: this.serverID, type: val });
   }
 }
 </script>

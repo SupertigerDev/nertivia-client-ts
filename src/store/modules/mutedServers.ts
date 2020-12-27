@@ -18,11 +18,19 @@ interface MutedServerObj {
 class MutedServers extends VuexModule {
   mutedServers: MutedServerObj = {};
 
-  get shouldMuteSeverSound() {
-    return (channelID: string) => {
-      const muted = this.mutedServers[channelID];
+  get shouldMuteServerSound() {
+    return (serverID: string) => {
+      const muted = this.mutedServers[serverID];
       if (!muted) return false;
       return muted.type >= 1;
+    };
+  }
+
+  get shouldMuteServerNotification() {
+    return (serverID: string) => {
+      const muted = this.mutedServers[serverID];
+      if (!muted) return false;
+      return muted.type === 2;
     };
   }
 

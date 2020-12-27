@@ -11,12 +11,12 @@ import { MutedChannelsModule } from "../mutedChannels";
 import { MutedServersModule } from "../mutedServers";
 import { eventBus } from "@/utils/globalBus";
 
-function playNotificationSound(mentioned: boolean, channelID: string) {
+function playNotificationSound(mentioned: boolean, channelID: string, serverID?: string) {
   const focused = document.hasFocus();
   const channelSelected = ChannelsModule.isChannelOpen(channelID);
   const tab = router.currentRoute.path.split("/")[2];
 
-  if (MutedServersModule.shouldMuteSeverSound(channelID)) {
+  if (serverID && MutedServersModule.shouldMuteServerSound(serverID)) {
     return;
   }
   if (MutedChannelsModule.mutedChannels.includes(channelID)) {
@@ -63,7 +63,7 @@ const actions: ActionTree<any, any> = {
         data.message.mentions.find(u => u.uniqueID === MeModule.user.uniqueID)
       );
       // play notification sound.
-      playNotificationSound(mentioned, data.message.channelID);
+      playNotificationSound(mentioned, data.message.channelID, channel.server_id);
       if (channel && channel.server_id && !mentioned) return;
       if (notification) {
         const updateNotification: any = {
