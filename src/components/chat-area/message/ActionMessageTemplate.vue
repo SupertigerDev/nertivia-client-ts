@@ -24,7 +24,7 @@
       </div>
       <div class="time">{{ time }}</div>
     </div>
-    <MessageSide :message="message" />
+    <MessageSide :message="message" v-if="!hideContext" />
   </div>
 </template>
 <script lang="ts">
@@ -46,6 +46,7 @@ const types = [
 @Component({ components: { AvatarImage, MessageSide } })
 export default class ActionMessageTemplate extends Vue {
   @Prop() private message!: Message & { grouped: boolean };
+  @Prop({ default: false }) private hideContext!: boolean;
 
   showUserContext(event: MouseEvent) {
     PopoutsModule.ShowPopout({

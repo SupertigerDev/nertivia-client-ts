@@ -14,7 +14,12 @@
         </div>
         <div class="inner-content">
           <div class="description">
-            <MessageTemplate :message="message" :hideContext="true" />
+            <component
+              v-bind:is="messageType"
+              class="message"
+              :message="message"
+              :hideContext="true"
+            />
             <div class="buttons">
               <div class="button" @click="close">Back</div>
               <div class="button warn" @click="deleteMessage">
@@ -31,12 +36,14 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import MessageTemplate from "@/components/chat-area/message/MessageTemplate.vue";
+import ActionMessageTemplate from "@/components/chat-area/message/ActionMessageTemplate.vue";
+
 import { PopoutsModule } from "@/store/modules/popouts";
 
 import { deleteMessage } from "@/services/messagesService";
 import { MessagesModule } from "@/store/modules/messages";
 @Component({
-  components: { AvatarImage, MessageTemplate }
+  components: { AvatarImage, MessageTemplate, ActionMessageTemplate }
 })
 export default class ProfilePopout extends Vue {
   @Prop() private data!: {
@@ -67,6 +74,11 @@ export default class ProfilePopout extends Vue {
     return MessagesModule.channelMessages(this.data.channelID)?.find(
       m => m.messageID === this.data.messageID
     );
+  }
+  get messageType() {
+    return this.message?.type === 0
+      ? "MessageTemplate"
+      : "ActionMessageTemplate";
   }
   get user() {
     if (!this.message) return undefined;
