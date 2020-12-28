@@ -1,28 +1,31 @@
 <template>
   <div class="nav-bar">
     <div
-      class="item material-icons"
+      class="item"
       :class="{
         selected: currentTab === ''
       }"
       title="Dashboard"
       @click="changeTab('')"
     >
-      dashboard
-    </div>
-    <div
-      class="item material-icons"
-      :class="{
-        selected: currentTab === 'explore'
-      }"
-      title="Explore"
-      @click="changeTab('explore')"
-    >
-      explore
+      <div class="icon material-icons">dashboard</div>
+      <div class="title">Dashboard</div>
     </div>
 
     <div
-      class="item material-icons"
+      class="item"
+      :class="{
+        selected: currentTab === 'explore'
+      }"
+      title="Dashboard"
+      @click="changeTab('explore')"
+    >
+      <div class="icon material-icons">explore</div>
+      <div class="title">Explore</div>
+    </div>
+
+    <div
+      class="item"
       :class="{
         selected: currentTab === 'dms',
         notification: dmNotificationExists
@@ -30,10 +33,11 @@
       title="Direct Messages"
       @click="changeTab('dms')"
     >
-      forum
+      <div class="icon material-icons">forum</div>
+      <div class="title">DMs</div>
     </div>
     <div
-      class="item material-icons"
+      class="item"
       :class="{
         selected: currentTab === 'servers',
         notification: serverNotificationExists,
@@ -42,8 +46,10 @@
       title="Servers"
       @click="changeTab('servers')"
     >
-      dns
+      <div class="icon material-icons">dns</div>
+      <div class="title">Servers</div>
     </div>
+
     <div class="gap" />
     <div
       class="item me"
@@ -58,14 +64,19 @@
         :seed-id="me.uniqueID"
       />
     </div>
+
     <div
-      class="item material-icons"
+      class="item"
+      :class="{
+        selected: currentTab === 'settings'
+      }"
       title="Settings"
-      :class="{ selected: currentTab === 'settings' }"
       @click="changeTab('settings')"
     >
-      settings
+      <div class="icon material-icons">settings</div>
+      <div class="title">Settings</div>
     </div>
+
     <!-- Popouts -->
     <UserArea
       class="user-area"
@@ -117,7 +128,7 @@ export default class MainApp extends Vue {
     return localStorage.getItem("lastSelectedDMChannelID");
   }
   get currentTab() {
-    return this.$route.path.split("/")[2];
+    return this.$route.path.split("/")[2] || "";
   }
   get me() {
     return MeModule.user;
@@ -151,6 +162,7 @@ export default class MainApp extends Vue {
 }
 .item {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
@@ -163,6 +175,10 @@ export default class MainApp extends Vue {
   transition: 0.2s;
   border-radius: 0;
   position: relative;
+  .title {
+    font-size: 10px;
+    display: none;
+  }
   &:hover {
     opacity: 1;
   }
@@ -219,17 +235,24 @@ export default class MainApp extends Vue {
 }
 @media (max-width: 650px) {
   .nav-bar {
-    height: 60px;
+    height: 40px;
     width: 100%;
     flex-direction: row;
     padding-top: 0;
     padding-bottom: 0;
   }
-  .item:nth-child(1) {
-    margin-left: 4px;
+  .item {
+    height: 100%;
+    padding-left: 3px;
+    padding-right: 3px;
+    margin: 0px;
+    .icon {
+      font-size: 19px;
+      margin-bottom: 3px;
+    }
   }
-  .item:last-child {
-    margin-right: 4px;
+  .item .title {
+    display: block;
   }
   .user-area {
     bottom: 60px;

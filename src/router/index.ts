@@ -58,6 +58,8 @@ const routes: Array<RouteConfig> = [
         name: "message-area"
       },
       { path: "dms/:channel_id", component: MessageArea, name: "message-area" },
+      { path: "servers/", component: DashboardArea },
+      { path: "dms/", component: DashboardArea },
       { path: "settings/:tab?", component: SettingsArea },
       { path: "explore", component: ExploreArea },
       { path: "/", component: DashboardArea },
