@@ -176,7 +176,7 @@ export default class MainApp extends Vue {
   border-radius: 0;
   position: relative;
   .title {
-    font-size: 10px;
+    font-size: 12px;
     display: none;
   }
   &:hover {
@@ -235,7 +235,7 @@ export default class MainApp extends Vue {
 }
 @media (max-width: 650px) {
   .nav-bar {
-    height: 40px;
+    height: 50px;
     width: 100%;
     flex-direction: row;
     padding-top: 0;
@@ -245,6 +245,8 @@ export default class MainApp extends Vue {
     height: 100%;
     padding-left: 3px;
     padding-right: 3px;
+    width: initial;
+    min-width: 50px;
     margin: 0px;
     .icon {
       font-size: 19px;
