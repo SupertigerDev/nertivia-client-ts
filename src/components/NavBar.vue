@@ -66,7 +66,7 @@
     </div>
 
     <div
-      class="item"
+      class="item last"
       :class="{
         selected: currentTab === 'settings'
       }"
@@ -154,8 +154,7 @@ export default class MainApp extends Vue {
   width: 60px;
   align-items: center;
   flex-shrink: 0;
-  padding-top: 4px;
-  padding-bottom: 4px;
+  padding-bottom: 3px;
 }
 .gap {
   flex: 1;
@@ -167,6 +166,7 @@ export default class MainApp extends Vue {
   justify-content: center;
   flex-shrink: 0;
   height: 50px;
+  margin-top: 3px;
   width: 50px;
   cursor: pointer;
   user-select: none;
@@ -189,7 +189,7 @@ export default class MainApp extends Vue {
   }
   &.me.selected {
     background-color: transparent;
-    transform: scale(1.5);
+    transform: scale(1.3);
   }
   &.notification {
     &::before {
@@ -240,6 +240,8 @@ export default class MainApp extends Vue {
     flex-direction: row;
     padding-top: 0;
     padding-bottom: 0;
+    margin-top: 3px;
+    margin-bottom: 3px;
   }
   .item {
     height: 100%;
@@ -248,6 +250,7 @@ export default class MainApp extends Vue {
     width: initial;
     min-width: 50px;
     margin: 0px;
+    margin-right: 3px;
     .icon {
       font-size: 19px;
       margin-bottom: 3px;
@@ -260,6 +263,13 @@ export default class MainApp extends Vue {
     bottom: 60px;
     right: 5px;
     left: initial;
+  }
+  .item:first-child {
+    margin-left: 3px;
+  }
+  .item.last {
+    margin: 3px;
+    flex-shrink: 0;
   }
 }
 </style>

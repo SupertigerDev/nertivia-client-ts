@@ -20,6 +20,20 @@
     </div>
     <FriendList v-if="selectedTab === 0" />
     <RecentList v-if="selectedTab === 1" />
+    <div class="buttons">
+      <div
+        class="button"
+        @click="openSavedNotes"
+        :class="{ selected: savedNotesSelected }"
+      >
+        <div class="icon material-icons">book</div>
+        <div class="title">Saved Notes</div>
+      </div>
+      <div class="button">
+        <div class="icon material-icons">person_add</div>
+        <div class="title">Add Friend</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -33,15 +47,30 @@ const RecentList = () =>
     /* webpackChunkName: "RecentList" */ "@/components/drawers/direct-message-drawer/RecentList.vue"
   );
 
+import { ChannelsModule } from "@/store/modules/channels";
+import { MeModule } from "@/store/modules/me";
 import { Component, Vue } from "vue-property-decorator";
 
 @Component({ components: { FriendList, RecentList } })
 export default class MainApp extends Vue {
   selectedTab = parseInt(localStorage.getItem("selectedDmTab") || "0");
 
+  openSavedNotes() {
+    if (!MeModule.user.uniqueID) return;
+    ChannelsModule.LoadDmChannel(MeModule.user.uniqueID);
+  }
+
   changeTab(index: number) {
     this.selectedTab = index;
     localStorage.setItem("selectedDmTab", index.toString());
+  }
+
+  get savedNotesSelected() {
+    const channelID = this.$route.params.channel_id;
+    if (!channelID) return false;
+    const DMChannel = ChannelsModule.getDMChannel(channelID);
+    const recipient = DMChannel?.recipients?.[0];
+    return recipient?.uniqueID === MeModule.user.uniqueID;
   }
 }
 </script>
@@ -52,6 +81,34 @@ export default class MainApp extends Vue {
   flex-direction: column;
   overflow: hidden;
 }
+
+.buttons {
+  display: flex;
+  height: 45px;
+  background: rgba(255, 255, 255, 0.05);
+}
+.buttons .button {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 3px;
+  opacity: 0.7;
+  font-size: 14px;
+  align-content: center;
+  cursor: pointer;
+  user-select: none;
+  align-items: center;
+  transition: 0.2s;
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    opacity: 1;
+  }
+  &.selected {
+    background: var(--primary-color);
+    opacity: 1;
+  }
+}
+
 .tabs {
   display: flex;
   width: 100%;
