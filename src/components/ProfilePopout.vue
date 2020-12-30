@@ -262,7 +262,7 @@ export default class ProfilePopout extends Vue {
 .button {
   display: flex;
   align-items: center;
-  background: var(--primary-color);
+
   align-self: flex-end;
   border-radius: 4px;
   font-size: 14px;
@@ -270,12 +270,17 @@ export default class ProfilePopout extends Vue {
   margin: 4px;
   cursor: pointer;
   transition: 0.2s;
+  opacity: 0.8;
   user-select: none;
   &.alert {
-    background: var(--alert-color);
+    &:hover {
+      background: var(--alert-color);
+      opacity: 1;
+    }
   }
   &:hover {
-    opacity: 0.8;
+    opacity: 1;
+    background: var(--primary-color);
   }
   .material-icons {
     font-size: 18px;
