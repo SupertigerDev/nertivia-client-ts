@@ -193,7 +193,7 @@ export default class MainApp extends Vue {
   }
   &.notification {
     &::before {
-      content: "a";
+      content: "";
       color: white;
       position: absolute;
       bottom: 10px;
@@ -254,6 +254,19 @@ export default class MainApp extends Vue {
     .icon {
       font-size: 19px;
       margin-bottom: 3px;
+    }
+    &.notification {
+      &::before {
+        bottom: 20px;
+        right: 15px;
+      }
+      &.mentioned::before {
+        right: 13px;
+        bottom: 17px;
+        font-size: 10px;
+        height: 15px;
+        width: 15px;
+      }
     }
   }
   .item .title {

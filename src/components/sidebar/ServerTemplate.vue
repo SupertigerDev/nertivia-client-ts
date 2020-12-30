@@ -112,6 +112,7 @@ export default class MainApp extends Vue {
     justify-content: center;
     display: flex;
     font-size: 12px;
+    z-index: 1;
     bottom: 2px;
     right: 10px;
     transition: 0.1s;
