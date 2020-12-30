@@ -51,6 +51,10 @@ const DeleteMessagePopout = () =>
   import(
     /* webpackChunkName: "DeleteMessagePopout" */ "@/components/DeleteMessagePopout.vue"
   );
+const AddFriendPopout = () =>
+  import(
+    /* webpackChunkName: "AddFriendPopout" */ "@/components/AddFriendPopout.vue"
+  );
 const DragDropPopout = () =>
   import(
     /* webpackChunkName: "DragDropPopout" */ "@/components/DragDropPopout.vue"
@@ -71,7 +75,8 @@ const ImagePreviewPopout = () =>
     ServerContextMenu,
     DragDropPopout,
     DeleteMessagePopout,
-    ImagePreviewPopout
+    ImagePreviewPopout,
+    AddFriendPopout
   }
 })
 export default class MainApp extends Vue {

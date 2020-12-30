@@ -29,7 +29,7 @@
         <div class="icon material-icons">book</div>
         <div class="title">Saved Notes</div>
       </div>
-      <div class="button">
+      <div class="button" @click="addFriendButton">
         <div class="icon material-icons">person_add</div>
         <div class="title">Add Friend</div>
       </div>
@@ -49,6 +49,7 @@ const RecentList = () =>
 
 import { ChannelsModule } from "@/store/modules/channels";
 import { MeModule } from "@/store/modules/me";
+import { PopoutsModule } from "@/store/modules/popouts";
 import { Component, Vue } from "vue-property-decorator";
 
 @Component({ components: { FriendList, RecentList } })
@@ -59,7 +60,13 @@ export default class MainApp extends Vue {
     if (!MeModule.user.uniqueID) return;
     ChannelsModule.LoadDmChannel(MeModule.user.uniqueID);
   }
-
+  addFriendButton(){
+    PopoutsModule.ShowPopout({
+      component: "add-friend-popout",
+      id: "add-friend",
+      data: {}
+    })  
+  }
   changeTab(index: number) {
     this.selectedTab = index;
     localStorage.setItem("selectedDmTab", index.toString());
