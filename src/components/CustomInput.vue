@@ -9,7 +9,10 @@
         :value="value"
       />
     </div>
-    <div class="error-message">{{ error }}</div>
+    <div class="error-message" v-if="!validMessage">{{ error }}</div>
+    <div class="valid-message" v-if="!error && validMessage">
+      {{ validMessage }}
+    </div>
   </div>
 </template>
 
@@ -22,6 +25,7 @@ export default class CustomInput extends Vue {
   @Prop() private placeholder!: string;
   @Prop() private type!: string;
   @Prop() private error!: string;
+  @Prop() private validMessage!: string;
   @Prop() private value!: string;
   inputEvent(event: any) {
     this.$emit("model", event.target.value);
@@ -55,6 +59,11 @@ export default class CustomInput extends Vue {
 
 .error-message {
   color: var(--alert-color);
+  margin-top: 2px;
+  min-height: 21px;
+}
+.valid-message {
+  color: var(--primary-color);
   margin-top: 2px;
   min-height: 21px;
 }

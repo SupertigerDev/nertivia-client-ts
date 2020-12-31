@@ -42,7 +42,7 @@
           class="input"
           v-model="confirmEmail"
           title="Confirm Email"
-          type="text"
+          type="email"
           :error="errors['email_confirm']"
         />
       </div>

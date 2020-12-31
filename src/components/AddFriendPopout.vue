@@ -3,11 +3,24 @@
     <div class="delete-message-popout">
       <div class="content animate-in">
         <div class="header">
-        <div class="icon material-icons">person_add</div>
+          <div class="icon material-icons">person_add</div>
           <div class="text">Add Friend</div>
         </div>
         <div class="inner-content">
-          <div class="info">Add a friend by typing their username and tag (username:tag)</div>
+          <div class="info">
+            Add a friend by typing their username and tag.
+          </div>
+          <customInput
+            class="input"
+            v-model="usernameAndTag"
+            title="Username:tag"
+            type="text"
+            :error="error"
+            :validMessage="success"
+          />
+          <div class="button" @click="sendRequest">
+            {{ requestSent ? "Adding..." : "Add Friend" }}
+          </div>
         </div>
       </div>
     </div>
@@ -16,20 +29,68 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { PopoutsModule } from "@/store/modules/popouts";
+import CustomInput from "@/components/CustomInput.vue";
+import { sendFriendRequest } from "@/services/relationshipService";
 
-@Component
+@Component({ components: { CustomInput } })
 export default class ProfilePopout extends Vue {
-
+  error: string | null = null;
+  success: string | null = null;
+  requestSent = false;
+  usernameAndTag = "";
   close() {
     PopoutsModule.ClosePopout("add-friend");
+  }
+  sendRequest() {
+    if (this.requestSent) return;
+    this.requestSent = true;
+    this.error = null;
+    this.success = null;
+    // validate username and tag
+    const split = this.usernameAndTag.trim().split(":");
+    if (!this.usernameAndTag.trim().length) {
+      this.error = "Cannot be friends with emptiness.";
+      this.requestSent = false;
+      return;
+    }
+    if (split.length === 1) {
+      this.error = "Tag is required.";
+      this.requestSent = false;
+      return;
+    }
+    if (split.length >= 3) {
+      this.error = "Username must not contain a colon.";
+      this.requestSent = false;
+      return;
+    }
+    if (!split[split.length - 1].length) {
+      this.error = "Tag is required.";
+      this.requestSent = false;
+      return;
+    }
+    const username = split[0].trim();
+    const tag = split[1].trim();
+    sendFriendRequest(username, tag)
+      .then(() => {
+        this.success = "Friend request send!";
+        this.requestSent = false;
+      })
+      .catch(async err => {
+        this.requestSent = false;
+        const json = await err.response.json();
+        if (json?.errors?.[0]) {
+          this.error = json.errors[0].msg;
+        } else {
+          this.error = "Something weng wrong. Show console to fishie.";
+          console.log({ json, response: err.response });
+        }
+      });
   }
   backgroundClick(event: any) {
     if (event.target.classList.contains("popout-background")) {
       this.close();
     }
   }
-
-
 }
 </script>
 <style lang="scss" scoped>
@@ -37,6 +98,7 @@ export default class ProfilePopout extends Vue {
   background: var(--popout-color);
   border-radius: 8px;
   overflow: hidden;
+  max-width: 300px;
 }
 .animate-in {
   opacity: 0;
@@ -75,7 +137,7 @@ export default class ProfilePopout extends Vue {
   padding: 5px;
   background: var(--main-header-bg-color);
   .text {
-    margin-left: 10px;
+    margin-left: 4px;
   }
 }
 .content {
@@ -100,6 +162,10 @@ export default class ProfilePopout extends Vue {
   justify-content: center;
   margin-top: 10px;
 }
+.input {
+  max-width: 200px;
+  width: 100%;
+}
 .button {
   background: var(--primary-color);
   margin: 10px;
@@ -120,5 +186,9 @@ export default class ProfilePopout extends Vue {
     opacity: 0.6;
     cursor: not-allowed;
   }
+}
+.info {
+  padding: 10px;
+  margin-bottom: 10px;
 }
 </style>
