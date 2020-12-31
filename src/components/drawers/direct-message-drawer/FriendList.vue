@@ -34,7 +34,9 @@ import FriendRequestTemplate from "./FriendRequestTemplate.vue";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const virtualList = require("vue-virtual-scroll-list");
 
-@Component({ components: { FriendTemplate, FriendRequestTemplate, virtualList } })
+@Component({
+  components: { FriendTemplate, FriendRequestTemplate, virtualList }
+})
 export default class FriendList extends Vue {
   get friends() {
     return FriendsModule.friendsWithUser;

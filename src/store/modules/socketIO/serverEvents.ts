@@ -115,11 +115,11 @@ const actions: ActionTree<any, any> = {
       roleID: data.role_id
     });
   },
-  ["socket_server:mute"](
-    context,
-    data: {muted: number, server_id: string}
-  ) {
-    MutedServersModule.SetMutedServer({serverID: data.server_id, type: data.muted})
+  ["socket_server:mute"](context, data: { muted: number; server_id: string }) {
+    MutedServersModule.SetMutedServer({
+      serverID: data.server_id,
+      type: data.muted
+    });
   }
 };
 export default {

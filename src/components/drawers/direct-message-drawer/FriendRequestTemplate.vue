@@ -6,23 +6,25 @@
       @mouseover="hover = true"
       @mouseleave="hover = false"
     >
-    <div class="inner-content">
-      <AvatarImage
-        class="avatar"
-        :imageId="user.avatar"
-        :seedId="user.uniqueID"
-        size="30px"
-        :willHaveClickEvent="true"
-        :animateGif="hover"
-        @click.native="showProfile"
-      />
-      <div class="details">
+      <div class="inner-content">
+        <AvatarImage
+          class="avatar"
+          :imageId="user.avatar"
+          :seedId="user.uniqueID"
+          size="30px"
+          :willHaveClickEvent="true"
+          :animateGif="hover"
+          @click.native="showProfile"
+        />
+        <div class="details">
           <div class="username">{{ user.username }}</div>
           <div class="status">
-            <div class="name">{{ friend.status === 1  ? "Incoming" : 'Request Sent'}}</div>
+            <div class="name">
+              {{ friend.status === 1 ? "Incoming" : "Request Sent" }}
+            </div>
           </div>
-      </div>  
-    </div>  
+        </div>
+      </div>
       <div class="buttons">
         <div class="button alert" v-if="friend.status === 0">Cancel</div>
         <div class="button" v-if="friend.status === 1">Accept</div>

@@ -81,7 +81,7 @@ class ServerMembers extends VuexModule {
         serverID,
         rolePermissions.ADMIN.value
       );
-    }
+    };
   }
 
   @Mutation

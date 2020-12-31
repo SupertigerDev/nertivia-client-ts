@@ -60,12 +60,12 @@ export default class MainApp extends Vue {
     if (!MeModule.user.uniqueID) return;
     ChannelsModule.LoadDmChannel(MeModule.user.uniqueID);
   }
-  addFriendButton(){
+  addFriendButton() {
     PopoutsModule.ShowPopout({
       component: "add-friend-popout",
       id: "add-friend",
       data: {}
-    })  
+    });
   }
   changeTab(index: number) {
     this.selectedTab = index;
