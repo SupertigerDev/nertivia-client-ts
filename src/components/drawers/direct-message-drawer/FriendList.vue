@@ -1,6 +1,13 @@
 <template>
   <div class="friend-list">
     <virtual-list :size="260" :remain="40" :variable="true">
+      <div class="tab" :style="{ height: '25px' }">Requests</div>
+      <FriendRequestTemplate
+        v-for="friend in friendRequests"
+        :style="{ height: '79px' }"
+        :key="friend.recipient.uniqueID"
+        :friend="friend"
+      />
       <div class="tab" :style="{ height: '25px' }">Online</div>
       <FriendTemplate
         v-for="friend in onlineFriends"
@@ -23,10 +30,11 @@
 import { FriendsModule } from "@/store/modules/friends";
 import { Component, Vue } from "vue-property-decorator";
 import FriendTemplate from "./FriendTemplate.vue";
+import FriendRequestTemplate from "./FriendRequestTemplate.vue";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const virtualList = require("vue-virtual-scroll-list");
 
-@Component({ components: { FriendTemplate, virtualList } })
+@Component({ components: { FriendTemplate, FriendRequestTemplate, virtualList } })
 export default class FriendList extends Vue {
   get friends() {
     return FriendsModule.friendsWithUser;
@@ -36,6 +44,9 @@ export default class FriendList extends Vue {
   }
   get offlineFriends() {
     return this.friends.filter(f => !f.presence && f.status === 2);
+  }
+  get friendRequests() {
+    return this.friends.filter(f => f.status <= 1);
   }
 }
 </script>
