@@ -76,8 +76,8 @@ export default class MainApp extends Vue {
   }
   showPicker(css: any, event: any) {
     const rect = event.target.getBoundingClientRect();
-    const top = rect.top - 7
-    this.$refs.pickerButton.style.top = top + "px";
+    const top = rect.top - 7;
+    (this.$refs.pickerButton as HTMLElement).style.top = top + "px";
     this.lastClicked = css;
     this.pickr?.setColor(css.custom || css.value);
     this.pickr?.show();
