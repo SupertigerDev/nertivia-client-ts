@@ -3,12 +3,15 @@
     <div class="description">Change the appearance of Nertivia.</div>
     <div class="box">
       <div class="title">Colors</div>
+      <div class="hidden">
+        <div class="pickr"></div>
+      </div>
       <div
         class="color-input"
         @click="
           lastClicked = css;
-          $refs.colorPicker.value = css.custom || css.value;
-          $refs.colorPicker.click();
+          pickr.setColor(css.custom || css.value);
+          pickr.show();
         "
         v-for="css in cssVarList"
         :key="css.key"
@@ -44,7 +47,9 @@
 </template>
 
 <script lang="ts">
+import "@simonwep/pickr/dist/themes/classic.min.css";
 import { Component, Vue } from "vue-property-decorator";
+import Pickr from "@simonwep/pickr";
 import {
   getAllCssVars,
   getCustomCssVars,
@@ -53,8 +58,33 @@ import {
 } from "@/utils/customCssVars";
 @Component
 export default class MainApp extends Vue {
+  pickr: Pickr | null = null;
   lastClicked: { key?: string; value?: string; custom?: string } = {};
   customVars = getCustomCssVars();
+  mounted() {
+    this.pickr = Pickr.create({
+      el: ".pickr",
+      theme: "classic",
+      components: {
+        preview: true,
+        opacity: true,
+        hue: true,
+        palette: true,
+        interaction: {
+          hex: true,
+          rgba: true,
+          input: true,
+          cancel: true
+        }
+      }
+    });
+    this.pickr.on("hide", this.colorChanged);
+    console.log(this.pickr);
+  }
+  beforeDestroy() {
+    this.pickr?.off("hide", this.colorChanged);
+    this.pickr?.destroyAndRemove();
+  }
   get cssVarList() {
     return getAllCssVars()
       .filter(item => item.key.endsWith("color"))
@@ -65,9 +95,12 @@ export default class MainApp extends Vue {
   }
   colorChanged(event: any) {
     if (!this.lastClicked.key) return;
-    changeCssVar(this.lastClicked?.key, event.target.value);
+    const hex = event
+      .getColor()
+      .toHEXA()
+      .toString();
+    changeCssVar(this.lastClicked?.key, hex);
     this.customVars = getCustomCssVars();
-    event.target.value = "owo";
   }
   resetButton() {
     removeCustomCssVars();
@@ -176,5 +209,19 @@ export default class MainApp extends Vue {
       background: black;
     }
   }
+}
+</style>
+
+<style lang="scss">
+.pcr-app {
+  z-index: 99999999999 !important;
+  background: #1a1a1d;
+  border-radius: 4px;
+}
+.pcr-palette::before {
+  background: white !important;
+}
+.pcr-color-preview::before {
+  background: white !important;
 }
 </style>

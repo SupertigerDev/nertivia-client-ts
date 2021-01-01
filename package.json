@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@hcaptcha/vue-hcaptcha": "^0.2.2",
+    "@simonwep/pickr": "^1.8.0",
     "@types/lodash": "^4.14.162",
     "core-js": "^3.6.5",
     "filesize": "^6.1.0",
