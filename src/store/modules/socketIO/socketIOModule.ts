@@ -4,6 +4,7 @@ import notificationEvents from "./notificationEvents";
 import channelEvents from "./channelEvents";
 import serverEvents from "./serverEvents";
 import userEvents from "./userEvents";
+import relationshipEvents from "./relationshipEvents";
 
 export default {
   namespace: true,
@@ -13,6 +14,7 @@ export default {
     notificationEvents,
     channelEvents,
     serverEvents,
-    userEvents
+    userEvents,
+    relationshipEvents
   }
 };

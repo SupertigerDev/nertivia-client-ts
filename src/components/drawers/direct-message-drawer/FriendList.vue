@@ -1,7 +1,9 @@
 <template>
   <div class="friend-list">
     <virtual-list :size="260" :remain="40" :variable="true">
-      <div class="tab" :style="{ height: '25px' }">Requests</div>
+      <div class="tab" :style="{ height: '25px' }" v-if="friendRequests.length">
+        Requests
+      </div>
       <FriendRequestTemplate
         v-for="friend in friendRequests"
         :style="{ height: '79px' }"

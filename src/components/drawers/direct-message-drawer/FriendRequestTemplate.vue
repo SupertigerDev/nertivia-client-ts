@@ -26,9 +26,23 @@
         </div>
       </div>
       <div class="buttons">
-        <div class="button alert" v-if="friend.status === 0">Cancel</div>
-        <div class="button" v-if="friend.status === 1">Accept</div>
-        <div class="button alert" v-if="friend.status === 1">Decline</div>
+        <div
+          class="button alert"
+          v-if="friend.status === 0"
+          @click="cancelOrDecline"
+        >
+          Cancel
+        </div>
+        <div class="button" v-if="friend.status === 1" @click="acceptFriend">
+          Accept
+        </div>
+        <div
+          class="button alert"
+          v-if="friend.status === 1"
+          @click="cancelOrDecline"
+        >
+          Decline
+        </div>
       </div>
     </div>
   </div>
@@ -37,6 +51,7 @@
 <script lang="ts">
 import AvatarImage from "@/components/AvatarImage.vue";
 import User from "@/interfaces/User";
+import { acceptRequest, deleteFriend } from "@/services/relationshipService";
 import { ChannelsModule } from "@/store/modules/channels";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { Component, Prop, Vue } from "vue-property-decorator";
@@ -47,7 +62,7 @@ export default class FriendTemplate extends Vue {
   @Prop() private dmChannel!: { recipients: User[] };
   hover = false;
   clickedEvent(event: any) {
-    if (!event.target.closest(".avatar")) {
+    if (!event.target.closest(".avatar") && !event.target.closest(".button")) {
       ChannelsModule.LoadDmChannel(this.user.uniqueID);
     }
   }
@@ -57,6 +72,12 @@ export default class FriendTemplate extends Vue {
       component: "profile-popout",
       data: { uniqueID: this.user.uniqueID }
     });
+  }
+  cancelOrDecline() {
+    deleteFriend(this.user.uniqueID);
+  }
+  acceptFriend() {
+    acceptRequest(this.user.uniqueID);
   }
   get user() {
     if (this.friend) {

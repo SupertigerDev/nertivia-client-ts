@@ -44,9 +44,33 @@
               <div class="material-icons">message</div>
               Send Message
             </div>
-            <div class="button green">
+            <div
+              class="button"
+              v-if="!user.bot && friendStatus === undefined"
+              @click="addFriend"
+            >
               <div class="material-icons">person_add</div>
               Add Friend
+            </div>
+            <div
+              class="button warn"
+              v-if="friendStatus === 0"
+              @click="cancelOrDecline"
+            >
+              <div class="material-icons">person_add_disabled</div>
+              Cancel Request
+            </div>
+            <div class="button" v-if="friendStatus === 1" @click="acceptFriend">
+              <div class="material-icons">check</div>
+              Accept Request
+            </div>
+            <div
+              class="button alert"
+              v-if="friendStatus === 2"
+              @click="cancelOrDecline"
+            >
+              <div class="material-icons">person_add_disabled</div>
+              Remove Friend
             </div>
             <div class="button alert">
               <div class="material-icons">block</div>
@@ -99,6 +123,12 @@ import { fetchUser, ReturnedUser } from "@/services/userService";
 import { UsersModule } from "@/store/modules/users";
 import friendlyDate from "@/utils/date";
 import { PopoutsModule } from "@/store/modules/popouts";
+import { FriendsModule } from "@/store/modules/friends";
+import {
+  acceptRequest,
+  deleteFriend,
+  sendFriendRequest
+} from "@/services/relationshipService";
 @Component({
   components: { AvatarImage }
 })
@@ -119,6 +149,15 @@ export default class ProfilePopout extends Vue {
     reader.onload = () => {
       this.banner = reader.result;
     };
+  }
+  cancelOrDecline() {
+    deleteFriend(this.user.uniqueID);
+  }
+  acceptFriend() {
+    acceptRequest(this.user.uniqueID);
+  }
+  addFriend() {
+    sendFriendRequest(this.user.username, this.user.tag);
   }
 
   mounted() {
@@ -157,6 +196,10 @@ export default class ProfilePopout extends Vue {
       return MeModule.user.custom_status;
     }
     return undefined;
+  }
+  get friendStatus() {
+    const status = FriendsModule.friends[this.user.uniqueID]?.status;
+    return status;
   }
   get user() {
     if (!this.returnedUser) {
@@ -276,6 +319,12 @@ export default class ProfilePopout extends Vue {
     &:hover {
       background: var(--alert-color);
       opacity: 1;
+    }
+  }
+  &.warn {
+    &:hover {
+      opacity: 1;
+      background: var(--warn-color);
     }
   }
   &:hover {

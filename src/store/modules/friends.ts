@@ -10,6 +10,8 @@ import User from "@/interfaces/User";
 import { saveCache } from "@/utils/localCache";
 import { PresencesModule } from "./presences";
 
+import Vue from 'vue';
+
 interface FriendObj {
   [key: string]: {
     status: number;
@@ -39,15 +41,24 @@ class Friends extends VuexModule {
 
   @Mutation
   private ADD_FRIEND(payload: { uniqueID: string; status: number }) {
-    this.friends[payload.uniqueID] = {
+    Vue.set(this.friends, payload.uniqueID, {
       status: payload.status,
       uniqueID: payload.uniqueID
-    };
+    })
   }
 
   @Action
   public AddFriend(payload: { uniqueID: string; status: number }) {
     this.ADD_FRIEND(payload);
+  }
+  @Mutation
+  private REMOVE_FRIEND(payload: { uniqueID: string}) {
+    Vue.delete(this.friends, payload.uniqueID)
+  }
+
+  @Action
+  public RemoveFriend(payload: { uniqueID: string}) {
+    this.REMOVE_FRIEND(payload);
   }
 
   @Mutation
