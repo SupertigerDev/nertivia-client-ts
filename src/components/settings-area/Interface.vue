@@ -3,16 +3,12 @@
     <div class="description">Change the appearance of Nertivia.</div>
     <div class="box">
       <div class="title">Colors</div>
-      <div class="hidden">
+      <div class="hidden picker-button" ref="pickerButton">
         <div class="pickr"></div>
       </div>
       <div
         class="color-input"
-        @click="
-          lastClicked = css;
-          pickr.setColor(css.custom || css.value);
-          pickr.show();
-        "
+        @click="showPicker(css, $event)"
         v-for="css in cssVarList"
         :key="css.key"
       >
@@ -22,12 +18,6 @@
         />
         <div class="name">{{ css.name }}</div>
       </div>
-      <input
-        class="hidden"
-        ref="colorPicker"
-        @change="colorChanged"
-        type="color"
-      />
       <div class="reset" @click="resetButton">
         Reset All Colors (Reload Required)
       </div>
@@ -79,11 +69,18 @@ export default class MainApp extends Vue {
       }
     });
     this.pickr.on("hide", this.colorChanged);
-    console.log(this.pickr);
   }
   beforeDestroy() {
     this.pickr?.off("hide", this.colorChanged);
     this.pickr?.destroyAndRemove();
+  }
+  showPicker(css: any, event: any) {
+    const rect = event.target.getBoundingClientRect();
+    const top = rect.top - 7
+    this.$refs.pickerButton.style.top = top + "px";
+    this.lastClicked = css;
+    this.pickr?.setColor(css.custom || css.value);
+    this.pickr?.show();
   }
   get cssVarList() {
     return getAllCssVars()
@@ -176,7 +173,8 @@ export default class MainApp extends Vue {
   border: solid 1px rgba(255, 255, 255, 0.4);
 }
 .hidden {
-  display: none;
+  opacity: 0;
+  pointer-events: none;
 }
 .reset {
   background: rgba(0, 0, 0, 0.4);
@@ -210,12 +208,16 @@ export default class MainApp extends Vue {
     }
   }
 }
+.picker-button {
+  position: absolute;
+  left: 10px;
+}
 </style>
 
 <style lang="scss">
 .pcr-app {
   z-index: 99999999999 !important;
-  background: #1a1a1d;
+  background: #1a1a1de8;
   border-radius: 4px;
 }
 .pcr-palette::before {
