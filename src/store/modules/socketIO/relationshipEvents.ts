@@ -15,7 +15,6 @@ const actions: ActionTree<any, any> = {
     FriendsModule.AddFriend({status: 2, uniqueID})
   },
   ["socket_relationshipAdd"](context, payload: {recipient: User; status: number}) {
-    console.log(payload)
     UsersModule.AddUser({
       tag: payload.recipient.tag,
       uniqueID: payload.recipient.uniqueID,

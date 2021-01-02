@@ -13,7 +13,8 @@
           <customInput
             class="input"
             v-model="usernameAndTag"
-            title="Username:tag"
+            placeholder="username:tag"
+            title="Username And Tag"
             type="text"
             :error="error"
             :validMessage="success"
@@ -163,8 +164,7 @@ export default class ProfilePopout extends Vue {
   margin-top: 10px;
 }
 .input {
-  max-width: 200px;
-  width: 100%;
+
 }
 .button {
   background: var(--primary-color);

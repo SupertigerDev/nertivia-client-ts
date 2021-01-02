@@ -1,14 +1,19 @@
 <template>
   <div class="input">
-    <div class="content">
-      <div class="title">{{ title }}</div>
+     <fieldset class="content" :class="{focused: focused || value.length, error, valid: validMessage}" @click="$refs.inputBox.focus()">
+    <legend class="title">{{title}}</legend>
       <input
         class="main-input"
+        @focus="focused = true"
+        @blur="focused=false"
         :type="type || 'text'"
+        ref="inputBox"
+        :placeholder="placeholder"
         @input="inputEvent"
         :value="value"
       />
-    </div>
+     </fieldset>
+
     <div class="error-message" v-if="!validMessage">{{ error }}</div>
     <div class="valid-message" v-if="!error && validMessage">
       {{ validMessage }}
@@ -21,6 +26,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component({ model: { prop: "value", event: "model" } })
 export default class CustomInput extends Vue {
+  focused = false;
   @Prop() private title!: string;
   @Prop() private placeholder!: string;
   @Prop() private type!: string;
@@ -38,33 +44,46 @@ export default class CustomInput extends Vue {
   flex-shrink: 0;
 }
 .content {
-  display: flex;
-  flex-direction: column;
-  background: rgba(255, 255, 255, 0.2);
   border-radius: 4px;
+  border: solid 2px rgba(255, 255, 255, 0.2);
   overflow: hidden;
+  cursor: text;
+  transition: 0.2s;
+  &.focused {
+      border: solid 2px var(--primary-color);
+  }
+  &.error {
+      border: solid 2px var(--alert-color);
+  }
+  &.valid {
+      border: solid 2px var(--success-color);
+  }
 }
 .title {
-  padding: 5px;
   opacity: 0.8;
+  font-size: 14px;
 }
 .main-input {
   border: none;
   font-size: 14px;
-  padding: 10px;
   color: white;
+  height: 100%;
   outline: none;
-  background: rgba(255, 255, 255, 0.2);
+  background: none
 }
 
 .error-message {
   color: var(--alert-color);
   margin-top: 2px;
   min-height: 21px;
+  margin-left: 5px;
+  font-size: 12px;
 }
 .valid-message {
-  color: var(--primary-color);
+  color: var(--success-color);
   margin-top: 2px;
   min-height: 21px;
+  margin-left: 5px;
+  font-size: 12px;
 }
 </style>
