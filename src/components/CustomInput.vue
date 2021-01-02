@@ -1,18 +1,22 @@
 <template>
   <div class="input">
-     <fieldset class="content" :class="{focused: focused || value.length, error, valid: validMessage}" @click="$refs.inputBox.focus()">
-    <legend class="title">{{title}}</legend>
+    <fieldset
+      class="content"
+      :class="{ focused: focused || value.length, error, valid: validMessage }"
+      @click="$refs.inputBox.focus()"
+    >
+      <legend class="title">{{ title }}</legend>
       <input
         class="main-input"
         @focus="focused = true"
-        @blur="focused=false"
+        @blur="focused = false"
         :type="type || 'text'"
         ref="inputBox"
         :placeholder="placeholder"
         @input="inputEvent"
         :value="value"
       />
-     </fieldset>
+    </fieldset>
 
     <div class="error-message" v-if="!validMessage">{{ error }}</div>
     <div class="valid-message" v-if="!error && validMessage">
@@ -50,13 +54,13 @@ export default class CustomInput extends Vue {
   cursor: text;
   transition: 0.2s;
   &.focused {
-      border: solid 2px var(--primary-color);
+    border: solid 2px var(--primary-color);
   }
   &.error {
-      border: solid 2px var(--alert-color);
+    border: solid 2px var(--alert-color);
   }
   &.valid {
-      border: solid 2px var(--success-color);
+    border: solid 2px var(--success-color);
   }
 }
 .title {
@@ -69,7 +73,7 @@ export default class CustomInput extends Vue {
   color: white;
   height: 100%;
   outline: none;
-  background: none
+  background: none;
 }
 
 .error-message {

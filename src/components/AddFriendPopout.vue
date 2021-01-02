@@ -164,7 +164,6 @@ export default class ProfilePopout extends Vue {
   margin-top: 10px;
 }
 .input {
-
 }
 .button {
   background: var(--primary-color);

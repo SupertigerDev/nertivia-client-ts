@@ -20,7 +20,7 @@ class Users extends VuexModule {
 
   @Mutation
   private ADD_USER(payload: User) {
-    Vue.set(this.users, payload.uniqueID, payload)
+    Vue.set(this.users, payload.uniqueID, payload);
   }
 
   @Action

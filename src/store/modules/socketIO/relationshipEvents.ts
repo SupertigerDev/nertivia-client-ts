@@ -7,24 +7,26 @@ import { MutedChannelsModule } from "../mutedChannels";
 import { UsersModule } from "../users";
 
 const actions: ActionTree<any, any> = {
-
   ["socket_relationshipRemove"](context, uniqueID) {
-    FriendsModule.RemoveFriend({uniqueID})
+    FriendsModule.RemoveFriend({ uniqueID });
   },
   ["socket_relationshipAccept"](context, uniqueID) {
-    FriendsModule.AddFriend({status: 2, uniqueID})
+    FriendsModule.AddFriend({ status: 2, uniqueID });
   },
-  ["socket_relationshipAdd"](context, payload: {recipient: User; status: number}) {
+  ["socket_relationshipAdd"](
+    context,
+    payload: { recipient: User; status: number }
+  ) {
     UsersModule.AddUser({
       tag: payload.recipient.tag,
       uniqueID: payload.recipient.uniqueID,
       username: payload.recipient.username,
-      avatar: payload.recipient.avatar,
-    })
+      avatar: payload.recipient.avatar
+    });
     FriendsModule.AddFriend({
       status: payload.status,
       uniqueID: payload.recipient.uniqueID
-    })
+    });
   }
 };
 export default {
