@@ -19,9 +19,10 @@
             :error="error"
             :validMessage="success"
           />
-          <div class="button" @click="sendRequest">
-            {{ requestSent ? "Adding..." : "Add Friend" }}
-          </div>
+          <CustomButton
+            :name="requestSent ? 'Adding...' : 'Add Friend'"
+            @click="sendRequest"
+          />
         </div>
       </div>
     </div>
@@ -31,9 +32,10 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { PopoutsModule } from "@/store/modules/popouts";
 import CustomInput from "@/components/CustomInput.vue";
+import CustomButton from "@/components/CustomButton.vue";
 import { sendFriendRequest } from "@/services/relationshipService";
 
-@Component({ components: { CustomInput } })
+@Component({ components: { CustomInput, CustomButton } })
 export default class ProfilePopout extends Vue {
   error: string | null = null;
   success: string | null = null;
@@ -155,36 +157,8 @@ export default class ProfilePopout extends Vue {
 .description {
   margin-top: 10px;
 }
-.buttons {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  align-content: center;
-  justify-content: center;
-  margin-top: 10px;
-}
-.input {
-}
 .button {
-  background: var(--primary-color);
-  margin: 10px;
-  border-radius: 8px;
-  padding: 8px;
-  font-size: 18px;
-  cursor: pointer;
-  user-select: none;
-  opacity: 0.8;
-  transition: 0.2s;
-  &:hover {
-    opacity: 1;
-  }
-  &.warn {
-    background: var(--alert-color);
-  }
-  &.disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
+  margin-bottom: 20px;
 }
 .info {
   padding: 10px;

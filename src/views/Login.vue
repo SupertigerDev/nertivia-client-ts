@@ -27,7 +27,7 @@
           :error="errors['password']"
         />
         <a class="link" href="/register">Create An Account</a>
-        <button class="button" type="submit">Login</button>
+        <CustomButton name="Login" />
       </form>
       <!-- Captcha -->
       <div class="captcha" v-if="page === 1">
@@ -53,9 +53,11 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import Captcha from "@/components/Captcha.vue";
+import CustomButton from "@/components/CustomButton.vue";
+
 import { postLogin, confirmEmail } from "@/services/authService";
 
-@Component({ components: { CustomInput, Captcha } })
+@Component({ components: { CustomInput, Captcha, CustomButton } })
 export default class MainApp extends Vue {
   page = 0;
   email = "";
@@ -186,19 +188,6 @@ export default class MainApp extends Vue {
 }
 .button {
   align-self: center;
-  padding: 10px;
-  outline: none;
-  border: none;
-  font-size: 18px;
-  background: var(--primary-color);
-  color: white;
-  border-radius: 4px;
-  opacity: 0.8;
-  cursor: pointer;
-  transition: 0.2s;
-  &:hover {
-    opacity: 1;
-  }
 }
 .link {
   color: #68aaff;

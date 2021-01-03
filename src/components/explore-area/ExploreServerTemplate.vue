@@ -36,17 +36,20 @@
           </div>
         </div>
         <div class="right">
-          <div class="button valid" v-if="isJoined" @click="visitClicked">
-            Visit
-          </div>
-          <div
+          <CustomButton
             class="button"
-            :class="{ disabled: joining }"
+            v-if="isJoined"
+            @click="visitClicked"
+            name="Visit"
+          />
+          <CustomButton
             v-else
+            class="button"
             @click="joinClicked"
-          >
-            {{ joining ? "Joining..." : "Join" }}
-          </div>
+            :valid="true"
+            :disabled="joining"
+            :name="joining ? 'Joining...' : 'Join'"
+          />
         </div>
       </div>
       <div class="details">
@@ -65,8 +68,9 @@ import { ServerResponse } from "@/services/exploreService";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { ServersModule } from "@/store/modules/servers";
 import { PopoutsModule } from "@/store/modules/popouts";
+import CustomButton from "@/components/CustomButton.vue";
 import { joinServerById } from "@/services/serverService";
-@Component({ components: { AvatarImage } })
+@Component({ components: { AvatarImage, CustomButton } })
 export default class ExploreServerTemplate extends Vue {
   joining = false;
   hovering = false;
@@ -229,25 +233,10 @@ export default class ExploreServerTemplate extends Vue {
   }
 }
 .button {
-  padding: 5px;
-  background: var(--primary-color);
-  opacity: 0.8;
-  transition: 0.2s;
-  border-radius: 4px;
-  padding-left: 20px;
-  padding-right: 20px;
-  cursor: pointer;
-  &:hover {
-    opacity: 1;
-  }
-  &.valid {
-    background: #6c36ff;
-  }
-  &.disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
+  padding-left: 25px !important;
+  padding-right: 25px !important;
 }
+
 .avatar {
   position: absolute;
   top: -30px;

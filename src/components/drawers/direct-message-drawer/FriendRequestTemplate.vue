@@ -33,16 +33,19 @@
         >
           Cancel
         </div>
-        <div class="button" v-if="friend.status === 1" @click="acceptFriend">
-          Accept
-        </div>
-        <div
-          class="button alert"
+
+        <CustomButton
+          v-if="friend.status === 1"
+          @click="acceptFriend"
+          name="Accept"
+          :valid="true"
+        />
+        <CustomButton
           v-if="friend.status === 1"
           @click="cancelOrDecline"
-        >
-          Decline
-        </div>
+          name="Decline"
+          :warn="true"
+        />
       </div>
     </div>
   </div>
@@ -54,9 +57,11 @@ import User from "@/interfaces/User";
 import { acceptRequest, deleteFriend } from "@/services/relationshipService";
 import { ChannelsModule } from "@/store/modules/channels";
 import { PopoutsModule } from "@/store/modules/popouts";
+import CustomButton from "@/components/CustomButton.vue";
+
 import { Component, Prop, Vue } from "vue-property-decorator";
 
-@Component({ components: { AvatarImage } })
+@Component({ components: { AvatarImage, CustomButton } })
 export default class FriendTemplate extends Vue {
   @Prop() private friend!: { recipient: User; status: number };
   @Prop() private dmChannel!: { recipients: User[] };
@@ -134,20 +139,6 @@ export default class FriendTemplate extends Vue {
 }
 .button {
   flex: 1;
-  border-radius: 4px;
-  padding: 5px;
-  text-align: center;
-  margin-left: 5px;
-  margin-right: 5px;
-  opacity: 0.7;
-  transition: 0.2s;
-  background: rgba(255, 255, 255, 0.1);
-  &:hover {
-    background: var(--primary-color);
-    opacity: 1;
-  }
-  &.alert:hover {
-    background: var(--alert-color);
-  }
+  padding: 4px !important;
 }
 </style>
