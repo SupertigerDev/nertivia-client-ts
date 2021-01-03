@@ -2,7 +2,7 @@
   <button
     class="button"
     type="submit"
-    :class="{ warn, valid }"
+    :class="{ filled, warn, valid }"
     @click="$emit('click')"
   >
     {{ name }}
@@ -18,6 +18,7 @@ export default class CustomInput extends Vue {
   @Prop() private name!: string;
   @Prop() private warn!: boolean;
   @Prop() private valid!: boolean;
+  @Prop() private filled!: boolean;
 }
 </script>
 
@@ -57,6 +58,35 @@ export default class CustomInput extends Vue {
       color: white;
     }
   }
+
+  &.filled {
+    background: var(--primary-color);
+    color: white;
+    &:hover {
+      color: var(--primary-color);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    &.warn {
+      background: var(--alert-color);
+      color: white;
+      border: solid 1px var(--alert-color);
+      &:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--alert-color);
+      }
+    }
+
+    &.valid {
+      color: white;
+      background: var(--success-color);
+      border: solid 1px var(--success-color);
+      &:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--success-color);
+      }
+    }
+  }
+
   &.disabled {
     opacity: 0.6;
     cursor: not-allowed;

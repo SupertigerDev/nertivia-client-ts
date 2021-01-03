@@ -15,7 +15,8 @@
         <customInput
           class="input"
           v-model="email"
-          title="Email | username:tag"
+          title="Username"
+          placeholder="Email or username:tag"
           type="text"
           :error="errors['email']"
         />
@@ -26,8 +27,8 @@
           type="password"
           :error="errors['password']"
         />
-        <a class="link" href="/register">Create An Account</a>
-        <CustomButton name="Login" />
+        <CustomButton name="Login" :filled="true" />
+        <a class="link" href="/register">Signup</a>
       </form>
       <!-- Captcha -->
       <div class="captcha" v-if="page === 1">
@@ -36,12 +37,15 @@
       </div>
       <!-- Confirm Email -->
       <div v-if="page === 2">
-        <div class="sub-title">Confirm your email before continuing.</div>
+        <div class="sub-title">
+          Confirm your email before continuing by entering the code that was
+          sent to you.
+        </div>
         <div class="other-error">{{ errors["other"] }}</div>
         <customInput
           class="input"
           v-model="confirmEmail"
-          title="Confirm Email"
+          title="Confirm Code"
           type="email"
           :error="errors['email_confirm']"
         />
@@ -82,7 +86,7 @@ export default class MainApp extends Vue {
       .then(res => {
         if (!res) return (this.errors["other"] = "Unable to connect to server");
         if (!res.error) return;
-        return (this.errors["other"] = res.error);
+        return (this.errors["email_confirm"] = res.error);
       });
   }
 
@@ -154,7 +158,7 @@ export default class MainApp extends Vue {
   align-content: center;
   align-items: center;
   margin: auto;
-  max-width: 250px;
+  max-width: 300px;
   width: 100%;
 }
 .logo {
@@ -165,7 +169,7 @@ export default class MainApp extends Vue {
 .title {
   font-size: 18px;
   flex-shrink: 0;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 .sub-title {
   text-align: center;
@@ -176,21 +180,24 @@ export default class MainApp extends Vue {
   display: flex;
   flex-direction: column;
   width: 100%;
+  overflow: hidden;
 }
 .input {
-  max-width: 250px;
   flex-shrink: 0;
-  width: 100%;
 }
 .other-error {
   color: var(--alert-color);
   margin-bottom: 10px;
 }
 .button {
-  align-self: center;
+  margin-top: 10px;
 }
+
 .link {
   color: #68aaff;
-  margin-bottom: 20px;
+  margin-top: 10px;
+  font-size: 12px;
+  margin-left: 5px;
+  align-self: flex-start;
 }
 </style>
