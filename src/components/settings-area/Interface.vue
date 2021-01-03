@@ -76,7 +76,7 @@ export default class MainApp extends Vue {
   }
   showPicker(css: any, event: any) {
     const rect = event.target.getBoundingClientRect();
-    const top = rect.top - 7;
+    const top = rect.top - 47;
     (this.$refs.pickerButton as HTMLElement).style.top = top + "px";
     this.lastClicked = css;
     this.pickr?.setColor(css.custom || css.value);
@@ -129,6 +129,7 @@ export default class MainApp extends Vue {
 <style lang="scss" scoped>
 .interface {
   display: flex;
+  position: relative;
   flex-direction: column;
 }
 .description {
