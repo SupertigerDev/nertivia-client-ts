@@ -5,6 +5,7 @@ function findRoot() : CSSStyleRule | undefined {
   const styleSheetArr: CSSStyleSheet[] = [].slice.call(document.styleSheets);
   for (let i = 0; i < styleSheetArr.length; i++) {
     const styleSheet = styleSheetArr[i];
+    if (styleSheet.href) continue;
     const rule = [].slice.call(styleSheet.rules).find((r: CSSStyleRule) => r.selectorText === ":root");
     if (rule) {
       return rule;
