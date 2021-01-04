@@ -112,14 +112,13 @@ export default class ExploreServerTemplate extends Vue {
 
 <style lang="scss" scoped>
 .server-template {
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--card-color);
   display: flex;
   flex-direction: column;
   height: 280px;
-  min-width: 300px;
-  border-radius: 10px;
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
-
+  min-width: 299px;
+  border: solid 1px rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
   position: relative;
   overflow: hidden;
   &:hover {
@@ -135,7 +134,7 @@ export default class ExploreServerTemplate extends Vue {
   overflow: hidden;
   width: 100%;
   position: relative;
-  border-radius: 10px;
+  border-radius: 4px;
   overflow: hidden;
 }
 .banner-img {
@@ -149,7 +148,7 @@ export default class ExploreServerTemplate extends Vue {
   top: 0;
   left: 0;
   right: 0;
-  border-radius: 10px;
+  border-radius: 4px;
   bottom: 0;
   transition: 0.2s;
   background: rgba(0, 0, 0, 0.3);
@@ -193,7 +192,8 @@ export default class ExploreServerTemplate extends Vue {
   word-break: break-word;
   overflow: auto;
   height: 100%;
-  opacity: 0.7;
+  opacity: 0.8;
+  font-size: 14px;
 }
 .name {
   margin-top: 20px;

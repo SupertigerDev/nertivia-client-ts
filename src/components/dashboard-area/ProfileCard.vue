@@ -84,6 +84,7 @@ export default class ProfileCard extends Vue {
   position: absolute;
 }
 .card {
+  border: solid 1px rgba(255, 255, 255, 0.1);
   position: relative;
   margin: 10px;
   margin-top: 10px;
@@ -93,7 +94,7 @@ export default class ProfileCard extends Vue {
   flex-direction: column;
   height: 300px;
   width: 250px;
-  border-radius: 8px;
+  border-radius: 4px;
   overflow: auto;
   .item-title {
     opacity: 0.8;

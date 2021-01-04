@@ -25,6 +25,8 @@ export default class MainApp extends Vue {
 
 <style lang="scss" scoped>
 .card {
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.6);
+  border: solid 1px rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+
 }
 </style>

@@ -70,6 +70,7 @@ export default class DashboardArea extends Vue {
   font-size: 20px;
 }
 .card {
+  border: solid 1px rgba(255, 255, 255, 0.1);
   margin: 10px;
   margin-top: 10px;
   background: var(--card-color);
@@ -78,7 +79,7 @@ export default class DashboardArea extends Vue {
   flex-direction: column;
   height: 300px;
   width: 250px;
-  border-radius: 8px;
+  border-radius: 4px;
   overflow: auto;
   .item-title {
     opacity: 0.8;
