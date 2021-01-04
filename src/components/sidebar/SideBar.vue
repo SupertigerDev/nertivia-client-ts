@@ -1,6 +1,7 @@
 <template>
   <div class="side-bar">
     <Servers />
+    <div class="material-icons add-server-button" title="Add Server">add</div>
   </div>
 </template>
 
@@ -17,5 +18,24 @@ export default class MainApp extends Vue {}
   display: flex;
   flex-direction: column;
   width: 70px;
+}
+.add-server-button {
+  height: 50px;
+  width: 50px;
+  align-self: center;
+  flex-shrink: 0;
+  border-radius: 4px;
+  font-size: 30px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 3px;
+  margin-top: 3px;
+  transition: 0.2s;
+  cursor: pointer;
+  &:hover {
+    background: var(--primary-color);
+  }
 }
 </style>

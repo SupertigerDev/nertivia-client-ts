@@ -1,3 +1,5 @@
+import defaultTheme from '@/utils/defaultTheme.json';
+
 export function getAllCssVars() {
   const variables = [].slice
     .call(document.styleSheets)
@@ -12,7 +14,7 @@ export function getAllCssVars() {
     })
     .map((styleSheet: any) => [].slice.call(styleSheet.cssRules))
     .flat()
-    .filter((cssRule: any) => cssRule.selectorText === ":root")
+    .filter((cssRule: any) => cssRule.selectorText === "element.style")
     .map((cssRule: any) =>
       cssRule.cssText
         .split("{")[1]
@@ -45,4 +47,14 @@ export function changeCssVar(name: string, change: any, store = true) {
     );
   }
   document.documentElement.style.setProperty(name, change);
+}
+
+export function applyDefaultTheme(resetStorage: boolean) {
+  resetStorage && removeCustomCssVars()
+  const keys = Object.keys(defaultTheme);
+  for (let index = 0; index < keys.length; index++) {
+    const key = keys[index];
+    const value = (defaultTheme as any)[key];
+    changeCssVar("--" + key, value, false);
+  }
 }

@@ -44,7 +44,8 @@ import {
   getAllCssVars,
   getCustomCssVars,
   changeCssVar,
-  removeCustomCssVars
+  removeCustomCssVars,
+  applyDefaultTheme
 } from "@/utils/customCssVars";
 @Component
 export default class MainApp extends Vue {
@@ -100,23 +101,21 @@ export default class MainApp extends Vue {
     this.customVars = getCustomCssVars();
   }
   resetButton() {
-    removeCustomCssVars();
-    location.reload();
+    applyDefaultTheme(true);
   }
   applyTheme(theme: string) {
     if (theme === "halloween") {
-      changeCssVar("--primary-color", "#ff801f");
-      changeCssVar("--background-color", "#261d3e");
-      changeCssVar("--drawer-bg-color", "#291d4e");
-      changeCssVar("--main-header-bg-color", "#ff781f");
-      changeCssVar("--side-header-bg-color", "#d55c0b");
-      changeCssVar("--my-chat-bubble-color", "#e87b21");
-      changeCssVar("--others-chat-bubble-color", "#433a50");
+      applyDefaultTheme(true);
+      changeCssVar("--primary-color", "#ff4c1f");
+      changeCssVar("--main-header-bg-color", "#ff4c1f");
+      changeCssVar("--side-header-bg-color", "#ff4c1fcb");
+      changeCssVar("--my-chat-bubble-color", "#171725");
     }
     if (theme === "amoled") {
+      applyDefaultTheme(true);
       // changeCssVar("--primary-color", "#ff801f");
       changeCssVar("--background-color", "black");
-      // changeCssVar("--drawer-bg-color", "#291d4e");
+      changeCssVar("--drawer-bg-color", "#0e0e0e");
       // changeCssVar("--main-header-bg-color", "#ff781f");
       // changeCssVar("--side-header-bg-color", "#d55c0b");
       // changeCssVar("--my-chat-bubble-color", "#e87b21");
@@ -196,7 +195,7 @@ export default class MainApp extends Vue {
     display: flex;
     align-content: center;
     align-items: center;
-    background: rgb(255, 126, 21);
+    background: #ff4c1f;
     border-radius: 4px;
     cursor: pointer;
     margin: 5px;
