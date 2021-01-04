@@ -14,7 +14,7 @@ export function getAllCssVars() {
     })
     .map((styleSheet: any) => [].slice.call(styleSheet.cssRules))
     .flat()
-    .filter((cssRule: any) => cssRule.selectorText === "element.style")
+    .filter((cssRule: any) => cssRule.selectorText === ":root")
     .map((cssRule: any) =>
       cssRule.cssText
         .split("{")[1]
@@ -46,7 +46,7 @@ export function changeCssVar(name: string, change: any, store = true) {
       JSON.stringify({ ...varColors, ...{ [name]: change } })
     );
   }
-  document.documentElement.style.setProperty(name, change);
+  (document.styleSheets[1].rules[0] as any).style.setProperty(name, change);
 }
 
 export function applyDefaultTheme(resetStorage: boolean) {

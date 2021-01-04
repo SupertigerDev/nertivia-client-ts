@@ -12,10 +12,7 @@
         v-for="css in cssVarList"
         :key="css.key"
       >
-        <div
-          class="color-box"
-          :style="{ background: css.custom || css.value }"
-        />
+        <div class="color-box" :style="{ background: `var(${css.key})` }" />
         <div class="name">{{ css.name }}</div>
       </div>
       <div class="reset" @click="resetButton">
