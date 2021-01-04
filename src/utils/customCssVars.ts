@@ -1,5 +1,18 @@
 import defaultTheme from '@/utils/defaultTheme.json';
 
+
+function findRoot() : CSSStyleRule | undefined {
+  const styleSheetArr: CSSStyleSheet[] = [].slice.call(document.styleSheets);
+  for (let i = 0; i < styleSheetArr.length; i++) {
+    const styleSheet = styleSheetArr[i];
+    const rule = [].slice.call(styleSheet.rules).find((r: CSSStyleRule) => r.selectorText === ":root");
+    if (rule) {
+      return rule;
+    }
+  }
+  return undefined;
+}
+
 export function getAllCssVars() {
   const variables = [].slice
     .call(document.styleSheets)
@@ -46,8 +59,10 @@ export function changeCssVar(name: string, change: any, store = true) {
       JSON.stringify({ ...varColors, ...{ [name]: change } })
     );
   }
-  (document.styleSheets[1].rules[0] as any).style.setProperty(name, change);
+  findRoot()?.style.setProperty(name, change);
+  
 }
+
 
 export function applyDefaultTheme(resetStorage: boolean) {
   resetStorage && removeCustomCssVars()
