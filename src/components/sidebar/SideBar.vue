@@ -1,16 +1,30 @@
 <template>
   <div class="side-bar">
     <Servers />
-    <div class="material-icons add-server-button" title="Add Server">add</div>
+    <div
+      class="material-icons add-server-button"
+      title="Add Server"
+      @click="addServerClicked"
+    >
+      add
+    </div>
   </div>
 </template>
 
 <script lang="ts">
+import { PopoutsModule } from "@/store/modules/popouts";
 import { Component, Vue } from "vue-property-decorator";
 import Servers from "./Servers.vue";
 
 @Component({ components: { Servers } })
-export default class MainApp extends Vue {}
+export default class MainApp extends Vue {
+  addServerClicked() {
+    PopoutsModule.ShowPopout({
+      component: "add-server-popout",
+      id: "add-server"
+    });
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -33,6 +47,7 @@ export default class MainApp extends Vue {}
   margin-bottom: 3px;
   margin-top: 3px;
   transition: 0.2s;
+  user-select: none;
   cursor: pointer;
   &:hover {
     background: var(--primary-color);

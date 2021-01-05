@@ -51,8 +51,7 @@ export default class MessageLogs extends Vue {
   fileDragEnter() {
     PopoutsModule.ShowPopout({
       id: "file-drag",
-      component: "Drag-drop-popout",
-      data: {}
+      component: "Drag-drop-popout"
     });
   }
   fileDragOut() {

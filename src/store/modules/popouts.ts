@@ -12,7 +12,7 @@ interface PopoutInterface {
   id: string;
   key?: string;
   component: string;
-  data: any;
+  data?: any;
 }
 interface PopoutObj {
   [key: string]: PopoutInterface;
@@ -30,7 +30,7 @@ class Popouts extends VuexModule {
   private SHOW_POPOUT(payload: {
     id: string;
     component: string;
-    data: any;
+    data?: any;
     key?: string;
   }) {
     Vue.set(this.popouts, payload.id, {
@@ -44,7 +44,7 @@ class Popouts extends VuexModule {
   public ShowPopout(payload: {
     id: string;
     component: string;
-    data: any;
+    data?: any;
     key?: string;
   }) {
     this.SHOW_POPOUT(payload);

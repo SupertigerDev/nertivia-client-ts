@@ -15,3 +15,8 @@ export function joinServerById(server_id: string, optionalData: any) {
     .post(`servers/invite/servers/${server_id}`, { json: optionalData })
     .json();
 }
+export function createServer(name: string) {
+  return wrapper
+    .post(`servers`, { json: {name} })
+    .json();
+}

@@ -55,6 +55,10 @@ const AddFriendPopout = () =>
   import(
     /* webpackChunkName: "AddFriendPopout" */ "@/components/AddFriendPopout.vue"
   );
+const AddServerPopout = () =>
+  import(
+    /* webpackChunkName: "AddServerPopout" */ "@/components/AddServerPopout.vue"
+  );
 const DragDropPopout = () =>
   import(
     /* webpackChunkName: "DragDropPopout" */ "@/components/DragDropPopout.vue"
@@ -76,7 +80,8 @@ const ImagePreviewPopout = () =>
     DragDropPopout,
     DeleteMessagePopout,
     ImagePreviewPopout,
-    AddFriendPopout
+    AddFriendPopout,
+    AddServerPopout
   }
 })
 export default class MainApp extends Vue {

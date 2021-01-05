@@ -63,8 +63,7 @@ export default class MainApp extends Vue {
   addFriendButton() {
     PopoutsModule.ShowPopout({
       component: "add-friend-popout",
-      id: "add-friend",
-      data: {}
+      id: "add-friend"
     });
   }
   changeTab(index: number) {
