@@ -20,3 +20,8 @@ export function createServer(name: string) {
     .post(`servers`, { json: {name} })
     .json();
 }
+export function getServerInfoByCode(code: string) {
+  return wrapper
+    .get(`servers/invite/${code}`)
+    .json();
+}

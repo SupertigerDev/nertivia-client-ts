@@ -57,7 +57,7 @@ const AddFriendPopout = () =>
   );
 const AddServerPopout = () =>
   import(
-    /* webpackChunkName: "AddServerPopout" */ "@/components/AddServerPopout.vue"
+    /* webpackChunkName: "AddServerPopout" */ "@/components/add-server-popout/AddServerPopout.vue"
   );
 const DragDropPopout = () =>
   import(

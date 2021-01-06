@@ -31,8 +31,8 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { PopoutsModule } from "@/store/modules/popouts";
 import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
-import CreateServer from "@/components/CreateServer.vue";
-import JoinServer from "@/components/JoinServer.vue";
+import CreateServer from "./CreateServer.vue";
+import JoinServer from "./JoinServer.vue";
 
 @Component({
   components: { CustomInput, CustomButton, JoinServer, CreateServer }

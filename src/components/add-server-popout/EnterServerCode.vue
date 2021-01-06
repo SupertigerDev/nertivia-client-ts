@@ -1,5 +1,5 @@
 <template>
-  <div class="join-server">
+  <div class="enter-server-code">
     <div class="title">Join a server by entering in an invite code.</div>
     <form action="#" class="form" @submit.prevent="joinServer">
       <CustomInput title="Invite Code" v-model="code" :error="error" />
@@ -11,9 +11,10 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
+import { getServerInfoByCode } from "@/services/serverService";
 
 @Component({ components: { CustomInput, CustomButton } })
-export default class JoinServer extends Vue {
+export default class EnterServerCode extends Vue {
   code = "";
   requestSent = false;
   error: string | null = null;
@@ -21,19 +22,32 @@ export default class JoinServer extends Vue {
     if (this.requestSent) return;
     this.requestSent = true;
     this.error = null;
-    const trimmedCode = this.code.trim();
+    let trimmedCode = this.code.trim();
+    // check if invite code is a link
+    trimmedCode = trimmedCode.split("/")[trimmedCode.split("/").length - 1];
     if (!trimmedCode.length) {
       this.requestSent = false;
       return (this.error = "Cannot join emptiness.");
     }
 
-    console.log("clicked");
+    getServerInfoByCode(trimmedCode)
+      .then(json => {
+        this.$emit("success", json);
+      })
+      .catch(async err => {
+        if (!err.response) {
+          this.error = "Cannot connect to server.";
+        } else {
+          this.error = (await err.response.json()).message;
+        }
+        this.requestSent = false;
+      });
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.join-server {
+.enter-server-code {
   position: absolute;
   top: 0;
   left: 0;

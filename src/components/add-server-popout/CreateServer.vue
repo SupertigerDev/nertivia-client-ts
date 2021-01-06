@@ -56,7 +56,7 @@ export default class AddServer extends Vue {
   left: 0;
   bottom: 0;
   right: 0;
-  margin: 10px;
+  margin: 20px;
   display: flex;
   flex-direction: column;
 }
