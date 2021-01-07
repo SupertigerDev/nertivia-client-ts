@@ -6,11 +6,12 @@
     <AvatarImage
       class="avatar"
       :animateGif="true"
-      :seedId="server.server_id"
-      :imageId="server.avatar"
+      :seedId="server.json.server_id"
+      :imageId="server.json.avatar"
       size="80px"
     />
-    <div class="name">{{ server.name }}</div>
+    <div class="name">{{ server.json.name }}</div>
+    <div class="error-message">{{ error }}</div>
     <div class="buttons">
       <CustomButton
         class="button"
@@ -18,7 +19,12 @@
         name="Back"
         @click="$emit('back')"
       />
-      <CustomButton v-if="!isJoined" class="button" name="Join Server" />
+      <CustomButton
+        v-if="!isJoined"
+        class="button"
+        name="Join Server"
+        @click="joinServer"
+      />
       <CustomButton
         v-if="isJoined"
         class="button"
@@ -37,26 +43,47 @@ import CustomButton from "@/components/CustomButton.vue";
 import config from "@/config";
 import { ServersModule } from "@/store/modules/servers";
 import { PopoutsModule } from "@/store/modules/popouts";
+import { joinServerByCode } from "@/services/serverService";
+interface Server {
+  avatar: string;
+  server_id: string;
+  banner: string;
+  name: string;
+  default_channel_id: string;
+}
 @Component({ components: { AvatarImage, CustomButton } })
 export default class PreviewServer extends Vue {
-  @Prop() private server!: {
-    avatar: string;
-    server_id: string;
-    banner: string;
-    name: string;
-    default_channel_id: string;
-  };
+  @Prop() private server!: { json: Server; code: string };
+  requestSent = false;
+  error: string | null = null;
   visitServer() {
     PopoutsModule.ClosePopout("add-server");
     this.$router.push(
-      `/app/servers/${this.server.server_id}/${this.server.default_channel_id}`
+      `/app/servers/${this.server.json.server_id}/${this.server.json.default_channel_id}`
     );
   }
+  joinServer() {
+    if (this.requestSent) return;
+    this.requestSent = true;
+    this.error = null;
+    joinServerByCode(this.server.code, this.$socket.client.id)
+      .then(() => {
+        PopoutsModule.ClosePopout("add-server");
+        this.requestSent = false;
+      })
+      .catch(async err => {
+        this.requestSent = false;
+        if (!err.response) return (this.error = "Cannot connect to server.");
+        const result = await err.response.json();
+        this.error = result.message;
+      });
+  }
   get bannerURL() {
-    return config.nertiviaCDN + this.server.banner;
+    if (!this.server.json.banner) return undefined;
+    return config.nertiviaCDN + this.server.json.banner;
   }
   get isJoined() {
-    return ServersModule.servers[this.server.server_id];
+    return ServersModule.servers[this.server.json.server_id];
   }
 }
 </script>
@@ -112,5 +139,11 @@ export default class PreviewServer extends Vue {
 .buttons {
   margin-top: auto;
   margin-left: auto;
+}
+.error-message {
+  height: 30px;
+  margin-left: 10px;
+  color: var(--alert-color);
+  font-size: 14px;
 }
 </style>

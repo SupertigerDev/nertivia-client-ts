@@ -32,7 +32,7 @@ export default class EnterServerCode extends Vue {
 
     getServerInfoByCode(trimmedCode)
       .then(json => {
-        this.$emit("success", json);
+        this.$emit("success", { json, code: trimmedCode });
       })
       .catch(async err => {
         if (!err.response) {
