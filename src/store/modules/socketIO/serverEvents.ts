@@ -8,6 +8,7 @@ import Vue from "vue";
 import router from "@/router";
 import { UsersModule } from "../users";
 import { MutedServersModule } from "../mutedServers";
+import { deleteMessage } from "@/services/messagesService";
 
 const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
@@ -15,6 +16,15 @@ interface ServerMemberAddOrRemoveRole {
   role_id: string;
   server_id: string;
   uniqueID: string;
+}
+
+function filterServerMemberKeys(serverMember: any) {
+  return {
+    type: serverMember.type,
+    uniqueID: serverMember.member.uniqueID,
+    server_id: serverMember.server_id,
+    roleIdArr: serverMember.roles || []
+  }
 }
 
 const actions: ActionTree<any, any> = {
@@ -83,17 +93,17 @@ const actions: ActionTree<any, any> = {
       if (!serverMembersObj[serverMember.server_id]) {
         serverMembersObj[serverMember.server_id] = {};
       }
-      serverMembersObj[serverMember.server_id][serverMember.member.uniqueID] = {
-        type: serverMember.type,
-        uniqueID: serverMember.member.uniqueID,
-        server_id: serverMember.server_id,
-        roleIdArr: serverMember.roles || []
-      };
+      serverMembersObj[serverMember.server_id][serverMember.member.uniqueID] = filterServerMemberKeys(serverMember);
       usersObj[serverMember.member.uniqueID] = serverMember.member;
     }
 
     UsersModule.AddUsers(usersObj);
     ServerMembersModule.AddServerMembers(serverMembersObj);
+  },
+  ["socket_server:memberAdd"](context, {serverMember}) {
+    console.log(serverMember)
+    UsersModule.AddUser(serverMember.member);
+    ServerMembersModule.AddServerMember(filterServerMemberKeys(serverMember));
   },
   ["socket_server:roles"](context, { roles, server_id }) {
     // sort server roles by order

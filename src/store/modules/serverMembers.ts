@@ -154,5 +154,18 @@ class ServerMembers extends VuexModule {
   public AddServerMembers(payload: Servers) {
     this.ADD_SERVER_MEMBERS(payload);
   }
+  @Mutation
+  private ADD_SERVER_MEMBER(payload: ServerMember) {
+    if (this.serverMembers[payload.server_id]) {
+      Vue.set(this.serverMembers[payload.server_id], payload.uniqueID, payload);
+      return;
+    }
+    Vue.set(this.serverMembers, payload.server_id, { [payload.uniqueID]:  payload});
+  }
+
+  @Action
+  public AddServerMember(payload: ServerMember) {
+    this.ADD_SERVER_MEMBER(payload);
+  }
 }
 export const ServerMembersModule = getModule(ServerMembers);
