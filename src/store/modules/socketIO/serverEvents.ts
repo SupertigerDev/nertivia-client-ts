@@ -114,6 +114,9 @@ const actions: ActionTree<any, any> = {
       serverID: server_id
     });
   },
+  ["socket_server:createRole"](context, role) {
+    ServerRolesModule.AddServerRole(role);
+  },
   ["socket_serverMember:removeRole"](
     context,
     data: ServerMemberAddOrRemoveRole
