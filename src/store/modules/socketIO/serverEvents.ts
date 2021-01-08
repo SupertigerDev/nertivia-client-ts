@@ -101,7 +101,6 @@ const actions: ActionTree<any, any> = {
     ServerMembersModule.AddServerMembers(serverMembersObj);
   },
   ["socket_server:memberAdd"](context, {serverMember}) {
-    console.log(serverMember)
     UsersModule.AddUser(serverMember.member);
     ServerMembersModule.AddServerMember(filterServerMemberKeys(serverMember));
   },
