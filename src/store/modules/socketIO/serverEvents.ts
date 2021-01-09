@@ -114,8 +114,21 @@ const actions: ActionTree<any, any> = {
       serverID: server_id
     });
   },
+  ["socket_server:updateRoles"](context, { roles, server_id }) {
+    console.log(roles, server_id)
+    ServerRolesModule.AddServerRoles({
+      roles: roles,
+      serverID: server_id
+    });
+  },
   ["socket_server:createRole"](context, role) {
     ServerRolesModule.AddServerRole(role);
+  },
+  ["socket_server:updateRole"](context, partialRole) {
+    ServerRolesModule.UpdateServerRole(partialRole);
+  },
+  ["socket_server:deleteRole"](context, {role_id, server_id}) {
+    ServerRolesModule.DeleteServerRole({role_id, server_id});
   },
   ["socket_serverMember:removeRole"](
     context,
