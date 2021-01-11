@@ -17,5 +17,12 @@
     "id": "manage-notification",
     "icon": "notifications",
     "component": "ManageNotification"
+  },
+  "manage-users": {
+    "name": "Manage Users",
+    "id": "manage-users",
+    "icon": "contacts",
+    "admin": true,
+    "component": "ManageUsers"
   }
 }

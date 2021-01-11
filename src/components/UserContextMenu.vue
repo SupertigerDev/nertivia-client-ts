@@ -16,7 +16,7 @@ import WindowProperties from "@/utils/windowProperties";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { MeModule } from "@/store/modules/me";
 import { ServersModule } from "@/store/modules/servers";
-import perms from "@/constants/rolePermissions";
+import { addPerm, permissions } from "@/constants/rolePermissions";
 import User from "@/interfaces/User";
 
 @Component({ components: { ContextMenu } })
@@ -128,7 +128,7 @@ export default class extends Vue {
     return ServerMembersModule.memberHasPermission(
       MeModule.user.uniqueID,
       this.serverID,
-      perms.ADMIN.value | perms.MANAGE_ROLES.value
+      addPerm(permissions.ADMIN.value, permissions.MANAGE_ROLES.value)
     );
   }
   get hasBanPermission() {
@@ -139,7 +139,7 @@ export default class extends Vue {
     return ServerMembersModule.memberHasPermission(
       MeModule.user.uniqueID,
       this.serverID,
-      perms.ADMIN.value | perms.BAN_USER.value
+      addPerm(permissions.ADMIN.value, permissions.BAN_USER.value)
     );
   }
   get hasKickPermission() {
@@ -150,7 +150,7 @@ export default class extends Vue {
     return ServerMembersModule.memberHasPermission(
       MeModule.user.uniqueID,
       this.serverID,
-      perms.ADMIN.value | perms.KICK_USER.value
+      addPerm(permissions.ADMIN.value, permissions.KICK_USER.value)
     );
   }
   get serverID() {

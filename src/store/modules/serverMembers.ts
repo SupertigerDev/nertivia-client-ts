@@ -13,7 +13,7 @@ import { PresencesModule } from "./presences";
 import { ServerRolesModule } from "./serverRoles";
 import Vue from "vue";
 import _ from "lodash";
-import rolePermissions from "@/constants/rolePermissions";
+import {addPerm, containsPerm, permissions} from "@/constants/rolePermissions";
 
 interface Servers {
   [key: string]: Members;
@@ -66,10 +66,8 @@ class ServerMembers extends VuexModule {
       if (!member) return 0;
       const defaultRole = ServerRolesModule.defaultServerRole(serverID);
       let perms = defaultRole?.permissions || 0;
-      perms =
-        perms |
-        ServerRolesModule.addAllRolePermissions(serverID, member.roleIdArr);
-      return !!(perms & flag);
+      perms = addPerm(perms, ServerRolesModule.addAllRolePermissions(serverID, member.roleIdArr));
+      return !!containsPerm(perms, flag)
     };
   }
   get isAdmin() {
@@ -79,7 +77,7 @@ class ServerMembers extends VuexModule {
       return this.memberHasPermission(
         uniqueID,
         serverID,
-        rolePermissions.ADMIN.value
+        permissions.ADMIN.value
       );
     };
   }

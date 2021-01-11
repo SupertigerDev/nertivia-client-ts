@@ -1,4 +1,4 @@
-export default {
+export const permissions = {
   ADMIN: {
     name: "Admin",
     value: 1,
@@ -30,3 +30,13 @@ export default {
     info: "Kick & restrict a user from joining"
   }
 };
+
+export function removePerm(perms: number, flag: number) {
+  return (perms &= ~flag);
+}
+export function addPerm(perms: number, flag: number) {
+  return perms | flag;
+}
+export function containsPerm(perms: number, flag: number) {
+  return perms & flag;
+}
