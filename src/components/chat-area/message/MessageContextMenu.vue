@@ -15,7 +15,7 @@ import ContextMenu from "@/components/ContextMenu.vue";
 import Message from "@/interfaces/Message";
 import { MeModule } from "@/store/modules/me";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
-import perms from "@/constants/rolePermissions";
+import { permissions } from "@/constants/rolePermissions";
 import { ServersModule } from "@/store/modules/servers";
 import { PopoutsModule } from "@/store/modules/popouts";
 import User from "@/interfaces/User";
@@ -141,7 +141,7 @@ export default class extends Vue {
     return ServerMembersModule.memberHasPermission(
       MeModule.user.uniqueID,
       this.serverID,
-      perms.ADMIN.value
+      permissions.ADMIN.value
     );
   }
   get serverID() {
