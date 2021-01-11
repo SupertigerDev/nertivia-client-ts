@@ -84,11 +84,16 @@ class ServerRoles extends VuexModule {
   private UPDATE_SERVER_ROLE(payload: Partial<ServerRole>) {
     if (!payload.server_id) return;
     if (!payload.id) return;
-    const roleIndex = this.serverRoles?.[payload.server_id]?.findIndex(r => r.id === payload.id);
+    const roleIndex = this.serverRoles?.[payload.server_id]?.findIndex(
+      r => r.id === payload.id
+    );
     if (roleIndex < 0 || roleIndex === undefined) return;
     const role = this.serverRoles?.[payload.server_id]?.[roleIndex];
 
-    Vue.set(this.serverRoles[payload.server_id], roleIndex , {...role, ...payload});
+    Vue.set(this.serverRoles[payload.server_id], roleIndex, {
+      ...role,
+      ...payload
+    });
   }
 
   @Action
@@ -96,14 +101,16 @@ class ServerRoles extends VuexModule {
     this.UPDATE_SERVER_ROLE(payload);
   }
   @Mutation
-  private DELETE_SERVER_ROLE(payload: {server_id: string, role_id: string}) {
-    const roleIndex = this.serverRoles?.[payload.server_id]?.findIndex(r => r.id === payload.role_id);
+  private DELETE_SERVER_ROLE(payload: { server_id: string; role_id: string }) {
+    const roleIndex = this.serverRoles?.[payload.server_id]?.findIndex(
+      r => r.id === payload.role_id
+    );
     if (roleIndex === -1 || roleIndex === undefined) return;
     Vue.delete(this.serverRoles[payload.server_id], roleIndex);
   }
 
   @Action
-  public DeleteServerRole(payload: {server_id: string, role_id: string}) {
+  public DeleteServerRole(payload: { server_id: string; role_id: string }) {
     this.DELETE_SERVER_ROLE(payload);
   }
 }

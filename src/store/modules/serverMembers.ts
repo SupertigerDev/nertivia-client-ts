@@ -13,7 +13,11 @@ import { PresencesModule } from "./presences";
 import { ServerRolesModule } from "./serverRoles";
 import Vue from "vue";
 import _ from "lodash";
-import {addPerm, containsPerm, permissions} from "@/constants/rolePermissions";
+import {
+  addPerm,
+  containsPerm,
+  permissions
+} from "@/constants/rolePermissions";
 
 interface Servers {
   [key: string]: Members;
@@ -66,8 +70,11 @@ class ServerMembers extends VuexModule {
       if (!member) return 0;
       const defaultRole = ServerRolesModule.defaultServerRole(serverID);
       let perms = defaultRole?.permissions || 0;
-      perms = addPerm(perms, ServerRolesModule.addAllRolePermissions(serverID, member.roleIdArr));
-      return !!containsPerm(perms, flag)
+      perms = addPerm(
+        perms,
+        ServerRolesModule.addAllRolePermissions(serverID, member.roleIdArr)
+      );
+      return !!containsPerm(perms, flag);
     };
   }
   get isAdmin() {
@@ -158,7 +165,9 @@ class ServerMembers extends VuexModule {
       Vue.set(this.serverMembers[payload.server_id], payload.uniqueID, payload);
       return;
     }
-    Vue.set(this.serverMembers, payload.server_id, { [payload.uniqueID]:  payload});
+    Vue.set(this.serverMembers, payload.server_id, {
+      [payload.uniqueID]: payload
+    });
   }
 
   @Action
@@ -166,12 +175,15 @@ class ServerMembers extends VuexModule {
     this.ADD_SERVER_MEMBER(payload);
   }
   @Mutation
-  private REMOVE_SERVER_MEMBER(payload: {server_id: string, uniqueID: string}) {
+  private REMOVE_SERVER_MEMBER(payload: {
+    server_id: string;
+    uniqueID: string;
+  }) {
     Vue.delete(this.serverMembers[payload.server_id], payload.uniqueID);
   }
 
   @Action
-  public RemoveServerMember(payload: {server_id: string, uniqueID: string}) {
+  public RemoveServerMember(payload: { server_id: string; uniqueID: string }) {
     this.REMOVE_SERVER_MEMBER(payload);
   }
 }

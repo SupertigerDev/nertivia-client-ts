@@ -16,17 +16,11 @@ export function joinServerById(server_id: string, optionalData: any) {
     .json();
 }
 export function createServer(name: string) {
-  return wrapper
-    .post(`servers`, { json: {name} })
-    .json();
+  return wrapper.post(`servers`, { json: { name } }).json();
 }
 export function getServerInfoByCode(code: string) {
-  return wrapper
-    .get(`servers/invite/${code}`)
-    .json();
+  return wrapper.get(`servers/invite/${code}`).json();
 }
 export function joinServerByCode(code: string, socketID: string) {
-  return wrapper
-    .post(`servers/invite/${code}`, {json: {socketID}})
-    .json();
+  return wrapper.post(`servers/invite/${code}`, { json: { socketID } }).json();
 }

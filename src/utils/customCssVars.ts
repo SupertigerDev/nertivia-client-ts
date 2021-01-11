@@ -1,12 +1,13 @@
-import defaultTheme from '@/utils/defaultTheme.json';
+import defaultTheme from "@/utils/defaultTheme.json";
 
-
-function findRoot() : CSSStyleRule | undefined {
+function findRoot(): CSSStyleRule | undefined {
   const styleSheetArr: CSSStyleSheet[] = [].slice.call(document.styleSheets);
   for (let i = 0; i < styleSheetArr.length; i++) {
     const styleSheet = styleSheetArr[i];
     if (styleSheet.href) continue;
-    const rule = [].slice.call(styleSheet.rules).find((r: CSSStyleRule) => r.selectorText === ":root");
+    const rule = [].slice
+      .call(styleSheet.rules)
+      .find((r: CSSStyleRule) => r.selectorText === ":root");
     if (rule) {
       return rule;
     }
@@ -61,12 +62,10 @@ export function changeCssVar(name: string, change: any, store = true) {
     );
   }
   findRoot()?.style.setProperty(name, change);
-  
 }
 
-
 export function applyDefaultTheme(resetStorage: boolean) {
-  resetStorage && removeCustomCssVars()
+  resetStorage && removeCustomCssVars();
   const keys = Object.keys(defaultTheme);
   for (let index = 0; index < keys.length; index++) {
     const key = keys[index];

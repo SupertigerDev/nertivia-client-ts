@@ -27,6 +27,5 @@ export default class MainApp extends Vue {
 .card {
   border: solid 1px rgba(255, 255, 255, 0.1);
   border-radius: 4px;
-
 }
 </style>

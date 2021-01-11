@@ -24,7 +24,7 @@ function filterServerMemberKeys(serverMember: any) {
     uniqueID: serverMember.member.uniqueID,
     server_id: serverMember.server_id,
     roleIdArr: serverMember.roles || []
-  }
+  };
 }
 
 const actions: ActionTree<any, any> = {
@@ -93,19 +93,21 @@ const actions: ActionTree<any, any> = {
       if (!serverMembersObj[serverMember.server_id]) {
         serverMembersObj[serverMember.server_id] = {};
       }
-      serverMembersObj[serverMember.server_id][serverMember.member.uniqueID] = filterServerMemberKeys(serverMember);
+      serverMembersObj[serverMember.server_id][
+        serverMember.member.uniqueID
+      ] = filterServerMemberKeys(serverMember);
       usersObj[serverMember.member.uniqueID] = serverMember.member;
     }
 
     UsersModule.AddUsers(usersObj);
     ServerMembersModule.AddServerMembers(serverMembersObj);
   },
-  ["socket_server:memberAdd"](context, {serverMember}) {
+  ["socket_server:memberAdd"](context, { serverMember }) {
     UsersModule.AddUser(serverMember.member);
     ServerMembersModule.AddServerMember(filterServerMemberKeys(serverMember));
   },
-  ["socket_server:memberRemove"](context, {uniqueID, server_id}) {
-    ServerMembersModule.RemoveServerMember({uniqueID, server_id});
+  ["socket_server:memberRemove"](context, { uniqueID, server_id }) {
+    ServerMembersModule.RemoveServerMember({ uniqueID, server_id });
   },
   ["socket_server:roles"](context, { roles, server_id }) {
     // sort server roles by order
@@ -118,7 +120,7 @@ const actions: ActionTree<any, any> = {
     });
   },
   ["socket_server:updateRoles"](context, { roles, server_id }) {
-    console.log(roles, server_id)
+    console.log(roles, server_id);
     ServerRolesModule.AddServerRoles({
       roles: roles,
       serverID: server_id
@@ -130,8 +132,8 @@ const actions: ActionTree<any, any> = {
   ["socket_server:updateRole"](context, partialRole) {
     ServerRolesModule.UpdateServerRole(partialRole);
   },
-  ["socket_server:deleteRole"](context, {role_id, server_id}) {
-    ServerRolesModule.DeleteServerRole({role_id, server_id});
+  ["socket_server:deleteRole"](context, { role_id, server_id }) {
+    ServerRolesModule.DeleteServerRole({ role_id, server_id });
   },
   ["socket_serverMember:removeRole"](
     context,
