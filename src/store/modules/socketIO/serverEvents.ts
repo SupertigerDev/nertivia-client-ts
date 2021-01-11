@@ -104,6 +104,9 @@ const actions: ActionTree<any, any> = {
     UsersModule.AddUser(serverMember.member);
     ServerMembersModule.AddServerMember(filterServerMemberKeys(serverMember));
   },
+  ["socket_server:memberRemove"](context, {uniqueID, server_id}) {
+    ServerMembersModule.RemoveServerMember({uniqueID, server_id});
+  },
   ["socket_server:roles"](context, { roles, server_id }) {
     // sort server roles by order
     const orderedRoles = roles.sort((a: any, b: any) => {

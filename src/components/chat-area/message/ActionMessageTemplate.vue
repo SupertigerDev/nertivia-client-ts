@@ -15,6 +15,7 @@
         <span
           class="username"
           @click="showProfile"
+          :style="{ color: roleColor }"
           @contextmenu.prevent="showUserContext"
           >{{ message.creator.username }}</span
         >&nbsp;
@@ -35,6 +36,7 @@ import AvatarImage from "@/components/AvatarImage.vue";
 import friendlyTime from "@/utils/date";
 import { PopoutsModule } from "@/store/modules/popouts";
 import MessageSide from "./MessageSide.vue";
+import { ServerMembersModule } from "@/store/modules/serverMembers";
 
 const types = [
   {},
@@ -45,9 +47,15 @@ const types = [
 ];
 @Component({ components: { AvatarImage, MessageSide } })
 export default class ActionMessageTemplate extends Vue {
+  loadRoleColor = false;
   @Prop() private message!: Message & { grouped: boolean };
   @Prop({ default: false }) private hideContext!: boolean;
 
+  mounted() {
+    setTimeout(() => {
+      this.loadRoleColor = true;
+    }, 10);
+  }
   showUserContext(event: MouseEvent) {
     PopoutsModule.ShowPopout({
       id: "context",
@@ -69,6 +77,22 @@ export default class ActionMessageTemplate extends Vue {
     });
   }
 
+  get roleColor() {
+    if (!this.loadRoleColor) return undefined;
+    if (!this.server_id) return undefined;
+    const role = ServerMembersModule.firstMemberRole(
+      this.server_id,
+      this.creator.uniqueID
+    );
+    return role?.color;
+  }
+  get server_id() {
+    return this.$route.params.server_id;
+  }
+
+  get creator() {
+    return this.message.creator;
+  }
   get type() {
     return types[this.message.type || 0];
   }

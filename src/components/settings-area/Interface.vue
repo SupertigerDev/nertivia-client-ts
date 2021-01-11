@@ -16,7 +16,7 @@
         <div class="name">{{ css.name }}</div>
       </div>
       <div class="reset" @click="resetButton">
-        Reset All Colors (Reload Required)
+        Reset All Colors
       </div>
     </div>
     <div class="box">
