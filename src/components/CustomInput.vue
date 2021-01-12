@@ -6,16 +6,20 @@
       @click="$refs.inputBox.focus()"
     >
       <legend class="title">{{ title }}</legend>
-      <input
-        class="main-input"
-        @focus="focused = true"
-        @blur="focused = false"
-        :type="type || 'text'"
-        ref="inputBox"
-        :placeholder="placeholder"
-        @input="inputEvent"
-        :value="value"
-      />
+      <div class="container">
+        <div v-if="prefix" class="prefix">{{ prefix }}</div>
+        <input
+          class="main-input"
+          :class="{ hasPrefix: !!prefix }"
+          @focus="focused = true"
+          @blur="focused = false"
+          :type="type || 'text'"
+          ref="inputBox"
+          :placeholder="placeholder"
+          @input="inputEvent"
+          :value="value"
+        />
+      </div>
     </fieldset>
 
     <div class="error-message" v-if="!validMessage">{{ error }}</div>
@@ -37,6 +41,7 @@ export default class CustomInput extends Vue {
   @Prop() private error!: string;
   @Prop() private validMessage!: string;
   @Prop() private value!: string;
+  @Prop() private prefix!: string;
   inputEvent(event: any) {
     this.$emit("model", event.target.value);
   }
@@ -72,8 +77,13 @@ export default class CustomInput extends Vue {
   font-size: 14px;
   color: white;
   height: 100%;
+  width: 100%;
   outline: none;
   background: none;
+  flex: 1;
+  &.hasPrefix {
+    padding-left: 0;
+  }
 }
 
 .error-message {
@@ -89,5 +99,12 @@ export default class CustomInput extends Vue {
   min-height: 21px;
   margin-left: 5px;
   font-size: 12px;
+}
+.container {
+  display: flex;
+}
+.prefix {
+  opacity: 0.7;
+  user-select: none;
 }
 </style>

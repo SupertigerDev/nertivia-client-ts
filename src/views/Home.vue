@@ -84,7 +84,7 @@ export default class Home extends Vue {}
   width: 370px;
   margin: 10px;
 }
-a {
+a.button {
   text-decoration: none;
   color: white;
 }
@@ -193,7 +193,6 @@ a {
   justify-content: center;
 }
 .footer a {
-  color: #68aaff;
   text-decoration: underline;
   margin: 10px;
 }

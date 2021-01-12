@@ -50,13 +50,14 @@ export default class ServerSettingsArea extends Vue {
     margin-right: 5px;
   }
 }
-.container {
-  margin: 10px;
-}
 .notice {
   opacity: 0.6;
   margin-left: 30px;
 }
+.container {
+  margin: 10px;
+}
+
 .box {
   margin-top: 10px;
 }

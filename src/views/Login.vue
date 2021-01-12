@@ -194,7 +194,6 @@ export default class MainApp extends Vue {
 }
 
 .link {
-  color: #68aaff;
   margin-top: 10px;
   font-size: 12px;
   margin-left: 5px;
