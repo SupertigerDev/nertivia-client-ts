@@ -24,3 +24,6 @@ export function getServerInfoByCode(code: string) {
 export function joinServerByCode(code: string, socketID: string) {
   return wrapper.post(`servers/invite/${code}`, { json: { socketID } }).json();
 }
+export function getInvites(serverID: string): Promise<any> {
+  return wrapper.get(`servers/${serverID}/invites`).json();
+}

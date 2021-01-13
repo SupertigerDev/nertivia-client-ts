@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" v-if="invites !== null">
     <div class="description">
       <div class="material-icons">info</div>
       Create Invites.
@@ -22,9 +22,10 @@
         v-if="isCreator"
         title="Custom Invite"
         prefix="https://nertivia.net/invites/"
-        v-model="searchValue"
+        v-model="customUrlValue"
         v-show="!selectedServerMember"
       />
+      test
     </div>
   </div>
 </template>
@@ -33,13 +34,36 @@ import { Vue, Component } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import { MeModule } from "@/store/modules/me";
 import { ServersModule } from "@/store/modules/servers";
+import { getInvites } from "@/services/serverService";
+import User from "@/interfaces/User";
+
+interface Invite {
+  creator: User
+  custom?: boolean
+  invite_code: string
+  uses: number
+}
 
 @Component({ components: { CustomInput } })
 export default class ServerSettingsArea extends Vue {
-  searchValue = "";
+  customUrlValue = "";
   selectedServerMember: any = null;
+  invites: Invite[] | null = null;
   userClicked(member: any) {
     this.selectedServerMember = member;
+  }
+
+  mounted() {
+    getInvites(this.serverID).then((arr: Invite[]) => {
+      const sort = arr.sort((a, b) => {
+        if (a.custom) return -1;
+        return 1;
+      })
+      if (sort[0].custom) {
+        this.customUrlValue = sort[0].invite_code;
+      }
+      this.invites = sort;
+    })
   }
   get isCreator() {
     const myUniqueID = MeModule.user.uniqueID;
