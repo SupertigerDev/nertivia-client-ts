@@ -12,6 +12,7 @@
           class="list"
           v-for="perm of permFriendlyNamesArr"
           :key="perm.value"
+          :title="perm.info"
         >
           <div class="dot" :class="{ hasPerm: perm.hasPerm }" />
           {{ perm.name }}
