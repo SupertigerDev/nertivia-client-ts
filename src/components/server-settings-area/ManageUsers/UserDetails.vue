@@ -6,14 +6,14 @@
       <span class="tag">{{ member.tag }}</span>
     </div>
     <div class="detail">
-      <span class="title">Allowed Permissions:</span>
-      <div class="allowed-perms-list">
+      <span class="title">Permissions:</span>
+      <div class="perms-list">
         <div
           class="list"
           v-for="perm of permFriendlyNamesArr"
           :key="perm.value"
         >
-          <div class="dot" />
+          <div class="dot" :class="{ hasPerm: perm.hasPerm }" />
           {{ perm.name }}
         </div>
       </div>
@@ -42,8 +42,8 @@ export default class UserDetails extends Vue {
     const creatorUniqueID =
       ServersModule.servers[this.serverMember.server_id]?.creator?.uniqueID;
     if (creatorUniqueID === this.serverMember.uniqueID) return permArr;
-    return permArr.filter(p => {
-      return containsPerm(this.totalPermissions, p.value);
+    return permArr.map(p => {
+      return { ...p, hasPerm: containsPerm(this.totalPermissions, p.value) };
     });
   }
 
@@ -86,7 +86,7 @@ export default class UserDetails extends Vue {
   }
   margin: 5px;
 }
-.allowed-perms-list {
+.perms-list {
   margin-top: 5px;
   .list {
     display: flex;
@@ -97,9 +97,12 @@ export default class UserDetails extends Vue {
   .dot {
     height: 7px;
     width: 7px;
-    background: var(--success-color);
+    background: var(--alert-color);
     margin-right: 5px;
     border-radius: 50%;
+    &.hasPerm {
+      background: var(--success-color);
+    }
   }
 }
 .back-button {
