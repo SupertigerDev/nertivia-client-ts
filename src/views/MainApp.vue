@@ -29,9 +29,9 @@ import { ServersModule } from "@/store/modules/servers";
 import { UsersModule } from "@/store/modules/users";
 import { MeModule } from "@/store/modules/me";
 
-import ConnectionStatus from "@/components/ConnectionStatusPopout.vue";
+import ConnectionStatus from "@/components/popouts/ConnectionStatusPopout.vue";
 import Header from "@/components/Header.vue";
-import Popouts from "@/components/Popouts.vue";
+import Popouts from "@/components/popouts/Popouts.vue";
 const Drawers = () =>
   import(/* webpackChunkName: "Drawers" */ "@/components/drawers/Drawers.vue");
 const NavBar = () =>

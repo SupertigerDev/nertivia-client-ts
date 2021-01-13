@@ -90,7 +90,7 @@
 const AvatarImage = () =>
   import(/* webpackChunkName: "AvatarImage" */ "@/components/AvatarImage.vue");
 const UserArea = () =>
-  import(/* webpackChunkName: "UserArea" */ "@/components/UserArea.vue");
+  import(/* webpackChunkName: "UserArea" */ "@/components/popouts/UserArea.vue");
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { MeModule } from "@/store/modules/me";
 import { NotificationsModule } from "@/store/modules/notifications";

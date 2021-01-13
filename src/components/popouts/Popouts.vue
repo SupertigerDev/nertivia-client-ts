@@ -16,56 +16,56 @@ import { PopoutsModule } from "@/store/modules/popouts";
 
 const ProfilePopout = () =>
   import(
-    /* webpackChunkName: "ProfilePopout" */ "@/components/ProfilePopout.vue"
+    /* webpackChunkName: "ProfilePopout" */ "@/components/popouts/ProfilePopout.vue"
   );
 const EditRolesPopout = () =>
   import(
-    /* webpackChunkName: "EditRolesPopout" */ "@/components/EditRolesPopout.vue"
+    /* webpackChunkName: "EditRolesPopout" */ "@/components/popouts/EditRolesPopout.vue"
   );
 const MiniProfilePopout = () =>
   import(
-    /* webpackChunkName: "MiniProfilePopout" */ "@/components/MiniProfilePopout.vue"
+    /* webpackChunkName: "MiniProfilePopout" */ "@/components/popouts/MiniProfilePopout.vue"
   );
 
 const StatusListContext = () =>
   import(
-    /* webpackChunkName: "StatusListContext" */ "@/components/dashboard-area/StatusListContext.vue"
+    /* webpackChunkName: "StatusListContext" */ "@/components/popouts/StatusListContext.vue"
   );
 const MessageContextMenu = () =>
   import(
-    /* webpackChunkName: "MessageContextMenu" */ "@/components/chat-area/message/MessageContextMenu.vue"
+    /* webpackChunkName: "MessageContextMenu" */ "@/components/popouts/MessageContextMenu.vue"
   );
 const UserContextMenu = () =>
   import(
-    /* webpackChunkName: "UserContextMenu" */ "@/components/UserContextMenu.vue"
+    /* webpackChunkName: "UserContextMenu" */ "@/components/popouts/UserContextMenu.vue"
   );
 const ServerContextMenu = () =>
   import(
-    /* webpackChunkName: "ServerContextMenu" */ "@/components/ServerContextMenu.vue"
+    /* webpackChunkName: "ServerContextMenu" */ "@/components/popouts/ServerContextMenu.vue"
   );
 const BanOrKickUserPopout = () =>
   import(
-    /* webpackChunkName: "BanOrKickUserPopout" */ "@/components/BanOrKickUserPopout.vue"
+    /* webpackChunkName: "BanOrKickUserPopout" */ "@/components/popouts/BanOrKickUserPopout.vue"
   );
 const DeleteMessagePopout = () =>
   import(
-    /* webpackChunkName: "DeleteMessagePopout" */ "@/components/DeleteMessagePopout.vue"
+    /* webpackChunkName: "DeleteMessagePopout" */ "@/components/popouts/DeleteMessagePopout.vue"
   );
 const AddFriendPopout = () =>
   import(
-    /* webpackChunkName: "AddFriendPopout" */ "@/components/AddFriendPopout.vue"
+    /* webpackChunkName: "AddFriendPopout" */ "@/components/popouts/AddFriendPopout.vue"
   );
 const AddServerPopout = () =>
   import(
-    /* webpackChunkName: "AddServerPopout" */ "@/components/add-server-popout/AddServerPopout.vue"
+    /* webpackChunkName: "AddServerPopout" */ "@/components/popouts/add-server-popout/AddServerPopout.vue"
   );
 const DragDropPopout = () =>
   import(
-    /* webpackChunkName: "DragDropPopout" */ "@/components/DragDropPopout.vue"
+    /* webpackChunkName: "DragDropPopout" */ "@/components/popouts/DragDropPopout.vue"
   );
 const ImagePreviewPopout = () =>
   import(
-    /* webpackChunkName: "ImagePreviewPopout" */ "@/components/ImagePreviewPopout.vue"
+    /* webpackChunkName: "ImagePreviewPopout" */ "@/components/popouts/ImagePreviewPopout.vue"
   );
 @Component({
   components: {
