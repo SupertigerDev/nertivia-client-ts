@@ -1,7 +1,7 @@
 <template>
   <div class="message-loading animate">
     <div class="center-box">
-      <img class="spinner" src="../../assets/spinner.svg" alt="" />
+      <img class="spinner" src="../assets/spinner.svg" alt="" />
       <div class="title">Loading...</div>
     </div>
   </div>
@@ -11,7 +11,7 @@
 import { Component, Vue } from "vue-property-decorator";
 
 @Component
-export default class MessageLoadingAnimation extends Vue {}
+export default class LoadingScreen extends Vue {}
 </script>
 
 <style lang="scss" scoped>

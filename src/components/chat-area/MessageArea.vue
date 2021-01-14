@@ -5,7 +5,7 @@
       :title="DMChannel && DMChannel.recipients[0].username"
       v-else-if="DMChannel && DMChannel.recipients"
     />
-    <MessageLoadingAnimation v-if="!channelMessages" />
+    <LoadingScreen v-if="!channelMessages" />
     <MessageLogs :key="channelID" v-else />
     <MessageBoxArea />
   </div>
@@ -16,7 +16,7 @@ import Header from "@/components/Header.vue";
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { MessagesModule } from "@/store/modules/messages";
 import MessageLogs from "./MessageLogs.vue";
-import MessageLoadingAnimation from "./MessageLoadingAnimation.vue";
+import LoadingScreen from "@/components/LoadingScreen.vue";
 import MessageBoxArea from "./MessageBoxArea.vue";
 import { ChannelsModule } from "@/store/modules/channels";
 import windowProperties from "@/utils/windowProperties";
@@ -25,7 +25,7 @@ import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChan
 import { MeModule } from "@/store/modules/me";
 
 @Component({
-  components: { MessageLogs, MessageBoxArea, Header, MessageLoadingAnimation }
+  components: { MessageLogs, MessageBoxArea, Header, LoadingScreen }
 })
 export default class MessageArea extends Vue {
   loadChannelMessages() {
