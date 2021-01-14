@@ -40,11 +40,13 @@ export default class UserDetails extends Vue {
   get permFriendlyNamesArr() {
     const permArr = Object.values(permissions);
     // if its the creator of the server, always allow everything
-    const creatorUniqueID =
-      ServersModule.servers[this.serverMember.server_id]?.creator?.uniqueID;
-    if (creatorUniqueID === this.serverMember.uniqueID) return permArr;
+    const creatorUniqueID = this.server?.creator?.uniqueID;
+    const isServerCreator = creatorUniqueID === this.serverMember.uniqueID;
     return permArr.map(p => {
-      return { ...p, hasPerm: containsPerm(this.totalPermissions, p.value) };
+      return {
+        ...p,
+        hasPerm: containsPerm(this.totalPermissions, p.value) || isServerCreator
+      };
     });
   }
 
@@ -63,7 +65,9 @@ export default class UserDetails extends Vue {
     totalPerms = addPerm(totalPerms, defaultRole?.permissions || 0);
     return totalPerms;
   }
-
+  get server() {
+    return ServersModule.servers[this.serverMember.server_id];
+  }
   get member() {
     return this.serverMember.member;
   }
