@@ -1,31 +1,40 @@
 <template>
-  <div class="container" v-if="invites !== null">
-    <div class="description">
-      <div class="material-icons">info</div>
-      Create Invites.
-    </div>
-    <div class="notice">
-      Only admins can see everyones invites.
-      <span v-if="isCreator"
-        >To create a custom invite, your server must be
-        <a
-          href="https://forms.gle/WHEL6avi8Hv2cPYi9"
-          target="_blank"
-          rel="noopener noreferrer"
-          >verified</a
-        >.</span
-      >
-    </div>
-    <div class="box">
-      <CustomInput
-        :class="{ disabled: !isVerified }"
-        v-if="isCreator"
-        title="Custom Invite"
-        prefix="https://nertivia.net/invites/"
-        v-model="customUrlValue"
-        v-show="!selectedServerMember"
-      />
-      test
+  <div class="container">
+    <LoadingScreen v-if="invites === null" />
+    <div class="inner-container" v-else>
+      <div class="description">
+        <div class="material-icons">info</div>
+        Create Invites.
+      </div>
+      <div class="notice">
+        Only admins can see everyones invites.
+        <span v-if="isCreator"
+          >To create a custom invite, your server must be
+          <a
+            href="https://forms.gle/WHEL6avi8Hv2cPYi9"
+            target="_blank"
+            rel="noopener noreferrer"
+            >verified</a
+          >.</span
+        >
+      </div>
+      <div class="box">
+        <CustomInput
+          :class="{ disabled: !isVerified }"
+          v-if="isCreator"
+          title="Custom Invite"
+          prefix="https://nertivia.net/invites/"
+          v-model="customUrlValue"
+          v-show="!selectedServerMember"
+        />
+        <div class="invite-list">
+          <InviteTemplate
+            v-for="invite in invites"
+            :key="invite.invite_code"
+            :invite="invite"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -35,16 +44,11 @@ import CustomInput from "@/components/CustomInput.vue";
 import { MeModule } from "@/store/modules/me";
 import { ServersModule } from "@/store/modules/servers";
 import { getInvites } from "@/services/serverService";
-import User from "@/interfaces/User";
+import LoadingScreen from "@/components/LoadingScreen.vue";
+import InviteTemplate from "./InviteTemplate.vue";
+import Invite from "@/interfaces/Invite";
 
-interface Invite {
-  creator: User
-  custom?: boolean
-  invite_code: string
-  uses: number
-}
-
-@Component({ components: { CustomInput } })
+@Component({ components: { CustomInput, LoadingScreen, InviteTemplate } })
 export default class ServerSettingsArea extends Vue {
   customUrlValue = "";
   selectedServerMember: any = null;
@@ -55,15 +59,15 @@ export default class ServerSettingsArea extends Vue {
 
   mounted() {
     getInvites(this.serverID).then((arr: Invite[]) => {
-      const sort = arr.sort((a, b) => {
-        if (a.custom) return -1;
+      const sort = arr.reverse().sort((a, b) => {
+        if (a?.custom) return -1;
         return 1;
-      })
-      if (sort[0].custom) {
+      });
+      if (sort.length && sort?.[0].custom) {
         this.customUrlValue = sort[0].invite_code;
       }
       this.invites = sort;
-    })
+    });
   }
   get isCreator() {
     const myUniqueID = MeModule.user.uniqueID;
@@ -87,9 +91,15 @@ export default class ServerSettingsArea extends Vue {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  margin: 10px;
   position: relative;
   flex: 1;
+}
+.inner-container {
+  margin: 10px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
 }
 .description {
   display: flex;
@@ -133,5 +143,11 @@ export default class ServerSettingsArea extends Vue {
   left: 0;
   right: 0;
   bottom: 0;
+}
+.invite-list {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: auto;
 }
 </style>
