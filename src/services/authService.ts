@@ -3,7 +3,7 @@ import wrapper from "./wrapper";
 export function postLogin(
   email: string,
   password: string,
-  token: string
+  token?: string
 ): Promise<any> {
   return wrapper
     .post(`user/login`, {

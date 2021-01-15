@@ -59,7 +59,7 @@ export default class ServerSettingsArea extends Vue {
 
   mounted() {
     getInvites(this.serverID).then((arr: Invite[]) => {
-      const sort = arr.reverse().sort((a, b) => {
+      const sort = arr.reverse().sort(a => {
         if (a?.custom) return -1;
         return 1;
       });

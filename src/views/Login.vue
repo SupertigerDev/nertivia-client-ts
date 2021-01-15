@@ -99,7 +99,7 @@ export default class MainApp extends Vue {
   captchaSubmit(token: string) {
     this.login(token);
   }
-  login(token: string) {
+  login(token?: string) {
     const email = this.email;
     const password = this.password;
     postLogin(email, password, token)
@@ -126,6 +126,10 @@ export default class MainApp extends Vue {
           return;
         }
         if (!res.errors) return;
+        if (res.errors[0].code === 1) {
+          this.page = 1;
+          return;
+        }
         const errors: any = {};
         for (let i = 0; i < res.errors.length; i++) {
           const error = res.errors[i];
@@ -140,7 +144,7 @@ export default class MainApp extends Vue {
   }
   formSubmit() {
     this.errors = {};
-    this.page = 1;
+    this.login();
   }
 }
 </script>
@@ -195,7 +199,7 @@ export default class MainApp extends Vue {
 
 .link {
   margin-top: 10px;
-  font-size: 12px;
+  font-size: 14px;
   margin-left: 5px;
   align-self: flex-start;
 }
