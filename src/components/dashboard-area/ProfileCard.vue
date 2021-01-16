@@ -22,6 +22,9 @@
         <div class="dot" :style="{ background: statusColor }" />
         <div class="name">{{ statusName }}</div>
       </div>
+      <div class="material-icons logout-icon" title="Logout" @click="logOut">
+        exit_to_app
+      </div>
       <div class="material-icons settings-icon" @click="settingsClicked">
         settings
       </div>
@@ -35,12 +38,19 @@ import AvatarImage from "@/components/AvatarImage.vue";
 import { MeModule } from "@/store/modules/me";
 import userStatuses from "@/constants/userStatuses";
 import { PopoutsModule } from "@/store/modules/popouts";
+import { logout } from "@/services/userService";
 
 @Component({ components: { AvatarImage } })
 export default class ProfileCard extends Vue {
   @Prop() private hideTitle!: boolean;
   settingsClicked() {
     this.$router.push("/app/settings/account");
+  }
+  logOut() {
+    logout().then(() => {
+      localStorage.clear();
+      location.href = "/";
+    });
   }
   openStatusContext() {
     const el = this.$refs.currentStatus as HTMLElement;
@@ -166,6 +176,19 @@ export default class ProfileCard extends Vue {
   right: 10px;
   opacity: 0.7;
   transition: 0.2s;
+  cursor: pointer;
+  user-select: none;
+  &:hover {
+    opacity: 1;
+  }
+}
+.logout-icon {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  opacity: 0.7;
+  transition: 0.2s;
+  color: var(--alert-color);
   cursor: pointer;
   user-select: none;
   &:hover {

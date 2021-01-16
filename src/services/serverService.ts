@@ -27,3 +27,16 @@ export function joinServerByCode(code: string, socketID: string) {
 export function getInvites(serverID: string): Promise<any> {
   return wrapper.get(`servers/${serverID}/invites`).json();
 }
+export function deleteInvite(inviteCode: string): Promise<any> {
+  return wrapper.delete(`servers/invite/${inviteCode}`).json();
+}
+export function createInvite(serverID: string): Promise<any> {
+  return wrapper.post(`servers/${serverID}/invite`).json();
+}
+export function createCustomInvite(serverID: string, code: string): Promise<any> {
+  return wrapper.post(`servers/${serverID}/invites/custom`, {
+    json: {
+      customCode: code
+    }
+  }).json();
+}

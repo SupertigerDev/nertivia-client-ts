@@ -47,3 +47,6 @@ interface AboutMe {
 export function fetchUser(uniqueID: string): Promise<ReturnedUser> {
   return wrapper.get(`user/${uniqueID}`).json();
 }
+export function logout(): Promise<any> {
+  return wrapper.delete(`user/logout`).json();
+}

@@ -5,6 +5,7 @@
     :class="{ filled, warn, valid }"
     @click="$emit('click')"
   >
+    <span v-if="icon" class="material-icons">{{ icon }}</span>
     {{ name }}
   </button>
 </template>
@@ -19,11 +20,16 @@ export default class CustomInput extends Vue {
   @Prop() private warn!: boolean;
   @Prop() private valid!: boolean;
   @Prop() private filled!: boolean;
+  @Prop() private icon!: string;
 }
 </script>
 
 <style lang="scss" scoped>
 .button {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
   color: var(--primary-color);
   border: solid 1px var(--primary-color);
   margin: 4px;
