@@ -4,7 +4,12 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { getCustomCssVars, changeCssVar } from "@/utils/customCssVars";
+import {
+  getCustomCssVars,
+  changeCssVar,
+  setThemeColor
+} from "@/utils/customCssVars";
+
 @Component
 export default class App extends Vue {
   mounted() {
@@ -15,6 +20,7 @@ export default class App extends Vue {
       const value = customVars[key];
       changeCssVar(key, value, false);
     }
+    setThemeColor();
   }
 }
 </script>

@@ -1,5 +1,6 @@
 import defaultTheme from "@/utils/defaultTheme.json";
 
+
 function findRoot(): CSSStyleRule | undefined {
   const styleSheetArr: CSSStyleSheet[] = [].slice.call(document.styleSheets);
   for (let i = 0; i < styleSheetArr.length; i++) {
@@ -44,6 +45,8 @@ export function getAllCssVars() {
   return variables;
 }
 
+
+
 export function removeCustomCssVars() {
   localStorage.removeItem("varColors");
 }
@@ -53,6 +56,16 @@ export function getCustomCssVars() {
   );
   return varColors;
 }
+// set theme color (for mobile)
+export function setThemeColor() {
+  const customVars = getCustomCssVars();
+  const metaThemeColor = document.querySelector("meta[name=theme-color]");
+  metaThemeColor?.setAttribute(
+    "content",
+    customVars["--primary-color"] || defaultTheme["primary-color"]
+  );
+}
+
 export function changeCssVar(name: string, change: any, store = true) {
   if (store) {
     const varColors = JSON.parse(localStorage.getItem("varColors") || "{}");
@@ -62,6 +75,7 @@ export function changeCssVar(name: string, change: any, store = true) {
     );
   }
   findRoot()?.style.setProperty(name, change);
+  setThemeColor();
 }
 
 export function applyDefaultTheme(resetStorage: boolean) {
@@ -72,4 +86,5 @@ export function applyDefaultTheme(resetStorage: boolean) {
     const value = (defaultTheme as any)[key];
     changeCssVar("--" + key, value, false);
   }
+  setThemeColor();
 }
