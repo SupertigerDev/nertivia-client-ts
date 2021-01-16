@@ -33,10 +33,15 @@ export function deleteInvite(inviteCode: string): Promise<any> {
 export function createInvite(serverID: string): Promise<any> {
   return wrapper.post(`servers/${serverID}/invite`).json();
 }
-export function createCustomInvite(serverID: string, code: string): Promise<any> {
-  return wrapper.post(`servers/${serverID}/invites/custom`, {
-    json: {
-      customCode: code
-    }
-  }).json();
+export function createCustomInvite(
+  serverID: string,
+  code: string
+): Promise<any> {
+  return wrapper
+    .post(`servers/${serverID}/invites/custom`, {
+      json: {
+        customCode: code
+      }
+    })
+    .json();
 }
