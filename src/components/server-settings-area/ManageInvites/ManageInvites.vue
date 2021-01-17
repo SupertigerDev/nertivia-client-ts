@@ -19,14 +19,26 @@
         >
       </div>
       <div class="box">
-        <CustomInput
-          :class="{ disabled: !isVerified }"
+        <div
+          class="custom-invite"
           v-if="isCreator"
-          title="Custom Invite"
-          prefix="https://nertivia.net/invites/"
-          v-model="customUrlValue"
-          v-show="!selectedServerMember"
-        />
+          :class="{ disabled: !isVerified }"
+        >
+          <CustomInput
+            class="input"
+            title="Custom Invite"
+            prefix="https://nertivia.net/invites/"
+            v-model="customUrlValue"
+            :error="customUrlError"
+            v-show="!selectedServerMember"
+          />
+          <CustomButton
+            class="button"
+            title="Save Custom Link"
+            icon="save"
+            @click="saveCustomInvite"
+          />
+        </div>
         <CustomButton name="Create Invite" icon="add" @click="createInvite" />
         <div class="error" v-if="error">{{ error }}</div>
         <div class="invite-list">
@@ -47,6 +59,7 @@ import CustomInput from "@/components/CustomInput.vue";
 import { MeModule } from "@/store/modules/me";
 import { ServersModule } from "@/store/modules/servers";
 import {
+  createCustomInvite,
   createInvite,
   deleteInvite,
   getInvites
@@ -65,6 +78,7 @@ export default class ServerSettingsArea extends Vue {
   invites: Invite[] | null = null;
   creating = false;
   error: string | null = null;
+  customUrlError: string | null = null;
   userClicked(member: any) {
     this.selectedServerMember = member;
   }
@@ -73,6 +87,41 @@ export default class ServerSettingsArea extends Vue {
     getInvites(this.serverID).then((arr: Invite[]) => {
       this.invites = arr;
     });
+  }
+
+  saveCustomInvite() {
+    if (!this.invites) return;
+    if (this.creating) return;
+    this.creating = true;
+    this.customUrlError = null;
+    const customUrl = this.customUrlValue.trim();
+    const customInviteIndex = this.invites.findIndex(i => i.custom) || -1;
+    if (!customUrl.length && this.invites[customInviteIndex]) {
+      this.deleteInvite(this.invites[customInviteIndex]);
+      return;
+    }
+    createCustomInvite(this.serverID, customUrl)
+      .then(() => {
+        if (customInviteIndex >= 0 && this.invites?.[customInviteIndex]) {
+          this.invites[customInviteIndex].invite_code = customUrl;
+        } else {
+          this.invites?.push({
+            custom: true,
+            creator: MeModule.user as any,
+            invite_code: customUrl,
+            uses: 0
+          });
+        }
+        this.creating = false;
+      })
+      .catch(async err => {
+        this.creating = false;
+        if (!err.response) {
+          return (this.customUrlError = "Could not connect to server.");
+        }
+        const json = await err.response.json();
+        return (this.customUrlError = json.message);
+      });
   }
 
   createInvite() {
@@ -105,6 +154,9 @@ export default class ServerSettingsArea extends Vue {
       this.invites = this.invites?.filter(
         i => i.invite_code !== invite.invite_code
       );
+      if (invite.custom) {
+        this.customUrlValue = "";
+      }
     });
   }
   get isCreator() {
@@ -203,5 +255,16 @@ export default class ServerSettingsArea extends Vue {
 }
 .error {
   color: var(--alert-color);
+}
+.custom-invite {
+  display: flex;
+  .input {
+    flex: 1;
+  }
+  .button {
+    margin: auto;
+    margin-bottom: 25px;
+    margin-left: 10px;
+  }
 }
 </style>
