@@ -119,6 +119,11 @@ export default class RightDrawer extends Vue {
   margin-right: 5px;
   margin-left: 5px;
 }
+.username {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .badge {
   font-size: 12px;
