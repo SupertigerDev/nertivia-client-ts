@@ -16,7 +16,9 @@
     <span class="username" :style="{ color: firstRoleColor }">{{
       member.username
     }}</span>
-    <span class="badge" :class="badge[0]" v-if="badge">{{ badge[1] }}</span>
+    <span class="badge" :title="badge[0]" :class="badge[0]" v-if="badge"
+      ><img :src="badge[1]"
+    /></span>
   </div>
 </template>
 
@@ -30,6 +32,7 @@ import ServerRole from "@/interfaces/ServerRole";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { permissions } from "@/constants/rolePermissions";
+import config from "@/config";
 
 @Component({ components: { AvatarImage } })
 export default class RightDrawer extends Vue {
@@ -79,13 +82,16 @@ export default class RightDrawer extends Vue {
     return ServerRolesModule.defaultServerRole(this.serverMember.server_id);
   }
   get badge() {
-    if (this.serverMember.type === "OWNER") return ["owner", "OWNER"];
-    if (this.serverMember.type === "BOT") return ["bot", "BOT"];
+    if (this.serverMember.type === "OWNER")
+      return ["owner", config.twemojiLocations + "1f451.svg"];
+
+    if (this.serverMember.type === "BOT")
+      return ["bot", config.twemojiLocations + "1f916.svg"];
     const uniqueID = this.serverMember.uniqueID;
     const serverID = this.serverMember.server_id;
     const memberHasPermission = ServerMembersModule.memberHasPermission;
     if (memberHasPermission(uniqueID, serverID, permissions.ADMIN.value)) {
-      return ["admin", "ADMIN"];
+      return ["admin", config.twemojiLocations + "1f6e1.svg"];
     }
     return null;
   }
@@ -119,14 +125,25 @@ export default class RightDrawer extends Vue {
   padding: 3px;
   border-radius: 4px;
   margin-left: 5px;
+  flex-shrink: 0;
+  height: 20px;
+  width: 20px;
+  margin-left: auto;
+  margin-right: 5px;
+
+  img {
+    width: 100%;
+    flex-shrink: 0;
+    height: 100%;
+  }
   &.owner {
-    background: var(--primary-color);
+    background: #995f13;
   }
   &.bot {
-    background: rgb(92, 81, 255);
+    background: #443dac;
   }
   &.admin {
-    background: rgb(255, 72, 72);
+    background: #337c9e;
   }
 }
 </style>
