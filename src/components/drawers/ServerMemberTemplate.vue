@@ -16,6 +16,7 @@
     <span class="username" :style="{ color: firstRoleColor }">{{
       member.username
     }}</span>
+    <span class="badge" :class="badge[0]" v-if="badge">{{ badge[1] }}</span>
   </div>
 </template>
 
@@ -27,6 +28,8 @@ import ServerMember from "@/interfaces/ServerMember";
 import User from "@/interfaces/User";
 import ServerRole from "@/interfaces/ServerRole";
 import { PopoutsModule } from "@/store/modules/popouts";
+import { ServerMembersModule } from "@/store/modules/serverMembers";
+import { permissions } from "@/constants/rolePermissions";
 
 @Component({ components: { AvatarImage } })
 export default class RightDrawer extends Vue {
@@ -75,6 +78,17 @@ export default class RightDrawer extends Vue {
   get defaultRole() {
     return ServerRolesModule.defaultServerRole(this.serverMember.server_id);
   }
+  get badge() {
+    if (this.serverMember.type === "OWNER") return ["owner", "OWNER"];
+    if (this.serverMember.type === "BOT") return ["bot", "BOT"];
+    const uniqueID = this.serverMember.uniqueID;
+    const serverID = this.serverMember.server_id;
+    const memberHasPermission = ServerMembersModule.memberHasPermission;
+    if (memberHasPermission(uniqueID, serverID, permissions.ADMIN.value)) {
+      return ["admin", "ADMIN"];
+    }
+    return null;
+  }
 }
 </script>
 
@@ -98,5 +112,21 @@ export default class RightDrawer extends Vue {
 .avatar {
   margin-right: 5px;
   margin-left: 5px;
+}
+
+.badge {
+  font-size: 12px;
+  padding: 3px;
+  border-radius: 4px;
+  margin-left: 5px;
+  &.owner {
+    background: var(--primary-color);
+  }
+  &.bot {
+    background: rgb(92, 81, 255);
+  }
+  &.admin {
+    background: rgb(255, 72, 72);
+  }
 }
 </style>

@@ -12,6 +12,7 @@
           :style="{ color: roleColor }"
           v-text="creator.username"
         />
+        <div class="badge bot" v-if="creator.bot">BOT</div>
         <div class="date">{{ date }}</div>
       </div>
       <div class="image-embed" v-if="isFileImage">
@@ -181,6 +182,16 @@ $pointer-size: 10px;
     opacity: 0.6;
     font-size: 12px;
     margin-left: 5px;
+  }
+}
+.badge {
+  background: red;
+  font-size: 12px;
+  padding: 3px;
+  border-radius: 4px;
+  margin-left: 5px;
+  &.bot {
+    background: rgb(92, 81, 255);
   }
 }
 </style>

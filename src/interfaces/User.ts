@@ -3,4 +3,5 @@ export default interface User {
   tag: string;
   avatar?: string | null;
   uniqueID: string;
+  bot?: boolean;
 }
