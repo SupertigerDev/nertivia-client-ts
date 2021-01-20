@@ -27,6 +27,7 @@ export default class RecentList extends Vue {
     return ChannelsModule.getDMChannels;
   }
   get sortedChannels() {
+    // idk why reverse() is needed but it fixes the order...
     return [...this.dmChannels]
       .reverse()
       .sort((a, b) => b.lastMessaged - a.lastMessaged);
