@@ -27,7 +27,9 @@ export default class RecentList extends Vue {
     return ChannelsModule.getDMChannels;
   }
   get sortedChannels() {
-    return this.dmChannels.sort((a, b) => b.lastMessaged - a.lastMessaged);
+    return [...this.dmChannels]
+      .reverse()
+      .sort((a, b) => b.lastMessaged - a.lastMessaged);
   }
   get me() {
     return MeModule.user;
