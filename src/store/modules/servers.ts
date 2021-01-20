@@ -37,5 +37,14 @@ class Servers extends VuexModule {
   public AddServer(payload: Server) {
     this.ADD_SERVER(payload);
   }
+  @Mutation
+  private DELETE_SERVER(serverID: string) {
+    Vue.delete(this.servers, serverID);
+  }
+
+  @Action
+  public DeleteServer(serverID: string) {
+    this.DELETE_SERVER(serverID);
+  }
 }
 export const ServersModule = getModule(Servers);

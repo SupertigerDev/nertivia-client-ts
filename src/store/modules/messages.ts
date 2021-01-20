@@ -251,5 +251,23 @@ class Messages extends VuexModule {
     if (index <= -1) return;
     this.DELETE_MESSAGE({ channelID: payload.channelID, index });
   }
+
+  @Mutation
+  private DELETE_CHANNEL_MESSAGES(channelID:string) {
+    Vue.delete(this.messages, channelID)
+  }
+  @Action
+  public DeleteChannelMessages(channelID: string) {
+    this.DELETE_CHANNEL_MESSAGES(channelID);
+  }
+  @Action
+  public DeleteServerMessages(serverID: string) {
+    const channels = ChannelsModule.serverChannels(serverID);
+    if (!channels?.length) return;
+    for (let i = 0; i < channels.length; i++) {
+      const channel = channels[i];
+      this.DeleteChannelMessages(channel.channelID);
+    }
+  }
 }
 export const MessagesModule = getModule(Messages);

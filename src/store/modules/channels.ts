@@ -111,6 +111,15 @@ class Channels extends VuexModule {
     this.REMOVE_CHANNEL(channelID);
   }
   @Action
+  public DeleteAllServerChannels(serverID: string) {
+    const channels = this.serverChannels(serverID);
+    if (!channels?.length) return;
+    for (let i = 0; i < channels.length; i++) {
+      const channel = channels[i];
+      this.RemoveChannel(channel.channelID);
+    }
+  }
+  @Action
   public LoadDmChannel(uniqueID: string) {
     const findChannel = Object.values(this.channels).find(
       c => c.recipients && c.recipients.includes(uniqueID)

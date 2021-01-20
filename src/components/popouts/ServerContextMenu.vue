@@ -16,6 +16,7 @@ import { ServersModule } from "@/store/modules/servers";
 import { MeModule } from "@/store/modules/me";
 import router from "@/router";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
+import { leaveServer } from "@/services/serverService";
 
 @Component({ components: { ContextMenu } })
 export default class extends Vue {
@@ -27,6 +28,9 @@ export default class extends Vue {
 
   close() {
     PopoutsModule.ClosePopout("context");
+  }
+  async leaveServer() {
+    leaveServer(this.server.server_id);
   }
   itemClick(item: any) {
     switch (item.name) {
@@ -44,6 +48,9 @@ export default class extends Vue {
         this.$router.push(
           `/app/servers/${this.data.server_id}/settings/manage-notification`
         );
+        break;
+      case "Leave Server":
+        this.leaveServer();
         break;
       default:
         break;

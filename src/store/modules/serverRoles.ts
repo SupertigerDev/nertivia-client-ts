@@ -45,7 +45,7 @@ class ServerRoles extends VuexModule {
 
   get defaultServerRole() {
     return (server_id: string) => {
-      return this.serverRoles[server_id].find(role => role.default);
+      return this.serverRoles?.[server_id]?.find(role => role.default);
     };
   }
 
@@ -112,6 +112,16 @@ class ServerRoles extends VuexModule {
   @Action
   public DeleteServerRole(payload: { server_id: string; role_id: string }) {
     this.DELETE_SERVER_ROLE(payload);
+  }
+
+  @Mutation
+  private DELETE_ALL_SERVER_ROLES(serverID: string) {
+    Vue.delete(this.serverRoles, serverID);
+  }
+
+  @Action
+  public DeleteAllServerRoles(serverID: string) {
+    this.DELETE_ALL_SERVER_ROLES(serverID);
   }
 }
 export const ServerRolesModule = getModule(ServerRoles);

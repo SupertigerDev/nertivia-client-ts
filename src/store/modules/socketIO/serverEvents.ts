@@ -9,6 +9,7 @@ import router from "@/router";
 import { UsersModule } from "../users";
 import { MutedServersModule } from "../mutedServers";
 import { deleteMessage } from "@/services/messagesService";
+import { MessagesModule } from "../messages";
 
 const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
@@ -74,6 +75,17 @@ const actions: ActionTree<any, any> = {
     ChannelsModule.AddChannels(channelObj);
     if (socket().id === socketID) {
       router.push(`/app/servers/${data.server_id}/${data.default_channel_id}`);
+    }
+  },
+  ["socket_server:leave"](context, data: {server_id: string}) {
+    ServersModule.DeleteServer(data.server_id)
+    MessagesModule.DeleteServerMessages(data.server_id);
+    ChannelsModule.DeleteAllServerChannels(data.server_id);
+    ServerRolesModule.DeleteAllServerRoles(data.server_id);
+    ServerMembersModule.RemoveAllServerMembers(data.server_id);
+
+    if (router.currentRoute.params?.server_id === data.server_id) {
+      router.push("/app");
     }
   },
   ["socket_server:members"](

@@ -9,6 +9,9 @@ export function banMember(serverID: string, uniqueID: string): Promise<any> {
 export function muteServer(serverID: string, type: number): Promise<any> {
   return wrapper.put(`servers/${serverID}/mute`, { json: { type } }).json();
 }
+export function leaveServer(serverID: string): Promise<any> {
+  return wrapper.delete(`servers/${serverID}`).json();
+}
 
 export function joinServerById(server_id: string, optionalData: any) {
   return wrapper
