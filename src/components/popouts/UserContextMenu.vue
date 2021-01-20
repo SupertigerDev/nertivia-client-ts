@@ -46,6 +46,16 @@ export default class extends Vue {
     PopoutsModule.ClosePopout("context");
   }
   itemClick(item: any) {
+    if (item.name === "Copy ID") {
+      this.$copyText(this.data.uniqueID);
+      return;
+    }
+    if (item.name === "Copy User:Tag") {
+      this.$copyText(
+        `${this.data.tempUser.username}:${this.data.tempUser.tag}`
+      );
+      return;
+    }
     if (item.name === "View Profile") {
       PopoutsModule.ShowPopout({
         id: "profile",

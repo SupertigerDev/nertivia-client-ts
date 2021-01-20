@@ -17,6 +17,8 @@ import { MeModule } from "@/store/modules/me";
 import router from "@/router";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { leaveServer } from "@/services/serverService";
+import { NotificationsModule } from "@/store/modules/notifications";
+import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 
 @Component({ components: { ContextMenu } })
 export default class extends Vue {
@@ -52,17 +54,30 @@ export default class extends Vue {
       case "Leave Server":
         this.leaveServer();
         break;
+      case "Copy ID":
+        this.$copyText(this.server.server_id);
+        break;
+      case "Mark As Read":
+        this.markAsRead();
+        break;
       default:
         break;
     }
   }
-
+  markAsRead() {
+    for (let i = 0; i < this.notifications.length; i++) {
+      const { channelID } = this.notifications[i];
+      this.$socket.client.emit("notification:dismiss", {
+        channelID
+      });
+    }
+  }
   get items() {
     let items: any = [
       {
         name: "Mark As Read",
         icon: "markunread_mailbox",
-        disabled: true
+        disabled: !this.notifications.length
       },
       { type: "seperator" }
     ];
@@ -112,6 +127,11 @@ export default class extends Vue {
   }
   get isServerOwner() {
     return this.server.creator.uniqueID === MeModule.user.uniqueID;
+  }
+  get notifications() {
+    return LastSeenServerChannelsModule.serverNotifications(
+      this.server.server_id
+    );
   }
   get isAdmin() {
     return ServerMembersModule.isAdmin(
