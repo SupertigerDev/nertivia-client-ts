@@ -5,8 +5,13 @@
     :class="{ filled, warn, valid }"
     @click="$emit('click')"
   >
-    <span v-if="icon" class="material-icons">{{ icon }}</span>
+    <span v-if="icon && iconPos !== 'right'" class="material-icons">{{
+      icon
+    }}</span>
     {{ name }}
+    <span v-if="icon && iconPos === 'right'" class="material-icons">{{
+      icon
+    }}</span>
   </button>
 </template>
 
@@ -21,6 +26,7 @@ export default class CustomInput extends Vue {
   @Prop() private valid!: boolean;
   @Prop() private filled!: boolean;
   @Prop() private icon!: string;
+  @Prop() private iconPos!: string;
 }
 </script>
 

@@ -29,7 +29,8 @@ export default class ImageMessageEmbed extends Vue {
   display: flex;
   align-items: center;
   border-radius: 4px;
-  border: solid 1px rgba(255, 255, 255, 0.4);
+  background: var(--card-color);
+  border: 1px solid hsla(0, 0%, 100%, 0.1);
   padding: 5px;
 }
 .icon {

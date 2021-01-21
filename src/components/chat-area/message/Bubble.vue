@@ -26,6 +26,7 @@
         v-if="message.message && !isFileImage"
         v-text="message.message"
       />
+      <InviteMessage v-if="invite" :invite="invite" :message="message" />
     </div>
   </div>
 </template>
@@ -34,13 +35,14 @@
 import Message from "@/interfaces/Message";
 import ImageMessageEmbed from "./ImageMessageEmbed.vue";
 import FileMessage from "./FileMessage.vue";
+import InviteMessage from "./InviteMessage.vue";
 import { MeModule } from "@/store/modules/me";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import friendlyDate from "@/utils/date";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { PopoutsModule } from "@/store/modules/popouts";
 import config from "@/config";
-@Component({ components: { ImageMessageEmbed, FileMessage } })
+@Component({ components: { ImageMessageEmbed, FileMessage, InviteMessage } })
 export default class Bubble extends Vue {
   loadRoleColor = false;
   @Prop() private message!: Message & { grouped: boolean };
@@ -79,6 +81,7 @@ export default class Bubble extends Vue {
     return this.message.creator.uniqueID === MeModule.user.uniqueID;
   }
 
+  // Embeds
   get isFileImage() {
     if (!this.file) return false;
     if (!this.file.dimensions) return false;
@@ -93,8 +96,10 @@ export default class Bubble extends Vue {
     if (!files || !files.length) return undefined;
     return files[0];
   }
-  get fileUrl() {
-    return `${config.fetchPrefix}/files/${this.file?.fileID}/${this.file?.fileName}`;
+  get invite() {
+    const regex = /nertivia\.net\/(invites|i)\/([\S]+)/;
+    if (!this.message.message) return null;
+    return this.message.message.match(regex);
   }
 
   get date() {
