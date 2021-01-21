@@ -70,7 +70,7 @@ const actions: ActionTree<any, any> = {
       playNotificationSound(
         mentioned,
         data.message.channelID,
-        channel.server_id
+        channel?.server_id
       );
       if (channel && channel.server_id && !mentioned) return;
       if (notification) {
