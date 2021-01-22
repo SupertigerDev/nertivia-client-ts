@@ -253,8 +253,8 @@ class Messages extends VuexModule {
   }
 
   @Mutation
-  private DELETE_CHANNEL_MESSAGES(channelID:string) {
-    Vue.delete(this.messages, channelID)
+  private DELETE_CHANNEL_MESSAGES(channelID: string) {
+    Vue.delete(this.messages, channelID);
   }
   @Action
   public DeleteChannelMessages(channelID: string) {

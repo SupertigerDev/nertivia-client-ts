@@ -77,8 +77,8 @@ const actions: ActionTree<any, any> = {
       router.push(`/app/servers/${data.server_id}/${data.default_channel_id}`);
     }
   },
-  ["socket_server:leave"](context, data: {server_id: string}) {
-    ServersModule.DeleteServer(data.server_id)
+  ["socket_server:leave"](context, data: { server_id: string }) {
+    ServersModule.DeleteServer(data.server_id);
     MessagesModule.DeleteServerMessages(data.server_id);
     ChannelsModule.DeleteAllServerChannels(data.server_id);
     ServerRolesModule.DeleteAllServerRoles(data.server_id);

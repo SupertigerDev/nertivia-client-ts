@@ -1,6 +1,5 @@
 import defaultTheme from "@/utils/defaultTheme.json";
 
-
 function findRoot(): CSSStyleRule | undefined {
   const styleSheetArr: CSSStyleSheet[] = [].slice.call(document.styleSheets);
   for (let i = 0; i < styleSheetArr.length; i++) {
@@ -44,8 +43,6 @@ export function getAllCssVars() {
     .map(parts => ({ key: parts[0].trim(), value: parts[1].trim() }));
   return variables;
 }
-
-
 
 export function removeCustomCssVars() {
   localStorage.removeItem("varColors");
