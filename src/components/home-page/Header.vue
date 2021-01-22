@@ -8,30 +8,13 @@
         Join Nertivia
       </div>
     </div>
-    <!-- <div class="profile" v-if="loggedIn">
-      <div class="details" v-if="loggedIn && user">
-        <div class="username">{{ user.username }}</div>
-        <div class="tag">:{{ user.tag }}</div>
-      </div> -->
-    <!-- <transition name="fall-down-fast">
-        <profile-popout
-          v-if="user && loggedIn && showProfilePopout"
-          v-click-outside="closeProfilePopout"
-          :user="user"
-          @logout="
-            loggedIn = null;
-            user = null;
-          "
-        />
-      </transition>
-    </div> -->
   </div>
 </template>
 <script>
 export default {
   methods: {
     registerButton() {
-      location.href = "https://nertivia.net/register";
+      this.$router.push("/register");
     }
   }
 };

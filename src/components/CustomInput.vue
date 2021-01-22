@@ -8,6 +8,9 @@
       <legend class="title">{{ title }}</legend>
       <div class="container">
         <div v-if="prefix" class="prefix">{{ prefix }}</div>
+        <div v-if="prefixIcon" class="material-icons prefix icon">
+          {{ prefixIcon }}
+        </div>
         <input
           class="main-input"
           :class="{ hasPrefix: !!prefix }"
@@ -42,6 +45,7 @@ export default class CustomInput extends Vue {
   @Prop() private validMessage!: string;
   @Prop() private value!: string;
   @Prop() private prefix!: string;
+  @Prop() private prefixIcon!: string;
   inputEvent(event: any) {
     this.$emit("model", event.target.value);
   }
@@ -76,7 +80,6 @@ export default class CustomInput extends Vue {
   border: none;
   font-size: 14px;
   color: white;
-  height: 100%;
   width: 100%;
   outline: none;
   background: none;
@@ -106,5 +109,9 @@ export default class CustomInput extends Vue {
 .prefix {
   opacity: 0.7;
   user-select: none;
+  &.icon {
+    opacity: 0.3;
+    margin-right: 5px;
+  }
 }
 </style>

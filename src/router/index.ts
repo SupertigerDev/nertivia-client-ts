@@ -49,6 +49,19 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
+    path: "/register",
+    name: "Register",
+    component: () =>
+      import(/* webpackChunkName: "Register" */ "../views/Register.vue"),
+    beforeEnter(to, from, next) {
+      if (localStorage["hauthid"]) {
+        location.href = "/app";
+        return;
+      }
+      next();
+    }
+  },
+  {
     path: "/app",
     children: [
       {

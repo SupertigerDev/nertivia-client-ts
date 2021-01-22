@@ -11,6 +11,18 @@ export function postLogin(
     })
     .json();
 }
+export function postRegister(
+  username: string,
+  email: string,
+  password: string,
+  token?: string
+): Promise<any> {
+  return wrapper
+    .post(`user/register`, {
+      json: { username, email, password, token }
+    })
+    .json();
+}
 export function confirmEmail(email: string, code: string): Promise<any> {
   return wrapper
     .post(`user/register/confirm`, {

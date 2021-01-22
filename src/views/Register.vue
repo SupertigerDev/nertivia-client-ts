@@ -1,8 +1,27 @@
 <template>
-  <div class="login">
+  <div class="register">
     <div class="center-box">
       <img class="logo" src="../assets/logo.svg" />
-      <div class="title">Login To Nertivia</div>
+      <div class="title">Welcome To Nertivia!</div>
+      <div class="card" v-if="page === 0">
+        <div class="description">
+          <div class="material-icons alert">favorite</div>
+          <div class="text">Thanks for trying out Nertivia!</div>
+        </div>
+        <div class="description">
+          <div class="material-icons warn">report_problem</div>
+          <div class="text">
+            Nertivia is a fun project, Please don't come here just to be toxic
+            :(
+          </div>
+        </div>
+        <div class="description">
+          <div class="material-icons">info</div>
+          <div class="text">
+            Email verification will be required.
+          </div>
+        </div>
+      </div>
       <!-- Form -->
       <form
         v-if="page === 0"
@@ -15,20 +34,29 @@
         <customInput
           class="input"
           v-model="email"
-          title="Username"
-          placeholder="Email or username:tag"
+          title="Email"
+          prefixIcon="alternate_email"
           type="email"
           :error="errors['email']"
+        />
+        <customInput
+          class="input"
+          v-model="username"
+          prefixIcon="account_box"
+          title="Username"
+          type="text"
+          :error="errors['username']"
         />
         <customInput
           class="input"
           v-model="password"
           title="Password"
           type="password"
+          prefixIcon="lock"
           :error="errors['password']"
         />
-        <CustomButton name="Login" :filled="true" />
-        <a class="link" href="/register">Signup</a>
+        <CustomButton name="Register" :filled="true" />
+        <a class="link" href="/login">Login</a>
       </form>
       <!-- Captcha -->
       <div class="captcha" v-if="page === 1">
@@ -59,11 +87,12 @@ import CustomInput from "@/components/CustomInput.vue";
 import Captcha from "@/components/Captcha.vue";
 import CustomButton from "@/components/CustomButton.vue";
 
-import { postLogin, confirmEmail } from "@/services/authService";
+import { confirmEmail, postRegister } from "@/services/authService";
 
 @Component({ components: { CustomInput, Captcha, CustomButton } })
 export default class MainApp extends Vue {
   page = 0;
+  username = "";
   email = "";
   password = "";
   confirmEmail = "";
@@ -97,19 +126,15 @@ export default class MainApp extends Vue {
     }
   }
   captchaSubmit(token: string) {
-    this.login(token);
+    this.register(token);
   }
-  login(token?: string) {
+  register(token?: string) {
     const email = this.email;
+    const username = this.username;
     const password = this.password;
-    postLogin(email, password, token)
-      .then(data => {
-        if (data.action === "logged_in") {
-          localStorage.clear();
-          localStorage["hauthid"] = data.token;
-          location.href = "/app";
-          return;
-        }
+    postRegister(username, email, password, token)
+      .then(() => {
+        this.page = 2;
       })
       .catch(err => {
         this.page = 0;
@@ -121,10 +146,6 @@ export default class MainApp extends Vue {
       })
       .then(res => {
         if (!res) return;
-        if (res.code === "CONFIRM_EMAIL") {
-          this.page = 2;
-          return;
-        }
         if (!res.errors) return;
         if (res.errors[0].code === 1) {
           this.page = 1;
@@ -133,7 +154,11 @@ export default class MainApp extends Vue {
         const errors: any = {};
         for (let i = 0; i < res.errors.length; i++) {
           const error = res.errors[i];
-          if (error.param === "email" || error.param === "password") {
+          if (
+            error.param === "email" ||
+            error.param === "password" ||
+            error.param === "username"
+          ) {
             errors[error.param] = error.msg;
             continue;
           }
@@ -144,12 +169,12 @@ export default class MainApp extends Vue {
   }
   formSubmit() {
     this.errors = {};
-    this.login();
+    this.register();
   }
 }
 </script>
 <style lang="scss" scoped>
-.login {
+.register {
   height: 100%;
   width: 100%;
   display: flex;
@@ -173,7 +198,7 @@ export default class MainApp extends Vue {
 .title {
   font-size: 18px;
   flex-shrink: 0;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 .sub-title {
   text-align: center;
@@ -202,5 +227,31 @@ export default class MainApp extends Vue {
   font-size: 14px;
   margin-left: 5px;
   align-self: flex-start;
+}
+.description {
+  align-self: flex-start;
+  display: flex;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  align-items: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  .material-icons {
+    margin-right: 10px;
+    margin-left: 10px;
+    &.alert {
+      color: var(--alert-color);
+    }
+    &.warn {
+      color: var(--warn-color);
+    }
+  }
+}
+.card {
+  border: solid 1px rgba(255, 255, 255, 0.1);
+  background: var(--card-color);
+  padding: 5px;
+  margin-bottom: 10px;
+  border-radius: 4px;
 }
 </style>
