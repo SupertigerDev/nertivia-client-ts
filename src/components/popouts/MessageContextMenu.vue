@@ -63,6 +63,9 @@ export default class extends Vue {
       case "Edit":
         eventBus.$emit("editMessage", this.message.messageID);
         break;
+      case "Copy ID":
+        if (this.message.messageID) this.$copyText(this.message.messageID);
+        break;
       default:
         break;
     }
@@ -121,6 +124,10 @@ export default class extends Vue {
         }
       );
     }
+    items.push(
+      { type: "seperator" },
+      { name: "Copy ID", icon: "developer_board" }
+    );
 
     return items;
   }
