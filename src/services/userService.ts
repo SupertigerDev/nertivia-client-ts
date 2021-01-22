@@ -1,6 +1,11 @@
 import User from "@/interfaces/User";
 import wrapper from "./wrapper";
 
+export function getUser(): Promise<any> {
+  return wrapper
+    .get(`user`)
+    .json();
+}
 export function changeStatus(status: number): Promise<any> {
   return wrapper
     .post(`settings/status`, {

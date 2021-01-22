@@ -2,7 +2,20 @@
   <div class="header">
     <img class="logo" src="@/assets/logo.svg" alt />
     <div class="title">Nertivia</div>
-    <div class="buttons">
+    <div class="logged-in" v-if="token">
+      <img class="spinner" src="@/assets/spinner.svg" v-if="!user" />
+      <AvatarImage
+        :imageId="user.avatar"
+        :seedId="user.uniqueID"
+        v-if="user"
+        :animateGif="true"
+        :willHaveClickEvent="true"
+        @click.native="openContext = !openContext"
+        size="50px"
+      />
+      <HomeHeaderContext class="context" v-if="openContext" />
+    </div>
+    <div class="buttons" v-if="!token">
       <a href="/login" class="button">Log In</a>
       <div class="button join" @click="registerButton">
         Join Nertivia
@@ -11,11 +24,37 @@
   </div>
 </template>
 <script>
+import { getUser } from "@/services/userService";
+import AvatarImage from "@/components/AvatarImage";
+import HomeHeaderContext from "@/components/popouts/HomeHeaderContext";
 export default {
+  components: { AvatarImage, HomeHeaderContext },
+  data() {
+    return {
+      token: localStorage["hauthid"],
+      user: null,
+      openContext: false
+    };
+  },
   methods: {
     registerButton() {
       this.$router.push("/register");
     }
+  },
+  mounted() {
+    if (!this.token) return;
+    getUser()
+      .then(({ user }) => {
+        this.user = user;
+      })
+      .catch(err => {
+        if (!err.response) {
+          alert("Could not connect to server.");
+          return;
+        }
+        localStorage.clear();
+        this.token = null;
+      });
   }
 };
 </script>
@@ -42,6 +81,24 @@ export default {
   display: flex;
   margin: auto;
   margin-right: 10px;
+}
+.logged-in {
+  display: flex;
+  margin: auto;
+  margin-right: 10px;
+  position: relative;
+  flex-direction: column;
+  align-items: flex-end;
+  flex: 1;
+  .spinner {
+    height: 50px;
+    width: 50px;
+  }
+  .context {
+    top: 50px !important;
+    left: initial !important;
+    margin-top: 10px;
+  }
 }
 .button {
   padding: 10px;
