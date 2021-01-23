@@ -1,7 +1,8 @@
 <template>
   <div class="avatar">
     <div class="image" :style="style" :class="{ willHaveClickEvent }">
-      <img src="@/assets/profile-logo.png" v-if="!imageId" />
+      <img :src="customUrl" v-if="customUrl" />
+      <img src="@/assets/profile-logo.png" v-else-if="!imageId" />
       <img v-else :style="style" :src="src" :class="{ willHaveClickEvent }" />
     </div>
   </div>
@@ -21,6 +22,7 @@ export default class MainApp extends Vue {
   @Prop() private seedId!: string;
   @Prop() private willHaveClickEvent!: boolean;
   @Prop() private animateGif!: boolean;
+  @Prop() private customUrl!: string;
 
   get src() {
     let url = config.nertiviaCDN + this.imageId;

@@ -16,6 +16,7 @@
           class="input"
           v-model="email"
           title="Username"
+          prefixIcon="account_box"
           placeholder="Email or username:tag"
           type="email"
           :error="errors['email']"
@@ -24,6 +25,7 @@
           class="input"
           v-model="password"
           title="Password"
+          prefixIcon="lock"
           type="password"
           :error="errors['password']"
         />

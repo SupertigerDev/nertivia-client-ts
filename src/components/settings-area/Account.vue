@@ -1,59 +1,154 @@
 <template>
   <div class="interface">
-    <div class="description">WIP</div>
-    <div class="box"></div>
+    <div class="description">Edit your profile.</div>
+    <div class="box">
+      <div class="outer-avatar">
+        <div class="avatar" @click="$refs.avatarInput.click()">
+          <div class="material-icons edit-button">edit</div>
+          <AvatarImage
+            :imageId="me.avatar"
+            :seedId="me.uniqueID"
+            :customUrl="newAvatar"
+            size="100px"
+          />
+          <input
+            ref="avatarInput"
+            style="display: none"
+            type="file"
+            @change="avatarChange"
+            accept=".jpeg, .jpg, .png, .gif"
+          />
+        </div>
+        <div class="details">
+          <div class="user-tag-detail">{{ me.username }}:{{ me.tag }}</div>
+        </div>
+      </div>
+      <CustomInput title="Email" v-model="email" prefixIcon="alternate_email" />
+      <div class="user-tag">
+        <CustomInput
+          title="Username"
+          v-model="username"
+          prefixIcon="account_box"
+        />
+        <CustomInput
+          class="tag"
+          title="Tag"
+          v-model="tag"
+          prefixIcon="local_offer"
+        />
+      </div>
+      <CustomInput
+        title="Password"
+        v-model="password"
+        prefixIcon="lock"
+        v-if="showPassword"
+        type="password"
+      />
+      <div class="link" v-if="!showNewPassword" @click="showNewPassword = true">
+        Change Password
+      </div>
+      <CustomInput
+        v-if="showNewPassword"
+        title="New Password"
+        v-model="newPassword"
+        prefixIcon="lock"
+        type="password"
+      />
+      <CustomInput
+        v-if="showNewPassword"
+        title="Confirm New Password"
+        v-model="newPasswordConfirm"
+        prefixIcon="lock"
+        type="password"
+      />
+      <CustomButton
+        :filled="true"
+        name="Save Changes"
+        icon="save"
+        v-if="showSaveButton"
+      />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import {
-  getAllCssVars,
-  getCustomCssVars,
-  changeCssVar,
-  removeCustomCssVars
-} from "@/utils/customCssVars";
-@Component
-export default class MainApp extends Vue {
-  lastClicked: { key?: string; value?: string; custom?: string } = {};
-  customVars = getCustomCssVars();
-  get cssVarList() {
-    return getAllCssVars()
-      .filter(item => item.key.endsWith("color"))
-      .map(item => {
-        const key = item.key.replace(/-/g, " ");
-        return { ...item, name: key, custom: this.customVars[item.key] };
-      });
+import CustomInput from "@/components/CustomInput.vue";
+import CustomButton from "@/components/CustomButton.vue";
+import AvatarImage from "@/components/AvatarImage.vue";
+import { MeModule } from "@/store/modules/me";
+@Component({ components: { CustomInput, CustomButton, AvatarImage } })
+export default class Account extends Vue {
+  email = MeModule.user.email;
+  username = MeModule.user.username;
+  tag = MeModule.user.tag;
+  password = "";
+  showNewPassword = false;
+  newPassword = "";
+  newPasswordConfirm = "";
+  newAvatar: string | null = null;
+
+  avatarChange(event: any) {
+    const file: File = event.target.files[0];
+    event.target.value = "";
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onloadend = event => {
+      this.newAvatar = (event.target?.result as any) || null;
+    };
+    reader.readAsDataURL(file);
   }
-  colorChanged(event: any) {
-    if (!this.lastClicked.key) return;
-    changeCssVar(this.lastClicked?.key, event.target.value);
-    this.customVars = getCustomCssVars();
-    event.target.value = "owo";
+
+  get me() {
+    return MeModule.user;
   }
-  resetButton() {
-    removeCustomCssVars();
-    location.reload();
+
+  get showPassword() {
+    const {
+      emailChanged,
+      usernameChanged,
+      tagChanged,
+      newPasswordChanged,
+      avatarChanged
+    } = this.changedItems;
+
+    const othersChanged =
+      emailChanged || usernameChanged || tagChanged || newPasswordChanged;
+
+    return othersChanged || this.showNewPassword;
   }
-  applyTheme(theme: string) {
-    if (theme === "halloween") {
-      changeCssVar("--primary-color", "#ff801f");
-      changeCssVar("--background-color", "#261d3e");
-      changeCssVar("--drawer-bg-color", "#291d4e");
-      changeCssVar("--main-header-bg-color", "#ff781f");
-      changeCssVar("--side-header-bg-color", "#d55c0b");
-      changeCssVar("--my-chat-bubble-color", "#e87b21");
-      changeCssVar("--others-chat-bubble-color", "#433a50");
-    }
-    if (theme === "amoled") {
-      // changeCssVar("--primary-color", "#ff801f");
-      changeCssVar("--background-color", "black");
-      // changeCssVar("--drawer-bg-color", "#291d4e");
-      // changeCssVar("--main-header-bg-color", "#ff781f");
-      // changeCssVar("--side-header-bg-color", "#d55c0b");
-      // changeCssVar("--my-chat-bubble-color", "#e87b21");
-      // changeCssVar("--others-chat-bubble-color", "#433a50");
-    }
+
+  get showSaveButton() {
+    const {
+      emailChanged,
+      usernameChanged,
+      tagChanged,
+      newPasswordChanged,
+      avatarChanged
+    } = this.changedItems;
+
+    return (
+      emailChanged ||
+      usernameChanged ||
+      tagChanged ||
+      newPasswordChanged ||
+      avatarChanged
+    );
+  }
+  get changedItems() {
+    const me = this.me;
+    const emailChanged = this.email !== me.email;
+    const usernameChanged = this.username !== me.username;
+    const tagChanged = this.tag !== me.tag;
+    const newPasswordChanged = this.newPassword.length;
+    const avatarChanged = this.newAvatar?.length;
+    return {
+      emailChanged,
+      usernameChanged,
+      tagChanged,
+      newPasswordChanged,
+      avatarChanged
+    };
   }
 }
 </script>
@@ -71,72 +166,47 @@ export default class MainApp extends Vue {
   margin-bottom: 5px;
 }
 .box {
+  display: flex;
+  flex-direction: column;
   padding: 10px;
   align-self: flex-start;
   margin-left: 5px;
 }
-.name {
-  text-transform: capitalize;
-  opacity: 0.7;
-  transition: 0.2s;
-}
-.color-input {
+.user-tag {
   display: flex;
-  align-items: center;
-  cursor: pointer;
-  user-select: none;
-  align-content: center;
-  margin: 5px;
-  &:hover {
-    .name {
-      opacity: 1;
-    }
+  .tag {
+    width: 100px;
   }
 }
-.title {
-  font-weight: bold;
-}
-.color-box {
-  height: 20px;
-  width: 20px;
-  background: var(--primary-color);
-  margin-right: 6px;
-  border-radius: 4px;
-  border: solid 1px rgba(255, 255, 255, 0.4);
-}
-.hidden {
-  display: none;
-}
-.reset {
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 4px;
-  opacity: 0.8;
-  font-size: 14px;
-  padding: 5px;
+.link {
+  color: var(--link-color);
+  margin-bottom: 10px;
   cursor: pointer;
-  transition: 0.2s;
-  margin-top: 15px;
   &:hover {
-    opacity: 1;
+    text-decoration: underline;
   }
 }
-.themes-list {
-  .theme {
+.outer-avatar {
+  align-self: center;
+  margin-bottom: 10px;
+}
+.avatar {
+  position: relative;
+  align-self: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.7;
+  }
+  .edit-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    border-radius: 50%;
+    background: var(--primary-color);
+    font-size: 18px;
     padding: 5px;
-    display: flex;
-    align-content: center;
-    align-items: center;
-    background: rgb(255, 126, 21);
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 5px;
-    transition: 0.2s;
-    &:hover {
-      opacity: 0.7;
-    }
-    &.amoled {
-      background: black;
-    }
   }
 }
 </style>
