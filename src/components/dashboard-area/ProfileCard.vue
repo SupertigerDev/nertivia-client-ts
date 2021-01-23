@@ -47,7 +47,7 @@ export default class ProfileCard extends Vue {
     this.$router.push("/app/settings/account");
   }
   logOut() {
-    logout().then(() => {
+    logout().finally(() => {
       localStorage.clear();
       location.href = "/";
     });

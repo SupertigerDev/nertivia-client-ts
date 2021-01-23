@@ -16,7 +16,6 @@
     "install": "^0.13.0",
     "ky": "^0.23.0",
     "lodash": "^4.17.20",
-    "npm": "^7.4.0",
     "register-service-worker": "^1.7.2",
     "seeded-color": "^1.0.1",
     "socket.io-client": "^2.4.0",

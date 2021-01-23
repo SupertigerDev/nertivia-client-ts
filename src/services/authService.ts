@@ -5,7 +5,7 @@ export function postLogin(
   password: string,
   token?: string
 ): Promise<any> {
-  return wrapper
+  return wrapper()
     .post(`user/login`, {
       json: { email, password, token }
     })
@@ -17,14 +17,14 @@ export function postRegister(
   password: string,
   token?: string
 ): Promise<any> {
-  return wrapper
+  return wrapper()
     .post(`user/register`, {
       json: { username, email, password, token }
     })
     .json();
 }
 export function confirmEmail(email: string, code: string): Promise<any> {
-  return wrapper
+  return wrapper()
     .post(`user/register/confirm`, {
       json: { email, code }
     })

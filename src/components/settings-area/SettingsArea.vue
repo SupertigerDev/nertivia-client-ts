@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="settings-view">
     <Header v-if="selectedTab" :title="selectedTab.name" />
     <component v-if="selectedTab" :is="selectedTab.component" />
   </div>
@@ -37,3 +37,10 @@ export default class SettingsArea extends Vue {
   }
 }
 </script>
+<style lang="scss" scoped>
+.settings-view {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+</style>

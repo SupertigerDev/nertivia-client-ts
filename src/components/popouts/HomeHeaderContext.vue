@@ -31,7 +31,7 @@ export default class extends Vue {
         location.href = "/app";
         break;
       case "Log Out":
-        logout().then(() => {
+        logout().finally(() => {
           delete localStorage["hauthid"];
           location.reload();
         });

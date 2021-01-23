@@ -14,20 +14,20 @@ interface ResponsePost {
   messageCreated: Message;
 }
 export function fetchMessages(channelID: string): Promise<ResponseFetch> {
-  return wrapper.get(`messages/channels/${channelID}`).json();
+  return wrapper().get(`messages/channels/${channelID}`).json();
 }
 export function deleteMessage(
   channelID: string,
   messageID: string
 ): Promise<any> {
-  return wrapper.delete(`messages/${messageID}/channels/${channelID}`).json();
+  return wrapper().delete(`messages/${messageID}/channels/${channelID}`).json();
 }
 export function postMessage(
   message: string,
   tempID: string,
   channelID: string
 ): Promise<ResponsePost> {
-  return wrapper
+  return wrapper()
     .post(`messages/channels/${channelID}`, {
       json: { message, tempID, socketID: socket().id }
     })
@@ -39,7 +39,7 @@ export function editMessage(
   channelID: string,
   data: any
 ): Promise<ResponsePost> {
-  return wrapper
+  return wrapper()
     .patch(`messages/${messageID}/channels/${channelID}`, {
       json: data
     })
@@ -47,7 +47,7 @@ export function editMessage(
 }
 
 export function postTypingStatus(channelID: string): Promise<ResponsePost> {
-  return wrapper.post(`messages/${channelID}/typing`).json();
+  return wrapper().post(`messages/${channelID}/typing`).json();
 }
 
 export function postFormDataMessage(
@@ -98,7 +98,7 @@ export function postFormDataMessage(
 
   request.send(formData);
 
-  // return wrapper
+  // return wrapper()
   //   .post(`messages/chanfnels/${channelID}`, {
   //     body: formData,
 

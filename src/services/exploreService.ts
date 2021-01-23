@@ -14,5 +14,5 @@ export interface ServerResponse {
 export function getServers(
   param = "?verified=true"
 ): Promise<ServerResponse[]> {
-  return wrapper.get(`explore/servers${param}`).json();
+  return wrapper().get(`explore/servers${param}`).json();
 }
