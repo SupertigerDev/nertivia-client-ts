@@ -2,6 +2,7 @@
   <div class="interface">
     <div class="description">Edit your profile.</div>
     <div class="box">
+      <div class="error" v-if="errors['other']">{{ errors["other"] }}</div>
       <div class="outer-avatar">
         <div class="avatar" @click="$refs.avatarInput.click()">
           <div class="material-icons edit-button">edit</div>
@@ -28,6 +29,7 @@
         <CustomInput
           title="Username"
           v-model="username"
+          class="input"
           :error="errors['username'] || errors['tag']"
           prefixIcon="account_box"
         />
@@ -53,6 +55,7 @@
       <CustomInput
         v-if="showNewPassword"
         title="New Password"
+        :error="errors['new_password']"
         v-model="newPassword"
         prefixIcon="lock"
         type="password"
@@ -158,10 +161,19 @@ export default class Account extends Vue {
         this.requestSent = false;
       })
       .catch(async err => {
-        if (!err.response) this.errors["other"] = "Could not connect to server";
+        if (!err.response) {
+          this.errors["other"] = "Could not connect to server.";
+          this.requestSent = false;
+          return;
+        }
+        const knownErrs = ["username", "tag", "password", "new_password"];
         const { errors } = await err.response.json();
         for (let i = 0; i < errors.length; i++) {
           const error = errors[i];
+          if (!knownErrs.includes(error.param)) {
+            this.errors["other"] = error.msg;
+            continue;
+          }
           this.$set(this.errors, error.param, error.msg);
         }
         this.requestSent = false;
@@ -250,8 +262,12 @@ export default class Account extends Vue {
 }
 .user-tag {
   display: flex;
+  .input {
+    flex-shrink: initial;
+  }
   .tag {
     width: 100px;
+    flex-shrink: 0;
   }
 }
 .link {
@@ -286,5 +302,9 @@ export default class Account extends Vue {
     font-size: 18px;
     padding: 5px;
   }
+}
+.error {
+  color: var(--alert-color);
+  height: 30px;
 }
 </style>
