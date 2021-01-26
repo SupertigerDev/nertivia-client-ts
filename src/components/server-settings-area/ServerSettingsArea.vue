@@ -11,10 +11,17 @@ import settingsPages from "@/utils/serverSettingsPages.json";
 import ManageNotification from "./ManageNotification.vue";
 import ManageInvites from "./ManageInvites/ManageInvites.vue";
 import ManageUsers from "./ManageUsers/ManageUsers.vue";
+import General from "./General.vue";
 
 import { Vue, Component } from "vue-property-decorator";
 @Component({
-  components: { Header, ManageNotification, ManageUsers, ManageInvites }
+  components: {
+    Header,
+    ManageNotification,
+    ManageUsers,
+    ManageInvites,
+    General
+  }
 })
 export default class ServerSettingsArea extends Vue {
   get page() {
