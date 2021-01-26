@@ -129,7 +129,7 @@ export default class MainApp extends Vue {
   display: flex;
   margin-left: 5px;
   margin-right: 5px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
   align-items: center;
   align-content: center;
   border-radius: 4px;

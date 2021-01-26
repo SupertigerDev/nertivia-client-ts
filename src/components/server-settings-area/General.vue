@@ -5,7 +5,7 @@
       General Server Settings
     </div>
     <div class="box">
-      <div class="avatar-banner">
+      <div class="avatar-banner" :class="{ noBanner: !banenrImageUrl }">
         <img class="banner" v-if="banenrImageUrl" :src="banenrImageUrl" />
         <div class="material-icons edit-button banner-edit">edit</div>
         <div class="avatar-container">
@@ -115,23 +115,36 @@ export default class General extends Vue {
   font-size: 18px;
   opacity: 0.7;
 }
+
 .avatar-banner {
   height: 200px;
   width: 400px;
   position: relative;
   border-radius: 4px;
-  border: solid 2px var(--primary-color);
+  background: rgba(0, 0, 0, 0.3);
   margin-bottom: 60px;
   .banner {
     height: 100%;
     width: 100%;
     object-fit: cover;
+    position: relative;
+  }
+  &.noBanner::before {
+    content: "Banner";
+    font-size: 24px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
   .avatar-container {
     position: absolute;
     bottom: -50px;
     margin-left: 20px;
-    border: solid 2px var(--primary-color);
     border-radius: 50%;
     .avatar-edit {
       top: 0px;
@@ -140,15 +153,20 @@ export default class General extends Vue {
   }
   .edit-button {
     cursor: pointer;
+    user-select: none;
     position: absolute;
     z-index: 1;
     border-radius: 50%;
     background: var(--primary-color);
     font-size: 18px;
+    transition: 0.2s;
     padding: 5px;
     &.banner-edit {
       top: -10px;
       right: -10px;
+    }
+    &:hover {
+      opacity: 0.8;
     }
   }
 }
