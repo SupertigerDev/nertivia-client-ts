@@ -167,7 +167,12 @@ export default class Account extends Vue {
           return;
         }
         const knownErrs = ["username", "tag", "password", "new_password"];
-        const { errors } = await err.response.json();
+        const { errors, message } = await err.response.json();
+        if (message) {
+          this.errors["other"] = message;
+          this.requestSent = false;
+          return;
+        }
         for (let i = 0; i < errors.length; i++) {
           const error = errors[i];
           if (!knownErrs.includes(error.param)) {
@@ -305,6 +310,5 @@ export default class Account extends Vue {
 }
 .error {
   color: var(--alert-color);
-  height: 30px;
 }
 </style>

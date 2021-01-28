@@ -136,7 +136,12 @@ export default class General extends Vue {
           this.requestSent = false;
           return;
         }
-        const { errors } = await err.response.json();
+        const { errors, message } = await err.response.json();
+        if (message) {
+          this.errors["other"] = message;
+          this.requestSent = false;
+          return;
+        }
         const knownErrs = ["name"];
         for (let i = 0; i < errors.length; i++) {
           const error = errors[i];
@@ -314,6 +319,5 @@ export default class General extends Vue {
 }
 .error {
   color: var(--alert-color);
-  height: 30px;
 }
 </style>
