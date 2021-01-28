@@ -44,6 +44,7 @@ export default class MessageLogs extends Vue {
     this.fileDragDropHandler.onDragEnter(this.fileDragEnter);
     this.fileDragDropHandler.onDrop(this.fileDrop);
     this.fileDragDropHandler.onDragOut(this.fileDragOut);
+    this.dismissNotification();
   }
   beforeDestroy() {
     this.fileDragDropHandler?.destroy();
@@ -109,7 +110,6 @@ export default class MessageLogs extends Vue {
   }
   @Watch("isScrolledDown")
   onScrolldDown(scrolledDown: boolean) {
-    if (!scrolledDown) return;
     this.dismissNotification();
   }
 
