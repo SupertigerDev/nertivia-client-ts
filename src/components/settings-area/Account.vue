@@ -181,8 +181,8 @@ export default class Account extends Vue {
   }
 
   @Watch("isConnected")
-  onConnectionChange(val: boolean) {
-    if (val) this.resetValues();
+  onConnectionChange(connected: boolean) {
+    if (connected) this.resetValues();
   }
 
   get me() {

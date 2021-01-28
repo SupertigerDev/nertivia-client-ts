@@ -38,6 +38,18 @@ class Servers extends VuexModule {
     this.ADD_SERVER(payload);
   }
   @Mutation
+  private UPDATE_SERVER(payload: Partial<Server>) {
+    if (!payload.server_id) return;
+    const server = this.servers[payload.server_id || ""];
+    if (!server) return;
+    Vue.set(this.servers, payload.server_id, {...server, ...payload});
+  }
+
+  @Action
+  public UpdateServer(payload: Partial<Server>) {
+    this.UPDATE_SERVER(payload);
+  }
+  @Mutation
   private DELETE_SERVER(serverID: string) {
     Vue.delete(this.servers, serverID);
   }

@@ -1,5 +1,12 @@
 import wrapper from "./wrapper";
 
+
+export interface UpdateServerRequest {
+  avatar?: string,
+  banner?: string,
+  default_channel_id?: string,
+  name?: string,
+}
 export function kickMember(serverID: string, uniqueID: string): Promise<any> {
   return wrapper().delete(`servers/${serverID}/members/${uniqueID}`).json();
 }
@@ -20,6 +27,9 @@ export function joinServerById(server_id: string, optionalData: any) {
 }
 export function createServer(name: string) {
   return wrapper().post(`servers`, { json: { name } }).json();
+}
+export function updateServer(serverID: string, data: UpdateServerRequest): Promise<any> {
+  return wrapper().patch(`servers/${serverID}`, { json: data }).json();
 }
 export function getServerInfoByCode(code: string) {
   return wrapper().get(`servers/invite/${code}`).json();

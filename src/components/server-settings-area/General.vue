@@ -5,60 +5,178 @@
       General Server Settings
     </div>
     <div class="box">
-      <div class="avatar-banner" :class="{ noBanner: !banenrImageUrl }">
-        <img class="banner" v-if="banenrImageUrl" :src="banenrImageUrl" />
-        <div class="material-icons edit-button banner-edit">edit</div>
+      <div class="error" v-if="errors['other']">{{ errors["other"] }}</div>
+
+      <div class="avatar-banner" :class="{ noBanner: !bannerImageUrl }">
+        <div class="banner-container">
+          <img class="banner" v-if="bannerImageUrl" :src="bannerImageUrl" />
+          <div
+            title="Edit Banner"
+            class="material-icons edit-button banner-edit"
+            @click="$refs.bannerInput.click()"
+          >
+            edit
+          </div>
+        </div>
         <div class="avatar-container">
           <AvatarImage
             class="avatar"
             :imageId="server.avatar"
             :seedId="serverID"
-            size="100px"
+            :animateGif="true"
+            :customUrl="newAvatar"
+            size="80px"
           />
-          <div class="material-icons edit-button avatar-edit">edit</div>
+          <div
+            class="material-icons edit-button avatar-edit"
+            title="Edit Avatar"
+            @click="$refs.avatarInput.click()"
+          >
+            edit
+          </div>
         </div>
       </div>
 
-      <CustomInput class="input" title="Server Name" v-model="serverName" />
-      <CustomDropDown
+      <CustomInput
         class="input"
-        title="Default Channel"
-        :defaultIndex="defaultChannelIndex"
-        :items="channels"
+        :error="errors['name']"
+        title="Server Name"
         v-model="serverName"
       />
+      <CustomDropDown
+        v-if="defaultChannelId"
+        class="input"
+        title="Default Channel"
+        :defaultId="defaultChannelId"
+        IdPath="channelID"
+        :key="defaultChannelId"
+        @change="defaultChannelId = $event"
+        :items="channels"
+      />
+      <CustomButton
+        :filled="true"
+        :name="!requestSent ? 'Save Changes' : 'Saving...'"
+        icon="save"
+        v-if="showSaveButton"
+        @click="update"
+      />
     </div>
+    <input
+      ref="bannerInput"
+      style="display: none"
+      type="file"
+      @change="bannerChange"
+      accept=".jpeg, .jpg, .png, .gif"
+    />
+    <input
+      ref="avatarInput"
+      style="display: none"
+      type="file"
+      @change="avatarChange"
+      accept=".jpeg, .jpg, .png, .gif"
+    />
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Watch } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import CustomDropDown from "@/components/CustomDropDown.vue";
+import CustomButton from "@/components/CustomButton.vue";
 import AvatarImage from "@/components/AvatarImage.vue";
-import { MutedServersModule } from "@/store/modules/mutedServers";
-import { muteServer } from "@/services/serverService";
 import { ServersModule } from "@/store/modules/servers";
 import { ChannelsModule } from "@/store/modules/channels";
 import config from "@/config";
-@Component({ components: { CustomInput, CustomDropDown, AvatarImage } })
+import Server from "@/interfaces/Server";
+import { MeModule } from "@/store/modules/me";
+import { updateServer, UpdateServerRequest } from "@/services/serverService";
+@Component({
+  components: { CustomInput, CustomDropDown, AvatarImage, CustomButton }
+})
 export default class General extends Vue {
   serverName = "";
+  defaultChannelId = "";
+  newAvatar = "";
+  newBanner = "";
+
+  errors: any = {};
+  requestSent = false;
 
   mounted() {
-    this.setValues();
+    this.resetValues();
   }
 
-  setValues() {
+  resetValues() {
     this.serverName = this.server?.name || "";
-  }
-  onRadioIndexChange(index: number) {
-    muteServer(this.serverID, index);
+    this.defaultChannelId = this.server.default_channel_id;
+    this.newBanner = "";
+    this.newAvatar = "";
   }
 
-  get defaultChannelIndex() {
-    return this.channels.findIndex(
-      c => c.channelID === this.server.default_channel_id
-    );
+  update() {
+    if (this.requestSent) return;
+    this.requestSent = true;
+    this.errors = {};
+    const data: UpdateServerRequest = {};
+
+    this.itemsChanged.nameChanged && (data.name = this.serverName.trim());
+    this.itemsChanged.defaultChannelChanged &&
+      (data.default_channel_id = this.defaultChannelId);
+    this.itemsChanged.avatarChanged && (data.avatar = this.newAvatar);
+    this.itemsChanged.bannerChanged && (data.banner = this.newBanner);
+
+    updateServer(this.serverID, data)
+      .then((data: Partial<Server>) => {
+        ServersModule.UpdateServer(data);
+        this.resetValues();
+        this.requestSent = false;
+      })
+      .catch(async err => {
+        if (!err.response) {
+          this.errors["other"] = "Could not connect to server.";
+          this.requestSent = false;
+          return;
+        }
+        const { errors } = await err.response.json();
+        const knownErrs = ["name"];
+        for (let i = 0; i < errors.length; i++) {
+          const error = errors[i];
+          if (!knownErrs.includes(error.param)) {
+            this.errors["other"] = error.msg;
+            continue;
+          }
+          this.$set(this.errors, error.param, error.msg);
+        }
+        this.requestSent = false;
+      });
+  }
+
+  bannerChange(event: any) {
+    const file: File = event.target.files[0];
+    event.target.value = "";
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onloadend = event => {
+      this.newBanner = (event.target?.result as any) || null;
+    };
+    reader.readAsDataURL(file);
+  }
+  avatarChange(event: any) {
+    const file: File = event.target.files[0];
+    event.target.value = "";
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onloadend = event => {
+      this.newAvatar = (event.target?.result as any) || null;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  @Watch("isConnected")
+  onConnectionChange(connected: boolean) {
+    if (connected) this.resetValues();
+  }
+  get isConnected() {
+    return MeModule.connected;
   }
 
   get channels() {
@@ -67,19 +185,33 @@ export default class General extends Vue {
   get server() {
     return ServersModule.servers[this.serverID];
   }
-  get banenrImageUrl() {
+  get bannerImageUrl() {
+    if (this.newBanner) return this.newBanner;
     if (!this.server.banner) return undefined;
     return config.nertiviaCDN + this.server.banner;
   }
   get serverID() {
     return this.$route.params.server_id;
   }
+  get showSaveButton() {
+    const {
+      bannerChanged,
+      avatarChanged,
+      nameChanged,
+      defaultChannelChanged
+    } = this.itemsChanged;
 
-  get serverNotificationOption() {
-    return MutedServersModule.mutedServers?.[this.serverID]?.type || 0;
+    return (
+      bannerChanged || avatarChanged || nameChanged || defaultChannelChanged
+    );
   }
-  set serverNotificationOption(val: number) {
-    MutedServersModule.SetMutedServer({ serverID: this.serverID, type: val });
+  get itemsChanged() {
+    const bannerChanged = this.newBanner.length || false;
+    const avatarChanged = this.newAvatar.length || false;
+    const nameChanged = this.serverName !== this.server.name;
+    const defaultChannelChanged =
+      this.defaultChannelId !== this.server.default_channel_id;
+    return { bannerChanged, avatarChanged, nameChanged, defaultChannelChanged };
   }
 }
 </script>
@@ -98,14 +230,18 @@ export default class General extends Vue {
   margin-left: 30px;
 }
 .container {
-  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 10px;
+  overflow: auto;
 }
 
 .box {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  width: 250px;
+  max-width: 300px;
+  width: 100%;
   margin-top: 10px;
 }
 .input {
@@ -117,12 +253,18 @@ export default class General extends Vue {
 }
 
 .avatar-banner {
-  height: 200px;
-  width: 400px;
+  height: 170px;
+  width: 100%;
   position: relative;
   border-radius: 4px;
   background: rgba(0, 0, 0, 0.3);
-  margin-bottom: 60px;
+  margin-bottom: 50px;
+  .banner-container {
+    border-radius: 4px;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+  }
   .banner {
     height: 100%;
     width: 100%;
@@ -143,12 +285,12 @@ export default class General extends Vue {
   }
   .avatar-container {
     position: absolute;
-    bottom: -50px;
+    bottom: -30px;
     margin-left: 20px;
     border-radius: 50%;
     .avatar-edit {
-      top: 0px;
-      right: 0px;
+      top: -2px;
+      right: -2px;
     }
   }
   .edit-button {
@@ -169,5 +311,9 @@ export default class General extends Vue {
       opacity: 0.8;
     }
   }
+}
+.error {
+  color: var(--alert-color);
+  height: 30px;
 }
 </style>

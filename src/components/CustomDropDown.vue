@@ -2,23 +2,24 @@
   <div class="input">
     <fieldset class="content" :class="{ focused, error, valid: validMessage }">
       <legend class="title">{{ title }}</legend>
-      <div class="container">
-        <div class="selected" @click="openDropDown = !openDropDown">
-          {{ items[defaultIndex].name }}
+      <div class="container" @click="openDropDown = !openDropDown">
+        <div class="selected">
+          {{ selectedItem.name }}
         </div>
         <div class="material-icons icon">
           keyboard_arrow_down
         </div>
-        <div class="dropdown" v-if="openDropDown">
-          <div class="dropdown-content">
-            <div
-              class="item"
-              :class="{ selected: i === defaultIndex }"
-              v-for="(item, i) in items"
-              :key="i"
-            >
-              {{ item.name }}
-            </div>
+      </div>
+      <div class="dropdown" v-if="openDropDown">
+        <div class="dropdown-content">
+          <div
+            class="item"
+            :class="{ selected: item[IdPath] === selectedId }"
+            @click="itemClick(item[IdPath])"
+            v-for="(item, i) in items"
+            :key="i"
+          >
+            {{ item.name }}
           </div>
         </div>
       </div>
@@ -43,21 +44,33 @@ export default class CustomDropDown extends Vue {
   focused = true;
   openDropDown = false;
   @Prop() private title!: string;
-  @Prop() private items!: Item[];
+  @Prop() private items!: (Item | any)[];
   @Prop() private error!: string;
-  @Prop() private defaultIndex!: number;
+  @Prop() private defaultId!: number;
   @Prop() private validMessage!: string;
+  @Prop() private IdPath!: string;
+  selectedId = this.defaultId;
+  itemClick(id: number) {
+    this.openDropDown = false;
+    this.selectedId = id;
+    this.$emit("change", id);
+  }
+  get selectedItem() {
+    return this.items.find(i => i[this.IdPath] === this.selectedId);
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .input {
   flex-shrink: 0;
+  user-select: none;
 }
 .input .content {
   border-radius: 4px;
   border: solid 2px rgba(255, 255, 255, 0.2);
   transition: 0.2s;
+  position: relative;
 
   &:hover {
     background: rgba(255, 255, 255, 0.05);
@@ -120,9 +133,9 @@ export default class CustomDropDown extends Vue {
 }
 .dropdown {
   position: absolute;
-  left: -15px;
-  right: -15px;
-  top: 40px;
+  left: 0px;
+  right: 0px;
+  top: 45px;
   background: var(--context-menu-bg-color);
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
   overflow: hidden;
