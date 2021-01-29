@@ -9,14 +9,11 @@ function createInstance() {
       authorization: localStorage.getItem("hauthid") || ""
     }
   });
-} 
-
+}
 
 let instance = createInstance();
 
 export default () => instance;
-
-
 
 export function updateInstance() {
   instance = createInstance();

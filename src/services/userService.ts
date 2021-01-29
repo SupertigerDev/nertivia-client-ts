@@ -2,12 +2,12 @@ import User from "@/interfaces/User";
 import wrapper from "./wrapper";
 
 export interface UpdateUserRequest {
-  username?: string,
-  tag?: string,
-  password?: string,
-  email?: string,
-  new_password?: string
-  avatar?: string
+  username?: string;
+  tag?: string;
+  password?: string;
+  email?: string;
+  new_password?: string;
+  avatar?: string;
 }
 
 export function getUser(): Promise<any> {
@@ -15,9 +15,12 @@ export function getUser(): Promise<any> {
     .get(`user`)
     .json();
 }
-export function updateUser(data: UpdateUserRequest, socketID: string): Promise<any> {
+export function updateUser(
+  data: UpdateUserRequest,
+  socketID: string
+): Promise<any> {
   return wrapper()
-    .patch(`user`, {json: {...data, socketID}})
+    .patch(`user`, { json: { ...data, socketID } })
     .json();
 }
 export function changeStatus(status: number): Promise<any> {
@@ -64,8 +67,12 @@ interface AboutMe {
   name: string;
 }
 export function fetchUser(uniqueID: string): Promise<ReturnedUser> {
-  return wrapper().get(`user/${uniqueID}`).json();
+  return wrapper()
+    .get(`user/${uniqueID}`)
+    .json();
 }
 export function logout(): Promise<any> {
-  return wrapper().delete(`user/logout`).json();
+  return wrapper()
+    .delete(`user/logout`)
+    .json();
 }
