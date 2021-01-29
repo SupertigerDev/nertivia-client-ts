@@ -4,6 +4,7 @@
       v-if="showUploadBox"
       :key="showUploadBox.name + showUploadBox.size"
     />
+    <EmojiPicker class="emoji-picker" v-if="showEmojiPicker" />
     <TypingStatus />
     <EditPanel
       v-if="editingMessageID"
@@ -43,6 +44,12 @@
       />
 
       <div
+        class="material-icons button send-button"
+        @click="showEmojiPicker = !showEmojiPicker"
+      >
+        tag_faces
+      </div>
+      <div
         v-if="message.trim().length && editingMessageID"
         class="material-icons button send-button"
         @click="sendMessage"
@@ -51,12 +58,11 @@
       </div>
       <div
         v-else-if="!message.length && editingMessageID"
-        class="material-icons button close-button"
+        class="material-icons button close-button edit"
         @click="sendMessage"
       >
         delete
       </div>
-
       <div
         class="material-icons button send-button"
         v-else-if="message.trim().length || showUploadBox"
@@ -82,12 +88,13 @@ import { editMessage, postTypingStatus } from "@/services/messagesService";
 import Message from "@/interfaces/Message";
 import { eventBus } from "@/utils/globalBus";
 import { PopoutsModule } from "@/store/modules/popouts";
-import { stringSeed } from "seeded-color";
+import EmojiPicker from "@/components/emoji-picker/EmojiPicker.vue";
 
-@Component({ components: { FileUpload, TypingStatus, EditPanel } })
+@Component({ components: { FileUpload, TypingStatus, EditPanel, EmojiPicker } })
 export default class MessageBoxArea extends Vue {
   postTypingTimeout: number | null = null;
   editingMessageID: string | null = null;
+  showEmojiPicker = false;
   mounted() {
     this.resizeTextArea();
     eventBus.$on("editMessage", this.setEditMessage);
@@ -374,10 +381,19 @@ export default class MessageBoxArea extends Vue {
   }
   &.close-button {
     margin-left: 5px;
+    &.edit {
+      margin-left: 0;
+    }
     &:hover {
       background: var(--alert-color);
       opacity: 1;
     }
   }
+}
+.emoji-picker {
+  position: absolute;
+  bottom: 55px;
+  right: 10px;
+  z-index: 111111111111111;
 }
 </style>
