@@ -244,7 +244,6 @@ export default {
         if (recentRows) offset -= ROW_SIZE;
         if (customEmojiRows) offset -= ROW_SIZE;
       }
-      console.log(offset);
       this.$refs.virtualList.setScrollTop(
         (recentRows + customEmojiRows + rowIndex) * ROW_SIZE + offset
       );
