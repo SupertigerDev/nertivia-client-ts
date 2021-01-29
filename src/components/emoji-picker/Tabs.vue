@@ -134,5 +134,9 @@ export default class extends Vue {
   user-select: none;
   transition: 0.2s;
   font-size: 14px;
+  pointer-events: none;
+}
+.hidden {
+  visibility: hidden;
 }
 </style>
