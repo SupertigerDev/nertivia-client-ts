@@ -1,27 +1,7 @@
 <template>
   <div v-click-outside="closePanel" class="emoji-panel">
     <div class="emoji-panel-inner">
-      <div class="tabs" @mouseleave="tabLeave">
-        <div class="tab" @click="tabClicked(0)" @mouseenter="tabsHover">
-          <i class="material-icons">history</i>
-        </div>
-        <div class="tab" @click="tabClicked(1)" @mouseenter="tabsHover">
-          <i class="material-icons">face</i>
-        </div>
-        <div
-          class="tab"
-          v-for="(e, i) in groupUnicodes"
-          :key="i"
-          @click="tabClicked(i + 2)"
-          @mouseenter="tabsHover"
-        >
-          <!-- {{ e[0] }} -->
-          <div
-            class="tab-emoji"
-            :style="{ backgroundPosition: findGroupEmojiPos(e) }"
-          />
-        </div>
-      </div>
+      <Tabs @click="tabClicked" />
       <input type="text" class="input" ref="search" placeholder="Search" />
       <div class="emojis-list">
         <virtual-list :size="37" :remain="11" ref="virtualList">
@@ -86,35 +66,25 @@
         </div>
       </div>
     </div>
-    <div
-      class="tool-tip"
-      :class="{ hidden: !this.tabShown }"
-      ref="toolTip"
-      :style="{ left: tabLeftPos }"
-    >
-      Recents
-    </div>
   </div>
 </template>
 
 <script>
 import EmojiTemplate from "./EmojiTemplate";
 import VirtualList from "vue-virtual-scroll-list";
+import Tabs from "./Tabs";
 import { addRecentEmoji, getRecentEmojis } from "@/utils/recentEmojiManager";
 import emojiParser from "@/utils/emojiParser";
 import { mapState } from "vuex";
 import { bus } from "@/main";
 
 export default {
-  components: { VirtualList, EmojiTemplate },
+  components: { VirtualList, EmojiTemplate, Tabs },
   data() {
     return {
       emojiWithGroup: [],
       allRecentEmojis: [],
       allCustomEmojis: [],
-      groupUnicodes: ["😀", "🐱", "🍎", "🏀", "🚗", "⌚️", "❤️", "🏁"],
-      tabLeftPos: null,
-      tabShown: false,
       hoveredEmoji: null,
       search: ""
     };
@@ -144,7 +114,7 @@ export default {
   },
 
   methods: {
-    closePanel() {
+    closePanel(event) {
       if (!event.target.closest(".emojis-button")) this.$emit("close");
     },
     onEmojiHover(em) {
@@ -254,46 +224,33 @@ export default {
     },
     tabClicked(index) {
       const ROW_SIZE = 37;
-      const recentRows = this.allRecentEmojis.length + 1;
-      const customEmojiRows = this.allCustomEmojis.length + 1;
-      if (index === 0) {
+      let recentRows = this.allRecentEmojis.length + 1;
+      let customEmojiRows = this.allCustomEmojis.length + 1;
+      if (!this.allRecentEmojis.length) recentRows = 0;
+      if (!this.allCustomEmojis.length) customEmojiRows = 0;
+      if (index === "RECENTS") {
         this.$refs.virtualList.setScrollTop(0);
         return;
       }
-      if (index === 1) {
+      if (index === "CUSTOM") {
         this.$refs.virtualList.setScrollTop(recentRows * ROW_SIZE);
         return;
       }
       const rowIndex = this.emojiWithGroup.findIndex(
-        r => r.find && r.find(e => e.group === index - 2)
+        r => r.find && r.find(e => e.group === index)
       );
+      let offset = rowIndex === 1 ? -ROW_SIZE : +ROW_SIZE;
+      if (rowIndex !== 1) {
+        if (recentRows) offset -= ROW_SIZE;
+        if (customEmojiRows) offset -= ROW_SIZE;
+      }
+      console.log(offset);
       this.$refs.virtualList.setScrollTop(
-        (recentRows + customEmojiRows + rowIndex) * ROW_SIZE - ROW_SIZE
+        (recentRows + customEmojiRows + rowIndex) * ROW_SIZE + offset
       );
     },
     findGroupEmojiPos(unicode) {
       return emojiParser.allEmojis.find(e => e.unicode === unicode)?.pos;
-    },
-    tabsHover(event) {
-      const index = Array.from(event.target.parentNode.children).indexOf(
-        event.target
-      );
-      if (index == 0) {
-        this.$refs.toolTip.innerHTML = "Recents";
-      }
-      if (index == 1) {
-        this.$refs.toolTip.innerHTML = "Custom Emojis";
-      }
-      if (index > 1) {
-        this.$refs.toolTip.innerHTML = emojiParser.allGroups[index - 2];
-      }
-      this.tabShown = true;
-      const tabLeftPos = event.target.offsetLeft;
-      const toolTipCenter = this.$refs.toolTip.clientWidth / 2;
-      this.tabLeftPos = tabLeftPos - toolTipCenter + 17 + "px";
-    },
-    tabLeave() {
-      this.tabShown = false;
     }
   },
   computed: {
@@ -353,54 +310,7 @@ export default {
   display: flex;
   flex-direction: row;
 }
-.tabs {
-  height: 37px;
-  display: flex;
-  align-content: center;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  flex-shrink: 0;
-  border-bottom: solid 1px rgba(255, 255, 255, 0.1);
-}
-.tab {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  user-select: none;
-  height: 37px;
-  width: 37px;
-  flex-shrink: 0;
-  cursor: pointer;
-  transition: 0.1s;
-  color: white;
-  &:hover {
-    background: rgba(255, 255, 255, 0.2);
-  }
-}
-.tab .tab-emoji {
-  background-image: url("../../assets/emojiSprites.png");
-  background-position: 0px 0px;
-  background-repeat: no-repeat;
-  background-size: 1000px;
-  height: 25px;
-  width: 25px;
-}
-.tool-tip {
-  position: absolute;
-  border-radius: 4px;
-  padding: 5px;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(5px);
-  top: 40px;
-  left: 0;
-  z-index: 999333111;
-  color: white;
-  user-select: none;
-  transition: 0.2s;
-  font-size: 14px;
-}
+
 .preview {
   border-top: solid 1px rgba(255, 255, 255, 0.1);
   height: 50px;
