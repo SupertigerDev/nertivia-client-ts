@@ -25,8 +25,10 @@
       </div>
     </fieldset>
 
-    <div class="error-message" v-if="!validMessage">{{ error }}</div>
-    <div class="valid-message" v-if="!error && validMessage">
+    <div class="error-message" v-if="!validMessage && !hideError">
+      {{ error }}
+    </div>
+    <div class="valid-message" v-if="!error && validMessage && !hideError">
       {{ validMessage }}
     </div>
   </div>
@@ -46,6 +48,7 @@ export default class CustomInput extends Vue {
   @Prop() private value!: string;
   @Prop() private prefix!: string;
   @Prop() private prefixIcon!: string;
+  @Prop({ default: false }) private hideError!: boolean;
   inputEvent(event: any) {
     this.$emit("model", event.target.value);
   }

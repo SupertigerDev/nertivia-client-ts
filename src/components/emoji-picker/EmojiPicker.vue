@@ -22,6 +22,7 @@
           />
         </div>
       </div>
+      <input type="text" class="input" ref="search" placeholder="Search" />
       <div class="emojis-list">
         <virtual-list :size="37" :remain="11" ref="virtualList">
           <div class="category">Recents</div>
@@ -41,7 +42,7 @@
               />
             </div>
           </div>
-          <div class="category">Custom Emojis</div>
+          <div class="category" v-if="customEmojis.length">Custom Emojis</div>
           <div
             class="emoji-row"
             v-for="(e, i) in allCustomEmojis"
@@ -97,6 +98,7 @@
 <script>
 import EmojiTemplate from "./EmojiTemplate";
 import VirtualList from "vue-virtual-scroll-list";
+import { addRecentEmoji, getRecentEmojis } from "@/utils/recentEmojiManager";
 import emojiParser from "@/utils/emojiParser";
 import { mapState } from "vuex";
 import { bus } from "@/main";
@@ -111,11 +113,13 @@ export default {
       groupUnicodes: ["😀", "🐱", "🍎", "🏀", "🚗", "⌚️", "❤️", "🏁"],
       tabLeftPos: null,
       tabShown: false,
-      hoveredEmoji: null
+      hoveredEmoji: null,
+      search: ""
     };
   },
 
   mounted() {
+    this.$refs.search.focus();
     setTimeout(() => {
       const z = performance.now();
       this.allCustomEmojis = this.arrToRows(this.customEmojis);
@@ -133,6 +137,7 @@ export default {
       this.emojiWithGroup = this.emojisWithGroup();
       const o = performance.now();
       console.log("emojis took " + Math.round(o - z) + "ms to load.");
+      this.$refs.virtualList.forceRender();
     });
   },
 
@@ -241,6 +246,7 @@ export default {
       if (emoji.emojiID) {
         bus.$emit("emojiPanel:Selected", emoji.name);
       } else {
+        addRecentEmoji(emoji.shortcodes[0]);
         bus.$emit("emojiPanel:Selected", emoji.shortcodes[0]);
       }
     },
@@ -289,7 +295,13 @@ export default {
     }
   },
   computed: {
-    ...mapState("settingsModule", ["recentEmojis", "customEmojis"])
+    recentEmojis() {
+      return getRecentEmojis();
+    },
+    customEmojis() {
+      return [];
+    }
+    // ...mapState("settingsModule", ["recentEmojis", "customEmojis"])
   }
 };
 </script>
@@ -309,7 +321,8 @@ export default {
   border: solid 1px rgba(255, 255, 255, 0.1);
   transition: 0.3s;
   z-index: 99999;
-  height: 350px;
+  height: 352px;
+  width: 375px;
   overflow: hidden;
 }
 .emojis-list {
@@ -403,6 +416,21 @@ export default {
     .shortcode {
       opacity: 0.6;
     }
+  }
+}
+.input {
+  margin-left: 5px;
+  margin-right: 5px;
+  background: transparent;
+  outline: none;
+  border: solid 2px rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  padding: 5px;
+  margin-top: 5px;
+  color: white;
+  transition: 0.2s;
+  &:focus {
+    border: solid 2px var(--primary-color);
   }
 }
 </style>
