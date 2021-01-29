@@ -42,7 +42,7 @@ class Servers extends VuexModule {
     if (!payload.server_id) return;
     const server = this.servers[payload.server_id || ""];
     if (!server) return;
-    Vue.set(this.servers, payload.server_id, {...server, ...payload});
+    Vue.set(this.servers, payload.server_id, { ...server, ...payload });
   }
 
   @Action
