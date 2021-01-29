@@ -25,7 +25,7 @@
       <input type="text" class="input" ref="search" placeholder="Search" />
       <div class="emojis-list">
         <virtual-list :size="37" :remain="11" ref="virtualList">
-          <div class="category">Recents</div>
+          <div class="category" v-if="allRecentEmojis.length">Recents</div>
 
           <div
             class="emoji-row"
@@ -42,7 +42,9 @@
               />
             </div>
           </div>
-          <div class="category" v-if="customEmojis.length">Custom Emojis</div>
+          <div class="category" v-if="allCustomEmojis.length">
+            Custom Emojis
+          </div>
           <div
             class="emoji-row"
             v-for="(e, i) in allCustomEmojis"
