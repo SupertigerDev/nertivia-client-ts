@@ -88,7 +88,10 @@ import { editMessage, postTypingStatus } from "@/services/messagesService";
 import Message from "@/interfaces/Message";
 import { eventBus } from "@/utils/globalBus";
 import { PopoutsModule } from "@/store/modules/popouts";
-import EmojiPicker from "@/components/emoji-picker/EmojiPicker.vue";
+const EmojiPicker = () =>
+  import(
+    /* webpackChunkName: "EmojiPicker" */ "@/components/emoji-picker/EmojiPicker.vue"
+  );
 
 @Component({ components: { FileUpload, TypingStatus, EditPanel, EmojiPicker } })
 export default class MessageBoxArea extends Vue {
