@@ -45,8 +45,10 @@ export default {
     const emojiRow = arr => (
       <div class="emoji-row">
         <div class="wrapper">
-          {arr.map(e => (
+          {arr.map((e, i) => (
             <EmojiTemplate
+              key={e.id}
+              id={e.id}
               emoji={e}
               nativeOn={{
                 click: () => this.emojiClick(e),
@@ -62,7 +64,7 @@ export default {
 
     const block = (name, arr) => [category(name), mapEmojis(arr)];
 
-    const defaultEmojis = this.emojiWithGroup.map(g => {
+    const defaultEmojis = this.emojiWithGroup.map((g, i) => {
       if (g.gname) {
         return (
           <div class="category">
@@ -70,7 +72,7 @@ export default {
           </div>
         );
       }
-      return emojiRow(g || []);
+      return <div key={g.gname + i.toString()}>{emojiRow(g || [])}</div>;
     });
 
     const showRecents = !this.search.trim() && this.allRecentEmojis.length;
@@ -217,7 +219,10 @@ export default {
       let rowIndex = 0;
       const newArr = [];
       for (let index = 0; index < emojis.length; index++) {
-        const emoji = emojis[index];
+        const emoji = {
+          ...emojis[index],
+          id: index + Math.floor(Math.random() * 12202222222)
+        };
 
         if (index === 0) {
           newArr[rowIndex] = [emoji];
