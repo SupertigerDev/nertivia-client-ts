@@ -48,7 +48,6 @@ export default {
           {arr.map((e, i) => (
             <EmojiTemplate
               key={e.id}
-              id={e.id}
               emoji={e}
               nativeOn={{
                 click: () => this.emojiClick(e),
