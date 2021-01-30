@@ -8,10 +8,10 @@ const directive: any = {
         vnode.context[expression](event);
       }
     };
-    document.body.addEventListener("click", el.clickOutsideEvent);
+    document.body.addEventListener("mousedown", el.clickOutsideEvent);
   },
   unbind: function(el: any) {
-    document.body.removeEventListener("click", el.clickOutsideEvent);
+    document.body.removeEventListener("mousedown", el.clickOutsideEvent);
   }
 };
 export default directive;
