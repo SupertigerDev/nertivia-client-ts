@@ -281,7 +281,6 @@ export default {
         .replaceAll(" ", "")
         .replaceAll(":", "")
         .toLowerCase();
-      console.log(search);
 
       const filterCustomEmoji = this.customEmojis.filter(e => {
         return e.name
