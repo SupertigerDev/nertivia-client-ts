@@ -1,93 +1,106 @@
-<template>
-  <div v-click-outside="closePanel" class="emoji-panel">
-    <div class="emoji-panel-inner">
-      <Tabs @click="tabClicked" />
-      <input type="text" class="input" ref="search" placeholder="Search" />
-      <div class="emojis-list">
-        <virtual-list :size="37" :remain="11" ref="virtualList">
-          <div class="category" v-if="allRecentEmojis.length">Recents</div>
-
-          <div
-            class="emoji-row"
-            v-for="(e, i) in allRecentEmojis"
-            :key="i + 'r'"
-          >
-            <div class="wrapper">
-              <emoji-template
-                v-for="(em, ind) in e"
-                :key="ind"
-                :emoji="em"
-                @mouseover.native="onEmojiHover(em)"
-                @click.native="emojiClick(em)"
-              />
-            </div>
-          </div>
-          <div class="category" v-if="allCustomEmojis.length">
-            Custom Emojis
-          </div>
-          <div
-            class="emoji-row"
-            v-for="(e, i) in allCustomEmojis"
-            :key="i + 'c'"
-          >
-            <div class="wrapper">
-              <emoji-template
-                v-for="(em, ind) in e"
-                :key="ind"
-                :emoji="em"
-                @mouseover.native="onEmojiHover(em)"
-                @click.native="emojiClick(em)"
-              />
-            </div>
-          </div>
-          <div
-            v-for="(e, i) in emojiWithGroup"
-            :class="`${e.gname ? 'category' : 'emoji-row'}`"
-            :key="i"
-          >
-            <div class="name" v-if="e.gname">{{ e.gname }}</div>
-            <div class="wrapper" v-if="!e.gname">
-              <emoji-template
-                v-for="(em, ind) in e"
-                :key="ind"
-                :emoji="em"
-                @mouseover.native="onEmojiHover(em)"
-                @click.native="emojiClick(em)"
-              />
-            </div>
-          </div>
-        </virtual-list>
-      </div>
-      <div class="preview">
-        <div class="emoji" v-if="hoveredEmoji" v-html="hoveredEmoji.el"></div>
-        <div class="details" v-if="hoveredEmoji">
-          <div class="name">{{ hoveredEmoji.annotation }}</div>
-          <div class="shortcode">:{{ hoveredEmoji.shortcodes[0] }}:</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
 import EmojiTemplate from "./EmojiTemplate";
+import Preview from "./Preview";
 import VirtualList from "vue-virtual-scroll-list";
 import Tabs from "./Tabs";
 import { addRecentEmoji, getRecentEmojis } from "@/utils/recentEmojiManager";
 import emojiParser from "@/utils/emojiParser";
 import { mapState } from "vuex";
 import { bus } from "@/main";
+import { CustomEmojisModule } from "@/store/modules/customEmojis";
 
 export default {
-  components: { VirtualList, EmojiTemplate, Tabs },
+  components: { VirtualList, EmojiTemplate, Tabs, Preview },
   data() {
     return {
       emojiWithGroup: [],
       allRecentEmojis: [],
       allCustomEmojis: [],
+      allSearchEmojis: [],
       hoveredEmoji: null,
       search: ""
     };
+  },
+
+  render() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const self = this;
+    const input = (
+      <input
+        type="text"
+        class="input"
+        ref="search"
+        placeholder="Search"
+        domProps={{ value: this.search }}
+        on={{
+          input: function(event) {
+            self.search = event.target.value;
+          }
+        }}
+      />
+    );
+
+    const category = name => <div class="category">{name}</div>;
+
+    const emojiRow = arr => (
+      <div class="emoji-row">
+        <div class="wrapper">
+          {arr.map(e => (
+            <EmojiTemplate
+              emoji={e}
+              nativeOn={{
+                click: () => this.emojiClick(e),
+                mouseover: () => this.onEmojiHover(e)
+              }}
+            />
+          ))}
+        </div>
+      </div>
+    );
+
+    const mapEmojis = arr => arr.map(row => emojiRow(row));
+
+    const block = (name, arr) => [category(name), mapEmojis(arr)];
+
+    const defaultEmojis = this.emojiWithGroup.map(g => {
+      if (g.gname) {
+        return (
+          <div class="category">
+            <div class="name">{g.gname}</div>
+          </div>
+        );
+      }
+      return emojiRow(g || []);
+    });
+
+    const showRecents = !this.search.trim() && this.allRecentEmojis.length;
+    const showCustom = !this.search.trim() && this.allCustomEmojis.length;
+    const showDefault = !this.search.trim();
+    const showSearch = this.search.trim();
+
+    const emojisList = (
+      <div class="emojis-list">
+        <VirtualList size={37} remain={11} ref="virtualList">
+          {[
+            !!showRecents && block("Recents", this.allRecentEmojis),
+            !!showCustom && block("Custom Emojis", this.allCustomEmojis),
+            !!showDefault && defaultEmojis,
+            !!showSearch && block("Results", [])
+          ]}
+        </VirtualList>
+      </div>
+    );
+
+    return (
+      <div v-click-outside="closePanel" class="emoji-panel">
+        <div class="emoji-panel-inner">
+          <Tabs onClick={this.tabClicked} />
+          {input}
+          {emojisList}
+          <Preview hoveredEmoji={this.hoveredEmoji} />
+        </div>
+      </div>
+    );
   },
 
   mounted() {
@@ -115,10 +128,13 @@ export default {
 
   methods: {
     closePanel(event) {
-      if (!event.target.closest(".emojis-button")) this.$emit("close");
+      if (!event.target.closest(".emoji-button")) this.$emit("close");
     },
     onEmojiHover(em) {
-      this.hoveredEmoji = { ...em, el: emojiParser.replaceEmojis(em.unicode) };
+      this.hoveredEmoji = {
+        ...em,
+        el: em.unicode && emojiParser.replaceEmojis(em.unicode)
+      };
     },
     emojisWithGroup() {
       const emojis = emojiParser.allEmojis;
@@ -216,6 +232,7 @@ export default {
     },
     emojiClick(emoji) {
       if (emoji.emojiID) {
+        addRecentEmoji(emoji.name);
         bus.$emit("emojiPanel:Selected", emoji.name);
       } else {
         addRecentEmoji(emoji.shortcodes[0]);
@@ -239,17 +256,27 @@ export default {
       const rowIndex = this.emojiWithGroup.findIndex(
         r => r.find && r.find(e => e.group === index)
       );
-      let offset = rowIndex === 1 ? -ROW_SIZE : +ROW_SIZE;
-      if (rowIndex !== 1) {
-        if (recentRows) offset -= ROW_SIZE;
-        if (customEmojiRows) offset -= ROW_SIZE;
-      }
+      // let offset = rowIndex === 1 ? -ROW_SIZE : 0;
+      // if (rowIndex !== 1) {
+      //   if (recentRows) offset += -ROW_SIZE;
+      //   if (customEmojiRows) offset += -ROW_SIZE;
+      // }
       this.$refs.virtualList.setScrollTop(
-        (recentRows + customEmojiRows + rowIndex) * ROW_SIZE + offset
+        (recentRows + customEmojiRows + rowIndex) * ROW_SIZE - ROW_SIZE
       );
     },
     findGroupEmojiPos(unicode) {
       return emojiParser.allEmojis.find(e => e.unicode === unicode)?.pos;
+    }
+  },
+  watch: {
+    search(val) {
+      this.$refs.virtualList.forceRender();
+      const trimmed = val.trim();
+
+      if (!trimmed.length) {
+        return;
+      }
     }
   },
   computed: {
@@ -257,7 +284,7 @@ export default {
       return getRecentEmojis();
     },
     customEmojis() {
-      return [];
+      return CustomEmojisModule.customEmojis;
     }
     // ...mapState("settingsModule", ["recentEmojis", "customEmojis"])
   }
@@ -299,8 +326,8 @@ export default {
 .category {
   display: flex;
   height: 37px;
-  color: white;
-  padding-left: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  padding-left: 5px;
   align-items: center;
   align-content: center;
 }
@@ -310,25 +337,6 @@ export default {
   flex-direction: row;
 }
 
-.preview {
-  border-top: solid 1px rgba(255, 255, 255, 0.1);
-  height: 50px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  .emoji {
-    margin-left: 10px;
-    height: 30px;
-    width: 30px;
-  }
-  .details {
-    margin-left: 10px;
-    font-size: 14px;
-    .shortcode {
-      opacity: 0.6;
-    }
-  }
-}
 .input {
   margin-left: 5px;
   margin-right: 5px;

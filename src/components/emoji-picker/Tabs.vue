@@ -40,6 +40,7 @@
 </template>
 
 <script lang="ts">
+import { CustomEmojisModule } from "@/store/modules/customEmojis";
 import emojiParser from "@/utils/emojiParser";
 import { getRecentEmojis } from "@/utils/recentEmojiManager";
 import { Component, Prop, Vue } from "vue-property-decorator";
@@ -79,7 +80,7 @@ export default class extends Vue {
     return getRecentEmojis();
   }
   get customEmojis() {
-    return [];
+    return CustomEmojisModule.customEmojis;
   }
 }
 </script>

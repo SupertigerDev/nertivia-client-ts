@@ -15,6 +15,8 @@ import { NotificationsModule } from "../notifications";
 import { MutedChannelsModule } from "../mutedChannels";
 import { isObjectLike } from "lodash";
 import { MutedServersModule } from "../mutedServers";
+import CustomEmoji from "@/interfaces/CustomEmoji";
+import { CustomEmojisModule } from "../customEmojis";
 
 const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
@@ -32,6 +34,7 @@ interface SuccessEvent {
 }
 interface Settings {
   server_position: string[];
+  customEmojis: CustomEmoji[];
 }
 
 interface Notification {
@@ -275,6 +278,7 @@ const actions: ActionTree<any, any> = {
     LastSeenServerChannelsModule.InitLastSeen(data.lastSeenServerChannels);
     NotificationsModule.InitNotifications(notifications);
     ChannelsModule.InitChannels(channels);
+    CustomEmojisModule.InitCustomEmojis(data.settings.customEmojis);
   }
 };
 

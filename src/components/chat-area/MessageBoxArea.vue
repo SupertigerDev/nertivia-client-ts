@@ -4,7 +4,11 @@
       v-if="showUploadBox"
       :key="showUploadBox.name + showUploadBox.size"
     />
-    <EmojiPicker class="emoji-picker" v-if="showEmojiPicker" />
+    <EmojiPicker
+      class="emoji-picker"
+      v-if="showEmojiPicker"
+      @close="showEmojiPicker = false"
+    />
     <TypingStatus />
     <EditPanel
       v-if="editingMessageID"
@@ -44,7 +48,7 @@
       />
 
       <div
-        class="material-icons button send-button"
+        class="material-icons button send-button emoji-button"
         @click="showEmojiPicker = !showEmojiPicker"
       >
         tag_faces
