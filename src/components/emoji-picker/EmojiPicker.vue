@@ -85,7 +85,7 @@ export default {
             !!showRecents && block("Recents", this.allRecentEmojis),
             !!showCustom && block("Custom Emojis", this.allCustomEmojis),
             !!showDefault && defaultEmojis,
-            !!showSearch && block("Results", [])
+            !!showSearch && block("Results", this.allSearchEmojis)
           ]}
         </VirtualList>
       </div>
@@ -273,10 +273,34 @@ export default {
     search(val) {
       this.$refs.virtualList.forceRender();
       const trimmed = val.trim();
-
       if (!trimmed.length) {
         return;
       }
+      const search = trimmed
+        .replaceAll("_", "")
+        .replaceAll(" ", "")
+        .replaceAll(":", "")
+        .toLowerCase();
+      console.log(search);
+
+      const filterCustomEmoji = this.customEmojis.filter(e => {
+        return e.name
+          .replaceAll("_", "")
+          .toLowerCase()
+          .includes(search);
+      });
+
+      const filterEmoji = emojiParser.allEmojis.filter(e => {
+        const name = e.shortcodes
+          .join("")
+          .replaceAll("_", "")
+          .toLowerCase();
+        return name.includes(search);
+      });
+      this.allSearchEmojis = this.arrToRows([
+        ...filterCustomEmoji,
+        ...filterEmoji
+      ]);
     }
   },
   computed: {
@@ -295,7 +319,7 @@ export default {
 .emoji-panel {
   display: flex;
   flex-direction: column;
-  z-index: 99999;
+  z-index: 9999999999;
 }
 
 .emoji-panel-inner {
