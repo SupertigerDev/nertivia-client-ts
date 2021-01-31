@@ -26,21 +26,25 @@ export default class ImageMessageEmbed extends Vue {
   intersectObserver: IntersectionObserver | null = null;
 
   mounted() {
+    const contentEl = this.$refs["content"] as any;
+
     this.setDimensions();
 
     this.intersectObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           this.fetchImage();
-          this.intersectObserver?.unobserve(this.$refs["content"]);
+          this.intersectObserver?.unobserve(contentEl);
           this.intersectObserver?.disconnect();
         }
       });
     });
-    this.intersectObserver.observe(this.$refs["content"]);
+    this.intersectObserver.observe(contentEl);
   }
   beforeDestroy() {
-    this.intersectObserver?.unobserve(this.$refs["content"]);
+    const contentEl = this.$refs["content"] as any;
+
+    this.intersectObserver?.unobserve(contentEl);
     this.intersectObserver?.disconnect();
   }
   onClick() {
@@ -75,6 +79,7 @@ export default class ImageMessageEmbed extends Vue {
 
   @Watch("windowSize")
   setDimensions() {
+    const contentEl = this.$refs["content"] as any;
     const logsEl = document.getElementById("messageLogs");
     if (!logsEl) return {};
     const w = logsEl.offsetWidth;
@@ -93,10 +98,9 @@ export default class ImageMessageEmbed extends Vue {
       minHeight
     );
 
-    (this.$refs["content"] as HTMLElement).style.height =
+    contentEl.style.height =
       this.clamp(newDimentions.height, 0, srcHeight) + "px";
-    (this.$refs["content"] as HTMLElement).style.width =
-      this.clamp(newDimentions.width, 0, srcWidth) + "px";
+    contentEl.style.width = this.clamp(newDimentions.width, 0, srcWidth) + "px";
   }
 
   get isWindowFocused() {
