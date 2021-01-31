@@ -4,8 +4,12 @@
     :class="{ animate: isWindowFocused && !loadImage }"
     @click="onClick"
   >
-    <div class="gif" v-if="isGif">GIF</div>
-    <img v-if="loadImage" :src="pauseGifURL" />
+    <div class="outer-content">
+      <div class="inner-content" ref="content">
+        <div class="gif" v-if="isGif">GIF</div>
+        <img v-if="loadImage" :src="pauseGifURL" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -28,15 +32,15 @@ export default class ImageMessageEmbed extends Vue {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           this.fetchImage();
-          this.intersectObserver?.unobserve(this.$el);
+          this.intersectObserver?.unobserve(this.$refs["content"]);
           this.intersectObserver?.disconnect();
         }
       });
     });
-    this.intersectObserver.observe(this.$el);
+    this.intersectObserver.observe(this.$refs["content"]);
   }
   beforeDestroy() {
-    this.intersectObserver?.unobserve(this.$el);
+    this.intersectObserver?.unobserve(this.$refs["content"]);
     this.intersectObserver?.disconnect();
   }
   onClick() {
@@ -85,13 +89,13 @@ export default class ImageMessageEmbed extends Vue {
     const newDimentions = this.calculateAspectRatioFit(
       srcWidth,
       srcHeight,
-      this.clamp(minWidth, 0, 500),
+      this.clamp(minWidth, 200, 500),
       minHeight
     );
 
-    (this.$el as HTMLElement).style.height =
+    (this.$refs["content"] as HTMLElement).style.height =
       this.clamp(newDimentions.height, 0, srcHeight) + "px";
-    (this.$el as HTMLElement).style.width =
+    (this.$refs["content"] as HTMLElement).style.width =
       this.clamp(newDimentions.width, 0, srcWidth) + "px";
   }
 
@@ -132,6 +136,9 @@ export default class ImageMessageEmbed extends Vue {
   position: relative;
   border-radius: 4px;
   background: rgba(0, 0, 0, 0.4);
+  min-width: 200px;
+  min-height: 200px;
+
   cursor: pointer;
   &:hover {
     &::after {
@@ -146,6 +153,12 @@ export default class ImageMessageEmbed extends Vue {
       background: rgba(0, 0, 0, 0.3);
     }
   }
+}
+.outer-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
 }
 img {
   width: 100%;

@@ -16,20 +16,19 @@
       @close="editingMessageID = null"
     />
     <div class="input-box">
-      <div
-        class="material-icons button attach-button"
+      <ButtonTemplate
+        icon="attach_file"
         @click="$refs.sendFileBrowse.click()"
         v-if="!showUploadBox && !editingMessageID"
-      >
-        attach_file
-      </div>
-      <div
-        class="material-icons button close-button"
-        @click="removeAttachment"
+      />
+
+      <ButtonTemplate
+        icon="close"
+        :warn="true"
         v-else-if="showUploadBox"
-      >
-        close
-      </div>
+        @click="removeAttachment"
+      />
+
       <input
         type="file"
         ref="sendFileBrowse"
@@ -47,33 +46,27 @@
         :placeholder="placeholderMessage"
       />
 
-      <div
-        class="material-icons button send-button emoji-button"
+      <ButtonTemplate
+        icon="tag_faces"
+        class="emoji-button"
         @click="showEmojiPicker = !showEmojiPicker"
-      >
-        tag_faces
-      </div>
-      <div
+      />
+      <ButtonTemplate
         v-if="message.trim().length && editingMessageID"
-        class="material-icons button send-button"
         @click="sendMessage"
-      >
-        edit
-      </div>
-      <div
+        icon="edit"
+      />
+      <ButtonTemplate
         v-else-if="!message.length && editingMessageID"
-        class="material-icons button close-button edit"
         @click="sendMessage"
-      >
-        delete
-      </div>
-      <div
-        class="material-icons button send-button"
+        :warn="true"
+        icon="delete"
+      />
+      <ButtonTemplate
         v-else-if="message.trim().length || showUploadBox"
         @click="sendMessage"
-      >
-        {{ showUploadBox ? "upload" : "send" }}
-      </div>
+        :icon="showUploadBox ? 'upload' : 'send'"
+      />
     </div>
   </div>
 </template>
@@ -82,6 +75,7 @@
 import { FileUploadModule } from "@/store/modules/fileUpload";
 import FileUpload from "./FileUpload.vue";
 import TypingStatus from "./TypingStatus.vue";
+import ButtonTemplate from "./MessageBoxButtonTemplate.vue";
 import EditPanel from "./EditPanel.vue";
 import { MeModule } from "@/store/modules/me";
 import { MessagesModule } from "@/store/modules/messages";
@@ -97,7 +91,15 @@ const EmojiPicker = () =>
     /* webpackChunkName: "EmojiPicker" */ "@/components/emoji-picker/EmojiPicker.vue"
   );
 
-@Component({ components: { FileUpload, TypingStatus, EditPanel, EmojiPicker } })
+@Component({
+  components: {
+    FileUpload,
+    TypingStatus,
+    EditPanel,
+    EmojiPicker,
+    ButtonTemplate
+  }
+})
 export default class MessageBoxArea extends Vue {
   postTypingTimeout: number | null = null;
   editingMessageID: string | null = null;
@@ -363,39 +365,6 @@ export default class MessageBoxArea extends Vue {
   flex: 1;
   background: transparent;
   color: white;
-}
-.button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  align-self: flex-end;
-  margin-bottom: 5px;
-  font-size: 25px;
-  margin-right: 5px;
-  cursor: pointer;
-  height: 35px;
-  opacity: 0.7;
-  width: 45px;
-  border-radius: 5px;
-  transition: 0.2s;
-  user-select: none;
-  &:hover {
-    background: var(--primary-color);
-    opacity: 1;
-  }
-  &.attach-button {
-    margin-left: 5px;
-  }
-  &.close-button {
-    margin-left: 5px;
-    &.edit {
-      margin-left: 0;
-    }
-    &:hover {
-      background: var(--alert-color);
-      opacity: 1;
-    }
-  }
 }
 .emoji-picker {
   position: absolute;
