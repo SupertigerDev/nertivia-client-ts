@@ -97,6 +97,7 @@ export default class MainApp extends Vue {
   password = "";
   confirmEmail = "";
   errors: any = {};
+  requestSent = false;
 
   @Watch("confirmEmail")
   onEmailConfirmInput() {
@@ -129,22 +130,29 @@ export default class MainApp extends Vue {
     this.register(token);
   }
   register(token?: string) {
+    if (this.requestSent) return;
+    this.requestSent = true;
     const email = this.email;
     const username = this.username;
     const password = this.password;
     postRegister(username, email, password, token)
       .then(() => {
+        this.requestSent = false;
         this.page = 2;
       })
       .catch(err => {
         this.page = 0;
         if (!err.response) {
+          this.requestSent = false;
+
           this.errors["other"] = "Unable to connect to server";
           return;
         }
         return err.response.json();
       })
       .then(res => {
+        this.requestSent = false;
+
         if (!res) return;
         if (!res.errors) return;
         if (res.errors[0].code === 1) {
