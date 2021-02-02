@@ -102,16 +102,11 @@ const EmojiPicker = () =>
 })
 export default class MessageBoxArea extends Vue {
   postTypingTimeout: number | null = null;
-  editingMessageID: string | null = null;
   showEmojiPicker = false;
   mounted() {
     this.resizeTextArea();
-    eventBus.$on("editMessage", this.setEditMessage);
   }
-  beforeDestroy() {
-    this.stopPostingTypingStatus();
-    eventBus.$off("editMessage", this.setEditMessage);
-  }
+
   // ctrl + v event (for screenshots)
   onPaste(event: any) {
     const items = (event.clipboardData || event.originalEvent.clipboardData)
@@ -208,6 +203,11 @@ export default class MessageBoxArea extends Vue {
     }
     this.message = "";
     this.editingMessageID = null;
+
+    const findMessage = this.channelMessages.find(
+      e => e.messageID === messageID
+    );
+    if (message.trim() === findMessage?.message) return;
 
     MessagesModule.UpdateMessage({
       channelID,
@@ -333,6 +333,13 @@ export default class MessageBoxArea extends Vue {
   }
   set message(val) {
     MessageInputModule.setMessage(val);
+  }
+
+  get editingMessageID() {
+    return MessageInputModule.editingMessageID;
+  }
+  set editingMessageID(val) {
+    MessageInputModule.SetEditingMessage(val);
   }
 }
 </script>

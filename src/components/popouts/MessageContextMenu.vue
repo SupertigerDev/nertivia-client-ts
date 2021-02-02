@@ -20,6 +20,7 @@ import { ServersModule } from "@/store/modules/servers";
 import { PopoutsModule } from "@/store/modules/popouts";
 import User from "@/interfaces/User";
 import { eventBus } from "@/utils/globalBus";
+import { MessageInputModule } from "@/store/modules/messageInput";
 
 @Component({ components: { ContextMenu } })
 export default class extends Vue {
@@ -61,7 +62,7 @@ export default class extends Vue {
         });
         break;
       case "Edit":
-        eventBus.$emit("editMessage", this.message.messageID);
+        MessageInputModule.SetEditingMessage(this.message.messageID || null);
         break;
       case "Copy ID":
         if (this.message.messageID) this.$copyText(this.message.messageID);
