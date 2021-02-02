@@ -7,6 +7,7 @@
     <EmojiPicker
       class="emoji-picker"
       v-if="showEmojiPicker"
+      :inputElement="$refs.textarea"
       @close="showEmojiPicker = false"
     />
     <TypingStatus />

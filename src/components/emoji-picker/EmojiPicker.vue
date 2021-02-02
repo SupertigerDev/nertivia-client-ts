@@ -5,11 +5,10 @@ import VirtualList from "vue-virtual-scroll-list";
 import Tabs from "./Tabs";
 import { addRecentEmoji, getRecentEmojis } from "@/utils/recentEmojiManager";
 import emojiParser from "@/utils/emojiParser";
-import { mapState } from "vuex";
-import { bus } from "@/main";
 import { CustomEmojisModule } from "@/store/modules/customEmojis";
-
+import { insert } from "text-field-edit";
 export default {
+  props: ["inputElement"],
   components: { VirtualList, EmojiTemplate, Tabs, Preview },
   data() {
     return {
@@ -235,13 +234,9 @@ export default {
       return newArr;
     },
     emojiClick(emoji) {
-      if (emoji.emojiID) {
-        addRecentEmoji(emoji.name);
-        bus.$emit("emojiPanel:Selected", emoji.name);
-      } else {
-        addRecentEmoji(emoji.shortcodes[0]);
-        bus.$emit("emojiPanel:Selected", emoji.shortcodes[0]);
-      }
+      const id = emoji.name || emoji.shortcodes[0];
+      addRecentEmoji(id);
+      insert(this.inputElement, `:${id}: `);
     },
     tabClicked(index) {
       const ROW_SIZE = 37;
@@ -260,11 +255,6 @@ export default {
       const rowIndex = this.emojiWithGroup.findIndex(
         r => r.find && r.find(e => e.group === index)
       );
-      // let offset = rowIndex === 1 ? -ROW_SIZE : 0;
-      // if (rowIndex !== 1) {
-      //   if (recentRows) offset += -ROW_SIZE;
-      //   if (customEmojiRows) offset += -ROW_SIZE;
-      // }
       this.$refs.virtualList.setScrollTop(
         (recentRows + customEmojiRows + rowIndex) * ROW_SIZE - ROW_SIZE
       );
@@ -313,7 +303,6 @@ export default {
     customEmojis() {
       return CustomEmojisModule.customEmojis;
     }
-    // ...mapState("settingsModule", ["recentEmojis", "customEmojis"])
   }
 };
 </script>
