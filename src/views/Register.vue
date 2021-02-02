@@ -137,22 +137,17 @@ export default class MainApp extends Vue {
     const password = this.password;
     postRegister(username, email, password, token)
       .then(() => {
-        this.requestSent = false;
         this.page = 2;
       })
       .catch(err => {
         this.page = 0;
         if (!err.response) {
-          this.requestSent = false;
-
           this.errors["other"] = "Unable to connect to server";
           return;
         }
         return err.response.json();
       })
       .then(res => {
-        this.requestSent = false;
-
         if (!res) return;
         if (!res.errors) return;
         if (res.errors[0].code === 1) {
@@ -173,7 +168,8 @@ export default class MainApp extends Vue {
           errors["other"] = error.msg;
         }
         this.errors = errors;
-      });
+      })
+      .finally(() => (this.requestSent = false));
   }
   formSubmit() {
     this.errors = {};
