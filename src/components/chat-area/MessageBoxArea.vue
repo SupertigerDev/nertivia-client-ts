@@ -120,12 +120,16 @@ export default class MessageBoxArea extends Vue {
     }
   }
   keyDownEvent(e: KeyboardEvent) {
+    // shift + enter = new line
     if (e.shiftKey) return;
+    // enter key send message
     if (e.key === "Enter") {
       e.preventDefault();
       this.sendMessage();
       return;
     }
+
+    // up key to edit previous message
     if (e.key === "ArrowUp") {
       if (this.message.trim()) return;
       if (!this.channelMessages?.length) return;
@@ -147,20 +151,14 @@ export default class MessageBoxArea extends Vue {
       this.message = "";
     }
   }
-  setEditMessage(messageID?: string, message?: Required<Message>) {
+  setEditMessage(messageID?: string, _message?: Required<Message>) {
     (this.$refs["textarea"] as HTMLElement).focus();
-    if (message) {
-      FileUploadModule.SetFile(undefined);
-      this.editingMessageID = message.messageID;
-      this.message = message.message || "";
-    }
-    if (messageID) {
-      const message = this.channelMessages.find(m => m.messageID === messageID);
-      if (!message) return;
-      FileUploadModule.SetFile(undefined);
-      this.editingMessageID = message.messageID || null;
-      this.message = message.message || "";
-    }
+    const message =
+      _message || this.channelMessages.find(m => m.messageID === messageID);
+    if (!message) return;
+    FileUploadModule.SetFile(undefined);
+    this.editingMessageID = message.messageID || null;
+    this.message = message.message || "";
   }
   sendMessage() {
     (this.$refs["textarea"] as HTMLElement).focus();
