@@ -375,6 +375,8 @@ export default class MessageBoxArea extends Vue {
   margin-left: 5px;
   margin-right: 5px;
   place-items: center;
+  min-height: 45px;
+  flex-shrink: 0;
 }
 .textarea {
   outline: none;
