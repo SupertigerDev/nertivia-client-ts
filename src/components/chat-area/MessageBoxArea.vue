@@ -14,7 +14,7 @@
     <EditPanel
       v-if="editingMessageID"
       :messageID="editingMessageID"
-      @close="editingMessageID = null"
+      @close="editingMessage = null"
     />
     <div class="input-box">
       <ButtonTemplate
@@ -87,6 +87,8 @@ import { editMessage, postTypingStatus } from "@/services/messagesService";
 import Message from "@/interfaces/Message";
 import { eventBus } from "@/utils/globalBus";
 import { PopoutsModule } from "@/store/modules/popouts";
+import { formatMessage } from "@/utils/formatMessage";
+import { ChannelsModule } from "@/store/modules/channels";
 const EmojiPicker = () =>
   import(
     /* webpackChunkName: "EmojiPicker" */ "@/components/emoji-picker/EmojiPicker.vue"
@@ -148,7 +150,7 @@ export default class MessageBoxArea extends Vue {
       return;
     }
     if (e.key === "Escape") {
-      this.editingMessageID = null;
+      this.editingMessage = null;
       this.message = "";
     }
   }
@@ -158,15 +160,19 @@ export default class MessageBoxArea extends Vue {
       _message || this.channelMessages.find(m => m.messageID === messageID);
     if (!message) return;
     FileUploadModule.SetFile(undefined);
-    this.editingMessageID = message.messageID || null;
-    this.message = message.message || "";
+    this.editingMessage = message;
   }
   sendMessage() {
     (this.$refs["textarea"] as HTMLElement).focus();
-    const message = this.message;
+    // format message before sending it.
+    // replaces custom emoji names with emoji code n stuff
+    const message = formatMessage(
+      this.message,
+      ChannelsModule.serverChannels(this.serverID || "")
+    );
 
     if (this.editingMessageID) {
-      this.editMessage();
+      this.editMessage(message);
       return;
     }
 
@@ -187,9 +193,8 @@ export default class MessageBoxArea extends Vue {
     }
   }
 
-  editMessage() {
+  editMessage(message: string) {
     if (!this.editingMessageID) return;
-    const message = this.message;
     const messageID = this.editingMessageID;
     const channelID = this.channelID;
     if (!this.message.length) {
@@ -201,7 +206,7 @@ export default class MessageBoxArea extends Vue {
       return;
     }
     this.message = "";
-    this.editingMessageID = null;
+    this.editingMessage = null;
 
     const findMessage = this.channelMessages.find(
       e => e.messageID === messageID
@@ -272,7 +277,7 @@ export default class MessageBoxArea extends Vue {
   onChannelIDChange() {
     (this.$refs["textarea"] as HTMLElement).focus();
     this.stopPostingTypingStatus();
-    this.editingMessageID = null;
+    this.editingMessage = null;
   }
   @Watch("message")
   async postTypingStatus() {
@@ -333,11 +338,20 @@ export default class MessageBoxArea extends Vue {
   set message(val) {
     MessageInputModule.setMessage(val);
   }
-
-  get editingMessageID() {
-    return MessageInputModule.editingMessageID;
+  get serverID() {
+    if (this.currentTab !== "servers") return undefined;
+    return this.$route.params.server_id;
   }
-  set editingMessageID(val) {
+  get currentTab() {
+    return this.$route.path.split("/")[2] || "";
+  }
+  get editingMessageID() {
+    return this.editingMessage?.messageID;
+  }
+  get editingMessage() {
+    return MessageInputModule.editingMessage;
+  }
+  set editingMessage(val) {
     MessageInputModule.SetEditingMessage(val);
   }
 }

@@ -1,3 +1,5 @@
+import Message from "@/interfaces/Message";
+import { revertFormat } from "@/utils/formatMessage";
 import {
   Module,
   VuexModule,
@@ -10,7 +12,7 @@ import store from "..";
 @Module({ dynamic: true, store, namespaced: true, name: "messageInput" })
 class MessageInput extends VuexModule {
   message = "";
-  editingMessageID:string | null = null
+  editingMessage:Message | null = null
 
   @Mutation
   private SET_MESSAGE(payload: string) {
@@ -23,13 +25,14 @@ class MessageInput extends VuexModule {
   }
 
   @Mutation
-  private SET_EDITING_MESSAGE(messageID: string | null) {
-    this.editingMessageID = messageID;
+  private SET_EDITING_MESSAGE(message: Message | null) {
+    this.editingMessage = message;
   }
 
   @Action
-  public SetEditingMessage(messageID: string | null) {
-    this.SET_EDITING_MESSAGE(messageID);
+  public SetEditingMessage(message: Message | null) {
+    this.SET_EDITING_MESSAGE(message);
+    this.setMessage(revertFormat(message?.message || ""))
   }
 }
 export const MessageInputModule = getModule(MessageInput);

@@ -62,7 +62,7 @@ export default class extends Vue {
         });
         break;
       case "Edit":
-        MessageInputModule.SetEditingMessage(this.message.messageID || null);
+        MessageInputModule.SetEditingMessage(this.message);
         break;
       case "Copy ID":
         if (this.message.messageID) this.$copyText(this.message.messageID);

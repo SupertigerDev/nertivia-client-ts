@@ -4,6 +4,7 @@ import {matchSorter} from "match-sorter";
 import emojis from "@/utils/emoji-data/emojis.json";
 import groups from "@/utils/emoji-data/groups.json";
 import config from "@/config";
+import { CustomEmojisModule } from "@/store/modules/customEmojis";
 
 export default {
   getCustomEmojisByShortCode(shortcode: string) {
@@ -12,17 +13,16 @@ export default {
     return [];
   },
   replaceShortcode: (message: string) => {
-    // const customEmojis = store.state["settingsModule"].customEmojis;
-    const customEmojis: any = [];
+    const customEmojis = CustomEmojisModule.customEmojis;
 
     const regex = /:([\w]+):/g;
 
     return message.replace(regex, x => {
       // const emoji = emojiExists(x.replace(/[::]+/g, ""));
       // if (emoji) return emoji.unicode;
-
+      
       const customEmoji = customEmojis.find(
-        (e: any) => e.name === x.substr(1).slice(0, -1)
+        e => e.name === x.substr(1).slice(0, -1)
       );
       if (customEmoji) {
         if (customEmoji.gif) {
