@@ -18,10 +18,7 @@ export default class MessageBoxButtonTemplate extends Vue {
   display: flex;
   align-items: center;
   justify-content: center;
-  align-self: flex-end;
-  margin-bottom: 5px;
-  margin-right: 5px;
-  margin-left: 5px;
+  flex-shrink: 0;
   font-size: 25px;
   cursor: pointer;
   height: 35px;

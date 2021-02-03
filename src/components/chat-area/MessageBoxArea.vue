@@ -357,15 +357,18 @@ export default class MessageBoxArea extends Vue {
 .input-box {
   display: flex;
   flex: 1;
+  gap: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
   place-items: center;
 }
 .textarea {
   outline: none;
   border: none;
   resize: none;
+  margin-top: 5px;
+  min-width: 100px;
   font-size: 14px;
-  margin: 5px;
-  margin-top: 12px;
   height: 20px;
   flex-shrink: 0;
   flex: 1;
