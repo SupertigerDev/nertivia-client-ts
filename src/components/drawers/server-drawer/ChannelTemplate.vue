@@ -4,6 +4,7 @@
     :class="{
       selected: isChannelSelected
     }"
+    @contextmenu.prevent="showContext"
     @click="channelClicked"
   >
     <div class="muted material-icons" v-if="isMuted">notifications_off</div>
@@ -24,6 +25,7 @@ import Channel from "@/interfaces/Channel";
 import { DrawersModule } from "@/store/modules/drawers";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { MutedChannelsModule } from "@/store/modules/mutedChannels";
+import { PopoutsModule } from "@/store/modules/popouts";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
@@ -35,6 +37,19 @@ export default class ChannelTemplate extends Vue {
     this.$router.push(
       `/app/servers/${this.channel.server_id}/${this.channel.channelID}`
     );
+  }
+  showContext(event: any) {
+    PopoutsModule.ShowPopout({
+      id: "context",
+      component: "ChannelContextMenu",
+      key: this.channel.server_id + event.clientX + event.clientY,
+      data: {
+        x: event.clientX,
+        y: event.clientY,
+        server_id: this.channel.server_id,
+        channelID: this.channel.channelID
+      }
+    });
   }
   get notificationExists() {
     return LastSeenServerChannelsModule.serverChannelNotification(
