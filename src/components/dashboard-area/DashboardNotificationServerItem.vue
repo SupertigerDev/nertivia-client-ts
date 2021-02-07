@@ -1,5 +1,5 @@
 <template>
-  <div class="item" @click="onClick">
+  <div class="item">
     <AvatarImage
       class="avatar"
       :imageId="serverDetails.avatar"
@@ -26,23 +26,13 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 
 import AvatarImage from "@/components/AvatarImage.vue";
 import ChannelTemplate from "@/components/drawers/server-drawer/ChannelTemplate.vue";
-import Channel from "@/interfaces/Channel";
-import Server from "@/interfaces/Server";
 import Notification from "@/interfaces/Notification";
-import { ChannelsModule } from "@/store/modules/channels";
 import { ServersModule } from "@/store/modules/servers";
 
 @Component({ components: { AvatarImage, ChannelTemplate } })
 export default class DashboardNotificationItem extends Vue {
   @Prop() private notifications!: Notification;
   @Prop() private serverID!: string;
-  onClick() {
-    // this.$router.push(
-    //   `/app/servers/${this.channel.server_id}/${this.channel.channelID}`
-    // );
-    // return;
-  }
-
   get serverDetails() {
     return ServersModule.servers[this.serverID];
   }
