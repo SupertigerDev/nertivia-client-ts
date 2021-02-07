@@ -92,7 +92,7 @@ export default {
     );
 
     return (
-      <div v-click-outside="closePanel" class="emoji-panel">
+      <div v-click-outside="backgroundClick" class="emoji-panel">
         <div class="emoji-panel-inner">
           <Tabs onClick={this.tabClicked} />
           {input}
@@ -127,8 +127,11 @@ export default {
   },
 
   methods: {
-    closePanel(event) {
-      if (!event.target.closest(".emoji-button")) this.$emit("close");
+    close() {
+      this.$emit("close");
+    },
+    backgroundClick(event) {
+      if (!event.target.closest(".emoji-button")) this.close();
     },
     onEmojiHover(em) {
       this.hoveredEmoji = {
@@ -237,6 +240,8 @@ export default {
       const id = emoji.name || emoji.shortcodes[0];
       addRecentEmoji(id);
       insert(this.inputElement, `:${id}: `);
+      this.inputElement.focus();
+      this.close();
     },
     tabClicked(index) {
       const ROW_SIZE = 37;

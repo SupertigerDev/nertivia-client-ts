@@ -42,6 +42,7 @@
         @keydown="keyDownEvent"
         @paste="onPaste"
         ref="textarea"
+        id="message-box"
         class="textarea"
         :disabled="!isConnected"
         :placeholder="placeholderMessage"
