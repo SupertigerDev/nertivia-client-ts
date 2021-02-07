@@ -18,6 +18,7 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import windowProperties from "@/utils/windowProperties";
 import Message from "@/interfaces/Message";
 import config from "@/config";
+import resizeKeepAspect from "@/utils/resizeKeepAspect";
 import { PopoutsModule } from "@/store/modules/popouts";
 @Component
 export default class ImageMessageEmbed extends Vue {
@@ -64,43 +65,16 @@ export default class ImageMessageEmbed extends Vue {
     };
     image.src = this.pauseGifURL || "";
   }
-  clamp(num: number, min: number, max: number) {
-    return num <= min ? min : num >= max ? max : num;
-  }
-  calculateAspectRatioFit(
-    srcWidth: number,
-    srcHeight: number,
-    maxWidth: number,
-    maxHeight: number
-  ) {
-    const ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
-    return { width: srcWidth * ratio, height: srcHeight * ratio };
-  }
 
   @Watch("windowSize")
   setDimensions() {
     const contentEl = this.$refs["content"] as any;
     const logsEl = document.getElementById("messageLogs");
-    if (!logsEl) return {};
-    const w = logsEl.offsetWidth;
-    const h = logsEl.offsetHeight;
-    const minWidth = w / 1.5;
-    const minHeight = h / 1.5;
-
     const dimensions = this.message.files?.[0]?.dimensions;
-    if (!dimensions) return {};
-    const srcWidth = dimensions.width;
-    const srcHeight = dimensions.height;
-    const newDimentions = this.calculateAspectRatioFit(
-      srcWidth,
-      srcHeight,
-      this.clamp(minWidth, 200, 500),
-      minHeight
-    );
-
-    contentEl.style.height =
-      this.clamp(newDimentions.height, 0, srcHeight) + "px";
-    contentEl.style.width = this.clamp(newDimentions.width, 0, srcWidth) + "px";
+    if (!dimensions) return;
+    if (!dimensions) return;
+    if (!logsEl) return;
+    resizeKeepAspect(contentEl, logsEl, dimensions.width, dimensions.height)
   }
 
   get isWindowFocused() {
