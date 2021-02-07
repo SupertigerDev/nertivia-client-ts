@@ -4,14 +4,6 @@
       Notifications
     </div>
     <div v-if="!notificatinExists" class="caught-up">All Caught up!</div>
-    <div class="item-title" v-if="serverMentionedNotifications.length">
-      Mentions
-    </div>
-    <DashboardNotificationItem
-      v-for="channel in serverMentionedNotifications"
-      :key="channel.channelID"
-      :channel="channel"
-    />
     <div class="item-title" v-if="dmNotifications.length">
       Direct Messages
     </div>
@@ -23,10 +15,11 @@
     <div class="item-title" v-if="serverChannelNotifications.length">
       Servers
     </div>
-    <DashboardNotificationItem
-      v-for="channel in serverChannelNotifications"
-      :key="channel.channelID"
-      :channel="channel"
+    <DashboardNotificationServerItem
+      v-for="(n, serverID) of serverChannelNotifications"
+      :key="serverID"
+      :serverID="serverID"
+      :notifications="n"
     />
   </div>
 </template>
@@ -35,30 +28,40 @@
 import { Vue, Component } from "vue-property-decorator";
 
 import DashboardNotificationItem from "@/components/dashboard-area/DashboardNotificationItem.vue";
+import DashboardNotificationServerItem from "@/components/dashboard-area/DashboardNotificationServerItem.vue";
 
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { ServersModule } from "@/store/modules/servers";
 import { NotificationsModule } from "@/store/modules/notifications";
-@Component({ components: { DashboardNotificationItem } })
+import ServerSettingsArea from "../server-settings-area/ManageNotification.vue";
+@Component({
+  components: { DashboardNotificationItem, DashboardNotificationServerItem }
+})
 export default class DashboardArea extends Vue {
   get dmNotifications() {
     return NotificationsModule.allDMNotifications;
   }
-  get serverMentionedNotifications() {
-    return this.serverChannelNotifications.filter(n => n.mentioned);
-  }
   get serverChannelNotifications() {
-    return LastSeenServerChannelsModule.allServerNotifications.map(channel => {
-      if (!channel.server_id) return channel;
-      const server = ServersModule.servers[channel.server_id];
-      return { ...channel, server };
-    });
+    const allServerNotifications =
+      LastSeenServerChannelsModule.allServerNotifications;
+    const obj: any = {};
+
+    for (let i = 0; i < allServerNotifications.length; i++) {
+      const notification = allServerNotifications[i];
+      if (!notification.server_id) continue;
+      if (!obj[notification.server_id]) {
+        obj[notification.server_id] = [notification];
+        continue;
+      }
+      obj[notification.server_id].push(notification);
+    }
+
+    return obj;
   }
   get notificatinExists() {
     return (
       this.dmNotifications.length ||
-      this.serverChannelNotifications.length ||
-      this.serverMentionedNotifications.length
+      Object.keys(this.serverChannelNotifications).length
     );
   }
 }
