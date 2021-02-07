@@ -12,6 +12,7 @@ export default interface Message {
   mentions?: User[];
   timeEdited?: number;
   files?: File[];
+  embed?: Embed
 }
 
 interface File {
@@ -19,6 +20,17 @@ interface File {
   url: string;
   fileID?: string;
   fileName?: string;
+}
+export interface Embed {
+  title: string;
+  type: string;
+  site_name: string;
+  description: string;
+  url: string;
+  image?: {
+    url: string;
+    dimensions: { height: number; width: number };
+  }
 }
 
 enum Type {
