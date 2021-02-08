@@ -67,6 +67,7 @@ export default class DashboardNotificationItem extends Vue {
 .information {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   width: 100%;
 }
 .channel {

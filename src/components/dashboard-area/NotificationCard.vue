@@ -84,6 +84,7 @@ export default class DashboardArea extends Vue {
   width: 250px;
   border-radius: 4px;
   overflow: auto;
+  overflow-x: hidden;
   .item-title {
     opacity: 0.8;
     margin-left: 5px;
