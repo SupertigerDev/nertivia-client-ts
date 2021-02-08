@@ -3,7 +3,7 @@
     <img class="image" v-if="imageUrl" :src="imageUrl" alt="" />
     <div class="details">
       <a :href="url" target="_blank" rel="noopener noreferrer">{{ title }}</a>
-      <div class="description">{{ embed.description + embed.description }}</div>
+      <div class="description">{{ embed.description }}</div>
     </div>
   </div>
 </template>
