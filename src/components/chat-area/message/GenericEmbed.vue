@@ -47,6 +47,7 @@ export default class GenericEmbed extends Vue {
   background: rgba(0, 0, 0, 0.5);
   border-radius: 4px;
   object-fit: cover;
+  flex-shrink: 0;
   margin-right: 5px;
 }
 .details {
