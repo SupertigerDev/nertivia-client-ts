@@ -1,6 +1,7 @@
 <template>
   <div class="message-embed">
-    <GenericEmbed :embed="embed" />
+    <ImageEmbed v-if="imageEmbed" :image="imageEmbed" />
+    <GenericEmbed v-else :embed="embed" />
   </div>
 </template>
 
@@ -8,10 +9,17 @@
 import { Embed } from "@/interfaces/Message";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import GenericEmbed from "./GenericEmbed.vue";
+import ImageEmbed from "./ImageEmbed.vue";
 
-@Component({ components: { GenericEmbed } })
+@Component({ components: { GenericEmbed, ImageEmbed } })
 export default class EmbedMessage extends Vue {
   @Prop() private embed!: Embed;
+
+  get imageEmbed() {
+    if (Object.keys(this.embed).length !== 1) return undefined;
+    if (!this.embed.image) return undefined;
+    return this.embed.image;
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -25,6 +33,5 @@ export default class EmbedMessage extends Vue {
   background: rgba(0, 0, 0, 0.4);
   align-self: flex-start;
   overflow: hidden;
-
 }
 </style>

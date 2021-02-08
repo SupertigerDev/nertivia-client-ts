@@ -31,9 +31,7 @@ import DashboardNotificationItem from "@/components/dashboard-area/DashboardNoti
 import DashboardNotificationServerItem from "@/components/dashboard-area/DashboardNotificationServerItem.vue";
 
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
-import { ServersModule } from "@/store/modules/servers";
 import { NotificationsModule } from "@/store/modules/notifications";
-import ServerSettingsArea from "../server-settings-area/ManageNotification.vue";
 @Component({
   components: { DashboardNotificationItem, DashboardNotificationServerItem }
 })

@@ -37,7 +37,7 @@ import { time } from "@/utils/date";
 import { PopoutsModule } from "@/store/modules/popouts";
 
 @Component({
-  components: { AvatarImage, Bubble, MessageSide, EmbedMessage },
+  components: { AvatarImage, Bubble, MessageSide, EmbedMessage }
 })
 export default class MessageLogs extends Vue {
   @Prop() private message!: Message & { grouped: boolean };
@@ -50,7 +50,7 @@ export default class MessageLogs extends Vue {
     PopoutsModule.ShowPopout({
       id: "profile",
       component: "profile-popout",
-      data: { uniqueID: this.creator.uniqueID },
+      data: { uniqueID: this.creator.uniqueID }
     });
   }
 
@@ -63,8 +63,8 @@ export default class MessageLogs extends Vue {
         x: event.clientX,
         y: event.clientY,
         tempUser: this.message.creator,
-        uniqueID: this.message.creator.uniqueID,
-      },
+        uniqueID: this.message.creator.uniqueID
+      }
     });
   }
 
@@ -76,7 +76,7 @@ export default class MessageLogs extends Vue {
   }
   get embed() {
     if (!this.message.embed) return undefined;
-    if (!Object.keys(this.message.embed)) return undefined;
+    if (!Object.keys(this.message.embed).length) return undefined;
     return this.message.embed;
   }
 }
