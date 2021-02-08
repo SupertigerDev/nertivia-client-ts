@@ -31,8 +31,8 @@ export default class ImageMessageEmbed extends Vue {
 
     this.setDimensions();
 
-    this.intersectObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
+    this.intersectObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           this.fetchImage();
           this.intersectObserver?.unobserve(contentEl);
@@ -53,8 +53,9 @@ export default class ImageMessageEmbed extends Vue {
       id: "image-preview-popout",
       component: "image-preview-popout",
       data: {
-        url: this.imageURL
-      }
+        url: this.imageURL,
+        dimensions: this.dimensions,
+      },
     });
   }
   fetchImage() {
@@ -70,13 +71,20 @@ export default class ImageMessageEmbed extends Vue {
   setDimensions() {
     const contentEl = this.$refs["content"] as any;
     const logsEl = document.getElementById("messageLogs");
-    const dimensions = this.message.files?.[0]?.dimensions;
-    if (!dimensions) return;
+    if (!this.dimensions) return;
     if (!contentEl) return;
     if (!logsEl) return;
-    resizeKeepAspect(contentEl, logsEl, dimensions.width, dimensions.height);
+    resizeKeepAspect(
+      contentEl,
+      logsEl,
+      this.dimensions.width,
+      this.dimensions.height
+    );
   }
 
+  get dimensions() {
+    return this.message.files?.[0]?.dimensions;
+  }
   get isWindowFocused() {
     return windowProperties.isFocused;
   }
@@ -102,7 +110,7 @@ export default class ImageMessageEmbed extends Vue {
   get windowSize() {
     return {
       height: windowProperties.resizeHeight,
-      width: windowProperties.resizeWidth
+      width: windowProperties.resizeWidth,
     };
   }
 }

@@ -52,7 +52,8 @@ export default class ImageMessageEmbed extends Vue {
       id: "image-preview-popout",
       component: "image-preview-popout",
       data: {
-        url: this.imageURL
+        url: this.imageURL,
+        dimensions: this.image.dimensions
       }
     });
   }
