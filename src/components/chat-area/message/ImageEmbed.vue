@@ -69,7 +69,7 @@ export default class ImageMessageEmbed extends Vue {
   setDimensions() {
     const contentEl = this.$refs["content"] as any;
     const logsEl = document.getElementById("messageLogs");
-    const dimensions = this.image.dimentions;
+    const dimensions = this.image.dimensions;
     if (!dimensions) return;
     if (!contentEl) return;
     if (!logsEl) return;
