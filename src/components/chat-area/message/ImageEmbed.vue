@@ -126,6 +126,9 @@ export default class ImageMessageEmbed extends Vue {
     }
   }
 }
+.inner-content {
+  display: flex;
+}
 .outer-content {
   display: flex;
   align-items: center;
