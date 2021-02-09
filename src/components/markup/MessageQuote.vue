@@ -46,7 +46,6 @@ export default class MessageQuote extends Vue {
     }
   }
 
-  // bug: this only works once for whatever reason
   showProfile(event: PointerEvent) {
     if (this.member != null) {
       PopoutsModule.ShowPopout({
