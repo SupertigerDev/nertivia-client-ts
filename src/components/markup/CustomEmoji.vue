@@ -1,6 +1,7 @@
 <script lang="tsx">
 import Vue from "vue";
-const EMOJI_URL = "https://media.nertivia.net/emojis";
+import config from "@/config";
+const EMOJI_URL = config.nertiviaCDN + "emojis";
 
 // todo: make CustomEmoji based on an Emoji class
 export default Vue.extend({
