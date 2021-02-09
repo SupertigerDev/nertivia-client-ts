@@ -1,0 +1,37 @@
+<script lang="tsx">
+import Vue from "vue";
+const EMOJI_URL = "https://media.nertivia.net/emojis";
+
+// todo: make CustomEmoji based on an Emoji class
+export default Vue.extend({
+  functional: true,
+  props: {
+    emojiID: String,
+    emojiName: String,
+    animated: Boolean
+  },
+  render(h, { props }) {
+    return (
+      <img
+        class={{
+          emoji: true,
+          "custom-emoji": true
+        }}
+        title={props.emojiName}
+        alt={props.emojiName}
+        src={`${EMOJI_URL}/${props.emojiID}.${props.animated ? "gif" : "png"}`}
+      />
+    );
+  }
+});
+</script>
+
+<style scoped>
+img.emoji {
+  object-fit: contain;
+  height: 2em;
+  width: 2em;
+  margin: 1px;
+  vertical-align: -9px;
+}
+</style>

@@ -157,7 +157,8 @@ class FileUpload extends VuexModule {
               uniqueID: "0",
               bot: true,
               tag: "0000"
-            }
+            },
+            quotes: []
           });
           this.RemoveFromQueue({ index: 0 });
           this.RunQueue();
