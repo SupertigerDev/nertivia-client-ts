@@ -31,7 +31,7 @@ export default class ProfilePopout extends Vue {
       this.$refs.margin,
       this.data.dimensions.width,
       this.data.dimensions.height,
-      true
+      false
     );
   }
   backgroundClick(event: any) {
@@ -45,7 +45,7 @@ export default class ProfilePopout extends Vue {
   get windowSize() {
     return {
       height: WindowProperties.resizeHeight,
-      width: WindowProperties.resizeWidth,
+      width: WindowProperties.resizeWidth
     };
   }
 }

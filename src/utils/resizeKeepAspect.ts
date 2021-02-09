@@ -11,7 +11,7 @@ function calculateAspectRatioFit(
 	return { width: srcWidth * ratio, height: srcHeight * ratio };
 }
 
-export default function resizeKeepAspect(resizeEl: any, parentEl: any, width: number, height: number, _clamp = false) {
+export default function resizeKeepAspect(resizeEl: any, parentEl: any, width: number, height: number, _clamp = true) {
 	if (!parentEl) return {};
 	const w = parentEl.offsetWidth;
 	const h = parentEl.offsetHeight;
@@ -23,7 +23,7 @@ export default function resizeKeepAspect(resizeEl: any, parentEl: any, width: nu
 	const newDimentions = calculateAspectRatioFit(
 		srcWidth,
 		srcHeight,
-		!_clamp ? minWidth : clamp(minWidth, 200, 500),
+		_clamp ? clamp(minWidth, 200, 500) :minWidth,
 		minHeight
 	);
 
