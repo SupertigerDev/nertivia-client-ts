@@ -113,7 +113,9 @@ export default Vue.extend<MarkupProps>({
       }
     }
     addText(input.length);
-
+    // Note by fishie/pankeki ^^
+    // make sure textCount ignores whitespaces.
+    // I would do it myself but i probably will break something lol
     return (
       <span
         class={{
