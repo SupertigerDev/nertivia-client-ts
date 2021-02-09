@@ -11,7 +11,10 @@
         >keyboard_arrow_up</i
       > -->
     </header>
-    <main class="message" v-if="!failMessage">
+    <main class="message" v-if="!this.quote.message">
+      <div>File Message</div>
+    </main>
+    <main class="message" v-else-if="!failMessage">
       <div>{{ this.quote.message }}</div>
     </main>
     <main v-else class="fail-message">
@@ -39,7 +42,7 @@ export default class MessageQuote extends Vue {
   @Prop() private member?: ServerMember;
 
   get failMessage() {
-    if (this.quote.message.length > 1000) {
+    if (this.quote?.message?.length > 1000) {
       return "This quote is too long to be displayed";
     } else {
       return null;
