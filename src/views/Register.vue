@@ -97,6 +97,7 @@ export default class MainApp extends Vue {
   password = "";
   confirmEmail = "";
   errors: any = {};
+  requestSent = false;
 
   @Watch("confirmEmail")
   onEmailConfirmInput() {
@@ -129,6 +130,8 @@ export default class MainApp extends Vue {
     this.register(token);
   }
   register(token?: string) {
+    if (this.requestSent) return;
+    this.requestSent = true;
     const email = this.email;
     const username = this.username;
     const password = this.password;
@@ -165,7 +168,8 @@ export default class MainApp extends Vue {
           errors["other"] = error.msg;
         }
         this.errors = errors;
-      });
+      })
+      .finally(() => (this.requestSent = false));
   }
   formSubmit() {
     this.errors = {};

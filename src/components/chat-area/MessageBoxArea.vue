@@ -4,27 +4,32 @@
       v-if="showUploadBox"
       :key="showUploadBox.name + showUploadBox.size"
     />
+    <EmojiPicker
+      class="emoji-picker"
+      v-if="showEmojiPicker"
+      :inputElement="$refs.textarea"
+      @close="showEmojiPicker = false"
+    />
     <TypingStatus />
     <EditPanel
       v-if="editingMessageID"
       :messageID="editingMessageID"
-      @close="editingMessageID = null"
+      @close="editingMessage = null"
     />
     <div class="input-box">
-      <div
-        class="material-icons button attach-button"
+      <ButtonTemplate
+        icon="attach_file"
         @click="$refs.sendFileBrowse.click()"
         v-if="!showUploadBox && !editingMessageID"
-      >
-        attach_file
-      </div>
-      <div
-        class="material-icons button close-button"
-        @click="removeAttachment"
+      />
+
+      <ButtonTemplate
+        icon="close"
+        :warn="true"
         v-else-if="showUploadBox"
-      >
-        close
-      </div>
+        @click="removeAttachment"
+      />
+
       <input
         type="file"
         ref="sendFileBrowse"
@@ -37,33 +42,33 @@
         @keydown="keyDownEvent"
         @paste="onPaste"
         ref="textarea"
+        id="message-box"
         class="textarea"
         :disabled="!isConnected"
         :placeholder="placeholderMessage"
       />
 
-      <div
+      <ButtonTemplate
+        icon="tag_faces"
+        class="emoji-button"
+        @click="showEmojiPicker = !showEmojiPicker"
+      />
+      <ButtonTemplate
         v-if="message.trim().length && editingMessageID"
-        class="material-icons button send-button"
         @click="sendMessage"
-      >
-        edit
-      </div>
-      <div
+        icon="edit"
+      />
+      <ButtonTemplate
         v-else-if="!message.length && editingMessageID"
-        class="material-icons button close-button"
         @click="sendMessage"
-      >
-        delete
-      </div>
-
-      <div
-        class="material-icons button send-button"
+        :warn="true"
+        icon="delete"
+      />
+      <ButtonTemplate
         v-else-if="message.trim().length || showUploadBox"
         @click="sendMessage"
-      >
-        {{ showUploadBox ? "upload" : "send" }}
-      </div>
+        :icon="showUploadBox ? 'upload' : 'send'"
+      />
     </div>
   </div>
 </template>
@@ -72,6 +77,7 @@
 import { FileUploadModule } from "@/store/modules/fileUpload";
 import FileUpload from "./FileUpload.vue";
 import TypingStatus from "./TypingStatus.vue";
+import ButtonTemplate from "./MessageBoxButtonTemplate.vue";
 import EditPanel from "./EditPanel.vue";
 import { MeModule } from "@/store/modules/me";
 import { MessagesModule } from "@/store/modules/messages";
@@ -82,20 +88,29 @@ import { editMessage, postTypingStatus } from "@/services/messagesService";
 import Message from "@/interfaces/Message";
 import { eventBus } from "@/utils/globalBus";
 import { PopoutsModule } from "@/store/modules/popouts";
-import { stringSeed } from "seeded-color";
+import { formatMessage } from "@/utils/formatMessage";
+import { ChannelsModule } from "@/store/modules/channels";
+const EmojiPicker = () =>
+  import(
+    /* webpackChunkName: "EmojiPicker" */ "@/components/emoji-picker/EmojiPicker.vue"
+  );
 
-@Component({ components: { FileUpload, TypingStatus, EditPanel } })
+@Component({
+  components: {
+    FileUpload,
+    TypingStatus,
+    EditPanel,
+    EmojiPicker,
+    ButtonTemplate
+  }
+})
 export default class MessageBoxArea extends Vue {
   postTypingTimeout: number | null = null;
-  editingMessageID: string | null = null;
+  showEmojiPicker = false;
   mounted() {
     this.resizeTextArea();
-    eventBus.$on("editMessage", this.setEditMessage);
   }
-  beforeDestroy() {
-    this.stopPostingTypingStatus();
-    eventBus.$off("editMessage", this.setEditMessage);
-  }
+
   // ctrl + v event (for screenshots)
   onPaste(event: any) {
     const items = (event.clipboardData || event.originalEvent.clipboardData)
@@ -109,12 +124,16 @@ export default class MessageBoxArea extends Vue {
     }
   }
   keyDownEvent(e: KeyboardEvent) {
+    // shift + enter = new line
     if (e.shiftKey) return;
+    // enter key send message
     if (e.key === "Enter") {
       e.preventDefault();
       this.sendMessage();
       return;
     }
+
+    // up key to edit previous message
     if (e.key === "ArrowUp") {
       if (this.message.trim()) return;
       if (!this.channelMessages?.length) return;
@@ -132,31 +151,29 @@ export default class MessageBoxArea extends Vue {
       return;
     }
     if (e.key === "Escape") {
-      this.editingMessageID = null;
+      this.editingMessage = null;
       this.message = "";
     }
   }
-  setEditMessage(messageID?: string, message?: Required<Message>) {
+  setEditMessage(messageID?: string, _message?: Required<Message>) {
     (this.$refs["textarea"] as HTMLElement).focus();
-    if (message) {
-      FileUploadModule.SetFile(undefined);
-      this.editingMessageID = message.messageID;
-      this.message = message.message || "";
-    }
-    if (messageID) {
-      const message = this.channelMessages.find(m => m.messageID === messageID);
-      if (!message) return;
-      FileUploadModule.SetFile(undefined);
-      this.editingMessageID = message.messageID || null;
-      this.message = message.message || "";
-    }
+    const message =
+      _message || this.channelMessages.find(m => m.messageID === messageID);
+    if (!message) return;
+    FileUploadModule.SetFile(undefined);
+    this.editingMessage = message;
   }
   sendMessage() {
     (this.$refs["textarea"] as HTMLElement).focus();
-    const message = this.message;
+    // format message before sending it.
+    // replaces custom emoji names with emoji code n stuff
+    const message = formatMessage(
+      this.message,
+      ChannelsModule.serverChannels(this.serverID || "")
+    );
 
     if (this.editingMessageID) {
-      this.editMessage();
+      this.editMessage(message);
       return;
     }
 
@@ -177,9 +194,8 @@ export default class MessageBoxArea extends Vue {
     }
   }
 
-  editMessage() {
+  editMessage(message: string) {
     if (!this.editingMessageID) return;
-    const message = this.message;
     const messageID = this.editingMessageID;
     const channelID = this.channelID;
     if (!this.message.length) {
@@ -191,7 +207,12 @@ export default class MessageBoxArea extends Vue {
       return;
     }
     this.message = "";
-    this.editingMessageID = null;
+    this.editingMessage = null;
+
+    const findMessage = this.channelMessages.find(
+      e => e.messageID === messageID
+    );
+    if (message.trim() === findMessage?.message) return;
 
     MessagesModule.UpdateMessage({
       channelID,
@@ -257,7 +278,7 @@ export default class MessageBoxArea extends Vue {
   onChannelIDChange() {
     (this.$refs["textarea"] as HTMLElement).focus();
     this.stopPostingTypingStatus();
-    this.editingMessageID = null;
+    this.editingMessage = null;
   }
   @Watch("message")
   async postTypingStatus() {
@@ -318,6 +339,22 @@ export default class MessageBoxArea extends Vue {
   set message(val) {
     MessageInputModule.setMessage(val);
   }
+  get serverID() {
+    if (this.currentTab !== "servers") return undefined;
+    return this.$route.params.server_id;
+  }
+  get currentTab() {
+    return this.$route.path.split("/")[2] || "";
+  }
+  get editingMessageID() {
+    return this.editingMessage?.messageID;
+  }
+  get editingMessage() {
+    return MessageInputModule.editingMessage;
+  }
+  set editingMessage(val) {
+    MessageInputModule.SetEditingMessage(val);
+  }
 }
 </script>
 
@@ -335,49 +372,30 @@ export default class MessageBoxArea extends Vue {
 .input-box {
   display: flex;
   flex: 1;
+  gap: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
   place-items: center;
+  min-height: 45px;
+  flex-shrink: 0;
 }
 .textarea {
   outline: none;
   border: none;
   resize: none;
+  margin-top: 5px;
+  min-width: 100px;
   font-size: 14px;
-  margin: 5px;
-  margin-top: 12px;
   height: 20px;
   flex-shrink: 0;
   flex: 1;
   background: transparent;
   color: white;
 }
-.button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  align-self: flex-end;
-  margin-bottom: 5px;
-  font-size: 25px;
-  margin-right: 5px;
-  cursor: pointer;
-  height: 35px;
-  opacity: 0.7;
-  width: 45px;
-  border-radius: 5px;
-  transition: 0.2s;
-  user-select: none;
-  &:hover {
-    background: var(--primary-color);
-    opacity: 1;
-  }
-  &.attach-button {
-    margin-left: 5px;
-  }
-  &.close-button {
-    margin-left: 5px;
-    &:hover {
-      background: var(--alert-color);
-      opacity: 1;
-    }
-  }
+.emoji-picker {
+  position: absolute;
+  bottom: 55px;
+  right: 10px;
+  z-index: 111111111111111;
 }
 </style>

@@ -16,13 +16,12 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import windowProperties from "@/utils/windowProperties";
-import Message from "@/interfaces/Message";
 import config from "@/config";
 import resizeKeepAspect from "@/utils/resizeKeepAspect";
 import { PopoutsModule } from "@/store/modules/popouts";
 @Component
 export default class ImageMessageEmbed extends Vue {
-  @Prop() private message!: Message & { grouped: boolean };
+  @Prop() private image!: any;
   loadImage = false;
   intersectObserver: IntersectionObserver | null = null;
 
@@ -31,8 +30,8 @@ export default class ImageMessageEmbed extends Vue {
 
     this.setDimensions();
 
-    this.intersectObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
+    this.intersectObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
         if (entry.isIntersecting) {
           this.fetchImage();
           this.intersectObserver?.unobserve(contentEl);
@@ -54,8 +53,8 @@ export default class ImageMessageEmbed extends Vue {
       component: "image-preview-popout",
       data: {
         url: this.imageURL,
-        dimensions: this.dimensions,
-      },
+        dimensions: this.image.dimensions
+      }
     });
   }
   fetchImage() {
@@ -71,20 +70,13 @@ export default class ImageMessageEmbed extends Vue {
   setDimensions() {
     const contentEl = this.$refs["content"] as any;
     const logsEl = document.getElementById("messageLogs");
-    if (!this.dimensions) return;
+    const dimensions = this.image.dimensions;
+    if (!dimensions) return;
     if (!contentEl) return;
     if (!logsEl) return;
-    resizeKeepAspect(
-      contentEl,
-      logsEl,
-      this.dimensions.width,
-      this.dimensions.height
-    );
+    resizeKeepAspect(contentEl, logsEl, dimensions.width, dimensions.height);
   }
 
-  get dimensions() {
-    return this.message.files?.[0]?.dimensions;
-  }
   get isWindowFocused() {
     return windowProperties.isFocused;
   }
@@ -100,17 +92,12 @@ export default class ImageMessageEmbed extends Vue {
     return this.imageURL?.endsWith(".gif");
   }
   get imageURL() {
-    const file = this.message.files?.[0];
-    if (!file) return undefined;
-    // nertivia cdn
-    if (file.url) return file.url;
-    // google drive cdn
-    return config.fetchPrefix + `/media/${file.fileID}/${file.fileName}`;
+    return config.image_proxy + encodeURIComponent(this.image.url);
   }
   get windowSize() {
     return {
       height: windowProperties.resizeHeight,
-      width: windowProperties.resizeWidth,
+      width: windowProperties.resizeWidth
     };
   }
 }
@@ -118,7 +105,6 @@ export default class ImageMessageEmbed extends Vue {
 
 <style scoped lang="scss">
 .image-embed {
-  margin-top: 5px;
   position: relative;
   border-radius: 4px;
   background: rgba(0, 0, 0, 0.4);

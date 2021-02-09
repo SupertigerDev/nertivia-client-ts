@@ -13,6 +13,7 @@ export default interface Message {
   timeEdited?: number;
   files?: File[];
   quotes: Quote[];
+  embed?: Embed
 }
 
 export interface Quote {
@@ -26,6 +27,17 @@ export interface File {
   url: string;
   fileID?: string;
   fileName?: string;
+}
+export interface Embed {
+  title: string;
+  type: string;
+  site_name: string;
+  description: string;
+  url: string;
+  image?: {
+    url: string;
+    dimensions: { height: number; width: number };
+  }
 }
 
 export enum Type {

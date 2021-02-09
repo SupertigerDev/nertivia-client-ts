@@ -20,6 +20,9 @@
       <Bubble :message="message" />
       <MessageSide :message="message" v-if="!hideContext" />
     </div>
+    <transition name="embed-animation">
+      <EmbedMessage v-if="embed" :embed="embed" />
+    </transition>
   </div>
 </template>
 
@@ -29,11 +32,12 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import Bubble from "./Bubble.vue";
 import MessageSide from "./MessageSide.vue";
+import EmbedMessage from "./EmbedMessage.vue";
 import { time } from "@/utils/date";
 import { PopoutsModule } from "@/store/modules/popouts";
 
 @Component({
-  components: { AvatarImage, Bubble, MessageSide }
+  components: { AvatarImage, Bubble, MessageSide, EmbedMessage }
 })
 export default class MessageLogs extends Vue {
   @Prop() private message!: Message & { grouped: boolean };
@@ -70,10 +74,26 @@ export default class MessageLogs extends Vue {
   get friendlyTime() {
     return time(this.message.created);
   }
+  get embed() {
+    if (!this.message.embed) return undefined;
+    if (!Object.keys(this.message.embed).length) return undefined;
+    return this.message.embed;
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+.embed-animation-enter-active,
+.embed-animation-leave-active {
+  transition: 0.5s;
+  transition-delay: 0.1s;
+}
+.embed-animation-enter,
+.embed-animation-leave-to {
+  transform: translateY(-30px);
+  opacity: 0;
+}
+
 .message-container {
   display: flex;
   flex-direction: column;

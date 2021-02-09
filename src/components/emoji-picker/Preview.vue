@@ -1,0 +1,74 @@
+<template>
+  <div class="preview">
+    <div class="inner-content" v-if="hoveredEmoji">
+      <div class="emoji" v-html="image" />
+      <div class="details">
+        <div class="name" v-if="name">{{ name }}</div>
+        <div class="shortcode" v-if="shortCode">:{{ shortCode }}:</div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+import config from "@/config";
+
+@Component
+export default class extends Vue {
+  @Prop() private hoveredEmoji!: any;
+
+  get shortCode() {
+    if (this.hoveredEmoji.name) return this.hoveredEmoji.name;
+    else return this.hoveredEmoji.shortcodes[0];
+  }
+  get name() {
+    if (!this.hoveredEmoji.annotation) return null;
+    return this.hoveredEmoji.annotation;
+  }
+  get image() {
+    const { el, emojiID, gif } = this.hoveredEmoji;
+    if (el) return el;
+    const image = new Image();
+    image.classList.add("emoji");
+
+    image.src = `${config.nertiviaCDN}emojis/${emojiID}.${gif ? "gif" : "png"}`;
+    return image.outerHTML;
+  }
+}
+</script>
+
+<style scoped></style>
+
+<style lang="scss" scoped>
+.preview {
+  border-top: solid 1px rgba(255, 255, 255, 0.1);
+  height: 50px;
+  flex-shrink: 0;
+  display: flex;
+}
+.inner-content {
+  display: flex;
+  align-items: center;
+}
+.emoji {
+  margin-left: 10px;
+  height: 30px;
+  width: 30px;
+  overflow: hidden;
+}
+.details {
+  margin-left: 10px;
+  font-size: 14px;
+  .shortcode {
+    opacity: 0.6;
+  }
+}
+</style>
+<style>
+.preview .emoji img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+</style>

@@ -43,6 +43,10 @@ const ServerContextMenu = () =>
   import(
     /* webpackChunkName: "ServerContextMenu" */ "@/components/popouts/ServerContextMenu.vue"
   );
+const ChannelContextMenu = () =>
+  import(
+    /* webpackChunkName: "ServerContextMenu" */ "@/components/popouts/ChannelContextMenu.vue"
+  );
 const BanOrKickUserPopout = () =>
   import(
     /* webpackChunkName: "BanOrKickUserPopout" */ "@/components/popouts/BanOrKickUserPopout.vue"
@@ -81,7 +85,8 @@ const ImagePreviewPopout = () =>
     DeleteMessagePopout,
     ImagePreviewPopout,
     AddFriendPopout,
-    AddServerPopout
+    AddServerPopout,
+    ChannelContextMenu
   }
 })
 export default class MainApp extends Vue {

@@ -17,12 +17,6 @@
     </transition>
     <transition name="slide-fade" mode="out-in" appear v-if="server">
       <div class="bottom">
-        <div class="info">
-          <div class="server-name">{{ server.name }}</div>
-          <div class="material-icons icon" @click="showServerContext">
-            more_vert
-          </div>
-        </div>
         <div
           class="channels"
           :key="server.server_id"
@@ -123,35 +117,6 @@ export default class MainApp extends Vue {
     object-fit: cover;
     width: 100%;
     height: 100%;
-  }
-}
-.info {
-  display: flex;
-  margin-left: 5px;
-  margin-right: 5px;
-  background: rgba(255, 255, 255, 0.05);
-  align-items: center;
-  align-content: center;
-  border-radius: 4px;
-  margin-top: 5px;
-  .server-name {
-    padding-left: 5px;
-    flex: 1;
-    font-weight: bold;
-  }
-  .icon {
-    flex-shrink: 0;
-    padding: 5px;
-    font-size: 18px;
-    border-radius: 4px;
-    transition: 0.2s;
-    cursor: pointer;
-    user-select: none;
-    opacity: 0.7;
-    &:hover {
-      opacity: 1;
-      background: rgba(255, 255, 255, 0.1);
-    }
   }
 }
 </style>

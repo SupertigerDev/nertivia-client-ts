@@ -16,9 +16,11 @@
     "install": "^0.13.0",
     "ky": "^0.23.0",
     "lodash": "^4.17.20",
+    "match-sorter": "^6.1.0",
     "register-service-worker": "^1.7.2",
     "seeded-color": "^1.0.1",
     "socket.io-client": "^2.4.0",
+    "text-field-edit": "^3.1.0",
     "twemoji": "^13.0.1",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.6",
@@ -31,6 +33,7 @@
     "vuex-module-decorators": "^0.17.0"
   },
   "devDependencies": {
+    "@types/twemoji": "^12.1.1",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "@vue/cli-plugin-babel": "~4.5.11",

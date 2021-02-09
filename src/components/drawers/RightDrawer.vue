@@ -15,6 +15,7 @@ export default class RightDrawer extends Vue {
       return members.map((member: any) => {
         return (
           <server-member-template
+            key={member.uniqueID}
             serverMember={member}
             style={{ height: "40px" }}
           />

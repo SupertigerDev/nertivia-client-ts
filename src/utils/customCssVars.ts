@@ -63,6 +63,12 @@ export function setThemeColor() {
   );
 }
 
+export function getAppliedColor(color: string) {
+  const customVars = getCustomCssVars();
+
+  return customVars["--" + "primary-color"] || defaultTheme["primary-color"]
+}
+
 export function changeCssVar(name: string, change: any, store = true) {
   if (store) {
     const varColors = JSON.parse(localStorage.getItem("varColors") || "{}");

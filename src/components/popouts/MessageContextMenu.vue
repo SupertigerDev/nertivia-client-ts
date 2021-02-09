@@ -20,6 +20,8 @@ import { ServersModule } from "@/store/modules/servers";
 import { PopoutsModule } from "@/store/modules/popouts";
 import User from "@/interfaces/User";
 import { eventBus } from "@/utils/globalBus";
+import { MessageInputModule } from "@/store/modules/messageInput";
+import { insert } from "text-field-edit";
 
 @Component({ components: { ContextMenu } })
 export default class extends Vue {
@@ -50,6 +52,12 @@ export default class extends Vue {
       case "Copy":
         this.copyMessage();
         break;
+      case "Quote": {
+        const messageBox: any = document.getElementById("message-box");
+        messageBox && insert(messageBox, `<m${this.message.messageID}>`);
+        messageBox.focus();
+        break;
+      }
       case "Delete":
         PopoutsModule.ShowPopout({
           component: "delete-message-popout",
@@ -61,7 +69,7 @@ export default class extends Vue {
         });
         break;
       case "Edit":
-        eventBus.$emit("editMessage", this.message.messageID);
+        MessageInputModule.SetEditingMessage(this.message);
         break;
       case "Copy ID":
         if (this.message.messageID) this.$copyText(this.message.messageID);
@@ -100,6 +108,10 @@ export default class extends Vue {
         name: "User",
         icon: "account_box",
         nestContext: true
+      },
+      {
+        name: "Quote",
+        icon: "format_quote"
       }
     ];
     if (this.message.type === 0) {
