@@ -17,9 +17,13 @@
       </div>
       <div class="image-embed" v-if="isFileImage">
         <ImageMessageEmbed :message="message" />
+        <!-- This is done like this to make the message bubble not look ugly when the message is larger than the image. -->
+        <div class="message" v-if="message.message">
+          <Markup :text="message.message" :message="message" />
+        </div>
       </div>
       <FileMessage v-else-if="file" :message="message" />
-      <div class="message" v-if="message.message">
+      <div class="message" v-if="message.message && !isFileImage">
         <Markup :text="message.message" :message="message" />
       </div>
       <InviteMessage v-if="invite" :invite="invite" :message="message" />
