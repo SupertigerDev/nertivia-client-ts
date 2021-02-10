@@ -27,8 +27,8 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped>
-img.emoji {
+<style>
+.emoji {
   object-fit: contain;
   height: 2em;
   width: 2em;

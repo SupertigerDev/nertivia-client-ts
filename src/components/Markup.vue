@@ -33,7 +33,10 @@ export default Vue.extend<MarkupProps>({
   functional: true,
   props: {
     text: String,
-    largeEmoji: Boolean,
+    largeEmoji: {
+      type: Boolean,
+      default: true
+    },
     message: Object
   },
   render(h, { props }) {
@@ -46,8 +49,12 @@ export default Vue.extend<MarkupProps>({
 
     const addText = (index: number) => {
       if (index > lastIndex) {
-        textCount += 1;
-        result.push(input.slice(lastIndex, index));
+        const slice = input.slice(lastIndex, index);
+        // if not all whitespace, add to text count
+        if (!/^\s+$/.test(slice)) {
+          textCount += slice.length;
+        }
+        result.push(slice);
       }
     };
 
@@ -113,9 +120,6 @@ export default Vue.extend<MarkupProps>({
       }
     }
     addText(input.length);
-    // Note by fishie/pankeki ^^
-    // make sure textCount ignores whitespaces.
-    // I would do it myself but i probably will break something lol
     return (
       <span
         class={{
@@ -130,7 +134,7 @@ export default Vue.extend<MarkupProps>({
 </script>
 
 <style scoped>
-.large-emojis .emoji {
+.large-emoji .emoji {
   height: 5em;
   width: 5em;
 }
