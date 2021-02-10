@@ -26,8 +26,8 @@ export default class GenericEmbed extends Vue {
       component: "image-preview-popout",
       data: {
         url: this.imageUrl,
-        dimensions: this.embed.image?.dimensions,
-      },
+        dimensions: this.embed.image?.dimensions
+      }
     });
   }
 

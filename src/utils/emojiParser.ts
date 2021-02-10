@@ -1,5 +1,5 @@
 import twemoji from "twemoji";
-import {matchSorter} from "match-sorter";
+import { matchSorter } from "match-sorter";
 
 import emojis from "@/utils/emoji-data/emojis.json";
 import groups from "@/utils/emoji-data/groups.json";
@@ -20,7 +20,7 @@ export default {
     return message.replace(regex, x => {
       // const emoji = emojiExists(x.replace(/[::]+/g, ""));
       // if (emoji) return emoji.unicode;
-      
+
       const customEmoji = customEmojis.find(
         e => e.name === x.substr(1).slice(0, -1)
       );
@@ -57,7 +57,7 @@ export default {
     //   emojiPath = require("../assets/twemoji/" + icon + ".svg");
     // });
     // return emojiPath;
-    return "wut"
+    return "wut";
   },
   searchEmoji: (shortCode: string) => {
     // const customEmojis = store.state["settingsModule"].customEmojis;
