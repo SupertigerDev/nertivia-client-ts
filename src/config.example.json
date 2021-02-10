@@ -1,0 +1,8 @@
+{
+	"socketIP": "https://example.com",
+	"fetchPrefix": "https://example.com/api",
+	"nertiviaCDN": "https://media.example.com",
+	"captchaSiteKey": "10000000-ffff-ffff-ffff-000000000001",
+	"twemojiLocations": "https://example.com/twemojis/",
+	"image_proxy": "//media.example.com/proxy.php?url="
+}
