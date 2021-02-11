@@ -12,5 +12,6 @@
     "others-chat-bubble-color": "#ffffff0d",
     "card-color": "#292a2d",
     "popout-color": "#1a1a1d",
-    "link-color": "#68aaff"
+    "link-color": "#68aaff",
+    "quote-bg-color": "rgba(255, 255, 255, 0.05)"
 }

@@ -10,8 +10,8 @@ export default {
 
 <style>
 .mention {
-  background: rgba(0, 0, 0, 0.3);
-  color: rgb(94, 164, 255);
+  background: #090a0a86;
+  color: var(--link-color);
   font-weight: bold;
   border-radius: 4px;
   padding: 2px;
@@ -21,6 +21,6 @@ export default {
 }
 
 .mention:hover {
-  background: rgba(0, 0, 0, 0.5);
+  background: #090a0a;
 }
 </style>

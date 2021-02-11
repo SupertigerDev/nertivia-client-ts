@@ -1,11 +1,17 @@
 <template>
   <article class="quote" v-bind:class="{ quoteFailed: failMessage }">
     <header class="section">
-      Quoted:
+      <AvatarImage
+        :seedId="this.quote.creator.uniqueID"
+        :imageId="this.quote.creator.avatar"
+        :willHaveClickEvent="true"
+        @click.native="showProfile"
+        size="20px"
+      />
       <!-- todo: maybe make this a MentionMember -->
-      <span class="username" @click="showProfile">{{
-        this.quote.creator.username
-      }}</span>
+      <span class="username" @click="showProfile"
+        >{{ this.quote.creator.username }}:</span
+      >
       <!-- todo: add onClick go to message -->
       <!-- <i title="Go to message" class="go-to-message material-icons"
         >keyboard_arrow_up</i
@@ -24,13 +30,14 @@
 </template>
 
 <script lang="tsx">
+import AvatarImage from "@/components/AvatarImage.vue";
 import type { Quote } from "@/interfaces/Message";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { PopoutsModule } from "@/store/modules/popouts";
 import User from "@/interfaces/User";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 
-@Component
+@Component({components: {AvatarImage}})
 export default class MessageQuote extends Vue {
   @Prop() private quote!: Quote;
   @Prop() private user?: User;
@@ -69,7 +76,7 @@ export default class MessageQuote extends Vue {
 <style scoped>
 /* todo: use all the css variables here */
 .quote {
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--quote-bg-color);
   display: block;
   border-radius: 4px;
   overflow: hidden;
@@ -79,7 +86,6 @@ export default class MessageQuote extends Vue {
 
 .section {
   display: flex;
-  background: rgba(0, 0, 0, 0.5);
   padding: 5px;
   font-weight: bold;
   align-items: center;
@@ -88,6 +94,7 @@ export default class MessageQuote extends Vue {
 .username {
   font-weight: initial;
   cursor: pointer;
+  margin-left: 5px;
 }
 
 .username:hover {
