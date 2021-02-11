@@ -6,6 +6,14 @@ import groups from "@/utils/emoji-data/groups.json";
 import config from "@/config";
 import { CustomEmojisModule } from "@/store/modules/customEmojis";
 
+const U200D = String.fromCharCode(0x200d);
+const UFE0Fg = /\uFE0F/g;
+
+const emojiIconId = (emoji: string) =>
+  twemoji.convert.toCodePoint(
+    emoji.indexOf(U200D) < 0 ? emoji.replace(UFE0Fg, "") : emoji
+  );
+
 export default {
   getCustomEmojisByShortCode(shortcode: string) {
     // const customEmojis = store.state["settingsModule"].customEmojis;
@@ -73,6 +81,12 @@ export default {
       })
     ];
   },
+  findEmoji: (shortCode: string) => {
+    return emojis.find(emoji => emoji.shortcodes.includes(shortCode));
+  },
+  // todo; emoji type
+  emojiPath: (emoji: string) =>
+    `${config.twemojiLocations}${emojiIconId(emoji)}.svg`,
   allEmojis: emojis,
   allGroups: groups
 };

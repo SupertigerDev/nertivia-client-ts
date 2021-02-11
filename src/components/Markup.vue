@@ -7,6 +7,8 @@ import { ChannelsModule } from "@/store/modules/channels";
 import { UsersModule } from "@/store/modules/users";
 import MentionUser from "./markup/MentionUser.vue";
 import MentionChannel from "./markup/MentionChannel.vue";
+import emojiParser from "@/utils/emojiParser";
+import Emoji from "./markup/Emoji.vue";
 
 /**
  * given a record of names and regex patterns, generate a regex of all of the combined patterns
@@ -121,9 +123,19 @@ export default Vue.extend<MarkupProps>({
           }
           break;
         case "emoji":
-          emojiCount += 1;
-          // todo:
-          // result.push(<Emoji name={matchArgs[1]} />);
+          {
+            const emoji = emojiParser.findEmoji(matchArgs[1]);
+            if (emoji != null) {
+              emojiCount += 1;
+              result.push(
+                h(Emoji, {
+                  props: { emoji }
+                })
+              );
+            } else {
+              result.push(matchArgs[0]);
+            }
+          }
           break;
         case "custom_emoji":
           emojiCount += 1;
