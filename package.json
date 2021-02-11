@@ -13,6 +13,7 @@
     "@types/lodash": "^4.14.167",
     "core-js": "^3.8.2",
     "filesize": "^6.1.0",
+    "firebase": "^8.2.6",
     "install": "^0.13.0",
     "ky": "^0.23.0",
     "lodash": "^4.17.20",
