@@ -3,7 +3,10 @@ import Vue from "vue";
 import MessageQuote from "./markup/MessageQuote.vue";
 import CustomEmoji from "./markup/CustomEmoji.vue";
 import Message from "@/interfaces/Message";
-import { ServerMembersModule } from "@/store/modules/serverMembers";
+import { ChannelsModule } from "@/store/modules/channels";
+import { UsersModule } from "@/store/modules/users";
+import MentionUser from "./markup/MentionUser.vue";
+import MentionChannel from "./markup/MentionChannel.vue";
 
 /**
  * given a record of names and regex patterns, generate a regex of all of the combined patterns
@@ -76,6 +79,7 @@ export default Vue.extend<MarkupProps>({
                 q => q.messageID === matchArgs[2]
               );
               if (quote) {
+                // todo: fetch roles
                 const serverMember = { member: quote.creator, roles: [] };
                 result.push(
                   h(MessageQuote, {
@@ -91,12 +95,30 @@ export default Vue.extend<MarkupProps>({
               break;
             }
             case "@":
-              // todo:
-              // result.push(<MentionMember id={matchArgs[2]} />);
+              {
+                const user = UsersModule.users[matchArgs[2]];
+                if (user) {
+                  result.push(
+                    h(MentionUser, {
+                      props: {
+                        user: user
+                      }
+                    })
+                  );
+                } else {
+                  result.push(matchArgs[0]);
+                }
+              }
               break;
             case "#":
-              // todo:
-              // result.push(<MentionChannel id={matchArgs[2]} />);
+              {
+                const channel = ChannelsModule.channels[matchArgs[2]];
+                if (channel) {
+                  result.push(h(MentionChannel, { props: { channel } }));
+                } else {
+                  matchArgs[0];
+                }
+              }
               break;
           }
           break;
