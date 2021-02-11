@@ -18,14 +18,14 @@
       <div class="image-embed" v-if="isFileImage">
         <ImageMessageEmbed :message="message" />
         <!-- This is done like this to make the message bubble not look ugly when the message is larger than the image. -->
-        <div class="message" v-if="message.message" v-text="message.message" />
+        <div class="message" v-if="message.message">
+          <Markup :text="message.message" :message="message" />
+        </div>
       </div>
       <FileMessage v-else-if="file" :message="message" />
-      <div
-        class="message"
-        v-if="message.message && !isFileImage"
-        v-text="message.message"
-      />
+      <div class="message" v-if="message.message && !isFileImage">
+        <Markup :text="message.message" :message="message" />
+      </div>
       <InviteMessage v-if="invite" :invite="invite" :message="message" />
     </div>
   </div>
@@ -42,7 +42,11 @@ import friendlyDate from "@/utils/date";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { PopoutsModule } from "@/store/modules/popouts";
 import config from "@/config";
-@Component({ components: { ImageMessageEmbed, FileMessage, InviteMessage } })
+import Markup from "@/components/Markup.vue";
+
+@Component({
+  components: { ImageMessageEmbed, FileMessage, InviteMessage, Markup }
+})
 export default class Bubble extends Vue {
   loadRoleColor = false;
   @Prop() private message!: Message & { grouped: boolean };
@@ -60,6 +64,7 @@ export default class Bubble extends Vue {
       this.loadRoleColor = true;
     }, 10);
   }
+
   userContext(event: MouseEvent) {
     PopoutsModule.ShowPopout({
       id: "context",

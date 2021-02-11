@@ -1,9 +1,9 @@
 import {
-  Module,
-  VuexModule,
   Action,
+  getModule,
+  Module,
   Mutation,
-  getModule
+  VuexModule
 } from "vuex-module-decorators";
 import store from "..";
 import { saveCache } from "@/utils/localCache";
@@ -48,6 +48,18 @@ class ServerMembers extends VuexModule {
       const member = this.serverMembers[server_id]?.[uniqueID];
       if (!member) return undefined;
       return member.roleIdArr.includes(roleID);
+    };
+  }
+
+  /**
+   * gets the roles of a member in a server
+   */
+  get memberRoles() {
+    return (server_id: string, uniqueID: string) => {
+      const member = this.serverMembers[server_id]?.[uniqueID];
+      if (member) {
+        return ServerRolesModule.bulkRolesById(server_id, member.roleIdArr);
+      }
     };
   }
 

@@ -116,7 +116,8 @@ class Messages extends VuexModule {
       type: 0,
       sending: 0,
       created: Date.now(),
-      creator
+      creator,
+      quotes: []
     });
     postMessage(trimmedMessage, tempID, payload.channelID)
       .then(res => {
@@ -149,7 +150,8 @@ class Messages extends VuexModule {
             uniqueID: "0",
             bot: true,
             tag: "0000"
-          }
+          },
+          quotes: []
         });
       });
   }

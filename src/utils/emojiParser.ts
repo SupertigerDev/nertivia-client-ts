@@ -1,10 +1,18 @@
 import twemoji from "twemoji";
-import {matchSorter} from "match-sorter";
+import { matchSorter } from "match-sorter";
 
 import emojis from "@/utils/emoji-data/emojis.json";
 import groups from "@/utils/emoji-data/groups.json";
 import config from "@/config";
 import { CustomEmojisModule } from "@/store/modules/customEmojis";
+
+const U200D = String.fromCharCode(0x200d);
+const UFE0Fg = /\uFE0F/g;
+
+const emojiIconId = (emoji: string) =>
+  twemoji.convert.toCodePoint(
+    emoji.indexOf(U200D) < 0 ? emoji.replace(UFE0Fg, "") : emoji
+  );
 
 export default {
   getCustomEmojisByShortCode(shortcode: string) {
@@ -20,7 +28,7 @@ export default {
     return message.replace(regex, x => {
       // const emoji = emojiExists(x.replace(/[::]+/g, ""));
       // if (emoji) return emoji.unicode;
-      
+
       const customEmoji = customEmojis.find(
         e => e.name === x.substr(1).slice(0, -1)
       );
@@ -57,7 +65,7 @@ export default {
     //   emojiPath = require("../assets/twemoji/" + icon + ".svg");
     // });
     // return emojiPath;
-    return "wut"
+    return "wut";
   },
   searchEmoji: (shortCode: string) => {
     // const customEmojis = store.state["settingsModule"].customEmojis;
@@ -73,6 +81,12 @@ export default {
       })
     ];
   },
+  findEmoji: (shortCode: string) => {
+    return emojis.find(emoji => emoji.shortcodes.includes(shortCode));
+  },
+  // todo; emoji type
+  emojiPath: (emoji: string) =>
+    `${config.twemojiLocations}${emojiIconId(emoji)}.svg`,
   allEmojis: emojis,
   allGroups: groups
 };

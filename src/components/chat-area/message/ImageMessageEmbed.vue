@@ -31,8 +31,8 @@ export default class ImageMessageEmbed extends Vue {
 
     this.setDimensions();
 
-    this.intersectObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
+    this.intersectObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
         if (entry.isIntersecting) {
           this.fetchImage();
           this.intersectObserver?.unobserve(contentEl);
@@ -54,8 +54,8 @@ export default class ImageMessageEmbed extends Vue {
       component: "image-preview-popout",
       data: {
         url: this.imageURL,
-        dimensions: this.dimensions,
-      },
+        dimensions: this.dimensions
+      }
     });
   }
   fetchImage() {
@@ -110,7 +110,7 @@ export default class ImageMessageEmbed extends Vue {
   get windowSize() {
     return {
       height: windowProperties.resizeHeight,
-      width: windowProperties.resizeWidth,
+      width: windowProperties.resizeWidth
     };
   }
 }

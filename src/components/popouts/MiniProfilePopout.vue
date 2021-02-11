@@ -60,8 +60,7 @@ export default class MiniProfilePopout extends Vue {
   @Prop() private data!: { x: number; y: number; member?: ServerMember };
   height = 0;
   width = 0;
-  clickOutside(event: any) {
-    if (event.target.closest(".server-member")) return;
+  clickOutside() {
     PopoutsModule.ClosePopout("profile");
   }
   mounted() {

@@ -12,10 +12,17 @@ export default interface Message {
   mentions?: User[];
   timeEdited?: number;
   files?: File[];
-  embed?: Embed
+  quotes: Quote[];
+  embed?: Embed;
 }
 
-interface File {
+export interface Quote {
+  message: string;
+  creator: User;
+  messageID: string;
+}
+
+export interface File {
   dimensions?: { height: number; width: number };
   url: string;
   fileID?: string;
@@ -30,10 +37,10 @@ export interface Embed {
   image?: {
     url: string;
     dimensions: { height: number; width: number };
-  }
+  };
 }
 
-enum Type {
+export enum Type {
   MESSAGE,
   JOIN_MESSAGE,
   LEAVE_MESSAGE,
@@ -41,7 +48,7 @@ enum Type {
   BAN_MESSAGE
 }
 
-enum Sending {
+export enum Sending {
   SENDING,
   SENT,
   FAILED
