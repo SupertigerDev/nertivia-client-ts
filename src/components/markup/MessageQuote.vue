@@ -28,18 +28,12 @@ import type { Quote } from "@/interfaces/Message";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { PopoutsModule } from "@/store/modules/popouts";
 import User from "@/interfaces/User";
-import ServerRole from "@/interfaces/ServerRole";
-
-// todo: use other one of these that exists
-interface ServerMember {
-  member: User;
-  roles: ServerRole[];
-}
+import { ServerMembersModule } from "@/store/modules/serverMembers";
 
 @Component
 export default class MessageQuote extends Vue {
   @Prop() private quote!: Quote;
-  @Prop() private member?: ServerMember;
+  @Prop() private user?: User;
 
   get failMessage() {
     if (this.quote?.message?.length > 1000) {
@@ -50,14 +44,21 @@ export default class MessageQuote extends Vue {
   }
 
   showProfile(event: PointerEvent) {
-    if (this.member != null) {
+    if (this.user != null) {
       PopoutsModule.ShowPopout({
         id: "profile",
         component: "MiniProfilePopout",
         data: {
           x: event.x,
           y: event.y,
-          member: this.member,
+          member: {
+            member: this.user,
+            roles:
+              ServerMembersModule.memberRoles(
+                this.$route.params.server_id,
+                this.user.uniqueID
+              ) ?? [],
+          },
         },
       });
     }

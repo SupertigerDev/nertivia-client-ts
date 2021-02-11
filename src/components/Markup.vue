@@ -79,13 +79,11 @@ export default Vue.extend<MarkupProps>({
                 q => q.messageID === matchArgs[2]
               );
               if (quote) {
-                // todo: fetch roles
-                const serverMember = { member: quote.creator, roles: [] };
                 result.push(
                   h(MessageQuote, {
                     props: {
                       quote,
-                      member: serverMember
+                      user: quote.creator
                     }
                   })
                 );
