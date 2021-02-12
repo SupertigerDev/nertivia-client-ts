@@ -166,6 +166,11 @@ export default Vue.extend<MarkupProps>({
 </script>
 
 <style scoped>
+.emoji {
+  height: 1.5em;
+  width: 1.5em;
+  vertical-align: middle;
+}
 .large-emoji .emoji {
   height: 5em;
   width: 5em;

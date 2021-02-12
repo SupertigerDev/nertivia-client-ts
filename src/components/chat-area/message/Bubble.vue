@@ -168,7 +168,6 @@ $pointer-size: 10px;
 }
 
 .message {
-  margin-top: 5px;
   color: #e0e0e0;
 }
 .image-embed {
