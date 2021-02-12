@@ -30,6 +30,13 @@ export function changeStatus(status: number): Promise<any> {
     })
     .json();
 }
+export function registerFCM(token: string): Promise<any> {
+  return wrapper()
+    .post(`devices`, {
+      json: { token }
+    })
+    .json();
+}
 
 export function addRole(
   serverID: string,
