@@ -43,6 +43,12 @@ export function unmuteServerChannel(
     .json();
 }
 
+export function updateServerChannel(channelID: string, serverID: string, data: any): Promise<any> {
+  return wrapper()
+    .patch(`servers/${serverID}/channels/${channelID}`, {json: data})
+    .json();
+}
+
 export function joinServerById(server_id: string, optionalData: any) {
   return wrapper()
     .post(`servers/invite/servers/${server_id}`, { json: optionalData })

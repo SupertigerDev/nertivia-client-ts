@@ -97,6 +97,10 @@ interface ReturnedChannel {
   name?: string;
   server_id?: string;
   lastMessaged: number;
+  permissions?: ChannelPermissions;
+}
+interface ChannelPermissions {
+  send_message?: boolean
 }
 
 function sortServers(servers: ReturnedServer[], positions?: string[]) {
@@ -185,13 +189,15 @@ const actions: ActionTree<any, any> = {
         verified: server.verified,
         channel_position: server.channel_position
       };
+      // server channels
       for (let x = 0; x < server.channels.length; x++) {
         const channel = server.channels[x];
         channels[channel.channelID] = {
           channelID: channel.channelID,
           name: channel.name,
           server_id: channel.server_id,
-          lastMessaged: channel.lastMessaged
+          lastMessaged: channel.lastMessaged,
+          permissions: channel.permissions
         };
       }
     }

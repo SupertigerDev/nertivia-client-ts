@@ -69,7 +69,8 @@ const actions: ActionTree<any, any> = {
         channelID: channel.channelID,
         name: channel.name,
         server_id: channel.server_id,
-        lastMessaged: channel.lastMessaged
+        lastMessaged: channel.lastMessaged,
+        permissions: channel.permissions,
       };
     }
     ChannelsModule.AddChannels(channelObj);

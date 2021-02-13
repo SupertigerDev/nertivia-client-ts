@@ -6,6 +6,13 @@
     "admin": true,
     "component": "General"
   },
+  "manage-channels":{
+    "name": "Manage Channels",
+    "id": "manage-channels",
+    "icon": "storage",
+    "admin": true,
+    "component": "ManageChannels"
+  },
   "manage-invites": {
     "name": "Manage Invites",
     "id": "manage-invites",

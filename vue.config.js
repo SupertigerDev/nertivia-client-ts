@@ -4,6 +4,8 @@ module.exports = {
   configureWebpack: {},
   pwa: {
     manifestOptions: {
+      name: "Nertivia BETA",
+      short_name: "Nertivia BETA",
       start_url: "/app"
     },
     themeColor: "#181c22",
