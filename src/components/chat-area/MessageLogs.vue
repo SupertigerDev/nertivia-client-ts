@@ -5,9 +5,14 @@
     ref="logs"
     @scroll.passive="onScroll"
   >
+    <Observer
+      ref="topObserver"
+      @intersecting="intersectTopChange"
+      class="observe-load-more"
+    />
     <transition-group :name="windowIsFocused ? 'message' : ''" tag="div">
       <component
-        v-for="message in channelMessages"
+        v-for="message in channelMessagesGrouped"
         v-bind:is="messageType(message)"
         class="message"
         :key="message.tempID || message.messageID"
@@ -24,6 +29,7 @@ import { MessagesModule } from "@/store/modules/messages";
 import MessageTemplate from "./message/MessageTemplate.vue";
 import UploadQueue from "./message/UploadQueue.vue";
 import ActionMessageTemplate from "./message/ActionMessageTemplate.vue";
+import Observer from "./Observer.vue";
 import { ScrollModule } from "@/store/modules/scroll";
 import windowProperties from "@/utils/windowProperties";
 import { NotificationsModule } from "@/store/modules/notifications";
@@ -31,12 +37,16 @@ import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChan
 import FileDragDrop from "@/utils/FileDragDrop";
 import { FileUploadModule } from "@/store/modules/fileUpload";
 import { PopoutsModule } from "@/store/modules/popouts";
+import Message from "@/interfaces/Message";
 
 @Component({
-  components: { MessageTemplate, ActionMessageTemplate, UploadQueue }
+  components: { MessageTemplate, ActionMessageTemplate, UploadQueue, Observer }
 })
 export default class MessageLogs extends Vue {
   fileDragDropHandler: FileDragDrop | undefined;
+
+  // when loading more messages above
+  isLoadingTopMore = false;
   mounted() {
     ScrollModule.SetScrolledBottom(true);
     this.scrollDown();
@@ -62,6 +72,36 @@ export default class MessageLogs extends Vue {
     PopoutsModule.ClosePopout("file-drag");
     FileUploadModule.SetFile(file);
   }
+  intersectTopChange(isIntersecting: boolean) {
+    const logs: Element = this.$refs.logs as any;
+    if (!isIntersecting) return;
+    if (this.isLoadingTopMore) return;
+    this.isLoadingTopMore = true;
+    MessagesModule.continueLoadMessagesAndPrepend(this.channelID).then(
+      messages => {
+        if (!messages) return;
+        if (!messages.length) return;
+        if (!this.channelMessages) return;
+        MessagesModule.ClampChannelMessages({
+          channelID: this.channelID,
+          reverseClamp: true,
+          checkScrolledBottom: false
+        });
+
+        const beforeHeight = logs.scrollHeight;
+        const beforeScrollTop = logs.scrollTop;
+        MessagesModule.SetChannelMessages({
+          channelID: this.channelID,
+          messages: [...messages, ...this.channelMessages]
+        });
+
+        this.$nextTick(() => {
+          logs.scrollTop = logs.scrollHeight - beforeHeight + beforeScrollTop;
+          this.isLoadingTopMore = false;
+        });
+      }
+    );
+  }
 
   onScroll(event: { target: Element }) {
     // max distance to scroll to bottom when new messsages loaded
@@ -84,10 +124,10 @@ export default class MessageLogs extends Vue {
     if (!this.windowIsFocused || !this.isScrolledDown) return;
     if (!(this.hasServerNotification || this.hasDMNotification)) return;
     this.$socket.client.emit("notification:dismiss", {
-      channelID: this.$route.params.channel_id
+      channelID: this.channelID
     });
   }
-  @Watch("channelMessages")
+  @Watch("channelMessagesGrouped")
   onMessageChanges() {
     if (this.isScrolledDown) {
       this.dismissNotification();
@@ -119,19 +159,23 @@ export default class MessageLogs extends Vue {
   }
   get hasServerNotification() {
     return LastSeenServerChannelsModule.serverChannelNotification(
-      this.$route.params.channel_id
+      this.channelID
     );
   }
   get hasDMNotification() {
-    return NotificationsModule.notificationByChannelID(
-      this.$route.params.channel_id
-    );
+    return NotificationsModule.notificationByChannelID(this.channelID);
   }
   get windowIsFocused() {
     return windowProperties.isFocused;
   }
-  get channelMessages() {
-    return MessagesModule.groupedChannelMessages(this.$route.params.channel_id);
+  get channelMessagesGrouped() {
+    return MessagesModule.groupedChannelMessages(this.channelID);
+  }
+  get channelMessages(): Message[] | undefined {
+    return MessagesModule.messages[this.channelID];
+  }
+  get channelID() {
+    return this.$route.params.channel_id;
   }
   get isScrolledDown() {
     return ScrollModule.isScrolledBottom;
@@ -158,6 +202,7 @@ export default class MessageLogs extends Vue {
 }
 
 .message-logs {
+  position: relative;
   display: flex;
   height: 100%;
   flex-direction: column;
@@ -169,5 +214,12 @@ export default class MessageLogs extends Vue {
   content: "";
   display: block;
   padding-bottom: 20px;
+}
+.observe-load-more {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 700px;
 }
 </style>

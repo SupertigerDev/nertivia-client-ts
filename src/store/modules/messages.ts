@@ -6,13 +6,14 @@ import {
   getModule
 } from "vuex-module-decorators";
 import store from "..";
-import { fetchMessages, postMessage } from "@/services/messagesService";
+import { fetchMessages, fetchMessagesContinue, postMessage } from "@/services/messagesService";
 import ky from "ky";
 import Message from "@/interfaces/Message";
 import Vue from "vue";
 import { ScrollModule } from "./scroll";
 import { MeModule } from "./me";
 import { ChannelsModule } from "./channels";
+import { first } from "lodash";
 
 interface MessagesObj {
   [key: string]: Message[];
@@ -91,10 +92,19 @@ class Messages extends VuexModule {
   }
 
   @Action
+  SetChannelMessages(payload: {
+    messages: Message[];
+    channelID: string;
+  }) {
+    this.SET_CHANNEL_MESSAGES(payload);
+  }
+
+
+  @Action
   public async FetchAndSetMessages(channelID: string) {
     fetchMessages(channelID)
       .then(res => {
-        this.SET_CHANNEL_MESSAGES({
+        this.SetChannelMessages({
           messages: res.messages.reverse(),
           channelID
         });
@@ -104,6 +114,26 @@ class Messages extends VuexModule {
         // console.log(err.response)
       });
   }
+  @Action
+  public async continueLoadMessagesAndPrepend(channelID: string) {
+    const messages = this.messages[channelID];
+    if (!messages) return;
+    const firstMessage = messages?.find(msg => msg.messageID);
+    if (!firstMessage) return this.FetchAndSetMessages(channelID);
+
+    return new Promise<Message[]>(resolve => {
+      fetchMessagesContinue(channelID, firstMessage.messageID || "")
+        .then(res => {
+          resolve(res.messages.reverse());
+        })
+        .catch((err: ky.HTTPError) => {
+          console.log(err);
+          // console.log(err.response)
+        });
+    })
+  }
+
+
   @Action
   public SendMessage(payload: { message: string; channelID: string }) {
     const trimmedMessage = payload.message.trim();
@@ -173,24 +203,37 @@ class Messages extends VuexModule {
   }
 
   @Mutation
-  private CLAMP_CHANNEL_MESSAGES(channelID: string) {
+  private CLAMP_CHANNEL_MESSAGES(data: {channelID: string, reverseClamp: boolean}) {
+    let clamped: Message[] = [];
+    if (!data.reverseClamp) {
+      clamped = this.messages[data.channelID].slice(
+        this.messages[data.channelID].length - 51,
+        this.messages[data.channelID].length
+      );
+    } else {
+      clamped =this.messages[data.channelID].slice(
+        0,
+        -51,
+      );
+    }
+
     Vue.set(
       this.messages,
-      channelID,
-      this.messages[channelID].slice(
-        this.messages[channelID].length - 51,
-        this.messages[channelID].length
-      )
+      data.channelID,
+      clamped
     );
   }
 
   @Action
-  ClampChannelMessages(channelID: string) {
-    const channelMessagesLength = this.channelMessages(channelID).length;
-    const isChannelOpen = ChannelsModule.isChannelOpen(channelID);
+  ClampChannelMessages(data: {channelID: string, reverseClamp?: boolean, checkScrolledBottom?: boolean}) {
+    const reverseClamp = data.reverseClamp === undefined ? false : data.reverseClamp; 
+    const checkScrolledBottom = data.checkScrolledBottom === undefined ? true : data.checkScrolledBottom; 
+
+    const channelMessagesLength = this.channelMessages(data.channelID).length;
+    const isChannelOpen = ChannelsModule.isChannelOpen(data.channelID);
     if (channelMessagesLength >= 60) {
-      if (!isChannelOpen || ScrollModule.isScrolledBottom) {
-        this.CLAMP_CHANNEL_MESSAGES(channelID);
+      if (!isChannelOpen || (checkScrolledBottom ? ScrollModule.isScrolledBottom: true)) {
+        this.CLAMP_CHANNEL_MESSAGES({channelID: data.channelID, reverseClamp});
       }
     }
   }
@@ -204,7 +247,7 @@ class Messages extends VuexModule {
   public AddChannelMessage(payload: Message) {
     if (!this.channelMessages(payload.channelID)) return;
     this.ADD_CHANNEL_MESSAGE(payload);
-    this.ClampChannelMessages(payload.channelID);
+    this.ClampChannelMessages({channelID: payload.channelID});
   }
   @Mutation
   private UPDATE_MESSAGE(payload: {
