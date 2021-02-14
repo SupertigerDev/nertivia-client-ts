@@ -2,7 +2,7 @@
 import { DrawersModule } from "@/store/modules/drawers";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 import UserTemplate from "./UserTemplate.vue";
 
@@ -28,7 +28,12 @@ export default class RightDrawer extends Vue {
     return (
       <div class="right-drawer">
         <div class="members" key={this.server_id}>
-          <virtual-list size={260} remain={40} variable={true}>
+          <virtual-list
+            ref="virtualList"
+            size={260}
+            remain={40}
+            variable={true}
+          >
             {this.roleWithMembers.map(role => {
               return [
                 <div class="tab" style={{ height: "25px" }}>
@@ -54,6 +59,11 @@ export default class RightDrawer extends Vue {
         </div>
       </div>
     );
+  }
+
+  @Watch("search")
+  onInput() {
+    (this.$refs.virtualList as any).forceRender();
   }
   get serverMembers() {
     // sort by alphabet and filter search
