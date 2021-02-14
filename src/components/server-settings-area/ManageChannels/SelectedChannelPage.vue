@@ -29,7 +29,7 @@
       "
       :warn="true"
       icon="delete"
-      v-if="channel.channelID !== server.default_channel_id"
+      v-if="channel && channel.channelID !== server.default_channel_id"
       @click="deleteChannel"
     />
     <CustomButton
@@ -52,6 +52,7 @@ import {
 import { ChannelsModule } from "@/store/modules/channels";
 import { ServersModule } from "@/store/modules/servers";
 import { MeModule } from "@/store/modules/me";
+import Channel from "@/interfaces/Channel";
 @Component({
   components: { CustomInput, CustomButton, CheckBox }
 })
@@ -60,16 +61,16 @@ export default class ManageChannels extends Vue {
   deleteConfirm = false;
   deleteRequestSent = false;
   requestSent = false;
-  channelName = this.channel.name;
+  channelName = this.channel?.name;
   error: string | null = null;
-  sendMessagePermission = this.channel.permissions?.send_message || false;
+  sendMessagePermission = this.channel?.permissions?.send_message || false;
   reset() {
-    this.channelName = this.channel.name;
-    if (this.channel.permissions?.send_message === undefined) {
+    this.channelName = this.channel?.name;
+    if (this.channel?.permissions?.send_message === undefined) {
       return (this.sendMessagePermission = true);
     }
     this.sendMessagePermission =
-      this.channel.permissions?.send_message || false;
+      this.channel?.permissions?.send_message || false;
   }
   mounted() {
     this.reset();
@@ -80,8 +81,14 @@ export default class ManageChannels extends Vue {
       this.reset();
     }
   }
+  @Watch("channel")
+  channelChange(channel: Channel) {
+    if (!channel) {
+      this.$emit("close");
+    }
+  }
   deleteChannel() {
-    if (!this.channel.server_id) return;
+    if (!this.channel?.server_id) return;
     if (this.deleteRequestSent) return;
     if (!this.deleteConfirm) {
       this.deleteConfirm = true;
@@ -102,7 +109,7 @@ export default class ManageChannels extends Vue {
   update() {
     if (this.requestSent) return;
     this.requestSent = true;
-    if (!this.channel.server_id) return;
+    if (!this.channel?.server_id) return;
     updateServerChannel(this.channel.channelID, this.channel.server_id, {
       name: this.channelName,
       permissions: { send_message: this.sendMessagePermission }
@@ -128,22 +135,22 @@ export default class ManageChannels extends Vue {
       })
       .finally(() => (this.requestSent = false));
   }
-  get channel() {
+  get channel(): Channel | undefined {
     return ChannelsModule.channels[this.channelID];
   }
   get server() {
-    return ServersModule.servers[this.channel.server_id || ""];
+    return ServersModule.servers[this.channel?.server_id || ""];
   }
   get showSaveButton() {
     const { channelName, sendMessagePermission } = this.changed;
     return channelName || sendMessagePermission;
   }
   get changed() {
-    let currentPermission = this.channel.permissions?.send_message;
-    if (this.channel.permissions?.send_message === undefined) {
+    let currentPermission = this.channel?.permissions?.send_message;
+    if (this.channel?.permissions?.send_message === undefined) {
       currentPermission = true;
     }
-    const channelName = this.channelName !== this.channel.name;
+    const channelName = this.channelName !== this.channel?.name;
     const sendMessagePermission =
       this.sendMessagePermission !== currentPermission || false;
     return { channelName, sendMessagePermission };
