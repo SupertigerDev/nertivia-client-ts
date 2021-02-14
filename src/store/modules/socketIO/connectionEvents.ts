@@ -100,7 +100,7 @@ interface ReturnedChannel {
   permissions?: ChannelPermissions;
 }
 interface ChannelPermissions {
-  send_message?: boolean
+  send_message?: boolean;
 }
 
 function sortServers(servers: ReturnedServer[], positions?: string[]) {

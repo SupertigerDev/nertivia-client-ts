@@ -43,19 +43,26 @@ export function unmuteServerChannel(
     .json();
 }
 
-export function updateServerChannel(channelID: string, serverID: string, data: any): Promise<any> {
+export function updateServerChannel(
+  channelID: string,
+  serverID: string,
+  data: any
+): Promise<any> {
   return wrapper()
-    .patch(`servers/${serverID}/channels/${channelID}`, {json: data})
+    .patch(`servers/${serverID}/channels/${channelID}`, { json: data })
     .json();
 }
-export function deleteServerChannel(channelID: string, serverID: string): Promise<any> {
+export function deleteServerChannel(
+  channelID: string,
+  serverID: string
+): Promise<any> {
   return wrapper()
     .delete(`servers/${serverID}/channels/${channelID}`)
     .json();
 }
 export function createServerChannel(serverID: string): Promise<any> {
   return wrapper()
-    .put(`servers/${serverID}/channels`, {json: {name: "New Channel"}})
+    .put(`servers/${serverID}/channels`, { json: { name: "New Channel" } })
     .json();
 }
 

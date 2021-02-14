@@ -8,9 +8,7 @@ import clipboard from "vue-clipboard2";
 import { applyDefaultTheme } from "./utils/customCssVars";
 import { messaging } from "./utils/firebaseInstance";
 
-
 Vue.use(clipboard);
-
 
 messaging().onMessage(payload => {
   console.log("FCM Data: ", payload);
