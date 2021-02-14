@@ -48,7 +48,7 @@ import CheckBox from "@/components/CheckBox.vue";
 import {
   deleteServerChannel,
   updateServerChannel
-} from "@/services/serverService";
+} from "@/services/channelService";
 import { ChannelsModule } from "@/store/modules/channels";
 import { ServersModule } from "@/store/modules/servers";
 import { MeModule } from "@/store/modules/me";

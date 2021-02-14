@@ -24,7 +24,7 @@ import { MutedChannelsModule } from "@/store/modules/mutedChannels";
 import {
   muteServerChannel,
   unmuteServerChannel
-} from "@/services/serverService";
+} from "@/services/channelService";
 
 @Component({ components: { ContextMenu } })
 export default class extends Vue {

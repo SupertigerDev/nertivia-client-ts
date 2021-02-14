@@ -26,45 +26,7 @@ export function leaveServer(serverID: string): Promise<any> {
     .delete(`servers/${serverID}`)
     .json();
 }
-export function muteServerChannel(
-  serverID: string,
-  channelID: string
-): Promise<any> {
-  return wrapper()
-    .put(`servers/${serverID}/channels/${channelID}/mute`)
-    .json();
-}
-export function unmuteServerChannel(
-  serverID: string,
-  channelID: string
-): Promise<any> {
-  return wrapper()
-    .delete(`servers/${serverID}/channels/${channelID}/mute`)
-    .json();
-}
 
-export function updateServerChannel(
-  channelID: string,
-  serverID: string,
-  data: any
-): Promise<any> {
-  return wrapper()
-    .patch(`servers/${serverID}/channels/${channelID}`, { json: data })
-    .json();
-}
-export function deleteServerChannel(
-  channelID: string,
-  serverID: string
-): Promise<any> {
-  return wrapper()
-    .delete(`servers/${serverID}/channels/${channelID}`)
-    .json();
-}
-export function createServerChannel(serverID: string): Promise<any> {
-  return wrapper()
-    .put(`servers/${serverID}/channels`, { json: { name: "New Channel" } })
-    .json();
-}
 
 export function joinServerById(server_id: string, optionalData: any) {
   return wrapper()

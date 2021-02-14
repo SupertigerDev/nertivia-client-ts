@@ -51,7 +51,7 @@ import ChannelTemplate from "./ChannelTemplate.vue";
 import { ChannelsModule } from "@/store/modules/channels";
 import ContextMenu from "@/components/ContextMenu.vue";
 import SelectedChannelPage from "./SelectedChannelPage.vue";
-import { createServerChannel } from "@/services/serverService";
+import { createServerChannel } from "@/services/channelService";
 @Component({
   components: {
     CustomInput,
