@@ -11,6 +11,7 @@
       <SelectedChannelPage
         v-if="selectedChannelID"
         :channelID="selectedChannelID"
+        @close="selectedChannelID = null"
       />
       <div class="box" v-if="!selectedChannelID">
         <CustomButton
@@ -27,6 +28,7 @@
             { name: 'HTML Channel (WIP)', icon: 'code', disabled: true }
           ]"
           :pos="{ x: 15, y: 110 }"
+          @itemClick="createChannel"
         />
         <div class="channel-list">
           <ChannelTemplate
@@ -49,7 +51,7 @@ import ChannelTemplate from "./ChannelTemplate.vue";
 import { ChannelsModule } from "@/store/modules/channels";
 import ContextMenu from "@/components/ContextMenu.vue";
 import SelectedChannelPage from "./SelectedChannelPage.vue";
-import Channel from "@/interfaces/Channel";
+import { createServerChannel } from "@/services/serverService";
 @Component({
   components: {
     CustomInput,
@@ -62,10 +64,26 @@ import Channel from "@/interfaces/Channel";
 export default class ManageChannels extends Vue {
   showContext = false;
   selectedChannelID: string | null = null;
+  createRequestSent = false;
   outsideClick(event: any) {
     if (event.target.classList.contains("button")) return;
     this.showContext = false;
   }
+
+  createChannel() {
+    this.showContext = false;
+    if (this.createRequestSent) return;
+    this.createRequestSent = true;
+    createServerChannel(this.serverID)
+      .then(json => {
+        ChannelsModule.AddChannel(json.channel);
+        this.selectedChannelID = json.channel.channelID;
+      })
+      .finally(() => {
+        this.createRequestSent = false;
+      });
+  }
+
   get server() {
     return ServersModule.servers[this.serverID];
   }
