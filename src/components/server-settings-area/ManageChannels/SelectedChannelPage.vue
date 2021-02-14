@@ -7,6 +7,7 @@
       v-model="channelName"
     />
     <!-- TODO: replace with bitwise permissions some day (just like how i made role permissions) -->
+    <div class="title">Permissions</div>
     <CheckBox name="Send Message" v-model="sendMessagePermission" />
     <CustomButton
       class="button"
@@ -174,5 +175,10 @@ export default class ManageChannels extends Vue {
   margin: auto;
   margin-left: 0px;
   margin-bottom: 0;
+}
+.title {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 5px;
 }
 </style>
