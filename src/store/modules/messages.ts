@@ -124,7 +124,7 @@ class Messages extends VuexModule {
     return new Promise<Message[]>((resolve, reject) => {
       fetchMessagesContinue(channelID, firstMessage.messageID || "")
         .then(res => {
-          resolve(res.messages.reverse());
+          resolve(res.messages);
         })
         .catch((err: ky.HTTPError) => {
           reject();
@@ -270,6 +270,17 @@ class Messages extends VuexModule {
     if (!this.channelMessages(payload.channelID)) return;
     this.ADD_CHANNEL_MESSAGE(payload);
     this.ClampChannelMessages({channelID: payload.channelID});
+  }
+  @Mutation
+  private UNSHIFT_CHANNEL_MESSAGE(payload: Message) {
+    this.messages[payload.channelID].unshift(payload);
+  }
+
+  @Action
+  public UnshiftChannelMessage(payload: Message) {
+    if (!this.channelMessages(payload.channelID)) return;
+    this.UNSHIFT_CHANNEL_MESSAGE(payload);
+    this.ClampChannelMessages({channelID: payload.channelID, reverseClamp: true});
   }
   @Mutation
   private UPDATE_MESSAGE(payload: {

@@ -22,7 +22,7 @@
     </transition-group>
     <div class="test">
       <Observer
-        ref="borromObserver"
+        ref="bottomObserver"
         @intersecting="intersectBottomChange"
         class="observe-load-more bottom"
       />
@@ -56,6 +56,7 @@ export default class MessageLogs extends Vue {
   isLoadingTopMore = false;
   isLoadingBottomMore = false;
   moreTopToLoad = true;
+  moreBottomToLoad = false;
   mounted() {
     ScrollModule.SetScrolledBottom(true);
     this.scrollDown();
@@ -87,6 +88,7 @@ export default class MessageLogs extends Vue {
     if (!isIntersecting) return;
     if (this.isLoadingTopMore) return;
     this.isLoadingTopMore = true;
+    this.moreBottomToLoad = true;
     MessagesModule.continueLoadMessages(this.channelID).then(messages => {
       if (!this.channelMessages) return;
       if (!messages) return;
@@ -103,54 +105,82 @@ export default class MessageLogs extends Vue {
         checkScrolledBottom: false
       });
 
-      const beforeHeight = logs.scrollHeight;
-      const beforeScrollTop = logs.scrollTop;
-      MessagesModule.SetChannelMessages({
-        channelID: this.channelID,
-        messages: [...messages, ...this.channelMessages]
-      });
-
-      this.$nextTick(() => {
-        this.$nextTick(() => {
+      let index = 0;
+      const interval = setInterval(() => {
+        if (index >= messages.length) {
+          clearInterval(interval);
           this.isLoadingTopMore = false;
-          logs.scrollTop = logs.scrollHeight - beforeHeight + beforeScrollTop;
+
+          this.$nextTick(() => {
+            if ((this.$refs.topObserver as any).intersecting) {
+              this.intersectTopChange(true);
+            }
+          });
+          return;
+        }
+        const beforeHeight = logs.scrollHeight;
+        const beforeScrollTop = logs.scrollTop;
+        MessagesModule.UnshiftChannelMessage(messages[index]);
+        this.$nextTick(() => {
+          this.$nextTick(() => {
+            logs.scrollTop = logs.scrollHeight - beforeHeight + beforeScrollTop;
+          });
         });
-      });
+
+        index++;
+      }, 50);
     });
   }
   intersectBottomChange(isIntersecting: boolean) {
-    // if (!this.moreBottomToLoad) return;
+    if (!this.moreBottomToLoad) return;
 
     const logs: Element = this.$refs.logs as any;
     if (!isIntersecting) return;
     if (this.isLoadingBottomMore) return;
     this.isLoadingBottomMore = true;
+    this.moreTopToLoad = true;
+
     MessagesModule.beforeLoadMessages(this.channelID).then(messages => {
-      if (!this.channelMessages) return;
-      if (!messages) return;
-      if (!messages.length) {
-        // this.moreBottomToLoad = false;
-        // return;
+      let dontContinue = false;
+      if (!this.channelMessages) dontContinue = true;
+      if (!messages) dontContinue = true;
+      if (!messages?.length) {
+        this.moreBottomToLoad = false;
+        dontContinue = true;
       }
-      if (messages.length < 50) {
-        // this.moreBottomToLoad = false;
+      if (messages && messages?.length < 50) {
+        this.moreBottomToLoad = false;
+      }
+      if (dontContinue || !messages) {
+        this.isLoadingBottomMore = false;
+        return;
       }
       MessagesModule.ClampChannelMessages({
         channelID: this.channelID,
         checkScrolledBottom: false
       });
-      const beforeHeight = logs.scrollHeight;
-      const beforeScrollTop = logs.scrollTop;
-      MessagesModule.SetChannelMessages({
-        channelID: this.channelID,
-        messages: [...this.channelMessages, ...messages]
-      });
-      this.$nextTick(() => {
-        this.$nextTick(() => {
+      let index = 0;
+      const interval = setInterval(() => {
+        if (index >= messages.length) {
+          clearInterval(interval);
           this.isLoadingBottomMore = false;
-          logs.scrollTop = beforeScrollTop;
+          this.$nextTick(() => {
+            if ((this.$refs.bottomObserver as any).intersecting) {
+              this.intersectBottomChange(true);
+            }
+          });
+          return;
+        }
+        const beforeScrollTop = logs.scrollTop;
+        MessagesModule.AddChannelMessage(messages[index]);
+        this.$nextTick(() => {
+          this.$nextTick(() => {
+            logs.scrollTop = beforeScrollTop;
+          });
         });
-      });
+
+        index++;
+      }, 50);
     });
   }
 
