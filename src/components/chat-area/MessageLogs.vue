@@ -10,7 +10,7 @@
       @intersecting="intersectTopChange"
       class="observe-load-more"
     />
-    <transition-group :name="windowIsFocused ? 'message' : ''" tag="div">
+    <transition-group :name="messageTransition ? 'message' : ''" tag="div">
       <component
         v-for="message in channelMessagesGrouped"
         v-bind:is="messageType(message)"
@@ -152,7 +152,10 @@ export default class MessageLogs extends Vue {
   onScrolldDown(scrolledDown: boolean) {
     this.dismissNotification();
   }
-
+  get messageTransition() {
+    if (!this.windowIsFocused) return false;
+    return !this.isLoadingTopMore;
+  }
   get messageType() {
     return (message: any) =>
       message.type === 0 ? "MessageTemplate" : "ActionMessageTemplate";
