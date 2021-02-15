@@ -27,7 +27,6 @@ export function leaveServer(serverID: string): Promise<any> {
     .json();
 }
 
-
 export function joinServerById(server_id: string, optionalData: any) {
   return wrapper()
     .post(`servers/invite/servers/${server_id}`, { json: optionalData })

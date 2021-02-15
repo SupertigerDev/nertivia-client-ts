@@ -15,7 +15,6 @@ export function getChannelByUserId(uniqueID: string): Promise<Response> {
     .json();
 }
 
-
 export function muteServerChannel(
   serverID: string,
   channelID: string

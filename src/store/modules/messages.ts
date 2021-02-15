@@ -6,7 +6,12 @@ import {
   getModule
 } from "vuex-module-decorators";
 import store from "..";
-import { fetchMessages, fetchMessagesBefore, fetchMessagesContinue, postMessage } from "@/services/messagesService";
+import {
+  fetchMessages,
+  fetchMessagesBefore,
+  fetchMessagesContinue,
+  postMessage
+} from "@/services/messagesService";
 import ky from "ky";
 import Message from "@/interfaces/Message";
 import Vue from "vue";
@@ -92,13 +97,9 @@ class Messages extends VuexModule {
   }
 
   @Action
-  SetChannelMessages(payload: {
-    messages: Message[];
-    channelID: string;
-  }) {
+  SetChannelMessages(payload: { messages: Message[]; channelID: string }) {
     this.SET_CHANNEL_MESSAGES(payload);
   }
-
 
   @Action
   public async FetchAndSetMessages(channelID: string) {
@@ -131,7 +132,7 @@ class Messages extends VuexModule {
           console.log(err);
           // console.log(err.response)
         });
-    })
+    });
   }
   @Action
   public async beforeLoadMessages(channelID: string) {
@@ -141,10 +142,9 @@ class Messages extends VuexModule {
     const latestMessage = messagesReversed.find(msg => msg.messageID);
     if (!latestMessage) return;
 
-    
     return new Promise<Message[]>((resolve, reject) => {
       fetchMessagesBefore(channelID, latestMessage.messageID || "")
-      .then(res => {
+        .then(res => {
           resolve(res.messages);
         })
         .catch((err: ky.HTTPError) => {
@@ -152,9 +152,8 @@ class Messages extends VuexModule {
           console.log(err);
           // console.log(err.response)
         });
-    })
+    });
   }
-
 
   @Action
   public SendMessage(payload: { message: string; channelID: string }) {
@@ -225,7 +224,10 @@ class Messages extends VuexModule {
   }
 
   @Mutation
-  private CLAMP_CHANNEL_MESSAGES(data: {channelID: string, reverseClamp: boolean}) {
+  private CLAMP_CHANNEL_MESSAGES(data: {
+    channelID: string;
+    reverseClamp: boolean;
+  }) {
     let clamped: Message[] = [];
     if (!data.reverseClamp) {
       clamped = this.messages[data.channelID].slice(
@@ -233,29 +235,34 @@ class Messages extends VuexModule {
         this.messages[data.channelID].length
       );
     } else {
-      clamped =this.messages[data.channelID].slice(
-        0,
-        -51,
-      );
+      clamped = this.messages[data.channelID].slice(0, -51);
     }
 
-    Vue.set(
-      this.messages,
-      data.channelID,
-      clamped
-    );
+    Vue.set(this.messages, data.channelID, clamped);
   }
 
   @Action
-  ClampChannelMessages(data: {channelID: string, reverseClamp?: boolean, checkScrolledBottom?: boolean}) {
-    const reverseClamp = data.reverseClamp === undefined ? false : data.reverseClamp; 
-    const checkScrolledBottom = data.checkScrolledBottom === undefined ? true : data.checkScrolledBottom; 
+  ClampChannelMessages(data: {
+    channelID: string;
+    reverseClamp?: boolean;
+    checkScrolledBottom?: boolean;
+  }) {
+    const reverseClamp =
+      data.reverseClamp === undefined ? false : data.reverseClamp;
+    const checkScrolledBottom =
+      data.checkScrolledBottom === undefined ? true : data.checkScrolledBottom;
 
     const channelMessagesLength = this.channelMessages(data.channelID).length;
     const isChannelOpen = ChannelsModule.isChannelOpen(data.channelID);
     if (channelMessagesLength >= 60) {
-      if (!isChannelOpen || (checkScrolledBottom ? ScrollModule.isScrolledBottom: true)) {
-        this.CLAMP_CHANNEL_MESSAGES({channelID: data.channelID, reverseClamp});
+      if (
+        !isChannelOpen ||
+        (checkScrolledBottom ? ScrollModule.isScrolledBottom : true)
+      ) {
+        this.CLAMP_CHANNEL_MESSAGES({
+          channelID: data.channelID,
+          reverseClamp
+        });
       }
     }
   }
@@ -269,7 +276,7 @@ class Messages extends VuexModule {
   public AddChannelMessage(payload: Message) {
     if (!this.channelMessages(payload.channelID)) return;
     this.ADD_CHANNEL_MESSAGE(payload);
-    this.ClampChannelMessages({channelID: payload.channelID});
+    this.ClampChannelMessages({ channelID: payload.channelID });
   }
   @Mutation
   private UNSHIFT_CHANNEL_MESSAGE(payload: Message) {
@@ -280,7 +287,10 @@ class Messages extends VuexModule {
   public UnshiftChannelMessage(payload: Message) {
     if (!this.channelMessages(payload.channelID)) return;
     this.UNSHIFT_CHANNEL_MESSAGE(payload);
-    this.ClampChannelMessages({channelID: payload.channelID, reverseClamp: true});
+    this.ClampChannelMessages({
+      channelID: payload.channelID,
+      reverseClamp: true
+    });
   }
   @Mutation
   private UPDATE_MESSAGE(payload: {
