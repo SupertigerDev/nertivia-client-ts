@@ -23,6 +23,11 @@ export function fetchMessagesContinue(channelID: string, continueMessageID: stri
     .get(`messages/channels/${channelID}?continue=${continueMessageID}`)
     .json();
 }
+export function fetchMessagesBefore(channelID: string, beforeMessageID: string): Promise<ResponseFetch> {
+  return wrapper()
+    .get(`messages/channels/${channelID}?before=${beforeMessageID}`)
+    .json();
+}
 export function deleteMessage(
   channelID: string,
   messageID: string

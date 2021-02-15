@@ -20,6 +20,13 @@
       />
       <UploadQueue v-if="uploadQueue.length" key="upload-queue" />
     </transition-group>
+    <div class="test">
+      <Observer
+        ref="borromObserver"
+        @intersecting="intersectBottomChange"
+        class="observe-load-more bottom"
+      />
+    </div>
   </div>
 </template>
 
@@ -47,6 +54,8 @@ export default class MessageLogs extends Vue {
 
   // when loading more messages above
   isLoadingTopMore = false;
+  isLoadingBottomMore = false;
+  moreTopToLoad = true;
   mounted() {
     ScrollModule.SetScrolledBottom(true);
     this.scrollDown();
@@ -73,34 +82,76 @@ export default class MessageLogs extends Vue {
     FileUploadModule.SetFile(file);
   }
   intersectTopChange(isIntersecting: boolean) {
+    if (!this.moreTopToLoad) return;
     const logs: Element = this.$refs.logs as any;
     if (!isIntersecting) return;
     if (this.isLoadingTopMore) return;
     this.isLoadingTopMore = true;
-    MessagesModule.continueLoadMessagesAndPrepend(this.channelID).then(
-      messages => {
-        if (!messages) return;
-        if (!messages.length) return;
-        if (!this.channelMessages) return;
-        MessagesModule.ClampChannelMessages({
-          channelID: this.channelID,
-          reverseClamp: true,
-          checkScrolledBottom: false
-        });
-
-        const beforeHeight = logs.scrollHeight;
-        const beforeScrollTop = logs.scrollTop;
-        MessagesModule.SetChannelMessages({
-          channelID: this.channelID,
-          messages: [...messages, ...this.channelMessages]
-        });
-
-        this.$nextTick(() => {
-          logs.scrollTop = logs.scrollHeight - beforeHeight + beforeScrollTop;
-          this.isLoadingTopMore = false;
-        });
+    MessagesModule.continueLoadMessages(this.channelID).then(messages => {
+      if (!this.channelMessages) return;
+      if (!messages) return;
+      if (!messages.length) {
+        this.moreTopToLoad = false;
+        return;
       }
-    );
+      if (messages.length < 50) {
+        this.moreTopToLoad = false;
+      }
+      MessagesModule.ClampChannelMessages({
+        channelID: this.channelID,
+        reverseClamp: true,
+        checkScrolledBottom: false
+      });
+
+      const beforeHeight = logs.scrollHeight;
+      const beforeScrollTop = logs.scrollTop;
+      MessagesModule.SetChannelMessages({
+        channelID: this.channelID,
+        messages: [...messages, ...this.channelMessages]
+      });
+
+      this.$nextTick(() => {
+        this.$nextTick(() => {
+          this.isLoadingTopMore = false;
+          logs.scrollTop = logs.scrollHeight - beforeHeight + beforeScrollTop;
+        });
+      });
+    });
+  }
+  intersectBottomChange(isIntersecting: boolean) {
+    // if (!this.moreBottomToLoad) return;
+
+    const logs: Element = this.$refs.logs as any;
+    if (!isIntersecting) return;
+    if (this.isLoadingBottomMore) return;
+    this.isLoadingBottomMore = true;
+    MessagesModule.beforeLoadMessages(this.channelID).then(messages => {
+      if (!this.channelMessages) return;
+      if (!messages) return;
+      if (!messages.length) {
+        // this.moreBottomToLoad = false;
+        // return;
+      }
+      if (messages.length < 50) {
+        // this.moreBottomToLoad = false;
+      }
+      MessagesModule.ClampChannelMessages({
+        channelID: this.channelID,
+        checkScrolledBottom: false
+      });
+      const beforeHeight = logs.scrollHeight;
+      const beforeScrollTop = logs.scrollTop;
+      MessagesModule.SetChannelMessages({
+        channelID: this.channelID,
+        messages: [...this.channelMessages, ...messages]
+      });
+      this.$nextTick(() => {
+        this.$nextTick(() => {
+          this.isLoadingBottomMore = false;
+          logs.scrollTop = beforeScrollTop;
+        });
+      });
+    });
   }
 
   onScroll(event: { target: Element }) {
@@ -154,7 +205,8 @@ export default class MessageLogs extends Vue {
   }
   get messageTransition() {
     if (!this.windowIsFocused) return false;
-    return !this.isLoadingTopMore;
+    if (this.isLoadingTopMore) return false;
+    return !this.isLoadingBottomMore;
   }
   get messageType() {
     return (message: any) =>
@@ -224,5 +276,13 @@ export default class MessageLogs extends Vue {
   left: 0;
   right: 0;
   height: 700px;
+  &.bottom {
+    top: initial;
+    bottom: 0;
+  }
+}
+.test {
+  z-index: -1;
+  position: relative;
 }
 </style>

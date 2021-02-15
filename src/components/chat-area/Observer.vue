@@ -1,12 +1,13 @@
 <template>
-  <div class="observer"></div>
+  <div class="observer" :class="{ debug }"></div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class Observer extends Vue {
+  @Prop() private debug!: boolean;
   observer: IntersectionObserver | null = null;
   intersecting = false;
   mounted() {
@@ -22,3 +23,8 @@ export default class Observer extends Vue {
   }
 }
 </script>
+<style scoped>
+.debug {
+  background: rgba(255, 76, 76, 0.123);
+}
+</style>

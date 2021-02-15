@@ -6,7 +6,7 @@ import {
   getModule
 } from "vuex-module-decorators";
 import store from "..";
-import { fetchMessages, fetchMessagesContinue, postMessage } from "@/services/messagesService";
+import { fetchMessages, fetchMessagesBefore, fetchMessagesContinue, postMessage } from "@/services/messagesService";
 import ky from "ky";
 import Message from "@/interfaces/Message";
 import Vue from "vue";
@@ -115,18 +115,40 @@ class Messages extends VuexModule {
       });
   }
   @Action
-  public async continueLoadMessagesAndPrepend(channelID: string) {
+  public async continueLoadMessages(channelID: string) {
     const messages = this.messages[channelID];
     if (!messages) return;
     const firstMessage = messages?.find(msg => msg.messageID);
-    if (!firstMessage) return this.FetchAndSetMessages(channelID);
+    if (!firstMessage) return;
 
-    return new Promise<Message[]>(resolve => {
+    return new Promise<Message[]>((resolve, reject) => {
       fetchMessagesContinue(channelID, firstMessage.messageID || "")
         .then(res => {
           resolve(res.messages.reverse());
         })
         .catch((err: ky.HTTPError) => {
+          reject();
+          console.log(err);
+          // console.log(err.response)
+        });
+    })
+  }
+  @Action
+  public async beforeLoadMessages(channelID: string) {
+    const messages = this.messages[channelID];
+    if (!messages) return;
+    const messagesReversed = [...messages].reverse();
+    const latestMessage = messagesReversed.find(msg => msg.messageID);
+    if (!latestMessage) return;
+
+    
+    return new Promise<Message[]>((resolve, reject) => {
+      fetchMessagesBefore(channelID, latestMessage.messageID || "")
+      .then(res => {
+          resolve(res.messages);
+        })
+        .catch((err: ky.HTTPError) => {
+          reject();
           console.log(err);
           // console.log(err.response)
         });
