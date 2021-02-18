@@ -13,9 +13,12 @@
         >{{ this.quote.creator.username }}:</span
       >
       <!-- todo: add onClick go to message -->
-      <!-- <i title="Go to message" class="go-to-message material-icons"
+      <i
+        title="Go to message"
+        class="go-to-message material-icons"
+        @click="goToMessage"
         >keyboard_arrow_up</i
-      > -->
+      >
     </header>
     <main class="message" v-if="!this.quote.message">
       <div>File Message</div>
@@ -36,6 +39,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { PopoutsModule } from "@/store/modules/popouts";
 import User from "@/interfaces/User";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
+import { eventBus } from "@/utils/globalBus";
 
 @Component({components: {AvatarImage}})
 export default class MessageQuote extends Vue {
@@ -48,6 +52,9 @@ export default class MessageQuote extends Vue {
     } else {
       return null;
     }
+  }
+  goToMessage() {
+    eventBus.$emit('scrollToMessage', this.quote.messageID)
   }
 
   showProfile(event: PointerEvent) {

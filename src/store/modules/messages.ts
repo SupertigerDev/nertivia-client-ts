@@ -54,6 +54,7 @@ class Messages extends VuexModule {
   get groupedChannelMessages() {
     return (id: string) => {
       const messages = this.messages[id];
+      if (!messages) return null;
 
       const creatorMatch = (message1: Message, message2: Message) =>
         message1.creator.uniqueID === message2.creator.uniqueID;
@@ -90,14 +91,14 @@ class Messages extends VuexModule {
 
   @Mutation
   private SET_CHANNEL_MESSAGES(payload: {
-    messages: Message[];
+    messages: Message[]| null;
     channelID: string;
   }) {
     Vue.set(this.messages, payload.channelID, payload.messages);
   }
 
   @Action
-  SetChannelMessages(payload: { messages: Message[]; channelID: string }) {
+  SetChannelMessages(payload: { messages: Message[] | null; channelID: string }) {
     this.SET_CHANNEL_MESSAGES(payload);
   }
 

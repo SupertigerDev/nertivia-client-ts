@@ -13,6 +13,7 @@
     <transition-group :name="messageTransition ? 'message' : ''" tag="div">
       <component
         v-for="message in channelMessagesGrouped"
+        :ref="'message-' + message.messageID"
         v-bind:is="messageType(message)"
         class="message"
         :key="message.tempID || message.messageID"
@@ -20,7 +21,7 @@
       />
       <UploadQueue v-if="uploadQueue.length" key="upload-queue" />
     </transition-group>
-    <div class="test">
+    <div class="bottom-observer-outer">
       <Observer
         ref="bottomObserver"
         @intersecting="intersectBottomChange"
@@ -45,6 +46,8 @@ import FileDragDrop from "@/utils/FileDragDrop";
 import { FileUploadModule } from "@/store/modules/fileUpload";
 import { PopoutsModule } from "@/store/modules/popouts";
 import Message from "@/interfaces/Message";
+import { eventBus } from "@/utils/globalBus";
+import { fetchMessagesAround } from "@/services/messagesService";
 
 @Component({
   components: { MessageTemplate, ActionMessageTemplate, UploadQueue, Observer }
@@ -65,9 +68,11 @@ export default class MessageLogs extends Vue {
     this.fileDragDropHandler.onDrop(this.fileDrop);
     this.fileDragDropHandler.onDragOut(this.fileDragOut);
     this.dismissNotification();
+    eventBus.$on("scrollToMessage", this.goToMessage);
   }
   beforeDestroy() {
     this.fileDragDropHandler?.destroy();
+    eventBus.$off("scrollToMessage", this.goToMessage);
   }
   fileDragEnter() {
     PopoutsModule.ShowPopout({
@@ -104,13 +109,11 @@ export default class MessageLogs extends Vue {
         reverseClamp: true,
         checkScrolledBottom: false
       });
-
       let index = 0;
       const interval = setInterval(() => {
         if (index >= messages.length) {
           clearInterval(interval);
           this.isLoadingTopMore = false;
-
           this.$nextTick(() => {
             if ((this.$refs.topObserver as any).intersecting) {
               this.intersectTopChange(true);
@@ -126,20 +129,17 @@ export default class MessageLogs extends Vue {
             logs.scrollTop = logs.scrollHeight - beforeHeight + beforeScrollTop;
           });
         });
-
         index++;
       }, 50);
     });
   }
   intersectBottomChange(isIntersecting: boolean) {
     if (!this.moreBottomToLoad) return;
-
     const logs: Element = this.$refs.logs as any;
     if (!isIntersecting) return;
     if (this.isLoadingBottomMore) return;
     this.isLoadingBottomMore = true;
     this.moreTopToLoad = true;
-
     MessagesModule.beforeLoadMessages(this.channelID).then(messages => {
       let dontContinue = false;
       if (!this.channelMessages) dontContinue = true;
@@ -178,7 +178,6 @@ export default class MessageLogs extends Vue {
             logs.scrollTop = beforeScrollTop;
           });
         });
-
         index++;
       }, 50);
     });
@@ -207,6 +206,53 @@ export default class MessageLogs extends Vue {
     this.$socket.client.emit("notification:dismiss", {
       channelID: this.channelID
     });
+  }
+  goToMessage(messageID: string) {
+    let message = (this.$refs["message-" + messageID] as any)?.[0]
+      ?.$el as HTMLElement;
+
+    if (message) {
+      this.scrollIntoView(message);
+      this.highlightMessage(message);
+      return;
+    }
+    fetchMessagesAround(this.channelID, messageID).then(
+      ({ channelID, messages }) => {
+        MessagesModule.SetChannelMessages({
+          channelID,
+          messages: messages.reverse()
+        });
+
+        // stinky solution but oh well. for some reason it always scrolls down
+        // without this mess.
+        this.$nextTick(() => {
+          this.$nextTick(() => {
+            setTimeout(() => {
+              message = (this.$refs["message-" + messageID] as any)?.[0]
+                ?.$el as HTMLElement;
+              this.scrollIntoView(message);
+              this.highlightMessage(message);
+              this.moreTopToLoad = true;
+              this.moreBottomToLoad = true;
+            }, 500);
+          });
+        });
+      }
+    );
+  }
+  scrollIntoView(message: HTMLElement) {
+    message.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+      inline: "center"
+    });
+  }
+  highlightMessage(message: HTMLElement) {
+    if (message.classList.contains("highlight")) return;
+    message.classList.add("highlight");
+    setTimeout(() => {
+      message.classList.remove("highlight");
+    }, 3000);
   }
   @Watch("channelMessagesGrouped")
   onMessageChanges() {
@@ -311,8 +357,12 @@ export default class MessageLogs extends Vue {
     bottom: 0;
   }
 }
-.test {
+.bottom-observer-outer {
   z-index: -1;
   position: relative;
+}
+.highlight {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
 }
 </style>

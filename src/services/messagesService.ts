@@ -34,6 +34,14 @@ export function fetchMessagesBefore(
     .get(`messages/channels/${channelID}?before=${beforeMessageID}`)
     .json();
 }
+export function fetchMessagesAround(
+  channelID: string,
+  messageID: string
+): Promise<ResponseFetch> {
+  return wrapper()
+    .get(`messages/channels/${channelID}?around=${messageID}`)
+    .json();
+}
 export function deleteMessage(
   channelID: string,
   messageID: string

@@ -110,6 +110,9 @@ export default class MessageLogs extends Vue {
   overflow: hidden;
   display: flex;
 }
+.message {
+  transition: background-color 0.2s;
+}
 .message:hover {
   .time {
     opacity: 0.8;
