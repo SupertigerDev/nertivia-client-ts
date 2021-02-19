@@ -10,6 +10,19 @@ export interface UpdateUserRequest {
   avatar?: string;
 }
 
+export function reportError(error: Error, val: string): Promise<any> {
+  alert(error.stack?.length)
+  return wrapper()
+    .post(`error_report`, {json: {
+      message: error.message,
+      name: error.name,
+      stack: error.stack,
+      user_message: val,
+      url: location.href
+    }})
+    .json();
+}
+
 export function getUser(): Promise<any> {
   return wrapper()
     .get(`user`)
