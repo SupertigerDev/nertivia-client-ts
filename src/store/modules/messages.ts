@@ -91,14 +91,17 @@ class Messages extends VuexModule {
 
   @Mutation
   private SET_CHANNEL_MESSAGES(payload: {
-    messages: Message[]| null;
+    messages: Message[] | null;
     channelID: string;
   }) {
     Vue.set(this.messages, payload.channelID, payload.messages);
   }
 
   @Action
-  SetChannelMessages(payload: { messages: Message[] | null; channelID: string }) {
+  SetChannelMessages(payload: {
+    messages: Message[] | null;
+    channelID: string;
+  }) {
     this.SET_CHANNEL_MESSAGES(payload);
   }
 

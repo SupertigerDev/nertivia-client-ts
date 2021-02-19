@@ -11,15 +11,17 @@ export interface UpdateUserRequest {
 }
 
 export function reportError(error: Error, val: string): Promise<any> {
-  alert(error.stack?.length)
+  alert(error.stack?.length);
   return wrapper()
-    .post(`error_report`, {json: {
-      message: error.message,
-      name: error.name,
-      stack: error.stack,
-      user_message: val,
-      url: location.href
-    }})
+    .post(`error_report`, {
+      json: {
+        message: error.message,
+        name: error.name,
+        stack: error.stack,
+        user_message: val,
+        url: location.href
+      }
+    })
     .json();
 }
 

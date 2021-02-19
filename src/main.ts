@@ -24,18 +24,19 @@ applyDefaultTheme(false);
 
 let cancelErrorReportingForever = false;
 Vue.config.errorHandler = function(err, vm, info) {
-  console.error(err)
+  console.error(err);
   if (cancelErrorReportingForever) return;
-  const val = prompt(`An error has occored.\n${err}\nWould you like to report it?\n\nType in the box the action you were trying to do:`);
+  const val = prompt(
+    `An error has occored.\n${err}\nWould you like to report it?\n\nType in the box the action you were trying to do:`
+  );
   if (val === null) {
     cancelErrorReportingForever = true;
     return;
-  };
+  }
   reportError(err, val).then(() => {
-    alert("Report sent. Thank you!")
-  })
-}
-
+    alert("Report sent. Thank you!");
+  });
+};
 
 Vue.config.productionTip = false;
 Vue.directive("click-outside", clickOutside);
