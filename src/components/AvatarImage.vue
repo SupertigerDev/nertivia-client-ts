@@ -10,10 +10,15 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-
-import { seededColor } from "seeded-color";
+let seededColor: any = null;
+try {
+  seededColor = require("seeded-color").seededColor;
+} catch {
+  //
+}
 import config from "@/config";
 import WindowProperties from "@/utils/windowProperties";
+import { getAppliedColor } from "@/utils/customCssVars";
 
 @Component
 export default class MainApp extends Vue {
@@ -39,7 +44,9 @@ export default class MainApp extends Vue {
     return this.imageId.endsWith(".gif");
   }
   get bgColor() {
-    return seededColor(this.seedId || "owo");
+    return (
+      seededColor?.(this.seedId || "owo") || getAppliedColor("primary-color")
+    );
   }
   get style() {
     let style = `width:${this.size};height:${this.size};`;

@@ -6,14 +6,16 @@ import store from "./store";
 import clickOutside from "./directives/clickOutside";
 import clipboard from "vue-clipboard2";
 import { applyDefaultTheme } from "./utils/customCssVars";
-import { messaging } from "./utils/firebaseInstance";
+import { messagingSupported, messaging } from "./utils/firebaseInstance";
 import { reportError } from "./services/userService";
 
 Vue.use(clipboard);
 
-messaging().onMessage(payload => {
-  console.log("FCM Data: ", payload);
-});
+if (messagingSupported) {
+  messaging().onMessage(payload => {
+    console.log("FCM Data: ", payload);
+  });
+}
 Vue.prototype.$isMobile = /iphone|ipod|android|ie|blackberry|fennec/.test(
   navigator.userAgent.toLowerCase()
 );

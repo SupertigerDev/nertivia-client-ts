@@ -9,11 +9,12 @@
       />
       <div class="details">Makes a cool sound to get your attention.</div>
       <CheckBox
+        v-if="FCMSupported"
         v-model="pushNotification"
         name="Push Notification"
         @change="pushNotificationToggled"
       />
-      <div class="details">
+      <div class="details" v-if="FCMSupported">
         Get push notifications even when the app is closed. (Most useful to use
         on a mobile)
       </div>
@@ -24,12 +25,13 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import CheckBox from "@/components/CheckBox.vue";
-import { messaging } from "@/utils/firebaseInstance";
+import { messaging, messagingSupported } from "@/utils/firebaseInstance";
 import { registerFCM } from "@/services/userService";
 
 @Component({ components: { CheckBox } })
 export default class NotificationArea extends Vue {
   notificationSound = false;
+  FCMSupported = messagingSupported;
   pushNotification = JSON.parse(localStorage["pushNotification"] || "false");
   mounted() {
     this.configureNotificationSound();

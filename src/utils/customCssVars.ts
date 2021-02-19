@@ -66,7 +66,7 @@ export function setThemeColor() {
 export function getAppliedColor(color: string) {
   const customVars = getCustomCssVars();
 
-  return customVars["--" + "primary-color"] || defaultTheme["primary-color"];
+  return customVars["--" + color] || (defaultTheme as any)[color];
 }
 
 export function changeCssVar(name: string, change: any, store = true) {

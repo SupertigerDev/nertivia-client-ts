@@ -3,8 +3,9 @@ import "firebase/messaging";
 import config from "@/config";
 
 let _messaging: firebaseApp.messaging.Messaging | null = null;
+export const messagingSupported = firebaseApp.messaging.isSupported();
 
-export function messaging(): firebaseApp.messaging.Messaging {
+export function messaging(): firebaseApp.messaging.Messaging{
   if (_messaging) return _messaging;
   firebaseApp.initializeApp(config.firebase);
   _messaging = firebaseApp.messaging();
