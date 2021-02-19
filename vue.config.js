@@ -1,5 +1,5 @@
 module.exports = {
-  productionSourceMap: true,
+  productionSourceMap: false,
   transpileDependencies: ["vuex-module-decorators"],
   configureWebpack: {},
   pwa: {
