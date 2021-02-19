@@ -15,8 +15,8 @@ const nertiviaCDN = "https://media.nertivia.net/";
 
 const messaging = firebase.messaging();
 
-function bodyBuilder(isServer, username, message) {
-  return isServer ? `${username}: ${message}` : message;
+function bodyBuilder(server_id, username, message) {
+  return server_id ? `${username}: ${message}` : message;
 }
 function titleBuilder(channel_name, username) {
   return channel_name ? `${channel_name} - ${username}` : username;
@@ -48,12 +48,11 @@ messaging.setBackgroundMessageHandler(async payload => {
     channel_name,
     server_id
   } = payload.data;
-  const isServer = channel_name;
 
   const tag = `${channel_id}`;
   const notifications = await registration.getNotifications({ tag });
   const title = titleBuilder(channel_name, username);
-  const body = bodyBuilder(isServer, username, message);
+  const body = bodyBuilder(server_id, username, message);
   if (notifications[0]) {
     notifications[0].close();
     let messages = notifications[0].body.split("\n");
