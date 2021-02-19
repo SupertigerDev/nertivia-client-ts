@@ -282,8 +282,8 @@ export default class MessageBoxArea extends Vue {
   }
   @Watch("message")
   async postTypingStatus() {
-    if (!this.message.trim().length && this.postTypingTimeout) {
-      clearTimeout(this.postTypingTimeout);
+    if (!this.message.trim().length) {
+      this.postTypingTimeout && clearTimeout(this.postTypingTimeout);
       this.postTypingTimeout = null;
       return;
     }
