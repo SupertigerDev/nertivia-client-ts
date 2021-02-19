@@ -60,7 +60,21 @@ export default {
 
     const mapEmojis = arr => arr.map(row => emojiRow(row));
 
-    const block = (name, arr) => [category(name), mapEmojis(arr)];
+    const block = (name, arr, addButton) => {
+      const components = [category(name), mapEmojis(arr)];
+      if (addButton && !this.customEmojis.length) {
+        components.push(
+          <EmojiTemplate
+            addEmojiButton={true}
+            nativeOn={{
+              click: () => this.emojiClick(null, true),
+              mouseover: () => this.onEmojiHover(null, true)
+            }}
+          />
+        );
+      }
+      return components;
+    };
 
     const defaultEmojis = this.emojiWithGroup.map((g, i) => {
       if (g.gname) {
@@ -74,7 +88,7 @@ export default {
     });
 
     const showRecents = !this.search.trim() && this.allRecentEmojis.length;
-    const showCustom = !this.search.trim() && this.allCustomEmojis.length;
+    const showCustom = !this.search.trim();
     const showDefault = !this.search.trim();
     const showSearch = this.search.trim();
 
@@ -83,7 +97,7 @@ export default {
         <VirtualList size={37} remain={11} ref="virtualList">
           {[
             !!showRecents && block("Recents", this.allRecentEmojis),
-            !!showCustom && block("Custom Emojis", this.allCustomEmojis),
+            !!showCustom && block("Custom Emojis", this.allCustomEmojis, true),
             !!showDefault && defaultEmojis,
             !!showSearch && block("Results", this.allSearchEmojis)
           ]}
@@ -133,7 +147,14 @@ export default {
     backgroundClick(event) {
       if (!event.target.closest(".emoji-button")) this.close();
     },
-    onEmojiHover(em) {
+    onEmojiHover(em, addButton) {
+      if (addButton) {
+        this.hoveredEmoji = {
+          annotation: "Add Custom Emojis!",
+          addButton: true
+        };
+        return;
+      }
       this.hoveredEmoji = {
         ...em,
         el: em.unicode && emojiParser.replaceEmojis(em.unicode)
@@ -236,7 +257,11 @@ export default {
       }
       return newArr;
     },
-    emojiClick(emoji) {
+    emojiClick(emoji, addButton) {
+      if (addButton) {
+        this.$router.push("/app/settings/manage-emojis");
+        return;
+      }
       const id = emoji.name || emoji.shortcodes[0];
       addRecentEmoji(id);
       insert(this.inputElement, `:${id}: `);
@@ -248,7 +273,7 @@ export default {
       let recentRows = this.allRecentEmojis.length + 1;
       let customEmojiRows = this.allCustomEmojis.length + 1;
       if (!this.allRecentEmojis.length) recentRows = 0;
-      if (!this.allCustomEmojis.length) customEmojiRows = 0;
+      if (!this.allCustomEmojis.length) customEmojiRows = 2;
       if (index === "RECENTS") {
         this.$refs.virtualList.setScrollTop(0);
         return;

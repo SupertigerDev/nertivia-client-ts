@@ -9,9 +9,9 @@
 import Header from "@/components/Header.vue";
 import settingsPages from "@/utils/serverSettingsPages.json";
 import ManageNotification from "./ManageNotification.vue";
-import ManageInvites from "./ManageInvites/ManageInvites.vue";
-import ManageChannels from "./ManageChannels/ManageChannels.vue";
-import ManageUsers from "./ManageUsers/ManageUsers.vue";
+import ManageInvites from "./manage-invites/ManageInvites";
+import ManageChannels from "./manage-channels/ManageChannels.vue";
+import ManageUsers from "./manage-users/ManageUsers.vue";
 import General from "./General.vue";
 
 import { Vue, Component } from "vue-property-decorator";

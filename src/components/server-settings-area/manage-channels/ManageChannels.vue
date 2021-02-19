@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container manage-channels">
     <div class="inner-container">
       <div class="description">
         <div class="material-icons">info</div>

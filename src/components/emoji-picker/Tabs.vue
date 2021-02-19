@@ -11,7 +11,6 @@
     <div
       class="tab"
       @click="tabClicked('CUSTOM')"
-      v-if="customEmojis.length"
       @mouseenter="tabsHover($event, 1)"
     >
       <i class="material-icons">face</i>

@@ -18,10 +18,16 @@ const Notification = () =>
   import(
     /* webpackChunkName: "Notification" */ "@/components/settings-area/Notification.vue"
   );
+const ManageEmojis = () =>
+  import(
+    /* webpackChunkName: "ManageEmojis" */ "@/components/settings-area/manage-emojis/ManageEmojis.vue"
+  );
 import Header from "@/components/Header.vue";
 import settingPages from "@/utils/settingPages.json";
 import { Vue, Component } from "vue-property-decorator";
-@Component({ components: { Header, Interface, Account, Notification } })
+@Component({
+  components: { Header, Interface, Account, Notification, ManageEmojis }
+})
 export default class SettingsArea extends Vue {
   mounted() {
     if (!this.selectedTab) {

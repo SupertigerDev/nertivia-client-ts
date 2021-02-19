@@ -9,6 +9,11 @@
     "icon": "notifications",
     "component": "Notification"
   },
+  "manage-emojis": {
+    "name": "Manage Emojis",
+    "icon": "face",
+    "component": "ManageEmojis"
+  },
   "interface": {
     "name": "Interface",
     "icon": "view_quilt",

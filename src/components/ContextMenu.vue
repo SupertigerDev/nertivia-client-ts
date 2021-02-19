@@ -45,6 +45,12 @@ import windowProperties from "@/utils/windowProperties";
 
 interface ItemsProp {
   name: string;
+  color?: string;
+  type?: string;
+  icon?: string;
+  warn?: string;
+  disabled?: string;
+  nestContext?: string;
 }
 @Component
 export default class extends Vue {

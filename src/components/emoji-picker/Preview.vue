@@ -1,7 +1,10 @@
 <template>
   <div class="preview">
     <div class="inner-content" v-if="hoveredEmoji">
-      <div class="emoji" v-html="image" />
+      <div v-if="hoveredEmoji.addButton" class="emoji add">
+        <div class="material-icons">add</div>
+      </div>
+      <div class="emoji" v-else v-html="image" />
       <div class="details">
         <div class="name" v-if="name">{{ name }}</div>
         <div class="shortcode" v-if="shortCode">:{{ shortCode }}:</div>
@@ -20,7 +23,7 @@ export default class extends Vue {
 
   get shortCode() {
     if (this.hoveredEmoji.name) return this.hoveredEmoji.name;
-    else return this.hoveredEmoji.shortcodes[0];
+    else return this.hoveredEmoji.shortcodes?.[0];
   }
   get name() {
     if (!this.hoveredEmoji.annotation) return null;
@@ -54,8 +57,13 @@ export default class extends Vue {
 .emoji {
   margin-left: 10px;
   height: 30px;
+  flex-shrink: 0;
   width: 30px;
-  overflow: hidden;
+  &.add {
+    display: flex;
+    align-items: center;
+    align-content: center;
+  }
 }
 .details {
   margin-left: 10px;

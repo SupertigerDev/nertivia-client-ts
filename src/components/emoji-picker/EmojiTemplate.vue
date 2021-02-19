@@ -1,8 +1,11 @@
 <template>
-  <div class="emoji-item">
+  <div class="emoji-item" :class="{ add: addEmojiButton }">
+    <div class="emoji" v-if="addEmojiButton">
+      <div class="material-icons">add</div>
+    </div>
     <div
-      v-if="!emoji.emojiID"
-      class="emoji"
+      v-else-if="!emoji.emojiID"
+      class="emoji default"
       :style="{ backgroundPosition: emoji.pos }"
     />
     <div
@@ -20,7 +23,7 @@
 <script>
 import config from "@/config";
 export default {
-  props: ["emoji"],
+  props: ["emoji", "addEmojiButton"],
   data() {
     return {
       customEmojiUrl: config.nertiviaCDN + "emojis/"
@@ -36,6 +39,7 @@ export default {
   align-content: center;
   align-items: center;
   height: 37px;
+  border-radius: 4px;
   width: 37px;
   flex-shrink: 0;
   cursor: pointer;
@@ -43,12 +47,20 @@ export default {
   &:hover {
     background: rgba(255, 255, 255, 0.2);
   }
+  &.add {
+    opacity: 0.6;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
 }
 .emoji {
-  background-image: url("../../assets/emojiSprites.png");
-  background-position: 0px 0px;
-  background-repeat: no-repeat;
-  background-size: 1000px;
+  &.default {
+    background-image: url("../../assets/emojiSprites.png");
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+    background-size: 1000px;
+  }
   user-select: none;
   height: 25px;
   width: 25px;
