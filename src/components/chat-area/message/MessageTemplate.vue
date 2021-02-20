@@ -17,11 +17,11 @@
       />
       <!-- Used for grouped messages -->
       <div class="time" v-else>{{ friendlyTime }}</div>
-      <Bubble :message="message" />
+      <Bubble :message="message" :invite="invite" />
       <MessageSide :message="message" v-if="!hideContext" />
     </div>
     <transition name="embed-animation">
-      <EmbedMessage v-if="embed" :embed="embed" />
+      <EmbedMessage v-if="embed && !invite" :embed="embed" />
     </transition>
   </div>
 </template>
@@ -66,6 +66,12 @@ export default class MessageLogs extends Vue {
         uniqueID: this.message.creator.uniqueID
       }
     });
+  }
+
+  get invite() {
+    const regex = /nertivia\.net\/(invites|i)\/([\S]+)/;
+    if (!this.message.message) return null;
+    return this.message.message.match(regex);
   }
 
   get creator() {

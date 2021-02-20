@@ -43,6 +43,7 @@ import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { PopoutsModule } from "@/store/modules/popouts";
 import config from "@/config";
 import Markup from "@/components/Markup.vue";
+import Invite from "@/interfaces/Invite";
 
 @Component({
   components: { ImageMessageEmbed, FileMessage, InviteMessage, Markup }
@@ -50,6 +51,7 @@ import Markup from "@/components/Markup.vue";
 export default class Bubble extends Vue {
   loadRoleColor = false;
   @Prop() private message!: Message & { grouped: boolean };
+  @Prop() private invite!: Invite;
 
   showProfile() {
     PopoutsModule.ShowPopout({
@@ -101,12 +103,6 @@ export default class Bubble extends Vue {
     if (!files || !files.length) return undefined;
     return files[0];
   }
-  get invite() {
-    const regex = /nertivia\.net\/(invites|i)\/([\S]+)/;
-    if (!this.message.message) return null;
-    return this.message.message.match(regex);
-  }
-
   get date() {
     return friendlyDate(this.message.created);
   }
