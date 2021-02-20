@@ -61,8 +61,9 @@ export default class extends Vue {
   width = 0;
   mount = false;
   currentHoveringItem: any = null;
-  clickOutside() {
+  clickOutside(event: any) {
     if (!this.mount) return;
+    if (event.target.closest(".context")) return;
     this.$emit("close");
   }
   mounted() {

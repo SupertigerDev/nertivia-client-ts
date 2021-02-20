@@ -58,9 +58,10 @@ export default class MessageSide extends Vue {
 }
 
 .options-button {
-  font-size: 14px;
+  font-size: 16px;
   opacity: 0;
   cursor: pointer;
+  z-index: 1;
   user-select: none;
 }
 .message-status {
