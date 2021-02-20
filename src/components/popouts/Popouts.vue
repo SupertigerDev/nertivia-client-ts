@@ -71,6 +71,10 @@ const ImagePreviewPopout = () =>
   import(
     /* webpackChunkName: "ImagePreviewPopout" */ "@/components/popouts/ImagePreviewPopout.vue"
   );
+const GenericPopout = () =>
+  import(
+    /* webpackChunkName: "GenericPopout" */ "@/components/popouts/GenericPopout.vue"
+  );
 @Component({
   components: {
     ProfilePopout,
@@ -86,7 +90,8 @@ const ImagePreviewPopout = () =>
     ImagePreviewPopout,
     AddFriendPopout,
     AddServerPopout,
-    ChannelContextMenu
+    ChannelContextMenu,
+    GenericPopout
   }
 })
 export default class MainApp extends Vue {

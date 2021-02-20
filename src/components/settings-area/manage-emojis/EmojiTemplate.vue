@@ -31,6 +31,10 @@
 <script lang="ts">
 import config from "@/config";
 import CustomEmoji from "@/interfaces/CustomEmoji";
+import { deleteEmoji, updateEmoji } from "@/services/emojiService";
+import { CustomEmojisModule } from "@/store/modules/customEmojis";
+import { PopoutsModule } from "@/store/modules/popouts";
+import emojiParser from "@/utils/emojiParser";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 @Component
@@ -47,12 +51,79 @@ export default class EmojiTemplate extends Vue {
     }
   }
   saveButton() {
+    const emojiExists = emojiParser.allEmojis.filter(e =>
+      e.shortcodes.find(s => s === this.emojiName.toLowerCase())
+    );
+    //check if emoji name is already used by custom emojis
+    const customEmojiExists = CustomEmojisModule.customEmojis.filter(
+      e => e.name.toLowerCase() === this.emojiName.toLowerCase()
+    );
+    if (emojiExists.length > 1 || customEmojiExists.length > 1) {
+      PopoutsModule.ShowPopout({
+        id: "custom-emoji-save-error",
+        component: "generic-popout",
+        data: {
+          title: "Oops!",
+          description: "Emoji with this name already exists."
+        }
+      });
+      return;
+    }
+
     if (this.saving) return;
     this.saving = true;
+    updateEmoji(this.emoji.emojiID, this.emojiName)
+      .then(() => {
+        CustomEmojisModule.UpdateEmoji({
+          emojiID: this.emoji.emojiID,
+          name: this.emojiName
+        });
+        this.emojiName = this.emoji.name;
+
+        this.saving = false;
+      })
+      .catch(async res => {
+        let message;
+        if (res.response) {
+          message = (await res.response.json()).message;
+        } else {
+          message = "Could not connect to server.";
+        }
+        PopoutsModule.ShowPopout({
+          id: "custom-emoji-save-error",
+          component: "generic-popout",
+          data: {
+            title: "Oops!",
+            description: message
+          }
+        });
+        this.saving = false;
+      });
   }
   deleteButton() {
     if (this.deleting) return;
     this.deleting = true;
+    deleteEmoji(this.emoji.emojiID)
+      .then(() => {
+        CustomEmojisModule.DeleteEmoji(this.emoji.emojiID);
+      })
+      .catch(async res => {
+        let message;
+        if (res.response) {
+          message = (await res.response.json()).message;
+        } else {
+          message = "Could not connect to server.";
+        }
+        PopoutsModule.ShowPopout({
+          id: "custom-emoji-delete-error",
+          component: "generic-popout",
+          data: {
+            title: "Oops!",
+            description: message
+          }
+        });
+        this.deleting = false;
+      });
   }
   keyDown(event: KeyboardEvent) {
     if (event.key === "Enter") {

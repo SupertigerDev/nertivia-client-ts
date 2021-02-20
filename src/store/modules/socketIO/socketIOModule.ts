@@ -5,6 +5,7 @@ import channelEvents from "./channelEvents";
 import serverEvents from "./serverEvents";
 import userEvents from "./userEvents";
 import relationshipEvents from "./relationshipEvents";
+import customEmojiEvents from "./customEmojiEvents";
 
 export default {
   namespace: true,
@@ -15,6 +16,7 @@ export default {
     channelEvents,
     serverEvents,
     userEvents,
-    relationshipEvents
+    relationshipEvents,
+    customEmojiEvents
   }
 };
