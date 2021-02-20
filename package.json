@@ -10,7 +10,6 @@
   "dependencies": {
     "@hcaptcha/vue-hcaptcha": "^0.2.4",
     "@simonwep/pickr": "^1.8.0",
-    "@types/lodash": "^4.14.167",
     "core-js": "^3.8.2",
     "filesize": "^6.1.0",
     "firebase": "^8.2.6",
@@ -34,6 +33,7 @@
     "vuex-module-decorators": "^0.17.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.168",
     "@types/node": "^14.14.31",
     "@types/twemoji": "^12.1.1",
     "@typescript-eslint/eslint-plugin": "^2.33.0",

@@ -105,7 +105,7 @@ const EmojiPicker = () =>
   }
 })
 export default class MessageBoxArea extends Vue {
-  postTypingTimeout: number | null = null;
+  postTypingTimeout: NodeJS.Timeout | null = null;
   showEmojiPicker = false;
   mounted() {
     this.resizeTextArea();
