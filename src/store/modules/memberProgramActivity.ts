@@ -1,3 +1,4 @@
+import Vue from "vue";
 import {
   Module,
   VuexModule,
@@ -37,6 +38,15 @@ class ProgramActivities extends VuexModule {
   @Action
   public SetProgramActivity(payload: {uniqueID: string; name: string; status: string}) {
     this.SET_PROGRAM_ACTIVITY(payload);
+  }
+  @Mutation
+  private REMOVE_PROGRAM_ACTIVITY(payload: {uniqueID: string;}) {
+    Vue.delete(this.programActivity, payload.uniqueID)
+  }
+
+  @Action
+  public RemoveProgramActivity(payload: {uniqueID: string;}) {
+    this.REMOVE_PROGRAM_ACTIVITY(payload);
   }
 
 }

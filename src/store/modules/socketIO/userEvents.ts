@@ -2,11 +2,14 @@ import { CUSTOM_STATUS_CHANGE, SELF_CUSTOM_STATUS_CHANGE, SELF_STATUS_CHANGE, US
 import { ActionTree } from "vuex";
 import { MeModule } from "../me";
 import { CustomStatusesModule } from "../memberCustomStatus";
+import { programActivitiesModule } from "../memberProgramActivity";
 import { PresencesModule } from "../presences";
 
 const actions: ActionTree<any, any> = {
   [USER_STATUS_CHANGE](context, data: { uniqueID: string; status: number }) {
     if (data.uniqueID === MeModule.user.uniqueID) return;
+    programActivitiesModule.RemoveProgramActivity({uniqueID: data.uniqueID});
+    CustomStatusesModule.RemoveCustomStatus({uniqueID: data.uniqueID})
     PresencesModule.UpdatePresence({
       presence: data.status,
       uniqueID: data.uniqueID

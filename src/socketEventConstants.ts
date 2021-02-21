@@ -26,8 +26,8 @@ export const NOTIFICATION_DISMISS = eventBuilder("notification:dismiss");
 // channel events
 export const CHANNEL_CREATED = eventBuilder("channel:created");
 export const CHANNEL_REMOVED = eventBuilder("channel:remove");
-export const CHANNEL_UNMUTE = eventBuilder("socket_channel:unmute");
-export const CHANNEL_MUTE = eventBuilder("socket_channel:mute");
+export const CHANNEL_UNMUTE = eventBuilder("channel:unmute");
+export const CHANNEL_MUTE = eventBuilder("channel:mute");
 // server channel events
 export const SERVER_CHANNEL_CREATED = eventBuilder("server:add_channel");
 export const SERVER_CHANNEL_REMOVED = eventBuilder("server:remove_channel");
@@ -57,7 +57,8 @@ export const RELATIONSHIP_ADD = eventBuilder("relationship_add")
 export const RELATIONSHIP_REMOVE = eventBuilder("relationship_remove")
 export const RELATIONSHIP_ACCEPT = eventBuilder("relationship_accept")
 // custom emoji events
-export const CUSTOM_EMOJI_RENAME = eventBuilder("socket_customEmoji:rename")
-export const CUSTOM_EMOJI_UPLOADED = eventBuilder("socket_customEmoji:uploaded")
-export const CUSTOM_EMOJI_REMOVE = eventBuilder("socket_customEmoji:remove")
-// TODO: program activity events
+export const CUSTOM_EMOJI_RENAME = eventBuilder("customEmoji:rename")
+export const CUSTOM_EMOJI_UPLOADED = eventBuilder("customEmoji:uploaded")
+export const CUSTOM_EMOJI_REMOVE = eventBuilder("customEmoji:remove")
+// program activity events
+export const PROGRAM_ACTIVITY_CHANGED = eventBuilder("programActivity:changed")

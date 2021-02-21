@@ -6,6 +6,7 @@ import {
   getModule
 } from "vuex-module-decorators";
 import store from "..";
+import Vue from "vue";
 
 // customStatus[uniqueid]: status;
 interface CustomStatus {
@@ -33,6 +34,15 @@ class CustomStatuses extends VuexModule {
   @Action
   public SetCustomStatus(payload: {uniqueID: string; custom_status: string}) {
     this.SET_CUSTOM_STATUS(payload);
+  }
+  @Mutation
+  private REMOVE_CUSTOM_STATUS(payload: {uniqueID: string}) {
+    Vue.delete(this.customStatus, payload.uniqueID)
+  }
+
+  @Action
+  public RemoveCustomStatus(payload: {uniqueID: string}) {
+    this.REMOVE_CUSTOM_STATUS(payload);
   }
 
 }
