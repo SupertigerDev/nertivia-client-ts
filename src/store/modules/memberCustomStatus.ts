@@ -10,7 +10,7 @@ import Vue from "vue";
 
 // customStatus[uniqueid]: status;
 interface CustomStatus {
-  [key: string]: string
+  [key: string]: string;
 }
 
 @Module({ dynamic: true, store, namespaced: true, name: "customStatuses" })
@@ -27,23 +27,25 @@ class CustomStatuses extends VuexModule {
     this.INIT_CUSTOM_STATUS(payload);
   }
   @Mutation
-  private SET_CUSTOM_STATUS(payload: {uniqueID: string; custom_status: string}) {
+  private SET_CUSTOM_STATUS(payload: {
+    uniqueID: string;
+    custom_status: string;
+  }) {
     this.customStatus[payload.uniqueID] = payload.custom_status;
   }
 
   @Action
-  public SetCustomStatus(payload: {uniqueID: string; custom_status: string}) {
+  public SetCustomStatus(payload: { uniqueID: string; custom_status: string }) {
     this.SET_CUSTOM_STATUS(payload);
   }
   @Mutation
-  private REMOVE_CUSTOM_STATUS(payload: {uniqueID: string}) {
-    Vue.delete(this.customStatus, payload.uniqueID)
+  private REMOVE_CUSTOM_STATUS(payload: { uniqueID: string }) {
+    Vue.delete(this.customStatus, payload.uniqueID);
   }
 
   @Action
-  public RemoveCustomStatus(payload: {uniqueID: string}) {
+  public RemoveCustomStatus(payload: { uniqueID: string }) {
     this.REMOVE_CUSTOM_STATUS(payload);
   }
-
 }
 export const CustomStatusesModule = getModule(CustomStatuses);

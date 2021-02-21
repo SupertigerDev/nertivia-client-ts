@@ -20,7 +20,13 @@ import { CustomEmojisModule } from "../customEmojis";
 import userStatuses from "@/constants/userStatuses";
 import { CustomStatusesModule } from "../memberCustomStatus";
 import { programActivitiesModule } from "../memberProgramActivity";
-import { CONNECT, AUTH_ERROR, SUCCESS, DISCONNECT, RECONNECTING } from "@/socketEventConstants";
+import {
+  CONNECT,
+  AUTH_ERROR,
+  SUCCESS,
+  DISCONNECT,
+  RECONNECTING
+} from "@/socketEventConstants";
 
 const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
@@ -35,7 +41,7 @@ interface SuccessEvent {
   settings: Settings;
   mutedChannels: string[];
   mutedServers: { muted: number; server_id: string }[];
-  customStatusArr: [string, string][]
+  customStatusArr: [string, string][];
   programActivityArr: ReturnedProgramActivity[];
 }
 interface Settings {
@@ -57,9 +63,9 @@ interface LastSeenServerChannels {
 }
 
 interface ReturnedProgramActivity {
-  name: string
-  status: string
-  uniqueID: string
+  name: string;
+  status: string;
+  uniqueID: string;
 }
 interface ReturnedDmChannel {
   lastMessaged: number;
@@ -283,19 +289,19 @@ const actions: ActionTree<any, any> = {
       mutedServersObj[obj.server_id] = { type: obj.muted };
     }
 
-    // custom status 
-    const customStatusObj: any = {}
+    // custom status
+    const customStatusObj: any = {};
     for (let i = 0; i < data.customStatusArr.length; i++) {
       const element = data.customStatusArr[i];
-      customStatusObj[element[0]] = element[1]
-    } 
+      customStatusObj[element[0]] = element[1];
+    }
     // programActivity
     const programActivityObj: any = {};
     for (let i = 0; i < data.programActivityArr.length; i++) {
       const programActivity = data.programActivityArr[i];
       programActivityObj[programActivity.uniqueID] = {
         status: programActivity.status,
-        name: programActivity.name,
+        name: programActivity.name
       };
     }
 

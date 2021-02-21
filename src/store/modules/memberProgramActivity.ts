@@ -10,7 +10,7 @@ import store from "..";
 
 // programActivity[uniqueid]: {name, status};
 interface ProgramActivityObj {
-  [key: string]: ProgramActivity
+  [key: string]: ProgramActivity;
 }
 interface ProgramActivity {
   name: string;
@@ -31,23 +31,30 @@ class ProgramActivities extends VuexModule {
     this.INIT_PROGRAM_ACTIVITY(payload);
   }
   @Mutation
-  private SET_PROGRAM_ACTIVITY(payload: {uniqueID: string; name: string; status: string}) {
+  private SET_PROGRAM_ACTIVITY(payload: {
+    uniqueID: string;
+    name: string;
+    status: string;
+  }) {
     this.programActivity[payload.uniqueID] = payload;
   }
 
   @Action
-  public SetProgramActivity(payload: {uniqueID: string; name: string; status: string}) {
+  public SetProgramActivity(payload: {
+    uniqueID: string;
+    name: string;
+    status: string;
+  }) {
     this.SET_PROGRAM_ACTIVITY(payload);
   }
   @Mutation
-  private REMOVE_PROGRAM_ACTIVITY(payload: {uniqueID: string;}) {
-    Vue.delete(this.programActivity, payload.uniqueID)
+  private REMOVE_PROGRAM_ACTIVITY(payload: { uniqueID: string }) {
+    Vue.delete(this.programActivity, payload.uniqueID);
   }
 
   @Action
-  public RemoveProgramActivity(payload: {uniqueID: string;}) {
+  public RemoveProgramActivity(payload: { uniqueID: string }) {
     this.REMOVE_PROGRAM_ACTIVITY(payload);
   }
-
 }
 export const programActivitiesModule = getModule(ProgramActivities);

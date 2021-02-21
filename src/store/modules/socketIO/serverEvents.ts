@@ -10,7 +10,22 @@ import { UsersModule } from "../users";
 import { MutedServersModule } from "../mutedServers";
 import { deleteMessage } from "@/services/messagesService";
 import { MessagesModule } from "../messages";
-import { SERVER_ADD_ROLE, SERVER_CREATE_ROLE, SERVER_JOINED, SERVER_LEAVE, SERVER_MEMBERS, SERVER_MEMBER_ADD, SERVER_MEMBER_REMOVE, SERVER_MEMBER_REMOVE_ROLE, SERVER_MUTE, SERVER_POSITION, SERVER_REMOVE_ROLE, SERVER_ROLES, SERVER_UPDATE_ROLE, SERVER_UPDATE_ROLES } from "@/socketEventConstants";
+import {
+  SERVER_ADD_ROLE,
+  SERVER_CREATE_ROLE,
+  SERVER_JOINED,
+  SERVER_LEAVE,
+  SERVER_MEMBERS,
+  SERVER_MEMBER_ADD,
+  SERVER_MEMBER_REMOVE,
+  SERVER_MEMBER_REMOVE_ROLE,
+  SERVER_MUTE,
+  SERVER_POSITION,
+  SERVER_REMOVE_ROLE,
+  SERVER_ROLES,
+  SERVER_UPDATE_ROLE,
+  SERVER_UPDATE_ROLES
+} from "@/socketEventConstants";
 
 const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
@@ -149,10 +164,7 @@ const actions: ActionTree<any, any> = {
   [SERVER_REMOVE_ROLE](context, { role_id, server_id }) {
     ServerRolesModule.DeleteServerRole({ role_id, server_id });
   },
-  [SERVER_MEMBER_REMOVE_ROLE](
-    context,
-    data: ServerMemberAddOrRemoveRole
-  ) {
+  [SERVER_MEMBER_REMOVE_ROLE](context, data: ServerMemberAddOrRemoveRole) {
     ServerMembersModule.RemoveMemberRole({
       serverID: data.server_id,
       uniqueID: data.uniqueID,

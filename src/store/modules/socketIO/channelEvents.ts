@@ -4,7 +4,15 @@ import { ActionTree } from "vuex";
 import { ChannelsModule } from "../channels";
 import { MutedChannelsModule } from "../mutedChannels";
 import { UsersModule } from "../users";
-import { CHANNEL_CREATED, SERVER_CHANNEL_CREATED, SERVER_CHANNEL_UPDATE, CHANNEL_REMOVED, SERVER_CHANNEL_REMOVED,CHANNEL_UNMUTE, CHANNEL_MUTE } from "@/socketEventConstants";
+import {
+  CHANNEL_CREATED,
+  SERVER_CHANNEL_CREATED,
+  SERVER_CHANNEL_UPDATE,
+  CHANNEL_REMOVED,
+  SERVER_CHANNEL_REMOVED,
+  CHANNEL_UNMUTE,
+  CHANNEL_MUTE
+} from "@/socketEventConstants";
 
 const actions: ActionTree<any, any> = {
   [CHANNEL_CREATED](context, data: { channel: ChannelWithUser }) {

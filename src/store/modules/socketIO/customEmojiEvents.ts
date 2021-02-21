@@ -1,5 +1,9 @@
 import ChannelWithUser from "@/interfaces/DmChannelWithUser";
-import { CUSTOM_EMOJI_REMOVE, CUSTOM_EMOJI_RENAME, CUSTOM_EMOJI_UPLOADED } from "@/socketEventConstants";
+import {
+  CUSTOM_EMOJI_REMOVE,
+  CUSTOM_EMOJI_RENAME,
+  CUSTOM_EMOJI_UPLOADED
+} from "@/socketEventConstants";
 import date from "@/utils/date";
 import { ActionTree } from "vuex";
 import { CustomEmojisModule } from "../customEmojis";
@@ -24,10 +28,7 @@ const actions: ActionTree<any, any> = {
       gif: emoji.gif
     });
   },
-  [CUSTOM_EMOJI_REMOVE](
-    context,
-    { emoji }: { emoji: { emojiID: string } }
-  ) {
+  [CUSTOM_EMOJI_REMOVE](context, { emoji }: { emoji: { emojiID: string } }) {
     CustomEmojisModule.DeleteEmoji(emoji.emojiID);
   }
 };

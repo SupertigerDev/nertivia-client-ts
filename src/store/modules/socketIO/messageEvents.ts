@@ -10,7 +10,11 @@ import router from "@/router";
 import { MutedChannelsModule } from "../mutedChannels";
 import { MutedServersModule } from "../mutedServers";
 import { eventBus } from "@/utils/globalBus";
-import { RECEIVE_MESSAGE, DELETE_MESSAGE, UPDATE_MESSAGE } from "@/socketEventConstants";
+import {
+  RECEIVE_MESSAGE,
+  DELETE_MESSAGE,
+  UPDATE_MESSAGE
+} from "@/socketEventConstants";
 
 function playNotificationSound(
   mentioned: boolean,
@@ -97,10 +101,7 @@ const actions: ActionTree<any, any> = {
       }
     }
   },
-  [DELETE_MESSAGE](
-    context,
-    data: { channelID: string; messageID: string }
-  ) {
+  [DELETE_MESSAGE](context, data: { channelID: string; messageID: string }) {
     MessagesModule.DeleteMessage(data);
   },
   [UPDATE_MESSAGE](context, data: Message) {
