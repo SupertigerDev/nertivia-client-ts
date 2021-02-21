@@ -17,6 +17,8 @@ import { isObjectLike } from "lodash";
 import { MutedServersModule } from "../mutedServers";
 import CustomEmoji from "@/interfaces/CustomEmoji";
 import { CustomEmojisModule } from "../customEmojis";
+import userStatuses from "@/constants/userStatuses";
+import { CustomStatusesModule } from "../memberCustomStatus";
 
 const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
@@ -31,6 +33,7 @@ interface SuccessEvent {
   settings: Settings;
   mutedChannels: string[];
   mutedServers: { muted: number; server_id: string }[];
+  customStatusArr: [string, string][]
 }
 interface Settings {
   server_position: string[];
@@ -150,7 +153,6 @@ const actions: ActionTree<any, any> = {
       avatar: data.user.avatar,
       tag: data.user.tag,
       uniqueID: data.user.uniqueID,
-      custom_status: data.user.custom_status,
       status: data.user.status
     });
 
@@ -273,6 +275,14 @@ const actions: ActionTree<any, any> = {
       mutedServersObj[obj.server_id] = { type: obj.muted };
     }
 
+    // custom status 
+    const customStatusObj: any = {}
+    for (let i = 0; i < data.customStatusArr.length; i++) {
+      const element = data.customStatusArr[i];
+      customStatusObj[element[0]] = element[1]
+    } 
+
+    CustomStatusesModule.InitCustomStatus(customStatusObj);
     MutedServersModule.SetMutedServers(mutedServersObj);
     MutedChannelsModule.SetMutedChannels(data.mutedChannels);
     ServerRolesModule.InitServerRoles(serverRolesObj);

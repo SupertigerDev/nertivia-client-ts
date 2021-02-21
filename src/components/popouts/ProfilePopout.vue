@@ -129,6 +129,7 @@ import {
   deleteFriend,
   sendFriendRequest
 } from "@/services/relationshipService";
+import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
 @Component({
   components: { AvatarImage }
 })
@@ -192,10 +193,7 @@ export default class ProfilePopout extends Vue {
   }
   get customStatus() {
     if (this.presence.name === "Offline") return undefined;
-    if (this.user?.uniqueID === MeModule.user.uniqueID) {
-      return MeModule.user.custom_status;
-    }
-    return undefined;
+    return CustomStatusesModule.customStatus[this.user.uniqueID];
   }
   get friendStatus() {
     const status = FriendsModule.friends[this.user.uniqueID]?.status;

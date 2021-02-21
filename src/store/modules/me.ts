@@ -14,7 +14,6 @@ interface User {
   email?: string | null;
   avatar?: string | null;
   uniqueID?: string | null;
-  custom_status?: string;
   status: number;
 }
 

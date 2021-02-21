@@ -49,6 +49,7 @@ import { PresencesModule } from "@/store/modules/presences";
 import { MeModule } from "@/store/modules/me";
 import WindowProperties from "@/utils/windowProperties";
 import { PopoutsModule } from "@/store/modules/popouts";
+import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
 
 interface ServerMember {
   member: User;
@@ -80,11 +81,8 @@ export default class MiniProfilePopout extends Vue {
     return userStatuses[presence || 0];
   }
   get customStatus() {
-    if (this.presence.name === "Offline") return undefined;
-    if (this.user?.uniqueID === MeModule.user.uniqueID) {
-      return MeModule.user.custom_status;
-    }
-    return undefined;
+    if (!this.user) return undefined;
+    return CustomStatusesModule.customStatus[this.user.uniqueID];
   }
   get user() {
     return this.data.member?.member;

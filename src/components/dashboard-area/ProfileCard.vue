@@ -16,7 +16,7 @@
         ><span class="tag">:{{ me.tag }}</span>
       </div>
       <div class="custom-status" v-if="connected">
-        {{ me.custom_status }}
+        {{ customStatus }}
       </div>
       <div class="online-status" ref="currentStatus" @click="openStatusContext">
         <div class="dot" :style="{ background: statusColor }" />
@@ -39,6 +39,7 @@ import { MeModule } from "@/store/modules/me";
 import userStatuses from "@/constants/userStatuses";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { logout } from "@/services/userService";
+import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
 
 @Component({ components: { AvatarImage } })
 export default class ProfileCard extends Vue {
@@ -74,6 +75,10 @@ export default class ProfileCard extends Vue {
   }
   get me() {
     return MeModule.user;
+  }
+  get customStatus() {
+    if (!this.me?.uniqueID) return undefined;
+    return CustomStatusesModule.customStatus[this.me.uniqueID];
   }
   get statusColor() {
     if (!this.connected) return userStatuses[0].color;

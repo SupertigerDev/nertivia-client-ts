@@ -13,9 +13,19 @@
       size="30px"
       :animateGif="hover"
     />
-    <span class="username" :style="{ color: firstRoleColor }">{{
-      member.username
-    }}</span>
+    <div class="details">
+      <span class="username" :style="{ color: firstRoleColor }">{{
+        member.username
+      }}</span>
+      <div class="custom-and-presence" v-if="presence">
+        <div
+          class="presence-color"
+          :style="{ backgroundColor: presence.color }"
+        />
+        <div class="custom-status" v-if="customStatus">{{ customStatus }}</div>
+        <div class="custom-status" v-else>{{ presence.name }}</div>
+      </div>
+    </div>
     <span class="badge" :title="badge[0]" :class="badge[0]" v-if="badge"
       ><img :src="badge[1]"
     /></span>
@@ -33,6 +43,9 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { permissions } from "@/constants/rolePermissions";
 import config from "@/config";
+import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
+import { PresencesModule } from "@/store/modules/presences";
+import userStatuses from "@/constants/userStatuses";
 
 @Component({ components: { AvatarImage } })
 export default class RightDrawer extends Vue {
@@ -68,6 +81,14 @@ export default class RightDrawer extends Vue {
   }
   get member() {
     return this.serverMember.member;
+  }
+  get customStatus() {
+    return CustomStatusesModule.customStatus[this.member.uniqueID];
+  }
+  get presence() {
+    const presence = PresencesModule.getPresence(this.member.uniqueID);
+    if (!presence) return undefined;
+    return userStatuses[presence || 0];
   }
   get firstRoleColor() {
     if (this.serverMember.roles[0]) {
@@ -123,6 +144,30 @@ export default class RightDrawer extends Vue {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.details {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.custom-status {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+  opacity: 0.6;
+}
+.custom-and-presence {
+  display: flex;
+  align-items: center;
+  align-content: center;
+}
+.presence-color {
+  height: 10px;
+  width: 10px;
+  margin-right: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .badge {
