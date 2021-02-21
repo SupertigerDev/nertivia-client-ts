@@ -18,10 +18,7 @@
       />
       <div class="details">
         <div class="username">{{ user.username }}</div>
-        <div class="status" v-if="presenceDetails">
-          <div class="dot" :style="{ background: presenceDetails.color }" />
-          <div class="name">{{ presenceDetails.name }}</div>
-        </div>
+        <UserStatusTemplate :uniqueID="user.uniqueID" />
       </div>
       <div class="notification" v-if="notification">
         {{ notification.count > 99 ? "99" : notification.count }}
@@ -32,15 +29,14 @@
 
 <script lang="ts">
 import AvatarImage from "@/components/AvatarImage.vue";
-import userStatuses from "@/constants/userStatuses";
+import UserStatusTemplate from "@/components/UserStatusTemplate.vue";
 import User from "@/interfaces/User";
 import { ChannelsModule } from "@/store/modules/channels";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { PopoutsModule } from "@/store/modules/popouts";
-import { PresencesModule } from "@/store/modules/presences";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
-@Component({ components: { AvatarImage } })
+@Component({ components: { AvatarImage, UserStatusTemplate } })
 export default class FriendTemplate extends Vue {
   @Prop() private friend!: { recipient: User; status: number };
   @Prop() private dmChannel!: { recipients: User[] };
@@ -63,11 +59,6 @@ export default class FriendTemplate extends Vue {
     } else {
       return this.dmChannel.recipients[0];
     }
-  }
-  get presenceDetails() {
-    const presence = PresencesModule.getPresence(this.user.uniqueID);
-    if (!presence) return undefined;
-    return userStatuses[presence || 0];
   }
   get isFriendSelected() {
     const channel = ChannelsModule.getDMChannel(this.$route.params.channel_id);
@@ -94,6 +85,7 @@ export default class FriendTemplate extends Vue {
   margin-top: 2px;
   margin-bottom: 2px;
   transition: 0.2s;
+  overflow: hidden;
   &:hover {
     background: rgba(255, 255, 255, 0.1);
   }
@@ -124,20 +116,9 @@ export default class FriendTemplate extends Vue {
   background-color: var(--alert-color);
   border-radius: 50%;
 }
-
-.status {
+.details {
   display: flex;
-  align-items: center;
-  align-content: center;
-  font-size: 14px;
-  .name {
-    opacity: 0.8;
-  }
-  .dot {
-    height: 10px;
-    width: 10px;
-    border-radius: 50%;
-    margin-right: 4px;
-  }
+  flex-direction: column;
+  overflow: hidden;
 }
 </style>
