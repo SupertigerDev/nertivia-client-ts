@@ -18,7 +18,7 @@
       />
       <div class="details">
         <div class="username">{{ user.username }}</div>
-        <UserStatusTemplate :uniqueID="user.uniqueID" />
+        <UserStatusTemplate :showStatusOnly="hover" :uniqueID="user.uniqueID" />
       </div>
       <div class="notification" v-if="notification">
         {{ notification.count > 99 ? "99" : notification.count }}

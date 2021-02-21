@@ -1,5 +1,6 @@
 import ChannelWithUser from "@/interfaces/DmChannelWithUser";
 import User from "@/interfaces/User";
+import { RELATIONSHIP_ACCEPT, RELATIONSHIP_ADD, RELATIONSHIP_REMOVE } from "@/socketEventConstants";
 import { ActionTree } from "vuex";
 import { ChannelsModule } from "../channels";
 import { FriendsModule } from "../friends";
@@ -7,13 +8,13 @@ import { MutedChannelsModule } from "../mutedChannels";
 import { UsersModule } from "../users";
 
 const actions: ActionTree<any, any> = {
-  ["socket_relationshipRemove"](context, uniqueID) {
+  [RELATIONSHIP_REMOVE](context, uniqueID) {
     FriendsModule.RemoveFriend({ uniqueID });
   },
-  ["socket_relationshipAccept"](context, uniqueID) {
+  [RELATIONSHIP_ACCEPT](context, uniqueID) {
     FriendsModule.AddFriend({ status: 2, uniqueID });
   },
-  ["socket_relationshipAdd"](
+  [RELATIONSHIP_ADD](
     context,
     payload: { recipient: User; status: number }
   ) {

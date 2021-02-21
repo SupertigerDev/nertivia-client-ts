@@ -10,6 +10,7 @@ import { UsersModule } from "../users";
 import { MutedServersModule } from "../mutedServers";
 import { deleteMessage } from "@/services/messagesService";
 import { MessagesModule } from "../messages";
+import { SERVER_ADD_ROLE, SERVER_CREATE_ROLE, SERVER_JOINED, SERVER_LEAVE, SERVER_MEMBERS, SERVER_MEMBER_ADD, SERVER_MEMBER_REMOVE, SERVER_MEMBER_REMOVE_ROLE, SERVER_MUTE, SERVER_POSITION, SERVER_REMOVE_ROLE, SERVER_ROLES, SERVER_UPDATE_ROLE, SERVER_UPDATE_ROLES } from "@/socketEventConstants";
 
 const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
@@ -29,7 +30,7 @@ function filterServerMemberKeys(serverMember: any) {
 }
 
 const actions: ActionTree<any, any> = {
-  ["socket_self:serverPosition"](context, data: { server_position: string[] }) {
+  [SERVER_POSITION](context, data: { server_position: string[] }) {
     const servers = ServersModule.servers;
     let sortServers = {};
     for (let i = 0; i < data.server_position.length; i++) {
@@ -41,14 +42,14 @@ const actions: ActionTree<any, any> = {
     }
     ServersModule.InitServers(sortServers);
   },
-  ["socket_serverMember:addRole"](context, data: ServerMemberAddOrRemoveRole) {
+  [SERVER_ADD_ROLE](context, data: ServerMemberAddOrRemoveRole) {
     ServerMembersModule.AddMemberRole({
       serverID: data.server_id,
       uniqueID: data.uniqueID,
       roleID: data.role_id
     });
   },
-  ["socket_server:joined"](context, data: any) {
+  [SERVER_JOINED](context, data: any) {
     const channels: Channel[] = data.channels;
     const socketID: string | undefined = data.socketID;
     ServersModule.AddServer({
@@ -78,7 +79,7 @@ const actions: ActionTree<any, any> = {
       router.push(`/app/servers/${data.server_id}/${data.default_channel_id}`);
     }
   },
-  ["socket_server:leave"](context, data: { server_id: string }) {
+  [SERVER_LEAVE](context, data: { server_id: string }) {
     ServersModule.DeleteServer(data.server_id);
     MessagesModule.DeleteServerMessages(data.server_id);
     ChannelsModule.DeleteAllServerChannels(data.server_id);
@@ -89,7 +90,7 @@ const actions: ActionTree<any, any> = {
       router.push("/app");
     }
   },
-  ["socket_server:members"](
+  [SERVER_MEMBERS](
     context,
     {
       serverMembers,
@@ -115,14 +116,14 @@ const actions: ActionTree<any, any> = {
     UsersModule.AddUsers(usersObj);
     ServerMembersModule.AddServerMembers(serverMembersObj);
   },
-  ["socket_server:memberAdd"](context, { serverMember }) {
+  [SERVER_MEMBER_ADD](context, { serverMember }) {
     UsersModule.AddUser(serverMember.member);
     ServerMembersModule.AddServerMember(filterServerMemberKeys(serverMember));
   },
-  ["socket_server:memberRemove"](context, { uniqueID, server_id }) {
+  [SERVER_MEMBER_REMOVE](context, { uniqueID, server_id }) {
     ServerMembersModule.RemoveServerMember({ uniqueID, server_id });
   },
-  ["socket_server:roles"](context, { roles, server_id }) {
+  [SERVER_ROLES](context, { roles, server_id }) {
     // sort server roles by order
     const orderedRoles = roles.sort((a: any, b: any) => {
       return a.order - b.order;
@@ -132,23 +133,23 @@ const actions: ActionTree<any, any> = {
       serverID: server_id
     });
   },
-  ["socket_server:updateRoles"](context, { roles, server_id }) {
+  [SERVER_UPDATE_ROLES](context, { roles, server_id }) {
     console.log(roles, server_id);
     ServerRolesModule.AddServerRoles({
       roles: roles,
       serverID: server_id
     });
   },
-  ["socket_server:createRole"](context, role) {
+  [SERVER_CREATE_ROLE](context, role) {
     ServerRolesModule.AddServerRole(role);
   },
-  ["socket_server:updateRole"](context, partialRole) {
+  [SERVER_UPDATE_ROLE](context, partialRole) {
     ServerRolesModule.UpdateServerRole(partialRole);
   },
-  ["socket_server:deleteRole"](context, { role_id, server_id }) {
+  [SERVER_REMOVE_ROLE](context, { role_id, server_id }) {
     ServerRolesModule.DeleteServerRole({ role_id, server_id });
   },
-  ["socket_serverMember:removeRole"](
+  [SERVER_MEMBER_REMOVE_ROLE](
     context,
     data: ServerMemberAddOrRemoveRole
   ) {
@@ -158,7 +159,7 @@ const actions: ActionTree<any, any> = {
       roleID: data.role_id
     });
   },
-  ["socket_server:mute"](context, data: { muted: number; server_id: string }) {
+  [SERVER_MUTE](context, data: { muted: number; server_id: string }) {
     MutedServersModule.SetMutedServer({
       serverID: data.server_id,
       type: data.muted

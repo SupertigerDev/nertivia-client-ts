@@ -17,7 +17,7 @@
       <span class="username" :style="{ color: firstRoleColor }">{{
         member.username
       }}</span>
-      <UserStatusTemplate :uniqueID="member.uniqueID" />
+      <UserStatusTemplate :showStatusOnly="hover" :uniqueID="member.uniqueID" />
     </div>
     <span class="badge" :title="badge[0]" :class="badge[0]" v-if="badge"
       ><img :src="badge[1]"

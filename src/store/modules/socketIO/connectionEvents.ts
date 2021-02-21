@@ -19,6 +19,8 @@ import CustomEmoji from "@/interfaces/CustomEmoji";
 import { CustomEmojisModule } from "../customEmojis";
 import userStatuses from "@/constants/userStatuses";
 import { CustomStatusesModule } from "../memberCustomStatus";
+import { programActivitiesModule } from "../memberProgramActivity";
+import { CONNECT, AUTH_ERROR, SUCCESS, DISCONNECT, RECONNECTING } from "@/socketEventConstants";
 
 const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
@@ -34,6 +36,7 @@ interface SuccessEvent {
   mutedChannels: string[];
   mutedServers: { muted: number; server_id: string }[];
   customStatusArr: [string, string][]
+  programActivityArr: ReturnedProgramActivity[];
 }
 interface Settings {
   server_position: string[];
@@ -53,6 +56,11 @@ interface LastSeenServerChannels {
   [key: string]: number;
 }
 
+interface ReturnedProgramActivity {
+  name: string
+  status: string
+  uniqueID: string
+}
 interface ReturnedDmChannel {
   lastMessaged: number;
   channelID: string;
@@ -121,7 +129,7 @@ function sortServers(servers: ReturnedServer[], positions?: string[]) {
 }
 
 const actions: ActionTree<any, any> = {
-  socket_connect() {
+  [CONNECT]() {
     MeModule.SetConnectionDetails({
       connected: false,
       message: "Authenticating..."
@@ -130,22 +138,22 @@ const actions: ActionTree<any, any> = {
       token: localStorage.getItem("hauthid")
     });
   },
-  socket_authErr(context, data) {
+  [AUTH_ERROR](context, data) {
     MeModule.SetConnectionDetails({ connected: false, message: data });
   },
-  socket_disconnect() {
+  [DISCONNECT]() {
     // MeModule.SetConnectionDetails({
     //   connected: false,
     //   message: "Connecting..."
     // });
   },
-  socket_reconnecting() {
+  [RECONNECTING]() {
     MeModule.SetConnectionDetails({
       connected: false,
       message: "Reconnecting..."
     });
   },
-  socket_success(context, data: SuccessEvent) {
+  [SUCCESS](context, data: SuccessEvent) {
     MeModule.SetConnectionDetails({ connected: true, message: null });
     MeModule.SetUser({
       email: data.user.email,
@@ -281,7 +289,17 @@ const actions: ActionTree<any, any> = {
       const element = data.customStatusArr[i];
       customStatusObj[element[0]] = element[1]
     } 
+    // programActivity
+    const programActivityObj: any = {};
+    for (let i = 0; i < data.programActivityArr.length; i++) {
+      const programActivity = data.programActivityArr[i];
+      programActivityObj[programActivity.uniqueID] = {
+        status: programActivity.status,
+        name: programActivity.name,
+      };
+    }
 
+    programActivitiesModule.InitProgramActivity(programActivityObj);
     CustomStatusesModule.InitCustomStatus(customStatusObj);
     MutedServersModule.SetMutedServers(mutedServersObj);
     MutedChannelsModule.SetMutedChannels(data.mutedChannels);

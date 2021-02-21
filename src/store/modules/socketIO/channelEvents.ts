@@ -4,9 +4,10 @@ import { ActionTree } from "vuex";
 import { ChannelsModule } from "../channels";
 import { MutedChannelsModule } from "../mutedChannels";
 import { UsersModule } from "../users";
+import { CHANNEL_CREATED, SERVER_CHANNEL_CREATED, SERVER_CHANNEL_UPDATE, CHANNEL_REMOVED, SERVER_CHANNEL_REMOVED,CHANNEL_UNMUTE, CHANNEL_MUTE } from "@/socketEventConstants";
 
 const actions: ActionTree<any, any> = {
-  ["socket_channel:created"](context, data: { channel: ChannelWithUser }) {
+  [CHANNEL_CREATED](context, data: { channel: ChannelWithUser }) {
     if (data.channel.recipients) {
       UsersModule.AddUser(data.channel.recipients[0]);
     }
@@ -16,30 +17,30 @@ const actions: ActionTree<any, any> = {
       recipients: data.channel.recipients?.map(u => u.uniqueID)
     });
   },
-  ["socket_server:addChannel"](context, data: { channel: Channel }) {
+  [SERVER_CHANNEL_CREATED](context, data: { channel: Channel }) {
     ChannelsModule.AddChannel(data.channel);
   },
-  ["socket_server:updateChannel"](context, channel: Partial<Channel>) {
+  [SERVER_CHANNEL_UPDATE](context, channel: Partial<Channel>) {
     if (!channel.channelID) return;
     ChannelsModule.updateChannel({
       channelID: channel.channelID,
       update: channel
     });
   },
-  ["socket_server:removeChannel"](
+  [SERVER_CHANNEL_REMOVED](
     context,
     data: { channelID: string; server_id: string }
   ) {
     ChannelsModule.RemoveChannel(data.channelID);
   },
 
-  ["socket_channel:remove"](context, data: { channelID: string }) {
+  [CHANNEL_REMOVED](context, data: { channelID: string }) {
     ChannelsModule.RemoveChannel(data.channelID);
   },
-  ["socket_channel:unmute"](context, data: { channelID: string }) {
+  [CHANNEL_UNMUTE](context, data: { channelID: string }) {
     MutedChannelsModule.RemoveMutedChannel(data.channelID);
   },
-  ["socket_channel:mute"](context, data: { channelID: string }) {
+  [CHANNEL_MUTE](context, data: { channelID: string }) {
     MutedChannelsModule.AddMutedChannel(data.channelID);
   }
 };

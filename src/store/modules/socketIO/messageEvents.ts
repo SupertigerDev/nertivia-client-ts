@@ -10,6 +10,7 @@ import router from "@/router";
 import { MutedChannelsModule } from "../mutedChannels";
 import { MutedServersModule } from "../mutedServers";
 import { eventBus } from "@/utils/globalBus";
+import { RECEIVE_MESSAGE, DELETE_MESSAGE, UPDATE_MESSAGE } from "@/socketEventConstants";
 
 function playNotificationSound(
   mentioned: boolean,
@@ -36,7 +37,7 @@ function playNotificationSound(
 }
 
 const actions: ActionTree<any, any> = {
-  socket_receiveMessage(context, data: { message: Message }) {
+  [RECEIVE_MESSAGE](context, data: { message: Message }) {
     const channel = ChannelsModule.channels[data.message.channelID];
 
     const isMe = data.message.creator.uniqueID === MeModule.user.uniqueID;
@@ -96,13 +97,13 @@ const actions: ActionTree<any, any> = {
       }
     }
   },
-  socket_deleteMessage(
+  [DELETE_MESSAGE](
     context,
     data: { channelID: string; messageID: string }
   ) {
     MessagesModule.DeleteMessage(data);
   },
-  socket_updateMessage(context, data: Message) {
+  [UPDATE_MESSAGE](context, data: Message) {
     MessagesModule.UpdateMessage({
       channelID: data.channelID,
       messageID: data.messageID,
