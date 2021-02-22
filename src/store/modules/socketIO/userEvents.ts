@@ -44,7 +44,6 @@ const actions: ActionTree<any, any> = {
     context,
     data: { name?: string; status?: string; uniqueID: string }
   ) {
-    console.log(data)
     if (!data.name || !data.status) {
       programActivitiesModule.RemoveProgramActivity({
         uniqueID: data.uniqueID
