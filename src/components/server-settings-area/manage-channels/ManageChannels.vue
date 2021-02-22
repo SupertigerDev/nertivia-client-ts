@@ -114,7 +114,8 @@ export default class ManageChannels extends Vue {
   display: flex;
   align-items: center;
   align-content: center;
-  margin: 10px;
+  margin-left: 10px;
+  margin-top: 10px;
   .material-icons {
     margin-right: 5px;
   }
@@ -128,7 +129,7 @@ export default class ManageChannels extends Vue {
 }
 .notice {
   color: rgba(255, 255, 255, 0.6);
-  margin-left: 30px;
+  margin-left: 40px;
 }
 .box {
   margin-top: 10px;
