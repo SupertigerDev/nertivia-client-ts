@@ -73,6 +73,8 @@ export default class ChannelTemplate extends Vue {
   margin: 4px;
   height: 30px;
   user-select: none;
+  position: relative;
+  overflow: hidden;
   content-visibility: auto;
   contain-intrinsic-size: 30px;
   border-radius: 4px;
