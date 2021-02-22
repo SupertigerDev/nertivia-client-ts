@@ -2,7 +2,8 @@
   <div
     class="channel"
     :class="{
-      selected: isChannelSelected
+      selected: isChannelSelected,
+      hasNotification: notificationExists
     }"
     @contextmenu.prevent="showContext"
     @click="channelClicked"
@@ -11,9 +12,8 @@
     <div class="dot" v-else></div>
     <div class="name">{{ channel.name }}</div>
     <div
-      v-if="notificationExists"
-      class="notification dot"
-      :class="{ mentioned: notificationExists.mentioned }"
+      v-if="notificationExists && notificationExists.mentioned"
+      class="notification dot mentioned"
     >
       {{ notificationExists.mentioned ? "@" : "" }}
     </div>
@@ -77,15 +77,32 @@ export default class ChannelTemplate extends Vue {
   contain-intrinsic-size: 30px;
   border-radius: 4px;
   cursor: pointer;
-  transition: 0.1s;
+  transition: 0.2s;
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3px;
+    bottom: 0;
+  }
+
   &:hover {
     background: rgba(255, 255, 255, 0.1);
   }
   &.selected {
-    background: var(--primary-color);
+    background: rgba(255, 255, 255, 0.1);
+    &:before {
+      background: var(--primary-color);
+    }
     color: white;
     .dot {
       opacity: 1;
+    }
+  }
+  &.hasNotification {
+    &:before {
+      background: var(--alert-color);
     }
   }
 }

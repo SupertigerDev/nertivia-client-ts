@@ -41,9 +41,11 @@ export default class MainApp extends Vue {
   cursor: pointer;
   user-select: none;
   color: white;
+  position: relative;
   opacity: 0.8;
   border-radius: 4px;
   transition: 0.2s;
+  overflow: hidden;
   .name {
     margin-left: 4px;
   }
@@ -52,7 +54,16 @@ export default class MainApp extends Vue {
     opacity: 1;
   }
   &.selected {
-    background-color: var(--primary-color);
+    background: rgba(255, 255, 255, 0.1);
+    &:before {
+      content: "";
+      position: absolute;
+      background: var(--primary-color);
+      left: 0;
+      top: 0;
+      width: 3px;
+      bottom: 0;
+    }
     opacity: 1;
   }
 }

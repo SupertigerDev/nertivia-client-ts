@@ -62,6 +62,8 @@ export default class MainApp extends Vue {
   margin: 4px;
   padding-left: 4px;
   cursor: pointer;
+  position: relative;
+  overflow: auto;
   user-select: none;
   color: white;
   opacity: 0.8;
@@ -75,8 +77,17 @@ export default class MainApp extends Vue {
     opacity: 1;
   }
   &.selected {
-    background-color: var(--primary-color);
+    background: rgba(255, 255, 255, 0.1);
     opacity: 1;
+    &:before {
+      content: "";
+      position: absolute;
+      background: var(--primary-color);
+      left: 0;
+      top: 0;
+      width: 3px;
+      bottom: 0;
+    }
   }
 }
 </style>
