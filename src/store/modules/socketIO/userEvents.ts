@@ -1,5 +1,6 @@
 import {
   CUSTOM_STATUS_CHANGE,
+  PROGRAM_ACTIVITY_CHANGED,
   SELF_CUSTOM_STATUS_CHANGE,
   SELF_STATUS_CHANGE,
   USER_STATUS_CHANGE
@@ -37,6 +38,23 @@ const actions: ActionTree<any, any> = {
     CustomStatusesModule.SetCustomStatus({
       custom_status: data.custom_status,
       uniqueID: MeModule.user.uniqueID
+    });
+  },
+  [PROGRAM_ACTIVITY_CHANGED](
+    context,
+    data: { name?: string; status?: string; uniqueID: string }
+  ) {
+    console.log(data)
+    if (!data.name || !data.status) {
+      programActivitiesModule.RemoveProgramActivity({
+        uniqueID: data.uniqueID
+      });
+      return;
+    }
+    programActivitiesModule.SetProgramActivity({
+      uniqueID: data.uniqueID,
+      name: data.name,
+      status: data.status
     });
   }
 };

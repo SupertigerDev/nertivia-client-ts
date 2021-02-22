@@ -36,7 +36,7 @@ class ProgramActivities extends VuexModule {
     name: string;
     status: string;
   }) {
-    this.programActivity[payload.uniqueID] = payload;
+    Vue.set(this.programActivity, payload.uniqueID, payload)
   }
 
   @Action
