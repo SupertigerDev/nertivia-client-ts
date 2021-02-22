@@ -124,7 +124,7 @@ export default class ImageMessageEmbed extends Vue {
   background: rgba(0, 0, 0, 0.4);
   min-width: 200px;
   min-height: 200px;
-
+  overflow: hidden;
   cursor: pointer;
   &:hover {
     &::after {
@@ -153,7 +153,6 @@ export default class ImageMessageEmbed extends Vue {
 img {
   width: 100%;
   height: 100%;
-  border-radius: 4px;
 }
 .image-embed:hover {
   .gif {
