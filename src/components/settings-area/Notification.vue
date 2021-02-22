@@ -5,19 +5,19 @@
       <CheckBox
         v-model="notificationSound"
         name="Notification Sound"
+        class="check-box"
+        description="Makes a cool sound to get your attention."
         @change="notificationSoundToggled"
       />
-      <div class="details">Makes a cool sound to get your attention.</div>
       <CheckBox
         v-if="FCMSupported"
         v-model="pushNotification"
+        class="check-box"
         name="Push Notification"
         @change="pushNotificationToggled"
+        description="Get push notifications even when the app is closed. (Most useful to use
+        on a mobile)"
       />
-      <div class="details" v-if="FCMSupported">
-        Get push notifications even when the app is closed. (Most useful to use
-        on a mobile)
-      </div>
     </div>
   </div>
 </template>
@@ -96,9 +96,7 @@ export default class NotificationArea extends Vue {
   align-self: flex-start;
   margin-left: 5px;
 }
-.details {
-  opacity: 0.6;
-  font-size: 14px;
-  margin-left: 20px;
+.check-box {
+  margin-bottom: 10px;
 }
 </style>

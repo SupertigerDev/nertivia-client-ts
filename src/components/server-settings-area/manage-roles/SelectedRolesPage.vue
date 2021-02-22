@@ -1,14 +1,38 @@
 <template>
-  <div class="container">
+  <div class="container selected-role-page">
     <CustomInput class="input" title="Role Name" v-model="name" />
     <div class="title">Permissions</div>
     <CheckBox
       v-for="perm in permissionsList"
       :key="perm.value"
-      :checked="true"
+      :colored="true"
+      :checked="perm.enabled"
       :name="perm.name"
+      :description="perm.info"
+      @change="checkBoxChange($event, perm.value)"
     />
-
+    <CustomButton
+      class="button"
+      :filled="true"
+      :name="!requestSent ? 'Save Changes' : 'Saving...'"
+      icon="save"
+      v-if="showSaveButton"
+      @click="update"
+    />
+    <CustomButton
+      class="button delete-button"
+      :filled="true"
+      :name="
+        !deleteConfirm
+          ? 'Delete Role'
+          : deleteRequestSent
+          ? 'Deleting Role...'
+          : 'Are you sure?'
+      "
+      :warn="true"
+      icon="delete"
+      @click="deleteRole"
+    />
     <CustomButton
       class="button back-button"
       name="Back"
@@ -24,12 +48,20 @@ import CheckBox from "@/components/CheckBox.vue";
 import { MeModule } from "@/store/modules/me";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
 import ServerRole from "@/interfaces/ServerRole";
-import { containsPerm, permissions } from "@/constants/rolePermissions";
+import {
+  addPerm,
+  containsPerm,
+  permissions,
+  removePerm
+} from "@/constants/rolePermissions";
 @Component({
   components: { CustomInput, CustomButton, CheckBox }
 })
 export default class ManageRolesPage extends Vue {
   @Prop() private roleID!: string;
+  requestSent = false;
+  deleteConfirm = false;
+  deleteRequestSent = false;
   name = "";
   permissions = 0;
 
@@ -39,6 +71,25 @@ export default class ManageRolesPage extends Vue {
   }
   mounted() {
     this.reset();
+  }
+  checkBoxChange(checked: boolean, perm: number) {
+    if (checked) {
+      this.permissions = addPerm(this.permissions, perm);
+    } else {
+      this.permissions = removePerm(this.permissions, perm);
+    }
+  }
+  update() {
+    if (this.requestSent) return;
+    this.requestSent = true;
+  }
+  deleteRole() {
+    if (this.deleteRequestSent) return;
+    if (!this.deleteConfirm) {
+      this.deleteConfirm = true;
+      return;
+    }
+    this.deleteRequestSent = true;
   }
   @Watch("connected")
   isConnected(val: boolean) {
@@ -62,9 +113,18 @@ export default class ManageRolesPage extends Vue {
     return Object.values(permissions).map(p => {
       return {
         ...p,
-        enabled: containsPerm(this.permissions || 0, p.value)
+        enabled: !!containsPerm(this.permissions || 0, p.value)
       };
     });
+  }
+
+  get showSaveButton() {
+    return this.change.channelName || this.change.perms;
+  }
+  get change() {
+    const channelName = this.name !== this.role?.name;
+    const perms = this.permissions !== this.role?.permissions || 0;
+    return { channelName, perms };
   }
 
   get serverID() {
@@ -77,11 +137,12 @@ export default class ManageRolesPage extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.container.selected-role-page {
   display: flex;
   flex-direction: column;
-  margin-top: 10px;
+  margin: 10px;
   align-items: flex-start;
+  overflow: auto;
 }
 .input {
   margin-left: -2px;

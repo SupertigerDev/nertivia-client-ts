@@ -1,5 +1,5 @@
 <template>
-  <div class="container manage-channels">
+  <div class="container manage-roles">
     <div class="inner-container">
       <div class="description">
         <div class="material-icons">info</div>
@@ -21,7 +21,7 @@
           @click="createRole"
         />
 
-        <div class="channel-list">
+        <div class="role-list">
           <RoleTemplate
             v-for="role in roles"
             :key="role.id"
@@ -51,7 +51,7 @@ import { ServerRolesModule } from "@/store/modules/serverRoles";
     SelectedRolesPage
   }
 })
-export default class ManageChannels extends Vue {
+export default class ManageRoles extends Vue {
   selectedRoleID: string | null = null;
   createRequestSent = false;
 
@@ -81,7 +81,6 @@ export default class ManageChannels extends Vue {
   flex: 1;
 }
 .inner-container {
-  margin: 10px;
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -91,9 +90,16 @@ export default class ManageChannels extends Vue {
   display: flex;
   align-items: center;
   align-content: center;
+  margin: 10px;
   .material-icons {
     margin-right: 5px;
   }
+}
+.role-list {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  padding: 10px;
 }
 
 .notice {
@@ -111,6 +117,7 @@ export default class ManageChannels extends Vue {
   align-self: flex-start;
   border: none;
   color: white;
+  margin-left: 10px;
   background: rgba(255, 255, 255, 0.03);
 }
 </style>

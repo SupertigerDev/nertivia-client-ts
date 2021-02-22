@@ -105,7 +105,6 @@ export default class ManageChannels extends Vue {
   flex: 1;
 }
 .inner-container {
-  margin: 10px;
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -115,11 +114,18 @@ export default class ManageChannels extends Vue {
   display: flex;
   align-items: center;
   align-content: center;
+  margin: 10px;
   .material-icons {
     margin-right: 5px;
   }
 }
 
+.channel-list {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  padding: 10px;
+}
 .notice {
   color: rgba(255, 255, 255, 0.6);
   margin-left: 30px;
@@ -135,6 +141,7 @@ export default class ManageChannels extends Vue {
   align-self: flex-start;
   border: none;
   color: white;
+  margin-left: 10px;
   background: rgba(255, 255, 255, 0.03);
 }
 </style>

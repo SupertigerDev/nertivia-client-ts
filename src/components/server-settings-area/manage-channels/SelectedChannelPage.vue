@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container selected-channel-page">
     <CustomInput
       class="input"
       title="Channel Name"
@@ -8,7 +8,11 @@
     />
     <!-- TODO: replace with bitwise permissions some day (just like how i made role permissions) -->
     <div class="title">Permissions</div>
-    <CheckBox name="Send Message" v-model="sendMessagePermission" />
+    <CheckBox
+      name="Send Message"
+      v-model="sendMessagePermission"
+      :colored="true"
+    />
     <CustomButton
       class="button"
       :filled="true"
@@ -162,11 +166,12 @@ export default class ManageChannels extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.container.selected-channel-page {
   display: flex;
   flex-direction: column;
-  margin-top: 10px;
+  margin: 10px;
   align-items: flex-start;
+  overflow: auto;
 }
 .input {
   margin-left: -2px;
