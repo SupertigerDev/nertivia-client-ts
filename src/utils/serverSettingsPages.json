@@ -13,6 +13,13 @@
     "admin": true,
     "component": "ManageChannels"
   },
+  "manage-roles":{
+    "name": "Manage Roles",
+    "id": "manage-roles",
+    "icon": "leaderboard",
+    "admin": true,
+    "component": "ManageRoles"
+  },
   "manage-invites": {
     "name": "Manage Invites",
     "id": "manage-invites",

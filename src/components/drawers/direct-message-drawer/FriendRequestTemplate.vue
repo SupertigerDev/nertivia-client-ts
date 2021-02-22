@@ -37,12 +37,14 @@
         <CustomButton
           v-if="friend.status === 1"
           @click="acceptFriend"
+          :filled="true"
           name="Accept"
           :valid="true"
         />
         <CustomButton
           v-if="friend.status === 1"
           @click="cancelOrDecline"
+          :filled="true"
           name="Decline"
           :warn="true"
         />

@@ -2,7 +2,7 @@
   <div class="friend">
     <div
       class="wrapper"
-      :class="{ selected: isFriendSelected }"
+      :class="{ selected: isFriendSelected, hasNotification: notification }"
       @click="clickedEvent"
       @mouseover="hover = true"
       @mouseleave="hover = false"
@@ -85,13 +85,30 @@ export default class FriendTemplate extends Vue {
   margin-top: 2px;
   margin-bottom: 2px;
   transition: 0.2s;
+  position: relative;
   overflow: hidden;
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3px;
+    bottom: 0;
+  }
   &:hover {
     background: rgba(255, 255, 255, 0.1);
   }
   &.selected {
-    background: var(--primary-color);
+    background: rgba(255, 255, 255, 0.1);
+    &:before {
+      background: var(--primary-color);
+    }
     color: white;
+  }
+  &.hasNotification {
+    &:before {
+      background: var(--alert-color);
+    }
   }
 }
 .username {

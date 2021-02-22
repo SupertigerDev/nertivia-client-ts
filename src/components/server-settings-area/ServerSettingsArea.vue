@@ -11,6 +11,7 @@ import settingsPages from "@/utils/serverSettingsPages.json";
 import ManageNotification from "./ManageNotification.vue";
 import ManageInvites from "./manage-invites/ManageInvites";
 import ManageChannels from "./manage-channels/ManageChannels.vue";
+import ManageRoles from "./manage-roles/ManageRoles.vue";
 import ManageUsers from "./manage-users/ManageUsers.vue";
 import General from "./General.vue";
 
@@ -21,6 +22,7 @@ import { Vue, Component } from "vue-property-decorator";
     ManageNotification,
     ManageUsers,
     ManageChannels,
+    ManageRoles,
     ManageInvites,
     General
   }

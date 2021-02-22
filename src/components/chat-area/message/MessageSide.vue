@@ -55,6 +55,7 @@ export default class MessageSide extends Vue {
   flex-direction: column;
   flex-shrink: 0;
   margin-left: 2px;
+  user-select: none;
 }
 
 .options-button {
