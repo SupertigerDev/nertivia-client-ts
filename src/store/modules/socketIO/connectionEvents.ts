@@ -246,20 +246,20 @@ const actions: ActionTree<any, any> = {
     for (let i = 0; i < data.serverRoles.length; i++) {
       const role = data.serverRoles[i];
       if (serverRolesObj[role.server_id]) {
-        serverRolesObj[role.server_id].push(role);
+        serverRolesObj[role.server_id][role.id]=role;
         continue;
       }
-      serverRolesObj[role.server_id] = [role];
+      serverRolesObj[role.server_id] = {[role.id]: role};
     }
-    // sort server roles by order
-    for (let i = 0; i < Object.keys(serverRolesObj).length; i++) {
-      const server_id = Object.keys(serverRolesObj)[i];
-      serverRolesObj[server_id] = serverRolesObj[server_id].sort(
-        (a: any, b: any) => {
-          return a.order - b.order;
-        }
-      );
-    }
+    // // sort server roles by order
+    // for (let i = 0; i < Object.keys(serverRolesObj).length; i++) {
+    //   const server_id = Object.keys(serverRolesObj)[i];
+    //   serverRolesObj[server_id] = serverRolesObj[server_id].sort(
+    //     (a: any, b: any) => {
+    //       return a.order - b.order;
+    //     }
+    //   );
+    // }
 
     // dm channel
     for (let i = 0; i < data.dms.length; i++) {

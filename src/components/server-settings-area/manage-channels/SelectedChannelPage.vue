@@ -7,6 +7,7 @@
       v-model="channelName"
     />
     <!-- TODO: replace with bitwise permissions some day (just like how i made role permissions) -->
+    <!-- TODO: Per user channel permission pls -->
     <div class="title">Permissions</div>
     <CheckBox
       name="Send Message"

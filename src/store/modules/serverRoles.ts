@@ -13,7 +13,9 @@ import { addPerm } from "@/constants/rolePermissions";
 
 // ServerRoleObj[server_id] = serverRole[]
 interface ServerRoleObj {
-  [key: string]: ServerRole[];
+  [key: string]: {
+    [key: string]: ServerRole
+  };
 }
 
 @Module({ dynamic: true, store, namespaced: true, name: "serverRoles" })
@@ -22,16 +24,30 @@ class ServerRoles extends VuexModule {
 
   get bulkRolesById() {
     return (server_id: string, roleIdArr: string[]) => {
-      if (!this.serverRoles[server_id]) return [];
-      return this.serverRoles[server_id].filter(
-        role => server_id === role.server_id && roleIdArr.includes(role.id)
+      const serverRoles = this.sortedServerRolesArr(server_id)
+      if (!serverRoles) return [];
+      return serverRoles.filter(
+        role => roleIdArr.includes(role.id)
       );
     };
   }
 
+  get sortedServerRolesArr() {
+
+    return (server_id: string) => {
+      // sort server roles by order
+      const serverRoles = Object.values(this.serverRoles[server_id]);
+      return serverRoles.sort(
+        (a: any, b: any) => {
+          return a.order - b.order;
+        }
+      );
+    }
+  }
+
   get addAllRolePermissions() {
     return (server_id: string, roleIdArr: string[]) => {
-      const serverRoles = this.serverRoles[server_id];
+      const serverRoles = this.sortedServerRolesArr(server_id);
       let perms = 0;
       if (!serverRoles) return 0;
       for (let i = 0; i < roleIdArr.length; i++) {
@@ -45,7 +61,8 @@ class ServerRoles extends VuexModule {
 
   get defaultServerRole() {
     return (server_id: string) => {
-      return this.serverRoles?.[server_id]?.find(role => role.default);
+      const serverRoles = Object.values(this.serverRoles?.[server_id] || {})
+      return serverRoles.find(role => role.default);
     };
   }
 
@@ -70,9 +87,7 @@ class ServerRoles extends VuexModule {
   }
   @Mutation
   private ADD_SERVER_ROLE(payload: ServerRole) {
-    const roles = this.serverRoles[payload.server_id] || [];
-    roles.push(payload);
-    Vue.set(this.serverRoles, payload.server_id, roles);
+    Vue.set(this.serverRoles[payload.server_id], payload.id, payload);
   }
 
   @Action
@@ -84,13 +99,9 @@ class ServerRoles extends VuexModule {
   private UPDATE_SERVER_ROLE(payload: Partial<ServerRole>) {
     if (!payload.server_id) return;
     if (!payload.id) return;
-    const roleIndex = this.serverRoles?.[payload.server_id]?.findIndex(
-      r => r.id === payload.id
-    );
-    if (roleIndex < 0 || roleIndex === undefined) return;
-    const role = this.serverRoles?.[payload.server_id]?.[roleIndex];
-
-    Vue.set(this.serverRoles[payload.server_id], roleIndex, {
+    const role = this.serverRoles?.[payload.server_id]?.[payload.id]
+    if (!role) return;
+    Vue.set(this.serverRoles[payload.server_id], role.id, {
       ...role,
       ...payload
     });
@@ -102,11 +113,7 @@ class ServerRoles extends VuexModule {
   }
   @Mutation
   private DELETE_SERVER_ROLE(payload: { server_id: string; role_id: string }) {
-    const roleIndex = this.serverRoles?.[payload.server_id]?.findIndex(
-      r => r.id === payload.role_id
-    );
-    if (roleIndex === -1 || roleIndex === undefined) return;
-    Vue.delete(this.serverRoles[payload.server_id], roleIndex);
+    Vue.delete(this.serverRoles[payload.server_id], payload.role_id);
   }
 
   @Action

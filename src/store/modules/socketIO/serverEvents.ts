@@ -139,19 +139,24 @@ const actions: ActionTree<any, any> = {
     ServerMembersModule.RemoveServerMember({ uniqueID, server_id });
   },
   [SERVER_ROLES](context, { roles, server_id }) {
-    // sort server roles by order
-    const orderedRoles = roles.sort((a: any, b: any) => {
-      return a.order - b.order;
-    });
+    const serverRolesObj: any = {};
+    for (let i = 0; i < roles.length; i++) {
+      const role = roles[i];
+      serverRolesObj[role.id] = role;
+    }
     ServerRolesModule.AddServerRoles({
-      roles: orderedRoles,
+      roles: serverRolesObj,
       serverID: server_id
     });
   },
   [SERVER_UPDATE_ROLES](context, { roles, server_id }) {
-    console.log(roles, server_id);
+    const serverRolesObj: any = {};
+    for (let i = 0; i < roles.length; i++) {
+      const role = roles[i];
+      serverRolesObj[role.id] = role;
+    }
     ServerRolesModule.AddServerRoles({
-      roles: roles,
+      roles: serverRolesObj,
       serverID: server_id
     });
   },

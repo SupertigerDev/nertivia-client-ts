@@ -98,7 +98,7 @@ export default class RightDrawer extends Vue {
     });
   }
   get serverRoles() {
-    return ServerRolesModule.serverRoles[this.server_id];
+    return ServerRolesModule.sortedServerRolesArr(this.server_id);
   }
   get offlineMembers() {
     return this.serverMembers.filter(sm => !sm.presence);

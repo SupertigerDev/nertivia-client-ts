@@ -28,6 +28,11 @@
             :role="role"
             @click.native="selectedRoleID = role.id"
           />
+          <!-- Default role always stays at the bottom. -->
+          <RoleTemplate
+            :role="defaultRole"
+            @click.native="selectedRoleID = defaultRole.id"
+          />
         </div>
       </div>
     </div>
@@ -41,6 +46,7 @@ import CustomButton from "@/components/CustomButton.vue";
 import RoleTemplate from "./RoleTemplate.vue";
 import ContextMenu from "@/components/ContextMenu.vue";
 import SelectedRolesPage from "./SelectedRolesPage.vue";
+import { createServerRole } from "@/services/rolesService";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
 @Component({
   components: {
@@ -58,13 +64,26 @@ export default class ManageRoles extends Vue {
   createRole() {
     if (this.createRequestSent) return;
     this.createRequestSent = true;
+    createServerRole(this.serverID)
+      .then(res => {
+        ServerRolesModule.AddServerRole(res);
+        this.selectedRoleID = res.id;
+      })
+      .finally(() => {
+        this.createRequestSent = false;
+      });
   }
 
   get server() {
     return ServersModule.servers[this.serverID];
   }
   get roles() {
-    return ServerRolesModule.serverRoles[this.serverID];
+    return ServerRolesModule.sortedServerRolesArr(this.serverID).filter(
+      r => !r.default
+    );
+  }
+  get defaultRole() {
+    return ServerRolesModule.defaultServerRole(this.serverID);
   }
   get serverID() {
     return this.$route.params.server_id;

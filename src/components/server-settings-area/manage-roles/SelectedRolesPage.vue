@@ -105,9 +105,7 @@ export default class ManageRolesPage extends Vue {
   }
 
   get role(): ServerRole | undefined {
-    return ServerRolesModule.serverRoles[this.serverID].find(
-      r => r.id === this.roleID
-    );
+    return ServerRolesModule.serverRoles[this.serverID]?.[this.roleID];
   }
   get permissionsList() {
     return Object.values(permissions).map(p => {
