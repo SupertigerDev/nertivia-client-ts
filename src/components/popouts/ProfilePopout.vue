@@ -40,7 +40,7 @@
             </div>
           </div>
           <div class="right">
-            <div class="button">
+            <div class="button" @click="sendMessageButton">
               <div class="material-icons">message</div>
               Send Message
             </div>
@@ -130,6 +130,7 @@ import {
   sendFriendRequest
 } from "@/services/relationshipService";
 import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
+import { ChannelsModule } from "@/store/modules/channels";
 @Component({
   components: { AvatarImage }
 })
@@ -150,6 +151,10 @@ export default class ProfilePopout extends Vue {
     reader.onload = () => {
       this.banner = reader.result;
     };
+  }
+  sendMessageButton() {
+    ChannelsModule.LoadDmChannel(this.user.uniqueID);
+    PopoutsModule.ClosePopout("profile");
   }
   cancelOrDecline() {
     deleteFriend(this.user.uniqueID);
