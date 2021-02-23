@@ -108,6 +108,7 @@ export default class MessageLogs extends Vue {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   padding: 5px;
+  padding-left: 10px;
   padding-top: 3px;
   padding-bottom: 3px;
   overflow: hidden;
