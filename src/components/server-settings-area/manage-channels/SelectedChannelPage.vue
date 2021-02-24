@@ -115,6 +115,7 @@ export default class ManageChannels extends Vue {
     if (this.requestSent) return;
     this.requestSent = true;
     if (!this.channel?.server_id) return;
+    this.error = null;
     updateServerChannel(this.channel.channelID, this.channel.server_id, {
       name: this.channelName,
       permissions: { send_message: this.sendMessagePermission }

@@ -46,6 +46,7 @@
       @click="update"
     />
     <CustomButton
+      v-if="showDeleteButton"
       class="button delete-button"
       :filled="true"
       :name="
@@ -150,6 +151,7 @@ export default class ManageRolesPage extends Vue {
   update() {
     if (this.requestSent) return;
     this.requestSent = true;
+    this.error = null;
     updateServerRole(this.serverID, this.roleID, {
       name: this.name,
       permissions: this.permissions,
@@ -238,6 +240,9 @@ export default class ManageRolesPage extends Vue {
   }
   get connected() {
     return MeModule.connected;
+  }
+  get showDeleteButton() {
+    return !this.role?.default || this.role?.deletable;
   }
 }
 </script>
