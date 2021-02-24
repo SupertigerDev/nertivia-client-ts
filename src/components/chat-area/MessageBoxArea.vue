@@ -367,6 +367,7 @@ export default class MessageBoxArea extends Vue {
   flex-shrink: 0;
   min-height: 45px;
   position: relative;
+  caret-color: var(--primary-color);
 }
 
 .input-box {
