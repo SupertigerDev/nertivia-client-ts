@@ -246,10 +246,10 @@ const actions: ActionTree<any, any> = {
     for (let i = 0; i < data.serverRoles.length; i++) {
       const role = data.serverRoles[i];
       if (serverRolesObj[role.server_id]) {
-        serverRolesObj[role.server_id][role.id]=role;
+        serverRolesObj[role.server_id][role.id] = role;
         continue;
       }
-      serverRolesObj[role.server_id] = {[role.id]: role};
+      serverRolesObj[role.server_id] = { [role.id]: role };
     }
     // // sort server roles by order
     // for (let i = 0; i < Object.keys(serverRolesObj).length; i++) {

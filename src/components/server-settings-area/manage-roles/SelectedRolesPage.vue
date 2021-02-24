@@ -119,7 +119,6 @@ export default class ManageRolesPage extends Vue {
         palette: true,
         interaction: {
           hex: true,
-          rgba: true,
           input: true,
           cancel: true
         }
