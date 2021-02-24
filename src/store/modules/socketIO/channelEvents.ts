@@ -11,8 +11,10 @@ import {
   CHANNEL_REMOVED,
   SERVER_CHANNEL_REMOVED,
   CHANNEL_UNMUTE,
-  CHANNEL_MUTE
+  CHANNEL_MUTE,
+  SERVER_CHANNEL_POSITION_CHANGE
 } from "@/socketEventConstants";
+import { ServersModule } from "../servers";
 
 const actions: ActionTree<any, any> = {
   [CHANNEL_CREATED](context, data: { channel: ChannelWithUser }) {
@@ -50,6 +52,9 @@ const actions: ActionTree<any, any> = {
   },
   [CHANNEL_MUTE](context, data: { channelID: string }) {
     MutedChannelsModule.AddMutedChannel(data.channelID);
+  },
+  [SERVER_CHANNEL_POSITION_CHANGE](context, data: { serverID: string; channel_position: string[] }) {
+    ServersModule.UpdateServer({server_id: data.serverID, channel_position: data.channel_position});
   }
 };
 export default {
