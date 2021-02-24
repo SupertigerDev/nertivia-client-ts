@@ -1,4 +1,4 @@
-{
+export default {
   "socketIP": "https://example.com",
   "fetchPrefix": "https://example.com/api",
   // also copy nertiviaCDN to firebase-messaging-sw.js
