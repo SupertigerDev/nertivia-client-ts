@@ -31,12 +31,19 @@
           @itemClick="createChannel"
         />
         <div class="channel-list">
-          <ChannelTemplate
-            v-for="channel in channels"
-            :key="channel.channelID"
-            :channel="channel"
-            @click.native="selectedChannelID = channel.channelID"
-          />
+          <Draggable
+            :animation="200"
+            ghost-class="ghost"
+            v-model="channels"
+            @end="onDragEnd"
+          >
+            <ChannelTemplate
+              v-for="channel in channels"
+              :key="channel.channelID"
+              :channel="channel"
+              @click.native="selectedChannelID = channel.channelID"
+            />
+          </Draggable>
         </div>
       </div>
     </div>
@@ -45,20 +52,26 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
+import Draggable from "vuedraggable";
 import { ServersModule } from "@/store/modules/servers";
 import CustomButton from "@/components/CustomButton.vue";
 import ChannelTemplate from "./ChannelTemplate.vue";
 import { ChannelsModule } from "@/store/modules/channels";
 import ContextMenu from "@/components/ContextMenu.vue";
 import SelectedChannelPage from "./SelectedChannelPage.vue";
-import { createServerChannel } from "@/services/channelService";
+import {
+  createServerChannel,
+  updateServerChannelPosition
+} from "@/services/channelService";
+import Channel from "@/interfaces/Channel";
 @Component({
   components: {
     CustomInput,
     CustomButton,
     ChannelTemplate,
     ContextMenu,
-    SelectedChannelPage
+    SelectedChannelPage,
+    Draggable
   }
 })
 export default class ManageChannels extends Vue {
@@ -70,6 +83,10 @@ export default class ManageChannels extends Vue {
     this.showContext = false;
   }
 
+  onDragEnd() {
+    const channelIDs = this.channels.map(s => s.channelID);
+    updateServerChannelPosition(this.serverID, channelIDs);
+  }
   createChannel() {
     this.showContext = false;
     if (this.createRequestSent) return;
@@ -90,6 +107,12 @@ export default class ManageChannels extends Vue {
   get channels() {
     return ChannelsModule.sortedServerChannels(this.serverID);
   }
+  set channels(channels: Channel[]) {
+    ServersModule.UpdateServer({
+      server_id: this.serverID,
+      channel_position: channels.map(c => c.channelID)
+    });
+  }
   get serverID() {
     return this.$route.params.server_id;
   }
@@ -97,6 +120,9 @@ export default class ManageChannels extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.ghost {
+  opacity: 0;
+}
 .container {
   display: flex;
   flex-direction: column;

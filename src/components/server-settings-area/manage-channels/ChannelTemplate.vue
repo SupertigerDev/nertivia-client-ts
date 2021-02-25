@@ -25,7 +25,7 @@ export default class InviteTemplate extends Vue {
   color: rgba(255, 255, 255, 0.7);
   cursor: pointer;
   user-select: none;
-  transition: 0.2s;
+  transition: background 0.2s, color 0.2s;
   &:hover {
     background: rgba(255, 255, 255, 0.1);
     color: white;
