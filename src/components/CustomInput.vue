@@ -76,7 +76,7 @@ export default class CustomInput extends Vue {
   }
 }
 .title {
-  opacity: 0.8;
+  color: rgba(255, 255, 255, 0.8);
   font-size: 14px;
 }
 .main-input {
