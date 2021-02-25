@@ -18,7 +18,9 @@
       class="status-name game"
       v-if="(gameStatus || customStatus) && !showStatusOnly"
     >
-      <span class="name" v-if="!gameStatus">{{ customStatus }}</span>
+      <span class="name" v-if="!gameStatus">
+        <Markup :text="customStatus" />
+      </span>
       <span class="status" v-if="gameStatus">{{ gameStatus.status }}</span>
       <span class="name" v-if="gameStatus">{{ gameStatus.name }}</span>
     </div>
@@ -35,7 +37,9 @@ import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
 import { programActivitiesModule } from "@/store/modules/memberProgramActivity";
 import { PresencesModule } from "@/store/modules/presences";
 import { Component, Prop, Vue } from "vue-property-decorator";
-@Component
+import Markup from "@/components/Markup.vue";
+
+@Component({ components: { Markup } })
 export default class UserStatusTemplate extends Vue {
   @Prop() private uniqueID!: string;
   @Prop() private showStatusOnly!: boolean;
@@ -57,15 +61,13 @@ export default class UserStatusTemplate extends Vue {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 12px;
+  font-size: 14px;
   opacity: 0.6;
   &.game {
     .status {
       margin-right: 3px;
       font-weight: bold;
       opacity: 0.7;
-    }
-    .name {
     }
   }
 }
@@ -85,5 +87,12 @@ export default class UserStatusTemplate extends Vue {
   flex-shrink: 0;
   font-size: 14px;
   margin-right: 5px;
+}
+</style>
+<style>
+.status-name .emoji {
+  height: 14px;
+  width: 14px;
+  vertical-align: -4px;
 }
 </style>

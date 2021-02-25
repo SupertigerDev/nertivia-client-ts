@@ -1,6 +1,7 @@
 <script lang="tsx">
 import Vue from "vue";
 import config from "@/config";
+import windowProperties from "@/utils/windowProperties";
 const EMOJI_URL = config.nertiviaCDN + "emojis";
 
 // todo: make CustomEmoji based on an Emoji class
@@ -20,7 +21,9 @@ export default Vue.extend({
         }}
         title={props.emojiName}
         alt={props.emojiName}
-        src={`${EMOJI_URL}/${props.emojiID}.${props.animated ? "gif" : "png"}`}
+        src={`${EMOJI_URL}/${props.emojiID}.${props.animated ? "gif" : "png"}${
+          !windowProperties.isFocused ? "?type=webp" : ""
+        }`}
       />
     );
   }

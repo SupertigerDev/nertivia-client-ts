@@ -3,6 +3,9 @@
     <div class="profile-popout">
       <div class="content animate-in">
         <div class="top">
+          <div class="material-icons back-button" @click="close" title="Back">
+            arrow_back
+          </div>
           <img class="banner" v-if="banner" :src="banner" />
           <input
             type="file"
@@ -116,7 +119,6 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
-import { MeModule } from "@/store/modules/me";
 import { PresencesModule } from "@/store/modules/presences";
 import userStatuses from "@/constants/userStatuses";
 import { fetchUser, ReturnedUser } from "@/services/userService";
@@ -138,9 +140,12 @@ export default class ProfilePopout extends Vue {
   @Prop() private data!: { uniqueID: string };
   banner: any = null;
   returnedUser: ReturnedUser | null = null;
+  close() {
+    PopoutsModule.ClosePopout("profile");
+  }
   backgroundClick(event: any) {
     if (event.target.classList.contains("popout-background")) {
-      PopoutsModule.ClosePopout("profile");
+      this.close();
     }
   }
   fileSelected(event: any) {
@@ -217,10 +222,17 @@ export default class ProfilePopout extends Vue {
 </script>
 <style lang="scss" scoped>
 .profile-popout {
+  display: flex;
   background: var(--popout-color);
   border-radius: 8px;
   width: 500px;
   height: 600px;
+  overflow: hidden;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 .animate-in {
   opacity: 0;
@@ -240,9 +252,10 @@ export default class ProfilePopout extends Vue {
 .top {
   background: var(--primary-color);
   width: 100%;
-  height: 110px;
+  height: 150px;
   border-radius: 8px;
   position: relative;
+  flex-shrink: 0;
 }
 .banner {
   height: 100%;
@@ -300,6 +313,7 @@ export default class ProfilePopout extends Vue {
   .dot {
     background: green;
     height: 10px;
+    flex-shrink: 0;
     margin-right: 8px;
     border-radius: 50%;
     width: 10px;
@@ -369,8 +383,11 @@ export default class ProfilePopout extends Vue {
   }
 }
 .other-details {
-  margin-left: 10px;
-  margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  padding-left: 10px;
+  padding: 10px;
   .location,
   .gender,
   .joined,
@@ -416,6 +433,29 @@ export default class ProfilePopout extends Vue {
     .material-icons {
       color: var(--alert-color);
     }
+  }
+}
+.back-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  cursor: pointer;
+  user-select: none;
+  opacity: 0.7;
+  transition: 0.2s;
+  &:hover {
+    opacity: 1;
+  }
+}
+@media (max-height: 600px) {
+  .profile-popout {
+    height: 100%;
+  }
+}
+@media (max-width: 400px) {
+  .profile-popout {
+    height: 100%;
+    width: 100%;
   }
 }
 </style>

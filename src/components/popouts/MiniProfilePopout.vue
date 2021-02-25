@@ -19,21 +19,26 @@
           <div class="username">{{ user.username }}</div>
         </div>
       </div>
-      <div class="custom-status">
+      <div class="status">
         <div
           class="dot"
           :style="{ background: presence.color }"
           :title="presence.name"
         />
-        <div class="name">{{ customStatus || presence.name }}</div>
+        <div class="name">{{ presence.name }}</div>
       </div>
-      <div class="title" v-if="roles.length">
-        <span class="material-icons">clear_all</span> Roles
-      </div>
-      <div class="roles">
-        <div class="role" v-for="role in roles" :key="role.id">
-          <div class="dot" :style="{ background: role.color }" />
-          {{ role.name }}
+      <div class="bottom">
+        <div class="custom-status" v-if="customStatus">
+          <Markup :text="customStatus" />
+        </div>
+        <div class="title" v-if="roles.length">
+          <span class="material-icons">clear_all</span> Roles
+        </div>
+        <div class="roles">
+          <div class="role" v-for="role in roles" :key="role.id">
+            <div class="dot" :style="{ background: role.color }" />
+            {{ role.name }}
+          </div>
         </div>
       </div>
     </div>
@@ -50,13 +55,14 @@ import { MeModule } from "@/store/modules/me";
 import WindowProperties from "@/utils/windowProperties";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
+import Markup from "@/components/Markup.vue";
 
 interface ServerMember {
   member: User;
   roles: ServerRole[];
 }
 
-@Component({ components: { AvatarImage } })
+@Component({ components: { AvatarImage, Markup } })
 export default class MiniProfilePopout extends Vue {
   @Prop() private data!: { x: number; y: number; member?: ServerMember };
   height = 0;
@@ -128,6 +134,7 @@ export default class MiniProfilePopout extends Vue {
   position: absolute;
   height: 300px;
   width: 250px;
+  overflow: hidden;
   background: var(--card-color);
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.6);
 
@@ -137,6 +144,7 @@ export default class MiniProfilePopout extends Vue {
 .content {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 .animate-in {
   opacity: 0;
@@ -172,8 +180,7 @@ export default class MiniProfilePopout extends Vue {
   display: flex;
   align-items: center;
   align-content: center;
-  margin-left: 10px;
-  margin-top: 10px;
+  margin-left: 5px;
   .material-icons {
     margin-right: 5px;
     opacity: 0.7;
@@ -182,7 +189,7 @@ export default class MiniProfilePopout extends Vue {
 .roles {
   display: flex;
   flex-wrap: wrap;
-  margin-left: 8px;
+  margin-left: 5px;
 }
 .role {
   display: flex;
@@ -203,6 +210,18 @@ export default class MiniProfilePopout extends Vue {
   }
 }
 .custom-status {
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  color: rgba(255, 255, 255, 0.6);
+}
+.status {
   display: flex;
   align-items: center;
   align-self: center;
@@ -210,14 +229,27 @@ export default class MiniProfilePopout extends Vue {
   margin-top: 40px;
   background: rgba(255, 255, 255, 0.1);
   padding: 4px;
+  margin-bottom: 10px;
   padding-left: 6px;
   padding-right: 8px;
+  .name {
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
   .dot {
     background: green;
     height: 10px;
     margin-right: 8px;
+    flex-shrink: 0;
     border-radius: 50%;
     width: 10px;
   }
+}
+.bottom {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
 }
 </style>
