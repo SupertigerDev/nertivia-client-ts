@@ -34,7 +34,9 @@ export const CHANNEL_MUTE = eventBuilder("channel:mute");
 export const SERVER_CHANNEL_CREATED = eventBuilder("server:add_channel");
 export const SERVER_CHANNEL_REMOVED = eventBuilder("server:remove_channel");
 export const SERVER_CHANNEL_UPDATE = eventBuilder("server:update_channel");
-export const SERVER_CHANNEL_POSITION_CHANGE = eventBuilder("server:channel_position");
+export const SERVER_CHANNEL_POSITION_CHANGE = eventBuilder(
+  "server:channel_position"
+);
 // server events
 export const SERVER_POSITION = eventBuilder("self:server_position");
 export const SERVER_ADD_ROLE = eventBuilder("serverMember:add_role");

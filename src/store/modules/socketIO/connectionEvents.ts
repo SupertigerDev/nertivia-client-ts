@@ -169,7 +169,6 @@ const actions: ActionTree<any, any> = {
       };
     }
 
-
     // set servers
     const servers: any = {};
     const channels: any = {};
@@ -232,7 +231,6 @@ const actions: ActionTree<any, any> = {
       }
       serverRolesObj[role.server_id] = { [role.id]: role };
     }
-
 
     // dm channel
     for (let i = 0; i < data.dms.length; i++) {

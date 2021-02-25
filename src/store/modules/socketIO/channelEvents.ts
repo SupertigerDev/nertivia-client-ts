@@ -53,8 +53,14 @@ const actions: ActionTree<any, any> = {
   [CHANNEL_MUTE](context, data: { channelID: string }) {
     MutedChannelsModule.AddMutedChannel(data.channelID);
   },
-  [SERVER_CHANNEL_POSITION_CHANGE](context, data: { serverID: string; channel_position: string[] }) {
-    ServersModule.UpdateServer({server_id: data.serverID, channel_position: data.channel_position});
+  [SERVER_CHANNEL_POSITION_CHANGE](
+    context,
+    data: { serverID: string; channel_position: string[] }
+  ) {
+    ServersModule.UpdateServer({
+      server_id: data.serverID,
+      channel_position: data.channel_position
+    });
   }
 };
 export default {

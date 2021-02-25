@@ -72,7 +72,9 @@ export function createInvite(serverID: string): Promise<any> {
 }
 export function changeServerPosition(serverPosition: string[]): Promise<any> {
   return wrapper()
-    .put(`settings/server_position`, {json: {server_position: serverPosition}})
+    .put(`settings/server_position`, {
+      json: { server_position: serverPosition }
+    })
     .json();
 }
 export function createCustomInvite(

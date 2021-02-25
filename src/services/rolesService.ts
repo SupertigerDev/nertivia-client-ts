@@ -25,7 +25,7 @@ export function deleteServerRole(
 }
 export function updateRolePosition(
   serverID: string,
-  data: { roleID: string, order: number }
+  data: { roleID: string; order: number }
 ): Promise<any> {
   return wrapper()
     .patch(`servers/${serverID}/roles`, { json: data })
