@@ -17,6 +17,22 @@ interface ServerObj {
 @Module({ dynamic: true, store, namespaced: true, name: "servers" })
 class Servers extends VuexModule {
   servers: ServerObj = {};
+  serverPosition: string[] = [];
+
+  get sortedServers() {
+    const servers = Object.values(this.servers);
+    if (!this.serverPosition) return servers;
+    const tempServers = [...servers];
+    const sortServers = [];
+    for (let i = 0; i < this.serverPosition.length; i++) {
+      const serverID = this.serverPosition[i];
+      const index = tempServers.findIndex(s => s.server_id === serverID);
+      if (index < 0) continue;
+      sortServers.push(tempServers[index]);
+      tempServers.splice(index, 1);
+    }
+    return [...tempServers, ...sortServers];
+  }
 
   @Mutation
   private INIT_SERVERS(payload: ServerObj | any) {
@@ -57,6 +73,17 @@ class Servers extends VuexModule {
   @Action
   public DeleteServer(serverID: string) {
     this.DELETE_SERVER(serverID);
+  }
+  @Mutation
+  private SET_SERVER_POSITIONS(serverPositionArr: string[]) {
+    this.serverPosition = serverPositionArr;
+  }
+
+  @Action
+  public SetServerPositions(serverPositionArr: string[]) {
+    saveCache("serverPositions", serverPositionArr);
+
+    this.SET_SERVER_POSITIONS(serverPositionArr);
   }
 }
 export const ServersModule = getModule(Servers);

@@ -33,6 +33,7 @@ class ServerRoles extends VuexModule {
   get sortedServerRolesArr() {
     return (server_id: string) => {
       // sort server roles by order
+      if (!this.serverRoles[server_id]) return [];
       const serverRoles = Object.values(this.serverRoles[server_id]);
       return serverRoles.sort((a: any, b: any) => {
         return a.order - b.order;

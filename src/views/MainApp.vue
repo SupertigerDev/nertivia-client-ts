@@ -98,6 +98,10 @@ export default class MainApp extends Vue {
         state: MeModule.SetUser
       },
       {
+        storage: "serverPositions",
+        state: ServersModule.SetServerPositions
+      },
+      {
         storage: "servers",
         state: ServersModule.InitServers
       },

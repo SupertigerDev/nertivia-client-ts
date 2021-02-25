@@ -23,3 +23,11 @@ export function deleteServerRole(
     .delete(`servers/${serverID}/roles/${roleID}`)
     .json();
 }
+export function updateRolePosition(
+  serverID: string,
+  data: { roleID: string, order: number }
+): Promise<any> {
+  return wrapper()
+    .patch(`servers/${serverID}/roles`, { json: data })
+    .json();
+}

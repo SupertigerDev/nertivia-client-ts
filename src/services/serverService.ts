@@ -70,6 +70,11 @@ export function createInvite(serverID: string): Promise<any> {
     .post(`servers/${serverID}/invite`)
     .json();
 }
+export function changeServerPosition(serverPosition: string[]): Promise<any> {
+  return wrapper()
+    .put(`settings/server_position`, {json: {server_position: serverPosition}})
+    .json();
+}
 export function createCustomInvite(
   serverID: string,
   code: string

@@ -120,20 +120,6 @@ interface ChannelPermissions {
   send_message?: boolean;
 }
 
-function sortServers(servers: ReturnedServer[], positions?: string[]) {
-  if (!positions) return servers;
-  const tempServers = [...servers];
-  const sortServers = [];
-  for (let i = 0; i < positions.length; i++) {
-    const serverID = positions[i];
-    const index = tempServers.findIndex(s => s.server_id === serverID);
-    if (index < 0) continue;
-    sortServers.push(tempServers[index]);
-    tempServers.splice(index, 1);
-  }
-  return [...sortServers.reverse(), ...tempServers];
-}
-
 const actions: ActionTree<any, any> = {
   [CONNECT]() {
     MeModule.SetConnectionDetails({
@@ -183,18 +169,13 @@ const actions: ActionTree<any, any> = {
       };
     }
 
-    // sort servers by user position.
-    const sortedServers = sortServers(
-      data.user.servers,
-      data.settings.server_position
-    );
 
     // set servers
     const servers: any = {};
     const channels: any = {};
 
-    for (let i = 0; i < sortedServers.length; i++) {
-      const server = sortedServers[i];
+    for (let i = 0; i < data.user.servers.length; i++) {
+      const server = data.user.servers[i];
       servers[server.server_id] = {
         avatar: server.avatar,
         banner: server.banner,
@@ -251,15 +232,7 @@ const actions: ActionTree<any, any> = {
       }
       serverRolesObj[role.server_id] = { [role.id]: role };
     }
-    // // sort server roles by order
-    // for (let i = 0; i < Object.keys(serverRolesObj).length; i++) {
-    //   const server_id = Object.keys(serverRolesObj)[i];
-    //   serverRolesObj[server_id] = serverRolesObj[server_id].sort(
-    //     (a: any, b: any) => {
-    //       return a.order - b.order;
-    //     }
-    //   );
-    // }
+
 
     // dm channel
     for (let i = 0; i < data.dms.length; i++) {
@@ -304,7 +277,7 @@ const actions: ActionTree<any, any> = {
         name: programActivity.name
       };
     }
-
+    ServersModule.SetServerPositions(data.settings.server_position || []);
     programActivitiesModule.InitProgramActivity(programActivityObj);
     CustomStatusesModule.InitCustomStatus(customStatusObj);
     MutedServersModule.SetMutedServers(mutedServersObj);

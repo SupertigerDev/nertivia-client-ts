@@ -46,16 +46,17 @@ function filterServerMemberKeys(serverMember: any) {
 
 const actions: ActionTree<any, any> = {
   [SERVER_POSITION](context, data: { server_position: string[] }) {
-    const servers = ServersModule.servers;
-    let sortServers = {};
-    for (let i = 0; i < data.server_position.length; i++) {
-      const serverID = data.server_position[i];
-      sortServers = {
-        [serverID]: servers[serverID],
-        ...sortServers
-      };
-    }
-    ServersModule.InitServers(sortServers);
+    // const servers = ServersModule.servers;
+    // let sortServers = {};
+    // for (let i = 0; i < data.server_position.length; i++) {
+    //   const serverID = data.server_position[i];
+    //   sortServers = {
+    //     [serverID]: servers[serverID],
+    //     ...sortServers
+    //   };
+    // }
+    // ServersModule.InitServers(sortServers);
+    ServersModule.SetServerPositions(data.server_position);
   },
   [SERVER_ADD_ROLE](context, data: ServerMemberAddOrRemoveRole) {
     ServerMembersModule.AddMemberRole({

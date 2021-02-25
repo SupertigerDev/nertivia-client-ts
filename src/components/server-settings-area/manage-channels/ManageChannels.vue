@@ -33,6 +33,7 @@
         <div class="channel-list">
           <Draggable
             :animation="200"
+            :delay="$isMobile ? 400 : 0"
             ghost-class="ghost"
             v-model="channels"
             @end="onDragEnd"

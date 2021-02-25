@@ -1,10 +1,19 @@
 <template>
   <div class="server-list">
-    <ServerTemplate
-      v-for="server in Servers"
-      :key="server.server_id"
-      :server="server"
-    />
+    <Draggable
+      :animation="200"
+      v-model="Servers"
+      :delay="$isMobile ? 400 : 0"
+      ghost-class="ghost"
+      @end="onDragEnd"
+    >
+      <ServerTemplate
+        v-model="Servers"
+        v-for="server in Servers"
+        :key="server.server_id"
+        :server="server"
+      />
+    </Draggable>
   </div>
 </template>
 
@@ -12,16 +21,30 @@
 import { ServersModule } from "@/store/modules/servers";
 import { Component, Vue } from "vue-property-decorator";
 import ServerTemplate from "./ServerTemplate.vue";
+import Draggable from "vuedraggable";
+import Server from "@/interfaces/Server";
+import { changeServerPosition } from "@/services/serverService";
 
-@Component({ components: { ServerTemplate } })
+@Component({ components: { ServerTemplate, Draggable } })
 export default class MainApp extends Vue {
+  onDragEnd() {
+    const serverIDArr = this.Servers.map(s => s.server_id);
+    changeServerPosition(serverIDArr);
+  }
   get Servers() {
-    return Object.values(ServersModule.servers).reverse();
+    return ServersModule.sortedServers;
+  }
+  set Servers(servers: Server[]) {
+    const serverIDArr = servers.map(s => s.server_id);
+    ServersModule.SetServerPositions(serverIDArr);
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.ghost {
+  opacity: 0;
+}
 .server-list {
   overflow: auto;
   width: 100%;
