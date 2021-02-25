@@ -10,10 +10,12 @@ if (process.env.NODE_ENV === "production") {
           "For more details, visit https://goo.gl/AFskqB"
       );
       // hack to fix socket io background disconnects
-      const channel = new BroadcastChannel("sw-messages");
-      setInterval(function() {
-        channel.postMessage("ping");
-      }, 25000);
+      if (window.BroadcastChannel) {
+        const channel = new BroadcastChannel("sw-messages");
+        setInterval(function() {
+          channel.postMessage("ping");
+        }, 25000);
+      }
     },
     registered() {
       console.log("Service worker has been registered.");
