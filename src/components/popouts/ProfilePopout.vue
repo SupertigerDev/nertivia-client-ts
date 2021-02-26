@@ -83,28 +83,31 @@
         </div>
 
         <div class="other-details animate-in" v-if="returnedUser">
-          <div class="about" v-if="aboutMe && aboutMe.about_me">
+          <div class="about detail-item" v-if="aboutMe && aboutMe.about_me">
             <div class="icon material-icons">info_outline</div>
             <span>{{ aboutMe.about_me }}</span>
           </div>
           <div
-            class="location"
+            class="location detail-item"
             v-if="aboutMe && (aboutMe.continent || aboutMe.country)"
           >
             <div class="icon material-icons">location_on</div>
             <span>{{ aboutMe.country || aboutMe.continent }}</span>
           </div>
-          <div class="gender" v-if="aboutMe && ageAndGender">
+          <div class="gender detail-item" v-if="aboutMe && ageAndGender">
             <div class="icon material-icons">face</div>
             <span>{{ ageAndGender }}</span>
           </div>
-          <div class="joined" v-if="joiendAt">
+          <div class="joined detail-item" v-if="joiendAt">
             <div class="icon material-icons">event_note</div>
             <span
               >Joined <span class="dim">{{ joiendAt }}</span></span
             >
           </div>
-          <div class="suspend" v-if="aboutMe && aboutMe['Suspend Reason']">
+          <div
+            class="suspend detail-item"
+            v-if="aboutMe && aboutMe['Suspend Reason']"
+          >
             <div class="icon material-icons">block</div>
             <span
               >Suspended
@@ -446,6 +449,9 @@ export default class ProfilePopout extends Vue {
   &:hover {
     opacity: 1;
   }
+}
+.detail-item {
+  flex-shrink: 0;
 }
 @media (max-height: 600px) {
   .profile-popout {
