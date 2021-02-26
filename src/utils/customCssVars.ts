@@ -21,8 +21,7 @@ export function getAllCssVars() {
     // filter external css files.
     .filter((styleSheet: any) => {
       try {
-        styleSheet.cssRules;
-        return true;
+        return styleSheet.cssRules;
       } catch {
         return false;
       }

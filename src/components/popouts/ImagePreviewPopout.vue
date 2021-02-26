@@ -3,6 +3,7 @@
     <div class="margin" ref="margin">
       <div class="content" ref="content">
         <div class="animate-in">
+          <!-- TODO: use image message embed technices to load image -->
           <img :src="data.url" class="image" />
         </div>
       </div>
@@ -54,6 +55,9 @@ export default class ProfilePopout extends Vue {
 .content {
   margin: auto;
   overflow: hidden;
+  background: rgb(0, 0, 0);
+
+  border-radius: 4px;
 }
 .image {
   width: 100%;
