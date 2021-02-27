@@ -341,7 +341,10 @@ export default {
 .emoji-panel {
   display: flex;
   flex-direction: column;
-  z-index: 9999999999;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 111111111111111;
 }
 
 .emoji-panel-inner {

@@ -1,15 +1,16 @@
 <template>
   <div class="message-box">
-    <FileUpload
-      v-if="showUploadBox"
-      :key="showUploadBox.name + showUploadBox.size"
-    />
-    <EmojiPicker
-      class="emoji-picker"
-      v-if="showEmojiPicker"
-      :inputElement="$refs.textarea"
-      @close="showEmojiPicker = false"
-    />
+    <div class="floating-items">
+      <FileUpload
+        v-if="showUploadBox"
+        :key="showUploadBox.name + showUploadBox.size"
+      />
+      <EmojiPicker
+        v-if="showEmojiPicker"
+        :inputElement="$refs.textarea"
+        @close="showEmojiPicker = false"
+      />
+    </div>
     <TypingStatus />
     <EditPanel
       v-if="editingMessageID"
@@ -393,10 +394,7 @@ export default class MessageBoxArea extends Vue {
   background: transparent;
   color: white;
 }
-.emoji-picker {
-  position: absolute;
-  bottom: 55px;
-  right: 10px;
-  z-index: 111111111111111;
+.floating-items {
+  position: relative;
 }
 </style>
