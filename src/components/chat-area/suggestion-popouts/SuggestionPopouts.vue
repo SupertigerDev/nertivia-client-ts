@@ -136,7 +136,7 @@ export default class SuggestionPopouts extends Vue {
   }
 
   get isPopoutShowing() {
-    return this.suggestChannels.length || this.suggestMentions;
+    return this.suggestChannels.length || this.suggestMentions.length;
   }
 
   get serverID() {
