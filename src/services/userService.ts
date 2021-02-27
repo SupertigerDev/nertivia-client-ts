@@ -11,7 +11,6 @@ export interface UpdateUserRequest {
 }
 
 export function reportError(error: Error, val: string): Promise<any> {
-  alert(error.stack?.length);
   return wrapper()
     .post(`error_report`, {
       json: {
