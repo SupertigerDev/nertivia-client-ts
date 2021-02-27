@@ -79,6 +79,7 @@ export default class MainApp extends Vue {
       message.creator.uniqueID
     ];
     if (objExists) {
+      objExists.timer && clearTimeout(objExists.timer);
       this.$delete(this.typingObj[message.channelID], message.creator.uniqueID);
     }
   }
