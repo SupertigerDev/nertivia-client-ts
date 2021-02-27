@@ -1,12 +1,21 @@
 import Vue from "vue";
 // import throttle from "lodash/throttle";
 
+declare interface BaseComponentData {
+  resizeWidth: number,
+  resizeHeight: number,
+  isFocused: boolean,
+  lastClickedElement: null| Element
+}
+
+
 const WindowProperties = new Vue({
-  data() {
+  data(): BaseComponentData  {
     return {
       resizeWidth: 0,
       resizeHeight: 0,
-      isFocused: document.hasFocus()
+      isFocused: document.hasFocus(),
+      lastClickedElement: null
     };
   },
   created() {
@@ -16,6 +25,7 @@ const WindowProperties = new Vue({
     // let debouncedResize = null;
 
     // debouncedResize = throttle(this.onResize, 70);
+    window.addEventListener("click", this.onClick);
     window.addEventListener("resize", this.onResize);
     window.addEventListener("focus", () => {
       this.isFocused = true;
@@ -28,6 +38,9 @@ const WindowProperties = new Vue({
     onResize() {
       this.resizeWidth = window.innerWidth;
       this.resizeHeight = window.innerHeight;
+    },
+    onClick(event: MouseEvent) {
+      this.lastClickedElement=event.target as any;
     }
   }
 });

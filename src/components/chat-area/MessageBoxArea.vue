@@ -1,6 +1,7 @@
 <template>
   <div class="message-box">
     <div class="floating-items">
+      <SuggestionPopouts ref="suggestionPopouts" />
       <FileUpload
         v-if="showUploadBox"
         :key="showUploadBox.name + showUploadBox.size"
@@ -42,6 +43,7 @@
         @input="message = $event.target.value"
         @keydown="keyDownEvent"
         @paste="onPaste"
+        @keyup.passive="onKeyUpEvent"
         ref="textarea"
         id="message-box"
         class="textarea"
@@ -77,6 +79,7 @@
 <script lang="ts">
 import { FileUploadModule } from "@/store/modules/fileUpload";
 import FileUpload from "./FileUpload.vue";
+import SuggestionPopouts from "./suggestion-popouts/SuggestionPopouts.vue";
 import TypingStatus from "./TypingStatus.vue";
 import ButtonTemplate from "./MessageBoxButtonTemplate.vue";
 import EditPanel from "./EditPanel.vue";
@@ -102,7 +105,8 @@ const EmojiPicker = () =>
     TypingStatus,
     EditPanel,
     EmojiPicker,
-    ButtonTemplate
+    ButtonTemplate,
+    SuggestionPopouts
   }
 })
 export default class MessageBoxArea extends Vue {
@@ -124,7 +128,30 @@ export default class MessageBoxArea extends Vue {
       }
     }
   }
+  onKeyUpEvent(event: KeyboardEvent) {
+    (this.$refs.suggestionPopouts as any).onkeyUp(event);
+  }
   keyDownEvent(e: KeyboardEvent) {
+    // if suggestions popout is showing
+    if ((this.$refs.suggestionPopouts as any).isPopoutShowing) {
+      const up = e.key === "ArrowUp";
+      const down = e.key === "ArrowDown";
+      const enter = e.key === "Enter";
+      if (up) {
+        e.preventDefault();
+        (this.$refs.suggestionPopouts as any).onArrowUp();
+      }
+      if (down) {
+        e.preventDefault();
+        (this.$refs.suggestionPopouts as any).onArrowDown();
+      }
+      if (enter) {
+        e.preventDefault();
+        (this.$refs.suggestionPopouts as any).onEnter();
+        return;
+      }
+    }
+
     // shift + enter = new line
     if (e.shiftKey) return;
     // enter key send message

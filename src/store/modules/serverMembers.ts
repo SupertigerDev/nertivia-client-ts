@@ -31,6 +31,15 @@ class ServerMembers extends VuexModule {
   // serverMembers[server_id][unique_id]
   serverMembers: Servers = {};
 
+  get getUsersFromServer() {
+    return (server_id: string) => {
+      if (!this.serverMembers[server_id]) return [];
+      return Object.values(this.serverMembers[server_id]).map(sm => {
+        return UsersModule.users[sm.uniqueID]
+      });
+    };
+  }
+
   get filteredServerMembers() {
     return (server_id: string) => {
       if (!this.serverMembers[server_id]) return [];
