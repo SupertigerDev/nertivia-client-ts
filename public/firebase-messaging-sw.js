@@ -18,8 +18,8 @@ const messaging = firebase.messaging();
 function bodyBuilder(server_id, username, message) {
   return server_id ? `${username}: ${message}` : message;
 }
-function titleBuilder(channel_name, username) {
-  return channel_name ? `${channel_name} - ${username}` : username;
+function titleBuilder(server_name, channel_name, username) {
+  return channel_name ? `${server_name}#${channel_name}` : username;
 }
 
 console.log("FCM Active");
@@ -46,12 +46,13 @@ messaging.setBackgroundMessageHandler(async payload => {
     unique_id,
     username,
     channel_name,
-    server_id
+    server_id,
+    server_name
   } = payload.data;
 
   const tag = `${channel_id}`;
   const notifications = await registration.getNotifications({ tag });
-  const title = titleBuilder(channel_name, username);
+  const title = titleBuilder(server_name, channel_name, username);
   const body = bodyBuilder(server_id, username, message);
   if (notifications[0]) {
     notifications[0].close();
