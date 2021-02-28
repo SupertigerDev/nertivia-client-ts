@@ -6,6 +6,7 @@
   >
     <div class="container">
       <AvatarImage
+        class="avatar"
         :imageId="creator.avatar"
         :willHaveClickEvent="true"
         :seedId="creator.uniqueID"
@@ -100,6 +101,9 @@ export default class MessageLogs extends Vue {
   opacity: 0;
 }
 
+.avatar {
+  align-self: flex-start;
+}
 .message-container {
   display: flex;
   flex-direction: column;
