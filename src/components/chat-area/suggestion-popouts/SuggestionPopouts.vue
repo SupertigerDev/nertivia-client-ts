@@ -79,6 +79,14 @@ export default class SuggestionPopouts extends Vue {
       this.message.substring(0, start) + val + this.message.substring(end);
   }
 
+  @Watch("channelID")
+  onChannelChange() {
+    this.value = "";
+    this.cursorPosition = 0;
+    this.word = "";
+    this.cursorLetter = "";
+  }
+
   get wordWithoutBeginning() {
     return this.word.slice(1, this.word.length);
   }

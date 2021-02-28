@@ -115,6 +115,9 @@ export default class MessageBoxArea extends Vue {
   mounted() {
     this.resizeTextArea();
   }
+  beforeDestroy() {
+    this.stopPostingTypingStatus();
+  }
 
   // ctrl + v event (for screenshots)
   onPaste(event: any) {
@@ -304,7 +307,9 @@ export default class MessageBoxArea extends Vue {
   }
   @Watch("channelID")
   onChannelIDChange() {
-    (this.$refs["textarea"] as HTMLElement).focus();
+    setTimeout(() => {
+      (this.$refs["textarea"] as HTMLElement).focus();
+    }, 10);
     this.stopPostingTypingStatus();
     this.editingMessage = null;
   }

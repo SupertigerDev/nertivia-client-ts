@@ -5,12 +5,12 @@ declare interface BaseComponentData {
   resizeWidth: number,
   resizeHeight: number,
   isFocused: boolean,
-  lastClickedElement: null| Element
+  lastClickedElement: null | Element
 }
 
 
 const WindowProperties = new Vue({
-  data(): BaseComponentData  {
+  data(): BaseComponentData {
     return {
       resizeWidth: 0,
       resizeHeight: 0,
@@ -27,6 +27,9 @@ const WindowProperties = new Vue({
     // debouncedResize = throttle(this.onResize, 70);
     window.addEventListener("click", this.onClick);
     window.addEventListener("resize", this.onResize);
+    window.addEventListener("focusin", event => {
+      this.lastClickedElement = event.target as any;
+    });
     window.addEventListener("focus", () => {
       this.isFocused = true;
     });
@@ -40,7 +43,7 @@ const WindowProperties = new Vue({
       this.resizeHeight = window.innerHeight;
     },
     onClick(event: MouseEvent) {
-      this.lastClickedElement=event.target as any;
+      this.lastClickedElement = event.target as any;
     }
   }
 });
