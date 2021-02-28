@@ -10,7 +10,7 @@
 <script lang="ts">
 import SuggestionPopoutTemplate from "./SuggestionPopoutTemplate.vue";
 import ChannelSuggestionTemplate from "./ChannelSuggestionTemplate.vue";
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import Channel from "@/interfaces/Channel";
 
 @Component({ components: { SuggestionPopoutTemplate } })

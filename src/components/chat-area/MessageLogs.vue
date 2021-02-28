@@ -276,7 +276,7 @@ export default class MessageLogs extends Vue {
     });
   }
   @Watch("isScrolledDown")
-  onScrolldDown(scrolledDown: boolean) {
+  onScrolldDown() {
     this.dismissNotification();
   }
   get messageTransition() {

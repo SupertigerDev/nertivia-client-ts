@@ -2,12 +2,11 @@ import Vue from "vue";
 // import throttle from "lodash/throttle";
 
 declare interface BaseComponentData {
-  resizeWidth: number,
-  resizeHeight: number,
-  isFocused: boolean,
-  lastClickedElement: null | Element
+  resizeWidth: number;
+  resizeHeight: number;
+  isFocused: boolean;
+  lastClickedElement: null | Element;
 }
-
 
 const WindowProperties = new Vue({
   data(): BaseComponentData {

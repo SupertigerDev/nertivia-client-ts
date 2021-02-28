@@ -15,11 +15,11 @@ const emojiIconId = (emoji: string) =>
   );
 
 export default {
-  getCustomEmojisByShortCode(shortcode: string) {
-    // const customEmojis = store.state["settingsModule"].customEmojis;
-    // return customEmojis.find(emoji => emoji.name === shortcode);
-    return [];
-  },
+  // getCustomEmojisByShortCode(shortcode: string) {
+  //   // const customEmojis = store.state["settingsModule"].customEmojis;
+  //   // return customEmojis.find(emoji => emoji.name === shortcode);
+  //   return [];
+  // },
   replaceShortcode: (message: string) => {
     const customEmojis = CustomEmojisModule.customEmojis;
 
@@ -58,15 +58,15 @@ export default {
       return config.twemojiLocations + icon + ".svg";
     });
   },
-  GetEmojiPath: (string: string) => {
-    // let emojiPath;
-    // twemoji.parse(string, function(icon) {
-    //   if (!icon) return string;
-    //   emojiPath = require("../assets/twemoji/" + icon + ".svg");
-    // });
-    // return emojiPath;
-    return "wut";
-  },
+  // GetEmojiPath: (string: string) => {
+  //   // let emojiPath;
+  //   // twemoji.parse(string, function(icon) {
+  //   //   if (!icon) return string;
+  //   //   emojiPath = require("../assets/twemoji/" + icon + ".svg");
+  //   // });
+  //   // return emojiPath;
+  //   return "wut";
+  // },
   searchEmoji: (shortCode: string) => {
     // const customEmojis = store.state["settingsModule"].customEmojis;
     const customEmojis: any = [];
@@ -91,8 +91,8 @@ export default {
   allGroups: groups
 };
 
-function emojiExists(shortCode: string) {
-  return emojis.find(emoji =>
-    emoji.shortcodes.find(emojiShortCode => shortCode === emojiShortCode)
-  );
-}
+// function emojiExists(shortCode: string) {
+//   return emojis.find(emoji =>
+//     emoji.shortcodes.find(emojiShortCode => shortCode === emojiShortCode)
+//   );
+// }

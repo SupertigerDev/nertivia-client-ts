@@ -41,7 +41,6 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import friendlyDate from "@/utils/date";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { PopoutsModule } from "@/store/modules/popouts";
-import config from "@/config";
 import Markup from "@/components/Markup.vue";
 import Invite from "@/interfaces/Invite";
 

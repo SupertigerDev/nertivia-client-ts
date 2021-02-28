@@ -90,7 +90,6 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 import WindowProperties from "@/utils/windowProperties";
 import { editMessage, postTypingStatus } from "@/services/messagesService";
 import Message from "@/interfaces/Message";
-import { eventBus } from "@/utils/globalBus";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { formatMessage } from "@/utils/formatMessage";
 import { ChannelsModule } from "@/store/modules/channels";

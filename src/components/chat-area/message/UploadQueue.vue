@@ -15,8 +15,7 @@
 <script lang="ts">
 import UploadQueueItem from "./UploadQueueItem.vue";
 import { FileUploadModule } from "@/store/modules/fileUpload";
-import { Component, Prop, Vue } from "vue-property-decorator";
-
+import { Component, Vue } from "vue-property-decorator";
 @Component({ components: { UploadQueueItem } })
 export default class UploadQueue extends Vue {
   get queueItems() {

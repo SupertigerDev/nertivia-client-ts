@@ -1,6 +1,5 @@
 import Channel from "@/interfaces/Channel";
 import { ChannelsModule } from "@/store/modules/channels";
-import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { UsersModule } from "@/store/modules/users";
 import emojiParser from "./emojiParser";
 
