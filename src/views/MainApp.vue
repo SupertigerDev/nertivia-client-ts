@@ -164,7 +164,7 @@ export default class MainApp extends Vue {
       return;
     }
     // Server Notification
-    const notification = this.firstServerNotification;
+    const notification: any = this.firstServerNotification;
     if (!notification?.server_id) {
       document.title = "Nertivia BETA";
       this.setNotificationICO(false);

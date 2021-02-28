@@ -19,7 +19,7 @@ function replaceMentions(message: string) {
 function replaceChannelMentions(message: string, channels: Channel[]) {
   const getChannel = (name: string) => channels.find(c => c.name === name);
 
-  const result = [];
+  const result: string[] = [];
   const reg = /#([^#]+?)#/g;
   let name;
 

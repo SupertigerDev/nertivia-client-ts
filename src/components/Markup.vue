@@ -46,7 +46,7 @@ export default Vue.extend<MarkupProps>({
   },
   render(h, { props }) {
     const input = props.text;
-    const result = [];
+    const result: any = [];
     let lastIndex = 0;
 
     let emojiCount = 0;

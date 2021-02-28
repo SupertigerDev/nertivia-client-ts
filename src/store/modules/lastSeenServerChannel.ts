@@ -27,7 +27,7 @@ class LastSeenServerChannels extends VuexModule {
 
   get allServerNotifications() {
     const channelIDArr = Object.keys(ChannelsModule.channels);
-    const res = [];
+    const res: any = [];
     for (let i = 0; i < channelIDArr.length; i++) {
       const channelID = channelIDArr[i];
       const notificationExists = this.serverChannelNotification(channelID);
@@ -71,7 +71,7 @@ class LastSeenServerChannels extends VuexModule {
         return [];
       }
       return this.allServerNotifications.filter(
-        channel => channel.server_id === server_id
+        (channel: any) => channel.server_id === server_id
       );
     };
   }

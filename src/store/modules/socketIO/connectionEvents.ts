@@ -13,11 +13,9 @@ import { ServerRolesModule } from "../serverRoles";
 import { LastSeenServerChannelsModule } from "../lastSeenServerChannel";
 import { NotificationsModule } from "../notifications";
 import { MutedChannelsModule } from "../mutedChannels";
-import { isObjectLike } from "lodash";
 import { MutedServersModule } from "../mutedServers";
 import CustomEmoji from "@/interfaces/CustomEmoji";
 import { CustomEmojisModule } from "../customEmojis";
-import userStatuses from "@/constants/userStatuses";
 import { CustomStatusesModule } from "../memberCustomStatus";
 import { programActivitiesModule } from "../memberProgramActivity";
 import {
