@@ -2,6 +2,7 @@
 import Vue from "vue";
 import MessageQuote from "./markup/MessageQuote.vue";
 import CustomEmoji from "./markup/CustomEmoji.vue";
+import Link from "./markup/Link.vue";
 import Message from "@/interfaces/Message";
 import { ChannelsModule } from "@/store/modules/channels";
 import { UsersModule } from "@/store/modules/users";
@@ -23,6 +24,7 @@ const generateRegex = (parts: Record<string, RegExp>) => {
 };
 
 const MARKUP_REGEX = generateRegex({
+  link: /https?:\/\/\S+\.\S+/,
   internal_code: /<(m|@|#)(\d+)>/,
   emoji: /:(\w+?):/,
   custom_emoji: /<(g?):([\w\d_-]+?):([\w\d_-]+?)>/
@@ -149,6 +151,9 @@ export default Vue.extend<MarkupProps>({
             })
           );
           break;
+        case "link": {
+          result.push(h(Link, { props: { url: matchArgs[0] } }));
+        }
       }
     }
     addText(input.length);
