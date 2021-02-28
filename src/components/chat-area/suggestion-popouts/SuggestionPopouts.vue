@@ -163,7 +163,8 @@ export default class SuggestionPopouts extends Vue {
   }
   get suggestEmojis() {
     if (this.cursorLetter.trim() == "" || this.word.endsWith(":")) return [];
-    if (!this.word.startsWith(":")) return [];
+    if (!this.word.startsWith(":") || this.wordWithoutBeginning.length <= 1)
+      return [];
     return emojiParser.searchEmoji(this.wordWithoutBeginning).slice(0, 10);
   }
 
