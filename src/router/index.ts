@@ -12,15 +12,15 @@ const ExploreArea = () =>
   );
 const SettingsArea = () =>
   import(
-    /* webpackChunkName: "ExploreArea" */ "../components/settings-area/SettingsArea.vue"
+    /* webpackChunkName: "SettingsArea" */ "../components/settings-area/SettingsArea.vue"
   );
 const MessageArea = () =>
   import(
-    /* webpackChunkName: "ExploreArea" */ "../components/chat-area/MessageArea.vue"
+    /* webpackChunkName: "MessageArea" */ "../components/chat-area/MessageArea.vue"
   );
 const DashboardArea = () =>
   import(
-    /* webpackChunkName: "ExploreArea" */ "../components/dashboard-area/DashboardArea.vue"
+    /* webpackChunkName: "DashboardArea" */ "../components/dashboard-area/DashboardArea.vue"
   );
 const ServerSettingsArea = () =>
   import(
