@@ -25,7 +25,7 @@ const WindowProperties = new Vue({
     // let debouncedResize = null;
 
     // debouncedResize = throttle(this.onResize, 70);
-    window.addEventListener("click", this.onClick);
+    window.addEventListener("mousedown", this.onMouseDown);
     window.addEventListener("resize", this.onResize);
     window.addEventListener("focusin", event => {
       this.lastClickedElement = event.target as any;
@@ -42,7 +42,7 @@ const WindowProperties = new Vue({
       this.resizeWidth = window.innerWidth;
       this.resizeHeight = window.innerHeight;
     },
-    onClick(event: MouseEvent) {
+    onMouseDown(event: MouseEvent) {
       this.lastClickedElement = event.target as any;
     }
   }

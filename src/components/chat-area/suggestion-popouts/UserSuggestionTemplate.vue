@@ -1,15 +1,22 @@
 <template>
   <div class="user" :class="{ selected }">
-    <div class="dot" />
+    <AvatarImage
+      class="avatar"
+      :animateGif="selected"
+      :imageId="item.avatar"
+      :seedId="item.uniqueID"
+      size="20px"
+    />
     <div class="name">{{ item.username }}</div>
   </div>
 </template>
 
 <script lang="ts">
+import AvatarImage from "@/components/AvatarImage.vue";
 import User from "@/interfaces/User";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
-@Component
+@Component({ components: { AvatarImage } })
 export default class UserSuggestionTemplate extends Vue {
   @Prop() private item!: User;
   @Prop() private selected!: boolean;
@@ -32,11 +39,7 @@ export default class UserSuggestionTemplate extends Vue {
     }
   }
 }
-.dot {
-  height: 7px;
-  width: 7px;
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 50%;
+.avatar {
   margin-right: 5px;
   margin-left: 5px;
 }

@@ -44,9 +44,14 @@ export default class SuggestionPopouts extends Vue {
   cursorPosition = 0;
   word = "";
   cursorLetter = "";
-  onkeyUp(event: any) {
-    this.value = event.target.value;
-    this.cursorPosition = event.target.selectionStart;
+  inputEl: null | any = null;
+  onkeyUp(event?: any) {
+    if (!this.inputEl) {
+      this.inputEl = event.target;
+    }
+    if (!this.inputEl) return;
+    this.value = this.inputEl.value;
+    this.cursorPosition = this.inputEl.selectionStart;
     this.word = this.cursorWord(this.value, this.cursorPosition);
     this.cursorLetter = this.value.substring(
       this.cursorPosition - 1,
@@ -77,6 +82,10 @@ export default class SuggestionPopouts extends Vue {
 
     this.message =
       this.message.substring(0, start) + val + this.message.substring(end);
+    this.$nextTick(() => {
+      this.inputEl?.focus();
+      this.onkeyUp();
+    });
   }
 
   @Watch("channelID")
