@@ -173,6 +173,7 @@ export default class ExploreServerTemplate extends Vue {
   .left {
     position: relative;
     flex: 1;
+    min-width: 0;
   }
 }
 
@@ -202,6 +203,7 @@ export default class ExploreServerTemplate extends Vue {
 .mid-info {
   display: flex;
   align-items: center;
+  overflow: hidden;
 }
 .creator {
   display: flex;
