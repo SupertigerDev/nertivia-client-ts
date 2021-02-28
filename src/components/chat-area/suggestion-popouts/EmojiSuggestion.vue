@@ -1,22 +1,21 @@
 <template>
   <SuggestionPopoutTemplate
-    :items="users"
+    :items="emojis"
     ref="template"
-    :template="UserSuggestionTemplate"
+    :template="EmojiSuggestionTemplate"
     @selected="onSelected"
   />
 </template>
 
 <script lang="ts">
 import SuggestionPopoutTemplate from "./SuggestionPopoutTemplate.vue";
-import UserSuggestionTemplate from "./UserSuggestionTemplate.vue";
+import EmojiSuggestionTemplate from "./EmojiSuggestionTemplate.vue";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import User from "@/interfaces/User";
 
 @Component({ components: { SuggestionPopoutTemplate } })
-export default class UserSuggestion extends Vue {
-  @Prop() private users!: User[];
-  UserSuggestionTemplate = UserSuggestionTemplate;
+export default class Suggestion extends Vue {
+  @Prop() private emojis!: any[];
+  EmojiSuggestionTemplate = EmojiSuggestionTemplate;
 
   up() {
     (this.$refs.template as any).up();
@@ -27,8 +26,12 @@ export default class UserSuggestion extends Vue {
   enter() {
     (this.$refs.template as any).enter();
   }
-  onSelected(user: User) {
-    this.$emit("selected", `@${user.username}:${user.tag} `);
+  onSelected(emoji: any) {
+    if (emoji.unicode) {
+      this.$emit("selected", `:${emoji.shortcodes[0]}:`);
+    } else {
+      this.$emit("selected", `:${emoji.name}:`);
+    }
   }
 }
 </script>

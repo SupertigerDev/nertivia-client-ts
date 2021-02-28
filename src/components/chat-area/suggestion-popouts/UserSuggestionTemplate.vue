@@ -34,9 +34,6 @@ export default class UserSuggestionTemplate extends Vue {
   &.selected {
     background: var(--primary-color);
     color: white;
-    .dot {
-      background: white;
-    }
   }
 }
 .avatar {

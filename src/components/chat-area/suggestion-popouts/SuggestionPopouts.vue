@@ -8,9 +8,11 @@
       cursorLetter: {{ cursorLetter }}<br />
       suggestChannels: {{ suggestChannels.length }} <br />
       suggestMentions: {{ suggestMentions.length }} <br />
+      suggestEmojis: {{ suggestEmojis.length }} <br />
     </div>
+
     <UserSuggestion
-      v-if="suggestMentions.length"
+      v-else-if="suggestMentions.length"
       :users="suggestMentions"
       @selected="onSelected"
       ref="showingSuggestion"
@@ -21,6 +23,12 @@
       @selected="onSelected"
       ref="showingSuggestion"
     />
+    <EmojiSuggestion
+      v-else-if="suggestEmojis.length"
+      :emojis="suggestEmojis"
+      @selected="onSelected"
+      ref="showingSuggestion"
+    />
   </div>
 </template>
 
@@ -28,15 +36,17 @@
 import { ChannelsModule } from "@/store/modules/channels";
 import ChannelSuggestion from "./ChannelSuggestion.vue";
 import UserSuggestion from "./UserSuggestion.vue";
+import EmojiSuggestion from "./EmojiSuggestion.vue";
 import { Component, Vue, Watch } from "vue-property-decorator";
 import windowProperties from "@/utils/windowProperties";
 import { MessageInputModule } from "@/store/modules/messageInput";
 import User from "@/interfaces/User";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { MeModule } from "@/store/modules/me";
+import emojiParser from "@/utils/emojiParser";
 
 @Component({
-  components: { ChannelSuggestion, UserSuggestion }
+  components: { ChannelSuggestion, UserSuggestion, EmojiSuggestion }
 })
 export default class SuggestionPopouts extends Vue {
   debug = false;
@@ -151,9 +161,18 @@ export default class SuggestionPopouts extends Vue {
         })
     );
   }
+  get suggestEmojis() {
+    if (this.cursorLetter.trim() == "" || this.word.endsWith(":")) return [];
+    if (!this.word.startsWith(":")) return [];
+    return emojiParser.searchEmoji(this.wordWithoutBeginning).slice(0, 10);
+  }
 
   get isPopoutShowing() {
-    return this.suggestChannels.length || this.suggestMentions.length;
+    return (
+      this.suggestChannels.length ||
+      this.suggestMentions.length ||
+      this.suggestEmojis.length
+    );
   }
 
   get serverID() {

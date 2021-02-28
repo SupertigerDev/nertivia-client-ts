@@ -69,7 +69,7 @@ export default {
   // },
   searchEmoji: (shortCode: string) => {
     // const customEmojis = store.state["settingsModule"].customEmojis;
-    const customEmojis: any = [];
+    const customEmojis = CustomEmojisModule.customEmojis;
     return [
       ...matchSorter(customEmojis, shortCode, {
         keys: ["name"],

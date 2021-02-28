@@ -1,0 +1,71 @@
+<template>
+  <div class="emoji-suggestion-template" :class="{ selected }">
+    <div class="emoji" v-html="image"></div>
+    <div class="name">{{ name }}</div>
+  </div>
+</template>
+
+<script lang="ts">
+import AvatarImage from "@/components/AvatarImage.vue";
+import config from "@/config";
+import emojiParser from "@/utils/emojiParser";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+
+@Component({ components: { AvatarImage } })
+export default class EmojiSuggestionTemplate extends Vue {
+  @Prop() private item!: any;
+  @Prop() private selected!: boolean;
+
+  get image() {
+    if (this.item.unicode) {
+      return emojiParser.replaceEmojis(this.item.unicode);
+    }
+    const image = new Image();
+    image.classList.add("emoji");
+
+    image.src = `${config.nertiviaCDN}emojis/${this.item.emojiID}.${
+      this.item.gif ? "gif" : "png"
+    }`;
+    return image.outerHTML;
+  }
+  get name() {
+    return this.item.name || this.item.shortcodes[0];
+  }
+}
+</script>
+<style scoped lang="scss">
+.emoji-suggestion-template {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  height: 25px;
+  cursor: pointer;
+  user-select: none;
+  color: rgba(255, 255, 255, 0.6);
+  &.selected {
+    background: var(--primary-color);
+    color: white;
+  }
+}
+
+.emoji {
+  margin-left: 5px;
+  margin-right: 5px;
+  height: 20px;
+  flex-shrink: 0;
+  width: 20px;
+}
+
+.name {
+  margin-right: 5px;
+}
+</style>
+<style>
+.emoji-suggestion-template .emoji img {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  vertical-align: initial;
+}
+</style>
