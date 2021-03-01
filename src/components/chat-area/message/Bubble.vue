@@ -27,6 +27,7 @@
         <Markup :text="message.message" :message="message" />
       </div>
       <InviteMessage v-if="invite" :invite="invite" :message="message" />
+      <HTMLEmbed v-if="message.htmlEmbed" :compressedJSON="message.htmlEmbed" />
     </div>
   </div>
 </template>
@@ -42,10 +43,17 @@ import friendlyDate from "@/utils/date";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { PopoutsModule } from "@/store/modules/popouts";
 import Markup from "@/components/Markup.vue";
+import HTMLEmbed from "./HTMLEmbed.vue";
 import Invite from "@/interfaces/Invite";
 
 @Component({
-  components: { ImageMessageEmbed, FileMessage, InviteMessage, Markup }
+  components: {
+    ImageMessageEmbed,
+    FileMessage,
+    InviteMessage,
+    Markup,
+    HTMLEmbed
+  }
 })
 export default class Bubble extends Vue {
   loadRoleColor = false;

@@ -13,8 +13,10 @@
     "core-js": "^3.6.5",
     "filesize": "^3.6.1",
     "firebase": "^8.2.9",
+    "jsonhtmlfyer": "^0.2.1",
     "ky": "^0.27.0",
     "match-sorter": "^6.3.0",
+    "pako": "^1.0.11",
     "register-service-worker": "^1.7.1",
     "seeded-color": "^1.0.1",
     "socket.io-client": "^2.4.0",
@@ -32,6 +34,7 @@
     "vuex-module-decorators": "^1.0.1"
   },
   "devDependencies": {
+    "@types/pako": "^1.0.1",
     "@types/twemoji": "^12.1.1",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",

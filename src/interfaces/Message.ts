@@ -1,5 +1,4 @@
 import User from "./User";
-
 export default interface Message {
   message?: string;
   creator: User;
@@ -14,6 +13,8 @@ export default interface Message {
   files?: File[];
   quotes: Quote[];
   embed?: Embed;
+  // compressed
+  htmlEmbed?: string
 }
 
 export interface Quote {

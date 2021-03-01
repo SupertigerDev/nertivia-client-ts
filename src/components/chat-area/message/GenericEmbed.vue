@@ -4,7 +4,13 @@
       <img class="image" @click="imageClick" :src="imageUrl" alt="" />
     </div>
     <div class="details">
-      <a :href="url" target="_blank" rel="noopener noreferrer">{{ title }}</a>
+      <a
+        :href="url"
+        @click="urlClick"
+        target="_blank"
+        rel="noopener noreferrer"
+        >{{ title }}</a
+      >
       <div class="description">{{ embed.description }}</div>
     </div>
   </div>
@@ -28,6 +34,14 @@ export default class GenericEmbed extends Vue {
         url: this.imageUrl,
         dimensions: this.embed.image?.dimensions
       }
+    });
+  }
+  urlClick(event) {
+    event.preventDefault();
+    PopoutsModule.ShowPopout({
+      id: "html-embed-url-sus",
+      component: "OpenLinkConfirm",
+      data: { url: this.url }
     });
   }
 
