@@ -38,6 +38,16 @@ export default Vue.extend<Props>({
           config.image_proxy
         }${encodeURIComponent(json.styles.backgroundImage)})`;
       }
+      if (json.tag === "img" && json.attributes?.src) {
+        json.attributes.src =
+          config.image_proxy + encodeURIComponent(json.attributes.src);
+      }
+      if (json.styles?.position === "fixed") {
+        delete json.styles.position;
+      }
+      if (json.styles?.background) {
+        delete json.styles.background;
+      }
       const el = h(json.tag, {
         style: json.styles,
         attrs: json.attributes
