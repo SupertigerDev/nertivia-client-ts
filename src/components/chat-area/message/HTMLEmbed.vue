@@ -79,7 +79,7 @@ export default Vue.extend<Props>({
     };
 
     return h("div", { class: "html-embed", on: { click: clickEvent } }, [
-      <div class="container">{template(obj)}</div>
+      template(obj)
     ]);
   }
 });
@@ -88,14 +88,14 @@ export default Vue.extend<Props>({
 <style scoped>
 .html-embed {
   border-radius: 4px;
-
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   max-width: 500px;
   max-height: 500px;
   margin-top: 5px;
   text-overflow: ellipsis;
   overflow: hidden;
-
+  align-self: flex-start;
   white-space: pre-wrap;
   overflow: hidden;
   flex-shrink: 0;
@@ -105,10 +105,5 @@ export default Vue.extend<Props>({
   overflow-wrap: anywhere;
   position: relative;
   margin-left: 50px;
-}
-.container {
-  display: flex;
-  flex-grow: 1;
-  background: rgba(0, 0, 0, 0.4);
 }
 </style>
