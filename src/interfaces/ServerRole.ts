@@ -8,5 +8,4 @@ export default interface ServerRole {
   permissions: number;
   server_id: string;
   hideRole?: boolean;
-  bot?: string;
 }

@@ -62,7 +62,7 @@ export default class ProfilePopout extends Vue {
     const serverID = this.data.serverID;
     const uniqueID = this.data.uniqueID;
     return ServerRolesModule.sortedServerRolesArr(this.data.serverID)
-      .filter(r => !r.default && !r.bot)
+      .filter(r => !r.default && r.deletable)
       .map(role => {
         if (ServerMembersModule.memberHasRole(serverID, uniqueID, role.id)) {
           return { ...role, hasRole: true };

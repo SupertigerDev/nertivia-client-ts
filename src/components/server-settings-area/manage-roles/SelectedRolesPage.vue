@@ -241,7 +241,7 @@ export default class ManageRolesPage extends Vue {
     return MeModule.connected;
   }
   get showDeleteButton() {
-    return !this.role?.default || this.role?.deletable;
+    return !this.role?.default && this.role?.deletable;
   }
 }
 </script>
