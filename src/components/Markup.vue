@@ -91,6 +91,7 @@ export default Vue.extend<MarkupProps>({
                     }
                   })
                 );
+                textCount += 1;
               } else {
                 result.push(matchArgs[0]);
               }
@@ -107,6 +108,7 @@ export default Vue.extend<MarkupProps>({
                       }
                     })
                   );
+                  textCount += 1;
                 } else {
                   result.push(matchArgs[0]);
                 }
@@ -117,6 +119,7 @@ export default Vue.extend<MarkupProps>({
                 const channel = ChannelsModule.channels[matchArgs[2]];
                 if (channel) {
                   result.push(h(MentionChannel, { props: { channel } }));
+                  textCount += 1;
                 } else {
                   matchArgs[0];
                 }
@@ -153,6 +156,7 @@ export default Vue.extend<MarkupProps>({
           break;
         case "link": {
           result.push(h(Link, { props: { url: matchArgs[0] } }));
+          textCount += 1;
         }
       }
     }
