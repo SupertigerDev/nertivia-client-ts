@@ -9,6 +9,7 @@
       suggestChannels: {{ suggestChannels.length }} <br />
       suggestMentions: {{ suggestMentions.length }} <br />
       suggestEmojis: {{ suggestEmojis.length }} <br />
+      suggestCommands: {{ suggestCommands.length }} <br />
     </div>
 
     <UserSuggestion
@@ -29,12 +30,19 @@
       @selected="onSelected"
       ref="showingSuggestion"
     />
+    <CommandSuggestion
+      v-else-if="suggestCommands.length"
+      :commands="suggestCommands"
+      @selected="onSelected"
+      ref="showingSuggestion"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { ChannelsModule } from "@/store/modules/channels";
 import ChannelSuggestion from "./ChannelSuggestion.vue";
+import CommandSuggestion from "./CommandSuggestion.vue";
 import UserSuggestion from "./UserSuggestion.vue";
 import EmojiSuggestion from "./EmojiSuggestion.vue";
 import { Component, Vue, Watch } from "vue-property-decorator";
@@ -44,9 +52,15 @@ import User from "@/interfaces/User";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { MeModule } from "@/store/modules/me";
 import emojiParser from "@/utils/emojiParser";
+import { BotCommand, botCommandsModule } from "@/store/modules/botCommands";
 
 @Component({
-  components: { ChannelSuggestion, UserSuggestion, EmojiSuggestion }
+  components: {
+    ChannelSuggestion,
+    UserSuggestion,
+    EmojiSuggestion,
+    CommandSuggestion
+  }
 })
 export default class SuggestionPopouts extends Vue {
   debug = false;
@@ -97,15 +111,23 @@ export default class SuggestionPopouts extends Vue {
       this.onkeyUp();
     });
   }
-
-  @Watch("channelID")
-  onChannelChange() {
+  resetValues() {
     this.value = "";
     this.cursorPosition = 0;
     this.word = "";
     this.cursorLetter = "";
   }
 
+  @Watch("channelID")
+  onChannelChange() {
+    this.resetValues();
+  }
+  @Watch("message")
+  onMessageChange(message: string) {
+    if (!message.trim().length) {
+      this.resetValues();
+    }
+  }
   get wordWithoutBeginning() {
     return this.word.slice(1, this.word.length);
   }
@@ -143,6 +165,38 @@ export default class SuggestionPopouts extends Vue {
       ServerMembersModule.getUsersFromServer(this.serverID)
     ).slice(0, 10);
   }
+  get suggestCommands() {
+    const [cmd, ...args] = this.value.trim().split(" ");
+    if (cmd.length >= 45) return [];
+    if (!this.botWithPrefixes.length) return [];
+    if (!this.botCommands.length) return [];
+
+    const matchedCommands: {
+      bot: User;
+      command: BotCommand;
+      insert: boolean;
+      argsEnteredLength: number;
+    }[] = [];
+    for (let i = 0; i < this.botWithPrefixes.length; i++) {
+      const bot = this.botWithPrefixes[i];
+      if (!bot.botPrefix) continue;
+      if (!cmd.startsWith(bot.botPrefix)) continue;
+      const botCommands = botCommandsModule.botCommands[bot.uniqueID];
+      if (!botCommands?.length) continue;
+      for (let y = 0; y < botCommands.length; y++) {
+        const command = botCommands[y];
+        const prefixAndCommand = (bot.botPrefix + command.c).toLowerCase();
+        if (!prefixAndCommand.startsWith(cmd.toLowerCase())) continue;
+        matchedCommands.push({
+          command,
+          bot,
+          argsEnteredLength: args.length,
+          insert: !cmd.toLowerCase().startsWith(prefixAndCommand)
+        });
+      }
+    }
+    return matchedCommands;
+  }
 
   searchMention(users: User[]) {
     return (
@@ -172,7 +226,8 @@ export default class SuggestionPopouts extends Vue {
     return (
       this.suggestChannels.length ||
       this.suggestMentions.length ||
-      this.suggestEmojis.length
+      this.suggestEmojis.length ||
+      this.suggestCommands.filter(c => c.insert).length
     );
   }
 
@@ -196,6 +251,25 @@ export default class SuggestionPopouts extends Vue {
   }
   get dmChannel() {
     return ChannelsModule.getDMChannel(this.channelID);
+  }
+  get botCommands() {
+    if (this.serverID) {
+      return botCommandsModule.serverCommands(this.serverID);
+    } else {
+      if (!this.dmChannel?.recipients?.[0].botPrefix) return [];
+      return [
+        botCommandsModule.botCommands[this.dmChannel.recipients[0].uniqueID]
+      ];
+    }
+  }
+  get botWithPrefixes() {
+    if (this.serverID) {
+      return ServerMembersModule.getUsersFromServer(this.serverID).filter(
+        u => u.botPrefix
+      );
+    }
+    if (!this.dmChannel?.recipients?.[0].botPrefix) return [];
+    return [this.dmChannel?.recipients[0]];
   }
   get message() {
     return MessageInputModule.message;

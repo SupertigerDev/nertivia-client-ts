@@ -171,6 +171,22 @@ const actions: ActionTree<any, any> = {
     const servers: any = {};
     const channels: any = {};
 
+   
+
+    // dm channel
+    for (let i = 0; i < data.dms.length; i++) {
+      const channel = data.dms[i];
+      if (channel.recipients)
+        for (let i = 0; i < channel.recipients.length; i++) {
+          const recipient = channel.recipients[i];
+          users[recipient.uniqueID] = recipient;
+        }
+      channels[channel.channelID] = {
+        channelID: channel.channelID,
+        lastMessaged: channel.lastMessaged,
+        recipients: channel.recipients?.map(r => r.uniqueID)
+      };
+    }
     for (let i = 0; i < data.user.servers.length; i++) {
       const server = data.user.servers[i];
       servers[server.server_id] = {
@@ -228,21 +244,6 @@ const actions: ActionTree<any, any> = {
         continue;
       }
       serverRolesObj[role.server_id] = { [role.id]: role };
-    }
-
-    // dm channel
-    for (let i = 0; i < data.dms.length; i++) {
-      const channel = data.dms[i];
-      if (channel.recipients)
-        for (let i = 0; i < channel.recipients.length; i++) {
-          const recipient = channel.recipients[i];
-          users[recipient.uniqueID] = recipient;
-        }
-      channels[channel.channelID] = {
-        channelID: channel.channelID,
-        lastMessaged: channel.lastMessaged,
-        recipients: channel.recipients?.map(r => r.uniqueID)
-      };
     }
 
     const notifications: any = {};

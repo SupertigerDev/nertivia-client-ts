@@ -4,4 +4,5 @@ export default interface User {
   avatar?: string | null;
   uniqueID: string;
   bot?: boolean;
+  botPrefix?: string;
 }

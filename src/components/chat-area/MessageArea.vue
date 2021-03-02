@@ -24,17 +24,28 @@ import { NotificationsModule } from "@/store/modules/notifications";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { MeModule } from "@/store/modules/me";
 import { ScrollModule } from "@/store/modules/scroll";
+import { botCommandsModule } from "@/store/modules/botCommands";
 
 @Component({
   components: { MessageLogs, MessageBoxArea, Header, LoadingScreen }
 })
 export default class MessageArea extends Vue {
+  loadCommands() {
+    if (this.serverID && !botCommandsModule.serverBotCommands[this.serverID]) {
+      botCommandsModule.FetchAndSetBotCommands({ serverId: this.serverID });
+    } else if (this.DMChannel?.recipients?.[0].bot) {
+      botCommandsModule.FetchAndSetBotCommands({
+        botIDArr: [this.DMChannel.recipients[0].uniqueID]
+      });
+    }
+  }
   loadChannelMessages() {
     if (!this.channel) return;
     if (!this.isConnected) return;
     if (this.channelMessages) return;
     if (!this.channelID) return;
     MessagesModule.FetchAndSetMessages(this.channelID);
+    this.loadCommands();
   }
   dismissNotification() {
     if (!ScrollModule.isScrolledBottom) return;
@@ -91,6 +102,14 @@ export default class MessageArea extends Vue {
   }
   get isConnected() {
     return MeModule.connected;
+  }
+
+  get serverID() {
+    if (this.currentTab !== "servers") return undefined;
+    return this.$route.params.server_id;
+  }
+  get currentTab() {
+    return this.$route.path.split("/")[2] || "";
   }
 }
 </script>
