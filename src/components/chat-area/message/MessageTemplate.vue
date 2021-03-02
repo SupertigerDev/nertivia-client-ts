@@ -22,7 +22,8 @@
       <MessageSide :message="message" v-if="!hideContext" />
     </div>
     <transition name="embed-animation">
-      <EmbedMessage v-if="embed && !invite" :embed="embed" />
+      <HTMLEmbed v-if="message.htmlEmbed" :compressedJSON="message.htmlEmbed" />
+      <EmbedMessage v-else-if="embed && !invite" :embed="embed" />
     </transition>
   </div>
 </template>
@@ -36,9 +37,10 @@ import MessageSide from "./MessageSide.vue";
 import EmbedMessage from "./EmbedMessage.vue";
 import { time } from "@/utils/date";
 import { PopoutsModule } from "@/store/modules/popouts";
+import HTMLEmbed from "./HTMLEmbed.vue";
 
 @Component({
-  components: { AvatarImage, Bubble, MessageSide, EmbedMessage }
+  components: { AvatarImage, Bubble, MessageSide, EmbedMessage, HTMLEmbed }
 })
 export default class MessageLogs extends Vue {
   @Prop() private message!: Message & { grouped: boolean };

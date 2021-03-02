@@ -67,19 +67,19 @@ export default Vue.extend<Props>({
       if (json.content) {
         el.children = [
           <div class="content">
-            <markup text={json.content} />
+            {h(Markup, {
+              props: {
+                text: json.content
+              }
+            })}
           </div>
-          // h(Markup, {
-          //   props: { text: json.content },
-          //   attrs: { class: "content" }
-          // })
         ];
       }
       return el;
     };
 
     return h("div", { class: "html-embed", on: { click: clickEvent } }, [
-      template(obj)
+      <div class="container">{template(obj)}</div>
     ]);
   }
 });
@@ -88,11 +88,10 @@ export default Vue.extend<Props>({
 <style scoped>
 .html-embed {
   border-radius: 4px;
-  background: var(--card-color);
+
   display: flex;
   max-width: 500px;
   max-height: 500px;
-  align-self: flex-start;
   margin-top: 5px;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -105,5 +104,11 @@ export default Vue.extend<Props>({
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   position: relative;
+  margin-left: 50px;
+}
+.container {
+  display: flex;
+  flex-grow: 1;
+  background: rgba(0, 0, 0, 0.4);
 }
 </style>
