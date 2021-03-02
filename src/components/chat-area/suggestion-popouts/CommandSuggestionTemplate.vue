@@ -83,6 +83,7 @@ export default class ChannelSuggestionTemplate extends Vue {
   font-size: 14px;
   opacity: 0.8;
   margin-left: 27px;
+  margin-right: 5px;
 }
 
 .args {
