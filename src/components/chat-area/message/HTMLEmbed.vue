@@ -88,14 +88,12 @@ export default Vue.extend<Props>({
 <style scoped>
 .html-embed {
   border-radius: 4px;
-  background: rgba(0, 0, 0, 0.4);
   display: flex;
   max-width: 500px;
   max-height: 500px;
   margin-top: 5px;
   text-overflow: ellipsis;
   overflow: hidden;
-  align-self: flex-start;
   white-space: pre-wrap;
   overflow: hidden;
   flex-shrink: 0;
