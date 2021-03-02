@@ -28,9 +28,9 @@ export default class Suggestion extends Vue {
   }
   onSelected(emoji: any) {
     if (emoji.unicode) {
-      this.$emit("selected", `:${emoji.shortcodes[0]}:`);
+      this.$emit("selected", `:${emoji.shortcodes[0]}: `);
     } else {
-      this.$emit("selected", `:${emoji.name}:`);
+      this.$emit("selected", `:${emoji.name}: `);
     }
   }
 }
