@@ -87,7 +87,6 @@ export default Vue.extend<Props>({
 
 <style scoped>
 .html-embed {
-  border-radius: 4px;
   display: flex;
   max-width: 500px;
   max-height: 500px;
