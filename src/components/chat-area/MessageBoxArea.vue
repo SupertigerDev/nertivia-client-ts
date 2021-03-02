@@ -139,6 +139,7 @@ export default class MessageBoxArea extends Vue {
       const up = e.key === "ArrowUp";
       const down = e.key === "ArrowDown";
       const enter = e.key === "Enter";
+      const tab = e.key === "Tab";
       if (up) {
         e.preventDefault();
         (this.$refs.suggestionPopouts as any).onArrowUp();
@@ -147,7 +148,7 @@ export default class MessageBoxArea extends Vue {
         e.preventDefault();
         (this.$refs.suggestionPopouts as any).onArrowDown();
       }
-      if (enter) {
+      if (enter || tab) {
         e.preventDefault();
         (this.$refs.suggestionPopouts as any).onEnter();
         return;
