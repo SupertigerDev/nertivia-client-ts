@@ -15,7 +15,6 @@ import {
 import ky from "ky";
 import Message from "@/interfaces/Message";
 import Vue from "vue";
-import { ScrollModule } from "./scroll";
 import { MeModule } from "./me";
 import { ChannelsModule } from "./channels";
 import { first } from "lodash";
