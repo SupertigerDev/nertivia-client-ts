@@ -86,7 +86,10 @@ class ServerMembers extends VuexModule {
   }
 
   get memberHasPermission() {
-    return (uniqueID: string, serverID: string, flag: number) => {
+    return (uniqueID: string, serverID: string, flag: number, includeAdminPerm = true) => {
+      if (includeAdminPerm) {
+        flag = addPerm(flag, permissions.ADMIN.value)
+      }
       const member = this.serverMembers[serverID]?.[uniqueID];
       if (!member) return 0;
       const defaultRole = ServerRolesModule.defaultServerRole(serverID);

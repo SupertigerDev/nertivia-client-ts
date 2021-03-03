@@ -1,6 +1,6 @@
 <template>
   <div class="message-box">
-    <div class="floating-items">
+    <div class="floating-items" v-if="hasSendMessagePerm">
       <SuggestionPopouts ref="suggestionPopouts" />
       <FileUpload
         v-if="showUploadBox"
@@ -14,11 +14,11 @@
     </div>
     <TypingStatus />
     <EditPanel
-      v-if="editingMessageID"
+      v-if="editingMessageID && hasSendMessagePerm"
       :messageID="editingMessageID"
       @close="editingMessage = null"
     />
-    <div class="input-box">
+    <div class="input-box" v-if="hasSendMessagePerm">
       <ButtonTemplate
         icon="attach_file"
         @click="$refs.sendFileBrowse.click()"
@@ -73,6 +73,9 @@
         :icon="showUploadBox ? 'upload' : 'send'"
       />
     </div>
+    <div class="no-perm">
+      You don't have permission to talk in this channel.
+    </div>
   </div>
 </template>
 
@@ -93,6 +96,9 @@ import Message from "@/interfaces/Message";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { formatMessage } from "@/utils/formatMessage";
 import { ChannelsModule } from "@/store/modules/channels";
+import { ServerMembersModule } from "@/store/modules/serverMembers";
+import { permissions } from "@/constants/rolePermissions";
+import { ServersModule } from "@/store/modules/servers";
 const EmojiPicker = () =>
   import(
     /* webpackChunkName: "EmojiPicker" */ "@/components/emoji-picker/EmojiPicker.vue"
@@ -279,6 +285,7 @@ export default class MessageBoxArea extends Vue {
   resizeTextArea() {
     this.$nextTick(() => {
       const textarea = this.$refs.textarea as HTMLElement;
+      if (!textarea) return;
       textarea.style.height = "";
       if (textarea.scrollHeight >= 230) {
         textarea.style.height = "230px";
@@ -308,7 +315,7 @@ export default class MessageBoxArea extends Vue {
   @Watch("channelID")
   onChannelIDChange() {
     setTimeout(() => {
-      (this.$refs["textarea"] as HTMLElement).focus();
+      (this.$refs["textarea"] as HTMLElement)?.focus();
     }, 10);
     this.stopPostingTypingStatus();
     this.editingMessage = null;
@@ -338,7 +345,33 @@ export default class MessageBoxArea extends Vue {
   onWidthResize() {
     this.resizeTextArea();
   }
+  get hasSendMessagePerm() {
+    if (this.currentTab !== "servers") return true;
+    if (!MeModule.user.uniqueID) return false;
+    if (!this.serverID) return false;
 
+    const isServerOwner = ServersModule.isServerOwner(
+      this.serverID,
+      MeModule.user.uniqueID
+    );
+    if (isServerOwner) return true;
+
+    const isAdmin = ServerMembersModule.isAdmin(
+      MeModule.user.uniqueID,
+      this.serverID
+    );
+    if (isAdmin) return true;
+    const hasRolePerm = ServerMembersModule.memberHasPermission(
+      MeModule.user.uniqueID,
+      this.serverID,
+      permissions.SEND_MESSAGES.value,
+      false
+    );
+    let hasChannelPerm = this.serverChannel.permissions?.send_message;
+    if (hasChannelPerm === undefined) hasChannelPerm = true;
+    if (!hasChannelPerm) return false;
+    return hasRolePerm;
+  }
   get placeholderMessage() {
     if (!this.isConnected) {
       return "Not Connected";
@@ -362,6 +395,9 @@ export default class MessageBoxArea extends Vue {
   }
   get channelID() {
     return this.$route.params.channel_id;
+  }
+  get serverChannel() {
+    return ChannelsModule.channels[this.channelID];
   }
   get channelMessages() {
     return MessagesModule.channelMessages(this.channelID);
@@ -428,5 +464,12 @@ export default class MessageBoxArea extends Vue {
 }
 .floating-items {
   position: relative;
+}
+.no-perm {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  opacity: 0.7;
+  justify-content: center;
 }
 </style>

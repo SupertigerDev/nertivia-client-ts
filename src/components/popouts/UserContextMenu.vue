@@ -138,7 +138,7 @@ export default class extends Vue {
     return ServerMembersModule.memberHasPermission(
       MeModule.user.uniqueID,
       this.serverID,
-      addPerm(permissions.ADMIN.value, permissions.MANAGE_ROLES.value)
+      permissions.MANAGE_ROLES.value
     );
   }
   get hasBanPermission() {
@@ -149,7 +149,7 @@ export default class extends Vue {
     return ServerMembersModule.memberHasPermission(
       MeModule.user.uniqueID,
       this.serverID,
-      addPerm(permissions.ADMIN.value, permissions.BAN_USER.value)
+      permissions.BAN_USER.value
     );
   }
   get hasKickPermission() {
@@ -160,7 +160,7 @@ export default class extends Vue {
     return ServerMembersModule.memberHasPermission(
       MeModule.user.uniqueID,
       this.serverID,
-      addPerm(permissions.ADMIN.value, permissions.KICK_USER.value)
+      permissions.KICK_USER.value
     );
   }
   get serverID() {

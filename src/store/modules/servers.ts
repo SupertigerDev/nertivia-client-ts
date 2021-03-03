@@ -33,7 +33,11 @@ class Servers extends VuexModule {
     }
     return [...tempServers, ...sortServers];
   }
-
+  get isServerOwner() {
+    return (serverID: string, uniqueID: string) => {
+      return this.servers[serverID]?.creator?.uniqueID === uniqueID;
+    }
+  }
   @Mutation
   private INIT_SERVERS(payload: ServerObj | any) {
     this.servers = payload;
