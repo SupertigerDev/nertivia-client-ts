@@ -73,7 +73,7 @@
         :icon="showUploadBox ? 'upload' : 'send'"
       />
     </div>
-    <div class="no-perm">
+    <div class="no-perm" v-else>
       You don't have permission to talk in this channel.
     </div>
   </div>
