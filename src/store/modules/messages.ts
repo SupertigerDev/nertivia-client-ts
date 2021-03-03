@@ -17,7 +17,6 @@ import Message from "@/interfaces/Message";
 import Vue from "vue";
 import { MeModule } from "./me";
 import { ChannelsModule } from "./channels";
-import { first } from "lodash";
 import { MessageLogStatesModule } from "./messageLogStates";
 
 interface MessagesObj {
@@ -222,8 +221,10 @@ class Messages extends VuexModule {
           channelID: data.channelID,
           reverseClamp
         });
+        return true;
       }
     }
+    return false;
   }
 
   @Mutation
@@ -234,6 +235,9 @@ class Messages extends VuexModule {
   @Action
   public AddChannelMessage(payload: Message) {
     if (!this.channelMessages(payload.channelID)) return;
+    if (MessageLogStatesModule.isBottomUnloaded(payload.channelID)){
+      return;
+    }
     this.ADD_CHANNEL_MESSAGE(payload);
     this.ClampChannelMessages({ channelID: payload.channelID });
   }

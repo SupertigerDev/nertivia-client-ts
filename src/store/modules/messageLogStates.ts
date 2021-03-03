@@ -27,6 +27,12 @@ class MessageLogStates extends VuexModule {
       return this.states[channelID].isScrolledDown;
     }
   }
+  get isBottomUnloaded() {
+    return (channelID: string) => {
+      if (!this.states[channelID]) return false;
+      return this.states[channelID].bottomUnloaded;
+    }
+  }
 
   get scrollTop() {
     return (channelID: string) => {

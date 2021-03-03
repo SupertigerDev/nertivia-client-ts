@@ -11,17 +11,7 @@
       class="observe-load-more"
     />
     <transition-group :name="messageTransition ? 'message' : ''" tag="div">
-      <!-- <div> -->
       <Messages :channelID="channelID" class="message" />
-      <!-- </div> -->
-      <!-- <component
-        v-for="message in channelMessagesGrouped"
-        :ref="'message-' + message.messageID"
-        v-bind:is="messageType(message)"
-        class="message"
-        :key="message.tempID || message.messageID"
-        :message="message"
-      /> -->
       <UploadQueue v-if="uploadQueue.length" key="upload-queue" />
     </transition-group>
     <div class="bottom-observer-outer">
@@ -127,21 +117,26 @@ export default class MessageLogs extends Vue {
     if (this.isLoadingTopMore) return;
     this.isLoadingTopMore = true;
     this.moreBottomToLoad = true;
-    MessagesModule.continueLoadMessages(this.channelID).then(messages => {
+    MessagesModule.continueLoadMessages(this.channelID).then(async messages => {
       if (!this.channelMessages) return;
       if (!messages) return;
       if (!messages.length) {
         this.moreTopToLoad = false;
         return;
       }
-      if (messages.length < 50) {
-        this.moreTopToLoad = false;
-      }
-      MessagesModule.ClampChannelMessages({
+      const clamped = await MessagesModule.ClampChannelMessages({
         channelID: this.channelID,
         reverseClamp: true,
         checkScrolledBottom: false
       });
+      if (clamped) {
+        MessageLogStatesModule.UpdateState({
+          channelID: this.currentChannelID,
+          state: {
+            bottomUnloaded: true
+          }
+        });
+      }
       MessagesModule.SetChannelMessages({
         channelID: this.channelID,
         messages: [...messages.reverse(), ...this.channelMessages]
@@ -174,12 +169,16 @@ export default class MessageLogs extends Vue {
       let dontContinue = false;
       if (!this.channelMessages) dontContinue = true;
       if (!messages) dontContinue = true;
-      if (!messages?.length) {
+
+      if (!messages?.length || messages?.length < 50) {
+        MessageLogStatesModule.UpdateState({
+          channelID: this.currentChannelID,
+          state: {
+            bottomUnloaded: false
+          }
+        });
         this.moreBottomToLoad = false;
-        dontContinue = true;
-      }
-      if (messages && messages?.length < 50) {
-        this.moreBottomToLoad = false;
+        !messages?.length && (dontContinue = true);
       }
       if (dontContinue || !messages) {
         this.isLoadingBottomMore = false;
