@@ -171,8 +171,6 @@ const actions: ActionTree<any, any> = {
     const servers: any = {};
     const channels: any = {};
 
-   
-
     // dm channel
     for (let i = 0; i < data.dms.length; i++) {
       const channel = data.dms[i];

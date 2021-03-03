@@ -36,7 +36,7 @@ class Servers extends VuexModule {
   get isServerOwner() {
     return (serverID: string, uniqueID: string) => {
       return this.servers[serverID]?.creator?.uniqueID === uniqueID;
-    }
+    };
   }
   @Mutation
   private INIT_SERVERS(payload: ServerObj | any) {

@@ -14,7 +14,7 @@ export default interface Message {
   quotes: Quote[];
   embed?: Embed;
   // compressed
-  htmlEmbed?: string
+  htmlEmbed?: string;
 }
 
 export interface Quote {
