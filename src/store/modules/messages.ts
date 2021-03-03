@@ -46,49 +46,6 @@ class Messages extends VuexModule {
   get channelMessages() {
     return (id: string) => this.messages[id];
   }
-
-  // Group messages IF:
-  // They are sent in the same minute.
-  // They are sent by the same creator.
-  // The group is less than 4 messages.
-  get groupedChannelMessages() {
-    return (id: string) => {
-      const messages = this.messages[id];
-      if (!messages) return null;
-
-      const creatorMatch = (message1: Message, message2: Message) =>
-        message1.creator.uniqueID === message2.creator.uniqueID;
-
-      const isMoreThanAMinute = (
-        beforeMessage: Message,
-        afterMessage: Message
-      ) => {
-        const beforeDate = new Date(beforeMessage.created);
-        const afterDate = new Date(afterMessage.created);
-        const minutesMatch = () =>
-          beforeDate.getMinutes() === afterDate.getMinutes();
-        const hoursMatch = () => beforeDate.getHours() === afterDate.getHours();
-        return !(minutesMatch() && hoursMatch());
-      };
-
-      let count = 0;
-      return messages.map((currentMessage, index) => {
-        const beforeMessage = messages[index - 1];
-        if (!beforeMessage || !creatorMatch(beforeMessage, currentMessage)) {
-          count = 0;
-          return currentMessage;
-        }
-
-        if (count >= 4 || isMoreThanAMinute(beforeMessage, currentMessage)) {
-          count = 0;
-          return currentMessage;
-        }
-        count += 1;
-        return { ...currentMessage, grouped: true };
-      });
-    };
-  }
-
   @Mutation
   private SET_CHANNEL_MESSAGES(payload: {
     messages: Message[] | null;

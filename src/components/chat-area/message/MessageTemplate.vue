@@ -1,8 +1,9 @@
 <template>
   <div
-    class="message-container"
+    class="message message-container"
+    :id="'message-' + message.messageID"
     @mouseover="hover = true"
-    @mouseout="hover = false"
+    @mouseleave="hover = false"
   >
     <div class="container">
       <AvatarImage
@@ -12,13 +13,13 @@
         :seedId="creator.uniqueID"
         :animateGif="hover"
         size="40px"
-        v-if="!message.grouped"
+        v-if="!grouped"
         @click.native="showProfile"
         @contextmenu.native.prevent="userContext"
       />
       <!-- Used for grouped messages -->
       <div class="time" v-else>{{ friendlyTime }}</div>
-      <Bubble :message="message" :invite="invite" />
+      <Bubble :message="message" :invite="invite" :grouped="grouped" />
       <MessageSide :message="message" v-if="!hideContext" />
     </div>
     <transition name="embed-animation">
@@ -43,7 +44,8 @@ import HTMLEmbed from "./HTMLEmbed.vue";
   components: { AvatarImage, Bubble, MessageSide, EmbedMessage, HTMLEmbed }
 })
 export default class MessageLogs extends Vue {
-  @Prop() private message!: Message & { grouped: boolean };
+  @Prop() private message!: Message;
+  @Prop() private grouped!: boolean;
   @Prop({ default: false }) private hideContext!: boolean;
 
   contextPos: { x?: number; y?: number } = {};

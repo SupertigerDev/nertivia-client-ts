@@ -1,10 +1,7 @@
 <template>
-  <div
-    class="bubble"
-    :class="{ me: isMessageCreatedByMe, grouped: message.grouped }"
-  >
+  <div class="bubble" :class="{ me: isMessageCreatedByMe, grouped: grouped }">
     <div class="bubble-inner">
-      <div class="details" v-if="!message.grouped">
+      <div class="details" v-if="!grouped">
         <div
           class="username"
           @contextmenu.prevent="userContext"
@@ -54,7 +51,8 @@ import Invite from "@/interfaces/Invite";
 })
 export default class Bubble extends Vue {
   loadRoleColor = false;
-  @Prop() private message!: Message & { grouped: boolean };
+  @Prop() private message!: Message;
+  @Prop() private grouped!: boolean;
   @Prop() private invite!: Invite;
 
   showProfile() {

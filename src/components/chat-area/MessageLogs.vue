@@ -11,14 +11,17 @@
       class="observe-load-more"
     />
     <transition-group :name="messageTransition ? 'message' : ''" tag="div">
-      <component
+      <!-- <div> -->
+      <Messages :channelID="channelID" class="message" />
+      <!-- </div> -->
+      <!-- <component
         v-for="message in channelMessagesGrouped"
         :ref="'message-' + message.messageID"
         v-bind:is="messageType(message)"
         class="message"
         :key="message.tempID || message.messageID"
         :message="message"
-      />
+      /> -->
       <UploadQueue v-if="uploadQueue.length" key="upload-queue" />
     </transition-group>
     <div class="bottom-observer-outer">
@@ -37,6 +40,7 @@ import { MessagesModule } from "@/store/modules/messages";
 import MessageTemplate from "./message/MessageTemplate.vue";
 import UploadQueue from "./message/UploadQueue.vue";
 import ActionMessageTemplate from "./message/ActionMessageTemplate.vue";
+import Messages from "./Messages.vue";
 import Observer from "./Observer.vue";
 import { ScrollModule } from "@/store/modules/scroll";
 import windowProperties from "@/utils/windowProperties";
@@ -50,7 +54,13 @@ import { eventBus } from "@/utils/globalBus";
 import { fetchMessagesAround } from "@/services/messagesService";
 
 @Component({
-  components: { MessageTemplate, ActionMessageTemplate, UploadQueue, Observer }
+  components: {
+    MessageTemplate,
+    ActionMessageTemplate,
+    UploadQueue,
+    Observer,
+    Messages
+  }
 })
 export default class MessageLogs extends Vue {
   fileDragDropHandler: FileDragDrop | undefined;
@@ -109,28 +119,25 @@ export default class MessageLogs extends Vue {
         reverseClamp: true,
         checkScrolledBottom: false
       });
-      let index = 0;
-      const interval = setInterval(() => {
-        if (index >= messages.length) {
-          clearInterval(interval);
-          this.isLoadingTopMore = false;
-          this.$nextTick(() => {
+      MessagesModule.SetChannelMessages({
+        channelID: this.channelID,
+        messages: [...messages.reverse(), ...this.channelMessages]
+      });
+
+      const beforeHeight = logs.scrollHeight;
+      const beforeScrollTop = logs.scrollTop;
+
+      this.$nextTick(() => {
+        this.$nextTick(() => {
+          logs.scrollTop = logs.scrollHeight - beforeHeight + beforeScrollTop;
+          setTimeout(() => {
+            this.isLoadingTopMore = false;
             if ((this.$refs.topObserver as any).intersecting) {
               this.intersectTopChange(true);
             }
-          });
-          return;
-        }
-        const beforeHeight = logs.scrollHeight;
-        const beforeScrollTop = logs.scrollTop;
-        MessagesModule.UnshiftChannelMessage(messages[index]);
-        this.$nextTick(() => {
-          this.$nextTick(() => {
-            logs.scrollTop = logs.scrollHeight - beforeHeight + beforeScrollTop;
-          });
+          }, 1000);
         });
-        index++;
-      }, 50);
+      });
     });
   }
   intersectBottomChange(isIntersecting: boolean) {
@@ -159,27 +166,25 @@ export default class MessageLogs extends Vue {
         channelID: this.channelID,
         checkScrolledBottom: false
       });
-      let index = 0;
-      const interval = setInterval(() => {
-        if (index >= messages.length) {
-          clearInterval(interval);
-          this.isLoadingBottomMore = false;
-          this.$nextTick(() => {
+
+      MessagesModule.SetChannelMessages({
+        channelID: this.channelID,
+        messages: [...this.channelMessages, ...messages]
+      });
+
+      const beforeScrollTop = logs.scrollTop;
+
+      this.$nextTick(() => {
+        this.$nextTick(() => {
+          logs.scrollTop = beforeScrollTop;
+          setTimeout(() => {
+            this.isLoadingBottomMore = false;
             if ((this.$refs.bottomObserver as any).intersecting) {
               this.intersectBottomChange(true);
             }
-          });
-          return;
-        }
-        const beforeScrollTop = logs.scrollTop;
-        MessagesModule.AddChannelMessage(messages[index]);
-        this.$nextTick(() => {
-          this.$nextTick(() => {
-            logs.scrollTop = beforeScrollTop;
-          });
+          }, 1000);
         });
-        index++;
-      }, 50);
+      });
     });
   }
 
@@ -208,8 +213,7 @@ export default class MessageLogs extends Vue {
     });
   }
   goToMessage(messageID: string) {
-    let message = (this.$refs["message-" + messageID] as any)?.[0]
-      ?.$el as HTMLElement;
+    let message = document.getElementById("message-" + messageID);
 
     if (message) {
       this.scrollIntoView(message);
@@ -228,8 +232,7 @@ export default class MessageLogs extends Vue {
         this.$nextTick(() => {
           this.$nextTick(() => {
             setTimeout(() => {
-              message = (this.$refs["message-" + messageID] as any)?.[0]
-                ?.$el as HTMLElement;
+              message = document.getElementById("message-" + messageID);
               this.scrollIntoView(message);
               this.highlightMessage(message);
               this.moreTopToLoad = true;
@@ -254,7 +257,7 @@ export default class MessageLogs extends Vue {
       message.classList.remove("highlight");
     }, 3000);
   }
-  @Watch("channelMessagesGrouped")
+  @Watch("channelMessages")
   onMessageChanges() {
     if (this.isScrolledDown) {
       this.dismissNotification();
@@ -298,9 +301,6 @@ export default class MessageLogs extends Vue {
   }
   get windowIsFocused() {
     return windowProperties.isFocused;
-  }
-  get channelMessagesGrouped() {
-    return MessagesModule.groupedChannelMessages(this.channelID);
   }
   get channelMessages(): Message[] | undefined {
     return MessagesModule.messages[this.channelID];
