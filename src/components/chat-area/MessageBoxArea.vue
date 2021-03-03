@@ -11,6 +11,7 @@
         :inputElement="$refs.textarea"
         @close="showEmojiPicker = false"
       />
+      <ScrollDownButton v-if="!isScrolledDown" />
     </div>
     <TypingStatus />
     <EditPanel
@@ -84,6 +85,7 @@ import { FileUploadModule } from "@/store/modules/fileUpload";
 import FileUpload from "./FileUpload.vue";
 import SuggestionPopouts from "./suggestion-popouts/SuggestionPopouts.vue";
 import TypingStatus from "./TypingStatus.vue";
+import ScrollDownButton from "./ScrollDownButton.vue";
 import ButtonTemplate from "./MessageBoxButtonTemplate.vue";
 import EditPanel from "./EditPanel.vue";
 import { MeModule } from "@/store/modules/me";
@@ -99,6 +101,7 @@ import { ChannelsModule } from "@/store/modules/channels";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { permissions } from "@/constants/rolePermissions";
 import { ServersModule } from "@/store/modules/servers";
+import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
 const EmojiPicker = () =>
   import(
     /* webpackChunkName: "EmojiPicker" */ "@/components/emoji-picker/EmojiPicker.vue"
@@ -111,7 +114,8 @@ const EmojiPicker = () =>
     EditPanel,
     EmojiPicker,
     ButtonTemplate,
-    SuggestionPopouts
+    SuggestionPopouts,
+    ScrollDownButton
   }
 })
 export default class MessageBoxArea extends Vue {
@@ -423,6 +427,9 @@ export default class MessageBoxArea extends Vue {
   }
   set editingMessage(val) {
     MessageInputModule.SetEditingMessage(val);
+  }
+  get isScrolledDown() {
+    return MessageLogStatesModule.isScrolledDown(this.channelID);
   }
 }
 </script>
