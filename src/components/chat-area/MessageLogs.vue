@@ -166,10 +166,9 @@ export default class MessageLogs extends Vue {
         channelID: this.channelID,
         checkScrolledBottom: false
       });
-
       MessagesModule.SetChannelMessages({
         channelID: this.channelID,
-        messages: [...this.channelMessages, ...messages]
+        messages: [...(this.channelMessages as any), ...messages]
       });
 
       const beforeScrollTop = logs.scrollTop;
@@ -233,6 +232,7 @@ export default class MessageLogs extends Vue {
           this.$nextTick(() => {
             setTimeout(() => {
               message = document.getElementById("message-" + messageID);
+              if (!message) return;
               this.scrollIntoView(message);
               this.highlightMessage(message);
               this.moreTopToLoad = true;
