@@ -19,6 +19,7 @@ import { ScrollModule } from "./scroll";
 import { MeModule } from "./me";
 import { ChannelsModule } from "./channels";
 import { first } from "lodash";
+import { MessageLogStatesModule } from "./messageLogStates";
 
 interface MessagesObj {
   [key: string]: Message[];
@@ -214,12 +215,10 @@ class Messages extends VuexModule {
       data.checkScrolledBottom === undefined ? true : data.checkScrolledBottom;
 
     const channelMessagesLength = this.channelMessages(data.channelID).length;
-    const isChannelOpen = ChannelsModule.isChannelOpen(data.channelID);
+    const isScrolledDown = MessageLogStatesModule.isScrolledDown(data.channelID);
+    
     if (channelMessagesLength >= 60) {
-      if (
-        !isChannelOpen ||
-        (checkScrolledBottom ? ScrollModule.isScrolledBottom : true)
-      ) {
+      if ((checkScrolledBottom ? isScrolledDown: true)) {
         this.CLAMP_CHANNEL_MESSAGES({
           channelID: data.channelID,
           reverseClamp

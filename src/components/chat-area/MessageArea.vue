@@ -23,8 +23,8 @@ import windowProperties from "@/utils/windowProperties";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { MeModule } from "@/store/modules/me";
-import { ScrollModule } from "@/store/modules/scroll";
 import { botCommandsModule } from "@/store/modules/botCommands";
+import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
 
 @Component({
   components: { MessageLogs, MessageBoxArea, Header, LoadingScreen }
@@ -48,7 +48,7 @@ export default class MessageArea extends Vue {
     this.loadCommands();
   }
   dismissNotification() {
-    if (!ScrollModule.isScrolledBottom) return;
+    if (!MessageLogStatesModule.isScrolledDown(this.channelID)) return;
     if (!this.isConnected) return;
     if (!this.isFocused) return;
     if (!(this.hasServerNotification || this.hasDMNotification)) return;

@@ -42,7 +42,6 @@ import UploadQueue from "./message/UploadQueue.vue";
 import ActionMessageTemplate from "./message/ActionMessageTemplate.vue";
 import Messages from "./Messages.vue";
 import Observer from "./Observer.vue";
-import { ScrollModule } from "@/store/modules/scroll";
 import windowProperties from "@/utils/windowProperties";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
@@ -52,7 +51,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import Message from "@/interfaces/Message";
 import { eventBus } from "@/utils/globalBus";
 import { fetchMessagesAround } from "@/services/messagesService";
-
+import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
 @Component({
   components: {
     MessageTemplate,
@@ -70,9 +69,24 @@ export default class MessageLogs extends Vue {
   isLoadingBottomMore = false;
   moreTopToLoad = true;
   moreBottomToLoad = false;
+  currentChannelID = this.channelID;
+  scrollTop = 0;
   mounted() {
-    ScrollModule.SetScrolledBottom(true);
-    this.scrollDown();
+    const scrollTop = MessageLogStatesModule.scrollTop(this.channelID);
+    if (scrollTop === undefined) {
+      MessageLogStatesModule.UpdateState({
+        channelID: this.channelID,
+        state: {
+          isScrolledDown: true
+        }
+      });
+      this.scrollDown();
+    } else {
+      console.log(scrollTop);
+      this.scrollTop = scrollTop;
+      (this.$refs.logs as Element).scrollTop = scrollTop;
+    }
+
     this.fileDragDropHandler = new FileDragDrop();
     this.fileDragDropHandler.onDragEnter(this.fileDragEnter);
     this.fileDragDropHandler.onDrop(this.fileDrop);
@@ -81,6 +95,15 @@ export default class MessageLogs extends Vue {
     eventBus.$on("scrollToMessage", this.goToMessage);
   }
   beforeDestroy() {
+    const isScrolledDown = MessageLogStatesModule.isScrolledDown(
+      this.currentChannelID
+    );
+    MessageLogStatesModule.UpdateState({
+      channelID: this.currentChannelID,
+      state: {
+        scrollPosition: isScrolledDown ? undefined : this.scrollTop
+      }
+    });
     this.fileDragDropHandler?.destroy();
     eventBus.$off("scrollToMessage", this.goToMessage);
   }
@@ -188,6 +211,7 @@ export default class MessageLogs extends Vue {
   }
 
   onScroll(event: { target: Element }) {
+    this.scrollTop = event.target.scrollTop;
     // max distance to scroll to bottom when new messsages loaded
     const maxDistance = 22;
     const currentPos = event.target.scrollTop + event.target.clientHeight;
@@ -195,7 +219,12 @@ export default class MessageLogs extends Vue {
     const currentPxFromBottom = scrollHeight - currentPos;
     const isBottom = currentPxFromBottom <= maxDistance;
     if (this.isScrolledDown !== isBottom) {
-      ScrollModule.SetScrolledBottom(isBottom);
+      MessageLogStatesModule.UpdateState({
+        channelID: this.channelID,
+        state: {
+          isScrolledDown: isBottom
+        }
+      });
     }
   }
 
@@ -309,7 +338,7 @@ export default class MessageLogs extends Vue {
     return this.$route.params.channel_id;
   }
   get isScrolledDown() {
-    return ScrollModule.isScrolledBottom;
+    return MessageLogStatesModule.isScrolledDown(this.channelID);
   }
   get windowSize() {
     return {
