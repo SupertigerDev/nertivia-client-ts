@@ -15,6 +15,7 @@ import {
   DELETE_MESSAGE,
   UPDATE_MESSAGE
 } from "@/socketEventConstants";
+import { MessageLogStatesModule } from "../messageLogStates";
 
 function playNotificationSound(
   mentioned: boolean,
@@ -24,6 +25,7 @@ function playNotificationSound(
   const focused = document.hasFocus();
   const channelSelected = ChannelsModule.isChannelOpen(channelID);
   const tab = router.currentRoute.path.split("/")[2];
+  const scrolledDown = MessageLogStatesModule.isScrolledDown(channelID)
 
   if (serverID && MutedServersModule.shouldMuteServerSound(serverID)) {
     return;
@@ -32,6 +34,10 @@ function playNotificationSound(
     return;
   }
   if (!focused) {
+    notificationSound.notification(mentioned);
+    return;
+  }
+  if (!scrolledDown) {
     notificationSound.notification(mentioned);
     return;
   }
