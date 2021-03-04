@@ -466,3 +466,14 @@ export default class ProfilePopout extends Vue {
   }
 }
 </style>
+
+<style>
+.profile-popout .status-name.game {
+  white-space: initial;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-box-orient: vertical;
+}
+</style>
