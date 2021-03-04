@@ -299,7 +299,6 @@ export default class MainApp extends Vue {
   border-radius: 50%;
   height: 10px;
   width: 10px;
-  background: red;
   position: absolute;
   bottom: 10px;
   right: 10px;
