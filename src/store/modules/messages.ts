@@ -156,6 +156,7 @@ class Messages extends VuexModule {
           messageID: Math.random().toString(),
           type: 0,
           created: Date.now(),
+          localMessage: true,
           creator: {
             username: "Beep Boop",
             uniqueID: "0",

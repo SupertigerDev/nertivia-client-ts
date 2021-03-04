@@ -28,6 +28,9 @@
           v-if="message.buttons && message.buttons.length"
           :message="message"
         />
+        <div class="local-message-warn" v-if="message.localMessage">
+          <span>This is a local message. Only you can see this message.</span>
+        </div>
       </div>
     </div>
 
@@ -168,6 +171,12 @@ export default class MessageLogs extends Vue {
   align-self: center;
   flex-shrink: 0;
   transition: 0.2s;
+}
+.local-message-warn {
+  font-size: 14px;
+  margin-left: 10px;
+  margin-top: 3px;
+  opacity: 0.6;
 }
 </style>
 

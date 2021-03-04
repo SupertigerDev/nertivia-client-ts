@@ -15,7 +15,8 @@ export default interface Message {
   embed?: Embed;
   // compressed
   htmlEmbed?: string;
-  buttons: Button[];
+  buttons?: Button[];
+  localMessage?: boolean
 }
 
 export interface Button {

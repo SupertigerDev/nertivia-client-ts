@@ -144,6 +144,7 @@ class FileUpload extends VuexModule {
         if (error) {
           MessagesModule.AddChannelMessage({
             channelID: currentItem.channelID,
+            localMessage: true,
             message:
               JSON.stringify(error.message) +
               `\n\nMessage: ${currentItem.message}\nFile name: ${
