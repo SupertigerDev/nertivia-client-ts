@@ -16,7 +16,7 @@
         ><span class="tag">:{{ me.tag }}</span>
       </div>
       <div class="custom-status" v-if="connected">
-        <Markup :text="customStatus" />
+        <Markup :text="customStatus || 'Click to add custom status.'" />
       </div>
       <div class="online-status" ref="currentStatus" @click="openStatusContext">
         <div class="dot" :style="{ background: statusColor }" />
