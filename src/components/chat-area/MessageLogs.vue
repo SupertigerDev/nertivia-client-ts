@@ -250,6 +250,12 @@ export default class MessageLogs extends Vue {
     }
     fetchMessagesAround(this.channelID, messageID).then(
       ({ channelID, messages }) => {
+        MessageLogStatesModule.UpdateState({
+          channelID: this.currentChannelID,
+          state: {
+            bottomUnloaded: true
+          }
+        });
         MessagesModule.SetChannelMessages({
           channelID,
           messages: messages.reverse()
