@@ -1,6 +1,10 @@
 <template>
   <div class="background">
-    <div class="button animate-in" :class="{ alert: hasNotification }" >
+    <div
+      class="button animate-in"
+      :class="{ alert: hasNotification }"
+      @click="ScrollDown"
+    >
       <div class="material-icons icon">arrow_downward</div>
       {{ hasNotification ? "New Messages" : "Back To Bottom" }}
     </div>
@@ -8,11 +12,56 @@
 </template>
 
 <script lang="ts">
+import { fetchMessages } from "@/services/messagesService";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
+import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
+import { MessagesModule } from "@/store/modules/messages";
 import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class ScrollDownButton extends Vue {
+  ScrollDown() {
+    const messageLogs = document.getElementById("messageLogs");
+    if (!messageLogs) return;
+    if (!MessageLogStatesModule.isBottomUnloaded(this.channelID)) {
+      document.getElementById("messageLogs")?.scrollTo({
+        behavior: "smooth",
+        top: messageLogs.scrollHeight
+      });
+      this.resetState();
+      return;
+    }
+    // MessagesModule.SetChannelMessages({
+    //   channelID: this.channelID,
+    //   messages: null
+    // });
+
+    fetchMessages(this.channelID).then(json => {
+      MessagesModule.SetChannelMessages({
+        channelID: this.channelID,
+        messages: json.messages.reverse()
+      });
+      this.$nextTick(() => {
+        this.$nextTick(() => {
+          document.getElementById("messageLogs")?.scrollTo({
+            behavior: "smooth",
+            top: messageLogs.scrollHeight
+          });
+          this.resetState();
+        });
+      });
+    });
+  }
+  resetState() {
+    MessageLogStatesModule.UpdateState({
+      channelID: this.channelID,
+      state: {
+        isScrolledDown: true,
+        bottomUnloaded: undefined,
+        scrollPosition: undefined
+      }
+    });
+  }
   get hasNotification() {
     return LastSeenServerChannelsModule.serverChannelNotification(
       this.channelID
@@ -48,6 +97,8 @@ export default class ScrollDownButton extends Vue {
   user-select: none;
   font-size: 14px;
   padding: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   pointer-events: all;
   transition: 0.2s;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.7);

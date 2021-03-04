@@ -53,6 +53,14 @@ class MessageLogStates extends VuexModule {
   public UpdateState(payload: {channelID: string, state: Partial<MessageState>}) {
     this.UPDATE_STATE(payload);
   }
+  @Mutation
+  private REMOVE_STATE(channelID: string) {
+    Vue.delete(this.states, channelID)
+  }
+  @Action
+  public RemoveState(channelID:string) {
+    this.REMOVE_STATE(channelID);
+  }
 
 }
 export const MessageLogStatesModule = getModule(MessageLogStates);

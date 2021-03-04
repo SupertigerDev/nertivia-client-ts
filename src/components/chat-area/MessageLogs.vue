@@ -72,8 +72,9 @@ export default class MessageLogs extends Vue {
       });
       this.scrollDown();
     } else {
-      console.log(scrollTop);
       this.scrollTop = scrollTop;
+      this.moreBottomToLoad =
+        MessageLogStatesModule.isBottomUnloaded(this.channelID) || false;
       (this.$refs.logs as Element).scrollTop = scrollTop;
     }
 
