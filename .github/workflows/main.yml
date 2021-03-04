@@ -28,7 +28,7 @@ jobs:
       - name: ssh scp ssh pipelines
         uses: cross-the-world/ssh-scp-ssh-pipelines@v1.1.2
         env:
-          WELCOME: "ssh scp ssh pipelines"
+          WELCOME: "Connected!"
           LASTSSH: "Building or smth"
         with:
           host: ${{ secrets.HOST }}
@@ -37,8 +37,12 @@ jobs:
           port: ${{ secrets.PORT }}
           connect_timeout: 10s
           first_ssh: |-
-            rm -rf /home/github/test  
-            ls -la 
-            echo $WELCOME   
-            mkdir -p /home/github/test/test1 &&    
-            mkdir -p /home/github/test/test2 &&
+            echo $WELCOME
+            rm -rf /home/github/nertivia-client-ts
+            git clone https://github.com/supertiger1234/nertivia-client-ts.git /home/github/
+            cd /home/github/nertivia-client-ts
+            npm run build
+            
+            
+
+            
