@@ -1,0 +1,13 @@
+[
+	{
+		"version": "2.0.0",
+		"title": "Update Checker",
+		"new": [
+			"Added a changelog. Will hopefully make a GUI for it next.",
+			"Added an update checker. Nertivia will check for updates every hour when interacting."
+		],
+		"changes": [],
+		"fixes": [],
+		"body": ""
+	}
+]

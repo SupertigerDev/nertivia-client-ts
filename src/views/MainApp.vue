@@ -1,6 +1,10 @@
 <template>
   <div class="app" :class="{ leftDrawerOpened: leftDrawerOpened }">
-    <NavBar class="nav-bar" v-if="!isMobileWidth || leftDrawerOpened" />
+    <NavBar
+      :updateAvailable="updateAvailable"
+      class="nav-bar"
+      v-if="!isMobileWidth || leftDrawerOpened"
+    />
     <Drawers class="drawers">
       <LeftDrawer slot="drawer-left" />
       <RightDrawer
@@ -32,6 +36,7 @@ import { MeModule } from "@/store/modules/me";
 import ConnectionStatus from "@/components/popouts/ConnectionStatusPopout.vue";
 import Header from "@/components/Header.vue";
 import Popouts from "@/components/popouts/Popouts.vue";
+import { getLatestVersion } from "@/services/updateService";
 const Drawers = () =>
   import(/* webpackChunkName: "Drawers" */ "@/components/drawers/Drawers.vue");
 const NavBar = () =>
@@ -69,6 +74,10 @@ import { NotificationsModule } from "@/store/modules/notifications";
 })
 export default class MainApp extends Vue {
   showConnectionStatusPopout = true;
+  version: null | string = null;
+  updateAvailable = false;
+  checkAfter = 600000; // 60 minutes
+  lastUpdateChecked = Date.now();
   mounted() {
     // set store and connect socket.
     this.$store.registerModule("socketIO", socketIOModule);
@@ -84,6 +93,7 @@ export default class MainApp extends Vue {
         client.emit("p");
       });
     }
+    this.getVersionNumber();
   }
   beforeMount() {
     localStorage.removeItem("lastSelectedDMChannelID");
@@ -131,12 +141,32 @@ export default class MainApp extends Vue {
   beforeDestroy() {
     this.$store.unregisterModule("socketIO");
   }
-
+  checkForUpdate() {
+    if (!this.version) return;
+    if (this.updateAvailable) return;
+    if (Date.now() - this.lastUpdateChecked <= this.checkAfter) return;
+    this.lastUpdateChecked = Date.now();
+    getLatestVersion().then(version => {
+      if (this.version !== version) {
+        this.updateAvailable = true;
+      }
+    });
+  }
+  getVersionNumber() {
+    getLatestVersion().then(version => {
+      this.version = version;
+    });
+  }
+  @Watch("focused")
+  onFocusChange() {
+    this.checkForUpdate();
+  }
   // save last selected channels
   @Watch("currentChannelID")
   @Watch("currentServerID")
   @Watch("currentTab")
   saveLastSelected() {
+    this.checkForUpdate();
     if (this.$route.name !== "message-area") return;
     if (this.currentTab === "servers") {
       const json = JSON.stringify({
@@ -227,6 +257,9 @@ export default class MainApp extends Vue {
   }
   get firstDmNotification() {
     return NotificationsModule.allDMNotifications?.reverse()?.[0];
+  }
+  get focused() {
+    return WindowProperties.isFocused;
   }
 }
 </script>

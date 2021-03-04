@@ -49,6 +49,15 @@
       <div class="icon material-icons">dns</div>
       <div class="title">Servers</div>
     </div>
+    <div
+      class="item"
+      v-if="updateAvailable"
+      title="Update Available"
+      @click="updateAvailableClick"
+    >
+      <div class="icon material-icons">download</div>
+      <div class="title">Update</div>
+    </div>
 
     <div class="gap" />
     <div
@@ -98,14 +107,16 @@ import userStatuses from "@/constants/userStatuses";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { MeModule } from "@/store/modules/me";
 import { NotificationsModule } from "@/store/modules/notifications";
+import { PopoutsModule } from "@/store/modules/popouts";
 import { PresencesModule } from "@/store/modules/presences";
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 interface LastSelectedServer {
   channel_id: string;
   server_id: string;
 }
 @Component({ components: { AvatarImage, UserArea } })
 export default class MainApp extends Vue {
+  @Prop() private updateAvailable!: boolean;
   showUserArea = false;
   clickOutsideUserArea(event: any) {
     if (event.target.closest(".item.me")) return;
@@ -125,6 +136,12 @@ export default class MainApp extends Vue {
       path += `/${selectedDmChannelId}`;
     }
     this.$router.push("/app/" + path);
+  }
+  updateAvailableClick() {
+    PopoutsModule.ShowPopout({
+      id: "update-popout",
+      component: "UpdatePopout"
+    });
   }
   lastSelectedServer(): LastSelectedServer | null {
     return JSON.parse(localStorage.getItem("lastSelectedServer") || "null");

@@ -79,6 +79,10 @@ const components = {
   OpenLinkConfirm: () =>
     import(
       /* webpackChunkName: "OpenLinkConfirm" */ "@/components/popouts/OpenLinkConfirm.vue"
+    ),
+  UpdatePopout: () =>
+    import(
+      /* webpackChunkName: "UpdatePopout" */ "@/components/popouts/UpdatePopout.vue"
     )
 };
 
