@@ -15,8 +15,24 @@
         <span class="username">{{ me.username }}</span
         ><span class="tag">:{{ me.tag }}</span>
       </div>
-      <div class="custom-status" v-if="connected">
-        <Markup :text="customStatus || 'Click to add custom status.'" />
+      <div
+        class="custom-status"
+        v-if="connected"
+        @click="customStatusClick"
+        v-click-outside="clickOutside"
+      >
+        <Markup
+          :largeEmoji="false"
+          v-if="!editCustomStatus"
+          :text="customStatus || 'Click to add custom status.'"
+        />
+        <input
+          ref="input"
+          @keydown="keyDownEvent"
+          v-else
+          type="text"
+          v-model="customStatusText"
+        />
       </div>
       <div class="online-status" ref="currentStatus" @click="openStatusContext">
         <div class="dot" :style="{ background: statusColor }" />
@@ -38,15 +54,65 @@ import AvatarImage from "@/components/AvatarImage.vue";
 import { MeModule } from "@/store/modules/me";
 import userStatuses from "@/constants/userStatuses";
 import { PopoutsModule } from "@/store/modules/popouts";
-import { logout } from "@/services/userService";
+import { changeCustomStatus, logout } from "@/services/userService";
 import Markup from "@/components/Markup.vue";
 import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
 
 @Component({ components: { AvatarImage, Markup } })
 export default class ProfileCard extends Vue {
   @Prop() private hideTitle!: boolean;
+  editCustomStatus = false;
+  customStatusText = "";
   settingsClicked() {
     this.$router.push("/app/settings/account");
+  }
+  customStatusClick() {
+    if (this.editCustomStatus) return;
+    if (this.customStatus) {
+      this.customStatusText = this.customStatus;
+    }
+    this.editCustomStatus = true;
+    this.$nextTick(() => (this.$refs.input as HTMLElement).focus());
+  }
+  keyDownEvent(event: KeyboardEvent) {
+    if (event.key === "Escape") {
+      this.editCustomStatus = false;
+      return;
+    }
+    if (event.key === "Enter") {
+      this.changeStatus(this.customStatusText);
+      this.editCustomStatus = false;
+      return;
+    }
+  }
+  clickOutside() {
+    if (!this.editCustomStatus) return;
+    this.changeStatus(this.customStatusText);
+    this.editCustomStatus = false;
+  }
+  changeStatus(status: string) {
+    changeCustomStatus(status).catch(async err => {
+      if (!err.response) {
+        PopoutsModule.ShowPopout({
+          id: "custom-status-update-error",
+          component: "generic-popout",
+          data: {
+            title: "Oops!",
+            description: "Could not connect to server!"
+          }
+        });
+        return;
+      }
+      const json = await err.response.json();
+      PopoutsModule.ShowPopout({
+        id: "custom-status-update-error",
+        component: "generic-popout",
+        data: {
+          title: "Oops!",
+          description: json
+        }
+      });
+    });
   }
   logOut() {
     logout().finally(() => {
@@ -100,6 +166,8 @@ export default class ProfileCard extends Vue {
   position: absolute;
 }
 .card {
+  display: flex;
+  flex-direction: row;
   border: solid 1px rgba(255, 255, 255, 0.1);
   position: relative;
   margin: 10px;
@@ -107,11 +175,10 @@ export default class ProfileCard extends Vue {
   background: var(--card-color);
   padding: 5px;
   display: flex;
-  flex-direction: column;
   height: 300px;
   width: 250px;
   border-radius: 4px;
-  overflow: auto;
+  overflow: hidden;
   .item-title {
     opacity: 0.8;
     margin-left: 5px;
@@ -125,6 +192,7 @@ export default class ProfileCard extends Vue {
   align-self: center;
   justify-self: center;
   margin: auto;
+  overflow: hidden;
 }
 .avatar {
   align-self: center;
@@ -137,6 +205,10 @@ export default class ProfileCard extends Vue {
   }
 }
 .custom-status {
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 90%;
+  text-overflow: ellipsis;
   align-self: center;
   margin-top: 5px;
   padding: 3px;
@@ -146,6 +218,13 @@ export default class ProfileCard extends Vue {
   &:hover {
     background: rgba(255, 255, 255, 0.2);
     border-radius: 4px;
+  }
+  input {
+    background: transparent;
+    color: white;
+    border: none;
+    outline: none;
+    text-align: center;
   }
 }
 .online-status {

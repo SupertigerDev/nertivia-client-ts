@@ -44,6 +44,15 @@ export function changeStatus(status: number): Promise<any> {
     })
     .json();
 }
+export function changeCustomStatus(CustomStatus: string): Promise<any> {
+  return wrapper()
+    .post(`settings/custom-status`, {
+      json: { custom_status: CustomStatus }
+    })
+    .json();
+}
+
+
 export function registerFCM(token: string): Promise<any> {
   return wrapper()
     .post(`devices`, {

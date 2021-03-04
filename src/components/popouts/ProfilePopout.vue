@@ -80,7 +80,7 @@
         <div class="other-details animate-in" v-if="returnedUser">
           <div class="about detail-item" v-if="aboutMe && aboutMe.about_me">
             <div class="icon material-icons">info_outline</div>
-            <span><Markup :text="aboutMe.about_me"/></span>
+            <span><Markup :largeEmoji="false" :text="aboutMe.about_me"/></span>
           </div>
           <div
             class="location detail-item"

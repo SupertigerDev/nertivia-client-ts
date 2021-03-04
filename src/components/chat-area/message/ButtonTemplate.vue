@@ -1,7 +1,7 @@
 <template>
   <div class="button" @click="click">
     <img class="spinner" v-if="posting" src="@/assets/spinner.svg" />
-    <Markup :text="button.name" />
+    <Markup :largeEmoji="false" :text="button.name" />
   </div>
 </template>
 

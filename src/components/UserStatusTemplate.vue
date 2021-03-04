@@ -19,7 +19,7 @@
       v-if="(gameStatus || customStatus) && !showStatusOnly"
     >
       <span class="name" v-if="!gameStatus">
-        <Markup :text="customStatus" />
+        <Markup :largeEmoji="false" :text="customStatus" />
       </span>
       <span class="status" v-if="gameStatus">{{ gameStatus.status }}</span>
       <span class="name" v-if="gameStatus">{{ gameStatus.name }}</span>
