@@ -39,7 +39,7 @@ jobs:
           first_ssh: |-
             echo $WELCOME
             rm -rf /home/github/nertivia-client-ts
-            git clone https://github.com/supertiger1234/nertivia-client-ts.git /home/github/
+            git clone https://github.com/supertiger1234/nertivia-client-ts.git /home/github/nertivia-client-ts
             cd /home/github/nertivia-client-ts
             npm run build
             
