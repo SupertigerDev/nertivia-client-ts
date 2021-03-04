@@ -1,4 +1,4 @@
-import DmChannel from "./DMChannel";
+import DmChannel from "./DmChannel";
 
 export default interface Channel extends DmChannel {
   channelID: string;
