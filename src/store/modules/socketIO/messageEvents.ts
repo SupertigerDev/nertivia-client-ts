@@ -25,7 +25,7 @@ function playNotificationSound(
   const focused = document.hasFocus();
   const channelSelected = ChannelsModule.isChannelOpen(channelID);
   const tab = router.currentRoute.path.split("/")[2];
-  const scrolledDown = MessageLogStatesModule.isScrolledDown(channelID)
+  const scrolledDown = MessageLogStatesModule.isScrolledDown(channelID);
 
   if (serverID && MutedServersModule.shouldMuteServerSound(serverID)) {
     return;

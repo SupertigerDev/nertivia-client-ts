@@ -213,10 +213,12 @@ class Messages extends VuexModule {
       data.checkScrolledBottom === undefined ? true : data.checkScrolledBottom;
 
     const channelMessagesLength = this.channelMessages(data.channelID).length;
-    const isScrolledDown = MessageLogStatesModule.isScrolledDown(data.channelID);
-    
+    const isScrolledDown = MessageLogStatesModule.isScrolledDown(
+      data.channelID
+    );
+
     if (channelMessagesLength >= 60) {
-      if ((checkScrolledBottom ? isScrolledDown: true)) {
+      if (checkScrolledBottom ? isScrolledDown : true) {
         this.CLAMP_CHANNEL_MESSAGES({
           channelID: data.channelID,
           reverseClamp
@@ -235,7 +237,7 @@ class Messages extends VuexModule {
   @Action
   public AddChannelMessage(payload: Message) {
     if (!this.channelMessages(payload.channelID)) return;
-    if (MessageLogStatesModule.isBottomUnloaded(payload.channelID)){
+    if (MessageLogStatesModule.isBottomUnloaded(payload.channelID)) {
       return;
     }
     this.ADD_CHANNEL_MESSAGE(payload);
