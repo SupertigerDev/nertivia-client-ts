@@ -57,6 +57,7 @@
       :title="me.username"
       @click="showUserArea = !showUserArea"
     >
+      <div class="status-dot" :style="{ backgroundColor: presence.color }" />
       <AvatarImage
         class="avatar"
         size="25px"
@@ -93,9 +94,11 @@ const UserArea = () =>
   import(
     /* webpackChunkName: "UserArea" */ "@/components/popouts/UserArea.vue"
   );
+import userStatuses from "@/constants/userStatuses";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { MeModule } from "@/store/modules/me";
 import { NotificationsModule } from "@/store/modules/notifications";
+import { PresencesModule } from "@/store/modules/presences";
 import { Component, Vue } from "vue-property-decorator";
 interface LastSelectedServer {
   channel_id: string;
@@ -145,6 +148,11 @@ export default class MainApp extends Vue {
   }
   get dmNotificationExists() {
     return NotificationsModule.allDMNotifications.length > 0;
+  }
+  get presence() {
+    if (!this.me?.uniqueID || !MeModule.connected) return userStatuses[0];
+    const presence = PresencesModule.getPresence(this.me.uniqueID);
+    return userStatuses[presence || 0];
   }
 }
 </script>
@@ -286,5 +294,15 @@ export default class MainApp extends Vue {
     margin: 3px;
     flex-shrink: 0;
   }
+}
+.status-dot {
+  border-radius: 50%;
+  height: 10px;
+  width: 10px;
+  background: red;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 1;
 }
 </style>
