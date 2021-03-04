@@ -34,12 +34,7 @@
         <div class="details">
           <div class="left">
             <div class="custom-status">
-              <div
-                class="dot"
-                :style="{ background: presence.color }"
-                :title="presence.name"
-              />
-              <div class="name">{{ customStatus || presence.name }}</div>
+              <UserStatusTemplate :uniqueID="user.uniqueID" />
             </div>
           </div>
           <div class="right">
@@ -122,6 +117,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
+import UserStatusTemplate from "@/components/UserStatusTemplate.vue";
 import Markup from "@/components/Markup.vue";
 import { PresencesModule } from "@/store/modules/presences";
 import userStatuses from "@/constants/userStatuses";
@@ -138,7 +134,7 @@ import {
 import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
 import { ChannelsModule } from "@/store/modules/channels";
 @Component({
-  components: { AvatarImage, Markup }
+  components: { AvatarImage, Markup, UserStatusTemplate }
 })
 export default class ProfilePopout extends Vue {
   @Prop() private data!: { uniqueID: string };
@@ -302,6 +298,7 @@ export default class ProfilePopout extends Vue {
     margin-top: 5px;
     flex-direction: column;
     margin-right: 20px;
+    flex-shrink: 0;
   }
 }
 .custom-status {
@@ -322,11 +319,14 @@ export default class ProfilePopout extends Vue {
     border-radius: 50%;
     width: 10px;
   }
+  .name {
+    line-break: anywhere;
+  }
 }
 .button {
   display: flex;
   align-items: center;
-
+  flex-shrink: 0;
   align-self: flex-end;
   border-radius: 4px;
   font-size: 14px;
