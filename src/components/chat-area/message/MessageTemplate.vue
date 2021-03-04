@@ -19,9 +19,18 @@
       />
       <!-- Used for grouped messages -->
       <div class="time" v-else>{{ friendlyTime }}</div>
-      <Bubble :message="message" :invite="invite" :grouped="grouped" />
-      <MessageSide :message="message" v-if="!hideContext" />
+      <div class="inner-content">
+        <div class="bubble-wrapper">
+          <Bubble :message="message" :invite="invite" :grouped="grouped" />
+          <MessageSide :message="message" v-if="!hideContext" />
+        </div>
+        <ButtonsMessage
+          v-if="message.buttons && message.buttons.length"
+          :message="message"
+        />
+      </div>
     </div>
+
     <transition name="embed-animation">
       <HTMLEmbed v-if="message.htmlEmbed" :compressedJSON="message.htmlEmbed" />
       <EmbedMessage v-else-if="embed && !invite" :embed="embed" />
@@ -35,13 +44,21 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import Bubble from "./Bubble.vue";
 import MessageSide from "./MessageSide.vue";
+import ButtonsMessage from "./ButtonsMessage.vue";
 import EmbedMessage from "./EmbedMessage.vue";
 import { time } from "@/utils/date";
 import { PopoutsModule } from "@/store/modules/popouts";
 import HTMLEmbed from "./HTMLEmbed.vue";
 
 @Component({
-  components: { AvatarImage, Bubble, MessageSide, EmbedMessage, HTMLEmbed }
+  components: {
+    AvatarImage,
+    Bubble,
+    MessageSide,
+    EmbedMessage,
+    HTMLEmbed,
+    ButtonsMessage
+  }
 })
 export default class MessageLogs extends Vue {
   @Prop() private message!: Message;
@@ -124,6 +141,17 @@ export default class MessageLogs extends Vue {
 .container {
   overflow: hidden;
   display: flex;
+}
+.bubble-wrapper {
+  overflow: hidden;
+  display: flex;
+}
+.inner-content {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  align-items: flex-start;
 }
 .message {
   transition: background-color 0.2s;

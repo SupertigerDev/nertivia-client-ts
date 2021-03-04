@@ -15,6 +15,12 @@ export default interface Message {
   embed?: Embed;
   // compressed
   htmlEmbed?: string;
+  buttons: Button[];
+}
+
+export interface Button {
+  id: string;
+  name: string;
 }
 
 export interface Quote {

@@ -73,6 +73,15 @@ export function editMessage(
     })
     .json();
 }
+export function buttonClick(
+  channelID: string,
+  messageID: string,
+  buttonID: string
+): Promise<any> {
+  return wrapper()
+    .post(`channels/${channelID}/messages/${messageID}/button/${buttonID}`)
+    .json();
+}
 
 export function postTypingStatus(channelID: string): Promise<ResponsePost> {
   return wrapper()
