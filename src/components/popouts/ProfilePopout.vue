@@ -85,7 +85,7 @@
         <div class="other-details animate-in" v-if="returnedUser">
           <div class="about detail-item" v-if="aboutMe && aboutMe.about_me">
             <div class="icon material-icons">info_outline</div>
-            <span>{{ aboutMe.about_me }}</span>
+            <span><Markup :text="aboutMe.about_me"/></span>
           </div>
           <div
             class="location detail-item"
@@ -122,6 +122,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
+import Markup from "@/components/Markup.vue";
 import { PresencesModule } from "@/store/modules/presences";
 import userStatuses from "@/constants/userStatuses";
 import { fetchUser, ReturnedUser } from "@/services/userService";
@@ -137,7 +138,7 @@ import {
 import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
 import { ChannelsModule } from "@/store/modules/channels";
 @Component({
-  components: { AvatarImage }
+  components: { AvatarImage, Markup }
 })
 export default class ProfilePopout extends Vue {
   @Prop() private data!: { uniqueID: string };
