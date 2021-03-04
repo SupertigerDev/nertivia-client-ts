@@ -19,18 +19,8 @@
           <div class="username">{{ user.username }}</div>
         </div>
       </div>
-      <div class="status">
-        <div
-          class="dot"
-          :style="{ background: presence.color }"
-          :title="presence.name"
-        />
-        <div class="name">{{ presence.name }}</div>
-      </div>
+      <div class="status"><UserStatusTemplate :uniqueID="user.uniqueID" /></div>
       <div class="bottom">
-        <div class="custom-status" v-if="customStatus">
-          <Markup :text="customStatus" />
-        </div>
         <div class="title" v-if="roles.length">
           <span class="material-icons">clear_all</span> Roles
         </div>
@@ -50,8 +40,8 @@ import AvatarImage from "@/components/AvatarImage.vue";
 import User from "@/interfaces/User";
 import ServerRole from "@/interfaces/ServerRole";
 import userStatuses from "@/constants/userStatuses";
+import UserStatusTemplate from "@/components/UserStatusTemplate.vue";
 import { PresencesModule } from "@/store/modules/presences";
-import { MeModule } from "@/store/modules/me";
 import WindowProperties from "@/utils/windowProperties";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
@@ -62,9 +52,9 @@ interface ServerMember {
   roles: ServerRole[];
 }
 
-@Component({ components: { AvatarImage, Markup } })
+@Component({ components: { AvatarImage, Markup, UserStatusTemplate } })
 export default class MiniProfilePopout extends Vue {
-  @Prop() private data!: { x: number; y: number; member?: ServerMember };
+  @Prop() private data!: { x: number; y: number; member: ServerMember };
   height = 0;
   width = 0;
   clickOutside() {
@@ -91,10 +81,10 @@ export default class MiniProfilePopout extends Vue {
     return CustomStatusesModule.customStatus[this.user.uniqueID];
   }
   get user() {
-    return this.data.member?.member;
+    return this.data.member.member;
   }
   get roles() {
-    return this.data.member?.roles;
+    return this.data.member.roles;
   }
   get clampPos() {
     let top = this.data.y || 0;
@@ -226,6 +216,7 @@ export default class MiniProfilePopout extends Vue {
   align-items: center;
   align-self: center;
   border-radius: 12px;
+  max-width: 80%;
   margin-top: 40px;
   background: rgba(255, 255, 255, 0.1);
   padding: 4px;
@@ -251,5 +242,15 @@ export default class MiniProfilePopout extends Vue {
   display: flex;
   flex-direction: column;
   overflow: auto;
+}
+</style>
+<style>
+.mini-profile .status-name.game {
+  white-space: initial;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-box-orient: vertical;
 }
 </style>

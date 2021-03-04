@@ -16,7 +16,7 @@
         ><span class="tag">:{{ me.tag }}</span>
       </div>
       <div class="custom-status" v-if="connected">
-        {{ customStatus }}
+        <Markup :text="customStatus" />
       </div>
       <div class="online-status" ref="currentStatus" @click="openStatusContext">
         <div class="dot" :style="{ background: statusColor }" />
@@ -39,9 +39,10 @@ import { MeModule } from "@/store/modules/me";
 import userStatuses from "@/constants/userStatuses";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { logout } from "@/services/userService";
+import Markup from "@/components/Markup.vue";
 import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
 
-@Component({ components: { AvatarImage } })
+@Component({ components: { AvatarImage, Markup } })
 export default class ProfileCard extends Vue {
   @Prop() private hideTitle!: boolean;
   settingsClicked() {
