@@ -1,8 +1,22 @@
 <template>
-  <router-view />
+  <div class="root">
+    <WindowControl v-if="isElectron" />
+    <router-view />
+  </div>
 </template>
 
 <script lang="ts">
+declare global {
+  interface Window {
+    api?: {
+      isElectron: boolean;
+    };
+  }
+}
+const WindowControl = () =>
+  import(
+    /* webpackChunkName: "WindowControl" */ "@/components/electron/WindowControl.vue"
+  );
 import { Component, Vue } from "vue-property-decorator";
 import {
   getCustomCssVars,
@@ -10,8 +24,9 @@ import {
   setThemeColor
 } from "@/utils/customCssVars";
 
-@Component
+@Component({ components: { WindowControl } })
 export default class App extends Vue {
+  isElectron = window.api?.isElectron;
   mounted() {
     // set custom css colors
     const customVars = getCustomCssVars();
@@ -37,8 +52,14 @@ textarea {
   font-family: Avenir, Helvetica, Arial, sans-serif;
 }
 html,
-body {
+body,
+.root {
   height: 100%;
+  overflow: hidden;
+}
+.root {
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
 }
 

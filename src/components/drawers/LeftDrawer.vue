@@ -84,7 +84,6 @@ export default class MainApp extends Vue {
   height: 100%;
   width: 100%;
   background: var(--drawer-bg-color);
-  border-top-left-radius: 4px;
   overflow: hidden;
 }
 .header {
@@ -96,10 +95,6 @@ export default class MainApp extends Vue {
   background-color: var(--side-header-bg-color);
 }
 @media (max-width: 650px) {
-  .container {
-    border-top-left-radius: 0px;
-    border-bottom-left-radius: 4px;
-  }
   .drawer {
     background: var(--background-color);
   }
