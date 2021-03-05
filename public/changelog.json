@@ -1,5 +1,12 @@
 [
 	{
+		"version": "2.0.5",
+		"date": "05 March 2021",
+		"title": "Small Changes",
+		"new": "Added electron title bar WIP. You won't be able to see it yet though as the electron app is not released yet.",
+		"changes": "Removed border radius from left side header."
+	},
+	{
 		"version": "2.0.4",
 		"date": "05 March 2021",
 		"title": "Delete Server",
