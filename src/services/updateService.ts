@@ -1,13 +1,13 @@
 import wrapper from "./wrapper";
 
 export interface Changelog {
-  version: string
-  date: string
-  title: string
-  new: string[]
-  changes: string[],
-  fixes: string[],
-  body: string
+  version: string;
+  date: string;
+  title: string;
+  new: string[];
+  changes: string[];
+  fixes: string[];
+  body: string;
 }
 
 export async function getChangelog(): Promise<Changelog[]> {

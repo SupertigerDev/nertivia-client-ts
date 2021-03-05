@@ -3,9 +3,7 @@
 		"version": "2.0.1",
 		"date": "05 Marth 2021",
 		"title": "Changelog",
-		"new": [
-			"Added a changelog GUI which will be shown automatically. You can also view the changelog through the settings page."
-		],
+		"new": "Added a changelog GUI which will be shown automatically. You can also view the changelog through the settings page.",
 		"changes": "Changed border radius in some places.",
 		"body": ""
 	},

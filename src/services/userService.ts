@@ -52,7 +52,6 @@ export function changeCustomStatus(CustomStatus: string): Promise<any> {
     .json();
 }
 
-
 export function registerFCM(token: string): Promise<any> {
   return wrapper()
     .post(`devices`, {
