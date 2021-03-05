@@ -164,7 +164,7 @@ export default class MainApp extends Vue {
         return;
       }
       if (seenVersion === version) return;
-      // localStorage["changelogSeenVersion"] = version;
+      localStorage["changelogSeenVersion"] = version;
       PopoutsModule.ShowPopout({
         id: "changelog-popout",
         component: "ChangelogPopout",
