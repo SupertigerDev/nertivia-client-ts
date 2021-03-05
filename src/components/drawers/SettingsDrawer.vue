@@ -12,12 +12,17 @@
         <div class="name">{{ page.name }}</div>
       </div>
     </div>
+    <div class="item" @click="showChangelog">
+      <div class="material-icons">description</div>
+      <div class="name">Changelog</div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import settingPages from "@/utils/settingPages.json";
+import { PopoutsModule } from "@/store/modules/popouts";
 
 @Component
 export default class MainApp extends Vue {
@@ -28,9 +33,28 @@ export default class MainApp extends Vue {
   changeTab(path: string) {
     this.$router.push({ params: { tab: path } });
   }
+  showChangelog() {
+    PopoutsModule.ShowPopout({
+      id: "changelog-popout",
+      component: "ChangelogPopout",
+      data: {}
+    });
+  }
 }
 </script>
 <style lang="scss" scoped>
+.settings-drawer {
+  overflow: hidden;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+.items {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: auto;
+}
 .item {
   display: flex;
   align-items: center;
@@ -38,6 +62,7 @@ export default class MainApp extends Vue {
   height: 30px;
   margin: 4px;
   padding-left: 4px;
+  flex-shrink: 0;
   cursor: pointer;
   user-select: none;
   color: white;

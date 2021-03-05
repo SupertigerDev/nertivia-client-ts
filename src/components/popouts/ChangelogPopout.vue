@@ -8,12 +8,8 @@
           </div>
           <div class="text">Changes</div>
         </div>
-        <div class="inner-content">
-          <ChangelogTemplate
-            v-for="(log, i) in data.logs"
-            :key="i"
-            :log="log"
-          />
+        <div class="inner-content" v-if="logs">
+          <ChangelogTemplate v-for="(log, i) in logs" :key="i" :log="log" />
         </div>
       </div>
     </div>
@@ -23,7 +19,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { PopoutsModule } from "@/store/modules/popouts";
 import ChangelogTemplate from "./ChangelogTemplate.vue";
-import { Changelog } from "@/services/updateService";
+import { Changelog, getChangelog } from "@/services/updateService";
 @Component({
   components: { ChangelogTemplate }
 })
@@ -32,6 +28,16 @@ export default class ProfilePopout extends Vue {
   @Prop() private data!: {
     logs: Changelog[];
   };
+  logs: Changelog[] | null = null;
+  mounted() {
+    if (!this.data.logs) {
+      getChangelog().then(logs => {
+        this.logs = logs;
+      });
+      return;
+    }
+    this.logs = this.data.logs;
+  }
   close() {
     PopoutsModule.ClosePopout(this.identity);
   }
