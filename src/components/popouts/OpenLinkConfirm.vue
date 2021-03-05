@@ -68,7 +68,7 @@ export default class ProfilePopout extends Vue {
 .generic-popout {
   display: flex;
   background: var(--popout-color);
-  border-radius: 8px;
+  border-radius: 4px;
   max-width: 300px;
   min-width: 300px;
   max-height: 500px;

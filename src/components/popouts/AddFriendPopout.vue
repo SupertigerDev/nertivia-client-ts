@@ -99,7 +99,7 @@ export default class ProfilePopout extends Vue {
 <style lang="scss" scoped>
 .delete-message-popout {
   background: var(--popout-color);
-  border-radius: 8px;
+  border-radius: 4px;
   overflow: hidden;
   max-width: 300px;
 }

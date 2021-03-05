@@ -16,7 +16,7 @@ export default class ProfilePopout extends Vue {}
 <style lang="scss" scoped>
 .drag-n-drop {
   background: var(--popout-color);
-  border-radius: 8px;
+  border-radius: 4px;
   width: 200px;
   height: 200px;
 }

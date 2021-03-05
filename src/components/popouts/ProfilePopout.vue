@@ -224,7 +224,7 @@ export default class ProfilePopout extends Vue {
 .profile-popout {
   display: flex;
   background: var(--popout-color);
-  border-radius: 8px;
+  border-radius: 4px;
   width: 500px;
   height: 600px;
   overflow: hidden;
@@ -253,7 +253,7 @@ export default class ProfilePopout extends Vue {
   background: var(--primary-color);
   width: 100%;
   height: 150px;
-  border-radius: 8px;
+  border-radius: 4px;
   position: relative;
   flex-shrink: 0;
 }
@@ -261,7 +261,7 @@ export default class ProfilePopout extends Vue {
   height: 100%;
   width: 100%;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 4px;
   position: relative;
   z-index: 1;
 }

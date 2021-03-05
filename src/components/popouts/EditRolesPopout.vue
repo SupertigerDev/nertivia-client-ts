@@ -78,7 +78,7 @@ export default class ProfilePopout extends Vue {
 <style lang="scss" scoped>
 .profile-popout {
   background: var(--popout-color);
-  border-radius: 8px;
+  border-radius: 4px;
   width: 300px;
   overflow: hidden;
   height: 350px;

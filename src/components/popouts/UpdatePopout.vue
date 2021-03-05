@@ -41,7 +41,7 @@ export default class ProfilePopout extends Vue {
 <style lang="scss" scoped>
 .generic-popout {
   background: var(--popout-color);
-  border-radius: 8px;
+  border-radius: 4px;
   width: 300px;
   overflow: hidden;
   height: 200px;
@@ -113,7 +113,7 @@ export default class ProfilePopout extends Vue {
 .button {
   background: var(--primary-color);
   margin: 10px;
-  border-radius: 8px;
+  border-radius: 4px;
   padding: 8px;
   font-size: 18px;
   cursor: pointer;

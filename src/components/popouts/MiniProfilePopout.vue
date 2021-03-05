@@ -129,7 +129,7 @@ export default class MiniProfilePopout extends Vue {
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.6);
 
   pointer-events: all;
-  border-radius: 8px;
+  border-radius: 4px;
 }
 .content {
   display: flex;
@@ -153,7 +153,7 @@ export default class MiniProfilePopout extends Vue {
 }
 
 .top {
-  border-radius: 8px;
+  border-radius: 4px;
   height: 100px;
   background: var(--primary-color);
 }
