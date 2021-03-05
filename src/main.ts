@@ -27,7 +27,7 @@ Vue.config.errorHandler = function(err, vm, info) {
   console.error(err);
   if (cancelErrorReportingForever) return;
   const val = prompt(
-    `An error has occored.\n${err}\nWould you like to report it?\n\nType in the box the action you were trying to do:`
+    `An error has occurred.\n${err}\nWould you like to report it?\n\nType in the box the action you were trying to do:`
   );
   if (val === null) {
     cancelErrorReportingForever = true;
