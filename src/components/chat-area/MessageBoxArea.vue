@@ -371,7 +371,7 @@ export default class MessageBoxArea extends Vue {
       permissions.SEND_MESSAGES.value,
       false
     );
-    let hasChannelPerm = this.serverChannel.permissions?.send_message;
+    let hasChannelPerm = this.serverChannel?.permissions?.send_message;
     if (hasChannelPerm === undefined) hasChannelPerm = true;
     if (!hasChannelPerm) return false;
     return hasRolePerm;
