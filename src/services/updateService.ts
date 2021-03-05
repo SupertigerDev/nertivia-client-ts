@@ -11,7 +11,7 @@ export interface Changelog {
 }
 
 export async function getChangelog(): Promise<Changelog[]> {
-  const val = await fetch("/changelog.json");
+  const val = await fetch("/changelog.json?nocache=" + Date.now());
   const json: Changelog[] = await val.json();
   return json;
 }
