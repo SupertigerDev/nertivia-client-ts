@@ -83,6 +83,10 @@ const components = {
   UpdatePopout: () =>
     import(
       /* webpackChunkName: "UpdatePopout" */ "@/components/popouts/UpdatePopout.vue"
+    ),
+  ChangelogPopout: () =>
+    import(
+      /* webpackChunkName: "ChangelogPopout" */ "@/components/popouts/ChangelogPopout.vue"
     )
 };
 

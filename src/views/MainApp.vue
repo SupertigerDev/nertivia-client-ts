@@ -36,7 +36,7 @@ import { MeModule } from "@/store/modules/me";
 import ConnectionStatus from "@/components/popouts/ConnectionStatusPopout.vue";
 import Header from "@/components/Header.vue";
 import Popouts from "@/components/popouts/Popouts.vue";
-import { getLatestVersion } from "@/services/updateService";
+import { getChangelog } from "@/services/updateService";
 const Drawers = () =>
   import(/* webpackChunkName: "Drawers" */ "@/components/drawers/Drawers.vue");
 const NavBar = () =>
@@ -60,6 +60,7 @@ import WindowProperties from "@/utils/windowProperties";
 import { FriendsModule } from "@/store/modules/friends";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { NotificationsModule } from "@/store/modules/notifications";
+import { PopoutsModule } from "@/store/modules/popouts";
 
 @Component({
   components: {
@@ -93,7 +94,7 @@ export default class MainApp extends Vue {
         client.emit("p");
       });
     }
-    this.getVersionNumber();
+    this.checkChangelog();
   }
   beforeMount() {
     localStorage.removeItem("lastSelectedDMChannelID");
@@ -146,15 +147,29 @@ export default class MainApp extends Vue {
     if (this.updateAvailable) return;
     if (Date.now() - this.lastUpdateChecked <= this.checkAfter) return;
     this.lastUpdateChecked = Date.now();
-    getLatestVersion().then(version => {
+    getChangelog().then(log => {
+      const version = log[0].version;
       if (this.version !== version) {
         this.updateAvailable = true;
       }
     });
   }
-  getVersionNumber() {
-    getLatestVersion().then(version => {
+  checkChangelog() {
+    getChangelog().then(logs => {
+      const version = logs[0].version;
       this.version = version;
+      const seenVersion = localStorage["changelogSeenVersion"];
+      if (!seenVersion) {
+        localStorage["changelogSeenVersion"] = version;
+        return;
+      }
+      if (seenVersion === version) return;
+      // localStorage["changelogSeenVersion"] = version;
+      PopoutsModule.ShowPopout({
+        id: "changelog-popout",
+        component: "ChangelogPopout",
+        data: { logs }
+      });
     });
   }
   @Watch("focused")

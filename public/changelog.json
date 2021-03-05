@@ -1,6 +1,17 @@
 [
 	{
+		"version": "2.0.1",
+		"date": "05 Marth 2021",
+		"title": "Changelog",
+		"new": [
+			"Added a changelog GUI."
+		],
+		"changes": "Changed border radius in some places.",
+		"body": ""
+	},
+	{
 		"version": "2.0.0",
+		"date": "04 Marth 2021",
 		"title": "Update Checker",
 		"new": [
 			"Added a changelog. Will hopefully make a GUI for it next.",

@@ -1,7 +1,8 @@
 import wrapper from "./wrapper";
 
-interface Changelog {
+export interface Changelog {
   version: string
+  date: string
   title: string
   new: string[]
   changes: string[],
@@ -9,8 +10,8 @@ interface Changelog {
   body: string
 }
 
-export async function getLatestVersion(): Promise<string> {
+export async function getChangelog(): Promise<Changelog[]> {
   const val = await fetch("/changelog.json");
   const json: Changelog[] = await val.json();
-  return await json[0].version;
+  return json;
 }
