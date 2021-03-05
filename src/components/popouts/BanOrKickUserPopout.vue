@@ -23,15 +23,16 @@
               {{ user.username }}?
             </span>
             <div class="buttons">
-              <div class="button" @click="close">Back</div>
-              <div
-                class="button warn"
+              <CustomButton name="Back" @click="close" />
+              <CustomButton
                 @click="buttonClicked"
-                :class="{ disabled: requestSent }"
-              >
-                <span>{{ data.action === "BAN" ? "Ban" : "Kick" }}</span>
-                <span>{{ requestSent ? "ing..." : "" }}</span>
-              </div>
+                :name="
+                  data.action === 'BAN'
+                    ? 'Ban'
+                    : 'Kick' + (requestSent ? 'ing...' : '')
+                "
+                :warn="true"
+              />
             </div>
           </div>
         </div>
@@ -46,8 +47,10 @@ import { UsersModule } from "@/store/modules/users";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { kickMember, banMember } from "@/services/serverService";
 import User from "@/interfaces/User";
+import CustomButton from "@/components/CustomButton.vue";
+
 @Component({
-  components: { AvatarImage }
+  components: { AvatarImage, CustomButton }
 })
 export default class ProfilePopout extends Vue {
   requestSent = false;
@@ -66,6 +69,7 @@ export default class ProfilePopout extends Vue {
     }
   }
   buttonClicked() {
+    if (this.requestSent) return;
     this.requestSent = true;
     const fun = this.data.action === "BAN" ? banMember : kickMember;
     fun(this.data.serverID, this.data.uniqueID)
@@ -151,26 +155,6 @@ export default class ProfilePopout extends Vue {
   align-items: center;
   align-content: center;
   justify-content: center;
-}
-.button {
-  background: var(--primary-color);
-  margin: 10px;
-  border-radius: 4px;
-  padding: 8px;
-  font-size: 18px;
-  cursor: pointer;
-  user-select: none;
-  opacity: 0.8;
-  transition: 0.2s;
-  &:hover {
-    opacity: 1;
-  }
-  &.warn {
-    background: var(--alert-color);
-  }
-  &.disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
+  margin-top: 10px;
 }
 </style>

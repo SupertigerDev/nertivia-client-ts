@@ -1,11 +1,16 @@
 [
 	{
+		"version": "2.0.2",
+		"date": "05 March 2021",
+		"title": "Small Changes",
+		"changes": "Popouts with buttons now use the custom button template."
+	},
+	{
 		"version": "2.0.1",
 		"date": "05 March 2021",
 		"title": "Changelog",
 		"new": "Added a changelog GUI which will be shown automatically. You can also view the changelog through the settings page.",
-		"changes": "Changed border radius in some places.",
-		"body": ""
+		"changes": "Changed border radius in some places."
 	},
 	{
 		"version": "2.0.0",

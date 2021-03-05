@@ -21,10 +21,8 @@
               :hideContext="true"
             />
             <div class="buttons">
-              <div class="button" @click="close">Back</div>
-              <div class="button warn" @click="deleteMessage">
-                Delete
-              </div>
+              <CustomButton name="Back" @click="close" />
+              <CustomButton name="Delete" @click="deleteMessage" :warn="true" />
             </div>
           </div>
         </div>
@@ -37,13 +35,18 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import MessageTemplate from "@/components/chat-area/message/MessageTemplate.vue";
 import ActionMessageTemplate from "@/components/chat-area/message/ActionMessageTemplate.vue";
-
 import { PopoutsModule } from "@/store/modules/popouts";
-
 import { deleteMessage } from "@/services/messagesService";
 import { MessagesModule } from "@/store/modules/messages";
+import CustomButton from "@/components/CustomButton.vue";
+
 @Component({
-  components: { AvatarImage, MessageTemplate, ActionMessageTemplate }
+  components: {
+    AvatarImage,
+    MessageTemplate,
+    ActionMessageTemplate,
+    CustomButton
+  }
 })
 export default class ProfilePopout extends Vue {
   @Prop() private data!: {
@@ -153,26 +156,6 @@ export default class ProfilePopout extends Vue {
   align-content: center;
   justify-content: center;
   margin-top: 10px;
-}
-.button {
-  background: var(--primary-color);
-  margin: 10px;
-  border-radius: 4px;
-  padding: 8px;
-  font-size: 18px;
-  cursor: pointer;
-  user-select: none;
-  opacity: 0.8;
-  transition: 0.2s;
-  &:hover {
-    opacity: 1;
-  }
-  &.warn {
-    background: var(--alert-color);
-  }
-  &.disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
+  margin-bottom: 5px;
 }
 </style>

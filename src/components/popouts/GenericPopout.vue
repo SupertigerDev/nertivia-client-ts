@@ -10,7 +10,7 @@
             {{ data.description }}
           </div>
           <div class="buttons">
-            <div class="button warn" @click="buttonClicked">Got It</div>
+            <CustomButton name="Got It" @click="buttonClicked" />
           </div>
         </div>
       </div>
@@ -19,10 +19,10 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import AvatarImage from "@/components/AvatarImage.vue";
+import CustomButton from "@/components/CustomButton.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
 @Component({
-  components: { AvatarImage }
+  components: { CustomButton }
 })
 export default class ProfilePopout extends Vue {
   @Prop() private identity!: string;
@@ -107,19 +107,5 @@ export default class ProfilePopout extends Vue {
 .buttons {
   display: flex;
   margin: auto;
-}
-.button {
-  background: var(--primary-color);
-  margin: 10px;
-  border-radius: 4px;
-  padding: 8px;
-  font-size: 18px;
-  cursor: pointer;
-  user-select: none;
-  opacity: 0.8;
-  transition: 0.2s;
-  &:hover {
-    opacity: 1;
-  }
 }
 </style>

@@ -50,7 +50,7 @@
       <div class="title">Servers</div>
     </div>
     <div
-      class="item"
+      class="item update"
       v-if="updateAvailable"
       title="Update Available"
       @click="updateAvailableClick"
@@ -209,10 +209,15 @@ export default class MainApp extends Vue {
   &:hover {
     opacity: 1;
   }
+
   &.selected {
     border-radius: 4px;
     opacity: 1;
     background-color: var(--primary-color);
+  }
+  &.update {
+    border-radius: 4px;
+    background: var(--success-color);
   }
   &.me.selected {
     background-color: transparent;
@@ -312,6 +317,7 @@ export default class MainApp extends Vue {
     flex-shrink: 0;
   }
 }
+
 .status-dot {
   border-radius: 50%;
   height: 10px;

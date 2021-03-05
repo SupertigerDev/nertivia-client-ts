@@ -10,8 +10,8 @@
             A new update is available which may have bug fixes or new features.
           </div>
           <div class="buttons">
-            <div class="button warn" @click="buttonClicked">Later</div>
-            <div class="button" @click="updateClicked">Update</div>
+            <CustomButton name="Later" :warn="true" @click="buttonClicked" />
+            <CustomButton name="Update" :filled="true" @click="updateClicked" />
           </div>
         </div>
       </div>
@@ -20,10 +20,10 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import AvatarImage from "@/components/AvatarImage.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
+import CustomButton from "@/components/CustomButton.vue";
 @Component({
-  components: { AvatarImage }
+  components: { CustomButton }
 })
 export default class ProfilePopout extends Vue {
   @Prop() private identity!: string;
@@ -109,22 +109,5 @@ export default class ProfilePopout extends Vue {
 .buttons {
   display: flex;
   margin: auto;
-}
-.button {
-  background: var(--primary-color);
-  margin: 10px;
-  border-radius: 4px;
-  padding: 8px;
-  font-size: 18px;
-  cursor: pointer;
-  user-select: none;
-  opacity: 0.8;
-  transition: 0.2s;
-  &.warn {
-    background: var(--alert-color);
-  }
-  &:hover {
-    opacity: 1;
-  }
 }
 </style>
