@@ -63,6 +63,7 @@ export default class ChangelogTemplate extends Vue {
   margin: 5px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
+  flex-shrink: 0;
 }
 .content {
   margin: 10px;
