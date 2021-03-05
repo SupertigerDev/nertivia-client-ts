@@ -38,5 +38,12 @@
     "icon": "contacts",
     "admin": true,
     "component": "ManageUsers"
+  },
+  "delete-server": {
+    "name": "Delete Server",
+    "id": "delete-server",
+    "icon": "delete",
+    "owner": true,
+    "component": "DeleteServer"
   }
 }

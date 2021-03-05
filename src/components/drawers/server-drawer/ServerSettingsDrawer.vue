@@ -47,7 +47,8 @@ export default class MainApp extends Vue {
   }
   get pages() {
     return Object.values(settingsPages).filter((p: any) => {
-      if (!p?.admin) return p;
+      if (p.owner) return this.isCreator;
+      if (!p.admin) return p;
       return this.isAdmin || this.isCreator;
     });
   }

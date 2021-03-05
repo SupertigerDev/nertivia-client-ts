@@ -13,6 +13,7 @@ import ManageInvites from "./manage-invites/ManageInvites";
 import ManageChannels from "./manage-channels/ManageChannels.vue";
 import ManageRoles from "./manage-roles/ManageRoles.vue";
 import ManageUsers from "./manage-users/ManageUsers.vue";
+import DeleteServer from "./DeleteServer.vue";
 import General from "./General.vue";
 
 import { Vue, Component } from "vue-property-decorator";
@@ -24,7 +25,8 @@ import { Vue, Component } from "vue-property-decorator";
     ManageChannels,
     ManageRoles,
     ManageInvites,
-    General
+    General,
+    DeleteServer
   }
 })
 export default class ServerSettingsArea extends Vue {

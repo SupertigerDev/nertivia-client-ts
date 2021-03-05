@@ -26,6 +26,11 @@ export function leaveServer(serverID: string): Promise<any> {
     .delete(`servers/${serverID}`)
     .json();
 }
+export function deleteServer(serverID: string): Promise<any> {
+  return wrapper()
+    .post(`servers/${serverID}/delete`)
+    .json();
+}
 
 export function joinServerById(server_id: string, optionalData: any) {
   return wrapper()

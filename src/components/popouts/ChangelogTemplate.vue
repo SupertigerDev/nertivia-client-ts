@@ -70,7 +70,7 @@ export default class ChangelogTemplate extends Vue {
   flex-shrink: 0;
 }
 .header {
-  background: var(--primary-color);
+  background: rgba(255, 255, 255, 0.1);
   padding: 10px;
   text-align: center;
   border-radius: 4px;
