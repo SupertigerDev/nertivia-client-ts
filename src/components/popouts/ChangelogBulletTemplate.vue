@@ -25,14 +25,17 @@ export default class ChangelogBullets extends Vue {
   margin-bottom: 5px;
   color: rgba(255, 255, 255, 0.7);
   font-size: 14px;
+  flex-shrink: 0;
 }
 .bullet {
   display: flex;
   align-items: center;
   align-content: center;
+  flex-shrink: 0;
 }
 .icon {
   margin-right: 5px;
   font-size: 25px;
+  flex-shrink: 0;
 }
 </style>

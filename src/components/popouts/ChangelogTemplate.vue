@@ -66,6 +66,7 @@ export default class ChangelogTemplate extends Vue {
 }
 .content {
   margin: 10px;
+  flex-shrink: 0;
 }
 .header {
   background: var(--primary-color);
@@ -73,6 +74,7 @@ export default class ChangelogTemplate extends Vue {
   text-align: center;
   border-radius: 4px;
   position: relative;
+  flex-shrink: 0;
 }
 .title {
   font-weight: bold;
