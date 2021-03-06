@@ -30,9 +30,6 @@ export default class MainApp extends Vue {
   get currentSettingTab() {
     return this.$route.params.tab;
   }
-  mounted() {
-    (window as any).owo.pls.dont.report.me;
-  }
   changeTab(path: string) {
     this.$router.push({ params: { tab: path } });
   }
