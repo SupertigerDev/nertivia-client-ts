@@ -36,5 +36,6 @@ export default class App extends Vue {}
 .title {
   margin-left: 5px;
   margin-bottom: 3px;
+  color: rgba(255, 255, 255, 0.6);
 }
 </style>

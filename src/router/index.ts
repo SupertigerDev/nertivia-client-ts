@@ -49,6 +49,19 @@ const routes: Array<RouteConfig> = [
     }
   },
   {
+    path: "/reset-password",
+    name: "Reset Password",
+    component: () =>
+      import(/* webpackChunkName: "ResetPassword" */ "../views/ResetPassword.vue"),
+    beforeEnter(to, from, next) {
+      if (localStorage["hauthid"]) {
+        location.href = "/app";
+        return;
+      }
+      next();
+    }
+  },
+  {
     path: "/register",
     name: "Register",
     component: () =>

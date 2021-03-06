@@ -1,56 +1,63 @@
 <template>
-  <div class="login">
+  <div class="reset-password">
     <div class="center-box">
       <img class="logo" src="../assets/logo.svg" />
-      <div class="title">Login To Nertivia</div>
+      <div class="title">Reset Password</div>
       <!-- Form -->
       <form
         v-if="page === 0"
         class="form"
         action="#"
-        @submit.prevent="formSubmit"
+        @submit.prevent="resetPasswordRequest"
         @keydown="keyDownEvent"
       >
         <div class="other-error">{{ errors["other"] }}</div>
         <customInput
           class="input"
           v-model="email"
-          title="Username"
-          prefixIcon="account_box"
-          placeholder="Email or username:tag"
+          title="Email"
+          prefixIcon="alternate_email"
+          placeholder="Email"
           :error="errors['email']"
         />
-        <customInput
-          class="input"
-          v-model="password"
-          title="Password"
-          prefixIcon="lock"
-          type="password"
-          :error="errors['password']"
-        />
-        <CustomButton name="Login" :filled="true" />
-        <a class="link" href="/reset-password">Forgot Password</a>
+        <CustomButton name="Reset" :filled="true" />
+        <a class="link" href="/login">Login</a>
         <a class="link" href="/register">Signup</a>
       </form>
       <!-- Captcha -->
       <div class="captcha" v-if="page === 1">
         <div class="sub-title">Verify that you're not a bot.</div>
-        <Captcha ref="captcha" @verify="captchaSubmit" />
+        <Captcha ref="captcha" @verify="resetPasswordRequest" />
       </div>
       <!-- Confirm Email -->
       <div v-if="page === 2">
         <div class="sub-title">
-          Confirm your email before continuing by entering the code that was
-          sent to you.
+          Email sent!<br />Open your email to reset your password.
+        </div>
+      </div>
+      <!-- Change Password -->
+      <div v-if="page === 3">
+        <div class="sub-title">
+          Create a new password.
         </div>
         <div class="other-error">{{ errors["other"] }}</div>
         <customInput
           class="input"
-          v-model="confirmEmail"
-          title="Confirm Code"
-          type="email"
-          :error="errors['email_confirm']"
+          v-model="password"
+          title="Password"
+          type="password"
+          prefixIcon="lock"
+          :error="errors['password']"
         />
+        <CustomButton
+          @click="resetPassword"
+          name="Change Password"
+          :filled="true"
+        />
+      </div>
+      <!-- success change -->
+      <div v-if="page === 4">
+        Password changed. <a href="/login">Click here to login</a>
       </div>
     </div>
   </div>
@@ -61,35 +68,20 @@ import CustomInput from "@/components/CustomInput.vue";
 import Captcha from "@/components/Captcha.vue";
 import CustomButton from "@/components/CustomButton.vue";
 
-import { postLogin, confirmEmail } from "@/services/authService";
+import { resetPassword, resetPasswordRequest } from "@/services/authService";
 
 @Component({ components: { CustomInput, Captcha, CustomButton } })
 export default class MainApp extends Vue {
   page = 0;
   email = "";
   password = "";
-  confirmEmail = "";
+  resetPasswordPostSent = false;
   errors: any = {};
 
-  @Watch("confirmEmail")
-  onEmailConfirmInput() {
-    const value = this.confirmEmail.trim();
-    if (value.length !== 10) return;
-    confirmEmail(this.email, value)
-      .then(data => {
-        localStorage.clear();
-        localStorage["hauthid"] = data.token;
-        location.href = "/app";
-      })
-      .catch(err => {
-        if (!err.response) return;
-        return err.response.json();
-      })
-      .then(res => {
-        if (!res) return (this.errors["other"] = "Unable to connect to server");
-        if (!res.error) return;
-        return (this.errors["email_confirm"] = res.error);
-      });
+  mounted() {
+    if (this.$route.query["unique-id"]) {
+      this.page = 3;
+    }
   }
 
   keyDownEvent(event: KeyboardEvent) {
@@ -98,20 +90,13 @@ export default class MainApp extends Vue {
       this.formSubmit();
     }
   }
-  captchaSubmit(token: string) {
-    this.login(token);
-  }
-  login(token?: string) {
+  resetPasswordRequest(token?: string) {
+    this.errors = {};
     const email = this.email;
-    const password = this.password;
-    postLogin(email, password, token)
-      .then(data => {
-        if (data.action === "logged_in") {
-          localStorage.clear();
-          localStorage["hauthid"] = data.token;
-          location.href = "/app";
-          return;
-        }
+    resetPasswordRequest(email, token)
+      .then(() => {
+        this.page = 2;
+        return;
       })
       .catch(err => {
         this.page = 0;
@@ -135,7 +120,7 @@ export default class MainApp extends Vue {
         const errors: any = {};
         for (let i = 0; i < res.errors.length; i++) {
           const error = res.errors[i];
-          if (error.param === "email" || error.param === "password") {
+          if (error.param === "email") {
             errors[error.param] = error.msg;
             continue;
           }
@@ -144,14 +129,37 @@ export default class MainApp extends Vue {
         this.errors = errors;
       });
   }
-  formSubmit() {
+  resetPassword() {
+    if (this.resetPasswordPostSent) return;
     this.errors = {};
-    this.login();
+    this.resetPasswordPostSent = true;
+    const uniqueID = this.$route.query["unique-id"];
+    const code = this.$route.query["code"];
+    resetPassword(code as any, uniqueID as any, this.password)
+      .then(() => {
+        this.page = 4;
+      })
+      .catch(async err => {
+        if (!err.response) {
+          this.errors["other"] = "Unable to connect to server";
+          return;
+        }
+        const { errors } = await err.response.json();
+        for (let i = 0; i < errors.length; i++) {
+          const error = errors[i];
+          if (error.param === "password") {
+            this.$set(this.errors, error.param, error.msg);
+            continue;
+          }
+          this.$set(this.errors, "other", error.msg);
+        }
+      })
+      .finally(() => (this.resetPasswordPostSent = false));
   }
 }
 </script>
 <style lang="scss" scoped>
-.login {
+.reset-password {
   height: 100%;
   width: 100%;
   display: flex;
@@ -175,7 +183,7 @@ export default class MainApp extends Vue {
 .title {
   font-size: 18px;
   flex-shrink: 0;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 .sub-title {
   text-align: center;

@@ -26,7 +26,7 @@ import {
 
 @Component({ components: { WindowControl } })
 export default class App extends Vue {
-  isElectron = window.api?.isElectron;
+  isElectron = window.api?.isElectron || false;
   mounted() {
     // set custom css colors
     const customVars = getCustomCssVars();

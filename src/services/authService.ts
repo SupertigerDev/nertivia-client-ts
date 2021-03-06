@@ -23,6 +23,27 @@ export function postRegister(
     })
     .json();
 }
+export function resetPasswordRequest(
+  email: string,
+  token?: string
+): Promise<any> {
+  return wrapper()
+    .post(`user/reset/request`, {
+      json: { email, token }
+    })
+    .json();
+}
+export function resetPassword(
+  code: string,
+  uniqueID: string,
+  password?: string
+): Promise<any> {
+  return wrapper()
+    .post(`user/reset/code/${code}`, {
+      json: { uniqueID, password }
+    })
+    .json();
+}
 export function confirmEmail(email: string, code: string): Promise<any> {
   return wrapper()
     .post(`user/register/confirm`, {
