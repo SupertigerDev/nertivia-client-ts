@@ -12,7 +12,12 @@ interface Props {
 export default Vue.extend<Props>({
   functional: true,
   render(h, { props }) {
-    const obj: JsonInput = JSON.parse(unzipAlt(props.compressedJSON) || "");
+    let obj = "";
+    try {
+      obj = JSON.parse(unzipAlt(props.compressedJSON) || "");
+    } catch {
+      return <div />;
+    }
     const clickEvent = (event: any) => {
       event.preventDefault();
       const target = event.target.closest("a");
