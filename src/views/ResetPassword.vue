@@ -87,7 +87,7 @@ export default class MainApp extends Vue {
   keyDownEvent(event: KeyboardEvent) {
     if (event.keyCode === 13) {
       event.preventDefault();
-      this.formSubmit();
+      this.resetPasswordRequest();
     }
   }
   resetPasswordRequest(token?: string) {

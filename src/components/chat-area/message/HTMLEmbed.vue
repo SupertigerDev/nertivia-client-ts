@@ -12,7 +12,7 @@ interface Props {
 export default Vue.extend<Props>({
   functional: true,
   render(h, { props }) {
-    let obj = "";
+    let obj: any = {};
     try {
       obj = JSON.parse(unzipAlt(props.compressedJSON) || "");
     } catch {
