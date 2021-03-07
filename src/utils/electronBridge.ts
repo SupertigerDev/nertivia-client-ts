@@ -1,2 +1,4 @@
 import ElectronBridge from "@/interfaces/ElectronBridge";
-export default  (window as any).api as ElectronBridge;
+
+const electronBridge: ElectronBridge | undefined = (window as any)?.api;
+export default electronBridge;

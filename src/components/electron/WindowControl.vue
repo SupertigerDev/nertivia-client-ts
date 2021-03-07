@@ -19,13 +19,13 @@ import { Component, Vue } from "vue-property-decorator";
 @Component
 export default class App extends Vue {
   minimize() {
-    electronBridge.send("window_action", "minimize");
+    electronBridge?.send("window_action", "minimize");
   }
   maximize() {
-    electronBridge.send("window_action", "maximize");
+    electronBridge?.send("window_action", "maximize");
   }
   close() {
-    electronBridge.send("window_action", "close");
+    electronBridge?.send("window_action", "close");
   }
 }
 </script>
