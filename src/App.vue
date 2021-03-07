@@ -21,7 +21,7 @@ import {
 
 @Component({ components: { WindowControl } })
 export default class App extends Vue {
-  isElectron = electronBridge.isElectron;
+  isElectron = electronBridge?.isElectron;
   mounted() {
     // set custom css colors
     const customVars = getCustomCssVars();
