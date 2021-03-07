@@ -25,6 +25,8 @@ applyDefaultTheme(false);
 let cancelErrorReportingForever = false;
 Vue.config.errorHandler = function(err, vm, info) {
   console.error(err);
+  // disable error prompt in dev.
+  if ((window as any).webpackHotUpdate) return;
   if (cancelErrorReportingForever) return;
   const val = prompt(
     `An error has occurred.\n${err}\nWould you like to report it?\n\nType in the box the action you were trying to do:`
