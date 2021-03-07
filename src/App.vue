@@ -6,13 +6,8 @@
 </template>
 
 <script lang="ts">
-declare global {
-  interface Window {
-    api?: {
-      isElectron: boolean;
-    };
-  }
-}
+import electronBridge from "@/utils/electronBridge";
+
 const WindowControl = () =>
   import(
     /* webpackChunkName: "WindowControl" */ "@/components/electron/WindowControl.vue"
@@ -26,7 +21,7 @@ import {
 
 @Component({ components: { WindowControl } })
 export default class App extends Vue {
-  isElectron = window.api?.isElectron || false;
+  isElectron = electronBridge.isElectron;
   mounted() {
     // set custom css colors
     const customVars = getCustomCssVars();
