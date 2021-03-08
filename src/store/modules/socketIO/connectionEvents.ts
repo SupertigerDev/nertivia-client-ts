@@ -45,6 +45,7 @@ interface SuccessEvent {
 interface Settings {
   server_position: string[];
   customEmojis: CustomEmoji[];
+  GDriveLinked?: boolean
 }
 
 interface Notification {
@@ -151,7 +152,8 @@ const actions: ActionTree<any, any> = {
       avatar: data.user.avatar,
       tag: data.user.tag,
       uniqueID: data.user.uniqueID,
-      status: data.user.status
+      status: data.user.status,
+      googleDriveLinked: data.settings.GDriveLinked
     });
 
     // set friends

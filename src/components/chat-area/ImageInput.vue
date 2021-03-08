@@ -21,6 +21,8 @@ import { Component, Vue } from "vue-property-decorator";
 import fileSize from "filesize";
 import CheckBox from "@/components/CheckBox.vue";
 import RadioBox from "@/components/RadioBox.vue";
+import { MeModule } from "@/store/modules/me";
+import { PopoutsModule } from "@/store/modules/popouts";
 
 @Component({ components: { CheckBox, RadioBox } })
 export default class MainApp extends Vue {
@@ -44,6 +46,14 @@ export default class MainApp extends Vue {
     }
   }
   onRadioIndexChange(val: number) {
+    if (val === 0 && !MeModule.user.googleDriveLinked) {
+      this.cdn = 1;
+      PopoutsModule.ShowPopout({
+        id: "link-google-drive",
+        component: "LinkGoogleDrive"
+      });
+      return;
+    }
     if (val === 1 && this.exceedCDNMaxSize) {
       FileUploadModule.SetCompress(true);
     }
