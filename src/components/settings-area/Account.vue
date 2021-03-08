@@ -75,6 +75,11 @@
         v-if="showSaveButton"
         @click="update"
       />
+      <div class="link" @click="relinkButton">
+        {{
+          me.googleDriveLinked ? "Re-link Google Drive" : "Link Google Drive"
+        }}
+      </div>
     </div>
   </div>
 </template>
@@ -87,6 +92,7 @@ import AvatarImage from "@/components/AvatarImage.vue";
 import { MeModule } from "@/store/modules/me";
 import { updateUser, UpdateUserRequest } from "@/services/userService";
 import { updateInstance } from "@/services/wrapper";
+import { PopoutsModule } from "@/store/modules/popouts";
 @Component({ components: { CustomInput, CustomButton, AvatarImage } })
 export default class Account extends Vue {
   email = "";
@@ -125,6 +131,12 @@ export default class Account extends Vue {
       this.newAvatar = (event.target?.result as any) || null;
     };
     reader.readAsDataURL(file);
+  }
+  relinkButton() {
+    PopoutsModule.ShowPopout({
+      id: "link-google-drive",
+      component: "LinkGoogleDrive"
+    });
   }
 
   update() {

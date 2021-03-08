@@ -205,6 +205,7 @@ export default class MessageBoxArea extends Vue {
     this.editingMessage = message;
   }
   sendMessage() {
+    if (!this.channelMessages) return;
     (this.$refs["textarea"] as HTMLElement).focus();
     // format message before sending it.
     // replaces custom emoji names with emoji code n stuff

@@ -9,6 +9,8 @@
 
 <script lang="ts">
 import { FileUploadModule } from "@/store/modules/fileUpload";
+import { MeModule } from "@/store/modules/me";
+import { PopoutsModule } from "@/store/modules/popouts";
 import fileSize from "filesize";
 import { Component, Vue } from "vue-property-decorator";
 import FileInput from "./FileInput.vue";
@@ -18,6 +20,16 @@ import ImageInput from "./ImageInput.vue";
 export default class MainApp extends Vue {
   height = "-90px";
   mounted() {
+    if (!this.isImage) {
+      if (!MeModule.user.googleDriveLinked) {
+        PopoutsModule.ShowPopout({
+          id: "link-google-drive",
+          component: "LinkGoogleDrive"
+        });
+        FileUploadModule.SetFile(undefined);
+        return;
+      }
+    }
     // file size check
     const maxSize = 52424000; //50MB
     if ((this.file?.size || 0) > maxSize) {

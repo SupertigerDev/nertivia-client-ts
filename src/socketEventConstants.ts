@@ -59,6 +59,7 @@ export const SELF_STATUS_CHANGE = eventBuilder("multi_device_status");
 export const SELF_CUSTOM_STATUS_CHANGE = eventBuilder(
   "multi_device_custom_status"
 );
+export const GOOGLE_DRIVE_LINKED = eventBuilder("googleDrive:linked");
 export const USER_STATUS_CHANGE = eventBuilder("user_status_change");
 export const CUSTOM_STATUS_CHANGE = eventBuilder("member:custom_status_change");
 // relationship events

@@ -3,7 +3,8 @@ import {
   PROGRAM_ACTIVITY_CHANGED,
   SELF_CUSTOM_STATUS_CHANGE,
   SELF_STATUS_CHANGE,
-  USER_STATUS_CHANGE
+  USER_STATUS_CHANGE,
+  GOOGLE_DRIVE_LINKED
 } from "@/socketEventConstants";
 import { ActionTree } from "vuex";
 import { MeModule } from "../me";
@@ -55,8 +56,12 @@ const actions: ActionTree<any, any> = {
       name: data.name,
       status: data.status
     });
+  },
+  [GOOGLE_DRIVE_LINKED]() {
+    MeModule.UpdateUser({googleDriveLinked: true})
   }
-};
+}
+
 export default {
   actions
 };

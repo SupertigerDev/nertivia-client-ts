@@ -51,3 +51,9 @@ export function confirmEmail(email: string, code: string): Promise<any> {
     })
     .json();
 }
+export function googleDriveLinkURL(): Promise<any> {
+  return wrapper().get(`settings/drive/url`).json();
+}
+export function GoogleDriveLink(code: string, token: string): Promise<any> {
+  return wrapper().post(`settings/drive/auth`, {json: {code, token}}).json();
+}

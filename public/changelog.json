@@ -1,5 +1,13 @@
 [
 	{
+		"version": "2.0.6",
+		"date": "08 March 2021",
+		"title": "Google Drive Link",
+		"new": "Added link with Google Drive popout",
+		"fixes": "Fixed some minor bugs."
+
+	},
+	{
 		"version": "2.0.5",
 		"date": "05 March 2021",
 		"title": "Small Changes",

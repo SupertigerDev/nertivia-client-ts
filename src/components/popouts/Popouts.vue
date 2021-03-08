@@ -87,6 +87,10 @@ const components = {
   ChangelogPopout: () =>
     import(
       /* webpackChunkName: "ChangelogPopout" */ "@/components/popouts/ChangelogPopout.vue"
+    ),
+  LinkGoogleDrive: () =>
+    import(
+      /* webpackChunkName: "LinkGoogleDrive" */ "@/components/popouts/LinkGoogleDrive.vue"
     )
 };
 

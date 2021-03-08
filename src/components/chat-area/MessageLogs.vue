@@ -112,6 +112,8 @@ export default class MessageLogs extends Vue {
     FileUploadModule.SetFile(file);
   }
   intersectTopChange(isIntersecting: boolean) {
+    if (!this.channelMessages) return;
+    if (this.channelMessages.length <= 40) return;
     if (!this.moreTopToLoad) return;
     const logs: Element = this.$refs.logs as any;
     if (!isIntersecting) return;
@@ -160,6 +162,8 @@ export default class MessageLogs extends Vue {
     });
   }
   intersectBottomChange(isIntersecting: boolean) {
+    if (!this.channelMessages) return;
+    if (this.channelMessages.length <= 40) return;
     if (!this.moreBottomToLoad) return;
     const logs: Element = this.$refs.logs as any;
     if (!isIntersecting) return;

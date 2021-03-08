@@ -36,6 +36,12 @@ const routes: Array<RouteConfig> = [
     component: () => import(/* webpackChunkName: "home" */ "../views/Home.vue")
   },
   {
+    // TODO: change the path someday
+    path: "/GDrive_callback",
+    name: "GoogleDriveCallback",
+    component: () => import(/* webpackChunkName: "GoogleDriveCallback" */ "../views/GoogleDriveCallback.vue")
+  },
+  {
     path: "/login",
     name: "Login",
     component: () =>
