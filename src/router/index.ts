@@ -39,7 +39,10 @@ const routes: Array<RouteConfig> = [
     // TODO: change the path someday
     path: "/GDrive_callback",
     name: "GoogleDriveCallback",
-    component: () => import(/* webpackChunkName: "GoogleDriveCallback" */ "../views/GoogleDriveCallback.vue")
+    component: () =>
+      import(
+        /* webpackChunkName: "GoogleDriveCallback" */ "../views/GoogleDriveCallback.vue"
+      )
   },
   {
     path: "/login",
@@ -58,7 +61,9 @@ const routes: Array<RouteConfig> = [
     path: "/reset-password",
     name: "Reset Password",
     component: () =>
-      import(/* webpackChunkName: "ResetPassword" */ "../views/ResetPassword.vue"),
+      import(
+        /* webpackChunkName: "ResetPassword" */ "../views/ResetPassword.vue"
+      ),
     beforeEnter(to, from, next) {
       if (localStorage["hauthid"]) {
         location.href = "/app";

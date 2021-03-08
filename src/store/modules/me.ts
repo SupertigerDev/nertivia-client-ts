@@ -15,7 +15,7 @@ interface User {
   avatar?: string | null;
   uniqueID?: string | null;
   status: number;
-  googleDriveLinked?: boolean
+  googleDriveLinked?: boolean;
 }
 
 @Module({ dynamic: true, store, namespaced: true, name: "me" })

@@ -84,7 +84,7 @@ class ServerRoles extends VuexModule {
   @Mutation
   private ADD_SERVER_ROLE(payload: ServerRole) {
     if (!this.serverRoles[payload.server_id]) {
-      Vue.set(this.serverRoles,payload.server_id, {[payload.id]: payload});
+      Vue.set(this.serverRoles, payload.server_id, { [payload.id]: payload });
       return;
     }
     Vue.set(this.serverRoles[payload.server_id], payload.id, payload);

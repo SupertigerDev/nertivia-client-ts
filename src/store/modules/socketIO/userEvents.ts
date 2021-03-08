@@ -58,9 +58,9 @@ const actions: ActionTree<any, any> = {
     });
   },
   [GOOGLE_DRIVE_LINKED]() {
-    MeModule.UpdateUser({googleDriveLinked: true})
+    MeModule.UpdateUser({ googleDriveLinked: true });
   }
-}
+};
 
 export default {
   actions
