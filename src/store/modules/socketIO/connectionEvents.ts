@@ -45,7 +45,7 @@ interface SuccessEvent {
 interface Settings {
   server_position: string[];
   customEmojis: CustomEmoji[];
-  GDriveLinked?: boolean
+  GDriveLinked?: boolean;
 }
 
 interface Notification {
