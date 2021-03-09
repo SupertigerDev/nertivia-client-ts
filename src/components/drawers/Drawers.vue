@@ -120,9 +120,7 @@ export default class MainApp extends Vue {
 }
 .content-wrapper {
   display: flex;
-  overflow: hidden;
   flex: 1;
-  z-index: 11;
 }
 .drawer-wrapper {
   background: var(--drawer-bg-color);
