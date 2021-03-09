@@ -61,3 +61,8 @@ export function GoogleDriveLink(code: string, token: string): Promise<any> {
     .post(`settings/drive/auth`, { json: { code, token } })
     .json();
 }
+export function AgreePolicy(): Promise<any> {
+  return wrapper()
+    .post(`user/agreeingPolicies`)
+    .json();
+}

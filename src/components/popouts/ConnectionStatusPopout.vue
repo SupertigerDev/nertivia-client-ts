@@ -6,6 +6,7 @@
 
 <script lang="ts">
 import { MeModule } from "@/store/modules/me";
+import { PopoutsModule } from "@/store/modules/popouts";
 import { Component, Vue, Watch } from "vue-property-decorator";
 
 @Component
@@ -22,6 +23,15 @@ export default class MainApp extends Vue {
       if (!this.isConnected) return;
       this.$emit("close");
     }, 3000);
+  }
+  @Watch("connectionMessage")
+  onConnectionMessage(message) {
+    if (message === "terms_not_agreed") {
+      PopoutsModule.ShowPopout({
+        id: "changes-policy-popout",
+        component: "ChangesToPolicies"
+      });
+    }
   }
   get connectionMessage() {
     if (this.isConnected && !MeModule.connectionMessage) {
