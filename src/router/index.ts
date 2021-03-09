@@ -38,12 +38,16 @@ const routes: Array<RouteConfig> = [
   {
     path: "/privacy",
     name: "Privacy",
-    component: () => import(/* webpackChunkName: "Privacy" */ "../views/Privacy.vue")
+    component: () =>
+      import(/* webpackChunkName: "Privacy" */ "../views/Privacy.vue")
   },
   {
     path: "/terms-and-conditions",
     name: "TermsAndConditions",
-    component: () => import(/* webpackChunkName: "TermsAndConditions" */ "../views/TermsAndConditions.vue")
+    component: () =>
+      import(
+        /* webpackChunkName: "TermsAndConditions" */ "../views/TermsAndConditions.vue"
+      )
   },
   {
     // TODO: change the path someday
