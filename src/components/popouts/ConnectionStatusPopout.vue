@@ -43,7 +43,7 @@ export default class MainApp extends Vue {
   left: calc(50% - 100px);
   height: 40px;
   width: 200px;
-  z-index: 9999;
+  z-index: 9999999;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
   background: rgba(0, 0, 0, 0.7);
 }
