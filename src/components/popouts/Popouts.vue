@@ -91,6 +91,10 @@ const components = {
   LinkGoogleDrive: () =>
     import(
       /* webpackChunkName: "LinkGoogleDrive" */ "@/components/popouts/LinkGoogleDrive.vue"
+    ),
+  ChangesToPolicies: () =>
+    import(
+      /* webpackChunkName: "ChangesToPolicies" */ "@/components/popouts/ChangesToPolicies.vue"
     )
 };
 
