@@ -9,6 +9,7 @@
     >
       <AvatarImage
         class="avatar"
+        v-if="user"
         :imageId="user.avatar"
         :seedId="user.uniqueID"
         size="30px"
@@ -16,12 +17,20 @@
         :animateGif="hover"
         @click.native="showProfile"
       />
-      <div class="details">
+      <div class="details" v-if="user">
         <div class="username">{{ user.username }}</div>
         <UserStatusTemplate :showStatusOnly="hover" :uniqueID="user.uniqueID" />
       </div>
       <div class="notification" v-if="notification">
         {{ notification.count > 99 ? "99" : notification.count }}
+      </div>
+      <div
+        class="material-icons icon close-button"
+        v-else-if="dmChannel"
+        title="Hide"
+        @click="hide"
+      >
+        close
       </div>
     </div>
   </div>
@@ -30,8 +39,12 @@
 <script lang="ts">
 import AvatarImage from "@/components/AvatarImage.vue";
 import UserStatusTemplate from "@/components/UserStatusTemplate.vue";
+import Channel from "@/interfaces/Channel";
 import User from "@/interfaces/User";
+import { hideDMChannel } from "@/services/channelService";
 import { ChannelsModule } from "@/store/modules/channels";
+import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
+import { MessagesModule } from "@/store/modules/messages";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { Component, Prop, Vue } from "vue-property-decorator";
@@ -39,34 +52,51 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 @Component({ components: { AvatarImage, UserStatusTemplate } })
 export default class FriendTemplate extends Vue {
   @Prop() private friend!: { recipient: User; status: number };
-  @Prop() private dmChannel!: { recipients: User[] };
+  @Prop() private dmChannel?: Channel & { recipients: User[] };
   hover = false;
   clickedEvent(event: any) {
-    if (!event.target.closest(".avatar")) {
+    if (
+      !event.target.closest(".avatar") &&
+      !event.target.closest(".close-button")
+    ) {
+      if (!this.user) return;
       ChannelsModule.LoadDmChannel(this.user.uniqueID);
     }
+  }
+  hide() {
+    if (!this.dmChannel) return;
+    if (this.isFriendSelected) {
+      this.$router.push("/app/dms");
+    }
+    hideDMChannel(this.dmChannel.channelID).then(() => {
+      if (!this.dmChannel) return;
+      ChannelsModule.RemoveChannel(this.dmChannel.channelID);
+      MessagesModule.DeleteChannelMessages(this.dmChannel.channelID);
+      MessageLogStatesModule.RemoveState(this.dmChannel.channelID);
+    });
   }
   showProfile() {
     PopoutsModule.ShowPopout({
       id: "profile",
       component: "profile-popout",
-      data: { uniqueID: this.user.uniqueID }
+      data: { uniqueID: this.user?.uniqueID }
     });
   }
   get user() {
     if (this.friend) {
       return this.friend.recipient || this.friend;
     } else {
-      return this.dmChannel.recipients[0];
+      return this.dmChannel?.recipients[0];
     }
   }
   get isFriendSelected() {
     const channel = ChannelsModule.getDMChannel(this.$route.params.channel_id);
     if (!channel) return undefined;
     if (!channel.recipients) return undefined;
-    return channel.recipients[0].uniqueID === this.user.uniqueID;
+    return channel.recipients[0].uniqueID === this.user?.uniqueID;
   }
   get notification() {
+    if (!this.user) return false;
     return NotificationsModule.notificationByUniqueID(this.user.uniqueID);
   }
 }
@@ -97,13 +127,24 @@ export default class FriendTemplate extends Vue {
   }
   &:hover {
     background: rgba(255, 255, 255, 0.1);
+    .icon {
+      opacity: 0.6;
+      &:hover {
+        opacity: 1;
+      }
+    }
   }
   &.selected {
     background: rgba(255, 255, 255, 0.1);
     &:before {
       background: var(--primary-color);
     }
-    color: white;
+    .icon {
+      opacity: 0.6;
+    }
+    .username {
+      color: white;
+    }
   }
   &.hasNotification {
     &:before {
@@ -115,6 +156,7 @@ export default class FriendTemplate extends Vue {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: rgba(255, 255, 255, 0.6);
 }
 .avatar {
   margin-right: 5px;
@@ -137,5 +179,13 @@ export default class FriendTemplate extends Vue {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  flex: 1;
+}
+.icon {
+  font-size: 16px;
+  margin-right: 10px;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: 0.2s;
 }
 </style>

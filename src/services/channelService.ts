@@ -64,3 +64,8 @@ export function updateServerChannelPosition(
     })
     .json();
 }
+export function hideDMChannel(channelID: string): Promise<any> {
+  return wrapper()
+    .delete(`channels/${channelID}`)
+    .json();
+}
