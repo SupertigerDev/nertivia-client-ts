@@ -55,6 +55,10 @@
           prefixIcon="lock"
           :error="errors['password']"
         />
+        <AgreementMessage
+          class="agree-message"
+          prefix="By creating an account,"
+        />
         <CustomButton name="Register" :filled="true" />
         <a class="link" href="/login">Login</a>
       </form>
@@ -86,10 +90,13 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import Captcha from "@/components/Captcha.vue";
 import CustomButton from "@/components/CustomButton.vue";
+import AgreementMessage from "@/components/AgreementMessage.vue";
 
 import { confirmEmail, postRegister } from "@/services/authService";
 
-@Component({ components: { CustomInput, Captcha, CustomButton } })
+@Component({
+  components: { CustomInput, Captcha, CustomButton, AgreementMessage }
+})
 export default class MainApp extends Vue {
   page = 0;
   username = "";
@@ -257,5 +264,9 @@ export default class MainApp extends Vue {
   padding: 5px;
   margin-bottom: 10px;
   border-radius: 4px;
+}
+.agree-message {
+  margin-left: 5px;
+  margin-right: 5px;
 }
 </style>
