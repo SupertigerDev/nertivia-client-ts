@@ -1,5 +1,11 @@
 [
 	{
+		"version": "2.0.7",
+		"date": "09 March 2021",
+		"title": "Close DM Channels",
+		"new": "You can now close DM channels",
+	},
+	{
 		"version": "2.0.6",
 		"date": "08 March 2021",
 		"title": "Google Drive Link",
