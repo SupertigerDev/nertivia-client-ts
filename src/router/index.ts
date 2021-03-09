@@ -36,6 +36,16 @@ const routes: Array<RouteConfig> = [
     component: () => import(/* webpackChunkName: "home" */ "../views/Home.vue")
   },
   {
+    path: "/privacy",
+    name: "Privacy",
+    component: () => import(/* webpackChunkName: "Privacy" */ "../views/Privacy.vue")
+  },
+  {
+    path: "/terms-and-conditions",
+    name: "TermsAndConditions",
+    component: () => import(/* webpackChunkName: "TermsAndConditions" */ "../views/TermsAndConditions.vue")
+  },
+  {
     // TODO: change the path someday
     path: "/GDrive_callback",
     name: "GoogleDriveCallback",
