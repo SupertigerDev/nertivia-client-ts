@@ -4,7 +4,7 @@
       <legend class="title">{{ title }}</legend>
       <div class="container" @click="openDropDown = !openDropDown">
         <div class="selected">
-          {{ selectedItem.name }}
+          {{ selectedItem ? selectedItem.name : "Select Item" }}
         </div>
         <div class="material-icons icon">
           keyboard_arrow_down
@@ -14,7 +14,9 @@
         <div class="dropdown-content">
           <div
             class="item"
-            :class="{ selected: item[IdPath] === selectedId }"
+            :class="{
+              selected: selectedId !== null && item[IdPath] === selectedId
+            }"
             @click="itemClick(item[IdPath])"
             v-for="(item, i) in items"
             :key="i"
@@ -46,7 +48,7 @@ export default class CustomDropDown extends Vue {
   @Prop() private title!: string;
   @Prop() private items!: (Item | any)[];
   @Prop() private error!: string;
-  @Prop() private defaultId!: number;
+  @Prop({ default: null }) private defaultId!: number;
   @Prop() private validMessage!: string;
   @Prop() private IdPath!: string;
   selectedId = this.defaultId;
@@ -56,6 +58,7 @@ export default class CustomDropDown extends Vue {
     this.$emit("change", id);
   }
   get selectedItem() {
+    if (this.selectedId === null) return undefined;
     return this.items.find(i => i[this.IdPath] === this.selectedId);
   }
 }
@@ -95,7 +98,6 @@ export default class CustomDropDown extends Vue {
 }
 .selected {
   border: none;
-  font-size: 14px;
   color: white;
   display: inline-block;
   outline: none;
