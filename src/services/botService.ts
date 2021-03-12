@@ -9,10 +9,13 @@ export function createBot(): Promise<User> {
   return wrapper()
     .post("bots").json();
 }
-export function getBot(botID: string, getToken?: boolean): Promise<User> {
+export function getBot(botID: string, getToken?: boolean, getServers?: boolean): Promise<User> {
   const searchParams: [string, string][] = [];
   if (getToken) {
     searchParams.push(["token", getToken.toString()]);
+  }
+  if (getServers) {
+    searchParams.push(["myservers", getServers.toString()]);
   }
   return wrapper()
     .get(`bots/${botID}`, { searchParams }).json();

@@ -21,7 +21,26 @@
             :description="perm.info"
           />
         </div>
-        <CustomButton name="Login To Invite Bot" />
+        <CustomDropDown
+          class="drop-down"
+          v-if="loggedIn"
+          title="Server"
+          @change="selectedServer"
+          :items="servers"
+          IdPath="server_id"
+        />
+        <CustomButton
+          v-if="loggedIn && selectedServerID"
+          icon="add"
+          name="Invite Bot"
+          :filled="true"
+        />
+        <CustomButton
+          v-if="!loggedIn"
+          icon="login"
+          name="Login To Invite Bot"
+          :filled="true"
+        />
       </div>
     </div>
   </div>
@@ -34,18 +53,39 @@ import LoadingScreen from "@/components/LoadingScreen.vue";
 import CheckBox from "@/components/CheckBox.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import AvatarImage from "@/components/AvatarImage.vue";
+import CustomDropDown from "@/components/CustomDropDown.vue";
 import { containsPerm, permissions } from "@/constants/rolePermissions";
 import User from "@/interfaces/User";
 import { getBot } from "@/services/botService";
+import Server from "@/interfaces/Server";
 
 @Component({
-  components: { Header, CheckBox, LoadingScreen, AvatarImage, CustomButton }
+  components: {
+    Header,
+    CheckBox,
+    LoadingScreen,
+    AvatarImage,
+    CustomButton,
+    CustomDropDown
+  }
 })
 export default class InviteBot extends Vue {
   bot: User | null = null;
+  servers: Partial<Server>[] | null = null;
+  loggedIn = false;
+  selectedServerID: string | null = null;
+  selectedServer(serverID: any) {
+    this.selectedServerID = serverID;
+  }
   mounted() {
-    getBot(this.botID).then(bot => {
-      this.bot = bot;
+    getBot(this.botID, false, true).then((data: any) => {
+      if (data.servers) {
+        this.servers = data.servers;
+        this.bot = data.bot;
+        this.loggedIn = true;
+        return;
+      }
+      this.bot = data;
     });
   }
   get botID() {
@@ -100,5 +140,9 @@ export default class InviteBot extends Vue {
   margin-top: 10px;
   align-self: flex-start;
   margin-left: 5px;
+}
+.drop-down {
+  width: 100%;
+  margin-top: 10px;
 }
 </style>
