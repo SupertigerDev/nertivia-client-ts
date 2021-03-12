@@ -22,11 +22,22 @@ const ManageEmojis = () =>
   import(
     /* webpackChunkName: "ManageEmojis" */ "@/components/settings-area/manage-emojis/ManageEmojis.vue"
   );
+const ManageBots = () =>
+  import(
+    /* webpackChunkName: "ManageBots" */ "@/components/settings-area/manage-bots/ManageBots.vue"
+  );
 import Header from "@/components/Header.vue";
 import settingPages from "@/utils/settingPages.json";
 import { Vue, Component } from "vue-property-decorator";
 @Component({
-  components: { Header, Interface, Account, Notification, ManageEmojis }
+  components: {
+    Header,
+    Interface,
+    Account,
+    Notification,
+    ManageEmojis,
+    ManageBots
+  }
 })
 export default class SettingsArea extends Vue {
   mounted() {
@@ -48,5 +59,6 @@ export default class SettingsArea extends Vue {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 </style>
