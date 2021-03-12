@@ -129,6 +129,7 @@ export default class MessageLogs extends Vue {
   align-self: flex-start;
 }
 .message-container {
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   word-wrap: break-word;
