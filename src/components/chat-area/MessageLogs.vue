@@ -5,22 +5,10 @@
     ref="logs"
     @scroll.passive="onScroll"
   >
-    <Observer
-      ref="topObserver"
-      @intersecting="intersectTopChange"
-      class="observe-load-more"
-    />
     <transition-group :name="messageTransition ? 'message' : ''" tag="div">
       <Messages :channelID="channelID" class="message" />
       <UploadQueue v-if="uploadQueue.length" key="upload-queue" />
     </transition-group>
-    <div class="bottom-observer-outer">
-      <Observer
-        ref="bottomObserver"
-        @intersecting="intersectBottomChange"
-        class="observe-load-more bottom"
-      />
-    </div>
   </div>
 </template>
 
@@ -31,7 +19,6 @@ import MessageTemplate from "./message/MessageTemplate.vue";
 import UploadQueue from "./message/UploadQueue.vue";
 import ActionMessageTemplate from "./message/ActionMessageTemplate.vue";
 import Messages from "./Messages.vue";
-import Observer from "./Observer.vue";
 import windowProperties from "@/utils/windowProperties";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
@@ -47,7 +34,6 @@ import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
     MessageTemplate,
     ActionMessageTemplate,
     UploadQueue,
-    Observer,
     Messages
   }
 })
@@ -61,6 +47,7 @@ export default class MessageLogs extends Vue {
   moreBottomToLoad = false;
   currentChannelID = this.channelID;
   scrollTop = 0;
+  scrollBottom = 0;
   mounted() {
     const scrollTop = MessageLogStatesModule.scrollTop(this.channelID);
     if (scrollTop === undefined) {
@@ -111,12 +98,11 @@ export default class MessageLogs extends Vue {
     PopoutsModule.ClosePopout("file-drag");
     FileUploadModule.SetFile(file);
   }
-  intersectTopChange(isIntersecting: boolean) {
+  loadMoreTop() {
     if (!this.channelMessages) return;
     if (this.channelMessages.length <= 40) return;
     if (!this.moreTopToLoad) return;
     const logs: Element = this.$refs.logs as any;
-    if (!isIntersecting) return;
     if (this.isLoadingTopMore) return;
     this.isLoadingTopMore = true;
     this.moreBottomToLoad = true;
@@ -153,20 +139,19 @@ export default class MessageLogs extends Vue {
           logs.scrollTop = logs.scrollHeight - beforeHeight + beforeScrollTop;
           setTimeout(() => {
             this.isLoadingTopMore = false;
-            if ((this.$refs.topObserver as any).intersecting) {
-              this.intersectTopChange(true);
+            if (this.scrolledToEnd.isTop) {
+              this.loadMoreTop();
             }
           }, 1000);
         });
       });
     });
   }
-  intersectBottomChange(isIntersecting: boolean) {
+  loadMoreBottom() {
     if (!this.channelMessages) return;
     if (this.channelMessages.length <= 40) return;
     if (!this.moreBottomToLoad) return;
     const logs: Element = this.$refs.logs as any;
-    if (!isIntersecting) return;
     if (this.isLoadingBottomMore) return;
     this.isLoadingBottomMore = true;
     this.moreTopToLoad = true;
@@ -205,8 +190,8 @@ export default class MessageLogs extends Vue {
           logs.scrollTop = beforeScrollTop;
           setTimeout(() => {
             this.isLoadingBottomMore = false;
-            if ((this.$refs.bottomObserver as any).intersecting) {
-              this.intersectBottomChange(true);
+            if (this.scrolledToEnd.isBottom) {
+              this.loadMoreBottom();
             }
           }, 1000);
         });
@@ -220,8 +205,10 @@ export default class MessageLogs extends Vue {
     const maxDistance = 22;
     const currentPos = event.target.scrollTop + event.target.clientHeight;
     const scrollHeight = event.target.scrollHeight;
-    const currentPxFromBottom = scrollHeight - currentPos;
-    const isBottom = currentPxFromBottom <= maxDistance;
+
+    this.scrollBottom = scrollHeight - currentPos;
+
+    const isBottom = this.scrollBottom <= maxDistance;
     if (this.isScrolledDown !== isBottom) {
       MessageLogStatesModule.UpdateState({
         channelID: this.channelID,
@@ -231,7 +218,6 @@ export default class MessageLogs extends Vue {
       });
     }
   }
-
   scrollDown(ifScrolledDown = false) {
     if (ifScrolledDown && !this.isScrolledDown) return;
     const element = this.$refs.logs as Element;
@@ -321,6 +307,27 @@ export default class MessageLogs extends Vue {
   onScrolldDown() {
     this.dismissNotification();
   }
+
+  @Watch("scrolledToEnd")
+  onScrolledToEnd(status: { isTop: boolean; isBottom: boolean }) {
+    if (!this.channelMessages) return;
+    if (this.channelMessages.length <= 40) return;
+    if (status.isTop) {
+      this.loadMoreTop();
+    }
+    if (status.isBottom) {
+      this.loadMoreBottom();
+    }
+  }
+
+  // used for loading more.
+  get scrolledToEnd() {
+    const distance = 400;
+    const isTop = this.scrollTop <= distance;
+    const isBottom = this.scrollBottom <= distance;
+    return { isTop, isBottom };
+  }
+
   get messageTransition() {
     if (!this.windowIsFocused) return false;
     if (this.isLoadingTopMore) return false;
@@ -385,21 +392,7 @@ export default class MessageLogs extends Vue {
   display: block;
   padding-bottom: 20px;
 }
-.observe-load-more {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 700px;
-  &.bottom {
-    top: initial;
-    bottom: 0;
-  }
-}
-.bottom-observer-outer {
-  z-index: -1;
-  position: relative;
-}
+
 .highlight {
   background: rgba(0, 0, 0, 0.4);
   border-radius: 4px;
