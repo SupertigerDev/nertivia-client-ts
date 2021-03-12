@@ -42,6 +42,12 @@ const routes: Array<RouteConfig> = [
       import(/* webpackChunkName: "Privacy" */ "../views/Privacy.vue")
   },
   {
+    path: "/bots/:botid",
+    name: "Invite Bot",
+    component: () =>
+      import(/* webpackChunkName: "InviteBot" */ "../views/InviteBot.vue")
+  },
+  {
     path: "/terms-and-conditions",
     name: "TermsAndConditions",
     component: () =>

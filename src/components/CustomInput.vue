@@ -2,7 +2,12 @@
   <div class="input">
     <fieldset
       class="content"
-      :class="{ focused: focused || value.length, error, valid: validMessage }"
+      :class="{
+        focused: focused || value.length,
+        error,
+        valid: validMessage,
+        disabled
+      }"
       @click="$refs.inputBox.focus()"
     >
       <legend class="title">{{ title }}</legend>
@@ -16,6 +21,7 @@
           :class="{ hasPrefix: !!prefix }"
           @focus="focused = true"
           @blur="focused = false"
+          :disabled="disabled"
           :type="type || 'text'"
           ref="inputBox"
           :placeholder="placeholder"
@@ -44,6 +50,7 @@ export default class CustomInput extends Vue {
   @Prop() private placeholder!: string;
   @Prop() private type!: string;
   @Prop() private error!: string;
+  @Prop({ default: false }) private disabled!: boolean;
   @Prop() private validMessage!: string;
   @Prop() private value!: string;
   @Prop() private prefix!: string;
@@ -73,6 +80,9 @@ export default class CustomInput extends Vue {
   }
   &.valid {
     border: solid 2px var(--success-color);
+  }
+  &.disabled {
+    border: solid 2px gray;
   }
 }
 .title {

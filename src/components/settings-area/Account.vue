@@ -24,7 +24,12 @@
           <div class="user-tag-detail">{{ me.username }}:{{ me.tag }}</div>
         </div>
       </div>
-      <CustomInput title="Email" v-model="email" prefixIcon="alternate_email" />
+      <CustomInput
+        title="Email"
+        v-model="email"
+        prefixIcon="alternate_email"
+        :error="errors['email']"
+      />
       <div class="user-tag">
         <CustomInput
           title="Username"
@@ -178,7 +183,13 @@ export default class Account extends Vue {
           this.requestSent = false;
           return;
         }
-        const knownErrs = ["username", "tag", "password", "new_password"];
+        const knownErrs = [
+          "username",
+          "tag",
+          "password",
+          "new_password",
+          "email"
+        ];
         const { errors, message } = await err.response.json();
         if (message) {
           this.errors["other"] = message;
@@ -322,5 +333,8 @@ export default class Account extends Vue {
 }
 .error {
   color: var(--alert-color);
+}
+.user-tag-detail {
+  text-align: center;
 }
 </style>
