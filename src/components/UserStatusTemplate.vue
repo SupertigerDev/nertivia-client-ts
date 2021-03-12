@@ -15,7 +15,8 @@
       games
     </div>
     <div
-      class="status-name game"
+      class="status-name "
+      :class="{ game: gameStatus }"
       v-if="(gameStatus || customStatus) && !showStatusOnly"
     >
       <span class="name" v-if="!gameStatus">
@@ -66,8 +67,10 @@ export default class UserStatusTemplate extends Vue {
   &.game {
     .status {
       margin-right: 3px;
-      font-weight: bold;
       opacity: 0.7;
+    }
+    .name {
+      font-weight: bold;
     }
   }
 }
