@@ -10,7 +10,9 @@ function findRoot(): CSSStyleRule | undefined {
       rule = [].slice
       .call(styleSheet.rules)
       .find((r: CSSStyleRule) => r.selectorText === ":root");
-    } catch {}
+    } catch {
+      continue;
+    }
     if (rule) {
       return rule;
     }
