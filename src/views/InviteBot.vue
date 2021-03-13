@@ -11,7 +11,7 @@
         />
         <div class="title">Would you like to invite</div>
         <div class="name">{{ bot.username }}?</div>
-        <div class="head">This Bot Can:</div>
+        <div class="head" v-if="perms.length">This Bot Can:</div>
         <div class="perms-list">
           <CheckBox
             v-for="(perm, i) of perms"
