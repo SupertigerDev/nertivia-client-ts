@@ -8,7 +8,6 @@
       @end="onDragEnd"
     >
       <ServerTemplate
-        v-model="Servers"
         v-for="server in Servers"
         :key="server.server_id"
         :server="server"
