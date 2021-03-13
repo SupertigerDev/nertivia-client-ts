@@ -44,9 +44,10 @@ import Markup from "@/components/Markup.vue";
 export default class UserStatusTemplate extends Vue {
   @Prop() private uniqueID!: string;
   @Prop() private showStatusOnly!: boolean;
+  @Prop() private showOffline!: boolean;
   get presence() {
     const presence = PresencesModule.getPresence(this.uniqueID);
-    if (!presence) return undefined;
+    if (!this.showOffline && !presence) return undefined;
     return userStatuses[presence || 0];
   }
   get customStatus() {

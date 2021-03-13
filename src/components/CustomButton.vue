@@ -2,7 +2,7 @@
   <button
     class="button"
     type="submit"
-    :class="{ filled, warn, valid }"
+    :class="{ filled, warn, valid, disabled }"
     @click="$emit('click')"
   >
     <span v-if="icon && iconPos !== 'right'" class="material-icons">{{
@@ -23,6 +23,7 @@ export default class CustomInput extends Vue {
   focused = false;
   @Prop() private name!: string;
   @Prop() private warn!: boolean;
+  @Prop() private disabled!: boolean;
   @Prop() private valid!: boolean;
   @Prop() private filled!: boolean;
   @Prop() private icon!: string;
@@ -70,6 +71,10 @@ export default class CustomInput extends Vue {
       color: white;
     }
   }
+  &.disabled {
+    color: gray;
+    border: solid 1px gray;
+  }
 
   &.filled {
     background: var(--primary-color);
@@ -97,11 +102,23 @@ export default class CustomInput extends Vue {
         color: var(--success-color);
       }
     }
+    &.disabled {
+      color: white;
+      background: gray;
+      border: solid 1px gray;
+    }
   }
 
   &.disabled {
     opacity: 0.6;
     cursor: not-allowed;
+    &:hover {
+      background: initial;
+      color: intial;
+    }
+    &:focus {
+      background: initial;
+    }
   }
 }
 </style>

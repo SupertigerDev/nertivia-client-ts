@@ -21,7 +21,6 @@
         <router-view />
       </div>
     </Drawers>
-    <Popouts />
   </div>
 </template>
 
@@ -35,7 +34,6 @@ import { MeModule } from "@/store/modules/me";
 
 import ConnectionStatus from "@/components/popouts/ConnectionStatusPopout.vue";
 import Header from "@/components/Header.vue";
-import Popouts from "@/components/popouts/Popouts.vue";
 import { getChangelog } from "@/services/updateService";
 const Drawers = () =>
   import(/* webpackChunkName: "Drawers" */ "@/components/drawers/Drawers.vue");
@@ -69,8 +67,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
     RightDrawer,
     NavBar,
     Header,
-    ConnectionStatus,
-    Popouts
+    ConnectionStatus
   }
 })
 export default class MainApp extends Vue {

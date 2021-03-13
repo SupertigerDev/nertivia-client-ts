@@ -2,6 +2,7 @@
   <div class="root">
     <WindowControl v-if="isElectron" />
     <router-view />
+    <Popouts />
   </div>
 </template>
 
@@ -13,13 +14,15 @@ const WindowControl = () =>
     /* webpackChunkName: "WindowControl" */ "@/components/electron/WindowControl.vue"
   );
 import { Component, Vue } from "vue-property-decorator";
+import Popouts from "@/components/popouts/Popouts.vue";
+
 import {
   getCustomCssVars,
   changeCssVar,
   setThemeColor
 } from "@/utils/customCssVars";
 
-@Component({ components: { WindowControl } })
+@Component({ components: { WindowControl, Popouts } })
 export default class App extends Vue {
   isElectron = electronBridge?.isElectron || false;
   mounted() {

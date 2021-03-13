@@ -19,7 +19,9 @@
           <div class="username">{{ user.username }}</div>
         </div>
       </div>
-      <div class="status"><UserStatusTemplate :uniqueID="user.uniqueID" /></div>
+      <div class="status">
+        <UserStatusTemplate :showOffline="true" :uniqueID="user.uniqueID" />
+      </div>
       <div class="bottom">
         <div class="title" v-if="roles.length">
           <span class="material-icons">clear_all</span> Roles

@@ -17,6 +17,7 @@
         @tokenChanged="botToken = $event"
         v-if="tab === 0"
         @updated="$emit('updated', $event)"
+        @deleted="$emit('deleted')"
       />
       <div v-if="tab === 1">Work In Progress!</div>
     </div>

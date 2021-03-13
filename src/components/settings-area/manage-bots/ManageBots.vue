@@ -15,6 +15,7 @@
         :bot="bots[selectedBotIndex]"
         @close="selectedBotIndex = -1"
         @updated="botUpdated"
+        @deleted="botDeleted"
       />
       <div class="box" v-if="selectedBotIndex === -1">
         <CustomButton
@@ -66,6 +67,11 @@ export default class ManageChannels extends Vue {
     const bot = this.bots[this.selectedBotIndex];
     if (!bot) return;
     this.$set(this.bots, this.selectedBotIndex, { ...bot, ...data });
+  }
+  botDeleted() {
+    if (!this.bots) return;
+    this.$delete(this.bots, this.selectedBotIndex);
+    this.selectedBotIndex = -1;
   }
   createBot() {
     if (this.createRequestSent) return;
