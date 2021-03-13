@@ -107,6 +107,17 @@
           @click="resetToken"
         />
       </div>
+      <InformationTemplate
+        style="margin-bottom:10px;margin-top:10px;opacity:0.7"
+        title="Delete Bot"
+      />
+      <CustomButton
+        :name="deleteBotConfirm ? 'Are You Sure?' : 'Delete Bot'"
+        icon="delete"
+        :warn="true"
+        @click="deleteBot"
+        style="align-self:flex-start;"
+      />
     </div>
   </div>
 </template>
@@ -118,7 +129,7 @@ import CustomButton from "@/components/CustomButton.vue";
 import AvatarImage from "@/components/AvatarImage.vue";
 import InformationTemplate from "@/components/InformationTemplate.vue";
 import User from "@/interfaces/User";
-import { resetBotToken, updateBot } from "@/services/botService";
+import { deleteBot, resetBotToken, updateBot } from "@/services/botService";
 import { PopoutsModule } from "@/store/modules/popouts";
 import {
   permissions,
@@ -147,11 +158,23 @@ export default class Account extends Vue {
   showToken = false;
   requestSent = false;
   errors: any = {};
+  deleteBotConfirm = false;
   // invite url
   permissions = permissions.SEND_MESSAGES.value;
 
   mounted() {
     this.resetValues();
+  }
+  deleteBot() {
+    if (!this.deleteBotConfirm) {
+      this.deleteBotConfirm = true;
+      return;
+    }
+    deleteBot(this.bot.uniqueID)
+      .then(() => {
+        this.$emit("deleted");
+      })
+      .finally(() => (this.deleteBotConfirm = false));
   }
   onPermToggle(newChecked: boolean, perm: any) {
     if (newChecked) {

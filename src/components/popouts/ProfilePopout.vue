@@ -34,7 +34,10 @@
         <div class="details">
           <div class="left">
             <div class="custom-status">
-              <UserStatusTemplate :uniqueID="user.uniqueID" />
+              <UserStatusTemplate
+                :showOffline="true"
+                :uniqueID="user.uniqueID"
+              />
             </div>
           </div>
           <div class="right">

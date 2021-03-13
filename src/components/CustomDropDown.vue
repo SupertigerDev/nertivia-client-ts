@@ -4,7 +4,14 @@
       <legend class="title">{{ title }}</legend>
       <div class="container" @click="openDropDown = !openDropDown">
         <div class="selected">
-          {{ selectedItem ? selectedItem.name : "Select Item" }}
+          <AvatarImage
+            class="avatar"
+            v-if="selectedItem && selectedItem.avatar"
+            :seedId="selectedItem.avatar.seedID"
+            :imageId="selectedItem.avatar.imageID"
+            size="20px"
+          />
+          {{ selectedItem ? selectedItem.name : defaultText }}
         </div>
         <div class="material-icons icon">
           keyboard_arrow_down
@@ -21,6 +28,13 @@
             v-for="(item, i) in items"
             :key="i"
           >
+            <AvatarImage
+              class="avatar"
+              v-if="item.avatar"
+              :seedId="item.avatar.seedID"
+              :imageId="item.avatar.imageID"
+              size="20px"
+            />
             {{ item.name }}
           </div>
         </div>
@@ -36,12 +50,17 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import AvatarImage from "@/components/AvatarImage.vue";
 
 interface Item {
   name: string;
+  avatar?: {
+    seedID: string;
+    imageID: string;
+  };
 }
 
-@Component
+@Component({ components: { AvatarImage } })
 export default class CustomDropDown extends Vue {
   focused = true;
   openDropDown = false;
@@ -51,6 +70,7 @@ export default class CustomDropDown extends Vue {
   @Prop({ default: null }) private defaultId!: number;
   @Prop() private validMessage!: string;
   @Prop() private IdPath!: string;
+  @Prop({ default: "Select Item" }) private defaultText!: string;
   selectedId = this.defaultId;
   itemClick(id: number) {
     this.openDropDown = false;
@@ -181,6 +201,9 @@ export default class CustomDropDown extends Vue {
       transform: scale(0.9);
     }
   }
+}
+.avatar {
+  margin-right: 5px;
 }
 
 @keyframes showUp {

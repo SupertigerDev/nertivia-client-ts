@@ -24,21 +24,25 @@
         <CustomDropDown
           class="drop-down"
           v-if="loggedIn"
-          title="Server"
+          title="Invite To"
           @change="selectedServer"
-          :items="servers"
+          :items="mappedServers"
+          defaultText="Select Server"
           IdPath="server_id"
         />
         <CustomButton
           v-if="loggedIn && selectedServerID"
           icon="add"
-          name="Invite Bot"
+          :name="requestSent ? 'Inviting...' : 'Invite Bot'"
+          :disabled="requestSent"
+          @click="inviteBot"
           :filled="true"
         />
         <CustomButton
           v-if="!loggedIn"
           icon="login"
           name="Login To Invite Bot"
+          @click="loginButton"
           :filled="true"
         />
       </div>
@@ -56,8 +60,9 @@ import AvatarImage from "@/components/AvatarImage.vue";
 import CustomDropDown from "@/components/CustomDropDown.vue";
 import { containsPerm, permissions } from "@/constants/rolePermissions";
 import User from "@/interfaces/User";
-import { getBot } from "@/services/botService";
+import { getBot, inviteBot } from "@/services/botService";
 import Server from "@/interfaces/Server";
+import { PopoutsModule } from "@/store/modules/popouts";
 
 @Component({
   components: {
@@ -74,8 +79,36 @@ export default class InviteBot extends Vue {
   servers: Partial<Server>[] | null = null;
   loggedIn = false;
   selectedServerID: string | null = null;
+  requestSent = false;
+
   selectedServer(serverID: any) {
     this.selectedServerID = serverID;
+  }
+  inviteBot() {
+    if (!this.bot?.uniqueID) return;
+    if (!this.selectedServerID) return;
+    if (this.requestSent) return;
+    this.requestSent = true;
+    inviteBot(this.bot.uniqueID, this.selectedServerID, this.permNumber)
+      .then(() => {
+        location.href = "/app";
+      })
+      .catch(async err => {
+        PopoutsModule.ShowPopout({
+          id: "error",
+          component: "generic-popout",
+          data: {
+            title: "Error Creating Bot",
+            description: !err.response
+              ? "Could not connect to server."
+              : (await err.response.json()).message
+          }
+        });
+      })
+      .finally(() => (this.requestSent = false));
+  }
+  loginButton() {
+    this.$router.push("/login?redirect=" + encodeURIComponent(location.href));
   }
   mounted() {
     getBot(this.botID, false, true).then((data: any) => {
@@ -87,6 +120,20 @@ export default class InviteBot extends Vue {
       }
       this.bot = data;
     });
+  }
+  get mappedServers() {
+    return (
+      this.servers?.map(server => {
+        return {
+          name: server.name,
+          server_id: server.server_id,
+          avatar: {
+            seedID: server.server_id,
+            imageID: server.avatar
+          }
+        };
+      }) || []
+    );
   }
   get botID() {
     return this.$route.params.botid;
@@ -144,5 +191,6 @@ export default class InviteBot extends Vue {
 .drop-down {
   width: 100%;
   margin-top: 10px;
+  z-index: 111111;
 }
 </style>

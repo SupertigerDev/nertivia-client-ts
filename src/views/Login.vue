@@ -62,6 +62,7 @@ import Captcha from "@/components/Captcha.vue";
 import CustomButton from "@/components/CustomButton.vue";
 
 import { postLogin, confirmEmail } from "@/services/authService";
+import config from "@/config";
 
 @Component({ components: { CustomInput, Captcha, CustomButton } })
 export default class MainApp extends Vue {
@@ -79,7 +80,7 @@ export default class MainApp extends Vue {
       .then(data => {
         localStorage.clear();
         localStorage["hauthid"] = data.token;
-        location.href = "/app";
+        this.redirect();
       })
       .catch(err => {
         if (!err.response) return;
@@ -109,7 +110,7 @@ export default class MainApp extends Vue {
         if (data.action === "logged_in") {
           localStorage.clear();
           localStorage["hauthid"] = data.token;
-          location.href = "/app";
+          this.redirect();
           return;
         }
       })
@@ -147,6 +148,14 @@ export default class MainApp extends Vue {
   formSubmit() {
     this.errors = {};
     this.login();
+  }
+  redirect() {
+    const url: string | undefined = this.$route.query.redirect as any;
+    if (!url || !url.startsWith(config.mainAppURL)) {
+      location.href = "/app";
+      return;
+    }
+    location.href = url;
   }
 }
 </script>

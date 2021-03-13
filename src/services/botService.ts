@@ -9,6 +9,15 @@ export function createBot(): Promise<User> {
   return wrapper()
     .post("bots").json();
 }
+export function inviteBot(botID: string, serverID: string, permissions = 0): Promise<any> {
+  return wrapper()
+    .put(`bots/${botID}/servers/${serverID}`, {json: {permissions}}).json();
+}
+export function deleteBot(botID: string): Promise<any> {
+  return wrapper()
+    .delete(`bots/${botID}`).json();
+}
+
 export function getBot(botID: string, getToken?: boolean, getServers?: boolean): Promise<User> {
   const searchParams: [string, string][] = [];
   if (getToken) {
