@@ -1,5 +1,12 @@
 [
 	{
+		"version": "2.0.8",
+		"date": "13 March 2021",
+		"title": "Bots",
+		"new": "You can now create & invite bots.",
+		"fixes": "Fixed some minor bugs."
+	},
+	{
 		"version": "2.0.7",
 		"date": "09 March 2021",
 		"title": "Close DM Channels",
