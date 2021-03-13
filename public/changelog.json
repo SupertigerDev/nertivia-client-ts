@@ -1,5 +1,11 @@
 [
 	{
+		"version": "2.0.9",
+		"date": "13 March 2021",
+		"title": "Video Embed",
+		"new": "Uploaded MP4 videos and YouTube URL links now show an embed inside Nertivia."
+	},
+	{
 		"version": "2.0.8",
 		"date": "13 March 2021",
 		"title": "Bots",

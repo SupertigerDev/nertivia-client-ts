@@ -3,6 +3,9 @@
     <div class="animate-container">
       <div class="material-icons icon">edit</div>
       <div class="material-icons icon" v-if="isImage">insert_photo</div>
+      <div class="material-icons icon" v-else-if="isFile">
+        insert_drive_file
+      </div>
       <div class="title">Editing:</div>
       <div class="message" v-if="message">{{ message.message }}</div>
     </div>
@@ -25,6 +28,9 @@ export default class EditPanel extends Vue {
   }
   get isImage() {
     return this.message?.files?.[0]?.dimensions;
+  }
+  get isFile() {
+    return this.message?.files?.[0];
   }
   get message() {
     return MessagesModule.channelMessages(this.$route.params.channel_id).find(
