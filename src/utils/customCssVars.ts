@@ -8,8 +8,8 @@ function findRoot(): CSSStyleRule | undefined {
     let rule: any = null;
     try {
       rule = [].slice
-      .call(styleSheet.rules)
-      .find((r: CSSStyleRule) => r.selectorText === ":root");
+        .call(styleSheet.rules)
+        .find((r: CSSStyleRule) => r.selectorText === ":root");
     } catch {
       continue;
     }
