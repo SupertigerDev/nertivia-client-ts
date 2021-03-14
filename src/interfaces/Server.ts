@@ -1,4 +1,4 @@
-export default interface User {
+export default interface Server {
   avatar: string;
   banner: string;
   creator: {

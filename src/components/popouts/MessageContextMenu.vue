@@ -32,7 +32,6 @@ export default class extends Vue {
     tempUser: User;
     message: Message & { grouped: boolean };
   };
-  $isMobile: boolean | undefined;
   close() {
     PopoutsModule.ClosePopout("context");
   }

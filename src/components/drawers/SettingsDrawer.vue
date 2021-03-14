@@ -15,6 +15,7 @@
     <div class="item" @click="showChangelog">
       <div class="material-icons">description</div>
       <div class="name">Changelog</div>
+      <div class="version">{{ $version }}</div>
     </div>
   </div>
 </template>
@@ -73,6 +74,12 @@ export default class MainApp extends Vue {
   overflow: hidden;
   .name {
     margin-left: 4px;
+  }
+  .version {
+    opacity: 0.6;
+    font-size: 14px;
+    margin-left: auto;
+    margin-right: 5px;
   }
   &:hover {
     background-color: rgba(255, 255, 255, 0.1);

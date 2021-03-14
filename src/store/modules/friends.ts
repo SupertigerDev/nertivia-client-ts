@@ -26,6 +26,7 @@ class Friends extends VuexModule {
   get friendWithUser() {
     return (id: string) => {
       const friend = this.friends[id];
+      if (!friend) return
       const user: User = this.context.rootState.users.users[id];
       return { recipient: user, ...friend };
     };

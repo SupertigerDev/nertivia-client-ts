@@ -17,7 +17,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
 const components = {
   ProfilePopout: () =>
     import(
-      /* webpackChunkName: "ProfilePopout" */ "@/components/popouts/ProfilePopout.vue"
+      /* webpackChunkName: "ProfilePopout" */ "@/components/popouts/profile-popout/ProfilePopout.vue"
     ),
   EditRolesPopout: () =>
     import(
