@@ -41,13 +41,13 @@
             </div>
           </div>
           <div class="right">
-            <div class="button" @click="sendMessageButton">
+            <div class="button" @click="sendMessageButton" v-if="!isMe">
               <div class="material-icons">message</div>
               Send Message
             </div>
             <div
               class="button"
-              v-if="!user.bot && friendStatus === undefined"
+              v-if="!isMe && !user.bot && friendStatus === undefined"
               @click="addFriend"
             >
               <div class="material-icons">person_add</div>
@@ -73,7 +73,7 @@
               <div class="material-icons">person_add_disabled</div>
               Remove Friend
             </div>
-            <div class="button alert">
+            <div class="button alert" v-if="!isMe">
               <div class="material-icons">block</div>
               Block
             </div>
@@ -81,6 +81,14 @@
         </div>
 
         <div class="other-details animate-in" v-if="returnedUser">
+          <CommonServers
+            v-if="!isMe && commonServers.length"
+            :servers="commonServers"
+          />
+          <CommonFriends
+            v-if="!isMe && commonFriends.length"
+            :friends="commonFriends"
+          />
           <div class="about detail-item" v-if="aboutMe && aboutMe.about_me">
             <div class="icon material-icons">info_outline</div>
             <span><Markup :largeEmoji="false" :text="aboutMe.about_me"/></span>
@@ -122,6 +130,8 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import UserStatusTemplate from "@/components/UserStatusTemplate.vue";
 import Markup from "@/components/Markup.vue";
+import CommonServers from "./CommonServers.vue";
+import CommonFriends from "./CommonFriends.vue";
 import { PresencesModule } from "@/store/modules/presences";
 import userStatuses from "@/constants/userStatuses";
 import { fetchUser, ReturnedUser } from "@/services/userService";
@@ -136,8 +146,18 @@ import {
 } from "@/services/relationshipService";
 import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
 import { ChannelsModule } from "@/store/modules/channels";
+import { MeModule } from "@/store/modules/me";
+import Server from "@/interfaces/Server";
+import { ServersModule } from "@/store/modules/servers";
+import User from "@/interfaces/User";
 @Component({
-  components: { AvatarImage, Markup, UserStatusTemplate }
+  components: {
+    AvatarImage,
+    Markup,
+    UserStatusTemplate,
+    CommonServers,
+    CommonFriends
+  }
 })
 export default class ProfilePopout extends Vue {
   @Prop() private data!: { uniqueID: string };
@@ -220,6 +240,32 @@ export default class ProfilePopout extends Vue {
   }
   get aboutMe() {
     return this.returnedUser?.user.about_me;
+  }
+  get isMe() {
+    return this.user.uniqueID === MeModule.user.uniqueID;
+  }
+  get commonServers() {
+    const commonServers = this.returnedUser?.commonServersArr;
+    if (!commonServers) return [];
+    const servers: Server[] = [];
+    for (let i = 0; i < commonServers.length; i++) {
+      const serverID = commonServers[i];
+      if (!ServersModule.servers[serverID]) continue;
+      servers.push(ServersModule.servers[serverID]);
+    }
+    return servers;
+  }
+  get commonFriends() {
+    const commonFriends = this.returnedUser?.commonFriendsArr;
+    if (!commonFriends) return [];
+    const friends: User[] = [];
+    for (let i = 0; i < commonFriends.length; i++) {
+      const friendID = commonFriends[i];
+      const friend = FriendsModule.friendWithUser(friendID);
+      if (!friend?.recipient) continue;
+      friends.push(friend.recipient);
+    }
+    return friends;
   }
 }
 </script>

@@ -1,25 +1,35 @@
 [
 	{
-		"version": "2.0.9",
+		"version": "1.8.2-beta",
+		"date": "14 March 2021",
+		"title": "Common Servers & Friends",
+		"new": "You can now see common servers and common friends in the profile popout.",
+		"changes": [
+			"Changed version numbering to be semantic",
+			"Slightly changed the way how updates are checked and displayed."
+		]
+	},
+	{
+		"version": "1.7.2-beta",
 		"date": "13 March 2021",
 		"title": "Video Embed",
 		"new": "Uploaded MP4 videos and YouTube URL links now show an embed inside Nertivia."
 	},
 	{
-		"version": "2.0.8",
+		"version": "1.6.2-beta",
 		"date": "13 March 2021",
 		"title": "Bots",
 		"new": "You can now create & invite bots.",
 		"fixes": "Fixed some minor bugs."
 	},
 	{
-		"version": "2.0.7",
+		"version": "1.5.2-beta",
 		"date": "09 March 2021",
 		"title": "Close DM Channels",
 		"new": "You can now close DM channels"
 	},
 	{
-		"version": "2.0.6",
+		"version": "1.4.2-beta",
 		"date": "08 March 2021",
 		"title": "Google Drive Link",
 		"new": "Added link with Google Drive popout",
@@ -27,40 +37,40 @@
 
 	},
 	{
-		"version": "2.0.5",
+		"version": "1.3.2-beta",
 		"date": "05 March 2021",
 		"title": "Small Changes",
 		"new": "Added electron title bar WIP. You won't be able to see it yet though as the electron app is not released yet.",
 		"changes": "Removed border radius from left side header."
 	},
 	{
-		"version": "2.0.4",
+		"version": "1.2.2-beta",
 		"date": "05 March 2021",
 		"title": "Delete Server",
 		"new": "You can now delete your server through server settings.",
 		"changes": "Made changes to the changelog header."
 	},
 	{
-		"version": "2.0.3",
+		"version": "1.1.2-beta",
 		"date": "05 March 2021",
 		"title": "Create Server Bug Fix",
 		"fixes": "Creating a server would throw errors."
 	},
 	{
-		"version": "2.0.2",
+		"version": "1.1.1-beta",
 		"date": "05 March 2021",
 		"title": "Small Changes",
 		"changes": "Popouts with buttons now use the custom button template."
 	},
 	{
-		"version": "2.0.1",
+		"version": "1.1.0-beta",
 		"date": "05 March 2021",
 		"title": "Changelog",
 		"new": "Added a changelog GUI which will be shown automatically. You can also view the changelog through the settings page.",
 		"changes": "Changed border radius in some places."
 	},
 	{
-		"version": "2.0.0",
+		"version": "1.0.0-beta",
 		"date": "04 March 2021",
 		"title": "Update Checker",
 		"new": [

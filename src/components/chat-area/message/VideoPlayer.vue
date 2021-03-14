@@ -90,10 +90,12 @@ export default class VideoPlayer extends Vue {
     border-radius: 4px;
     padding: 10px;
     transition: 0.2s;
+    background-color: var(--primary-color);
+    opacity: 0.6;
   }
   &:hover {
     .play-button {
-      background-color: var(--primary-color);
+      opacity: 1;
     }
   }
 }

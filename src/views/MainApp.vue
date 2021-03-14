@@ -72,7 +72,6 @@ import { PopoutsModule } from "@/store/modules/popouts";
 })
 export default class MainApp extends Vue {
   showConnectionStatusPopout = true;
-  version: null | string = null;
   updateAvailable = false;
   checkAfter = 600000; // 60 minutes
   lastUpdateChecked = Date.now();
@@ -140,33 +139,28 @@ export default class MainApp extends Vue {
     this.$store.unregisterModule("socketIO");
   }
   checkForUpdate() {
-    if (!this.version) return;
+    if (!this.$version) return;
     if (this.updateAvailable) return;
     if (Date.now() - this.lastUpdateChecked <= this.checkAfter) return;
     this.lastUpdateChecked = Date.now();
     getChangelog().then(log => {
       const version = log[0].version;
-      if (this.version !== version) {
+      if (this.$version !== version) {
         this.updateAvailable = true;
       }
     });
   }
   checkChangelog() {
-    getChangelog().then(logs => {
-      const version = logs[0].version;
-      this.version = version;
-      const seenVersion = localStorage["changelogSeenVersion"];
-      if (!seenVersion) {
-        localStorage["changelogSeenVersion"] = version;
-        return;
-      }
-      if (seenVersion === version) return;
-      localStorage["changelogSeenVersion"] = version;
-      PopoutsModule.ShowPopout({
-        id: "changelog-popout",
-        component: "ChangelogPopout",
-        data: { logs }
-      });
+    const seenVersion = localStorage["changelogSeenVersion"];
+    if (!seenVersion) {
+      localStorage["changelogSeenVersion"] = this.$version;
+      return;
+    }
+    if (seenVersion === this.$version) return;
+    localStorage["changelogSeenVersion"] = this.$version;
+    PopoutsModule.ShowPopout({
+      id: "changelog-popout",
+      component: "ChangelogPopout"
     });
   }
   @Watch("focused")

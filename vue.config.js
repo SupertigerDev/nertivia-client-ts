@@ -1,3 +1,4 @@
+process.env.VUE_APP_VERSION = require("./public/changelog.json")[0].version;
 module.exports = {
   transpileDependencies: ["vuex-module-decorators"],
   configureWebpack: {},

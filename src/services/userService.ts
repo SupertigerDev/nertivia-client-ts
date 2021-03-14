@@ -81,6 +81,8 @@ export function removeRole(
 
 export interface ReturnedUser {
   user: User & UserExtra;
+  commonServersArr: string[];
+  commonFriendsArr: string[];
 }
 interface UserExtra {
   about_me: AboutMe;

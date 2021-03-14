@@ -11,11 +11,21 @@ import { reportError } from "./services/userService";
 
 Vue.use(clipboard);
 
+declare module 'vue/types/vue' {
+  interface Vue {
+    $isMobile: boolean
+    $version: string
+    $test: string
+  }
+}
+
+
 if (messagingSupported) {
   messaging().onMessage(payload => {
     console.log("FCM Data: ", payload);
   });
 }
+Vue.prototype.$version = process.env.VUE_APP_VERSION
 Vue.prototype.$isMobile = /iphone|ipod|android|ie|blackberry|fennec/.test(
   navigator.userAgent.toLowerCase()
 );

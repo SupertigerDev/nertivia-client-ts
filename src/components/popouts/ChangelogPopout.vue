@@ -25,18 +25,11 @@ import { Changelog, getChangelog } from "@/services/updateService";
 })
 export default class ProfilePopout extends Vue {
   @Prop() private identity!: string;
-  @Prop() private data!: {
-    logs: Changelog[];
-  };
   logs: Changelog[] | null = null;
   mounted() {
-    if (!this.data.logs) {
-      getChangelog().then(logs => {
-        this.logs = logs;
-      });
-      return;
-    }
-    this.logs = this.data.logs;
+    getChangelog().then(logs => {
+      this.logs = logs;
+    });
   }
   close() {
     PopoutsModule.ClosePopout(this.identity);

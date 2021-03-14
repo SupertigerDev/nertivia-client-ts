@@ -5,6 +5,7 @@
       <div class="slideshow">
         <img class="logo" src="@/assets/logo.svg" alt />
         <div class="title">Welcome to Nertivia BETA</div>
+        <div class="version">{{ $version }}</div>
       </div>
       <div class="main-content">
         <div class="buttons">
@@ -72,6 +73,11 @@ export default class Home extends Vue {}
   }
   .title {
     text-align: center;
+  }
+  .version {
+    opacity: 0.6;
+    font-size: 14px;
+    margin-top: 5px;
   }
 }
 .main-content {
