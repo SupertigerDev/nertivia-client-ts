@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.8.3-beta",
+		"date": "14 March 2021",
+		"title": "Fixed Bug",
+		"fixes": "Clicking on a user in manage users would take you to an incorrect user."
+	},
+	{
 		"version": "1.8.2-beta",
 		"date": "14 March 2021",
 		"title": "Common Servers & Friends",

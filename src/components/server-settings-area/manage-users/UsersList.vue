@@ -12,21 +12,27 @@ const virtualList = require("vue-virtual-scroll-list");
 @Component({ components: { UserTemplate, virtualList } })
 export default class RightDrawer extends Vue {
   @Prop() private search!: string;
+  onClick(event: any) {
+    const element = event.target.closest(".server-member");
+    if (!element) return;
+    const uniqueID = element.id.split("-")[1];
+    this.$emit("userClick", uniqueID);
+  }
 
   render() {
     const renderMembers = (members: any) => {
       return members.map((member: any) => {
         return (
           <user-template
-            onUserClick={() => this.$emit("userClick", member)}
             serverMember={member}
+            id={`user-${member.member.uniqueID}`}
             style={{ height: "40px" }}
           />
         );
       });
     };
     return (
-      <div class="right-drawer">
+      <div class="right-drawer" onClick={this.onClick}>
         <div class="members" key={this.server_id}>
           <virtual-list
             ref="virtualList"

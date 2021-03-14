@@ -4,7 +4,6 @@
     @mouseover="hover = true"
     @mouseleave="hover = false"
     @contextmenu.prevent="rightClickEvent"
-    @click="onClick"
   >
     <AvatarImage
       class="avatar"
@@ -49,9 +48,7 @@ export default class RightDrawer extends Vue {
       }
     });
   }
-  onClick() {
-    this.$emit("userClick");
-  }
+
   get member() {
     return this.serverMember.member;
   }

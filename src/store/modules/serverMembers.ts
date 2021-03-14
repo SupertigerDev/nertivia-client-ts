@@ -40,6 +40,17 @@ class ServerMembers extends VuexModule {
     };
   }
 
+  get serverMember() {
+    return (server_id: string, uniqueID: string) => {
+      if (!this.serverMembers[server_id]) return [];
+        const sm = this.serverMembers[server_id][uniqueID];
+        if (!sm) return undefined;
+        const user = UsersModule.users[uniqueID];
+        const roles = ServerRolesModule.bulkRolesById(server_id, sm.roleIdArr);
+        const presence = PresencesModule.getPresence(uniqueID);
+        return { member: user, ...sm, presence, roles };
+    };
+  }
   get filteredServerMembers() {
     return (server_id: string) => {
       if (!this.serverMembers[server_id]) return [];
