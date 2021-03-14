@@ -25,13 +25,17 @@ import { Vue, Component } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import UsersList from "./UsersList.vue";
 import UserDetails from "./UserDetails.vue";
+import { ServerMembersModule } from "@/store/modules/serverMembers";
 
 @Component({ components: { CustomInput, UsersList, UserDetails } })
 export default class ServerSettingsArea extends Vue {
   searchValue = "";
   selectedServerMember: any = null;
-  userClicked(member: any) {
-    this.selectedServerMember = member;
+  userClicked(uniqueID: string) {
+    this.selectedServerMember = ServerMembersModule.serverMember(
+      this.serverID,
+      uniqueID
+    );
   }
   get serverID() {
     return this.$route.params.server_id;
