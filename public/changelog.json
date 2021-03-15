@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.9.3-beta",
+		"date": "15 March 2021",
+		"title": "Come back! :(",
+		"new": "You can now unban members from a server through the server settings page."
+	},
+	{
 		"version": "1.8.3-beta",
 		"date": "14 March 2021",
 		"title": "Fixed Bug",

@@ -1,5 +1,7 @@
 <template>
-  <span @click="showProfile"><Mention :text="display"/></span>
+  <span @click="showProfile" @contextmenu.prevent="userContext"
+    ><Mention :text="display"
+  /></span>
 </template>
 
 <script lang="ts">
@@ -24,6 +26,19 @@ export default Vue.extend<unknown, unknown, unknown, MentionMemberProps>({
     }
   },
   methods: {
+    userContext(event: MouseEvent) {
+      PopoutsModule.ShowPopout({
+        id: "context",
+        component: "UserContextMenu",
+        key: this.user.uniqueID + event.clientX + event.clientY,
+        data: {
+          tempUser: this.user,
+          x: event.clientX,
+          y: event.clientY,
+          uniqueID: this.user.uniqueID
+        }
+      });
+    },
     showProfile(event: PointerEvent) {
       PopoutsModule.ShowPopout({
         id: "profile",
