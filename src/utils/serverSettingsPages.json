@@ -32,6 +32,13 @@
     "icon": "notifications",
     "component": "ManageNotification"
   },
+  "banned-users": {
+    "name": "Banned Users",
+    "id": "banned-users",
+    "icon": " block",
+    "admin": true,
+    "component": "BannedUsers"
+  },
   "manage-users": {
     "name": "Manage Users",
     "id": "manage-users",

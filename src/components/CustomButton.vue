@@ -2,7 +2,12 @@
   <button
     class="button"
     type="submit"
-    :class="{ filled, warn, valid, disabled }"
+    :class="{
+      filled,
+      warn: !disabled && warn,
+      valid: !disabled && valid,
+      disabled
+    }"
     @click="$emit('click')"
   >
     <span v-if="icon && iconPos !== 'right'" class="material-icons">{{
@@ -103,9 +108,13 @@ export default class CustomInput extends Vue {
       }
     }
     &.disabled {
-      color: white;
       background: gray;
-      border: solid 1px gray;
+      &:hover,
+      &:focus {
+        color: white;
+        background: gray;
+        border: solid 1px gray;
+      }
     }
   }
 

@@ -11,9 +11,19 @@ export function kickMember(serverID: string, uniqueID: string): Promise<any> {
     .delete(`servers/${serverID}/members/${uniqueID}`)
     .json();
 }
+export function getBannedUsers(serverID: string): Promise<any> {
+  return wrapper()
+    .get(`servers/${serverID}/bans`)
+    .json();
+}
 export function banMember(serverID: string, uniqueID: string): Promise<any> {
   return wrapper()
     .put(`servers/${serverID}/bans/${uniqueID}`)
+    .json();
+}
+export function unbanMember(serverID: string, uniqueID: string): Promise<any> {
+  return wrapper()
+    .delete(`servers/${serverID}/bans/${uniqueID}`)
     .json();
 }
 export function muteServer(serverID: string, type: number): Promise<any> {
@@ -82,6 +92,7 @@ export function changeServerPosition(serverPosition: string[]): Promise<any> {
     })
     .json();
 }
+
 export function createCustomInvite(
   serverID: string,
   code: string
