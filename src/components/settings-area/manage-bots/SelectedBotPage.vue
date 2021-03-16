@@ -19,7 +19,13 @@
         @updated="$emit('updated', $event)"
         @deleted="$emit('deleted')"
       />
-      <div v-if="tab === 1">Work In Progress!</div>
+      <EditCommands
+        :bot="bot"
+        :botPrefix="botPrefix"
+        :botCommands="botCommands"
+        v-if="tab === 1"
+        @updated="botCommandsUpdate"
+      />
     </div>
     <CustomButton
       class="back-button"
@@ -34,19 +40,28 @@ import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import EditBot from "./EditBot.vue";
+import EditCommands from "./EditCommands.vue";
 import CheckBox from "@/components/CheckBox.vue";
 import User from "@/interfaces/User";
 import { getBot } from "@/services/botService";
 @Component({
-  components: { CustomInput, CustomButton, CheckBox, EditBot }
+  components: { CustomInput, CustomButton, CheckBox, EditBot, EditCommands }
 })
 export default class ManageChannels extends Vue {
   @Prop() private bot!: User;
   botToken: string | null = null;
+  botPrefix = "";
+  botCommands: any[] = [];
   mounted() {
     getBot(this.bot.uniqueID, true).then((json: any) => {
       this.botToken = json.token;
+      this.botPrefix = json.botPrefix || "";
+      this.botCommands = json.botCommands || [];
     });
+  }
+  botCommandsUpdate({ botCommands, botPrefix }) {
+    this.botCommands = botCommands;
+    this.botPrefix = botPrefix;
   }
   tab = 0;
 }
