@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.10.3-beta",
+		"date": "16 March 2021",
+		"title": "Edit Bot Commands",
+		"new": "You can now edit bot commands in the manage bots page in settings."
+	},
+	{
 		"version": "1.9.3-beta",
 		"date": "15 March 2021",
 		"title": "Come Back! :(",
