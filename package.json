@@ -16,6 +16,7 @@
     "jsonhtmlfyer": "^0.2.1",
     "ky": "^0.27.0",
     "match-sorter": "^6.3.0",
+    "nevula": "^0.3.1",
     "pako": "^1.0.11",
     "register-service-worker": "^1.7.1",
     "seeded-color": "^1.0.1",
