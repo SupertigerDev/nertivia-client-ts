@@ -52,6 +52,7 @@ import EmbedMessage from "./EmbedMessage.vue";
 import { time } from "@/utils/date";
 import { PopoutsModule } from "@/store/modules/popouts";
 import HTMLEmbed from "./HTMLEmbed.vue";
+import config from "@/config";
 
 @Component({
   components: {
@@ -94,7 +95,7 @@ export default class MessageLogs extends Vue {
   }
 
   get invite() {
-    const regex = /nertivia\.net\/(invites|i)\/([\S]+)/;
+    const regex = new RegExp(`${config.mainAppURL}(invites|i)/([\\S]+)`);
     if (!this.message.message) return null;
     return this.message.message.match(regex);
   }

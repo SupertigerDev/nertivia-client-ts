@@ -84,6 +84,7 @@ export default class MainApp extends Vue {
 </script>
 
 <style lang="scss" scoped>
+
 .slide-fade-enter-active {
   transition: all 0.2s ease;
 }
@@ -101,9 +102,20 @@ export default class MainApp extends Vue {
   transform: scale(0.9);
   opacity: 0;
 }
+.bottom {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.channels {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
 .server-drawer {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .server-banner {
@@ -113,6 +125,7 @@ export default class MainApp extends Vue {
   margin-bottom: 0;
   border-radius: 4px;
   overflow: hidden;
+  flex-shrink: 0;
   img {
     object-fit: cover;
     width: 100%;
