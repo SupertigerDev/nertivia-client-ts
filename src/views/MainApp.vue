@@ -59,6 +59,7 @@ import { FriendsModule } from "@/store/modules/friends";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { PopoutsModule } from "@/store/modules/popouts";
+import electronBridge from "@/utils/electronBridge";
 
 @Component({
   components: {
@@ -76,6 +77,8 @@ export default class MainApp extends Vue {
   checkAfter = 600000; // 60 minutes
   lastUpdateChecked = Date.now();
   mounted() {
+    electronBridge?.send("notification_badge", 0);
+
     // set store and connect socket.
     this.$store.registerModule("socketIO", socketIOModule);
     this.$socket.client.connect();
@@ -192,7 +195,19 @@ export default class MainApp extends Vue {
   }
   @Watch("firstServerNotification")
   @Watch("firstDmNotification")
-  changeTitle() {
+  onNotification() {
+    if (this.$isElectron) this.setElectronBadge();
+    this.setBrowserWindowTitle();
+  }
+
+  setElectronBadge() {
+    if (this.firstServerNotification || this.firstDmNotification) {
+      electronBridge?.send("notification_badge", 1);
+      return;
+    }
+    electronBridge?.send("notification_badge", 0);
+  }
+  setBrowserWindowTitle() {
     // DM Notification
     if (this.firstDmNotification) {
       this.setNotificationICO(true);
@@ -211,7 +226,6 @@ export default class MainApp extends Vue {
     const server = ServersModule.servers[notification.server_id];
     document.title = `(!) ${server.name}#${notification.name} - Nertivia BETA`;
   }
-
   setNotificationICO(set: boolean) {
     const icoSelector = document.querySelector("link[rel='icon']");
     if (set) {

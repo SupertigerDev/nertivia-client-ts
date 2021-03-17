@@ -1,14 +1,12 @@
 <template>
   <div class="root">
-    <WindowControl v-if="isElectron" />
+    <WindowControl v-if="$isElectron" />
     <router-view />
     <Popouts />
   </div>
 </template>
 
 <script lang="ts">
-import electronBridge from "@/utils/electronBridge";
-
 const WindowControl = () =>
   import(
     /* webpackChunkName: "WindowControl" */ "@/components/electron/WindowControl.vue"
@@ -24,7 +22,6 @@ import {
 
 @Component({ components: { WindowControl, Popouts } })
 export default class App extends Vue {
-  isElectron = electronBridge?.isElectron || false;
   mounted() {
     // set custom css colors
     const customVars = getCustomCssVars();

@@ -8,6 +8,7 @@ import clipboard from "vue-clipboard2";
 import { applyDefaultTheme } from "./utils/customCssVars";
 import { messagingSupported, messaging } from "./utils/firebaseInstance";
 import { reportError } from "./services/userService";
+import electronBridge from "./utils/electronBridge";
 
 Vue.use(clipboard);
 
@@ -15,7 +16,7 @@ declare module "vue/types/vue" {
   interface Vue {
     $isMobile: boolean;
     $version: string;
-    $test: string;
+    $isElectron: string;
   }
 }
 
@@ -24,6 +25,7 @@ if (messagingSupported) {
     console.log("FCM Data: ", payload);
   });
 }
+Vue.prototype.$isElectron = electronBridge?.isElectron || false;
 Vue.prototype.$version = process.env.VUE_APP_VERSION;
 Vue.prototype.$isMobile = /iphone|ipod|android|ie|blackberry|fennec/.test(
   navigator.userAgent.toLowerCase()
