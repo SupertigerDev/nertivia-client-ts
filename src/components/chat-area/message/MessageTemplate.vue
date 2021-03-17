@@ -71,6 +71,7 @@ export default class MessageLogs extends Vue {
 
   contextPos: { x?: number; y?: number } = {};
   hover = false;
+  inviteLinkRegex = new RegExp(`${config.mainAppURL}(invites|i)/([\\S]+)`);
 
   showProfile() {
     PopoutsModule.ShowPopout({
@@ -95,9 +96,8 @@ export default class MessageLogs extends Vue {
   }
 
   get invite() {
-    const regex = new RegExp(`${config.mainAppURL}(invites|i)/([\\S]+)`);
     if (!this.message.message) return null;
-    return this.message.message.match(regex);
+    return this.message.message.match(this.inviteLinkRegex);
   }
 
   get creator() {
