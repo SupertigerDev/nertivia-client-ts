@@ -16,7 +16,8 @@
 
 .code {
   color: #f9e6ff;
-  background: rgba(0, 0, 0, 0.46);
+  background: #123c;
+  border-radius: 2px;
 }
 
 .codeblock {
@@ -25,8 +26,8 @@
 }
 
 .codeblock {
-  background-color: rgba(0, 0, 0, 0.46);
-  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.22);
+  border-radius: 2px;
   padding: 5px;
   word-wrap: break-word;
   word-break: break-word;
@@ -37,6 +38,6 @@
 blockquote {
   margin: 0;
   padding: 0.3rem 0.6rem;
-  border-left: 0.3rem #ccf2 solid;
-  background: #efeffc22;
+  border-left: 2px var(--primary-color) solid;
+  background: var(--quote-bg-color);
 }
