@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.11.3-beta",
+		"date": "17 March 2021",
+		"title": "Desktop App Badge",
+		"new": "Notifications will now show a red badge for the electron app."
+	},
+	{
 		"version": "1.10.3-beta",
 		"date": "16 March 2021",
 		"title": "Edit Bot Commands",
