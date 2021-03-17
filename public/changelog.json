@@ -1,5 +1,12 @@
 [
 	{
+		"version": "1.11.4-beta",
+		"date": "17 March 2021",
+		"title": "Fixes And Changes",
+		"changes": "Invite links should now use MainAppURL",
+		"fixes": "You can now scroll through the server channels list."
+	},
+	{
 		"version": "1.11.3-beta",
 		"date": "17 March 2021",
 		"title": "Desktop App Badge",
