@@ -1,6 +1,6 @@
 <template>
   <div class="popout-background" @click="backgroundClick">
-    <div class="delete-message-popout">
+    <div class="add-friend-popout">
       <div class="content animate-in">
         <div class="header">
           <div class="icon material-icons">person_add</div>
@@ -97,7 +97,7 @@ export default class ProfilePopout extends Vue {
 }
 </script>
 <style lang="scss" scoped>
-.delete-message-popout {
+.add-friend-popout {
   background: var(--popout-color);
   border-radius: 4px;
   overflow: hidden;

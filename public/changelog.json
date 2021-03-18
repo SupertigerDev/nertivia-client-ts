@@ -1,5 +1,12 @@
 [
 	{
+		"version": "1.12.4-beta",
+		"date": "18 March 2021",
+		"title": "Server Invite Page",
+		"new": "Added invites page.",
+		"fixes": "Fixed some bugs throughout the code."
+	},
+	{
 		"version": "1.11.4-beta",
 		"date": "17 March 2021",
 		"title": "Fixes And Changes",
