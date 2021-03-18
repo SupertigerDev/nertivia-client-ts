@@ -107,3 +107,13 @@ export function logout(): Promise<any> {
     .delete(`user/logout`)
     .json();
 }
+export function blockUser(uniqueID: string): Promise<any> {
+  return wrapper()
+    .post(`user/block`, {json: {uniqueID}})
+    .json();
+}
+export function UnblockUser(uniqueID: string): Promise<any> {
+  return wrapper()
+    .delete(`user/block`, {json: {uniqueID}})
+    .json();
+}

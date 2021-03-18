@@ -56,6 +56,8 @@ export const SERVER_MEMBER_REMOVE_ROLE = eventBuilder(
 export const SERVER_MUTE = eventBuilder("server:mute");
 // user events
 export const SELF_STATUS_CHANGE = eventBuilder("multi_device_status");
+export const USER_BLOCKED = eventBuilder("user:block");
+export const USER_UNBLOCKED = eventBuilder("user:unblock");
 export const SELF_CUSTOM_STATUS_CHANGE = eventBuilder(
   "multi_device_custom_status"
 );

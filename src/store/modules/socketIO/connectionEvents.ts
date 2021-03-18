@@ -41,6 +41,7 @@ interface SuccessEvent {
   mutedServers: { muted: number; server_id: string }[];
   customStatusArr: [string, string][];
   programActivityArr: ReturnedProgramActivity[];
+  bannedUserIDs: string[];
 }
 interface Settings {
   server_position: string[];
@@ -153,7 +154,7 @@ const actions: ActionTree<any, any> = {
       tag: data.user.tag,
       uniqueID: data.user.uniqueID,
       status: data.user.status,
-      googleDriveLinked: data.settings.GDriveLinked
+      googleDriveLinked: data.settings.GDriveLinked,
     });
 
     // set friends
@@ -274,6 +275,7 @@ const actions: ActionTree<any, any> = {
         name: programActivity.name
       };
     }
+    UsersModule.InitBlockedUsers(data.bannedUserIDs);
     ServersModule.SetServerPositions(data.settings.server_position || []);
     programActivitiesModule.InitProgramActivity(programActivityObj);
     CustomStatusesModule.InitCustomStatus(customStatusObj);

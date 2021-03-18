@@ -5,7 +5,14 @@
     @mouseover="hover = true"
     @mouseleave="hover = false"
   >
-    <div class="container">
+    <div
+      class="container blocked"
+      v-if="isBlocked"
+      @click="viewBlockedMessage = true"
+    >
+      Blocked message. Click to view.
+    </div>
+    <div class="container" v-else>
       <AvatarImage
         class="avatar"
         :imageId="creator.avatar"
@@ -34,7 +41,7 @@
       </div>
     </div>
 
-    <transition name="embed-animation">
+    <transition name="embed-animation" v-if="!isBlocked">
       <HTMLEmbed v-if="message.htmlEmbed" :compressedJSON="message.htmlEmbed" />
       <EmbedMessage v-else-if="embed && !invite" :embed="embed" />
     </transition>
@@ -53,6 +60,7 @@ import { time } from "@/utils/date";
 import { PopoutsModule } from "@/store/modules/popouts";
 import HTMLEmbed from "./HTMLEmbed.vue";
 import config from "@/config";
+import { UsersModule } from "@/store/modules/users";
 
 @Component({
   components: {
@@ -72,6 +80,7 @@ export default class MessageLogs extends Vue {
   contextPos: { x?: number; y?: number } = {};
   hover = false;
   inviteLinkRegex = new RegExp(`${config.mainAppURL}(invites|i)/([\\S]+)`);
+  viewBlockedMessage = false;
 
   showProfile() {
     PopoutsModule.ShowPopout({
@@ -110,6 +119,12 @@ export default class MessageLogs extends Vue {
     if (!this.message.embed) return undefined;
     if (!Object.keys(this.message.embed).length) return undefined;
     return this.message.embed;
+  }
+  get isBlocked() {
+    return (
+      !this.viewBlockedMessage &&
+      UsersModule.blockedUserIDArr.includes(this.message.creator.uniqueID)
+    );
   }
 }
 </script>
@@ -150,6 +165,19 @@ export default class MessageLogs extends Vue {
 .bubble-wrapper {
   overflow: hidden;
   display: flex;
+}
+.blocked {
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  opacity: 0.6;
+  transition: 0.2s;
+  cursor: pointer;
+  &:hover {
+    opacity: 1;
+  }
 }
 .inner-content {
   overflow: hidden;
