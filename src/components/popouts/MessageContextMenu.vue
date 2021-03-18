@@ -146,7 +146,7 @@ export default class extends Vue {
   }
   get canDeleteMessage() {
     if (!this.message.messageID) return false;
-    if (!this.message.localMessage) return false;
+    if (this.message.localMessage) return false;
     if (this.messageCreatedByMe) return true;
     if (!this.serverID) return false;
     if (this.isServerOwner) return true;
