@@ -4,13 +4,16 @@ import {
   SELF_CUSTOM_STATUS_CHANGE,
   SELF_STATUS_CHANGE,
   USER_STATUS_CHANGE,
-  GOOGLE_DRIVE_LINKED
+  GOOGLE_DRIVE_LINKED,
+  USER_BLOCKED,
+  USER_UNBLOCKED
 } from "@/socketEventConstants";
 import { ActionTree } from "vuex";
 import { MeModule } from "../me";
 import { CustomStatusesModule } from "../memberCustomStatus";
 import { programActivitiesModule } from "../memberProgramActivity";
 import { PresencesModule } from "../presences";
+import { UsersModule } from "../users";
 
 const actions: ActionTree<any, any> = {
   [USER_STATUS_CHANGE](context, data: { uniqueID: string; status: number }) {
@@ -59,6 +62,15 @@ const actions: ActionTree<any, any> = {
   },
   [GOOGLE_DRIVE_LINKED]() {
     MeModule.UpdateUser({ googleDriveLinked: true });
+  },
+  [GOOGLE_DRIVE_LINKED]() {
+    MeModule.UpdateUser({ googleDriveLinked: true });
+  },
+  [USER_BLOCKED](context, uniqueID) {
+    UsersModule.blockUser(uniqueID);
+  },
+  [USER_UNBLOCKED](context, uniqueID) {
+    UsersModule.unblockUser(uniqueID);
   }
 };
 

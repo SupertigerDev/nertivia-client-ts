@@ -73,9 +73,9 @@
               <div class="material-icons">person_add_disabled</div>
               Remove Friend
             </div>
-            <div class="button alert" v-if="!isMe">
+            <div class="button alert" v-if="!isMe" @click="blockUser">
               <div class="material-icons">block</div>
-              Block
+              {{ isBlocked ? "Unblock" : "Block" }}
             </div>
           </div>
         </div>
@@ -134,7 +134,12 @@ import CommonServers from "./CommonServers.vue";
 import CommonFriends from "./CommonFriends.vue";
 import { PresencesModule } from "@/store/modules/presences";
 import userStatuses from "@/constants/userStatuses";
-import { fetchUser, ReturnedUser } from "@/services/userService";
+import {
+  blockUser,
+  fetchUser,
+  ReturnedUser,
+  UnblockUser
+} from "@/services/userService";
 import { UsersModule } from "@/store/modules/users";
 import friendlyDate from "@/utils/date";
 import { PopoutsModule } from "@/store/modules/popouts";
@@ -179,6 +184,13 @@ export default class ProfilePopout extends Vue {
     reader.onload = () => {
       this.banner = reader.result;
     };
+  }
+  blockUser() {
+    if (this.isBlocked) {
+      UnblockUser(this.user.uniqueID);
+    } else {
+      blockUser(this.user.uniqueID);
+    }
   }
   sendMessageButton() {
     ChannelsModule.LoadDmChannel(this.user.uniqueID);
@@ -243,6 +255,9 @@ export default class ProfilePopout extends Vue {
   }
   get isMe() {
     return this.user.uniqueID === MeModule.user.uniqueID;
+  }
+  get isBlocked() {
+    return UsersModule.blockedUserIDArr.includes(this.user.uniqueID);
   }
   get commonServers() {
     const commonServers = this.returnedUser?.commonServersArr;

@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.13.4-beta",
+		"date": "18 March 2021",
+		"title": "Block Users",
+		"new": "You can now block users from the profile popout. Blocking the users will prevent them from interacting to you."
+	},
+	{
 		"version": "1.12.4-beta",
 		"date": "18 March 2021",
 		"title": "Server Invite Page",

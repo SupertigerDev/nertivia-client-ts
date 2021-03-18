@@ -19,19 +19,6 @@ export default Vue.extend({
       const afterTime = after.created;
       return afterTime - beforeTime > minute;
     };
-
-    // const isMoreThanMinute = (
-    //   beforeMessage: Message,
-    //   afterMessage: Message
-    // ) => {
-    //   const beforeDate = new Date(beforeMessage.created);
-    //   const afterDate = new Date(afterMessage.created);
-    //   const minutesMatch = () =>
-    //     beforeDate.getMinutes() === afterDate.getMinutes();
-    //   const hoursMatch = () => beforeDate.getHours() === afterDate.getHours();
-    //   return !(minutesMatch() && hoursMatch());
-    // };
-
     const creatorMatch = (before: Message, after: Message) =>
       before.creator.uniqueID === after.creator.uniqueID;
 
