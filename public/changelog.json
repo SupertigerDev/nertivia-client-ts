@@ -1,5 +1,12 @@
 [
 	{
+		"version": "1.14.4-beta",
+		"date": "18 March 2021",
+		"title": "Block Users",
+		"changes": "Clicking on a friend in friends list or clicking on a setting option should now close the drawer on mobile.",
+		"new": "Open server context menu from the drawer header."
+	},
+	{
 		"version": "1.13.4-beta",
 		"date": "18 March 2021",
 		"title": "Block Users",

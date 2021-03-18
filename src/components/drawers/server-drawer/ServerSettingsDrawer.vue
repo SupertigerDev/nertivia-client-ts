@@ -22,9 +22,11 @@ import { ServersModule } from "@/store/modules/servers";
 import { Component, Vue } from "vue-property-decorator";
 
 import settingsPages from "@/utils/serverSettingsPages.json";
+import { DrawersModule } from "@/store/modules/drawers";
 @Component
 export default class MainApp extends Vue {
   changeTab(path: string) {
+    DrawersModule.SetLeftDrawer(false);
     this.$router.push({ params: { tab: path } });
   }
   get currentSettingTab() {

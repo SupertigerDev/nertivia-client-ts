@@ -2,8 +2,15 @@
   <div class="drawer">
     <SideBar />
     <div class="container">
-      <div class="header">
-        {{ headerName }}
+      <div class="header" :class="{ hasIcon: selectedServer }">
+        <div class="title">{{ headerName }}</div>
+        <div
+          class="material-icons icon"
+          @click="showServerContext"
+          v-if="selectedServer"
+        >
+          more_horiz
+        </div>
       </div>
       <DirectMessageDrawer v-if="currentTab === 'dms'" />
       <ServerDrawer
@@ -41,6 +48,7 @@ const DirectMessageDrawer = () =>
 import SideBar from "@/components/sidebar/SideBar.vue";
 
 import { ServersModule } from "@/store/modules/servers";
+import { PopoutsModule } from "@/store/modules/popouts";
 
 @Component({
   components: {
@@ -52,6 +60,18 @@ import { ServersModule } from "@/store/modules/servers";
   }
 })
 export default class MainApp extends Vue {
+  showServerContext(event: any) {
+    PopoutsModule.ShowPopout({
+      id: "context",
+      component: "ServerContextMenu",
+      key: this.selectedServerID + event.clientX + event.clientY,
+      data: {
+        x: event.clientX,
+        y: event.clientY,
+        server_id: this.selectedServerID
+      }
+    });
+  }
   get headerName() {
     if (this.selectedServer) {
       return this.selectedServer.name;
@@ -89,10 +109,32 @@ export default class MainApp extends Vue {
 .header {
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-shrink: 0;
   height: 40px;
   background-color: var(--side-header-bg-color);
+
+  .title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    width: 100%;
+  }
+  &.hasIcon .title {
+    width: 100%;
+    text-align: start;
+    margin: 10px;
+  }
+  .icon {
+    flex-shrink: 0;
+    margin-right: 10px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: 0.2s;
+    &:hover {
+      opacity: 1;
+    }
+  }
 }
 @media (max-width: 650px) {
   .drawer {

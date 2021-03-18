@@ -43,6 +43,7 @@ import Channel from "@/interfaces/Channel";
 import User from "@/interfaces/User";
 import { hideDMChannel } from "@/services/channelService";
 import { ChannelsModule } from "@/store/modules/channels";
+import { DrawersModule } from "@/store/modules/drawers";
 import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
 import { MessagesModule } from "@/store/modules/messages";
 import { NotificationsModule } from "@/store/modules/notifications";
@@ -55,6 +56,7 @@ export default class FriendTemplate extends Vue {
   @Prop() private dmChannel?: Channel & { recipients: User[] };
   hover = false;
   clickedEvent(event: any) {
+    DrawersModule.SetLeftDrawer(false);
     if (
       !event.target.closest(".avatar") &&
       !event.target.closest(".close-button")
