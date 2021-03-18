@@ -14,6 +14,7 @@ import Link from "./markup/Link.vue";
 
 import { parseMarkup, Entity, Span, addTextSpans, UnreachableCaseError } from 'nevula'
 import './Markup.scss'
+import emojiParser from '@/utils/emojiParser';
 
 interface MarkupProps {
   text: string;
@@ -23,12 +24,21 @@ interface MarkupProps {
 
 type RenderContext = Vue.RenderContext<MarkupProps>
 
+// todo: add a better system for this
 const replaceOldMentions = (text: string) =>
   text.replaceAll(/<(@|#)(\d+)>/g, '[$1:$2]')
     .replaceAll(/<m(\d+)>/g, '[Q:$1]')
-    .replaceAll(/<(g?):([\w\d_-]+?):([\w\d_-]+?)>/g, '[🔣:$2$1]')
+    // temporary names
+    .replaceAll(/<g:([\w\d_-]+?):([\w\d_-]+?)>/g, '[animated_custom_emoji:$2:$1]')
+    .replaceAll(/<:([\w\d_-]+?):([\w\d_-]+?)>/g, '[custom_emoji:$2:$1]')
+    .replaceAll(/:(\w+?):/g, (text, name) => emojiParser.findEmoji(name)?.unicode ?? text)
+
 
 const transformEntities = (h: CreateElement, entity: Entity, ctx: RenderContext) => entity.entities.map(e => transformEntity(h, e, ctx))
+
+const sliceText = (ctx: RenderContext, span: Span) => {
+  return ctx.props.text.slice(span.start, span.end)
+}
 
 function transformEntity(h: CreateElement, entity: Entity, ctx: RenderContext) {
   switch (entity.type) {
@@ -36,7 +46,7 @@ function transformEntity(h: CreateElement, entity: Entity, ctx: RenderContext) {
       if (entity.entities.length > 0) {
         return <span>{transformEntities(h, entity, ctx)}</span>
       } else {
-        return <span>{ctx.props.text.slice(entity.innerSpan.start, entity.innerSpan.end)}</span>
+        return <span>{sliceText(ctx, entity.innerSpan)}</span>
       }
     }
     case "bold":
@@ -69,7 +79,7 @@ type CustomEntity = Entity & { type: "custom" }
 
 function transformCustomEntity(h: CreateElement, entity: CustomEntity, ctx: RenderContext) {
   const type = entity.params.type
-  const expr = ctx.props.text.slice(entity.innerSpan.start, entity.innerSpan.end)
+  const expr = sliceText(ctx, entity.innerSpan)
   switch (type) {
     case '@': {
       const user = UsersModule.users[expr];
@@ -107,7 +117,7 @@ function transformCustomEntity(h: CreateElement, entity: CustomEntity, ctx: Rend
       console.warn('Unknown custom entity:', type)
     }
   }
-  return <span>{ctx.props.text.slice(entity.outerSpan.start, entity.outerSpan.end)}</span>
+  return <span>{sliceText(ctx, entity.outerSpan)}</span>
 }
 
 export default Vue.extend<MarkupProps>({
