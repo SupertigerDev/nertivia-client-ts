@@ -65,7 +65,7 @@ export function getServerInfoByCode(code: string) {
     .get(`servers/invite/${code}`)
     .json();
 }
-export function joinServerByCode(code: string, socketID: string) {
+export function joinServerByCode(code: string, socketID?: string) {
   return wrapper()
     .post(`servers/invite/${code}`, { json: { socketID } })
     .json();

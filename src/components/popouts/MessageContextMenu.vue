@@ -50,6 +50,7 @@ export default class extends Vue {
         break;
       }
       case "Delete":
+        if (!this.message.messageID) return;
         PopoutsModule.ShowPopout({
           component: "delete-message-popout",
           data: {
@@ -144,6 +145,8 @@ export default class extends Vue {
     return MeModule.user.uniqueID === server.creator.uniqueID;
   }
   get canDeleteMessage() {
+    if (!this.message.messageID) return false;
+    if (!this.message.localMessage) return false;
     if (this.messageCreatedByMe) return true;
     if (!this.serverID) return false;
     if (this.isServerOwner) return true;
