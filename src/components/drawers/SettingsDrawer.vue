@@ -24,6 +24,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import settingPages from "@/utils/settingPages.json";
 import { PopoutsModule } from "@/store/modules/popouts";
+import { DrawersModule } from "@/store/modules/drawers";
 
 @Component
 export default class MainApp extends Vue {
@@ -32,6 +33,8 @@ export default class MainApp extends Vue {
     return this.$route.params.tab;
   }
   changeTab(path: string) {
+    DrawersModule.SetLeftDrawer(false);
+
     this.$router.push({ params: { tab: path } });
   }
   showChangelog() {
