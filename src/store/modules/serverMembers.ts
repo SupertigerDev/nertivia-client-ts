@@ -82,6 +82,13 @@ class ServerMembers extends VuexModule {
       }
     };
   }
+  get highestRoleOrder() {
+    return (server_id: string, uniqueID: string) => {
+      const roles = this.memberRoles(server_id, uniqueID);
+      if (!roles) return undefined;
+      return Math.min(...roles.map(r => r.order))
+    }
+  }
 
   get firstMemberRole() {
     return (server_id: string, uniqueID: string) => {
@@ -147,15 +154,14 @@ class ServerMembers extends VuexModule {
     uniqueID: string;
     roleID: string;
   }) {
-    const mem = this.serverMembers[payload.serverID][payload.uniqueID];
-    if (!mem) return;
-    const member = _.clone(mem);
-    member.roleIdArr = member.roleIdArr.filter(r => r !== payload.roleID);
+    const member = this.serverMembers[payload.serverID][payload.uniqueID];
+    if (!member) return;
+     const newRoleIdArr = member.roleIdArr.filter(r => r !== payload.roleID);
 
     this.UPDATE_MEMBER_ROLES({
       uniqueID: payload.uniqueID,
       server_id: payload.serverID,
-      member
+      member: {...member, roleIdArr: newRoleIdArr}
     });
   }
 

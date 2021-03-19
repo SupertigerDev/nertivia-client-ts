@@ -1,5 +1,5 @@
 <template>
-  <div class="role">
+  <div class="role" :class="{ disabled: !role.canModify && !role.default }">
     <div class="color" :style="{ backgroundColor: role.color }" />
     <div class="name">{{ role.name }}</div>
     <div class="material-icons arrow">keyboard_arrow_right</div>
@@ -12,7 +12,7 @@ import ServerRole from "@/interfaces/ServerRole";
 
 @Component({ components: { AvatarImage } })
 export default class RoleTemplate extends Vue {
-  @Prop() private role!: ServerRole;
+  @Prop() private role!: ServerRole & { canModify: boolean };
 }
 </script>
 
@@ -32,6 +32,17 @@ export default class RoleTemplate extends Vue {
     color: white;
     .arrow {
       color: white;
+    }
+  }
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    &:hover {
+      background: initial;
+      color: rgba(255, 255, 255, 0.7);
+      .arrow {
+        color: rgba(255, 255, 255, 0.199);
+      }
     }
   }
 }
