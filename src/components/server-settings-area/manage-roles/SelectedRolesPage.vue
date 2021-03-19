@@ -32,9 +32,10 @@
         :colored="true"
         :checked="perm.enabled"
         class="check-box"
+        :class="{ disabled: !perm.canModify }"
         :name="perm.name"
         :description="perm.info"
-        @change="checkBoxChange($event, perm.value)"
+        @change="checkBoxChange($event, perm)"
       />
     </div>
     <CustomButton
@@ -85,6 +86,7 @@ import {
   removePerm
 } from "@/constants/rolePermissions";
 import { deleteServerRole, updateServerRole } from "@/services/rolesService";
+import { ServerMembersModule } from "@/store/modules/serverMembers";
 @Component({
   components: { CustomInput, CustomButton, CheckBox }
 })
@@ -140,11 +142,12 @@ export default class ManageRolesPage extends Vue {
       .toString();
     this.color = hex;
   }
-  checkBoxChange(checked: boolean, perm: number) {
+  checkBoxChange(checked: boolean, perm: any) {
+    if (!perm.canModify) return;
     if (checked) {
-      this.permissions = addPerm(this.permissions, perm);
+      this.permissions = addPerm(this.permissions, perm.value);
     } else {
-      this.permissions = removePerm(this.permissions, perm);
+      this.permissions = removePerm(this.permissions, perm.value);
     }
   }
   update() {
@@ -211,9 +214,17 @@ export default class ManageRolesPage extends Vue {
   }
   get permissionsList() {
     return Object.values(permissions).map(p => {
+      const canModify = !!ServerMembersModule.memberHasPermission(
+        MeModule.user.uniqueID || "",
+        this.serverID,
+        p.value,
+        true
+      );
+
       return {
         ...p,
-        enabled: !!containsPerm(this.permissions || 0, p.value)
+        enabled: !!containsPerm(this.permissions || 0, p.value),
+        canModify
       };
     });
   }
@@ -247,6 +258,12 @@ export default class ManageRolesPage extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.check-box {
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+}
 .container.selected-role-page {
   display: flex;
   flex-direction: column;

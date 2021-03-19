@@ -15,8 +15,8 @@
         <div class="inner-content">
           <div
             class="role"
-            :class="{ selected: role.hasRole }"
             v-for="role in serverRoles"
+            :class="{ selected: role.hasRole, disabled: !role.canModify }"
             :key="role.id"
             @click="roleClicked(role)"
           >
@@ -24,12 +24,10 @@
               class="role-color"
               :style="{
                 borderColor: role.color,
-                background: role.hasRole && (role.color || 'white')
+                background: role.hasRole ? role.color || 'white' : ''
               }"
             />
-            <div class="role-name">
-              {{ role.name }}
-            </div>
+            <div class="role-name">{{ role.name }}</div>
           </div>
         </div>
       </div>
@@ -44,6 +42,8 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { addRole, removeRole } from "@/services/userService";
+import { ServersModule } from "@/store/modules/servers";
+import { MeModule } from "@/store/modules/me";
 @Component({
   components: { AvatarImage }
 })
@@ -54,7 +54,8 @@ export default class ProfilePopout extends Vue {
       PopoutsModule.ClosePopout("edit-role");
     }
   }
-  roleClicked(role: { hasRole: string; id: string }) {
+  roleClicked(role: { hasRole: string; id: string; canModify: boolean }) {
+    if (!role.canModify) return;
     const func = role.hasRole ? removeRole : addRole;
     func(this.data.serverID, this.data.uniqueID, role.id);
   }
@@ -64,11 +65,33 @@ export default class ProfilePopout extends Vue {
     return ServerRolesModule.sortedServerRolesArr(this.data.serverID)
       .filter(r => !r.default && r.deletable)
       .map(role => {
-        if (ServerMembersModule.memberHasRole(serverID, uniqueID, role.id)) {
-          return { ...role, hasRole: true };
-        }
-        return role;
+        const hasRole = ServerMembersModule.memberHasRole(
+          serverID,
+          uniqueID,
+          role.id
+        );
+        const canModify =
+          this.isServerCreator || this.myHighestRoleOrder < role.order;
+        return {
+          ...role,
+          canModify,
+          hasRole
+        };
       });
+  }
+  get myHighestRoleOrder() {
+    return (
+      ServerMembersModule.highestRoleOrder(
+        this.data.serverID,
+        MeModule?.user?.uniqueID || ""
+      ) || 0
+    );
+  }
+  get isServerCreator() {
+    return ServersModule.isServerOwner(
+      this.data.serverID,
+      MeModule?.user?.uniqueID || ""
+    );
   }
   get user() {
     return UsersModule.users[this.data.uniqueID] || {};
@@ -153,6 +176,16 @@ export default class ProfilePopout extends Vue {
   &.selected {
     .role-name {
       opacity: 1;
+    }
+  }
+  &.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    &:hover {
+      background: initial;
+    }
+    .role-name {
+      opacity: 0.6;
     }
   }
 }

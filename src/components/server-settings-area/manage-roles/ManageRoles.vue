@@ -24,16 +24,17 @@
         <div class="role-list">
           <Draggable
             :animation="200"
+            filter=".disabled"
             ghost-class="ghost"
             :delay="$isMobile ? 400 : 0"
             v-model="roles"
             @end="onDragEnd"
           >
             <RoleTemplate
-              v-for="role in roles"
+              v-for="role in allowedToMoveRoles"
               :key="role.id"
               :role="role"
-              @click.native="selectedRoleID = role.id"
+              @click.native="roleClicked(role)"
             />
           </Draggable>
           <!-- Default role always stays at the bottom. -->
@@ -58,6 +59,8 @@ import SelectedRolesPage from "./SelectedRolesPage.vue";
 import { createServerRole, updateRolePosition } from "@/services/rolesService";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
 import ServerRole from "@/interfaces/ServerRole";
+import { ServerMembersModule } from "@/store/modules/serverMembers";
+import { MeModule } from "@/store/modules/me";
 @Component({
   components: {
     CustomInput,
@@ -78,6 +81,10 @@ export default class ManageRoles extends Vue {
     const sendObj = { roleID: role.id, order: newIndex };
     updateRolePosition(this.serverID, sendObj);
   }
+  roleClicked(role: any) {
+    if (!role.canModify) return;
+    this.selectedRoleID = role.id;
+  }
 
   createRole() {
     if (this.createRequestSent) return;
@@ -95,11 +102,34 @@ export default class ManageRoles extends Vue {
   get server() {
     return ServersModule.servers[this.serverID];
   }
+  get myHighestRoleOrder() {
+    return (
+      ServerMembersModule.highestRoleOrder(
+        this.serverID,
+        MeModule?.user?.uniqueID || ""
+      ) || 0
+    );
+  }
+  get allowedToMoveRoles() {
+    return this.roles.map(r => {
+      return {
+        ...r,
+        canModify: this.isServerCreator || this.myHighestRoleOrder < r.order
+      };
+    });
+  }
+  get isServerCreator() {
+    return ServersModule.isServerOwner(
+      this.serverID,
+      MeModule?.user?.uniqueID || ""
+    );
+  }
   get roles() {
     return ServerRolesModule.sortedServerRolesArr(this.serverID).filter(
       r => !r.default
     );
   }
+
   set roles(roles: ServerRole[]) {
     const orderedRoles = roles.map((r, index) => {
       return { ...r, order: index };
