@@ -5,6 +5,13 @@
       <div class="header" :class="{ hasIcon: selectedServer }">
         <div class="title">{{ headerName }}</div>
         <div
+          class="material-icons verified"
+          title="Verified"
+          v-if="selectedServer && selectedServer.verified"
+        >
+          done
+        </div>
+        <div
           class="material-icons icon"
           @click="showServerContext"
           v-if="selectedServer"
@@ -120,13 +127,24 @@ export default class MainApp extends Vue {
     text-align: center;
     width: 100%;
   }
+  .verified {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 3px;
+    font-size: 14px;
+    border-radius: 50%;
+    cursor: default;
+    user-select: none;
+    flex-shrink: 0;
+  }
   &.hasIcon .title {
-    width: 100%;
+    width: initial;
     text-align: start;
     margin: 10px;
+    margin-right: 5px;
   }
   .icon {
     flex-shrink: 0;
+    margin-left: auto;
     margin-right: 10px;
     cursor: pointer;
     opacity: 0.8;
