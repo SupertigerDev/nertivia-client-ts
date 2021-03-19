@@ -23,7 +23,16 @@
             size="50px"
             :animateGif="hovering"
           />
-          <div class="name">{{ data.server.name }}</div>
+          <div class="name">
+            {{ data.server.name }}
+            <div
+              class="material-icons verified"
+              title="Verified"
+              v-if="data.server.verified"
+            >
+              done
+            </div>
+          </div>
           <div class="mid-info">
             <div class="member-count" title="Total Members">
               <div class="material-icons">account_box</div>
@@ -242,5 +251,14 @@ export default class ExploreServerTemplate extends Vue {
 .avatar {
   position: absolute;
   top: -30px;
+}
+.verified {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 3px;
+  font-size: 14px;
+  border-radius: 50%;
+  cursor: default;
+  user-select: none;
+  flex-shrink: 0;
 }
 </style>
