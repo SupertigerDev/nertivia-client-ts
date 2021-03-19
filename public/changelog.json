@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.15.5-beta",
+		"date": "19 March 2021",
+		"title": "Role Priority",
+		"changes": "Roles now have a priority. low priority roles cannot modify the higher priority roles."
+	},
+	{
 		"version": "1.15.4-beta",
 		"date": "19 March 2021",
 		"title": "Verified Servers",
