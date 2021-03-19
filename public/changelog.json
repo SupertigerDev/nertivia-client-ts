@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.15.4-beta",
+		"date": "19 March 2021",
+		"title": "Verified Servers",
+		"new": "Servers that are verified now have a checkmark."
+	},
+	{
 		"version": "1.14.4-beta",
 		"date": "18 March 2021",
 		"title": "Block Users",
