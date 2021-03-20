@@ -3,7 +3,7 @@
 		"version": "1.15.7-beta",
 		"date": "20 March 2021",
 		"title": "Faster Drawers",
-		"changes": "Changed the code for drawers. They should open way quicker on a mobile device."
+		"changes": ["Changed the code for drawers. They should open way quicker on a mobile device.", "Do not automatically show keyboard on mobile."]
 	},
 	{
 		"version": "1.15.6-beta",

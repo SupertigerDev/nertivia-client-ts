@@ -320,6 +320,7 @@ export default class MessageBoxArea extends Vue {
   @Watch("channelID")
   onChannelIDChange() {
     setTimeout(() => {
+      if (this.$isMobile) return;
       (this.$refs["textarea"] as HTMLElement)?.focus();
     }, 10);
     this.stopPostingTypingStatus();
