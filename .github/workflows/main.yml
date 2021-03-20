@@ -22,30 +22,21 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
-        
-      - name: Build And Publish
-        uses: cross-the-world/ssh-scp-ssh-pipelines@v1.1.2
-        env:
-          WELCOME: "Pulling, installing, building"
-          LASTSSH: "Copying"
-        with:
-          host: ${{ secrets.HOST }}
-          user: ${{ secrets.USER }}
-          pass: ${{ secrets.PASS }}
-          port: ${{ secrets.PORT }}
-          connect_timeout: 10s
-          first_ssh: |-
-            echo $WELCOME
-            cd /home/github/nertivia-client-ts
-            git pull
-            npm install
-            npm run build
-            ls -la dist
-          last_ssh: |-
-            echo $LASTSSH &&
-            cd /home/github/nertivia-client-ts
-            rsync -a dist/ /root/nertivia/public/chatBeta
+    - name: Deploy Client
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        password: ${{ secrets.PASS }}
+        port: ${{ secrets.PORT }}
+        script: |
+          cd /home/github/nertivia-client-ts
+          git pull
+          npm install
+          npm run build
+          ls -la dist
+          cd /home/github/nertivia-client-ts
+          rsync -a dist/ /root/nertivia/public/chatBeta
+    
 
             
