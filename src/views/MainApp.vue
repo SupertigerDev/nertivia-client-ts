@@ -267,7 +267,7 @@ export default class MainApp extends Vue {
     return WindowProperties.resizeWidth;
   }
   get isMobileWidth() {
-    return this.windowWidth <= 650;
+    return this.windowWidth <= 950;
   }
 
   get firstServerNotification() {
@@ -305,7 +305,7 @@ export default class MainApp extends Vue {
   width: 100%;
 }
 
-@media (max-width: 650px) {
+@media (max-width: 950px) {
   .app {
     flex-direction: column;
   }

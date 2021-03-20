@@ -2,7 +2,8 @@
 import { DrawersModule } from "@/store/modules/drawers";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
-import { Component, Vue } from "vue-property-decorator";
+import WindowProperties from "@/utils/windowProperties";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import ServerMemberTemplate from "./ServerMemberTemplate.vue";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -10,6 +11,7 @@ const virtualList = require("vue-virtual-scroll-list");
 
 @Component({ components: { ServerMemberTemplate, virtualList } })
 export default class RightDrawer extends Vue {
+  server_id = "";
   render() {
     const renderMembers = (members: any) => {
       return members.map((member: any) => {
@@ -26,7 +28,12 @@ export default class RightDrawer extends Vue {
       <div class="right-drawer">
         <div class="header">Members ({this.serverMembers.length})</div>
         <div class="members" key={this.server_id}>
-          <virtual-list size={260} remain={40} variable={true}>
+          <virtual-list
+            size={260}
+            remain={this.remain}
+            variable={true}
+            key={this.remain}
+          >
             {this.roleWithMembers.map(role => {
               return [
                 <div class="tab" style={{ height: "25px" }}>
@@ -52,6 +59,17 @@ export default class RightDrawer extends Vue {
         </div>
       </div>
     );
+  }
+  mounted() {
+    setTimeout(() => {
+      this.server_id = this.$route.params.server_id;
+    }, 0);
+  }
+  @Watch("serverId")
+  onServerChange() {
+    setTimeout(() => {
+      this.server_id = this.$route.params.server_id;
+    }, 0);
   }
   get serverMembers() {
     // sort by alphabet
@@ -103,11 +121,15 @@ export default class RightDrawer extends Vue {
   get offlineMembers() {
     return this.serverMembers.filter(sm => !sm.presence);
   }
-  get server_id() {
+  get serverId() {
     return this.$route.params.server_id;
   }
   beforeDestroy() {
     DrawersModule.SetRightDrawer(false);
+  }
+
+  get remain() {
+    return Math.round(WindowProperties.resizeHeight / 40);
   }
 }
 </script>
@@ -116,6 +138,9 @@ export default class RightDrawer extends Vue {
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 300px;
+
+  flex-shrink: 0;
   overflow: auto;
 }
 .members {

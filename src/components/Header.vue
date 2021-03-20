@@ -58,7 +58,7 @@ export default class MainApp extends Vue {
     opacity: 1;
   }
 }
-@media (max-width: 650px) {
+@media (max-width: 950px) {
   .left-drawer {
     margin-left: 5px;
     display: block;

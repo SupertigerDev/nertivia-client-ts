@@ -104,6 +104,8 @@ export default class MainApp extends Vue {
 .drawer {
   display: flex;
   height: 100%;
+  width: 320px;
+  flex-shrink: 0;
 }
 .container {
   display: flex;
@@ -154,7 +156,7 @@ export default class MainApp extends Vue {
     }
   }
 }
-@media (max-width: 650px) {
+@media (max-width: 950px) {
   .drawer {
     background: var(--background-color);
   }

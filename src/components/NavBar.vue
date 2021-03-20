@@ -265,7 +265,7 @@ export default class MainApp extends Vue {
   bottom: 53px;
   z-index: 11111112111;
 }
-@media (max-width: 650px) {
+@media (max-width: 950px) {
   .nav-bar {
     height: 50px;
     width: 100%;
