@@ -3,7 +3,7 @@
 		"version": "1.15.6-beta",
 		"date": "20 March 2021",
 		"title": "Fixed Overflow",
-		"fixes": "Fixed overflow for the custom status. "
+		"fixes": "Fixed overflow for the custom status."
 	},
 	{
 		"version": "1.15.5-beta",
