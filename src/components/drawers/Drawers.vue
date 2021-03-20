@@ -1,28 +1,20 @@
 <template>
-  <div class="drawer-layout">
-    <div
-      class="drawer-backdrop"
-      v-if="openLeftDrawer || openRightDrawer"
-      @click="closeAllDrawers"
-    ></div>
+  <div class="drawer-layout" :class="{ isMobile }">
+    <!-- Backdrop -->
+    <div class="drawer-backdrop" v-if="showBackDrop" @click="closeAll"></div>
+    <!-- Left -->
     <transition name="slide">
-      <div
-        class="drawer-wrapper left"
-        :class="{ mobile: openLeftDrawer }"
-        v-if="!closeLeftDrawer"
-      >
+      <div class="drawer-container left" :class="{ open: leftOpened }">
         <slot class="drawer" name="drawer-left"></slot>
       </div>
     </transition>
+    <!-- Content -->
     <div class="content-wrapper">
       <slot name="content"></slot>
     </div>
+    <!-- Right -->
     <transition name="slide-right">
-      <div
-        class="drawer-wrapper right"
-        v-if="!closeRightDrawer && $slots['drawer-right']"
-        :class="{ mobile: openRightDrawer }"
-      >
+      <div class="drawer-container right" :class="{ open: rightOpened }">
         <slot name="drawer-right"></slot>
       </div>
     </transition>
@@ -37,69 +29,77 @@ import { PopoutsModule } from "@/store/modules/popouts";
 
 @Component
 export default class MainApp extends Vue {
-  closeAllDrawers() {
-    if (Object.keys(PopoutsModule.popouts).length) return;
+  closeAll() {
+    this.closeLeft();
+    this.closeRight();
+  }
+
+  closeLeft() {
     DrawersModule.SetLeftDrawer(false);
+  }
+  closeRight() {
     DrawersModule.SetRightDrawer(false);
   }
 
-  @Watch("windowWidth")
-  CloseDrawerWhenDesktop() {
-    if (this.openRightDrawer && this.windowWidth >= 950) {
-      DrawersModule.SetRightDrawer(false);
-    }
-    if (this.openLeftDrawer && this.windowWidth >= 650) {
-      DrawersModule.SetLeftDrawer(false);
-    }
+  get showBackDrop() {
+    if (!this.isMobile) return false;
+    return this.leftOpened || this.rightOpened;
   }
 
-  get openLeftDrawer() {
+  get leftOpened() {
+    if (!this.isMobile) return true;
     return DrawersModule.leftDrawer;
   }
-  get openRightDrawer() {
+  get rightOpened() {
+    if (!this.isMobile) return true;
     return DrawersModule.rightDrawer;
   }
+  get isMobile() {
+    return windowProperties.resizeWidth <= 950;
+  }
 
-  get windowWidth() {
-    return windowProperties.resizeWidth;
-  }
-  get closeRightDrawer() {
-    return this.windowWidth <= 950 && !this.openRightDrawer;
-  }
-  get closeLeftDrawer() {
-    return this.windowWidth <= 650 && !this.openLeftDrawer;
-  }
+  // closeAllDrawers() {
+  //   if (Object.keys(PopoutsModule.popouts).length) return;
+  //   DrawersModule.SetLeftDrawer(false);
+  //   DrawersModule.SetRightDrawer(false);
+  // }
+
+  // @Watch("windowWidth")
+  // CloseDrawerWhenDesktop() {
+  //   if (this.openRightDrawer && this.windowWidth >= 950) {
+  //     DrawersModule.SetRightDrawer(false);
+  //   }
+  //   if (this.openLeftDrawer && this.windowWidth >= 650) {
+  //     DrawersModule.SetLeftDrawer(false);
+  //   }
+  // }
+
+  // get openLeftDrawer() {
+  //   return DrawersModule.leftDrawer;
+  // }
+  // get openRightDrawer() {
+  //   return DrawersModule.rightDrawer;
+  // }
+
+  // get windowWidth() {
+  //   return windowProperties.resizeWidth;
+  // }
+  // get closeRightDrawer() {
+  //   return this.windowWidth <= 950 && !this.openRightDrawer;
+  // }
+  // get closeLeftDrawer() {
+  //   return this.windowWidth <= 650 && !this.openLeftDrawer;
+  // }
 }
 </script>
 
 <style lang="scss" scoped>
-// Drawer Left
-.slide-enter-active,
-.slide-leave-active {
-  transition: transform 0.2s ease;
+.content-wrapper {
+  display: flex;
+  overflow: hidden;
+  flex: 1;
+  z-index: 11;
 }
-
-.slide-enter,
-.slide-leave-to {
-  transform: translateX(-100%);
-  transition: all 150ms ease-in 0s;
-}
-.slide-move {
-  transition: transform 1s;
-}
-
-// Drawer Right
-.slide-right-enter-active,
-.slide-right-leave-active {
-  transition: transform 0.2s ease;
-}
-
-.slide-right-enter,
-.slide-right-leave-to {
-  transform: translateX(100%);
-  transition: all 150ms ease-in 0s;
-}
-
 .drawer-backdrop {
   background-color: rgba(0, 0, 0, 0.5);
   width: 100vw;
@@ -117,35 +117,36 @@ export default class MainApp extends Vue {
   overflow: hidden;
   position: relative;
   min-height: 0;
-}
-.content-wrapper {
-  display: flex;
-  overflow: hidden;
-  flex: 1;
-  z-index: 11;
-}
-.drawer-wrapper {
-  background: var(--drawer-bg-color);
-  width: 300px;
-  z-index: 999;
-  &.left {
-    width: 320px;
-    background: transparent;
+  .drawer-container {
+    background: var(--drawer-bg-color);
+    z-index: 999;
+    &.left {
+      background: transparent;
+    }
   }
-
-  &.mobile {
-    position: absolute;
-    left: 0;
-    overflow: hidden;
-    top: 0;
-    bottom: 0;
-    height: 100%;
-    z-index: 99999;
-  }
-  &.right.mobile {
-    left: initial;
-    right: 0;
-    z-index: 99999;
+  &.isMobile {
+    .drawer-container {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      overflow: hidden;
+      height: 100%;
+      z-index: 99999;
+      z-index: 99999;
+      transition: transform 0.2s;
+      &.left {
+        left: -320px;
+        &.open {
+          transform: translateX(320px);
+        }
+      }
+      &.right {
+        right: -300px;
+        &.open {
+          transform: translateX(-300px);
+        }
+      }
+    }
   }
 }
 </style>
