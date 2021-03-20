@@ -355,6 +355,7 @@ export default class ProfilePopout extends Vue {
     display: flex;
     margin-top: 60px;
     position: relative;
+    overflow: hidden;
     flex: 1;
   }
   .right {
@@ -532,7 +533,7 @@ export default class ProfilePopout extends Vue {
 </style>
 
 <style>
-.profile-popout .status-name.game {
+.profile-popout .status-name {
   white-space: initial;
   overflow: hidden;
   text-overflow: ellipsis;
