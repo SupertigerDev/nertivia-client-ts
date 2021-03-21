@@ -35,6 +35,7 @@ export default class MainApp extends Vue {
   rightDrawerEl: HTMLElement | null = null;
   startX = 0;
   startY = 0;
+  scrolling = false;
   mounted() {
     window.addEventListener("touchstart", this.onTouchStart);
     window.addEventListener("touchmove", this.onTouchMove);
@@ -51,19 +52,21 @@ export default class MainApp extends Vue {
   }
 
   onTouchStart(event: TouchEvent) {
-    const minimumZone = 10;
     const x = event.touches[0].clientX;
     const y = event.touches[0].clientY;
     this.startX = x;
     this.startY = y;
-    if (x <= minimumZone || this.leftOpened) {
+    if (!this.rightOpened && !this.leftOpened) return;
+
+    if (this.leftOpened) {
       if (!this.rightOpened) this.leftDrawerTouch = true;
     }
-    if (window.innerWidth - x <= minimumZone || this.rightOpened) {
+    if (this.rightOpened) {
       if (!this.leftOpened) this.rightDrawerTouch = true;
     }
   }
   onTouchEnd(event?: TouchEvent) {
+    this.scrolling = false;
     if (this.leftDrawerTouch) {
       if (!this.leftDrawerEl) return;
       const xPos = parseInt(this.leftDrawerEl.style.transform.slice(11, -3));
@@ -94,14 +97,27 @@ export default class MainApp extends Vue {
     }
   }
   onTouchMove(event: TouchEvent) {
+    if (this.scrolling) return;
     if (!this.leftDrawerEl) return;
     if (!this.rightDrawerEl) return;
+
+    const x = event.touches[0].clientX;
+    const touchDistance = x - this.startX;
+
+    if (!this.leftDrawerTouch && !this.rightDrawerTouch) {
+      if (touchDistance < 0) {
+        this.leftDrawerTouch = false;
+        this.rightDrawerTouch = true;
+      } else if (touchDistance > 0) {
+        this.leftDrawerTouch = true;
+        this.rightDrawerTouch = false;
+      }
+    }
+
     if (this.leftDrawerTouch) {
-      const x = event.touches[0].clientX;
-      const y = event.touches[0].clientY;
       if (Math.abs(x - this.startX) <= 20) return;
       let newX = x - this.startX + 320;
-      if (!this.leftOpened) newX = x;
+      if (!this.leftOpened) newX = x - this.startX;
       if (newX >= 320) newX = 320;
       this.leftDrawerEl.style.transform = "translateX(" + newX + "px" + ")";
       return;
@@ -117,7 +133,7 @@ export default class MainApp extends Vue {
     }
   }
   onScroll() {
-    this.onTouchEnd();
+    this.scrolling = true;
   }
   closeAll() {
     this.closeLeft();
