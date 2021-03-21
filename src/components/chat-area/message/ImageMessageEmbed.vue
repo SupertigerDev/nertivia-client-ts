@@ -17,7 +17,6 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import windowProperties from "@/utils/windowProperties";
 import Message from "@/interfaces/Message";
-import config from "@/config";
 import resizeKeepAspect from "@/utils/resizeKeepAspect";
 import { PopoutsModule } from "@/store/modules/popouts";
 @Component
@@ -105,7 +104,10 @@ export default class ImageMessageEmbed extends Vue {
     // nertivia cdn
     if (file.url) return file.url;
     // google drive cdn
-    return config.fetchPrefix + `/media/${file.fileID}/${file.fileName}`;
+    return (
+      process.env.VUE_APP_FETCH_PREFIX +
+      `/media/${file.fileID}/${file.fileName}`
+    );
   }
   get windowSize() {
     return {

@@ -62,7 +62,6 @@ import Captcha from "@/components/Captcha.vue";
 import CustomButton from "@/components/CustomButton.vue";
 
 import { postLogin, confirmEmail } from "@/services/authService";
-import config from "@/config";
 
 @Component({ components: { CustomInput, Captcha, CustomButton } })
 export default class MainApp extends Vue {
@@ -150,8 +149,9 @@ export default class MainApp extends Vue {
     this.login();
   }
   redirect() {
+    if (!process.env.VUE_APP_MAIN_APP_URL) return;
     const url: string | undefined = this.$route.query.redirect as any;
-    if (!url || !url.startsWith(config.mainAppURL)) {
+    if (!url || !url.startsWith(process.env.VUE_APP_MAIN_APP_URL)) {
       location.href = "/app";
       return;
     }

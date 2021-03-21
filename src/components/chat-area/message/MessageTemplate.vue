@@ -59,7 +59,6 @@ import EmbedMessage from "./EmbedMessage.vue";
 import { time } from "@/utils/date";
 import { PopoutsModule } from "@/store/modules/popouts";
 import HTMLEmbed from "./HTMLEmbed.vue";
-import config from "@/config";
 import { UsersModule } from "@/store/modules/users";
 
 @Component({
@@ -79,7 +78,9 @@ export default class MessageLogs extends Vue {
 
   contextPos: { x?: number; y?: number } = {};
   hover = false;
-  inviteLinkRegex = new RegExp(`${config.mainAppURL}(invites|i)/([\\S]+)`);
+  inviteLinkRegex = new RegExp(
+    `${process.env.VUE_APP_MAIN_APP_URL}(invites|i)/([\\S]+)`
+  );
   viewBlockedMessage = false;
 
   showProfile() {

@@ -21,12 +21,11 @@
 </template>
 
 <script>
-import config from "@/config";
 export default {
   props: ["emoji", "addEmojiButton"],
   data() {
     return {
-      customEmojiUrl: config.nertiviaCDN + "emojis/"
+      customEmojiUrl: process.env.VUE_APP_NERTIVIA_CDN + "emojis/"
     };
   }
 };

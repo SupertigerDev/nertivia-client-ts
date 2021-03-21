@@ -16,7 +16,6 @@ try {
 } catch {
   //
 }
-import config from "@/config";
 import WindowProperties from "@/utils/windowProperties";
 import { getAppliedColor } from "@/utils/customCssVars";
 
@@ -30,7 +29,7 @@ export default class MainApp extends Vue {
   @Prop() private customUrl!: string;
 
   get src() {
-    let url = config.nertiviaCDN + this.imageId;
+    let url = process.env.VUE_APP_NERTIVIA_CDN + this.imageId;
     if (!this.isGif) return url;
     if (!this.animateGif || !this.isFocused) {
       url += "?type=webp";

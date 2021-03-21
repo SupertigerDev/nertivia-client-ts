@@ -2,7 +2,6 @@
 import Vue from "vue";
 import { unzipAlt } from "@/utils/zip";
 import { JsonInput } from "jsonhtmlfyer";
-import config from "@/config";
 import Markup from "@/components/Markup.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
 
@@ -40,12 +39,13 @@ export default Vue.extend<Props>({
       }
       if (json.styles?.backgroundImage) {
         json.styles.backgroundImage = `url(${
-          config.image_proxy
+          process.env.VUE_APP_IMAGE_PROXY_URL
         }${encodeURIComponent(json.styles.backgroundImage)})`;
       }
       if (json.tag === "img" && json.attributes?.src) {
         json.attributes.src =
-          config.image_proxy + encodeURIComponent(json.attributes.src);
+          process.env.VUE_APP_IMAGE_PROXY_URL +
+          encodeURIComponent(json.attributes.src);
       }
       if (json.styles?.position === "fixed") {
         delete json.styles.position;

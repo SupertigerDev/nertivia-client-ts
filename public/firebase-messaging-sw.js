@@ -1,17 +1,18 @@
 /* eslint-disable no-undef */
+importScripts("swenv.js");
 importScripts("https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js");
 importScripts("https://www.gstatic.com/firebasejs/8.2.7/firebase-messaging.js");
 // Initialize the Firebase app in the service worker by passing in the messagingSenderId.
 firebase.initializeApp({
-  apiKey: "AIzaSyBYRykWjjPicFkaiJ49C8GbUmbZUmJeWOg",
-  authDomain: "dotted-clover-231410.firebaseapp.com",
-  databaseURL: "https://dotted-clover-231410.firebaseio.com",
-  projectId: "dotted-clover-231410",
-  storageBucket: "dotted-clover-231410.appspot.com",
-  messagingSenderId: "858269624186",
-  appId: "1:858269624186:web:a3193c0b82097a41d918c3"
+  apiKey: process.env.apiKey,
+  authDomain: process.env.authDomain,
+  databaseURL: process.env.databaseURLr,
+  projectId: process.env.projectId,
+  storageBucket: process.env.storageBucket,
+  messagingSenderId: process.env.messagingSenderId,
+  appId: process.env.appId
 });
-const nertiviaCDN = "https://media.nertivia.net/";
+const nertiviaCDN = process.env.nertiviaCDN;
 
 const messaging = firebase.messaging();
 
@@ -23,6 +24,7 @@ function titleBuilder(server_name, channel_name, username) {
 }
 
 console.log("FCM Active");
+console.log(process.env);
 
 self.addEventListener("notificationclick", function(event) {
   console.log("SW: Clicked notification", event);

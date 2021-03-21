@@ -69,12 +69,11 @@ import CustomButton from "@/components/CustomButton.vue";
 import InviteTemplate from "./InviteTemplate.vue";
 import Invite from "@/interfaces/Invite";
 
-import config from "@/config";
 @Component({
   components: { CustomInput, LoadingScreen, InviteTemplate, CustomButton }
 })
 export default class ServerSettingsArea extends Vue {
-  prefixLink = config.mainAppURL + "i/";
+  prefixLink = process.env.VUE_APP_MAIN_APP_URL + "i/";
   customUrlValue = "";
   selectedServerMember: any = null;
   invites: Invite[] | null = null;

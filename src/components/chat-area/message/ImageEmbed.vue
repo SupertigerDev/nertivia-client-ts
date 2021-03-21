@@ -16,7 +16,6 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import windowProperties from "@/utils/windowProperties";
-import config from "@/config";
 import resizeKeepAspect from "@/utils/resizeKeepAspect";
 import { PopoutsModule } from "@/store/modules/popouts";
 @Component
@@ -92,7 +91,9 @@ export default class ImageMessageEmbed extends Vue {
     return this.imageURL?.endsWith(".gif");
   }
   get imageURL() {
-    return config.image_proxy + encodeURIComponent(this.image.url);
+    return (
+      process.env.VUE_APP_IMAGE_PROXY_URL + encodeURIComponent(this.image.url)
+    );
   }
   get windowSize() {
     return {

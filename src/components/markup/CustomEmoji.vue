@@ -1,8 +1,7 @@
 <script lang="tsx">
 import Vue from "vue";
-import config from "@/config";
 import windowProperties from "@/utils/windowProperties";
-const EMOJI_URL = config.nertiviaCDN + "emojis";
+const EMOJI_URL = process.env.VUE_APP_NERTIVIA_CDN + "emojis";
 
 // todo: make CustomEmoji based on an Emoji class
 export default Vue.extend({

@@ -36,7 +36,6 @@ import ServerRole from "@/interfaces/ServerRole";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { permissions } from "@/constants/rolePermissions";
-import config from "@/config";
 
 @Component({ components: { AvatarImage, UserStatusTemplate } })
 export default class RightDrawer extends Vue {
@@ -87,15 +86,15 @@ export default class RightDrawer extends Vue {
   }
   get badge() {
     if (this.serverMember.type === "OWNER")
-      return ["owner", config.twemojiLocations + "1f451.svg"];
+      return ["owner", process.env.VUE_APP_TWEMOJI_LOCATION + "1f451.svg"];
 
     if (this.serverMember.type === "BOT")
-      return ["bot", config.twemojiLocations + "1f916.svg"];
+      return ["bot", process.env.VUE_APP_TWEMOJI_LOCATION + "1f916.svg"];
     const uniqueID = this.serverMember.uniqueID;
     const serverID = this.serverMember.server_id;
     const memberHasPermission = ServerMembersModule.memberHasPermission;
     if (memberHasPermission(uniqueID, serverID, permissions.ADMIN.value)) {
-      return ["admin", config.twemojiLocations + "1f6e1.svg"];
+      return ["admin", process.env.VUE_APP_TWEMOJI_LOCATION + "1f6e1.svg"];
     }
     return null;
   }

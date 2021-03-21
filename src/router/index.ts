@@ -4,7 +4,6 @@ import VueSocketIo from "vue-socket.io-extended";
 import io from "socket.io-client";
 
 import store from "../store/index";
-import config from "../config";
 
 const ExploreArea = () =>
   import(
@@ -141,7 +140,7 @@ const routes: Array<RouteConfig> = [
         location.href = "/login";
         return;
       }
-      Vue.use(VueSocketIo, io(config.socketIP, { autoConnect: false }), {
+      Vue.use(VueSocketIo, io(process.env.VUE_APP_SOCKET_URL || "", { autoConnect: false }), {
         store
       });
       next();

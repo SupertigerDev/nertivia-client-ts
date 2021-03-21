@@ -138,7 +138,6 @@ import {
   addPerm
 } from "@/constants/rolePermissions";
 import CheckBox from "@/components/CheckBox.vue";
-import config from "@/config";
 
 @Component({
   components: {
@@ -282,8 +281,10 @@ export default class Account extends Vue {
   }
 
   get inviteLink() {
+    if (!process.env.VUE_APP_MAIN_APP_URL) return "";
     return (
-      config.mainAppURL + `bots/${this.bot.uniqueID}?perms=${this.permissions}`
+      process.env.VUE_APP_MAIN_APP_URL +
+      `bots/${this.bot.uniqueID}?perms=${this.permissions}`
     );
   }
   get showSaveButton() {

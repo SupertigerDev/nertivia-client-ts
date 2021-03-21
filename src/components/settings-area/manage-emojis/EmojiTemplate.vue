@@ -29,7 +29,6 @@
   </div>
 </template>
 <script lang="ts">
-import config from "@/config";
 import CustomEmoji from "@/interfaces/CustomEmoji";
 import { deleteEmoji, updateEmoji } from "@/services/emojiService";
 import { CustomEmojisModule } from "@/store/modules/customEmojis";
@@ -136,7 +135,7 @@ export default class EmojiTemplate extends Vue {
   }
   get url() {
     return (
-      config.nertiviaCDN +
+      process.env.VUE_APP_NERTIVIA_CDN +
       "emojis/" +
       this.emoji.emojiID +
       (this.emoji.gif ? ".gif" : ".png")
