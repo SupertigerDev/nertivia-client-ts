@@ -93,4 +93,9 @@ export default class MainApp extends Vue {
     }
   }
 }
+@media (max-width: 950px) {
+  .settings-drawer {
+    padding-bottom: 56px;
+  }
+}
 </style>

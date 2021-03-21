@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-bar">
+  <div class="nav-bar" :class="{ show: leftDrawerOpened }">
     <div
       class="item"
       :class="{
@@ -104,11 +104,13 @@ const UserArea = () =>
     /* webpackChunkName: "UserArea" */ "@/components/popouts/UserArea.vue"
   );
 import userStatuses from "@/constants/userStatuses";
+import { DrawersModule } from "@/store/modules/drawers";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { MeModule } from "@/store/modules/me";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { PresencesModule } from "@/store/modules/presences";
+import WindowProperties from "@/utils/windowProperties";
 import { Component, Prop, Vue } from "vue-property-decorator";
 interface LastSelectedServer {
   channel_id: string;
@@ -170,6 +172,9 @@ export default class MainApp extends Vue {
     if (!this.me?.uniqueID || !MeModule.connected) return userStatuses[0];
     const presence = PresencesModule.getPresence(this.me.uniqueID);
     return userStatuses[presence || 0];
+  }
+  get leftDrawerOpened() {
+    return DrawersModule.leftDrawer;
   }
 }
 </script>
@@ -267,14 +272,26 @@ export default class MainApp extends Vue {
 }
 @media (max-width: 950px) {
   .nav-bar {
+    position: absolute;
+    bottom: -56px;
+    left: 0;
+    right: 0;
     height: 50px;
     width: 100%;
     flex-direction: row;
     padding-top: 0;
+    overflow: hidden;
     padding-bottom: 0;
-    margin-top: 3px;
-    margin-bottom: 3px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+
+    transition: 0.2s;
+
+    &.show {
+      bottom: 0px;
+    }
   }
+
   .item {
     height: 100%;
     padding-left: 3px;

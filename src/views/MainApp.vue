@@ -1,10 +1,6 @@
 <template>
   <div class="app" :class="{ leftDrawerOpened: leftDrawerOpened }">
-    <NavBar
-      :updateAvailable="updateAvailable"
-      class="nav-bar"
-      v-if="!isMobileWidth || leftDrawerOpened"
-    />
+    <NavBar :updateAvailable="updateAvailable" class="nav-bar" />
     <Drawers class="drawers">
       <LeftDrawer slot="drawer-left" />
       <RightDrawer
@@ -262,12 +258,6 @@ export default class MainApp extends Vue {
   }
   get users() {
     return UsersModule.users;
-  }
-  get windowWidth() {
-    return WindowProperties.resizeWidth;
-  }
-  get isMobileWidth() {
-    return this.windowWidth <= 950;
   }
 
   get firstServerNotification() {
