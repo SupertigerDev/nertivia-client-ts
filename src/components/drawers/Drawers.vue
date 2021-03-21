@@ -114,6 +114,8 @@ export default class MainApp extends Vue {
         this.leftDrawerEl.style.transition = "";
       }, 200);
 
+      this.onLeftChange();
+
       this.leftDrawerTouch = false;
       return;
     }
