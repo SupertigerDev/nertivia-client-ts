@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.15.8-beta",
+		"date": "21 March 2021",
+		"title": "More Drawer Improvements!",
+		"changes": "You can now swipe to open the drawers (mobile only)"
+	},
+	{
 		"version": "1.15.7-beta",
 		"date": "20 March 2021",
 		"title": "Faster Drawers",
