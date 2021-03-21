@@ -118,7 +118,9 @@ export default {
   },
 
   mounted() {
-    this.$refs.search.focus();
+    if (!this.$isMobile) {
+      this.$refs.search.focus();
+    }
     setTimeout(() => {
       const z = performance.now();
       this.allCustomEmojis = this.arrToRows(this.customEmojis);
