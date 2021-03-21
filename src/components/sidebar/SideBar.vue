@@ -53,4 +53,9 @@ export default class MainApp extends Vue {
     background: var(--primary-color);
   }
 }
+@media (max-width: 950px) {
+  .side-bar {
+    padding-bottom: 56px;
+  }
+}
 </style>

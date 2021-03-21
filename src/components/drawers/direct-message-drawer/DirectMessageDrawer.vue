@@ -144,4 +144,9 @@ export default class MainApp extends Vue {
     margin-right: 5px;
   }
 }
+@media (max-width: 950px) {
+  .dm-drawer {
+    padding-bottom: 56px;
+  }
+}
 </style>

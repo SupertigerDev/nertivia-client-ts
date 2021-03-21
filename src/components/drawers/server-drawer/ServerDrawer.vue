@@ -84,7 +84,6 @@ export default class MainApp extends Vue {
 </script>
 
 <style lang="scss" scoped>
-
 .slide-fade-enter-active {
   transition: all 0.2s ease;
 }
@@ -130,6 +129,11 @@ export default class MainApp extends Vue {
     object-fit: cover;
     width: 100%;
     height: 100%;
+  }
+}
+@media (max-width: 950px) {
+  .server-drawer {
+    padding-bottom: 56px;
   }
 }
 </style>
