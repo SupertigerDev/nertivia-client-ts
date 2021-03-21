@@ -51,6 +51,8 @@ body,
 .root {
   height: 100%;
   overflow: hidden;
+
+  overscroll-behavior-x: none;
 }
 .root {
   display: flex;
