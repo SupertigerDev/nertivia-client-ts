@@ -3,7 +3,6 @@ import { matchSorter } from "match-sorter";
 
 import emojis from "@/utils/emoji-data/emojis.json";
 import groups from "@/utils/emoji-data/groups.json";
-import config from "@/config";
 import { CustomEmojisModule } from "@/store/modules/customEmojis";
 
 const U200D = String.fromCharCode(0x200d);
@@ -55,7 +54,7 @@ export default {
   replaceEmojis: (message: string) => {
     return twemoji.parse(message, function(icon) {
       if (!icon) return message;
-      return config.twemojiLocations + icon + ".svg";
+      return process.env.VUE_APP_TWEMOJI_LOCATION + icon + ".svg";
     });
   },
   // GetEmojiPath: (string: string) => {
@@ -86,7 +85,7 @@ export default {
   },
   // todo; emoji type
   emojiPath: (emoji: string) =>
-    `${config.twemojiLocations}${emojiIconId(emoji)}.svg`,
+    `${process.env.VUE_APP_TWEMOJI_LOCATION}${emojiIconId(emoji)}.svg`,
   allEmojis: emojis,
   allGroups: groups
 };

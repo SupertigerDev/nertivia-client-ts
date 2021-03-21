@@ -15,7 +15,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import config from "@/config";
 
 @Component
 export default class extends Vue {
@@ -35,7 +34,9 @@ export default class extends Vue {
     const image = new Image();
     image.classList.add("emoji");
 
-    image.src = `${config.nertiviaCDN}emojis/${emojiID}.${gif ? "gif" : "png"}`;
+    image.src = `${process.env.VUE_APP_NERTIVIA_CDN}emojis/${emojiID}.${
+      gif ? "gif" : "png"
+    }`;
     return image.outerHTML;
   }
 }

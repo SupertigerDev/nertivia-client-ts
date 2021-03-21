@@ -11,7 +11,6 @@
 <script lang="ts">
 import { Embed } from "@/interfaces/Message";
 import { Component, Prop, Vue } from "vue-property-decorator";
-import config from "@/config";
 import VideoPlayer from "./VideoPlayer.vue";
 
 @Component({ components: { VideoPlayer } })
@@ -20,7 +19,10 @@ export default class YoutubeEmbed extends Vue {
 
   get imageURL() {
     if (!this.embed.image?.url) return undefined;
-    return config.image_proxy + encodeURIComponent(this.embed.image.url);
+    return (
+      process.env.VUE_APP_IMAGE_PROXY_URL +
+      encodeURIComponent(this.embed.image.url)
+    );
   }
   get title() {
     return this.embed.title || this.embed.site_name;

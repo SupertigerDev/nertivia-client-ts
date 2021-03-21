@@ -50,7 +50,6 @@
 </template>
 
 <script lang="ts">
-import config from "@/config";
 import {
   getServerInfoByCode,
   joinServerByCode
@@ -94,7 +93,7 @@ export default class InviteMessage extends Vue {
 
   get bannerURL() {
     if (!this.result?.banner) return null;
-    return config.nertiviaCDN + this.result.banner + "?type=webp";
+    return process.env.VUE_APP_NERTIVIA_CDN + this.result.banner + "?type=webp";
   }
 
   get isJoined() {

@@ -40,7 +40,6 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import CustomButton from "@/components/CustomButton.vue";
 
-import config from "@/config";
 import { ServersModule } from "@/store/modules/servers";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { joinServerByCode } from "@/services/serverService";
@@ -80,7 +79,7 @@ export default class PreviewServer extends Vue {
   }
   get bannerURL() {
     if (!this.server.json.banner) return undefined;
-    return config.nertiviaCDN + this.server.json.banner;
+    return process.env.VUE_APP_NERTIVIA_CDN + this.server.json.banner;
   }
   get isJoined() {
     return ServersModule.servers[this.server.json.server_id];

@@ -5,12 +5,11 @@
 <script>
 import hCaptcha from "@hcaptcha/vue-hcaptcha";
 
-import config from "@/config";
 export default {
   components: { hCaptcha },
   data() {
     return {
-      sitekey: config.captchaSiteKey
+      sitekey: process.env.VUE_APP_CAPTCHA_SITE_KEY
     };
   },
 

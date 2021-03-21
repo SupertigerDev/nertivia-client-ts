@@ -85,7 +85,6 @@ import CustomButton from "@/components/CustomButton.vue";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { ServersModule } from "@/store/modules/servers";
 import { ChannelsModule } from "@/store/modules/channels";
-import config from "@/config";
 import Server from "@/interfaces/Server";
 import { MeModule } from "@/store/modules/me";
 import { updateServer, UpdateServerRequest } from "@/services/serverService";
@@ -193,7 +192,7 @@ export default class General extends Vue {
   get bannerImageUrl() {
     if (this.newBanner) return this.newBanner;
     if (!this.server.banner) return undefined;
-    return config.nertiviaCDN + this.server.banner;
+    return process.env.VUE_APP_NERTIVIA_CDN + this.server.banner;
   }
   get serverID() {
     return this.$route.params.server_id;

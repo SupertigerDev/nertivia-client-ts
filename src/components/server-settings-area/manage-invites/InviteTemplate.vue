@@ -15,7 +15,7 @@
           :href="`${prefixURL}i/${invite.invite_code}`"
           target="_blank"
           rel="noopener noreferrer"
-          >{{prefixURL}}i/{{ invite.invite_code }}</a
+          >{{ prefixURL }}i/{{ invite.invite_code }}</a
         >
       </div>
       <div><span>Uses:</span>{{ invite.uses }}</div>
@@ -43,12 +43,11 @@ import Invite from "@/interfaces/Invite";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
-import config from "@/config";
 
 @Component({ components: { AvatarImage } })
 export default class InviteTemplate extends Vue {
   @Prop() private invite!: Invite;
-  prefixURL = config.mainAppURL;
+  prefixURL = process.env.VUE_APP_MAIN_APP_URL;
   showProfile() {
     PopoutsModule.ShowPopout({
       id: "profile",

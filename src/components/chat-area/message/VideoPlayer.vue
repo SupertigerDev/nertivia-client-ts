@@ -28,7 +28,6 @@
 </template>
 
 <script lang="ts">
-import config from "@/config";
 import resizeKeepAspect from "@/utils/resizeKeepAspect";
 import windowProperties from "@/utils/windowProperties";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
@@ -58,7 +57,8 @@ export default class VideoPlayer extends Vue {
     if (this.file.url) return this.file.url;
     // google drive cdn
     return (
-      config.fetchPrefix + `/files/${this.file.fileID}/${this.file.fileName}`
+      process.env.VUE_APP_FETCH_PREFIX +
+      `/files/${this.file.fileID}/${this.file.fileName}`
     );
   }
 

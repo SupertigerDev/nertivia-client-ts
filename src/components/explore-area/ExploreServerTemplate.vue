@@ -71,7 +71,6 @@
 </template>
 
 <script lang="ts">
-import config from "@/config";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { ServerResponse } from "@/services/exploreService";
 import { Vue, Component, Prop } from "vue-property-decorator";
@@ -83,7 +82,7 @@ import { joinServerById } from "@/services/serverService";
 export default class ExploreServerTemplate extends Vue {
   joining = false;
   hovering = false;
-  tweCrown = config.twemojiLocations + "1f451.svg";
+  tweCrown = process.env.VUE_APP_TWEMOJI_LOCATION + "1f451.svg";
   @Prop() private data!: ServerResponse;
   showCreatorProfile() {
     PopoutsModule.ShowPopout({
@@ -111,7 +110,7 @@ export default class ExploreServerTemplate extends Vue {
   get bannerURL() {
     if (!this.data.server.banner) return null;
     return (
-      config.nertiviaCDN +
+      process.env.VUE_APP_NERTIVIA_CDN +
       this.data.server.banner +
       (!this.hovering ? "?type=webp" : "")
     );

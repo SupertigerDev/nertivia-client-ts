@@ -9,7 +9,6 @@
 </template>
 
 <script lang="ts">
-import config from "@/config";
 import Message from "@/interfaces/Message";
 import { Component, Prop, Vue } from "vue-property-decorator";
 @Component
@@ -19,7 +18,7 @@ export default class ImageMessageEmbed extends Vue {
     return this.message.files?.[0];
   }
   get url() {
-    return `${config.fetchPrefix}/files/${this.file?.fileID}/${this.file?.fileName}`;
+    return `${process.env.VUE_APP_FETCH_PREFIX}/files/${this.file?.fileID}/${this.file?.fileName}`;
   }
 }
 </script>

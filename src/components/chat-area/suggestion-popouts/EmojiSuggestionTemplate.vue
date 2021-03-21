@@ -7,7 +7,6 @@
 
 <script lang="ts">
 import AvatarImage from "@/components/AvatarImage.vue";
-import config from "@/config";
 import emojiParser from "@/utils/emojiParser";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
@@ -23,9 +22,9 @@ export default class EmojiSuggestionTemplate extends Vue {
     const image = new Image();
     image.classList.add("emoji");
 
-    image.src = `${config.nertiviaCDN}emojis/${this.item.emojiID}.${
-      this.item.gif ? "gif" : "png"
-    }`;
+    image.src = `${process.env.VUE_APP_NERTIVIA_CDN}emojis/${
+      this.item.emojiID
+    }.${this.item.gif ? "gif" : "png"}`;
     return image.outerHTML;
   }
   get name() {

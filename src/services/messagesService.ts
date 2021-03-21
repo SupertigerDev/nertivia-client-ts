@@ -1,7 +1,6 @@
 import wrapper from "./wrapper";
 import Message from "@/interfaces/Message";
 import Vue from "vue";
-import config from "@/config";
 
 const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
@@ -109,7 +108,7 @@ export function postFormDataMessage(
   formData.append("file", file);
 
   const request = new XMLHttpRequest();
-  request.open("POST", config.fetchPrefix + `/messages/channels/${channelID}`);
+  request.open("POST", process.env.VUE_APP_FETCH_PREFIX + `/messages/channels/${channelID}`);
   request.setRequestHeader(
     "authorization",
     localStorage.getItem("hauthid") || ""

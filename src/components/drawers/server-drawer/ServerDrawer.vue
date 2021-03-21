@@ -39,7 +39,6 @@
 import { ChannelsModule } from "@/store/modules/channels";
 import { ServersModule } from "@/store/modules/servers";
 import { Component, Vue } from "vue-property-decorator";
-import config from "@/config";
 
 import ChannelTemplate from "@/components/drawers/server-drawer/ChannelTemplate.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
@@ -70,7 +69,7 @@ export default class MainApp extends Vue {
   }
   get bannerURL() {
     const isGif = this.server.banner.endsWith(".gif");
-    let str = `${config.nertiviaCDN}/${this.server.banner}`;
+    let str = `${process.env.VUE_APP_NERTIVIA_CDN}/${this.server.banner}`;
     if (isGif && !this.bannerHover) {
       str = str + "?type=webp";
     }
