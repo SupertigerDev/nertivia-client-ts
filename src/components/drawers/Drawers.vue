@@ -109,13 +109,6 @@ export default class MainApp extends Vue {
       DrawersModule.SetLeftDrawer(closest !== 0);
       this.onLeftChange();
 
-      setTimeout(() => {
-        if (!this.leftDrawerEl) return;
-        this.leftDrawerEl.style.transition = "";
-      }, 200);
-
-      this.onLeftChange();
-
       this.leftDrawerTouch = false;
       return;
     }
