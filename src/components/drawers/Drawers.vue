@@ -35,6 +35,7 @@ export default class MainApp extends Vue {
   rightDrawerEl: HTMLElement | null = null;
   startX = 0;
   startY = 0;
+  touchStamp = 0;
   scrolling = false;
   mounted() {
     window.addEventListener("touchstart", this.onTouchStart);
@@ -52,6 +53,7 @@ export default class MainApp extends Vue {
   }
 
   onTouchStart(event: TouchEvent) {
+    this.touchStamp = Date.now();
     const x = event.touches[0].clientX;
     const y = event.touches[0].clientY;
     this.startX = x;
@@ -65,8 +67,39 @@ export default class MainApp extends Vue {
       if (!this.leftOpened) this.rightDrawerTouch = true;
     }
   }
-  onTouchEnd(event?: TouchEvent) {
+  onTouchEnd(event: TouchEvent) {
     this.scrolling = false;
+    const x = event.changedTouches[0].clientX;
+
+    const time = Date.now() - this.touchStamp;
+    const distance = this.startX - x;
+
+    if (time <= 150) {
+      const speed = Math.abs(distance) / time;
+      if (speed >= 0.5) {
+        if (this.leftDrawerTouch) {
+          if (!this.leftOpened && distance < 0) {
+            DrawersModule.SetLeftDrawer(true);
+            this.leftDrawerTouch = false;
+          }
+          if (this.leftOpened && distance > 0) {
+            DrawersModule.SetLeftDrawer(false);
+            this.leftDrawerTouch = false;
+          }
+        }
+        if (this.rightDrawerTouch) {
+          if (!this.rightOpened && distance > 0) {
+            DrawersModule.SetRightDrawer(true);
+            this.rightDrawerTouch = false;
+          }
+          if (this.rightOpened && distance < 0) {
+            DrawersModule.SetRightDrawer(false);
+            this.rightDrawerTouch = false;
+          }
+        }
+      }
+    }
+
     if (this.leftDrawerTouch) {
       if (!this.leftDrawerEl) return;
       const xPos = parseInt(this.leftDrawerEl.style.transform.slice(11, -3));
