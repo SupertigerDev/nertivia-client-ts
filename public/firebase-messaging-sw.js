@@ -24,7 +24,6 @@ function titleBuilder(server_name, channel_name, username) {
 }
 
 console.log("FCM Active");
-console.log(process.env);
 
 self.addEventListener("notificationclick", function(event) {
   console.log("SW: Clicked notification", event);
