@@ -114,8 +114,8 @@ export default class MainApp extends Vue {
       }
     }
 
+    if (Math.abs(x - this.startX) <= 20) return;
     if (this.leftDrawerTouch) {
-      if (Math.abs(x - this.startX) <= 20) return;
       let newX = x - this.startX + 320;
       if (!this.leftOpened) newX = x - this.startX;
       if (newX >= 320) newX = 320;
@@ -124,8 +124,6 @@ export default class MainApp extends Vue {
     }
     if (this.rightDrawerTouch) {
       const x = event.touches[0].clientX - 300;
-      const y = event.touches[0].clientY;
-      if (Math.abs(x - this.startX) <= 20) return;
       let newX = x - this.startX;
       if (!this.rightOpened) newX = x - this.startX + 300;
       if (newX <= -300) newX = -300;
