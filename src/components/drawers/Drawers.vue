@@ -232,39 +232,6 @@ export default class MainApp extends Vue {
   get isMobile() {
     return windowProperties.resizeWidth <= 950;
   }
-
-  // closeAllDrawers() {
-  //   if (Object.keys(PopoutsModule.popouts).length) return;
-  //   DrawersModule.SetLeftDrawer(false);
-  //   DrawersModule.SetRightDrawer(false);
-  // }
-
-  // @Watch("windowWidth")
-  // CloseDrawerWhenDesktop() {
-  //   if (this.openRightDrawer && this.windowWidth >= 950) {
-  //     DrawersModule.SetRightDrawer(false);
-  //   }
-  //   if (this.openLeftDrawer && this.windowWidth >= 650) {
-  //     DrawersModule.SetLeftDrawer(false);
-  //   }
-  // }
-
-  // get openLeftDrawer() {
-  //   return DrawersModule.leftDrawer;
-  // }
-  // get openRightDrawer() {
-  //   return DrawersModule.rightDrawer;
-  // }
-
-  // get windowWidth() {
-  //   return windowProperties.resizeWidth;
-  // }
-  // get closeRightDrawer() {
-  //   return this.windowWidth <= 950 && !this.openRightDrawer;
-  // }
-  // get closeLeftDrawer() {
-  //   return this.windowWidth <= 650 && !this.openLeftDrawer;
-  // }
 }
 </script>
 
