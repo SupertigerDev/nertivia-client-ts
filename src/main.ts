@@ -20,7 +20,7 @@ declare module "vue/types/vue" {
   }
 }
 
-if (messagingSupported) {
+if (messagingSupported && process.env.VUE_APP_FCM_API_KEY) {
   messaging().onMessage(payload => {
     console.log("FCM Data: ", payload);
   });
