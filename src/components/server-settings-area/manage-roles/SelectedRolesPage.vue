@@ -87,6 +87,7 @@ import {
 } from "@/constants/rolePermissions";
 import { deleteServerRole, updateServerRole } from "@/services/rolesService";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
+import { ServersModule } from "@/store/modules/servers";
 @Component({
   components: { CustomInput, CustomButton, CheckBox }
 })
@@ -214,12 +215,14 @@ export default class ManageRolesPage extends Vue {
   }
   get permissionsList() {
     return Object.values(permissions).map(p => {
-      const canModify = !!ServerMembersModule.memberHasPermission(
-        MeModule.user.uniqueID || "",
-        this.serverID,
-        p.value,
-        true
-      );
+      const canModify =
+        this.isServerCreator ||
+        !!ServerMembersModule.memberHasPermission(
+          MeModule.user.uniqueID || "",
+          this.serverID,
+          p.value,
+          true
+        );
 
       return {
         ...p,
@@ -235,6 +238,12 @@ export default class ManageRolesPage extends Vue {
       this.change.perms ||
       this.change.hideRole ||
       this.change.color
+    );
+  }
+  get isServerCreator() {
+    return ServersModule.isServerOwner(
+      this.serverID,
+      MeModule?.user?.uniqueID || ""
     );
   }
   get change() {
