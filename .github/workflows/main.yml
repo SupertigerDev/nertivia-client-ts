@@ -6,8 +6,7 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-  # disabled for now. not working well.
-    #branches: [ master ]
+    branches: [ master ]
   #pull_request:
     #branches: [ master ]
 
@@ -53,4 +52,9 @@ jobs:
           SOURCE: "dist/"
           REMOTE_HOST: ${{ secrets.HOST }}
           REMOTE_USER: ${{ secrets.USER }}
-          TARGET: /root/nertivia/public/chatBeta
+          TARGET: /var/www/beta.nertivia.net
+          
+          
+          
+          
+  
