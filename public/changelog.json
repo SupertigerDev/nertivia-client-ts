@@ -1,5 +1,13 @@
 [
 	{
+		"version": "1.15.9-beta",
+		"date": "23 March 2021",
+		"title": "Role Bug Fixes & Server Perfomance Improvements!",
+		"fixes": "Server owner could not modify role permissions.",
+		"changes": "Server is not running in 4 clusters. This means that the server will be more responsive."
+
+	},
+	{
 		"version": "1.15.8-beta",
 		"date": "21 March 2021",
 		"title": "More Drawer Improvements!",
