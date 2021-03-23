@@ -52,4 +52,9 @@ jobs:
           SOURCE: "dist/"
           REMOTE_HOST: ${{ secrets.HOST }}
           REMOTE_USER: ${{ secrets.USER }}
-          TARGET: /root/nertivia/public/chatBeta
+          TARGET: /var/www/beta.nertivia.net
+          
+          
+          
+          
+  
