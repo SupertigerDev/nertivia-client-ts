@@ -1,6 +1,7 @@
 <script lang="tsx">
 import Vue from "vue";
 
+// todo: Add warning
 export default Vue.extend({
   functional: true,
   props: {

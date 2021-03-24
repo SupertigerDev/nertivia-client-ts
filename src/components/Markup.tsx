@@ -135,7 +135,11 @@ function transformCustomEntity(h: CreateElement, entity: CustomEntity, ctx: Rend
         .split("->")
         .map(s => s.trim());
 
-      return h(Link, { props: { url: url, text: text } })
+      if (url && text) {
+        return h(Link, { props: { url: url, text: text } })
+      }
+
+      break
     }
     default: {
       console.warn('Unknown custom entity:', type)
