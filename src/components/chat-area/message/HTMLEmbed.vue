@@ -2,7 +2,7 @@
 import Vue from "vue";
 import { unzipAlt } from "@/utils/zip";
 import { JsonInput } from "jsonhtmlfyer";
-import Markup from "@/components/Markup.vue";
+import Markup from "@/components/Markup.tsx";
 import { PopoutsModule } from "@/store/modules/popouts";
 
 interface Props {

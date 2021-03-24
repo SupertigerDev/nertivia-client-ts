@@ -55,7 +55,7 @@ import { MeModule } from "@/store/modules/me";
 import userStatuses from "@/constants/userStatuses";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { changeCustomStatus, logout } from "@/services/userService";
-import Markup from "@/components/Markup.vue";
+import Markup from "@/components/Markup.tsx";
 import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
 
 @Component({ components: { AvatarImage, Markup } })
