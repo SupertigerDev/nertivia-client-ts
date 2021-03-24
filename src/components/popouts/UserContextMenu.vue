@@ -141,11 +141,30 @@ export default class extends Vue {
       permissions.MANAGE_ROLES.value
     );
   }
+  get myHighestRolePosition() {
+    if (!this.serverID) return 0;
+    if (!MeModule.user.uniqueID) return 0;
+    const highestRoleOrder = ServerMembersModule.highestRoleOrder(
+      this.serverID,
+      MeModule.user.uniqueID
+    );
+    return highestRoleOrder || 0;
+  }
+  get recipientRolePosition() {
+    if (!this.serverID) return 0;
+    const highestRoleOrder = ServerMembersModule.highestRoleOrder(
+      this.serverID,
+      this.data.uniqueID
+    );
+    return highestRoleOrder || 0;
+  }
+
   get hasBanPermission() {
     if (!this.serverID) return false;
     if (MeModule.user.uniqueID === this.data.uniqueID) return false;
     if (this.isServerOwner) return true;
     if (!MeModule.user.uniqueID) return false;
+    if (this.recipientRolePosition <= this.myHighestRolePosition) return false;
     return ServerMembersModule.memberHasPermission(
       MeModule.user.uniqueID,
       this.serverID,
@@ -157,6 +176,7 @@ export default class extends Vue {
     if (MeModule.user.uniqueID === this.data.uniqueID) return false;
     if (this.isServerOwner) return true;
     if (!MeModule.user.uniqueID) return false;
+    if (this.recipientRolePosition <= this.myHighestRolePosition) return false;
     return ServerMembersModule.memberHasPermission(
       MeModule.user.uniqueID,
       this.serverID,
