@@ -157,7 +157,10 @@ function transformCustomEntity(h: CreateElement, entity: CustomEntity, ctx: Rend
           <rp>)</rp>
         )
       }
-      return <ruby>{output}</ruby>
+      if (output.length > 0) {
+        return <ruby>{output}</ruby>
+      }
+      break
     }
     default: {
       console.warn('Unknown custom entity:', type)
