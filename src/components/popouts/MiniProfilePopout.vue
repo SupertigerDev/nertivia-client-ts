@@ -47,7 +47,7 @@ import { PresencesModule } from "@/store/modules/presences";
 import WindowProperties from "@/utils/windowProperties";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
-import Markup from "@/components/Markup.vue";
+import Markup from "@/components/Markup.tsx";
 
 interface ServerMember {
   member: User;

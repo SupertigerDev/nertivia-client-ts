@@ -1,10 +1,16 @@
 [
 	{
+		"version": "1.16.9-beta",
+		"date": "23 March 2021",
+		"title": "More Markup!",
+		"new": "Added more markup thanks to bree!"
+	},
+	{
 		"version": "1.15.9-beta",
 		"date": "23 March 2021",
 		"title": "Role Bug Fixes & Server Perfomance Improvements!",
 		"fixes": "Server owner could not modify role permissions.",
-		"changes": "Server is not running in 4 clusters. This means that the server will be more responsive."
+		"changes": "Server is now running in 4 clusters. This means that the server will be more responsive."
 
 	},
 	{

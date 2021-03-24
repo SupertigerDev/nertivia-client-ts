@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import Message, { Button } from "@/interfaces/Message";
-import Markup from "@/components/Markup.vue";
+import Markup from "@/components/Markup.tsx";
 import { buttonClick } from "@/services/messagesService";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { Component, Prop, Vue } from "vue-property-decorator";

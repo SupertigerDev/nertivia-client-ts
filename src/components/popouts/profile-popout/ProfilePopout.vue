@@ -129,7 +129,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import UserStatusTemplate from "@/components/UserStatusTemplate.vue";
-import Markup from "@/components/Markup.vue";
+import Markup from "@/components/Markup.tsx";
 import CommonServers from "./CommonServers.vue";
 import CommonFriends from "./CommonFriends.vue";
 import { PresencesModule } from "@/store/modules/presences";
