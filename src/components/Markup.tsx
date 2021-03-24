@@ -22,7 +22,7 @@ interface MarkupProps {
   message?: Message;
 }
 
-type RenderContext = Vue.RenderContext<MarkupProps>
+type RenderContext = Vue.RenderContext<MarkupProps> & { textCount: number, emojiCount: number }
 
 // todo: add a better system for this
 const replaceOldMentions = (text: string) =>
@@ -36,8 +36,13 @@ const replaceOldMentions = (text: string) =>
 
 const transformEntities = (h: CreateElement, entity: Entity, ctx: RenderContext) => entity.entities.map(e => transformEntity(h, e, ctx))
 
-const sliceText = (ctx: RenderContext, span: Span) => {
-  return ctx.props.text.slice(span.start, span.end)
+
+const sliceText = (ctx: RenderContext, span: Span, { countText = true } = {}) => {
+  const text = ctx.props.text.slice(span.start, span.end)
+  if (countText && !/^\s+$/.test(text)) {
+    ctx.textCount += text.length
+  }
+  return text
 }
 
 function transformEntity(h: CreateElement, entity: Entity, ctx: RenderContext) {
@@ -79,7 +84,7 @@ type CustomEntity = Entity & { type: "custom" }
 
 function transformCustomEntity(h: CreateElement, entity: CustomEntity, ctx: RenderContext) {
   const type = entity.params.type
-  const expr = sliceText(ctx, entity.innerSpan)
+  const expr = sliceText(ctx, entity.innerSpan, { countText: false })
   switch (type) {
     case '@': {
       const user = UsersModule.users[expr];
@@ -113,6 +118,25 @@ function transformCustomEntity(h: CreateElement, entity: CustomEntity, ctx: Rend
       }
       break;
     }
+    case "animated_custom_emoji":
+    case "custom_emoji": {
+      const [id, name] = expr.split(':')
+      ctx.emojiCount += 1
+      return h(CustomEmoji, {
+        props: {
+          animated: type.startsWith("animated"),
+          emojiName: name,
+          emojiID: id
+        }
+      })
+    }
+    case "link": {
+      const [url, text] = expr
+        .split("->")
+        .map(s => s.trim());
+
+      return h(Link, { props: { url: url, text: text } })
+    }
     default: {
       console.warn('Unknown custom entity:', type)
     }
@@ -127,9 +151,13 @@ export default Vue.extend<MarkupProps>({
     largeEmoji: Boolean,
     message: Object
   },
-  render(h, ctx) {
-    ctx.props.text = replaceOldMentions(ctx.props.text);
+  render(h, renderContext) {
+    renderContext.props.text = replaceOldMentions(renderContext.props.text);
+    const ctx = { ...renderContext, emojiCount: 0, textCount: 0 };
     const entity = addTextSpans(parseMarkup(ctx.props.text))
-    return transformEntity(h, entity, ctx)
+    const output = transformEntity(h, entity, ctx)
+    return <span class={{
+      "large-emoji": ctx.textCount === 0 && ctx.emojiCount <= 5
+    }}>{output}</span>
   }
 })
