@@ -1,4 +1,6 @@
 # nertivia-client-ts
+Check out nertivia beta at https://beta.nertivia.net
+
 ![alt text](https://raw.githubusercontent.com/supertiger1234/nertivia-client-ts/master/preview/Nertivia%20Client.jpg)
 ![alt text](https://raw.githubusercontent.com/supertiger1234/nertivia-client-ts/master/preview/Nertivia%20Servers%20List.jpg)
 ![alt text](https://raw.githubusercontent.com/supertiger1234/nertivia-client-ts/master/preview/Nertivia%20Dashboard.jpg)
