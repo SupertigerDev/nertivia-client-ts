@@ -15,6 +15,7 @@ import Link from "./markup/Link.vue";
 import { parseMarkup, Entity, Span, addTextSpans, UnreachableCaseError } from 'nevula'
 import './Markup.scss'
 import emojiParser from '@/utils/emojiParser';
+import { VNode } from 'vue/types/umd';
 
 interface MarkupProps {
   text: string;
@@ -140,6 +141,25 @@ function transformCustomEntity(h: CreateElement, entity: CustomEntity, ctx: Rend
         return h(Link, { props: { url: url, text: text } })
       }
 
+      break
+    }
+    case "ruby": {
+      const output: VNode[] = []
+      const matches = expr.matchAll(/(.+?)\((.*?)\)/g)
+      for (const match of matches) {
+        const text = match[1].trim();
+        const annotation = match[2].trim();
+
+        output.push(
+          <span>{text}</span>,
+          <rp>(</rp>,
+          <rt>{annotation}</rt>,
+          <rp>)</rp>
+        )
+      }
+      if (output.length > 0) {
+        return <ruby>{output}</ruby>
+      }
       break
     }
     default: {
