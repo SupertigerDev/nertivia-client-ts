@@ -66,6 +66,7 @@ function transformEntity(h: CreateElement, entity: Entity, ctx: RenderContext) {
       return <code class={entity.type}>{transformEntities(h, entity, ctx)}</code>
     }
     case "codeblock": {
+      // todo: add lightweight highlighting
       return <pre class="codeblock"><code>{transformEntities(h, entity, ctx)}</code></pre>
     }
     case "blockquote": {
