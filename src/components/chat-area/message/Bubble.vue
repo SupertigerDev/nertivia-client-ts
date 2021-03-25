@@ -135,6 +135,7 @@ $pointer-size: 10px;
   border-top-left-radius: 0;
   margin-left: 10px;
   padding: 7px;
+  min-height: 37px;
 
   &::after {
     content: "";

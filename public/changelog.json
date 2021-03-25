@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.16.10-beta",
+		"date": "25 March 2021",
+		"title": "Bug Fixes",
+		"fixes": ["Added minimum bubble height", "Close confirm link popout after clicking on 'visit'", "Show confirm popout when clicking on a named link."]
+	},
+	{
 		"version": "1.16.9-beta",
 		"date": "24 March 2021",
 		"title": "More Markup!",

@@ -52,6 +52,7 @@ export default class ProfilePopout extends Vue {
     const win = window.open(this.url, "_blank");
     if (!win) return;
     win.focus();
+    this.close();
   }
   close() {
     PopoutsModule.ClosePopout(this.identity);
