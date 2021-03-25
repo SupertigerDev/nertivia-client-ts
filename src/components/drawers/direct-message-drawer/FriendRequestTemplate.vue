@@ -26,14 +26,14 @@
         </div>
       </div>
       <div class="buttons">
-        <div
-          class="button alert"
+        <CustomButton
           v-if="friend.status === 0"
           @click="cancelOrDecline"
-        >
-          Cancel
-        </div>
-
+          :filled="true"
+          name="Cancel"
+          :valid="true"
+          :warn="true"
+        />
         <CustomButton
           v-if="friend.status === 1"
           @click="acceptFriend"
