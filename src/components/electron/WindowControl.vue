@@ -38,6 +38,7 @@ export default class App extends Vue {
   height: 30px;
   background: rgba(0, 0, 0, 0.4);
   overflow: hidden;
+  user-select: none;
 }
 .drag-area {
   display: flex;
