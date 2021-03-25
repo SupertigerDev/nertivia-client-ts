@@ -160,6 +160,7 @@ $pointer-size: 10px;
   }
   &.grouped {
     border-radius: 4px;
+    min-height: 18px;
   }
   &.grouped:after {
     border-color: transparent;
