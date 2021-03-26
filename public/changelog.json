@@ -1,5 +1,14 @@
 [
 	{
+		"version": "1.16.11-beta",
+		"date": "25 March 2021",
+		"title": "Bug Fixes",
+		"new": [
+			"You can now easily see which role is default and which role is created by a bot.",
+			"Notice message now displays for the deafult and bot roles on the edit role page."
+		]
+	},
+	{
 		"version": "1.16.10-beta",
 		"date": "25 March 2021",
 		"title": "Bug Fixes",
