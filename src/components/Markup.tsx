@@ -91,6 +91,10 @@ function transformEntity(h: CreateElement, entity: Entity, ctx: RenderContext) {
     case "custom": {
       return transformCustomEntity(h, entity, ctx)
     }
+    case "link": {
+      const url = sliceText(ctx, entity.innerSpan)
+      return <a href={url}>{url}</a>
+    }
     default: {
       throw new UnreachableCaseError(entity)
     }
