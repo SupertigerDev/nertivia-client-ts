@@ -23,5 +23,10 @@
     "name": "Interface",
     "icon": "view_quilt",
     "component": "Interface"
+  },
+  "delete-account": {
+    "name": "Delete Account",
+    "icon": "delete",
+    "component": "DeleteAccount"
   }
 }

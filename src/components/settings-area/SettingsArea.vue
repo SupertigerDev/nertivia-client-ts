@@ -26,6 +26,10 @@ const ManageBots = () =>
   import(
     /* webpackChunkName: "ManageBots" */ "@/components/settings-area/manage-bots/ManageBots.vue"
   );
+const DeleteAccount = () =>
+  import(
+    /* webpackChunkName: "DeleteAccount" */ "@/components/settings-area/DeleteAccount.vue"
+  );
 import Header from "@/components/Header.vue";
 import settingPages from "@/utils/settingPages.json";
 import { Vue, Component } from "vue-property-decorator";
@@ -36,7 +40,8 @@ import { Vue, Component } from "vue-property-decorator";
     Account,
     Notification,
     ManageEmojis,
-    ManageBots
+    ManageBots,
+    DeleteAccount
   }
 })
 export default class SettingsArea extends Vue {

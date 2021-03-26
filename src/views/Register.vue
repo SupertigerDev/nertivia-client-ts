@@ -59,7 +59,7 @@
           class="agree-message"
           prefix="By creating an account,"
         />
-        <CustomButton name="Register" :filled="true" />
+        <CustomButton name="Register" :filled="true" :disabled="requestSent" />
         <a class="link" href="/login">Login</a>
       </form>
       <!-- Captcha -->

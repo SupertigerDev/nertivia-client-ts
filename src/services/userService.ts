@@ -78,6 +78,13 @@ export function removeRole(
     .delete(`servers/${serverID}/members/${uniqueID}/roles/${roleID}`)
     .json();
 }
+export function deleteAccount(
+  password: string,
+): Promise<any> {
+  return wrapper()
+    .delete(`user/delete-account`, {json: {password}})
+    .json();
+}
 
 export interface ReturnedUser {
   user: User & UserExtra;
