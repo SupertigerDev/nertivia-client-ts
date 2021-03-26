@@ -1,5 +1,9 @@
 <template>
-  <div class="container selected-channel-page">
+  <div class="container selected-channel-page" v-if="channel">
+    <div class="warn" v-if="channel.channelID === server.default_channel_id">
+      This is a default channel. You may chnage the default channel in the
+      General page. Default channel cannot be deleted.
+    </div>
     <CustomInput
       class="input"
       title="Channel Name"
@@ -34,7 +38,7 @@
       "
       :warn="true"
       icon="delete"
-      v-if="channel && channel.channelID !== server.default_channel_id"
+      v-if="channel.channelID !== server.default_channel_id"
       @click="deleteChannel"
     />
     <CustomButton
@@ -194,5 +198,14 @@ export default class ManageChannels extends Vue {
   font-weight: bold;
   font-size: 18px;
   margin-bottom: 5px;
+}
+.warn {
+  border: solid 1px var(--warn-color);
+  padding: 5px;
+  border-radius: 4px;
+  max-width: 600px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
 }
 </style>
