@@ -24,3 +24,4 @@ pnpm-debug.log*
 .env
 public/swenv.js
 server.env
+local.env
