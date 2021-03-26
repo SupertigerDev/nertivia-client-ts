@@ -3,9 +3,7 @@
 		"version": "1.19.11-beta",
 		"date": "26 March 2021",
 		"title": "Rate Limit Mode!",
-		"new": [
-			"You can now set a rate limit on each channels through channel settings."
-		]
+		"new": "You can now set a rate limit on each channels through channel settings."
 	},
 	{
 		"version": "1.18.11-beta",
