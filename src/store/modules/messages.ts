@@ -154,6 +154,17 @@ class Messages extends VuexModule {
         throw await err.response.json();
       })
       .catch(res => {
+        const ttl = res.ttl;
+        if (ttl) {
+          const rateLimit = ChannelsModule.channels[payload.channelID].rateLimit;
+          if (rateLimit){
+            const ms = rateLimit * 1000;
+            this.UpdateLastMessageSend({
+              channelID: payload.channelID,
+              timestamp: Date.now() - ( ms - ttl)
+            })
+          }
+        }
         this.UpdateMessage({
           channelID: payload.channelID,
           message: { sending: 2 },

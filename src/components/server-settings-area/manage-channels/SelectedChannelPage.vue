@@ -18,6 +18,12 @@
       v-model="sendMessagePermission"
       :colored="true"
     />
+    <CustomInput
+      class="input slow"
+      title="Rate Limit (seconds)"
+      v-model="rateLimit"
+      prefixIcon="query_builder"
+    />
     <CustomButton
       class="button"
       :filled="true"
@@ -25,12 +31,6 @@
       icon="save"
       v-if="showSaveButton"
       @click="update"
-    />
-    <CustomInput
-      class="input slow"
-      title="Slow Down (seconds)"
-      v-model="rateLimit"
-      prefixIcon="query_builder"
     />
     <CustomButton
       class="button delete-button"

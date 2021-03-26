@@ -222,6 +222,11 @@ export default class MessageBoxArea extends Vue {
       return;
     }
 
+    const now = Date.now();
+    const timeLeft = ChannelsModule.rateLimitTimeLeft(this.channelID, now);
+    if (this.rateLimit && timeLeft > 0) {
+      return;
+    }
     if (this.showUploadBox) {
       this.message = "";
       FileUploadModule.AddToQueue({

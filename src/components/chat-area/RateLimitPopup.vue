@@ -15,17 +15,22 @@ export default class RateLimitPopup extends Vue {
   timeLeft = "";
   interval: any = null;
 
-  mounted() {
-    this.interval = setInterval(this.calculate, 500);
-  }
   beforeDestroy() {
     clearInterval(this.interval);
   }
   calculate() {
-    this.timeLeft = this.timeConversion(this.rateTimeLeft);
+    const now = Date.now();
+    const timeLeft = ChannelsModule.rateLimitTimeLeft(this.channelID, now);
+    if (timeLeft <= 0) {
+      clearInterval(this.interval);
+      this.interval = null;
+      this.timeLeft = "";
+      return;
+    }
+    this.timeLeft = this.timeConversion(timeLeft);
   }
   timeConversion(millisec: number) {
-    const seconds = (millisec / 1000).toFixed(1) as any;
+    const seconds = (millisec / 1000).toFixed(0) as any;
     const minutes = (millisec / (1000 * 60)).toFixed(1) as any;
     const hours = (millisec / (1000 * 60 * 60)).toFixed(1) as any;
 
@@ -38,6 +43,13 @@ export default class RateLimitPopup extends Vue {
     }
   }
 
+  @Watch("rateTimeLeft")
+  onRateLimit(val) {
+    if (this.interval) return;
+    if (isNaN(val)) return;
+    this.calculate();
+    this.interval = setInterval(this.calculate, 500);
+  }
   get rateTimeLeft() {
     const now = Date.now();
     return ChannelsModule.rateLimitTimeLeft(this.channelID, now);
