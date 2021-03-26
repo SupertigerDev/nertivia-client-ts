@@ -1,12 +1,12 @@
 [
 	{
-		"version": "1.19.11-beta",
+		"version": "1.19.0-beta",
 		"date": "26 March 2021",
 		"title": "Rate Limit Mode!",
 		"new": "You can now set a rate limit on each channels through channel settings."
 	},
 	{
-		"version": "1.18.11-beta",
+		"version": "1.18.0-beta",
 		"date": "26 March 2021",
 		"title": "Link markup",
 		"new": [
@@ -14,7 +14,7 @@
 		]
 	},
 	{
-		"version": "1.17.11-beta",
+		"version": "1.17.0-beta",
 		"date": "26 March 2021",
 		"title": "Delete Account (DONT)",
 		"new": [
@@ -22,7 +22,7 @@
 		]
 	},
 	{
-		"version": "1.16.11-beta",
+		"version": "1.16.2-beta",
 		"date": "26 March 2021",
 		"title": "Bug Fixes",
 		"new": [
@@ -31,19 +31,19 @@
 		]
 	},
 	{
-		"version": "1.16.10-beta",
+		"version": "1.16.1-beta",
 		"date": "25 March 2021",
 		"title": "Bug Fixes",
 		"fixes": ["Added minimum bubble height", "Close confirm link popout after clicking on 'visit'", "Show confirm popout when clicking on a named link."]
 	},
 	{
-		"version": "1.16.9-beta",
+		"version": "1.16.0-beta",
 		"date": "24 March 2021",
 		"title": "More Markup!",
 		"new": "Added more markup thanks to bree!"
 	},
 	{
-		"version": "1.15.9-beta",
+		"version": "1.15.5-beta",
 		"date": "23 March 2021",
 		"title": "Role Bug Fixes & Server Perfomance Improvements!",
 		"fixes": "Server owner could not modify role permissions.",
@@ -51,76 +51,76 @@
 
 	},
 	{
-		"version": "1.15.8-beta",
+		"version": "1.15.4-beta",
 		"date": "21 March 2021",
 		"title": "More Drawer Improvements!",
 		"changes": "You can now swipe to open the drawers (mobile only)"
 	},
 	{
-		"version": "1.15.7-beta",
+		"version": "1.15.3-beta",
 		"date": "20 March 2021",
 		"title": "Faster Drawers",
 		"changes": ["Changed the code for drawers. They should open way quicker on a mobile device.", "Do not automatically show keyboard on mobile."]
 	},
 	{
-		"version": "1.15.6-beta",
+		"version": "1.15.2-beta",
 		"date": "20 March 2021",
 		"title": "Fixed Overflow",
 		"fixes": "Fixed overflow for the custom status."
 	},
 	{
-		"version": "1.15.5-beta",
+		"version": "1.15.1-beta",
 		"date": "19 March 2021",
 		"title": "Role Priority",
 		"changes": "Roles now have a priority. low priority roles cannot modify the higher priority roles."
 	},
 	{
-		"version": "1.15.4-beta",
+		"version": "1.15.0-beta",
 		"date": "19 March 2021",
 		"title": "Verified Servers",
 		"new": "Servers that are verified now have a checkmark."
 	},
 	{
-		"version": "1.14.4-beta",
+		"version": "1.14.0-beta",
 		"date": "18 March 2021",
 		"title": "Block Users",
 		"changes": "Clicking on a friend in friends list or clicking on a setting option should now close the drawer on mobile.",
 		"new": "Open server context menu from the drawer header."
 	},
 	{
-		"version": "1.13.4-beta",
+		"version": "1.13.0-beta",
 		"date": "18 March 2021",
 		"title": "Block Users",
 		"new": "You can now block users from the profile popout. Blocking the users will prevent them from interacting to you."
 	},
 	{
-		"version": "1.12.4-beta",
+		"version": "1.12.0-beta",
 		"date": "18 March 2021",
 		"title": "Server Invite Page",
 		"new": "Added invites page.",
 		"fixes": "Fixed some bugs throughout the code."
 	},
 	{
-		"version": "1.11.4-beta",
+		"version": "1.11.1-beta",
 		"date": "17 March 2021",
 		"title": "Fixes And Changes",
 		"changes": "Invite links should now use MainAppURL",
 		"fixes": "You can now scroll through the server channels list."
 	},
 	{
-		"version": "1.11.3-beta",
+		"version": "1.11.0-beta",
 		"date": "17 March 2021",
 		"title": "Desktop App Badge",
 		"new": "Notifications will now show a red badge for the electron app."
 	},
 	{
-		"version": "1.10.3-beta",
+		"version": "1.10.0-beta",
 		"date": "16 March 2021",
 		"title": "Edit Bot Commands",
 		"new": "You can now edit bot commands in the manage bots page in settings."
 	},
 	{
-		"version": "1.9.3-beta",
+		"version": "1.9.0-beta",
 		"date": "15 March 2021",
 		"title": "Come Back! :(",
 		"new": [
@@ -129,13 +129,13 @@
 		]
 	},
 	{
-		"version": "1.8.3-beta",
+		"version": "1.8.1-beta",
 		"date": "14 March 2021",
 		"title": "Fixed Bug",
 		"fixes": "Clicking on a user in manage users would take you to an incorrect user."
 	},
 	{
-		"version": "1.8.2-beta",
+		"version": "1.8.0-beta",
 		"date": "14 March 2021",
 		"title": "Common Servers & Friends",
 		"new": "You can now see common servers and common friends in the profile popout.",
@@ -145,26 +145,26 @@
 		]
 	},
 	{
-		"version": "1.7.2-beta",
+		"version": "1.7.0-beta",
 		"date": "13 March 2021",
 		"title": "Video Embed",
 		"new": "Uploaded MP4 videos and YouTube URL links now show an embed inside Nertivia."
 	},
 	{
-		"version": "1.6.2-beta",
+		"version": "1.6.0-beta",
 		"date": "13 March 2021",
 		"title": "Bots",
 		"new": "You can now create & invite bots.",
 		"fixes": "Fixed some minor bugs."
 	},
 	{
-		"version": "1.5.2-beta",
+		"version": "1.5.0-beta",
 		"date": "09 March 2021",
 		"title": "Close DM Channels",
 		"new": "You can now close DM channels"
 	},
 	{
-		"version": "1.4.2-beta",
+		"version": "1.4.0-beta",
 		"date": "08 March 2021",
 		"title": "Google Drive Link",
 		"new": "Added link with Google Drive popout",
@@ -172,14 +172,14 @@
 
 	},
 	{
-		"version": "1.3.2-beta",
+		"version": "1.3.0-beta",
 		"date": "05 March 2021",
 		"title": "Small Changes",
 		"new": "Added electron title bar WIP. You won't be able to see it yet though as the electron app is not released yet.",
 		"changes": "Removed border radius from left side header."
 	},
 	{
-		"version": "1.2.2-beta",
+		"version": "1.2.0-beta",
 		"date": "05 March 2021",
 		"title": "Delete Server",
 		"new": "You can now delete your server through server settings.",
