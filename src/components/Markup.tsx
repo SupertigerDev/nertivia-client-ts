@@ -11,8 +11,9 @@ import MentionChannel from "./markup/MentionChannel.vue";
 import MessageQuote from "./markup/MessageQuote.vue";
 import CustomEmoji from "./markup/CustomEmoji.vue";
 import Link from "./markup/Link.vue";
+import Emoji from "./markup/Emoji.vue";
 
-import { parseMarkup, Entity, Span, addTextSpans, UnreachableCaseError } from 'nevula'
+import { parseMarkup, Entity, Span, addTextSpans, UnreachableCaseError } from 'nertivia-markup'
 import './Markup.scss'
 import emojiParser from '@/utils/emojiParser';
 import { VNode } from 'vue/types/umd';
@@ -32,7 +33,6 @@ const replaceOldMentions = (text: string) =>
     // temporary names
     .replaceAll(/<g:([\w\d_-]+?):([\w\d_-]+?)>/g, '[animated_custom_emoji:$2:$1]')
     .replaceAll(/<:([\w\d_-]+?):([\w\d_-]+?)>/g, '[custom_emoji:$2:$1]')
-    .replaceAll(/:(\w+?):/g, (text, name) => emojiParser.findEmoji(name)?.unicode ?? text)
 
 
 const transformEntities = (h: CreateElement, entity: Entity, ctx: RenderContext) => entity.entities.map(e => transformEntity(h, e, ctx))
@@ -73,11 +73,26 @@ function transformEntity(h: CreateElement, entity: Entity, ctx: RenderContext) {
     case "blockquote": {
       return <blockquote>{transformEntities(h, entity, ctx)}</blockquote>
     }
+    case "emoji_name": {
+      const name = sliceText(ctx, entity.innerSpan, { countText: false })
+      const emoji = emojiParser.findEmoji(name)
+      if (emoji != null) {
+        ctx.emojiCount += 1
+        return h(Emoji, { props: { emoji } })
+      } else {
+        return sliceText(ctx, entity.outerSpan)
+      }
+    }
+    case "emoji": {
+      const emoji = sliceText(ctx, entity.innerSpan, { countText: false })
+      ctx.emojiCount += 1
+      return h(Emoji, { props: { emoji: { unicode: emoji } } })
+    }
     case "custom": {
       return transformCustomEntity(h, entity, ctx)
     }
     default: {
-      throw new UnreachableCaseError(entity['type'] as never)
+      throw new UnreachableCaseError(entity)
     }
   }
 }
