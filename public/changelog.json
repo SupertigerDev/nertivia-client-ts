@@ -1,5 +1,13 @@
 [
 	{
+		"version": "1.18.0-beta",
+		"date": "26 March 2021",
+		"title": "Link markup",
+		"new": [
+			"Added links to the markup thanks to bree!"
+		]
+	},
+	{
 		"version": "1.17.11-beta",
 		"date": "26 March 2021",
 		"title": "Delete Account (DONT)",
