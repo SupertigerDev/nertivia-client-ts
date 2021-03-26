@@ -2,6 +2,8 @@
   <div class="role" :class="{ disabled: !role.canModify && !role.default }">
     <div class="color" :style="{ backgroundColor: role.color }" />
     <div class="name">{{ role.name }}</div>
+    <div class="info" v-if="role.bot">Bot Role</div>
+    <div class="info" v-if="role.default">Default Role</div>
     <div class="material-icons arrow">keyboard_arrow_right</div>
   </div>
 </template>
@@ -45,6 +47,11 @@ export default class RoleTemplate extends Vue {
       }
     }
   }
+}
+.info {
+  margin-left: 5px;
+  opacity: 0.2;
+  font-size: 12px;
 }
 .color {
   height: 10px;

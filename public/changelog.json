@@ -1,7 +1,7 @@
 [
 	{
 		"version": "1.16.11-beta",
-		"date": "25 March 2021",
+		"date": "26 March 2021",
 		"title": "Bug Fixes",
 		"new": [
 			"You can now easily see which role is default and which role is created by a bot.",

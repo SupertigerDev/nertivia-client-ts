@@ -1,5 +1,13 @@
 <template>
   <div class="container selected-role-page">
+    <div class="warn" v-if="role && role.bot">
+      This role cannot be deleted/assigned to another member as it is created by
+      a bot. Remove the bot to remove this role.
+    </div>
+    <div class="warn" v-if="role && role.default">
+      This role cannot be deleted or be un-assigned as this is the default role
+      that gets applied to every member.
+    </div>
     <div class="name-color">
       <div
         class="color"
@@ -321,6 +329,15 @@ export default class ManageRolesPage extends Vue {
 .hidden {
   opacity: 0;
   pointer-events: none;
+}
+.warn {
+  border: solid 1px var(--warn-color);
+  padding: 5px;
+  border-radius: 4px;
+  max-width: 600px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
 }
 </style>
 <style lang="scss">
