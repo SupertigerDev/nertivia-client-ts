@@ -6,6 +6,7 @@
         v-if="showUploadBox"
         :key="showUploadBox.name + showUploadBox.size"
       />
+      <RateLimitPopup v-if="rateLimit" />
       <EmojiPicker
         v-if="showEmojiPicker"
         :inputElement="$refs.textarea"
@@ -86,6 +87,7 @@ import FileUpload from "./FileUpload.vue";
 import SuggestionPopouts from "./suggestion-popouts/SuggestionPopouts.vue";
 import TypingStatus from "./TypingStatus.vue";
 import ScrollDownButton from "./ScrollDownButton.vue";
+import RateLimitPopup from "./RateLimitPopup.vue";
 import ButtonTemplate from "./MessageBoxButtonTemplate.vue";
 import EditPanel from "./EditPanel.vue";
 import { MeModule } from "@/store/modules/me";
@@ -115,7 +117,8 @@ const EmojiPicker = () =>
     EmojiPicker,
     ButtonTemplate,
     SuggestionPopouts,
-    ScrollDownButton
+    ScrollDownButton,
+    RateLimitPopup
   }
 })
 export default class MessageBoxArea extends Vue {
@@ -432,6 +435,9 @@ export default class MessageBoxArea extends Vue {
   }
   get isScrolledDown() {
     return MessageLogStatesModule.isScrolledDown(this.channelID);
+  }
+  get rateLimit() {
+    return this.serverChannel.rateLimit;
   }
 }
 </script>

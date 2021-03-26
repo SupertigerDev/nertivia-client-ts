@@ -15,6 +15,7 @@ import { UsersModule } from "./users";
 import DmChannelWithUser from "@/interfaces/DmChannelWithUser";
 import Vue from "vue";
 import { ServersModule } from "./servers";
+import { MessagesModule } from "./messages";
 
 interface ChannelObj {
   [key: string]: Channel;
@@ -23,6 +24,15 @@ interface ChannelObj {
 @Module({ dynamic: true, store, namespaced: true, name: "channels" })
 class Channels extends VuexModule {
   channels: ChannelObj = {};
+
+
+  get rateLimitTimeLeft() {
+    return (channelID: string, nowTimeStamp: number) => {
+      const rateLimit = (this.channels[channelID].rateLimit || 0) * 1000;
+      const lastStamp = MessagesModule.lastSentStamp(channelID);
+      return lastStamp - nowTimeStamp + rateLimit;
+    } 
+  }
 
   get serverChannels() {
     return (id: string) =>

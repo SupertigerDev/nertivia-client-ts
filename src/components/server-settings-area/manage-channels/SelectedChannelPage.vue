@@ -26,6 +26,12 @@
       v-if="showSaveButton"
       @click="update"
     />
+    <CustomInput
+      class="input slow"
+      title="Slow Down (seconds)"
+      v-model="rateLimit"
+      prefixIcon="query_builder"
+    />
     <CustomButton
       class="button delete-button"
       :filled="true"
@@ -71,9 +77,11 @@ export default class ManageChannels extends Vue {
   deleteRequestSent = false;
   requestSent = false;
   channelName = this.channel?.name;
+  rateLimit = this.channel?.rateLimit || 0;
   error: string | null = null;
   sendMessagePermission = this.channel?.permissions?.send_message || false;
   reset() {
+    this.rateLimit = this.channel?.rateLimit || 0;
     this.channelName = this.channel?.name;
     if (this.channel?.permissions?.send_message === undefined) {
       return (this.sendMessagePermission = true);
@@ -122,7 +130,8 @@ export default class ManageChannels extends Vue {
     this.error = null;
     updateServerChannel(this.channel.channelID, this.channel.server_id, {
       name: this.channelName,
-      permissions: { send_message: this.sendMessagePermission }
+      permissions: { send_message: this.sendMessagePermission },
+      rateLimit: parseInt(this.rateLimit as any)
     })
       .then(json => {
         ChannelsModule.updateChannel({
@@ -152,18 +161,20 @@ export default class ManageChannels extends Vue {
     return ServersModule.servers[this.channel?.server_id || ""];
   }
   get showSaveButton() {
-    const { channelName, sendMessagePermission } = this.changed;
-    return channelName || sendMessagePermission;
+    const { channelName, sendMessagePermission, rateLimit } = this.changed;
+    return channelName || sendMessagePermission || rateLimit;
   }
   get changed() {
     let currentPermission = this.channel?.permissions?.send_message;
     if (this.channel?.permissions?.send_message === undefined) {
       currentPermission = true;
     }
+    const rateLimit = this.rateLimit !== (this.channel?.rateLimit || 0);
     const channelName = this.channelName !== this.channel?.name;
     const sendMessagePermission =
       this.sendMessagePermission !== currentPermission || false;
-    return { channelName, sendMessagePermission };
+
+    return { channelName, sendMessagePermission, rateLimit };
   }
   get connected() {
     return MeModule.connected;
@@ -181,6 +192,10 @@ export default class ManageChannels extends Vue {
 }
 .input {
   margin-left: -2px;
+  &.slow {
+    width: 190px;
+    margin-top: 10px;
+  }
 }
 .button {
   margin-top: 10px;

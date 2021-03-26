@@ -37,13 +37,21 @@ function generateNum(n: number): string {
 
   return ("" + number).substring(add);
 }
+// channelid: timestamp
+interface LastMessage {
+  [key: string]: number
+}
 
 @Module({ dynamic: true, store, namespaced: true, name: "messages" })
 class Messages extends VuexModule {
   messages: MessagesObj = {};
+  lastMessageSent: LastMessage = {}
 
   get channelMessages() {
     return (id: string) => this.messages[id];
+  }
+  get lastSentStamp() {
+    return (id: string) => this.lastMessageSent[id];
   }
   @Mutation
   private SET_CHANNEL_MESSAGES(payload: {
@@ -132,6 +140,7 @@ class Messages extends VuexModule {
     });
     postMessage(trimmedMessage, tempID, payload.channelID)
       .then(res => {
+        this.UpdateLastMessageSend({channelID: payload.channelID, timestamp: Date.now()})
         const message = res.messageCreated;
         this.UpdateMessage({
           channelID: message.channelID,
@@ -322,6 +331,15 @@ class Messages extends VuexModule {
       const channel = channels[i];
       this.DeleteChannelMessages(channel.channelID);
     }
+  }
+
+  @Mutation
+  private UPDATE_LAST_MESSAGE_SENT(payload: {channelID: string, timestamp: number}) {
+    Vue.set(this.lastMessageSent, payload.channelID, payload.timestamp)
+  }
+  @Action
+  public UpdateLastMessageSend(payload: {channelID: string, timestamp: number}) {
+    this.UPDATE_LAST_MESSAGE_SENT(payload);
   }
 }
 export const MessagesModule = getModule(Messages);

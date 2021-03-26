@@ -6,6 +6,7 @@ export default interface Channel extends DmChannel {
   lastMessaged?: number;
   server_id?: string;
   permissions?: ServerPermissions;
+  rateLimit?: number
 }
 interface ServerPermissions {
   send_message?: boolean;
