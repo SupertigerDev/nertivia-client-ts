@@ -93,7 +93,7 @@ function transformEntity(h: CreateElement, entity: Entity, ctx: RenderContext) {
     }
     case "link": {
       const url = sliceText(ctx, entity.innerSpan)
-      return <a href={url}>{url}</a>
+      return h(Link, { props: { url } })
     }
     default: {
       throw new UnreachableCaseError(entity)
