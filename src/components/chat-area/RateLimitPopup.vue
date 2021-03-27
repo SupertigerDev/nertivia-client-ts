@@ -21,7 +21,7 @@ export default class RateLimitPopup extends Vue {
   calculate() {
     const now = Date.now();
     const timeLeft = ChannelsModule.rateLimitTimeLeft(this.channelID, now);
-    if (timeLeft <= 0) {
+    if (isNaN(timeLeft) || timeLeft <= 0) {
       clearInterval(this.interval);
       this.interval = null;
       this.timeLeft = "";
