@@ -79,6 +79,7 @@ export default class RateLimitPopup extends Vue {
   color: rgba(255, 255, 255, 0.7);
   opacity: 0.8;
   pointer-events: none;
+  z-index: 1111111111;
 }
 .icon {
   margin-right: 5px;
