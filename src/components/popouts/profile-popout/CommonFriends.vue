@@ -31,8 +31,12 @@ import { ChannelsModule } from "@/store/modules/channels";
 export default class CommonServers extends Vue {
   @Prop() private friends!: User[];
   friendClicked(friend: User) {
-    ChannelsModule.LoadDmChannel(friend.uniqueID);
-    PopoutsModule.ClosePopout("profile");
+    PopoutsModule.ShowPopout({
+      id: "profile",
+      component: "profile-popout",
+      data: { uniqueID: friend.uniqueID },
+      key: friend.uniqueID
+    });
   }
 }
 </script>

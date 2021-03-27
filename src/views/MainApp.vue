@@ -56,6 +56,7 @@ import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChan
 import { NotificationsModule } from "@/store/modules/notifications";
 import { PopoutsModule } from "@/store/modules/popouts";
 import electronBridge from "@/utils/electronBridge";
+import { setLastSelectedServerChannel } from "@/utils/lastSelectedServer";
 
 @Component({
   components: {
@@ -93,7 +94,7 @@ export default class MainApp extends Vue {
   }
   beforeMount() {
     localStorage.removeItem("lastSelectedDMChannelID");
-    localStorage.removeItem("lastSelectedServer");
+    localStorage.removeItem("lastSelectedServerID");
     this.saveLastSelected();
     this.loadCache();
   }
@@ -174,11 +175,8 @@ export default class MainApp extends Vue {
     this.checkForUpdate();
     if (this.$route.name !== "message-area") return;
     if (this.currentTab === "servers") {
-      const json = JSON.stringify({
-        server_id: this.currentServerID,
-        channel_id: this.currentChannelID
-      });
-      localStorage.setItem("lastSelectedServer", json);
+      setLastSelectedServerChannel(this.currentServerID, this.currentChannelID);
+      localStorage.setItem("lastSelectedServerID", this.currentServerID);
     } else if (this.currentTab === "dms" && this.currentChannelID) {
       localStorage.setItem("lastSelectedDMChannelID", this.currentChannelID);
     }

@@ -23,6 +23,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import Server from "@/interfaces/Server";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
+import { lastSelectedServerChannel } from "@/utils/lastSelectedServer";
 
 @Component({
   components: { AvatarImage }
@@ -30,8 +31,10 @@ import { PopoutsModule } from "@/store/modules/popouts";
 export default class CommonServers extends Vue {
   @Prop() private servers!: Server[];
   serverClicked(server: Server) {
+    const serverChannelID = lastSelectedServerChannel(server.server_id || "");
     this.$router.push(
-      `/app/servers/${server.server_id}/${server.default_channel_id}`
+      `/app/servers/${server.server_id}/${serverChannelID ||
+        server.default_channel_id}`
     );
     PopoutsModule.ClosePopout("profile");
   }

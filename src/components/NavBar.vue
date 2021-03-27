@@ -110,12 +110,9 @@ import { MeModule } from "@/store/modules/me";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { PresencesModule } from "@/store/modules/presences";
-import WindowProperties from "@/utils/windowProperties";
+import { lastSelectedServerChannel } from "@/utils/lastSelectedServer";
 import { Component, Prop, Vue } from "vue-property-decorator";
-interface LastSelectedServer {
-  channel_id: string;
-  server_id: string;
-}
+
 @Component({ components: { AvatarImage, UserArea } })
 export default class MainApp extends Vue {
   @Prop() private updateAvailable!: boolean;
@@ -127,12 +124,14 @@ export default class MainApp extends Vue {
   }
 
   changeTab(name: string) {
-    const selectedServer = this.lastSelectedServer();
+    const selectedServerID = this.lastSelectedServerID();
+    const serverChannelID = lastSelectedServerChannel(selectedServerID || "");
+
     const selectedDmChannelId = this.lastSelectedDMChannelID();
     let path = name;
     if (this.currentTab === name) return;
-    if (name === "servers" && selectedServer && selectedServer.server_id) {
-      path += `/${selectedServer.server_id}/${selectedServer.channel_id}`;
+    if (name === "servers" && selectedServerID && serverChannelID) {
+      path += `/${selectedServerID}/${serverChannelID}`;
     }
     if (name === "dms" && selectedDmChannelId) {
       path += `/${selectedDmChannelId}`;
@@ -145,8 +144,8 @@ export default class MainApp extends Vue {
       component: "UpdatePopout"
     });
   }
-  lastSelectedServer(): LastSelectedServer | null {
-    return JSON.parse(localStorage.getItem("lastSelectedServer") || "null");
+  lastSelectedServerID(): string | null {
+    return localStorage.getItem("lastSelectedServerID");
   }
   lastSelectedDMChannelID(): string | null {
     return localStorage.getItem("lastSelectedDMChannelID");

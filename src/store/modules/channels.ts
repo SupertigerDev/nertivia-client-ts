@@ -28,7 +28,7 @@ class Channels extends VuexModule {
 
   get rateLimitTimeLeft() {
     return (channelID: string, nowTimeStamp: number) => {
-      const rateLimit = (this.channels[channelID].rateLimit || 0) * 1000;
+      const rateLimit = (this.channels[channelID]?.rateLimit || 0) * 1000;
       const lastStamp = MessagesModule.lastSentStamp(channelID);
       return lastStamp - nowTimeStamp + rateLimit;
     } 

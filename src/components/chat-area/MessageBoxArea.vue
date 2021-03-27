@@ -442,7 +442,7 @@ export default class MessageBoxArea extends Vue {
     return MessageLogStatesModule.isScrolledDown(this.channelID);
   }
   get rateLimit() {
-    return this.serverChannel.rateLimit;
+    return this.serverChannel?.rateLimit;
   }
 }
 </script>

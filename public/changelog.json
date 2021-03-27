@@ -1,5 +1,14 @@
 [
 	{
+		"version": "1.19.1-beta",
+		"date": "27 March 2021",
+		"title": "Last Selected Server Channel",
+		"changes": [
+			"Last Selected Server Channels will now be remembered.",
+			"Clicking on common friends now replaces the currnet profile popup instead of opening a DM."
+		]
+	},
+	{
 		"version": "1.19.0-beta",
 		"date": "26 March 2021",
 		"title": "Rate Limit Mode!",

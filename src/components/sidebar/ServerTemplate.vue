@@ -26,6 +26,7 @@ import AvatarImage from "@/components/AvatarImage.vue";
 import Server from "@/interfaces/Server";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { PopoutsModule } from "@/store/modules/popouts";
+import { lastSelectedServerChannel } from "@/utils/lastSelectedServer";
 
 @Component({ components: { AvatarImage } })
 export default class MainApp extends Vue {
@@ -33,8 +34,12 @@ export default class MainApp extends Vue {
   hover = false;
 
   serverClicked() {
+    const serverChannelID = lastSelectedServerChannel(
+      this.server.server_id || ""
+    );
     this.$router.push(
-      `/app/servers/${this.server.server_id}/${this.server.default_channel_id}`
+      `/app/servers/${this.server.server_id}/${serverChannelID ||
+        this.server.default_channel_id}`
     );
   }
   showContext(event: MouseEvent) {
