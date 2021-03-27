@@ -18,6 +18,10 @@ export default class RateLimitPopup extends Vue {
   beforeDestroy() {
     clearInterval(this.interval);
   }
+  mounted() {
+    this.calculate();
+    this.interval = setInterval(this.calculate, 500);
+  }
   calculate() {
     const now = Date.now();
     const timeLeft = ChannelsModule.rateLimitTimeLeft(this.channelID, now);
