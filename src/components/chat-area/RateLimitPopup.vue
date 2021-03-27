@@ -45,8 +45,8 @@ export default class RateLimitPopup extends Vue {
 
   @Watch("rateTimeLeft")
   onRateLimit(val) {
-    if (this.interval) return;
     this.calculate();
+    if (this.interval) return;
     this.interval = setInterval(this.calculate, 500);
   }
   get rateTimeLeft() {
