@@ -15,6 +15,7 @@ import {
   SERVER_CHANNEL_POSITION_CHANGE
 } from "@/socketEventConstants";
 import { ServersModule } from "../servers";
+import { MessagesModule } from "../messages";
 
 const actions: ActionTree<any, any> = {
   [CHANNEL_CREATED](context, data: { channel: ChannelWithUser }) {
@@ -32,6 +33,7 @@ const actions: ActionTree<any, any> = {
   },
   [SERVER_CHANNEL_UPDATE](context, channel: Partial<Channel>) {
     if (!channel.channelID) return;
+    MessagesModule.UpdateLastMessageSend({channelID: channel.channelID, timestamp: 0})
     ChannelsModule.updateChannel({
       channelID: channel.channelID,
       update: channel
