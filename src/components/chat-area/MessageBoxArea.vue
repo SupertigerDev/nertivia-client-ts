@@ -22,12 +22,14 @@
     />
     <div class="input-box" v-if="hasSendMessagePerm">
       <ButtonTemplate
+        class="button"
         icon="attach_file"
         @click="$refs.sendFileBrowse.click()"
         v-if="!showUploadBox && !editingMessageID"
       />
 
       <ButtonTemplate
+        class="button"
         icon="close"
         :warn="true"
         v-else-if="showUploadBox"
@@ -54,22 +56,25 @@
       />
 
       <ButtonTemplate
+        class="button"
         icon="tag_faces"
-        class="emoji-button"
         @click="showEmojiPicker = !showEmojiPicker"
       />
       <ButtonTemplate
+        class="button"
         v-if="message.trim().length && editingMessageID"
         @click="sendMessage"
         icon="edit"
       />
       <ButtonTemplate
+        class="button"
         v-else-if="!message.length && editingMessageID"
         @click="sendMessage"
         :warn="true"
         icon="delete"
       />
       <ButtonTemplate
+        class="button"
         v-else-if="message.trim().length || showUploadBox"
         @click="sendMessage"
         :icon="showUploadBox ? 'upload' : 'send'"
@@ -462,12 +467,16 @@ export default class MessageBoxArea extends Vue {
 .input-box {
   display: flex;
   flex: 1;
-  gap: 5px;
-  margin-left: 5px;
-  margin-right: 5px;
+  gap: 2px;
+  margin-left: 2px;
+  margin-right: 2px;
   place-items: center;
   min-height: 45px;
   flex-shrink: 0;
+  .button {
+    height: 40px;
+    width: 50px;
+  }
 }
 .textarea {
   outline: none;

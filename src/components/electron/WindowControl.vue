@@ -60,7 +60,7 @@ export default class App extends Vue {
   display: flex;
   overflow: hidden;
   align-self: center;
-  margin-right: 3px;
+  margin-right: 2px;
 }
 .button {
   display: flex;
@@ -68,8 +68,8 @@ export default class App extends Vue {
   align-items: center;
   flex-shrink: 0;
   width: 50px;
-  height: 23px;
-  margin-left: 5px;
+  height: 27px;
+  margin-left: 2px;
   border-radius: 4px;
   transition: 0.2s;
   user-select: none;
