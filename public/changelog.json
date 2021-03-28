@@ -1,5 +1,12 @@
 [
 	{
+		"version": "1.19.2-beta",
+		"date": "28 March 2021",
+		"title": "Bug Fix & Added Notices",
+		"fixes": "Servers didn't get detected in the Delete Account page.",
+		"new": "Added a notice in the explore server page."
+	},
+	{
 		"version": "1.19.1-beta",
 		"date": "27 March 2021",
 		"title": "Last Selected Server Channel",

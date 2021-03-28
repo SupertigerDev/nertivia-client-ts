@@ -1,5 +1,13 @@
 <template>
   <div class="explore-server">
+    <div class="notice">
+      <div class="material-icons icon">info</div>
+      Servers are not being actively monitored. Please report servers that dont
+      follow the
+      <a href="/terms-and-conditions" target="_blank" rel="noopener noreferrer"
+        >TOS</a
+      >.
+    </div>
     <div class="server-list" v-if="data.length">
       <ServerTemplate
         v-for="server in data"
@@ -29,15 +37,37 @@ export default class ExploreArea extends Vue {
   flex-direction: column;
   width: 100%;
   overflow: hidden;
+  margin-bottom: 10px;
 }
 .server-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, 300px);
   justify-content: center;
   grid-gap: 20px;
-  padding: 20px;
+  // padding: 20px;
   overflow: auto;
-  padding-bottom: 100px;
+  margin-top: 10px;
+  // padding-bottom: 100px;
+}
+.notice {
+  text-align: center;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  align-self: center;
+  margin-top: 5px;
+  background: var(--warn-color);
+  border-radius: 4px;
+  padding: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  .icon {
+    margin-right: 5px;
+  }
+  a {
+    margin-left: 2px;
+    color: white;
+  }
 }
 @media (max-width: 344px) {
   .server-list {

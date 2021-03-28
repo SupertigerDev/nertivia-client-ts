@@ -102,7 +102,7 @@ export default class DeleteAccount extends Vue {
       });
   }
   get servers() {
-    return ServersModule.servers;
+    return Object.keys(ServersModule.servers);
   }
   get me() {
     return MeModule.user;
