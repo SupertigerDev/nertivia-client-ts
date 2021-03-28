@@ -53,6 +53,8 @@ export default class MainApp extends Vue {
   }
 
   onTouchStart(event: TouchEvent) {
+    if (!this.isMobile) return;
+
     this.touchStamp = Date.now();
     const x = event.touches[0].clientX;
     const y = event.touches[0].clientY;
@@ -68,6 +70,8 @@ export default class MainApp extends Vue {
     }
   }
   onTouchEnd(event: TouchEvent) {
+    if (!this.isMobile) return;
+
     this.scrolling = false;
     const x = event.changedTouches[0].clientX;
 
@@ -125,6 +129,7 @@ export default class MainApp extends Vue {
     }
   }
   onTouchMove(event: TouchEvent) {
+    if (!this.isMobile) return;
     if (this.scrolling) return;
     if (!this.leftDrawerEl) return;
     if (!this.rightDrawerEl) return;
