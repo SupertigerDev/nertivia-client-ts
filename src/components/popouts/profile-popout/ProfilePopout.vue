@@ -25,14 +25,17 @@
               size="80px"
               class="avatar"
             />
-            <div class="user">
-              <span class="username">{{ user.username }}</span>
-              <span class="tag">:{{ user.tag }}</span>
-            </div>
           </div>
         </div>
         <div class="details">
           <div class="left">
+            <div class="user">
+              <span class="username">{{ user.username }}</span>
+              <span class="tag">:{{ user.tag }}</span>
+            </div>
+            <div class="name" v-if="aboutMe && aboutMe.name">
+              {{ aboutMe.name }}
+            </div>
             <div class="custom-status">
               <UserStatusTemplate
                 :showOffline="true"
@@ -335,16 +338,8 @@ export default class ProfilePopout extends Vue {
   flex-direction: column;
   z-index: 2;
 
-  bottom: -50px;
+  top: 89px;
   left: 20px;
-  .user {
-    margin-top: 10px;
-    font-size: 18px;
-  }
-  .tag {
-    font-size: 16px;
-    opacity: 0.7;
-  }
 }
 .details {
   display: flex;
@@ -353,10 +348,34 @@ export default class ProfilePopout extends Vue {
   flex-shrink: 0;
   .left {
     display: flex;
-    margin-top: 60px;
+    flex-direction: column;
+    margin-top: 20px;
     position: relative;
     overflow: hidden;
     flex: 1;
+    .user {
+      margin-left: 20px;
+      margin-top: 10px;
+      font-size: 18px;
+      overflow: hidden;
+      display: flex;
+    }
+    .tag {
+      font-size: 16px;
+      opacity: 0.7;
+    }
+    .username {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .name {
+      color: rgba(255, 255, 255, 0.4);
+      margin-left: 20px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
   .right {
     display: flex;
@@ -376,6 +395,7 @@ export default class ProfilePopout extends Vue {
   padding: 4px;
   padding-left: 6px;
   padding-right: 8px;
+  margin-top: 5px;
   .dot {
     background: green;
     height: 10px;
