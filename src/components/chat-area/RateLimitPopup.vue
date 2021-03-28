@@ -1,5 +1,6 @@
 <template>
-  <div class="ratelimit-popup">
+  <div class="ratelimit-popup" :title="rateLimitDuration">
+    <div class="immune" v-if="isImmune" />
     <div class="material-icons icon">query_builder</div>
     <div class="text" v-if="!timeLeft">Rate Limit Mode</div>
     <div class="text" v-if="timeLeft">{{ timeLeft }}</div>
@@ -7,7 +8,11 @@
 </template>
 
 <script lang="ts">
+import { permissions } from "@/constants/rolePermissions";
 import { ChannelsModule } from "@/store/modules/channels";
+import { MeModule } from "@/store/modules/me";
+import { ServerMembersModule } from "@/store/modules/serverMembers";
+import { ServersModule } from "@/store/modules/servers";
 import { Component, Vue, Watch } from "vue-property-decorator";
 
 @Component
@@ -25,7 +30,7 @@ export default class RateLimitPopup extends Vue {
   calculate() {
     const now = Date.now();
     const timeLeft = ChannelsModule.rateLimitTimeLeft(this.channelID, now);
-    if (isNaN(timeLeft) || timeLeft <= 0) {
+    if (this.isImmune || isNaN(timeLeft) || timeLeft <= 0) {
       clearInterval(this.interval);
       this.interval = null;
       this.timeLeft = "";
@@ -53,6 +58,10 @@ export default class RateLimitPopup extends Vue {
     if (this.interval) return;
     this.interval = setInterval(this.calculate, 500);
   }
+  get rateLimitDuration() {
+    const value = ChannelsModule.channels[this.channelID].rateLimit || 0;
+    return this.timeConversion(value * 1000);
+  }
   get rateTimeLeft() {
     const now = Date.now();
     return ChannelsModule.rateLimitTimeLeft(this.channelID, now);
@@ -60,14 +69,27 @@ export default class RateLimitPopup extends Vue {
   get channelID() {
     return this.$route.params.channel_id;
   }
+  get serverID() {
+    return this.$route.params.server_id;
+  }
+  get isImmune() {
+    if (!MeModule.user.uniqueID) return false;
+    if (ServersModule.isServerOwner(this.serverID, MeModule.user.uniqueID))
+      return true;
+    return ServerMembersModule.memberHasPermission(
+      MeModule.user.uniqueID,
+      this.serverID,
+      permissions.ADMIN.value
+    );
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .ratelimit-popup {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
+  bottom: 2px;
+  right: 2px;
   display: flex;
   align-content: center;
   align-items: center;
@@ -78,8 +100,16 @@ export default class RateLimitPopup extends Vue {
   padding: 5px;
   color: rgba(255, 255, 255, 0.7);
   opacity: 0.8;
-  pointer-events: none;
   z-index: 1111111111;
+  user-select: none;
+  cursor: default;
+}
+.immune {
+  left: 5px;
+  right: 5px;
+  height: 2px;
+  background: white;
+  position: absolute;
 }
 .icon {
   margin-right: 5px;

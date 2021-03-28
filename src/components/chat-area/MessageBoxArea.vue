@@ -227,11 +227,14 @@ export default class MessageBoxArea extends Vue {
       return;
     }
 
-    const now = Date.now();
-    const timeLeft = ChannelsModule.rateLimitTimeLeft(this.channelID, now);
-    if (this.rateLimit && timeLeft > 0) {
-      return;
+    if (!this.isImmune) {
+      const now = Date.now();
+      const timeLeft = ChannelsModule.rateLimitTimeLeft(this.channelID, now);
+      if (this.rateLimit && timeLeft > 0) {
+        return;
+      }
     }
+
     if (this.showUploadBox) {
       this.message = "";
       FileUploadModule.AddToQueue({
@@ -364,6 +367,19 @@ export default class MessageBoxArea extends Vue {
   onWidthResize() {
     this.resizeTextArea();
   }
+
+  get isImmune() {
+    if (!this.serverID) return true;
+    if (!MeModule.user.uniqueID) return false;
+    if (ServersModule.isServerOwner(this.serverID, MeModule.user.uniqueID))
+      return true;
+    return ServerMembersModule.memberHasPermission(
+      MeModule.user.uniqueID,
+      this.serverID,
+      permissions.ADMIN.value
+    );
+  }
+
   get hasSendMessagePerm() {
     if (this.currentTab !== "servers") return true;
     if (!MeModule.user.uniqueID) return false;

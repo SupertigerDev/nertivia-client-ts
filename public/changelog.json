@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.19.3-beta",
+		"date": "28 March 2021",
+		"title": "Change to Rate Limit",
+		"changes": "Admins and owners are now immune to rate limited channels."
+	},
+	{
 		"version": "1.19.2-beta",
 		"date": "28 March 2021",
 		"title": "Bug Fix & Added Notices",
