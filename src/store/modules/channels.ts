@@ -79,7 +79,7 @@ class Channels extends VuexModule {
   }
   get getDMChannels() {
     const filter = Object.values(this.channels).filter(
-      channel => channel.recipients
+      channel => channel.recipients?.length && !channel.server_id 
     );
     const map = filter.map(channel => {
       const recipients = channel.recipients?.map(
