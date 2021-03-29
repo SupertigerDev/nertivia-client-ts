@@ -1,6 +1,6 @@
 <template>
   <div class="interface">
-    <div class="description">Edit your profile.</div>
+    <InformationTemplate class="desc" title="Edit Your Profile" />
     <div class="box">
       <div class="error" v-if="errors['other']">{{ errors["other"] }}</div>
       <div class="outer-avatar">
@@ -86,6 +86,11 @@
         }}
       </div>
     </div>
+    <MoreProfile
+      @update="moreProfileUpdate"
+      v-if="aboutMe !== null"
+      :aboutMe="aboutMe"
+    />
   </div>
 </template>
 
@@ -93,13 +98,28 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
+import InformationTemplate from "@/components/InformationTemplate.vue";
 import AvatarImage from "@/components/AvatarImage.vue";
+import MoreProfile from "./MoreProfile.vue";
 import { MeModule } from "@/store/modules/me";
-import { updateUser, UpdateUserRequest } from "@/services/userService";
+import {
+  fetchUser,
+  updateUser,
+  UpdateUserRequest
+} from "@/services/userService";
 import { updateInstance } from "@/services/wrapper";
 import { PopoutsModule } from "@/store/modules/popouts";
-@Component({ components: { CustomInput, CustomButton, AvatarImage } })
+@Component({
+  components: {
+    CustomInput,
+    CustomButton,
+    AvatarImage,
+    InformationTemplate,
+    MoreProfile
+  }
+})
 export default class Account extends Vue {
+  aboutMe: any = null;
   email = "";
   username = "";
   tag = "";
@@ -114,6 +134,13 @@ export default class Account extends Vue {
 
   mounted() {
     this.resetValues();
+    this.moreProfileUpdate();
+  }
+  moreProfileUpdate() {
+    if (!MeModule.user.uniqueID) return;
+    fetchUser(MeModule.user.uniqueID).then(user => {
+      this.aboutMe = user.user.about_me;
+    });
   }
 
   resetValues() {
@@ -273,11 +300,14 @@ export default class Account extends Vue {
   display: flex;
   flex-direction: column;
   overflow: auto;
+  height: 100%;
 }
-.description {
-  opacity: 0.7;
-  margin: 5px;
+
+.desc {
+  margin-left: 10px;
+  margin-top: 10px;
 }
+
 .title {
   margin-bottom: 5px;
 }

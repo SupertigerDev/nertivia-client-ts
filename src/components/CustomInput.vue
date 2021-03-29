@@ -24,6 +24,20 @@
           :disabled="disabled"
           :type="type || 'text'"
           ref="inputBox"
+          v-if="!textArea"
+          :placeholder="placeholder"
+          @input="inputEvent"
+          :value="value"
+        />
+        <textarea
+          v-if="textArea"
+          class="main-input textarea"
+          :class="{ hasPrefix: !!prefix }"
+          @focus="focused = true"
+          @blur="focused = false"
+          :disabled="disabled"
+          :type="type || 'text'"
+          ref="inputBox"
           :placeholder="placeholder"
           @input="inputEvent"
           :value="value"
@@ -51,6 +65,7 @@ export default class CustomInput extends Vue {
   @Prop() private type!: string;
   @Prop() private error!: string;
   @Prop({ default: false }) private disabled!: boolean;
+  @Prop({ default: false }) private textArea!: boolean;
   @Prop() private validMessage!: string;
   @Prop() private value!: string;
   @Prop() private prefix!: string;
@@ -99,6 +114,11 @@ export default class CustomInput extends Vue {
   flex: 1;
   &.hasPrefix {
     padding-left: 0;
+  }
+  &.textarea {
+    resize: none;
+    height: 200px;
+    width: 200px;
   }
 }
 

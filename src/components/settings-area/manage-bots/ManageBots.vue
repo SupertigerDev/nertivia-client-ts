@@ -130,16 +130,16 @@ export default class ManageChannels extends Vue {
     margin-right: 5px;
   }
 }
+.notice {
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: 40px;
+}
 
 .bot-list {
   display: flex;
   flex-direction: column;
   overflow: auto;
   padding: 10px;
-}
-.notice {
-  color: rgba(255, 255, 255, 0.6);
-  margin-left: 40px;
 }
 .box {
   margin-top: 10px;

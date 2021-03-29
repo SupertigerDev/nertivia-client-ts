@@ -1,7 +1,10 @@
 <template>
   <div class="notification">
-    <div class="description">Change your notification settings. WIP.</div>
     <div class="box">
+      <div class="description">
+        <div class="material-icons">info</div>
+        Change your notification settings.
+      </div>
       <CheckBox
         v-model="notificationSound"
         name="Notification Sound"
@@ -85,8 +88,13 @@ export default class NotificationArea extends Vue {
   flex-direction: column;
 }
 .description {
-  opacity: 0.7;
-  margin: 5px;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  .material-icons {
+    margin-right: 5px;
+  }
+  margin-bottom: 10px;
 }
 .title {
   margin-bottom: 5px;
@@ -94,7 +102,6 @@ export default class NotificationArea extends Vue {
 .box {
   padding: 10px;
   align-self: flex-start;
-  margin-left: 5px;
 }
 .check-box {
   margin-bottom: 10px;

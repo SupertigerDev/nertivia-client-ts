@@ -17,7 +17,7 @@
           keyboard_arrow_down
         </div>
       </div>
-      <div class="dropdown" v-if="openDropDown">
+      <div class="dropdown" v-if="openDropDown" v-click-outside="clickOutside">
         <div class="dropdown-content">
           <div
             class="item"
@@ -72,6 +72,11 @@ export default class CustomDropDown extends Vue {
   @Prop() private IdPath!: string;
   @Prop({ default: "Select Item" }) private defaultText!: string;
   selectedId = this.defaultId;
+
+  clickOutside(event: any) {
+    this.openDropDown = false;
+  }
+
   itemClick(id: number) {
     this.openDropDown = false;
     this.selectedId = id;
@@ -163,6 +168,7 @@ export default class CustomDropDown extends Vue {
   overflow: hidden;
   max-height: 200px;
   overflow-y: auto;
+  z-index: 1111;
 
   border-radius: 4px;
   .dropdown-content {

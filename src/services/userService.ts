@@ -96,7 +96,7 @@ interface UserExtra {
   created: number;
 }
 
-interface AboutMe {
+export interface AboutMe {
   about_me: string;
   age: string;
   continent: string;
@@ -107,6 +107,11 @@ interface AboutMe {
 export function fetchUser(uniqueID: string): Promise<ReturnedUser> {
   return wrapper()
     .get(`user/${uniqueID}`)
+    .json();
+}
+export function updateSurvay(data: AboutMe): Promise<any> {
+  return wrapper()
+    .put(`user/survey`, {json: data})
     .json();
 }
 export function logout(): Promise<any> {

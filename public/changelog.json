@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.20.0-beta",
+		"date": "29 March 2021",
+		"title": "Profile Details",
+		"new": "Add profile details such as your name, gender, age and more inside the accounts page in settings."
+	},
+	{
 		"version": "1.19.3-beta",
 		"date": "28 March 2021",
 		"title": "Change to Rate Limit",

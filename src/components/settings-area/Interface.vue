@@ -1,6 +1,9 @@
 <template>
   <div class="interface">
-    <div class="description">Change the appearance of Nertivia.</div>
+    <div class="description">
+      <div class="material-icons">info</div>
+      Change the appearance of Nertivia.
+    </div>
     <div class="box">
       <div class="title">Colors</div>
       <div class="hidden picker-button" ref="pickerButton">
@@ -129,8 +132,13 @@ export default class MainApp extends Vue {
   flex-direction: column;
 }
 .description {
-  opacity: 0.7;
-  margin: 5px;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  .material-icons {
+    margin-right: 5px;
+  }
 }
 .title {
   margin-bottom: 5px;
