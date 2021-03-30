@@ -199,8 +199,6 @@ export default class SuggestionPopouts extends Vue {
         )
           continue;
 
-        console.log(!this.value.startsWith(command.c + " "));
-
         matchedCommands.push({
           command,
           bot,
