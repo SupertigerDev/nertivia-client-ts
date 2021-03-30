@@ -105,7 +105,7 @@ export default class RateLimitPopup extends Vue {
   cursor: default;
 }
 .immune {
-  left: 5px;
+  left: 24px;
   right: 5px;
   height: 2px;
   background: white;
