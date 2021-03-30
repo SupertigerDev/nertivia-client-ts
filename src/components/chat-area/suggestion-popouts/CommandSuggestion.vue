@@ -35,7 +35,7 @@ export default class ChannelSuggestion extends Vue {
   }
   onSelected(item: any) {
     if (!item.insert) return;
-    this.$emit("selected", `${item.bot.botPrefix}${item.command.c} `);
+    this.$emit("selected", `${item.bot.botPrefix}${item.command.c} `, true);
   }
 }
 </script>

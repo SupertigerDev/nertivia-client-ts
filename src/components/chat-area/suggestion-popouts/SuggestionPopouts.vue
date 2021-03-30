@@ -100,12 +100,15 @@ export default class SuggestionPopouts extends Vue {
       return preText;
     }
   }
-  onSelected(val: string) {
+  onSelected(val: string, replaceAll) {
     const start = this.cursorPosition - this.word.length;
     const end = this.cursorPosition;
-
-    this.message =
-      this.message.substring(0, start) + val + this.message.substring(end);
+    if (replaceAll) {
+      this.message = val;
+    } else {
+      this.message =
+        this.message.substring(0, start) + val + this.message.substring(end);
+    }
     this.$nextTick(() => {
       this.inputEl?.focus();
       this.onkeyUp();
@@ -166,8 +169,8 @@ export default class SuggestionPopouts extends Vue {
     ).slice(0, 10);
   }
   get suggestCommands() {
-    const [cmd, ...args] = this.value.trim().split(" ");
-    if (cmd.length >= 45) return [];
+    const args = this.value.trim().split(" ");
+    if (args.length >= 45) return [];
     if (!this.botWithPrefixes.length) return [];
     if (!this.botCommands.length) return [];
 
@@ -180,21 +183,55 @@ export default class SuggestionPopouts extends Vue {
     for (let i = 0; i < this.botWithPrefixes.length; i++) {
       const bot = this.botWithPrefixes[i];
       if (!bot.botPrefix) continue;
-      if (!cmd.startsWith(bot.botPrefix)) continue;
+      if (!args[0].startsWith(bot.botPrefix)) continue;
       const botCommands = botCommandsModule.botCommands[bot.uniqueID];
       if (!botCommands?.length) continue;
       for (let y = 0; y < botCommands.length; y++) {
         const command = botCommands[y];
-        const prefixAndCommand = (bot.botPrefix + command.c).toLowerCase();
-        if (!prefixAndCommand.startsWith(cmd.toLowerCase())) continue;
+        const commandSplit = command.c.split(" ");
+        const userCommandSplit = args.slice(0, commandSplit.length);
+        if (!userCommandSplit.length) continue;
+        userCommandSplit[0] = userCommandSplit[0].slice(bot.botPrefix.length);
+        if (
+          !commandSplit
+            .join(" ")
+            .startsWith(userCommandSplit.join(" ").toLowerCase())
+        )
+          continue;
+
+        console.log(!this.value.startsWith(command.c + " "));
+
         matchedCommands.push({
           command,
           bot,
-          argsEnteredLength: args.length,
-          insert: !cmd.toLowerCase().startsWith(prefixAndCommand)
+          argsEnteredLength: args.slice(userCommandSplit.length).length,
+          // true = autofill command
+          // false = send message
+          insert: !this.value.startsWith(bot.botPrefix + command.c + " ")
         });
       }
     }
+
+    // for (let i = 0; i < this.botWithPrefixes.length; i++) {
+    //   const bot = this.botWithPrefixes[i];
+    //   if (!bot.botPrefix) continue;
+    //   if (!cmd.startsWith(bot.botPrefix)) continue;
+    //   const botCommands = botCommandsModule.botCommands[bot.uniqueID];
+    //   if (!botCommands?.length) continue;
+    //   for (let y = 0; y < botCommands.length; y++) {
+    //     const command = botCommands[y];
+    //     const prefixAndCommand = (bot.botPrefix + command.c).toLowerCase();
+    //     const commnadSplit = prefixAndCommand.split(" ");
+    //     const typedCommandSplit =
+    //     if (!prefixAndCommand.startsWith(cmd.toLowerCase())) continue;
+    //     matchedCommands.push({
+    //       command,
+    //       bot,
+    //       argsEnteredLength: args.length - commnadSplit.length + 1,
+    //       insert: !cmd.toLowerCase().startsWith(prefixAndCommand)
+    //     });
+    //   }
+    // }
     return matchedCommands;
   }
 
