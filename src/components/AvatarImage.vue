@@ -1,9 +1,15 @@
 <template>
   <div class="avatar">
     <div class="image" :style="style" :class="{ willHaveClickEvent }">
-      <img :src="customUrl" v-if="customUrl" />
-      <img src="@/assets/profile-logo.png" v-else-if="!imageId" />
-      <img v-else :style="style" :src="src" :class="{ willHaveClickEvent }" />
+      <div
+        class="inner-image"
+        :style="{ backgroundColor: bgColor }"
+        :class="{ willHaveClickEvent }"
+      >
+        <img :src="customUrl" v-if="customUrl" />
+        <img src="@/assets/profile-logo.png" v-else-if="!imageId" />
+        <img v-else :style="style" :src="src" :class="{ willHaveClickEvent }" />
+      </div>
     </div>
   </div>
 </template>
@@ -49,6 +55,7 @@ export default class MainApp extends Vue {
     return this.imageId.endsWith(".gif");
   }
   get bgColor() {
+    if (this.imageId) return null;
     return (
       seededColor?.(this.seedId || "owo") || getAppliedColor("primary-color")
     );
@@ -58,10 +65,7 @@ export default class MainApp extends Vue {
       width: this.size,
       height: this.size
     };
-    // Add seed background color if no image.
-    if (!this.imageId) {
-      style.backgroundColor = this.bgColor;
-    }
+
     if (this.highPriorityBadge) {
       style.borderColor = this.highPriorityBadge.color;
     }
