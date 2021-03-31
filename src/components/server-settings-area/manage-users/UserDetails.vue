@@ -23,15 +23,12 @@
   </div>
 </template>
 <script lang="ts">
-import {
-  addPerm,
-  containsPerm,
-  permissions
-} from "@/constants/rolePermissions";
+import { permissions } from "@/constants/rolePermissions";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
 import CustomButton from "@/components/CustomButton.vue";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import { ServersModule } from "@/store/modules/servers";
+import { bitwiseAdd, bitwiseContains } from "@/utils/bitwise";
 
 @Component({ components: { CustomButton } })
 export default class UserDetails extends Vue {
@@ -45,7 +42,8 @@ export default class UserDetails extends Vue {
     return permArr.map(p => {
       return {
         ...p,
-        hasPerm: containsPerm(this.totalPermissions, p.value) || isServerCreator
+        hasPerm:
+          bitwiseContains(this.totalPermissions, p.value) || isServerCreator
       };
     });
   }
@@ -55,14 +53,14 @@ export default class UserDetails extends Vue {
     if (this.serverMember?.roles.length) {
       for (let i = 0; i < this.serverMember.roles.length; i++) {
         const perm = this.serverMember.roles[i].permissions;
-        totalPerms = addPerm(totalPerms, perm);
+        totalPerms = bitwiseAdd(totalPerms, perm);
       }
     }
     // add default role
     const defaultRole = ServerRolesModule.defaultServerRole(
       this.serverMember.server_id
     );
-    totalPerms = addPerm(totalPerms, defaultRole?.permissions || 0);
+    totalPerms = bitwiseAdd(totalPerms, defaultRole?.permissions || 0);
     return totalPerms;
   }
   get server() {

@@ -18,6 +18,7 @@ try {
 }
 import WindowProperties from "@/utils/windowProperties";
 import { getAppliedColor } from "@/utils/customCssVars";
+import { highPriorityBadge } from "@/constants/badges";
 
 @Component
 export default class MainApp extends Vue {
@@ -27,6 +28,7 @@ export default class MainApp extends Vue {
   @Prop() private willHaveClickEvent!: boolean;
   @Prop() private animateGif!: boolean;
   @Prop() private customUrl!: string;
+  @Prop() private badges!: number;
 
   get src() {
     let url = process.env.VUE_APP_NERTIVIA_CDN + this.imageId;
@@ -35,6 +37,10 @@ export default class MainApp extends Vue {
       url += "?type=webp";
     }
     return url;
+  }
+  get highPriorityBadge() {
+    if (!this.badges) return null;
+    return highPriorityBadge(this.badges);
   }
   get isFocused() {
     return WindowProperties.isFocused;
@@ -48,10 +54,16 @@ export default class MainApp extends Vue {
     );
   }
   get style() {
-    let style = `width:${this.size};height:${this.size};`;
+    const style: any = {
+      width: this.size,
+      height: this.size
+    };
     // Add seed background color if no image.
     if (!this.imageId) {
-      style += "background-color:" + this.bgColor;
+      style.backgroundColor = this.bgColor;
+    }
+    if (this.highPriorityBadge) {
+      style.borderColor = this.highPriorityBadge.color;
     }
     return style;
   }
@@ -66,6 +78,7 @@ export default class MainApp extends Vue {
   position: relative;
   border-radius: 50%;
   overflow: hidden;
+  border: solid 3px transparent;
 }
 img {
   width: 100%;

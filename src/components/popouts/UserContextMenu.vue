@@ -16,7 +16,7 @@ import WindowProperties from "@/utils/windowProperties";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { MeModule } from "@/store/modules/me";
 import { ServersModule } from "@/store/modules/servers";
-import { addPerm, permissions } from "@/constants/rolePermissions";
+import { permissions } from "@/constants/rolePermissions";
 import User from "@/interfaces/User";
 
 @Component({ components: { ContextMenu } })

@@ -9,7 +9,7 @@ import store from "..";
 import { saveCache } from "@/utils/localCache";
 import ServerRole from "@/interfaces/ServerRole";
 import Vue from "vue";
-import { addPerm } from "@/constants/rolePermissions";
+import { bitwiseAdd } from "@/utils/bitwise";
 
 // ServerRoleObj[server_id] = serverRole[]
 interface ServerRoleObj {
@@ -49,7 +49,7 @@ class ServerRoles extends VuexModule {
       for (let i = 0; i < roleIdArr.length; i++) {
         const role = serverRoles.find(r => r.id === roleIdArr[i]);
         if (!role) continue;
-        perms = addPerm(perms, role.permissions);
+        perms = bitwiseAdd(perms, role.permissions);
       }
       return perms;
     };

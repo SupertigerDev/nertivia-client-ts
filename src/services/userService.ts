@@ -94,6 +94,7 @@ export interface ReturnedUser {
 interface UserExtra {
   about_me: AboutMe;
   created: number;
+  badges?: number
 }
 
 export interface AboutMe {

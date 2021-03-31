@@ -19,6 +19,7 @@
         :willHaveClickEvent="true"
         :seedId="creator.uniqueID"
         :animateGif="hover"
+        :badges="creator.badges"
         size="40px"
         v-if="!grouped"
         @click.native="showProfile"

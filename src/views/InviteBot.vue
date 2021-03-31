@@ -58,11 +58,12 @@ import CheckBox from "@/components/CheckBox.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import AvatarImage from "@/components/AvatarImage.vue";
 import CustomDropDown from "@/components/CustomDropDown.vue";
-import { containsPerm, permissions } from "@/constants/rolePermissions";
+import { permissions } from "@/constants/rolePermissions";
 import User from "@/interfaces/User";
 import { getBot, inviteBot } from "@/services/botService";
 import Server from "@/interfaces/Server";
 import { PopoutsModule } from "@/store/modules/popouts";
+import { bitwiseContains } from "@/utils/bitwise";
 
 @Component({
   components: {
@@ -144,7 +145,7 @@ export default class InviteBot extends Vue {
   }
   get perms() {
     return Object.values(permissions).filter(p =>
-      containsPerm(this.permNumber, p.value)
+      bitwiseContains(this.permNumber, p.value)
     );
   }
 }

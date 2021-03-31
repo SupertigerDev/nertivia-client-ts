@@ -86,13 +86,8 @@ import CheckBox from "@/components/CheckBox.vue";
 import { MeModule } from "@/store/modules/me";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
 import ServerRole from "@/interfaces/ServerRole";
-
-import {
-  addPerm,
-  containsPerm,
-  permissions,
-  removePerm
-} from "@/constants/rolePermissions";
+import { bitwiseRemove, bitwiseContains, bitwiseAdd } from "@/utils/bitwise";
+import { permissions } from "@/constants/rolePermissions";
 import { deleteServerRole, updateServerRole } from "@/services/rolesService";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { ServersModule } from "@/store/modules/servers";
@@ -154,9 +149,9 @@ export default class ManageRolesPage extends Vue {
   checkBoxChange(checked: boolean, perm: any) {
     if (!perm.canModify) return;
     if (checked) {
-      this.permissions = addPerm(this.permissions, perm.value);
+      this.permissions = bitwiseAdd(this.permissions, perm.value);
     } else {
-      this.permissions = removePerm(this.permissions, perm.value);
+      this.permissions = bitwiseRemove(this.permissions, perm.value);
     }
   }
   update() {
@@ -234,7 +229,7 @@ export default class ManageRolesPage extends Vue {
 
       return {
         ...p,
-        enabled: !!containsPerm(this.permissions || 0, p.value),
+        enabled: !!bitwiseContains(this.permissions || 0, p.value),
         canModify
       };
     });

@@ -84,6 +84,7 @@ interface MeUser {
   servers: ReturnedServer[];
   custom_status?: string;
   status: number;
+  badges?: number
 }
 interface Friend {
   status: number;
@@ -154,6 +155,7 @@ const actions: ActionTree<any, any> = {
       avatar: data.user.avatar,
       tag: data.user.tag,
       uniqueID: data.user.uniqueID,
+      badges: data.user.badges,
       status: data.user.status,
       googleDriveLinked: data.settings.GDriveLinked,
     });

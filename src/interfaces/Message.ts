@@ -1,7 +1,7 @@
 import User from "./User";
 export default interface Message {
   message?: string;
-  creator: User;
+  creator: User & UserExtra;
   messageID?: string;
   channelID: string;
   tempID?: string;
@@ -17,6 +17,10 @@ export default interface Message {
   htmlEmbed?: string;
   buttons?: Button[];
   localMessage?: boolean;
+}
+
+interface UserExtra {
+  badges?: number
 }
 
 export interface Button {

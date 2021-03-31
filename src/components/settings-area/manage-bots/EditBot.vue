@@ -131,12 +131,9 @@ import InformationTemplate from "@/components/InformationTemplate.vue";
 import User from "@/interfaces/User";
 import { deleteBot, resetBotToken, updateBot } from "@/services/botService";
 import { PopoutsModule } from "@/store/modules/popouts";
-import {
-  permissions,
-  containsPerm,
-  removePerm,
-  addPerm
-} from "@/constants/rolePermissions";
+import { bitwiseRemove, bitwiseContains, bitwiseAdd } from "@/utils/bitwise";
+
+import { permissions } from "@/constants/rolePermissions";
 import CheckBox from "@/components/CheckBox.vue";
 
 @Component({
@@ -177,9 +174,9 @@ export default class Account extends Vue {
   }
   onPermToggle(newChecked: boolean, perm: any) {
     if (newChecked) {
-      this.permissions = addPerm(this.permissions, perm.value);
+      this.permissions = bitwiseAdd(this.permissions, perm.value);
     } else {
-      this.permissions = removePerm(this.permissions, perm.value);
+      this.permissions = bitwiseRemove(this.permissions, perm.value);
     }
   }
   copyInvite() {
@@ -276,7 +273,7 @@ export default class Account extends Vue {
 
   get perms() {
     return Object.values(permissions).map(p => {
-      return { ...p, hasPerm: !!containsPerm(this.permissions, p.value) };
+      return { ...p, hasPerm: !!bitwiseContains(this.permissions, p.value) };
     });
   }
 

@@ -22,6 +22,7 @@
               :imageId="user.avatar"
               :seedId="user.uniqueID"
               :animateGif="true"
+              :badges="user.badges"
               size="80px"
               class="avatar"
             />
@@ -84,6 +85,7 @@
         </div>
 
         <div class="other-details animate-in" v-if="returnedUser">
+          <Badges v-if="badgesArr.length" :badges="badgesArr" />
           <CommonServers
             v-if="!isMe && commonServers.length"
             :servers="commonServers"
@@ -135,6 +137,7 @@ import UserStatusTemplate from "@/components/UserStatusTemplate.vue";
 import Markup from "@/components/Markup.tsx";
 import CommonServers from "./CommonServers.vue";
 import CommonFriends from "./CommonFriends.vue";
+import Badges from "./Badges.vue";
 import { PresencesModule } from "@/store/modules/presences";
 import userStatuses from "@/constants/userStatuses";
 import {
@@ -158,13 +161,15 @@ import { MeModule } from "@/store/modules/me";
 import Server from "@/interfaces/Server";
 import { ServersModule } from "@/store/modules/servers";
 import User from "@/interfaces/User";
+import { getBadges } from "@/constants/badges";
 @Component({
   components: {
     AvatarImage,
     Markup,
     UserStatusTemplate,
     CommonServers,
-    CommonFriends
+    CommonFriends,
+    Badges
   }
 })
 export default class ProfilePopout extends Vue {
@@ -219,7 +224,11 @@ export default class ProfilePopout extends Vue {
     if (!this.returnedUser) return undefined;
     return friendlyDate(this.returnedUser?.user.created || 0);
   }
-
+  get badgesArr() {
+    const flags = (this.user as any).badges;
+    if (!flags) return [];
+    return getBadges(flags);
+  }
   get ageAndGender() {
     let finalText = "";
     if (this.aboutMe?.gender && this.aboutMe.gender !== "Rather not say") {

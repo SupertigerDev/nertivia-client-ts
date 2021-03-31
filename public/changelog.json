@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.21.0-beta",
+		"date": "31 March 2021",
+		"title": "Added Badges",
+		"new": "Added Badges. This is not fully completed but functional for now."
+	},
+	{
 		"version": "1.20.0-beta",
 		"date": "29 March 2021",
 		"title": "Profile Details",

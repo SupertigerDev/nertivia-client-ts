@@ -13,11 +13,8 @@ import { PresencesModule } from "./presences";
 import { ServerRolesModule } from "./serverRoles";
 import Vue from "vue";
 import _ from "lodash";
-import {
-  addPerm,
-  containsPerm,
-  permissions
-} from "@/constants/rolePermissions";
+import {permissions} from "@/constants/rolePermissions";
+import { bitwiseAdd, bitwiseContains } from "@/utils/bitwise";
 
 interface Servers {
   [key: string]: Members;
@@ -111,17 +108,17 @@ class ServerMembers extends VuexModule {
       includeAdminPerm = true
     ) => {
       if (includeAdminPerm) {
-        flag = addPerm(flag, permissions.ADMIN.value);
+        flag = bitwiseAdd(flag, permissions.ADMIN.value);
       }
       const member = this.serverMembers[serverID]?.[uniqueID];
       if (!member) return 0;
       const defaultRole = ServerRolesModule.defaultServerRole(serverID);
       let perms = defaultRole?.permissions || 0;
-      perms = addPerm(
+      perms = bitwiseAdd(
         perms,
         ServerRolesModule.addAllRolePermissions(serverID, member.roleIdArr)
       );
-      return !!containsPerm(perms, flag);
+      return !!bitwiseContains(perms, flag);
     };
   }
   get isAdmin() {
