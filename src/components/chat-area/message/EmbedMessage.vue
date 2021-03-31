@@ -36,7 +36,7 @@ export default class EmbedMessage extends Vue {
 .message-embed {
   flex-direction: column;
   flex-shrink: 0;
-  margin-left: 50px;
+  margin-left: 56px;
   margin-top: 5px;
   border-radius: 4px;
   background: rgba(0, 0, 0, 0.4);
