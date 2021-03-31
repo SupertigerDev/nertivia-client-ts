@@ -197,7 +197,7 @@ export default class MessageLogs extends Vue {
   }
 }
 .time {
-  width: 40px;
+  width: 46px;
   opacity: 0;
   font-size: 14px;
   align-self: center;
