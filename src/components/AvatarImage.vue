@@ -16,12 +16,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-let seededColor: any = null;
-try {
-  seededColor = require("seeded-color").seededColor;
-} catch {
-  //
-}
+import { seededColor } from "seeded-color";
+
 import WindowProperties from "@/utils/windowProperties";
 import { getAppliedColor } from "@/utils/customCssVars";
 import { highPriorityBadge } from "@/constants/badges";
@@ -56,9 +52,8 @@ export default class MainApp extends Vue {
   }
   get bgColor() {
     if (this.imageId) return null;
-    return (
-      seededColor?.(this.seedId || "owo") || getAppliedColor("primary-color")
-    );
+    if (!this.seedId) return null;
+    return seededColor(this.seedId);
   }
   get style() {
     const style: any = {
