@@ -38,6 +38,7 @@ export default class StartupOptions extends Vue {
   autoLaunch = false;
   launchMinimized = false;
   async mounted() {
+    if (!this.$isElectron) return;
     this.autoLaunch = await electronBridge?.invoke(
       "get_store_value",
       "startup.enabled",
