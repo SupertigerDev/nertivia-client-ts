@@ -30,6 +30,10 @@ const DeleteAccount = () =>
   import(
     /* webpackChunkName: "DeleteAccount" */ "@/components/settings-area/DeleteAccount.vue"
   );
+const StartupOptions = () =>
+  import(
+    /* webpackChunkName: "StartupOptions" */ "@/components/settings-area/StartupOptions.vue"
+  );
 import Header from "@/components/Header.vue";
 import settingPages from "@/utils/settingPages.json";
 import { Vue, Component } from "vue-property-decorator";
@@ -41,7 +45,8 @@ import { Vue, Component } from "vue-property-decorator";
     Notification,
     ManageEmojis,
     ManageBots,
-    DeleteAccount
+    DeleteAccount,
+    StartupOptions
   }
 })
 export default class SettingsArea extends Vue {
