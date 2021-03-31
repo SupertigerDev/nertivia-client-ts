@@ -17,9 +17,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { seededColor } from "seeded-color";
-
 import WindowProperties from "@/utils/windowProperties";
-import { getAppliedColor } from "@/utils/customCssVars";
 import { highPriorityBadge } from "@/constants/badges";
 
 @Component
