@@ -12,6 +12,9 @@
             size="20px"
           />
           {{ selectedItem ? selectedItem.name : defaultText }}
+          <div class="note" v-if="selectedItem">
+            {{ selectedItem.note }}
+          </div>
         </div>
         <div class="material-icons icon">
           keyboard_arrow_down
@@ -36,6 +39,7 @@
               size="20px"
             />
             {{ item.name }}
+            <div class="note" v-if="item.note">{{ item.note }}</div>
           </div>
         </div>
       </div>
@@ -54,6 +58,7 @@ import AvatarImage from "@/components/AvatarImage.vue";
 
 interface Item {
   name: string;
+  note: string;
   avatar?: {
     seedID: string;
     imageID: string;
@@ -119,6 +124,11 @@ export default class CustomDropDown extends Vue {
 }
 .title {
   opacity: 0.8;
+  font-size: 14px;
+}
+.note {
+  margin-left: auto;
+  opacity: 0.4;
   font-size: 14px;
 }
 .selected {

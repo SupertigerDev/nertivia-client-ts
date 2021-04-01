@@ -16,14 +16,26 @@ import { PresencesModule } from "../presences";
 import { UsersModule } from "../users";
 
 const actions: ActionTree<any, any> = {
-  [USER_STATUS_CHANGE](context, data: { uniqueID: string; status: number }) {
+  [USER_STATUS_CHANGE](context, data: { uniqueID: string; status: number, connected?: boolean; custom_status?: string }) {
     if (data.uniqueID === MeModule.user.uniqueID) return;
-    programActivitiesModule.RemoveProgramActivity({ uniqueID: data.uniqueID });
-    CustomStatusesModule.RemoveCustomStatus({ uniqueID: data.uniqueID });
+    if (data.status === 0) {
+      programActivitiesModule.RemoveProgramActivity({ uniqueID: data.uniqueID });
+      CustomStatusesModule.RemoveCustomStatus({ uniqueID: data.uniqueID });
+    }
     PresencesModule.UpdatePresence({
       presence: data.status,
       uniqueID: data.uniqueID
     });
+    if (data.connected) {
+      if (!data.custom_status) {
+        CustomStatusesModule.RemoveCustomStatus({uniqueID: data.uniqueID})
+        return;
+      }
+      CustomStatusesModule.SetCustomStatus({
+        custom_status: data.custom_status,
+        uniqueID: data.uniqueID
+      });
+    }
   },
   [SELF_STATUS_CHANGE](context, data: { status: number }) {
     MeModule.UpdateUser({ status: data.status });
@@ -32,6 +44,7 @@ const actions: ActionTree<any, any> = {
     context,
     data: { custom_status: string; uniqueID: string }
   ) {
+    console.log(data)
     CustomStatusesModule.SetCustomStatus({
       custom_status: data.custom_status,
       uniqueID: data.uniqueID

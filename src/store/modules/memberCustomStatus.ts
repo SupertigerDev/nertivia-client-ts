@@ -31,7 +31,7 @@ class CustomStatuses extends VuexModule {
     uniqueID: string;
     custom_status: string;
   }) {
-    this.customStatus[payload.uniqueID] = payload.custom_status;
+    Vue.set(this.customStatus, payload.uniqueID, payload.custom_status)
   }
 
   @Action

@@ -34,6 +34,10 @@ const StartupOptions = () =>
   import(
     /* webpackChunkName: "StartupOptions" */ "@/components/settings-area/StartupOptions.vue"
   );
+const ProgramActivity = () =>
+  import(
+    /* webpackChunkName: "ProgramActivity" */ "@/components/settings-area/program-activity/ProgramActivity.vue"
+  );
 import Header from "@/components/Header.vue";
 import settingPages from "@/utils/settingPages.json";
 import { Vue, Component } from "vue-property-decorator";
@@ -46,7 +50,8 @@ import { Vue, Component } from "vue-property-decorator";
     ManageEmojis,
     ManageBots,
     DeleteAccount,
-    StartupOptions
+    StartupOptions,
+    ProgramActivity
   }
 })
 export default class SettingsArea extends Vue {

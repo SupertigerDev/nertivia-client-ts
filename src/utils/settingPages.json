@@ -19,6 +19,11 @@
     "icon": "launch",
     "component": "StartupOptions"
   },
+  "program-activity": {
+    "name": "Program Activity",
+    "icon": "widgets",
+    "component": "ProgramActivity"
+  },
   "manage-bots": {
     "name": "Manage Bots",
     "icon": "adb",

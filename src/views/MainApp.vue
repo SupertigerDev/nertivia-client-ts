@@ -57,6 +57,11 @@ import { NotificationsModule } from "@/store/modules/notifications";
 import { PopoutsModule } from "@/store/modules/popouts";
 import electronBridge from "@/utils/electronBridge";
 import { setLastSelectedServerChannel } from "@/utils/lastSelectedServer";
+import {
+  findListeningProgram,
+  programListener,
+  restartListener
+} from "@/utils/programActivity";
 
 @Component({
   components: {
@@ -73,6 +78,9 @@ export default class MainApp extends Vue {
   updateAvailable = false;
   checkAfter = 600000; // 60 minutes
   lastUpdateChecked = Date.now();
+  // used for electron
+  currentActiveProgram: any | null = null;
+  programActivityTimeout: any = null;
   mounted() {
     electronBridge?.send("notification_badge", 0);
 
@@ -97,7 +105,35 @@ export default class MainApp extends Vue {
     localStorage.removeItem("lastSelectedServerID");
     this.saveLastSelected();
     this.loadCache();
+    if (!this.$isElectron) return;
+    programListener(this.onActivityChange);
   }
+  onActivityChange(_filename: string) {
+    let filename: any = null;
+    if (_filename) {
+      filename = _filename;
+    }
+    console.log("Program Running: " + findListeningProgram(filename)?.filename);
+    this.currentActiveProgram = findListeningProgram(filename);
+    this.emitActivity();
+  }
+
+  emitActivity() {
+    let obj: any = undefined;
+    if (this.currentActiveProgram) {
+      obj = {
+        name: this.currentActiveProgram.name,
+        status: this.currentActiveProgram.status
+      };
+    }
+    if (MeModule.user.status !== 0) {
+      this.$socket.client.emit("programActivity:set", obj);
+    }
+
+    if (this.programActivityTimeout) return;
+    this.programActivityTimeout = setTimeout(this.emitActivity, 180000); // 3 minutes
+  }
+
   async loadCache() {
     loadAllCacheToState([
       {
@@ -186,6 +222,7 @@ export default class MainApp extends Vue {
     if (!this.isConnected) {
       this.showConnectionStatusPopout = true;
     }
+    restartListener();
   }
   @Watch("firstServerNotification")
   @Watch("firstDmNotification")
