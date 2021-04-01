@@ -1,5 +1,12 @@
 [
 	{
+		"version": "1.22.0-beta",
+		"date": "01 April 2021",
+		"title": "Program Activity",
+		"new": "Added program activity page in settings.",
+		"changes": "Gif profile pictures and custom emojis now require you to pay a subscription that costs $99.99/month."
+	},
+	{
 		"version": "1.21.0-beta",
 		"date": "31 March 2021",
 		"title": "Added Badges",
