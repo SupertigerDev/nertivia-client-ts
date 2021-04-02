@@ -110,6 +110,7 @@ function transformCustomEntity(h: CreateElement, entity: CustomEntity, ctx: Rend
     case '@': {
       const user = UsersModule.users[expr];
       if (user) {
+        ctx.textCount += expr.length
         return h(MentionUser, {
           props: {
             user: user
@@ -121,6 +122,7 @@ function transformCustomEntity(h: CreateElement, entity: CustomEntity, ctx: Rend
     case "#": {
       const channel = ChannelsModule.channels[expr];
       if (channel) {
+        ctx.textCount += expr.length
         return h(MentionChannel, { props: { channel } })
       }
       break
@@ -130,6 +132,7 @@ function transformCustomEntity(h: CreateElement, entity: CustomEntity, ctx: Rend
         q => q.messageID === expr
       );
       if (quote) {
+        ctx.textCount += expr.length
         return h(MessageQuote, {
           props: {
             quote,
@@ -157,6 +160,7 @@ function transformCustomEntity(h: CreateElement, entity: CustomEntity, ctx: Rend
         .map(s => s.trim());
 
       if (url && text) {
+        ctx.textCount += text.length
         return h(Link, { props: { url: url, text: text } })
       }
 
