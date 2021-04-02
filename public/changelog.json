@@ -2,7 +2,7 @@
 	{
 		"version": "1.22.2-beta",
 		"date": "02 April 2021",
-		"title": "Markup Fixes",
+		"title": "Markup Fixes (By bree)",
 		"fixes": [
 		    "Links no longer match unwanted or uneeded characters. Goodbye (https://example.com/) including the )",
                     "Complex emojis and emoji sequences are now supported",
