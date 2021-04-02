@@ -1,5 +1,15 @@
 [
 	{
+		"version": "1.22.2-beta",
+		"date": "02 April 2021",
+		"title": "Markup Fixes",
+		"fixes": [
+		    "Links no longer match unwanted or uneeded characters. Goodbye (https://example.com/) including the )",
+                    "Complex emojis and emoji sequences are now supported",
+                    "Custom expressions now properly add to the text count. No more large emojis when mentioning someone!"
+		]
+	},
+	{
 		"version": "1.22.1-beta",
 		"date": "02 April 2021",
 		"title": "Bug Fix",
