@@ -18,7 +18,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
-import explorePages from "@/utils/explorePages";
+import explorePages from "@/utils/explorePages.json";
 import { DrawersModule } from "@/store/modules/drawers";
 @Component
 export default class MainApp extends Vue {
