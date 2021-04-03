@@ -8,7 +8,7 @@ export interface Program {
 import electronBridge from "./electronBridge";
 
 export function programListener(callback: (filename: string) => void) {
-    restartListener();
+    // restartListener();
     electronBridge?.receive("activity_status_changed", callback);
 }
 

@@ -17,6 +17,8 @@ export default class ElectronActivityHandler extends Vue {
 
   // functions
   emitActivity() {
+    if (!this.isConnected) return;
+    this.programActivityTimeout && clearTimeout(this.programActivityTimeout)
     if (MeModule.user.status !== 0) {
       this.$socket.client.emit("programActivity:set", this.currentActiveProgram);
     }
@@ -35,13 +37,12 @@ export default class ElectronActivityHandler extends Vue {
     const program  = findListeningProgram(filename)
     console.log("Program Running: " + program?.filename);
     this.currentActiveProgram = program;
-    if (this.programActivityTimeout) return;
     this.emitActivity();
   }
   // watchers
   @Watch("isConnected")
   onConnection() {
-    restartListener();
+    // restartListener();
   }
   // computed
   get isConnected() {
