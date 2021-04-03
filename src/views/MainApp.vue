@@ -115,6 +115,7 @@ export default class MainApp extends Vue {
     }
     console.log("Program Running: " + findListeningProgram(filename)?.filename);
     this.currentActiveProgram = findListeningProgram(filename);
+    if (this.programActivityTimeout) return;
     this.emitActivity();
   }
 
@@ -129,8 +130,11 @@ export default class MainApp extends Vue {
     if (MeModule.user.status !== 0) {
       this.$socket.client.emit("programActivity:set", obj);
     }
+    if (!this.currentActiveProgram) {
+      this.programActivityTimeout = null;
+      return;
+    }
 
-    if (this.programActivityTimeout) return;
     this.programActivityTimeout = setTimeout(this.emitActivity, 180000); // 3 minutes
   }
 
