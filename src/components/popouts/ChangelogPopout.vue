@@ -51,6 +51,7 @@ export default class ProfilePopout extends Vue {
   max-height: 500px;
   min-width: 200px;
   min-height: 200px;
+  width: 100%;
   height: 100%;
   overflow: hidden;
   display: flex;
