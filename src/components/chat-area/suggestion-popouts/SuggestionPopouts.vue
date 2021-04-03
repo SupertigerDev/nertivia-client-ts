@@ -192,11 +192,7 @@ export default class SuggestionPopouts extends Vue {
         const userCommandSplit = args.slice(0, commandSplit.length);
         if (!userCommandSplit.length) continue;
         userCommandSplit[0] = userCommandSplit[0].slice(bot.botPrefix.length);
-        if (
-          !commandSplit
-            .join(" ")
-            .startsWith(userCommandSplit.join(" ").toLowerCase())
-        )
+        if (!commandSplit.join(" ").startsWith(userCommandSplit.join(" ")))
           continue;
 
         matchedCommands.push({
