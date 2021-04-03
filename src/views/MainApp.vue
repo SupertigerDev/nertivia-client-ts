@@ -1,6 +1,10 @@
 <template>
-  <div class="app" :class="{ leftDrawerOpened: leftDrawerOpened }">
-    <NavBar :updateAvailable="updateAvailable" class="nav-bar" />
+  <div class="app">
+    <BrowserTitleHandler />
+    <ElectronBadgeHandler v-if="$isElectron" />
+    <ElectronActivityHandler v-if="$isElectron" />
+    <UpdateChecker />
+    <NavBar class="nav-bar" />
     <Drawers class="drawers">
       <LeftDrawer slot="drawer-left" />
       <RightDrawer
@@ -29,8 +33,12 @@ import { UsersModule } from "@/store/modules/users";
 import { MeModule } from "@/store/modules/me";
 
 import ConnectionStatus from "@/components/popouts/ConnectionStatusPopout.vue";
+import BrowserTitleHandler from "@/components/renderless/BrowserTitleHandler";
+import ElectronBadgeHandler from "@/components/renderless/ElectronBadgeHandler";
+import ElectronActivityHandler from "@/components/renderless/ElectronActivityHandler";
+import UpdateChecker from "@/components/renderless/UpdateChecker";
 import Header from "@/components/Header.vue";
-import { getChangelog } from "@/services/updateService";
+
 const Drawers = () =>
   import(/* webpackChunkName: "Drawers" */ "@/components/drawers/Drawers.vue");
 const NavBar = () =>
@@ -49,19 +57,11 @@ import { loadAllCacheToState } from "@/utils/localCache";
 import { ChannelsModule } from "@/store/modules/channels";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
-import { DrawersModule } from "@/store/modules/drawers";
 import WindowProperties from "@/utils/windowProperties";
 import { FriendsModule } from "@/store/modules/friends";
-import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
-import { NotificationsModule } from "@/store/modules/notifications";
-import { PopoutsModule } from "@/store/modules/popouts";
-import electronBridge from "@/utils/electronBridge";
+
 import { setLastSelectedServerChannel } from "@/utils/lastSelectedServer";
-import {
-  findListeningProgram,
-  programListener,
-  restartListener
-} from "@/utils/programActivity";
+import { AppUpdateModule } from "@/store/modules/appUpdate";
 
 @Component({
   components: {
@@ -70,20 +70,19 @@ import {
     RightDrawer,
     NavBar,
     Header,
-    ConnectionStatus
+    ConnectionStatus,
+    BrowserTitleHandler,
+    ElectronBadgeHandler,
+    ElectronActivityHandler,
+    UpdateChecker
   }
 })
 export default class MainApp extends Vue {
   showConnectionStatusPopout = true;
-  updateAvailable = false;
-  checkAfter = 600000; // 60 minutes
-  lastUpdateChecked = Date.now();
   // used for electron
   currentActiveProgram: any | null = null;
   programActivityTimeout: any = null;
   mounted() {
-    electronBridge?.send("notification_badge", 0);
-
     // set store and connect socket.
     this.$store.registerModule("socketIO", socketIOModule);
     this.$socket.client.connect();
@@ -98,44 +97,12 @@ export default class MainApp extends Vue {
         client.emit("p");
       });
     }
-    this.showChangelog();
   }
   beforeMount() {
     localStorage.removeItem("lastSelectedDMChannelID");
     localStorage.removeItem("lastSelectedServerID");
     this.saveLastSelected();
     this.loadCache();
-    if (!this.$isElectron) return;
-    programListener(this.onActivityChange);
-  }
-  onActivityChange(_filename: string) {
-    let filename: any = null;
-    if (_filename) {
-      filename = _filename;
-    }
-    console.log("Program Running: " + findListeningProgram(filename)?.filename);
-    this.currentActiveProgram = findListeningProgram(filename);
-    if (this.programActivityTimeout) return;
-    this.emitActivity();
-  }
-
-  emitActivity() {
-    let obj: any = undefined;
-    if (this.currentActiveProgram) {
-      obj = {
-        name: this.currentActiveProgram.name,
-        status: this.currentActiveProgram.status
-      };
-    }
-    if (MeModule.user.status !== 0) {
-      this.$socket.client.emit("programActivity:set", obj);
-    }
-    if (!this.currentActiveProgram) {
-      this.programActivityTimeout = null;
-      return;
-    }
-
-    this.programActivityTimeout = setTimeout(this.emitActivity, 180000); // 3 minutes
   }
 
   async loadCache() {
@@ -178,42 +145,12 @@ export default class MainApp extends Vue {
   beforeDestroy() {
     this.$store.unregisterModule("socketIO");
   }
-  checkForUpdate() {
-    if (!this.$version) return;
-    if (this.updateAvailable) return;
-    if (Date.now() - this.lastUpdateChecked <= this.checkAfter) return;
-    this.lastUpdateChecked = Date.now();
-    getChangelog().then(log => {
-      const version = log[0].version;
-      if (this.$version !== version) {
-        this.updateAvailable = true;
-      }
-    });
-  }
-  // show changelog if it was not seen.
-  showChangelog() {
-    const seenVersion = localStorage["changelogSeenVersion"];
-    if (!seenVersion) {
-      localStorage["changelogSeenVersion"] = this.$version;
-      return;
-    }
-    if (seenVersion === this.$version) return;
-    localStorage["changelogSeenVersion"] = this.$version;
-    PopoutsModule.ShowPopout({
-      id: "changelog-popout",
-      component: "ChangelogPopout"
-    });
-  }
-  @Watch("focused")
-  onFocusChange() {
-    this.checkForUpdate();
-  }
   // save last selected channels
   @Watch("currentChannelID")
   @Watch("currentServerID")
   @Watch("currentTab")
   saveLastSelected() {
-    this.checkForUpdate();
+    AppUpdateModule.check();
     if (this.$route.name !== "message-area") return;
     if (this.currentTab === "servers") {
       setLastSelectedServerChannel(this.currentServerID, this.currentChannelID);
@@ -227,62 +164,10 @@ export default class MainApp extends Vue {
     if (!this.isConnected) {
       this.showConnectionStatusPopout = true;
     }
-    restartListener();
-  }
-  @Watch("firstServerNotification")
-  @Watch("firstDmNotification")
-  onNotification() {
-    if (this.$isElectron) this.setElectronBadge();
-    this.setBrowserWindowTitle();
-  }
-
-  setElectronBadge() {
-    if (this.firstServerNotification || this.firstDmNotification) {
-      electronBridge?.send("notification_badge", 1);
-      return;
-    }
-    electronBridge?.send("notification_badge", 0);
-  }
-  setBrowserWindowTitle() {
-    // DM Notification
-    if (this.firstDmNotification) {
-      this.setNotificationICO(true);
-      document.title = `(!) ${this.firstDmNotification.sender.username} - Nertivia BETA`;
-      return;
-    }
-    // Server Notification
-    const notification: any = this.firstServerNotification;
-    if (!notification?.server_id) {
-      document.title = "Nertivia BETA";
-      this.setNotificationICO(false);
-      return;
-    }
-    this.setNotificationICO(true);
-
-    const server = ServersModule.servers[notification.server_id];
-    document.title = `(!) ${server.name}#${notification.name} - Nertivia BETA`;
-  }
-  setNotificationICO(set: boolean) {
-    const icoSelector = document.querySelector("link[rel='icon']");
-    if (set) {
-      icoSelector?.setAttribute("href", "/img/icons/favicon-notification.ico");
-      return;
-    }
-    icoSelector?.setAttribute("href", "/img/icons/favicon-32x32.png");
-  }
-
-  get showMessageArea() {
-    if (!this.currentChannelID) return false;
-    if (this.currentTab === "servers" || this.currentTab === "dms") return true;
-    return false;
   }
 
   get currentChannelID() {
     return this.$route.params.channel_id;
-  }
-
-  get leftDrawerOpened() {
-    return DrawersModule.leftDrawer;
   }
   get currentServerID() {
     return this.$route.params.server_id;
@@ -290,26 +175,8 @@ export default class MainApp extends Vue {
   get currentTab() {
     return this.$route.path.split("/")[2];
   }
-  get me() {
-    return MeModule.user;
-  }
   get isConnected() {
     return MeModule.connected;
-  }
-  get users() {
-    return UsersModule.users;
-  }
-
-  get firstServerNotification() {
-    return LastSeenServerChannelsModule.allServerNotifications.sort(
-      (a, b) => (b.lastMessaged || 0) - (a.lastMessaged || 0)
-    )?.[0];
-  }
-  get firstDmNotification() {
-    return NotificationsModule.allDMNotifications?.reverse()?.[0];
-  }
-  get focused() {
-    return WindowProperties.isFocused;
   }
 }
 </script>

@@ -15,9 +15,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { MessagesModule } from "@/store/modules/messages";
-import MessageTemplate from "./message/MessageTemplate.vue";
 import UploadQueue from "./message/UploadQueue.vue";
-import ActionMessageTemplate from "./message/ActionMessageTemplate.vue";
 import Messages from "./Messages.vue";
 import windowProperties from "@/utils/windowProperties";
 import { NotificationsModule } from "@/store/modules/notifications";
@@ -31,8 +29,6 @@ import { fetchMessagesAround } from "@/services/messagesService";
 import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
 @Component({
   components: {
-    MessageTemplate,
-    ActionMessageTemplate,
     UploadQueue,
     Messages
   }

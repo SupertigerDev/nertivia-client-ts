@@ -104,6 +104,7 @@ const UserArea = () =>
     /* webpackChunkName: "UserArea" */ "@/components/popouts/UserArea.vue"
   );
 import userStatuses from "@/constants/userStatuses";
+import { AppUpdateModule } from "@/store/modules/appUpdate";
 import { DrawersModule } from "@/store/modules/drawers";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { MeModule } from "@/store/modules/me";
@@ -115,7 +116,6 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component({ components: { AvatarImage, UserArea } })
 export default class MainApp extends Vue {
-  @Prop() private updateAvailable!: boolean;
   showUserArea = false;
   clickOutsideUserArea(event: any) {
     if (event.target.closest(".item.me")) return;
@@ -174,6 +174,9 @@ export default class MainApp extends Vue {
   }
   get leftDrawerOpened() {
     return DrawersModule.leftDrawer;
+  }
+  get updateAvailable() {
+    return AppUpdateModule.updateAvailable;
   }
 }
 </script>
