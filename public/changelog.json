@@ -1,12 +1,18 @@
 [
 	{
+		"version": "1.23.2-beta",
+		"date": "03 April 2021",
+		"title": "Markup Fixes (By bree)",
+		"new": "Added filter options to explore server tab."
+	},
+	{
 		"version": "1.22.2-beta",
 		"date": "02 April 2021",
 		"title": "Markup Fixes (By bree)",
 		"fixes": [
-		    "Links no longer match unwanted or uneeded characters. Goodbye (https://example.com/) including the )",
-                    "Complex emojis and emoji sequences are now supported",
-                    "Custom expressions now properly add to the text count. No more large emojis when mentioning someone!"
+			"Links no longer match unwanted or uneeded characters. Goodbye (https://example.com/) including the )",
+			"Complex emojis and emoji sequences are now supported",
+			"Custom expressions now properly add to the text count. No more large emojis when mentioning someone!"
 		]
 	},
 	{
@@ -92,7 +98,11 @@
 		"version": "1.16.1-beta",
 		"date": "25 March 2021",
 		"title": "Bug Fixes",
-		"fixes": ["Added minimum bubble height", "Close confirm link popout after clicking on 'visit'", "Show confirm popout when clicking on a named link."]
+		"fixes": [
+			"Added minimum bubble height",
+			"Close confirm link popout after clicking on 'visit'",
+			"Show confirm popout when clicking on a named link."
+		]
 	},
 	{
 		"version": "1.16.0-beta",
@@ -106,7 +116,6 @@
 		"title": "Role Bug Fixes & Server Perfomance Improvements!",
 		"fixes": "Server owner could not modify role permissions.",
 		"changes": "Server is now running in 4 clusters. This means that the server will be more responsive."
-
 	},
 	{
 		"version": "1.15.4-beta",
@@ -118,7 +127,10 @@
 		"version": "1.15.3-beta",
 		"date": "20 March 2021",
 		"title": "Faster Drawers",
-		"changes": ["Changed the code for drawers. They should open way quicker on a mobile device.", "Do not automatically show keyboard on mobile."]
+		"changes": [
+			"Changed the code for drawers. They should open way quicker on a mobile device.",
+			"Do not automatically show keyboard on mobile."
+		]
 	},
 	{
 		"version": "1.15.2-beta",
@@ -227,7 +239,6 @@
 		"title": "Google Drive Link",
 		"new": "Added link with Google Drive popout",
 		"fixes": "Fixed some minor bugs."
-
 	},
 	{
 		"version": "1.3.0-beta",

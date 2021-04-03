@@ -1,0 +1,8 @@
+{
+  "servers":{
+    "name": "Servers",
+    "id": "servers",
+    "icon": "dns",
+    "component": "ExploreServers"
+  }
+}

@@ -98,7 +98,7 @@ export default class MainApp extends Vue {
         client.emit("p");
       });
     }
-    this.checkChangelog();
+    this.showChangelog();
   }
   beforeMount() {
     localStorage.removeItem("lastSelectedDMChannelID");
@@ -190,7 +190,8 @@ export default class MainApp extends Vue {
       }
     });
   }
-  checkChangelog() {
+  // show changelog if it was not seen.
+  showChangelog() {
     const seenVersion = localStorage["changelogSeenVersion"];
     if (!seenVersion) {
       localStorage["changelogSeenVersion"] = this.$version;

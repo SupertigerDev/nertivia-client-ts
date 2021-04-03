@@ -205,7 +205,7 @@ export default class ExploreServerTemplate extends Vue {
   font-size: 14px;
 }
 .name {
-  margin-top: 20px;
+  margin-top: 25px;
   font-size: 18px;
 }
 .mid-info {
@@ -252,7 +252,7 @@ export default class ExploreServerTemplate extends Vue {
   top: -30px;
 }
 .verified {
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--primary-color);
   padding: 3px;
   font-size: 14px;
   border-radius: 50%;

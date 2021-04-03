@@ -128,7 +128,7 @@ const routes: Array<RouteConfig> = [
       { path: "servers/", component: DashboardArea },
       { path: "dms/", component: DashboardArea },
       { path: "settings/:tab?", component: SettingsArea },
-      { path: "explore", component: ExploreArea },
+      { path: "explore/:tab?", component: ExploreArea },
       { path: "/", component: DashboardArea },
       { path: "*" }
     ],
