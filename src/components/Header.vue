@@ -28,7 +28,7 @@ export default class MainApp extends Vue {
     DrawersModule.SetLeftDrawer(true);
   }
   toggleRightDrawer() {
-    DrawersModule.SetRightDrawer(true);
+    DrawersModule.SetRightDrawer(!DrawersModule.rightDrawer);
   }
   get isServerChannel() {
     return this.$route.params.server_id;
@@ -54,6 +54,11 @@ export default class MainApp extends Vue {
   transition: 0.2s;
   cursor: pointer;
   display: none;
+  &.right-drawer {
+    margin-right: 5px;
+    margin-left: auto;
+    display: block;
+  }
   &:hover {
     opacity: 1;
   }
@@ -61,13 +66,6 @@ export default class MainApp extends Vue {
 @media (max-width: 950px) {
   .left-drawer {
     margin-left: 5px;
-    display: block;
-  }
-}
-@media (max-width: 950px) {
-  .right-drawer {
-    margin-right: 5px;
-    margin-left: auto;
     display: block;
   }
 }

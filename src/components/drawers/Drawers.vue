@@ -14,7 +14,11 @@
     </div>
     <!-- Right -->
     <transition name="slide-right">
-      <div class="drawer-container right" :class="{ open: rightOpened }">
+      <div
+        class="drawer-container right"
+        v-if="isMobile || (!isMobile && rightOpened)"
+        :class="{ open: rightOpened }"
+      >
         <slot name="drawer-right"></slot>
       </div>
     </transition>
@@ -25,7 +29,6 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 import windowProperties from "@/utils/windowProperties";
 import { DrawersModule } from "@/store/modules/drawers";
-import { PopoutsModule } from "@/store/modules/popouts";
 
 @Component
 export default class MainApp extends Vue {
@@ -204,6 +207,8 @@ export default class MainApp extends Vue {
 
   @Watch("isMobile")
   onMobileChange() {
+    DrawersModule.SetRightDrawer(!this.isMobile);
+
     if (!this.leftDrawerEl) return;
     if (!this.rightDrawerEl) return;
     if (this.isMobile) {
@@ -257,7 +262,6 @@ export default class MainApp extends Vue {
     return DrawersModule.leftDrawer;
   }
   get rightOpened() {
-    if (!this.isMobile) return true;
     return DrawersModule.rightDrawer;
   }
   get isMobile() {

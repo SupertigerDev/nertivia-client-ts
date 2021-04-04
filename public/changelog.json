@@ -1,8 +1,14 @@
 [
 	{
+		"version": "1.24.0-beta",
+		"date": "04 April 2021",
+		"title": "Drawers Upgrade",
+		"new": "You can now hide the members drawer in desktop mode."
+	},
+	{
 		"version": "1.23.2-beta",
 		"date": "03 April 2021",
-		"title": "Markup Fixes (By bree)",
+		"title": "Explore Filter Options",
 		"new": "Added filter options to explore server tab."
 	},
 	{
