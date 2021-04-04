@@ -63,7 +63,7 @@ export function setThemeColor() {
   const metaThemeColor = document.querySelector("meta[name=theme-color]");
   metaThemeColor?.setAttribute(
     "content",
-    customVars["--primary-color"] || defaultTheme["primary-color"]
+    customVars["--pwa-theme"] || defaultTheme["pwa-theme"]
   );
 }
 
