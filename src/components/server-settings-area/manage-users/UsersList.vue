@@ -128,9 +128,6 @@ export default class RightDrawer extends Vue {
   get server_id() {
     return this.$route.params.server_id;
   }
-  beforeDestroy() {
-    DrawersModule.SetRightDrawer(false);
-  }
 }
 </script>
 <style scoped>

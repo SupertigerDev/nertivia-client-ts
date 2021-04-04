@@ -124,9 +124,6 @@ export default class RightDrawer extends Vue {
   get serverId() {
     return this.$route.params.server_id;
   }
-  beforeDestroy() {
-    DrawersModule.SetRightDrawer(false);
-  }
 
   get remain() {
     return Math.round(WindowProperties.resizeHeight / 40);
