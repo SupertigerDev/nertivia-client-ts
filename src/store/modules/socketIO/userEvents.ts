@@ -44,7 +44,6 @@ const actions: ActionTree<any, any> = {
     context,
     data: { custom_status: string; uniqueID: string }
   ) {
-    console.log(data)
     CustomStatusesModule.SetCustomStatus({
       custom_status: data.custom_status,
       uniqueID: data.uniqueID
