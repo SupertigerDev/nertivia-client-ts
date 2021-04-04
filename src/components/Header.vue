@@ -47,7 +47,7 @@ export default class MainApp extends Vue {
   background-color: var(--main-header-bg-color);
 }
 .name {
-  margin-left: 5px;
+  margin-left: 10px;
 }
 .open-drawer-button {
   opacity: 0.7;
