@@ -41,6 +41,7 @@ export default class MainApp extends Vue {
   touchStamp = 0;
   scrolling = false;
   mounted() {
+    DrawersModule.SetRightDrawer(!this.isMobile);
     window.addEventListener("touchstart", this.onTouchStart);
     window.addEventListener("touchmove", this.onTouchMove);
     window.addEventListener("touchend", this.onTouchEnd);
@@ -56,7 +57,10 @@ export default class MainApp extends Vue {
   }
 
   onTouchStart(event: TouchEvent) {
+    this.scrolling = false;
     if (!this.isMobile) return;
+    this.leftDrawerEl = document.querySelector(".drawer-container.left");
+    this.rightDrawerEl = document.querySelector(".drawer-container.right");
 
     this.touchStamp = Date.now();
     const x = event.touches[0].clientX;
