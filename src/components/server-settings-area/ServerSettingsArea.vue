@@ -16,6 +16,7 @@ import ManageUsers from "./manage-users/ManageUsers.vue";
 import BannedUsers from "./banned-users/BannedUsers.vue";
 import DeleteServer from "./DeleteServer.vue";
 import General from "./General.vue";
+import ServerVisibility from "./ServerVisibility.vue";
 
 import { Vue, Component } from "vue-property-decorator";
 @Component({
@@ -28,7 +29,8 @@ import { Vue, Component } from "vue-property-decorator";
     ManageInvites,
     General,
     DeleteServer,
-    BannedUsers
+    BannedUsers,
+    ServerVisibility
   }
 })
 export default class ServerSettingsArea extends Vue {

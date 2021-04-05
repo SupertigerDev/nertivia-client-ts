@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.25.0-beta",
+		"date": "05 April 2021",
+		"title": "Server Visibility Option",
+		"new": "You can now set your server visibility through server settings."
+	},
+	{
 		"version": "1.24.0-beta",
 		"date": "04 April 2021",
 		"title": "Drawers Upgrade",

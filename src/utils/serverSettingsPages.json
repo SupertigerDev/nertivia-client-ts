@@ -26,6 +26,13 @@
     "icon": "settings",
     "component": "ManageInvites"
   },
+  "server-visibility": {
+    "name": "Server Visibility",
+    "id": "server-visibility",
+    "icon": "visibility",
+    "owner": true,
+    "component": "ServerVisibility"
+  },
   "manage-notification": {
     "name": "Manage Notification",
     "id": "manage-notification",
