@@ -1,5 +1,14 @@
 [
 	{
+		"version": "1.25.1-beta",
+		"date": "05 April 2021",
+		"title": "Added shortcuts",
+		"new": [
+			"ALT + UP/DOWN: navigate between server channels",
+			"ALT + CTRL + UP/DOWN: navigate between servers"
+		]
+	},
+	{
 		"version": "1.25.0-beta",
 		"date": "05 April 2021",
 		"title": "Server Visibility Option",

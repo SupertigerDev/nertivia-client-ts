@@ -115,7 +115,7 @@ import { lastSelectedServerChannel } from "@/utils/lastSelectedServer";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component({ components: { AvatarImage, UserArea } })
-export default class MainApp extends Vue {
+export default class NavBar extends Vue {
   showUserArea = false;
   clickOutsideUserArea(event: any) {
     if (event.target.closest(".item.me")) return;

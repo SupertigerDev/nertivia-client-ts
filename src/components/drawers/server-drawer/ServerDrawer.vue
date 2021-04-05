@@ -43,9 +43,60 @@ import { Component, Vue } from "vue-property-decorator";
 import ChannelTemplate from "@/components/drawers/server-drawer/ChannelTemplate.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
 @Component({ components: { ChannelTemplate } })
-export default class MainApp extends Vue {
+export default class ServerDrawer extends Vue {
   bannerHover = false;
-
+  mounted() {
+    window.addEventListener("keydown", this.onKeyDown);
+  }
+  beforeDestroy() {
+    window.removeEventListener("keydown", this.onKeyDown);
+  }
+  onKeyDown(event: KeyboardEvent) {
+    if (this.selectedServerChannels.length <= 1) return;
+    if (event.ctrlKey) return;
+    if (!event.altKey) return;
+    const arrowUp = event.key === "ArrowUp";
+    const arrowDown = event.key === "ArrowDown";
+    if (arrowUp || arrowDown) {
+      arrowUp && this.gotoPreviousChannel();
+      arrowDown && this.gotoNextChannel();
+      event.preventDefault();
+    }
+  }
+  gotoPreviousChannel() {
+    const channels = this.selectedServerChannels;
+    const currentChannelIndex = channels.findIndex(
+      c => c.channelID === this.selectedDetails.channel_id
+    );
+    let gotoIndex = currentChannelIndex;
+    if (currentChannelIndex === -1) return;
+    if (currentChannelIndex === 0) {
+      gotoIndex = channels.length - 1;
+    } else {
+      gotoIndex = currentChannelIndex - 1;
+    }
+    const channelID = channels[gotoIndex].channelID;
+    this.$router.push({
+      params: { channel_id: channelID }
+    });
+  }
+  gotoNextChannel() {
+    const channels = this.selectedServerChannels;
+    const currentChannelIndex = channels.findIndex(
+      c => c.channelID === this.selectedDetails.channel_id
+    );
+    let gotoIndex = currentChannelIndex;
+    if (currentChannelIndex === -1) return;
+    if (currentChannelIndex === channels.length - 1) {
+      gotoIndex = 0;
+    } else {
+      gotoIndex = currentChannelIndex + 1;
+    }
+    const channelID = channels[gotoIndex].channelID;
+    this.$router.push({
+      params: { channel_id: channelID }
+    });
+  }
   showServerContext(event: any) {
     PopoutsModule.ShowPopout({
       id: "context",

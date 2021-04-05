@@ -17,7 +17,7 @@ import { Component, Vue } from "vue-property-decorator";
 import Servers from "./Servers.vue";
 
 @Component({ components: { Servers } })
-export default class MainApp extends Vue {
+export default class SideBar extends Vue {
   addServerClicked() {
     PopoutsModule.ShowPopout({
       component: "add-server-popout",
