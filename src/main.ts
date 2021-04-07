@@ -23,12 +23,7 @@ declare module "vue/types/vue" {
 
 // compatible with old stinky browsers.
 if (!String.prototype.replaceAll) {
-  (String.prototype as any).replaceAll = function (regex: string, search: string) {
-    return this.replace(
-      regex,
-      search
-    );
-  }
+  (String.prototype as any).replaceAll = String.prototype.replace
 }
 
 
