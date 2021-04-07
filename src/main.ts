@@ -20,6 +20,19 @@ declare module "vue/types/vue" {
   }
 }
 
+
+// compatible with old stinky browsers.
+if (!String.prototype.replaceAll) {
+  (String.prototype as any).replaceAll = function (regex: string, search: string) {
+    return this.replace(
+      regex,
+      search
+    );
+  }
+}
+
+
+
 if (messagingSupported && process.env.VUE_APP_FCM_API_KEY) {
   messaging().onMessage(payload => {
     console.log("FCM Data: ", payload);
