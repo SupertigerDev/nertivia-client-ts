@@ -50,8 +50,7 @@ export default class ProfilePopout extends Vue {
   }
   visitLink() {
     const win = window.open(this.url, "_blank");
-    if (!win) return;
-    win.focus();
+    win?.focus?.();
     this.close();
   }
   close() {
