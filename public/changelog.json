@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.25.2-beta",
+		"date": "09 April 2021",
+		"title": "Bug fixes",
+		"fix": "When joining a server, everyone displayed as offline."
+	},
+	{
 		"version": "1.25.1-beta",
 		"date": "05 April 2021",
 		"title": "Added shortcuts",

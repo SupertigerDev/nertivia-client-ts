@@ -26,6 +26,9 @@ import {
   SERVER_UPDATE_ROLE,
   SERVER_UPDATE_ROLES
 } from "@/socketEventConstants";
+import { PresencesModule } from "../presences";
+import { CustomStatusesModule } from "../memberCustomStatus";
+import { programActivitiesModule } from "../memberProgramActivity";
 
 const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
@@ -118,6 +121,9 @@ const actions: ActionTree<any, any> = {
   ) {
     const serverMembersObj: any = {};
     const usersObj: any = {};
+    const presenceObj: any = {};
+    const customStatusObj: any = {};
+    const activity: any = {};
     for (let i = 0; i < serverMembers.length; i++) {
       const serverMember = serverMembers[i];
 
@@ -129,12 +135,34 @@ const actions: ActionTree<any, any> = {
       ] = filterServerMemberKeys(serverMember);
       usersObj[serverMember.member.uniqueID] = serverMember.member;
     }
-
+    for (let i = 0; i < memberPresences.length; i++) {
+      const [id, presence] = memberPresences[i];
+      presenceObj[id] = parseInt(presence);
+    }
+    for (let i = 0; i < memberCustomStatusArr.length; i++) {
+      const [id, custom_status] = memberPresences[i];
+      customStatusObj[id] = custom_status;
+    }
+    for (let i = 0; i < programActivityArr.length; i++) {
+      const {name, status, uniqueID} = programActivityArr[i];
+      activity[uniqueID] = {name, status};
+    }
+    programActivitiesModule.AddActivities(activity);
+    PresencesModule.AddPresences(presenceObj);
+    CustomStatusesModule.AddCustomStatuses(customStatusObj);
     UsersModule.AddUsers(usersObj);
     ServerMembersModule.AddServerMembers(serverMembersObj);
   },
   [SERVER_MEMBER_ADD](context, { serverMember }) {
     UsersModule.AddUser(serverMember.member);
+    PresencesModule.UpdatePresence({
+      uniqueID: serverMember.member.uniqueID,
+      presence: serverMember.presence
+    })
+    CustomStatusesModule.SetCustomStatus({
+      uniqueID: serverMember.member.uniqueID,
+      custom_status: serverMember.custom_status
+    })
     ServerMembersModule.AddServerMember(filterServerMemberKeys(serverMember));
   },
   [SERVER_MEMBER_REMOVE](context, { uniqueID, server_id }) {

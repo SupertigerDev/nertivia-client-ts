@@ -47,5 +47,16 @@ class CustomStatuses extends VuexModule {
   public RemoveCustomStatus(payload: { uniqueID: string }) {
     this.REMOVE_CUSTOM_STATUS(payload);
   }
+
+  @Mutation
+  private ADD_CUSTOM_STATUSES(payload: CustomStatus | any) {
+    Vue.set(this, "customStatus", { ...this.customStatus, ...payload });
+  }
+
+  @Action
+  public AddCustomStatuses(payload: CustomStatus | any) {
+    this.ADD_CUSTOM_STATUSES(payload);
+  }
+
 }
 export const CustomStatusesModule = getModule(CustomStatuses);

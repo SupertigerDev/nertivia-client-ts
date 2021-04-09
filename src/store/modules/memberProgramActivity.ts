@@ -56,5 +56,15 @@ class ProgramActivities extends VuexModule {
   public RemoveProgramActivity(payload: { uniqueID: string }) {
     this.REMOVE_PROGRAM_ACTIVITY(payload);
   }
+  @Mutation
+  private ADD_ACTIVITIES(payload: ProgramActivityObj | any) {
+    Vue.set(this, "programActivity", { ...this.programActivity, ...payload });
+  }
+
+  @Action
+  public AddActivities(payload: ProgramActivityObj | any) {
+    this.ADD_ACTIVITIES(payload);
+  }
+
 }
 export const programActivitiesModule = getModule(ProgramActivities);

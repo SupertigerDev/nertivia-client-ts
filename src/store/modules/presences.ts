@@ -47,6 +47,17 @@ class Presences extends VuexModule {
     this.UPDATE_PRESENCE(payload);
   }
 
+  @Mutation
+  private ADD_PRESENCES(payload: PresencesObj | any) {
+    Vue.set(this, "presences", { ...this.presences, ...payload });
+  }
+
+  @Action
+  public AddPresences(payload: PresencesObj | any) {
+    this.ADD_PRESENCES(payload);
+  }
+
+
   @Action
   public InitPresences(payload: PresencesObj | any) {
     this.INIT_PRESENCES(payload);
