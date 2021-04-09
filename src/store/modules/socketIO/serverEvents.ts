@@ -140,7 +140,7 @@ const actions: ActionTree<any, any> = {
       presenceObj[id] = parseInt(presence);
     }
     for (let i = 0; i < memberCustomStatusArr.length; i++) {
-      const [id, custom_status] = memberPresences[i];
+      const [id, custom_status] = memberCustomStatusArr[i];
       customStatusObj[id] = custom_status;
     }
     for (let i = 0; i < programActivityArr.length; i++) {
