@@ -5,12 +5,12 @@
       <div
         class="friend"
         v-for="item in friends"
-        :key="item.uniqueID"
+        :key="item.id"
         :title="item.username"
         @click="friendClicked(item)"
       >
         <AvatarImage
-          :seedId="item.uniqueID"
+          :seedId="item.id"
           :imageId="item.avatar"
           size="40px"
         />
@@ -34,8 +34,8 @@ export default class CommonServers extends Vue {
     PopoutsModule.ShowPopout({
       id: "profile",
       component: "profile-popout",
-      data: { uniqueID: friend.uniqueID },
-      key: friend.uniqueID
+      data: { id: friend.id },
+      key: friend.id
     });
   }
 }

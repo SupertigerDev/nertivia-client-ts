@@ -7,13 +7,13 @@ export function sendFriendRequest(username: string, tag: string): Promise<any> {
     .post(`user/relationship`, { json: { username, tag } })
     .json();
 }
-export function deleteFriend(uniqueID: string): Promise<any> {
+export function deleteFriend(id: string): Promise<any> {
   return wrapper()
-    .delete(`user/relationship`, { json: { uniqueID } })
+    .delete(`user/relationship`, { json: { id } })
     .json();
 }
-export function acceptRequest(uniqueID: string): Promise<any> {
+export function acceptRequest(id: string): Promise<any> {
   return wrapper()
-    .put(`user/relationship`, { json: { uniqueID } })
+    .put(`user/relationship`, { json: { id } })
     .json();
 }

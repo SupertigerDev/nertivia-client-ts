@@ -20,7 +20,7 @@
           <div class="avatar-area">
             <AvatarImage
               :imageId="user.avatar"
-              :seedId="user.uniqueID"
+              :seedId="user.id"
               :animateGif="true"
               :badges="user.badges"
               size="80px"
@@ -40,7 +40,7 @@
             <div class="custom-status">
               <UserStatusTemplate
                 :showOffline="true"
-                :uniqueID="user.uniqueID"
+                :id="user.id"
               />
             </div>
           </div>
@@ -173,7 +173,7 @@ import { getBadges } from "@/constants/badges";
   }
 })
 export default class ProfilePopout extends Vue {
-  @Prop() private data!: { uniqueID: string };
+  @Prop() private data!: { id: string };
   banner: any = null;
   returnedUser: ReturnedUser | null = null;
   close() {
@@ -195,27 +195,27 @@ export default class ProfilePopout extends Vue {
   }
   blockUser() {
     if (this.isBlocked) {
-      UnblockUser(this.user.uniqueID);
+      UnblockUser(this.user.id);
     } else {
-      blockUser(this.user.uniqueID);
+      blockUser(this.user.id);
     }
   }
   sendMessageButton() {
-    ChannelsModule.LoadDmChannel(this.user.uniqueID);
+    ChannelsModule.LoadDmChannel(this.user.id);
     PopoutsModule.ClosePopout("profile");
   }
   cancelOrDecline() {
-    deleteFriend(this.user.uniqueID);
+    deleteFriend(this.user.id);
   }
   acceptFriend() {
-    acceptRequest(this.user.uniqueID);
+    acceptRequest(this.user.id);
   }
   addFriend() {
     sendFriendRequest(this.user.username, this.user.tag);
   }
 
   mounted() {
-    fetchUser(this.data.uniqueID).then(user => {
+    fetchUser(this.data.id).then(user => {
       this.returnedUser = user;
     });
   }
@@ -244,21 +244,21 @@ export default class ProfilePopout extends Vue {
   }
 
   get presence() {
-    if (!this.user?.uniqueID) return userStatuses[0];
-    const presence = PresencesModule.getPresence(this.user.uniqueID);
+    if (!this.user?.id) return userStatuses[0];
+    const presence = PresencesModule.getPresence(this.user.id);
     return userStatuses[presence || 0];
   }
   get customStatus() {
     if (this.presence.name === "Offline") return undefined;
-    return CustomStatusesModule.customStatus[this.user.uniqueID];
+    return CustomStatusesModule.customStatus[this.user.id];
   }
   get friendStatus() {
-    const status = FriendsModule.friends[this.user.uniqueID]?.status;
+    const status = FriendsModule.friends[this.user.id]?.status;
     return status;
   }
   get user() {
     if (!this.returnedUser) {
-      return UsersModule.users[this.data.uniqueID] || {};
+      return UsersModule.users[this.data.id] || {};
     }
     return this.returnedUser.user;
   }
@@ -266,10 +266,10 @@ export default class ProfilePopout extends Vue {
     return this.returnedUser?.user.about_me;
   }
   get isMe() {
-    return this.user.uniqueID === MeModule.user.uniqueID;
+    return this.user.id === MeModule.user.id;
   }
   get isBlocked() {
-    return UsersModule.blockedUserIDArr.includes(this.user.uniqueID);
+    return UsersModule.blockedUserIDArr.includes(this.user.id);
   }
   get commonServers() {
     const commonServers = this.returnedUser?.commonServersArr;

@@ -73,11 +73,11 @@ export default class RateLimitPopup extends Vue {
     return this.$route.params.server_id;
   }
   get isImmune() {
-    if (!MeModule.user.uniqueID) return false;
-    if (ServersModule.isServerOwner(this.serverID, MeModule.user.uniqueID))
+    if (!MeModule.user.id) return false;
+    if (ServersModule.isServerOwner(this.serverID, MeModule.user.id))
       return true;
     return ServerMembersModule.memberHasPermission(
-      MeModule.user.uniqueID,
+      MeModule.user.id,
       this.serverID,
       permissions.ADMIN.value
     );

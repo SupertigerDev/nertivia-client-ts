@@ -106,7 +106,7 @@ export default class ManageRoles extends Vue {
     return (
       ServerMembersModule.highestRoleOrder(
         this.serverID,
-        MeModule?.user?.uniqueID || ""
+        MeModule?.user?.id || ""
       ) || 0
     );
   }
@@ -121,7 +121,7 @@ export default class ManageRoles extends Vue {
   get isServerCreator() {
     return ServersModule.isServerOwner(
       this.serverID,
-      MeModule?.user?.uniqueID || ""
+      MeModule?.user?.id || ""
     );
   }
   get roles() {

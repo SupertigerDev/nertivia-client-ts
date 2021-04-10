@@ -133,9 +133,9 @@ export default class MainApp extends Vue {
     if (this.resetPasswordPostSent) return;
     this.errors = {};
     this.resetPasswordPostSent = true;
-    const uniqueID = this.$route.query["unique-id"];
+    const id = this.$route.query["unique-id"];
     const code = this.$route.query["code"];
-    resetPassword(code as any, uniqueID as any, this.password)
+    resetPassword(code as any, id as any, this.password)
       .then(() => {
         this.page = 4;
       })

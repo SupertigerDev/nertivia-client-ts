@@ -7,7 +7,7 @@
           <div class="material-icons edit-button">edit</div>
           <AvatarImage
             :imageId="bot.avatar"
-            :seedId="bot.uniqueID"
+            :seedId="bot.id"
             :customUrl="newAvatar"
             size="100px"
           />
@@ -166,7 +166,7 @@ export default class Account extends Vue {
       this.deleteBotConfirm = true;
       return;
     }
-    deleteBot(this.bot.uniqueID)
+    deleteBot(this.bot.id)
       .then(() => {
         this.$emit("deleted");
       })
@@ -202,7 +202,7 @@ export default class Account extends Vue {
     });
   }
   resetToken() {
-    resetBotToken(this.bot.uniqueID).then(({ token }) => {
+    resetBotToken(this.bot.id).then(({ token }) => {
       this.$emit("tokenChanged", token);
       PopoutsModule.ShowPopout({
         id: "change-bot-token",
@@ -225,7 +225,7 @@ export default class Account extends Vue {
     this.changedItems.tagChanged && (data.tag = this.tag.trim());
     this.changedItems.avatarChanged && (data.avatar = this.newAvatar || "");
 
-    updateBot(this.bot.uniqueID, data)
+    updateBot(this.bot.id, data)
       .then(json => {
         this.$emit("updated", json);
         this.$nextTick(() => {
@@ -281,7 +281,7 @@ export default class Account extends Vue {
     if (!process.env.VUE_APP_MAIN_APP_URL) return "";
     return (
       process.env.VUE_APP_MAIN_APP_URL +
-      `bots/${this.bot.uniqueID}?perms=${this.permissions}`
+      `bots/${this.bot.id}?perms=${this.permissions}`
     );
   }
   get showSaveButton() {

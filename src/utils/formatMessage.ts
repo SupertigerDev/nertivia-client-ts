@@ -13,7 +13,7 @@ function replaceMentions(message: string) {
       m => "@" + m.username === username && m.tag === tag
     );
     if (!member) return word;
-    return `<@${member.uniqueID}>`;
+    return `<@${member.id}>`;
   });
 }
 function replaceChannelMentions(message: string, channels: Channel[]) {

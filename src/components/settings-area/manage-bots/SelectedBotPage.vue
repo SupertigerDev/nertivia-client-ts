@@ -53,7 +53,7 @@ export default class ManageChannels extends Vue {
   botPrefix = "";
   botCommands: any[] = [];
   mounted() {
-    getBot(this.bot.uniqueID, true).then((json: any) => {
+    getBot(this.bot.id, true).then((json: any) => {
       this.botToken = json.token;
       this.botPrefix = json.botPrefix || "";
       this.botCommands = json.botCommands || [];

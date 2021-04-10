@@ -76,13 +76,13 @@ export default class extends Vue {
       PopoutsModule.ShowPopout({
         id: "hover-context",
         component: "UserContextMenu",
-        key: this.message.creator.uniqueID + rect.x + rect.y,
+        key: this.message.creator.id + rect.x + rect.y,
         data: {
           x: rect.x + this.$el.clientWidth + 3,
           y: rect.y,
           parentContextWidth: (this.$refs.context as any).width,
           tempUser: this.data.tempUser,
-          uniqueID: this.message.creator.uniqueID,
+          id: this.message.creator.id,
           closeOnMouseLeave: true
         }
       });
@@ -136,13 +136,13 @@ export default class extends Vue {
     return items;
   }
   get messageCreatedByMe() {
-    return MeModule.user.uniqueID === this.message.creator.uniqueID;
+    return MeModule.user.id === this.message.creator.id;
   }
   // if the logged in user is the server owner
   get isServerOwner() {
     if (!this.serverID) return false;
     const server = ServersModule.servers[this.serverID];
-    return MeModule.user.uniqueID === server.creator.uniqueID;
+    return MeModule.user.id === server.creator.id;
   }
   get canDeleteMessage() {
     if (!this.message.messageID) return false;
@@ -150,9 +150,9 @@ export default class extends Vue {
     if (this.messageCreatedByMe) return true;
     if (!this.serverID) return false;
     if (this.isServerOwner) return true;
-    if (!MeModule.user.uniqueID) return false;
+    if (!MeModule.user.id) return false;
     return ServerMembersModule.memberHasPermission(
-      MeModule.user.uniqueID,
+      MeModule.user.id,
       this.serverID,
       permissions.ADMIN.value
     );

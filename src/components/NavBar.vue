@@ -71,7 +71,7 @@
         class="avatar"
         size="25px"
         :image-id="me.avatar"
-        :seed-id="me.uniqueID"
+        :seed-id="me.id"
       />
     </div>
 
@@ -168,8 +168,8 @@ export default class NavBar extends Vue {
     return NotificationsModule.allDMNotifications.length > 0;
   }
   get presence() {
-    if (!this.me?.uniqueID || !MeModule.connected) return userStatuses[0];
-    const presence = PresencesModule.getPresence(this.me.uniqueID);
+    if (!this.me?.id || !MeModule.connected) return userStatuses[0];
+    const presence = PresencesModule.getPresence(this.me.id);
     return userStatuses[presence || 0];
   }
   get leftDrawerOpened() {

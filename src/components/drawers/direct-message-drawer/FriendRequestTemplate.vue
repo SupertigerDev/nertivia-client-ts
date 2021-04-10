@@ -10,7 +10,7 @@
         <AvatarImage
           class="avatar"
           :imageId="user.avatar"
-          :seedId="user.uniqueID"
+          :seedId="user.id"
           size="30px"
           :willHaveClickEvent="true"
           :animateGif="hover"
@@ -70,21 +70,21 @@ export default class FriendTemplate extends Vue {
   hover = false;
   clickedEvent(event: any) {
     if (!event.target.closest(".avatar") && !event.target.closest(".button")) {
-      ChannelsModule.LoadDmChannel(this.user.uniqueID);
+      ChannelsModule.LoadDmChannel(this.user.id);
     }
   }
   showProfile() {
     PopoutsModule.ShowPopout({
       id: "profile",
       component: "profile-popout",
-      data: { uniqueID: this.user.uniqueID }
+      data: { id: this.user.id }
     });
   }
   cancelOrDecline() {
-    deleteFriend(this.user.uniqueID);
+    deleteFriend(this.user.id);
   }
   acceptFriend() {
-    acceptRequest(this.user.uniqueID);
+    acceptRequest(this.user.id);
   }
   get user() {
     if (this.friend) {

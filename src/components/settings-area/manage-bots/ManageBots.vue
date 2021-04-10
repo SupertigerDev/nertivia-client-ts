@@ -30,7 +30,7 @@
         <div class="bot-list" v-if="bots">
           <BotTemplate
             v-for="(bot, i) in bots"
-            :key="bot.uniqueID"
+            :key="bot.id"
             :bot="bot"
             @click.native="selectedBotIndex = i"
           />

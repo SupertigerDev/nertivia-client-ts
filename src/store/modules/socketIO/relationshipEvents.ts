@@ -12,22 +12,22 @@ import { MutedChannelsModule } from "../mutedChannels";
 import { UsersModule } from "../users";
 
 const actions: ActionTree<any, any> = {
-  [RELATIONSHIP_REMOVE](context, uniqueID) {
-    FriendsModule.RemoveFriend({ uniqueID });
+  [RELATIONSHIP_REMOVE](context, id) {
+    FriendsModule.RemoveFriend({ id });
   },
-  [RELATIONSHIP_ACCEPT](context, uniqueID) {
-    FriendsModule.AddFriend({ status: 2, uniqueID });
+  [RELATIONSHIP_ACCEPT](context, id) {
+    FriendsModule.AddFriend({ status: 2, id });
   },
   [RELATIONSHIP_ADD](context, payload: { recipient: User; status: number }) {
     UsersModule.AddUser({
       tag: payload.recipient.tag,
-      uniqueID: payload.recipient.uniqueID,
+      id: payload.recipient.id,
       username: payload.recipient.username,
       avatar: payload.recipient.avatar
     });
     FriendsModule.AddFriend({
       status: payload.status,
-      uniqueID: payload.recipient.uniqueID
+      id: payload.recipient.id
     });
   }
 };

@@ -13,7 +13,7 @@ interface User {
   tag?: string | null;
   email?: string | null;
   avatar?: string | null;
-  uniqueID?: string | null;
+  id?: string | null;
   status: number;
   googleDriveLinked?: boolean;
   badges?: number
@@ -26,7 +26,7 @@ class Me extends VuexModule {
     tag: null,
     email: null,
     avatar: null,
-    uniqueID: null,
+    id: null,
     status: 0
   };
   connected = false;

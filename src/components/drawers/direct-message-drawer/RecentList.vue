@@ -41,7 +41,7 @@ export default class RecentList extends Vue {
     const highPriority = NotificationsModule.newDMNotifications;
     // filter self (saved notes)
     const filter = this.sortedChannels.filter(
-      c => c.recipients?.[0]?.uniqueID !== this.me.uniqueID
+      c => c.recipients?.[0]?.id !== this.me.id
     );
     // move channels with notifications to top.
     const sort = filter.sort((a, b) => {

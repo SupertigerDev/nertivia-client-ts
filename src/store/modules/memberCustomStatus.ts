@@ -8,7 +8,7 @@ import {
 import store from "..";
 import Vue from "vue";
 
-// customStatus[uniqueid]: status;
+// customStatus[user_id]: status;
 interface CustomStatus {
   [key: string]: string;
 }
@@ -28,23 +28,23 @@ class CustomStatuses extends VuexModule {
   }
   @Mutation
   private SET_CUSTOM_STATUS(payload: {
-    uniqueID: string;
+    id: string;
     custom_status: string;
   }) {
-    Vue.set(this.customStatus, payload.uniqueID, payload.custom_status)
+    Vue.set(this.customStatus, payload.id, payload.custom_status)
   }
 
   @Action
-  public SetCustomStatus(payload: { uniqueID: string; custom_status: string }) {
+  public SetCustomStatus(payload: { id: string; custom_status: string }) {
     this.SET_CUSTOM_STATUS(payload);
   }
   @Mutation
-  private REMOVE_CUSTOM_STATUS(payload: { uniqueID: string }) {
-    Vue.delete(this.customStatus, payload.uniqueID);
+  private REMOVE_CUSTOM_STATUS(payload: { id: string }) {
+    Vue.delete(this.customStatus, payload.id);
   }
 
   @Action
-  public RemoveCustomStatus(payload: { uniqueID: string }) {
+  public RemoveCustomStatus(payload: { id: string }) {
     this.REMOVE_CUSTOM_STATUS(payload);
   }
 

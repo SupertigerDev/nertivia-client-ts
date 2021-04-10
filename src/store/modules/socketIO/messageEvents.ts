@@ -50,7 +50,7 @@ const actions: ActionTree<any, any> = {
   [RECEIVE_MESSAGE](context, data: { message: Message }) {
     const channel = ChannelsModule.channels[data.message.channelID];
 
-    const isMe = data.message.creator.uniqueID === MeModule.user.uniqueID;
+    const isMe = data.message.creator.id === MeModule.user.id;
     ChannelsModule.updateChannel({
       channelID: data.message.channelID,
       update: { lastMessaged: Date.now() }
@@ -77,7 +77,7 @@ const actions: ActionTree<any, any> = {
       );
       const mentioned = !!(
         data.message.mentions &&
-        data.message.mentions.find(u => u.uniqueID === MeModule.user.uniqueID)
+        data.message.mentions.find(u => u.id === MeModule.user.id)
       );
       // play notification sound.
       playNotificationSound(

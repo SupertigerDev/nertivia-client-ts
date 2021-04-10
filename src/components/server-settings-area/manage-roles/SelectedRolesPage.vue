@@ -221,7 +221,7 @@ export default class ManageRolesPage extends Vue {
       const canModify =
         this.isServerCreator ||
         !!ServerMembersModule.memberHasPermission(
-          MeModule.user.uniqueID || "",
+          MeModule.user.id || "",
           this.serverID,
           p.value,
           true
@@ -246,7 +246,7 @@ export default class ManageRolesPage extends Vue {
   get isServerCreator() {
     return ServersModule.isServerOwner(
       this.serverID,
-      MeModule?.user?.uniqueID || ""
+      MeModule?.user?.id || ""
     );
   }
   get change() {

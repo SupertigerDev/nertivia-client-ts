@@ -8,7 +8,7 @@
     <AvatarImage
       class="avatar"
       :imageId="member.avatar"
-      :seedId="member.uniqueID"
+      :seedId="member.id"
       size="30px"
       :animateGif="hover"
     />
@@ -40,11 +40,11 @@ export default class RightDrawer extends Vue {
     PopoutsModule.ShowPopout({
       id: "context",
       component: "UserContextMenu",
-      key: this.member.uniqueID + event.clientX + event.clientY,
+      key: this.member.id + event.clientX + event.clientY,
       data: {
         x: event.clientX,
         y: event.clientY,
-        uniqueID: this.member.uniqueID
+        id: this.member.id
       }
     });
   }

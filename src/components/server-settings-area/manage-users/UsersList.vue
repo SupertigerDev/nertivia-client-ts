@@ -15,8 +15,8 @@ export default class RightDrawer extends Vue {
   onClick(event: any) {
     const element = event.target.closest(".server-member");
     if (!element) return;
-    const uniqueID = element.id.split("-")[1];
-    this.$emit("userClick", uniqueID);
+    const id = element.id.split("-")[1];
+    this.$emit("userClick", id);
   }
 
   render() {
@@ -25,7 +25,7 @@ export default class RightDrawer extends Vue {
         return (
           <user-template
             serverMember={member}
-            id={`user-${member.member.uniqueID}`}
+            id={`user-${member.member.id}`}
             style={{ height: "40px" }}
           />
         );
@@ -94,11 +94,11 @@ export default class RightDrawer extends Vue {
     for (let i = 0; i < this.serverRoles.length; i++) {
       const role = this.serverRoles[i];
       const members = this.onlineMembers.filter(member => {
-        if (consumedMemberIds.includes(member.uniqueID)) return false;
+        if (consumedMemberIds.includes(member.id)) return false;
         const findRole = member.roles.find(r => r && !r.hideRole);
         if (!findRole) return false;
         if (role.id !== findRole.id) return false;
-        consumedMemberIds.push(member.uniqueID);
+        consumedMemberIds.push(member.id);
         return true;
       });
       if (!members.length) continue;

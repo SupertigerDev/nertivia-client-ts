@@ -3,7 +3,7 @@
     <AvatarImage
       class="avatar"
       :imageId="bot.avatar"
-      :seedId="bot.uniqueID"
+      :seedId="bot.id"
       size="30px"
     />
     <span class="username">{{ bot.username }}</span>

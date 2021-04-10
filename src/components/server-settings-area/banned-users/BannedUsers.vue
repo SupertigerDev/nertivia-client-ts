@@ -13,7 +13,7 @@
         <div class="users-list">
           <UserTemplate
             v-for="(user, i) in bans"
-            :key="user.uniqueID"
+            :key="user.id"
             :user="user"
             @deleted="userUnbanned(i)"
           />

@@ -35,12 +35,12 @@ export function resetPasswordRequest(
 }
 export function resetPassword(
   code: string,
-  uniqueID: string,
+  id: string,
   password?: string
 ): Promise<any> {
   return wrapper()
     .post(`user/reset/code/${code}`, {
-      json: { uniqueID, password }
+      json: { id, password }
     })
     .json();
 }

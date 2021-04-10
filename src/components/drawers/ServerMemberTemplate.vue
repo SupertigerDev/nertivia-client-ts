@@ -9,7 +9,7 @@
     <AvatarImage
       class="avatar"
       :imageId="member.avatar"
-      :seedId="member.uniqueID"
+      :seedId="member.id"
       size="30px"
       :animateGif="hover"
     />
@@ -17,7 +17,7 @@
       <span class="username" :style="{ color: firstRoleColor }">{{
         member.username
       }}</span>
-      <UserStatusTemplate :showStatusOnly="hover" :uniqueID="member.uniqueID" />
+      <UserStatusTemplate :showStatusOnly="hover" :id="member.id" />
     </div>
     <span class="badge" :title="badge[0]" :class="badge[0]" v-if="badge"
       ><img :src="badge[1]"
@@ -49,11 +49,11 @@ export default class RightDrawer extends Vue {
     PopoutsModule.ShowPopout({
       id: "context",
       component: "UserContextMenu",
-      key: this.member.uniqueID + event.clientX + event.clientY,
+      key: this.member.id + event.clientX + event.clientY,
       data: {
         x: event.clientX,
         y: event.clientY,
-        uniqueID: this.member.uniqueID
+        id: this.member.id
       }
     });
   }
@@ -90,10 +90,10 @@ export default class RightDrawer extends Vue {
 
     if (this.serverMember.type === "BOT")
       return ["bot", process.env.VUE_APP_TWEMOJI_LOCATION + "1f916.svg"];
-    const uniqueID = this.serverMember.uniqueID;
+    const id = this.serverMember.id;
     const serverID = this.serverMember.server_id;
     const memberHasPermission = ServerMembersModule.memberHasPermission;
-    if (memberHasPermission(uniqueID, serverID, permissions.ADMIN.value)) {
+    if (memberHasPermission(id, serverID, permissions.ADMIN.value)) {
       return ["admin", process.env.VUE_APP_TWEMOJI_LOCATION + "1f6e1.svg"];
     }
     return null;

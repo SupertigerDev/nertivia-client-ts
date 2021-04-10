@@ -57,8 +57,8 @@ export default class MainApp extends Vue {
   selectedTab = parseInt(localStorage.getItem("selectedDmTab") || "0");
 
   openSavedNotes() {
-    if (!MeModule.user.uniqueID) return;
-    ChannelsModule.LoadDmChannel(MeModule.user.uniqueID);
+    if (!MeModule.user.id) return;
+    ChannelsModule.LoadDmChannel(MeModule.user.id);
   }
   addFriendButton() {
     PopoutsModule.ShowPopout({
@@ -76,7 +76,7 @@ export default class MainApp extends Vue {
     if (!channelID) return false;
     const DMChannel = ChannelsModule.getDMChannel(channelID);
     const recipient = DMChannel?.recipients?.[0];
-    return recipient?.uniqueID === MeModule.user.uniqueID;
+    return recipient?.id === MeModule.user.id;
   }
 }
 </script>

@@ -102,7 +102,7 @@ export default class Account extends Vue {
         a: cmd.a
       };
     });
-    updateBot(this.bot.uniqueID, {
+    updateBot(this.bot.id, {
       botPrefix: this.localBotPrefix,
       botCommands: commands
     })

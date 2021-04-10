@@ -35,13 +35,13 @@ const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 interface ServerMemberAddOrRemoveRole {
   role_id: string;
   server_id: string;
-  uniqueID: string;
+  id: string;
 }
 
 function filterServerMemberKeys(serverMember: any) {
   return {
     type: serverMember.type,
-    uniqueID: serverMember.member.uniqueID,
+    id: serverMember.member.id,
     server_id: serverMember.server_id,
     roleIdArr: serverMember.roles || []
   };
@@ -64,7 +64,7 @@ const actions: ActionTree<any, any> = {
   [SERVER_ADD_ROLE](context, data: ServerMemberAddOrRemoveRole) {
     ServerMembersModule.AddMemberRole({
       serverID: data.server_id,
-      uniqueID: data.uniqueID,
+      id: data.id,
       roleID: data.role_id
     });
   },
@@ -131,9 +131,9 @@ const actions: ActionTree<any, any> = {
         serverMembersObj[serverMember.server_id] = {};
       }
       serverMembersObj[serverMember.server_id][
-        serverMember.member.uniqueID
+        serverMember.member.id
       ] = filterServerMemberKeys(serverMember);
-      usersObj[serverMember.member.uniqueID] = serverMember.member;
+      usersObj[serverMember.member.id] = serverMember.member;
     }
     for (let i = 0; i < memberPresences.length; i++) {
       const [id, presence] = memberPresences[i];
@@ -144,8 +144,8 @@ const actions: ActionTree<any, any> = {
       customStatusObj[id] = custom_status;
     }
     for (let i = 0; i < programActivityArr.length; i++) {
-      const {name, status, uniqueID} = programActivityArr[i];
-      activity[uniqueID] = {name, status};
+      const {name, status, id} = programActivityArr[i];
+      activity[id] = {name, status};
     }
     programActivitiesModule.AddActivities(activity);
     PresencesModule.AddPresences(presenceObj);
@@ -156,17 +156,17 @@ const actions: ActionTree<any, any> = {
   [SERVER_MEMBER_ADD](context, { serverMember }) {
     UsersModule.AddUser(serverMember.member);
     PresencesModule.UpdatePresence({
-      uniqueID: serverMember.member.uniqueID,
+      id: serverMember.member.id,
       presence: serverMember.presence
     })
     CustomStatusesModule.SetCustomStatus({
-      uniqueID: serverMember.member.uniqueID,
+      id: serverMember.member.id,
       custom_status: serverMember.custom_status
     })
     ServerMembersModule.AddServerMember(filterServerMemberKeys(serverMember));
   },
-  [SERVER_MEMBER_REMOVE](context, { uniqueID, server_id }) {
-    ServerMembersModule.RemoveServerMember({ uniqueID, server_id });
+  [SERVER_MEMBER_REMOVE](context, { id, server_id }) {
+    ServerMembersModule.RemoveServerMember({ id, server_id });
   },
   [SERVER_ROLES](context, { roles, server_id }) {
     const serverRolesObj: any = {};
@@ -202,7 +202,7 @@ const actions: ActionTree<any, any> = {
   [SERVER_MEMBER_REMOVE_ROLE](context, data: ServerMemberAddOrRemoveRole) {
     ServerMembersModule.RemoveMemberRole({
       serverID: data.server_id,
-      uniqueID: data.uniqueID,
+      id: data.id,
       roleID: data.role_id
     });
   },

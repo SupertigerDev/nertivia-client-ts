@@ -17,7 +17,7 @@ export default class RightDrawer extends Vue {
       return members.map((member: any) => {
         return (
           <server-member-template
-            key={member.uniqueID}
+            key={member.id}
             serverMember={member}
             style={{ height: "40px" }}
           />
@@ -90,11 +90,11 @@ export default class RightDrawer extends Vue {
     for (let i = 0; i < this.serverRoles.length; i++) {
       const role = this.serverRoles[i];
       const members = this.onlineMembers.filter(member => {
-        if (consumedMemberIds.includes(member.uniqueID)) return false;
+        if (consumedMemberIds.includes(member.id)) return false;
         const findRole = member.roles.find(r => r && !r.hideRole);
         if (!findRole) return false;
         if (role.id !== findRole.id) return false;
-        consumedMemberIds.push(member.uniqueID);
+        consumedMemberIds.push(member.id);
         return true;
       });
       if (!members.length) continue;

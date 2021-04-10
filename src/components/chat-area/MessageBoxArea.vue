@@ -189,7 +189,7 @@ export default class MessageBoxArea extends Vue {
       const reversedMessages = [...this.channelMessages].reverse();
       const message = reversedMessages.find(
         m =>
-          m.creator.uniqueID === MeModule.user.uniqueID &&
+          m.creator.id === MeModule.user.id &&
           !m.type &&
           m.messageID
       );
@@ -370,11 +370,11 @@ export default class MessageBoxArea extends Vue {
 
   get isImmune() {
     if (!this.serverID) return true;
-    if (!MeModule.user.uniqueID) return false;
-    if (ServersModule.isServerOwner(this.serverID, MeModule.user.uniqueID))
+    if (!MeModule.user.id) return false;
+    if (ServersModule.isServerOwner(this.serverID, MeModule.user.id))
       return true;
     return ServerMembersModule.memberHasPermission(
-      MeModule.user.uniqueID,
+      MeModule.user.id,
       this.serverID,
       permissions.ADMIN.value
     );
@@ -382,22 +382,22 @@ export default class MessageBoxArea extends Vue {
 
   get hasSendMessagePerm() {
     if (this.currentTab !== "servers") return true;
-    if (!MeModule.user.uniqueID) return false;
+    if (!MeModule.user.id) return false;
     if (!this.serverID) return false;
 
     const isServerOwner = ServersModule.isServerOwner(
       this.serverID,
-      MeModule.user.uniqueID
+      MeModule.user.id
     );
     if (isServerOwner) return true;
 
     const isAdmin = ServerMembersModule.isAdmin(
-      MeModule.user.uniqueID,
+      MeModule.user.id,
       this.serverID
     );
     if (isAdmin) return true;
     const hasRolePerm = ServerMembersModule.memberHasPermission(
-      MeModule.user.uniqueID,
+      MeModule.user.id,
       this.serverID,
       permissions.SEND_MESSAGES.value,
       false

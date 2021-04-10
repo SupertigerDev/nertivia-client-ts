@@ -6,7 +6,7 @@
       <img class="spinner" src="@/assets/spinner.svg" v-if="!user" />
       <AvatarImage
         :imageId="user.avatar"
-        :seedId="user.uniqueID"
+        :seedId="user.id"
         v-if="user"
         :animateGif="true"
         :willHaveClickEvent="true"

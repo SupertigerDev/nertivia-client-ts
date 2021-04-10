@@ -3,7 +3,7 @@
     <AvatarImage
       class="avatar"
       :imageId="message.creator.avatar"
-      :seedId="message.creator.uniqueID"
+      :seedId="message.creator.id"
       :animateGif="false"
       :willHaveClickEvent="true"
       size="40px"
@@ -60,11 +60,11 @@ export default class ActionMessageTemplate extends Vue {
     PopoutsModule.ShowPopout({
       id: "context",
       component: "UserContextMenu",
-      key: this.message.creator.uniqueID + event.clientX + event.clientY,
+      key: this.message.creator.id + event.clientX + event.clientY,
       data: {
         x: event.clientX,
         y: event.clientY,
-        uniqueID: this.message.creator.uniqueID,
+        id: this.message.creator.id,
         tempUser: this.message.creator
       }
     });
@@ -73,7 +73,7 @@ export default class ActionMessageTemplate extends Vue {
     PopoutsModule.ShowPopout({
       id: "profile",
       component: "profile-popout",
-      data: { uniqueID: this.message.creator.uniqueID }
+      data: { id: this.message.creator.id }
     });
   }
 
@@ -82,7 +82,7 @@ export default class ActionMessageTemplate extends Vue {
     if (!this.server_id) return undefined;
     const role = ServerMembersModule.firstMemberRole(
       this.server_id,
-      this.creator.uniqueID
+      this.creator.id
     );
     return role?.color;
   }

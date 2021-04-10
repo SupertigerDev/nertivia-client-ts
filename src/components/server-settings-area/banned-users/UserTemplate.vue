@@ -2,7 +2,7 @@
   <div class="user">
     <AvatarImage
       :animateGif="false"
-      :seedId="user.uniqueID"
+      :seedId="user.id"
       :imageId="user.avatar"
       :willHaveClickEvent="true"
       size="30px"
@@ -38,7 +38,7 @@ export default class UserTemplate extends Vue {
   unban() {
     if (this.requestSent) return;
     this.requestSent = true;
-    unbanMember(this.serverID, this.user.uniqueID).then(() => {
+    unbanMember(this.serverID, this.user.id).then(() => {
       this.$emit("deleted");
     });
   }
@@ -46,7 +46,7 @@ export default class UserTemplate extends Vue {
     PopoutsModule.ShowPopout({
       id: "profile",
       component: "profile-popout",
-      data: { uniqueID: this.user.uniqueID }
+      data: { id: this.user.id }
     });
   }
   get serverID() {

@@ -2,7 +2,7 @@ export default interface Server {
   avatar: string;
   banner: string;
   creator: {
-    uniqueID: string;
+    id: string;
   };
   default_channel_id: string;
   name: string;

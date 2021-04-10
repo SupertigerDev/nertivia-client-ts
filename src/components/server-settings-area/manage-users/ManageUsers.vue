@@ -31,10 +31,10 @@ import { ServerMembersModule } from "@/store/modules/serverMembers";
 export default class ServerSettingsArea extends Vue {
   searchValue = "";
   selectedServerMember: any = null;
-  userClicked(uniqueID: string) {
+  userClicked(id: string) {
     this.selectedServerMember = ServerMembersModule.serverMember(
       this.serverID,
-      uniqueID
+      id
     );
   }
   get serverID() {

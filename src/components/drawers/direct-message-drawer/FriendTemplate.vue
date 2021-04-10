@@ -11,7 +11,7 @@
         class="avatar"
         v-if="user"
         :imageId="user.avatar"
-        :seedId="user.uniqueID"
+        :seedId="user.id"
         size="30px"
         :willHaveClickEvent="true"
         :animateGif="hover"
@@ -19,7 +19,7 @@
       />
       <div class="details" v-if="user">
         <div class="username">{{ user.username }}</div>
-        <UserStatusTemplate :showStatusOnly="hover" :uniqueID="user.uniqueID" />
+        <UserStatusTemplate :showStatusOnly="hover" :id="user.id" />
       </div>
       <div class="notification" v-if="notification">
         {{ notification.count > 99 ? "99" : notification.count }}
@@ -62,7 +62,7 @@ export default class FriendTemplate extends Vue {
       !event.target.closest(".close-button")
     ) {
       if (!this.user) return;
-      ChannelsModule.LoadDmChannel(this.user.uniqueID);
+      ChannelsModule.LoadDmChannel(this.user.id);
     }
   }
   hide() {
@@ -81,7 +81,7 @@ export default class FriendTemplate extends Vue {
     PopoutsModule.ShowPopout({
       id: "profile",
       component: "profile-popout",
-      data: { uniqueID: this.user?.uniqueID }
+      data: { id: this.user?.id }
     });
   }
   get user() {
@@ -95,11 +95,11 @@ export default class FriendTemplate extends Vue {
     const channel = ChannelsModule.getDMChannel(this.$route.params.channel_id);
     if (!channel) return undefined;
     if (!channel.recipients) return undefined;
-    return channel.recipients[0].uniqueID === this.user?.uniqueID;
+    return channel.recipients[0].id === this.user?.id;
   }
   get notification() {
     if (!this.user) return false;
-    return NotificationsModule.notificationByUniqueID(this.user.uniqueID);
+    return NotificationsModule.notificationByUniqueID(this.user.id);
   }
 }
 </script>

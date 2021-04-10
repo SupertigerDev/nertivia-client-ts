@@ -126,7 +126,7 @@ export default class extends Vue {
     return ServersModule.servers[this.data.server_id];
   }
   get isServerOwner() {
-    return this.server.creator.uniqueID === MeModule.user.uniqueID;
+    return this.server.creator.id === MeModule.user.id;
   }
   get notifications() {
     return LastSeenServerChannelsModule.serverNotifications(
@@ -135,7 +135,7 @@ export default class extends Vue {
   }
   get isAdmin() {
     return ServerMembersModule.isAdmin(
-      MeModule.user.uniqueID || undefined,
+      MeModule.user.id || undefined,
       this.server.server_id
     );
   }

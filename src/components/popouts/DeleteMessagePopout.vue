@@ -5,7 +5,7 @@
         <div class="header">
           <AvatarImage
             :imageId="user.avatar"
-            :seedId="user.uniqueID"
+            :seedId="user.id"
             :animateGif="false"
             size="30px"
             class="avatar"

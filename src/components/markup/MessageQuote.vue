@@ -2,7 +2,7 @@
   <article class="quote" v-bind:class="{ quoteFailed: failMessage }">
     <header class="section">
       <AvatarImage
-        :seedId="this.quote.creator.uniqueID"
+        :seedId="this.quote.creator.id"
         :imageId="this.quote.creator.avatar"
         :willHaveClickEvent="true"
         @click.native="showProfile"
@@ -70,7 +70,7 @@ export default class MessageQuote extends Vue {
             roles:
               ServerMembersModule.memberRoles(
                 this.$route.params.server_id,
-                this.user.uniqueID
+                this.user.id
               ) ?? [],
           },
         },

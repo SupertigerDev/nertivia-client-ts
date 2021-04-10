@@ -40,12 +40,12 @@ export default class MainApp extends Vue {
   }
   get isAdmin() {
     return ServerMembersModule.isAdmin(
-      MeModule.user.uniqueID || undefined,
+      MeModule.user.id || undefined,
       this.serverID
     );
   }
   get isCreator() {
-    return this.server?.creator?.uniqueID === MeModule.user.uniqueID;
+    return this.server?.creator?.id === MeModule.user.id;
   }
   get pages() {
     return Object.values(settingsPages).filter((p: any) => {

@@ -161,8 +161,8 @@ export default class ServerSettingsArea extends Vue {
     });
   }
   get isCreator() {
-    const myUniqueID = MeModule.user.uniqueID;
-    const creatorUniqueID = this.server.creator.uniqueID;
+    const myUniqueID = MeModule.user.id;
+    const creatorUniqueID = this.server.creator.id;
     return myUniqueID === creatorUniqueID;
   }
 

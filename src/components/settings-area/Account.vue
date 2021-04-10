@@ -8,7 +8,7 @@
           <div class="material-icons edit-button">edit</div>
           <AvatarImage
             :imageId="me.avatar"
-            :seedId="me.uniqueID"
+            :seedId="me.id"
             :customUrl="newAvatar"
             size="100px"
           />
@@ -137,8 +137,8 @@ export default class Account extends Vue {
     this.moreProfileUpdate();
   }
   moreProfileUpdate() {
-    if (!MeModule.user.uniqueID) return;
-    fetchUser(MeModule.user.uniqueID).then(user => {
+    if (!MeModule.user.id) return;
+    fetchUser(MeModule.user.id).then(user => {
       this.aboutMe = user.user.about_me;
     });
   }

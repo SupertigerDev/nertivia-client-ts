@@ -4,11 +4,7 @@
     <LoadingScreen v-if="!bot" />
     <div class="content" v-if="bot">
       <div class="center" v-if="bot">
-        <AvatarImage
-          :imageId="bot.avatar"
-          :seedId="bot.uniqueID"
-          size="100px"
-        />
+        <AvatarImage :imageId="bot.avatar" :seedId="bot.id" size="100px" />
         <div class="title">Would you like to invite</div>
         <div class="name">{{ bot.username }}?</div>
         <div class="head" v-if="perms.length">This Bot Can:</div>
@@ -86,11 +82,11 @@ export default class InviteBot extends Vue {
     this.selectedServerID = serverID;
   }
   inviteBot() {
-    if (!this.bot?.uniqueID) return;
+    if (!this.bot?.id) return;
     if (!this.selectedServerID) return;
     if (this.requestSent) return;
     this.requestSent = true;
-    inviteBot(this.bot.uniqueID, this.selectedServerID, this.permNumber)
+    inviteBot(this.bot.id, this.selectedServerID, this.permNumber)
       .then(() => {
         location.href = "/app";
       })

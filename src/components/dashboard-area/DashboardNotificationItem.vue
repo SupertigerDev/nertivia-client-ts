@@ -39,7 +39,7 @@ export default class DashboardNotificationItem extends Vue {
       );
       return;
     }
-    ChannelsModule.LoadDmChannel(this.dmNotification.sender.uniqueID);
+    ChannelsModule.LoadDmChannel(this.dmNotification.sender.id);
   }
   get isServer() {
     return this.channel?.server;
@@ -58,7 +58,7 @@ export default class DashboardNotificationItem extends Vue {
     } else {
       return {
         avatar: this.dmNotification.sender.avatar,
-        seed: this.dmNotification.sender.uniqueID,
+        seed: this.dmNotification.sender.id,
         name: this.dmNotification.sender.username
       };
     }

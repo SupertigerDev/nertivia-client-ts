@@ -25,7 +25,7 @@ export default class extends Vue {
   @Prop() private data!: {
     x: number;
     y: number;
-    uniqueID: string;
+    id: string;
     tempUser: User;
     parentContextWidth?: number;
   };
@@ -47,7 +47,7 @@ export default class extends Vue {
   }
   itemClick(item: any) {
     if (item.name === "Copy ID") {
-      this.$copyText(this.data.uniqueID);
+      this.$copyText(this.data.id);
       return;
     }
     if (item.name === "Copy User:Tag") {
@@ -60,14 +60,14 @@ export default class extends Vue {
       PopoutsModule.ShowPopout({
         id: "profile",
         component: "profile-popout",
-        data: { uniqueID: this.data.uniqueID }
+        data: { id: this.data.id }
       });
     }
     if (item.name === "Edit Roles") {
       PopoutsModule.ShowPopout({
         id: "edit-role",
         component: "edit-roles-popout",
-        data: { uniqueID: this.data.uniqueID, serverID: this.serverID }
+        data: { id: this.data.id, serverID: this.serverID }
       });
     }
     if (item.name === "Kick" || item.name === "Ban") {
@@ -75,7 +75,7 @@ export default class extends Vue {
         id: "ban-or-kick-user-popout",
         component: "ban-or-kick-user-popout",
         data: {
-          uniqueID: this.data.uniqueID,
+          id: this.data.id,
           serverID: this.serverID,
           tempUser: this.data.tempUser,
           action: item.name.toUpperCase()
@@ -129,24 +129,24 @@ export default class extends Vue {
   get isServerOwner() {
     if (!this.serverID) return false;
     const server = ServersModule.servers[this.serverID];
-    return MeModule.user.uniqueID === server.creator.uniqueID;
+    return MeModule.user.id === server.creator.id;
   }
   get canManageRoles() {
     if (!this.serverID) return false;
     if (this.isServerOwner) return true;
-    if (!MeModule.user.uniqueID) return false;
+    if (!MeModule.user.id) return false;
     return ServerMembersModule.memberHasPermission(
-      MeModule.user.uniqueID,
+      MeModule.user.id,
       this.serverID,
       permissions.MANAGE_ROLES.value
     );
   }
   get myHighestRolePosition() {
     if (!this.serverID) return 0;
-    if (!MeModule.user.uniqueID) return 0;
+    if (!MeModule.user.id) return 0;
     const highestRoleOrder = ServerMembersModule.highestRoleOrder(
       this.serverID,
-      MeModule.user.uniqueID
+      MeModule.user.id
     );
     return highestRoleOrder || 0;
   }
@@ -154,31 +154,31 @@ export default class extends Vue {
     if (!this.serverID) return 0;
     const highestRoleOrder = ServerMembersModule.highestRoleOrder(
       this.serverID,
-      this.data.uniqueID
+      this.data.id
     );
     return highestRoleOrder || 0;
   }
 
   get hasBanPermission() {
     if (!this.serverID) return false;
-    if (MeModule.user.uniqueID === this.data.uniqueID) return false;
+    if (MeModule.user.id === this.data.id) return false;
     if (this.isServerOwner) return true;
-    if (!MeModule.user.uniqueID) return false;
+    if (!MeModule.user.id) return false;
     if (this.recipientRolePosition <= this.myHighestRolePosition) return false;
     return ServerMembersModule.memberHasPermission(
-      MeModule.user.uniqueID,
+      MeModule.user.id,
       this.serverID,
       permissions.BAN_USER.value
     );
   }
   get hasKickPermission() {
     if (!this.serverID) return false;
-    if (MeModule.user.uniqueID === this.data.uniqueID) return false;
+    if (MeModule.user.id === this.data.id) return false;
     if (this.isServerOwner) return true;
-    if (!MeModule.user.uniqueID) return false;
+    if (!MeModule.user.id) return false;
     if (this.recipientRolePosition <= this.myHighestRolePosition) return false;
     return ServerMembersModule.memberHasPermission(
-      MeModule.user.uniqueID,
+      MeModule.user.id,
       this.serverID,
       permissions.KICK_USER.value
     );
@@ -192,7 +192,7 @@ export default class extends Vue {
   }
   get userExistsInServer() {
     if (!this.serverID) return undefined;
-    return ServerMembersModule.serverMembers[this.serverID][this.data.uniqueID];
+    return ServerMembersModule.serverMembers[this.serverID][this.data.id];
   }
 }
 </script>

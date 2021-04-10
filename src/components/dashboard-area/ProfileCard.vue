@@ -7,7 +7,7 @@
       <avatar-image
         class="avatar"
         :imageId="me.avatar"
-        :seedId="me.uniqueID"
+        :seedId="me.id"
         size="80px"
         :animateGif="false"
       />
@@ -144,8 +144,8 @@ export default class ProfileCard extends Vue {
     return MeModule.user;
   }
   get customStatus() {
-    if (!this.me?.uniqueID) return undefined;
-    return CustomStatusesModule.customStatus[this.me.uniqueID];
+    if (!this.me?.id) return undefined;
+    return CustomStatusesModule.customStatus[this.me.id];
   }
   get statusColor() {
     if (!this.connected) return userStatuses[0].color;

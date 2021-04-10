@@ -16,24 +16,24 @@ import { PresencesModule } from "../presences";
 import { UsersModule } from "../users";
 
 const actions: ActionTree<any, any> = {
-  [USER_STATUS_CHANGE](context, data: { uniqueID: string; status: number, connected?: boolean; custom_status?: string }) {
-    if (data.uniqueID === MeModule.user.uniqueID) return;
+  [USER_STATUS_CHANGE](context, data: { id: string; status: number, connected?: boolean; custom_status?: string }) {
+    if (data.id === MeModule.user.id) return;
     if (data.status === 0) {
-      programActivitiesModule.RemoveProgramActivity({ uniqueID: data.uniqueID });
-      CustomStatusesModule.RemoveCustomStatus({ uniqueID: data.uniqueID });
+      programActivitiesModule.RemoveProgramActivity({ id: data.id });
+      CustomStatusesModule.RemoveCustomStatus({ id: data.id });
     }
     PresencesModule.UpdatePresence({
       presence: data.status,
-      uniqueID: data.uniqueID
+      id: data.id
     });
     if (data.connected) {
       if (!data.custom_status) {
-        CustomStatusesModule.RemoveCustomStatus({uniqueID: data.uniqueID})
+        CustomStatusesModule.RemoveCustomStatus({id: data.id})
         return;
       }
       CustomStatusesModule.SetCustomStatus({
         custom_status: data.custom_status,
-        uniqueID: data.uniqueID
+        id: data.id
       });
     }
   },
@@ -42,32 +42,32 @@ const actions: ActionTree<any, any> = {
   },
   [CUSTOM_STATUS_CHANGE](
     context,
-    data: { custom_status: string; uniqueID: string }
+    data: { custom_status: string; id: string }
   ) {
     CustomStatusesModule.SetCustomStatus({
       custom_status: data.custom_status,
-      uniqueID: data.uniqueID
+      id: data.id
     });
   },
   [SELF_CUSTOM_STATUS_CHANGE](context, data: { custom_status: string }) {
-    if (!MeModule.user.uniqueID) return;
+    if (!MeModule.user.id) return;
     CustomStatusesModule.SetCustomStatus({
       custom_status: data.custom_status,
-      uniqueID: MeModule.user.uniqueID
+      id: MeModule.user.id
     });
   },
   [PROGRAM_ACTIVITY_CHANGED](
     context,
-    data: { name?: string; status?: string; uniqueID: string }
+    data: { name?: string; status?: string; id: string }
   ) {
     if (!data.name || !data.status) {
       programActivitiesModule.RemoveProgramActivity({
-        uniqueID: data.uniqueID
+        id: data.id
       });
       return;
     }
     programActivitiesModule.SetProgramActivity({
-      uniqueID: data.uniqueID,
+      id: data.id,
       name: data.name,
       status: data.status
     });
@@ -78,11 +78,11 @@ const actions: ActionTree<any, any> = {
   [GOOGLE_DRIVE_LINKED]() {
     MeModule.UpdateUser({ googleDriveLinked: true });
   },
-  [USER_BLOCKED](context, uniqueID) {
-    UsersModule.blockUser(uniqueID);
+  [USER_BLOCKED](context, id) {
+    UsersModule.blockUser(id);
   },
-  [USER_UNBLOCKED](context, uniqueID) {
-    UsersModule.unblockUser(uniqueID);
+  [USER_UNBLOCKED](context, id) {
+    UsersModule.unblockUser(id);
   }
 };
 

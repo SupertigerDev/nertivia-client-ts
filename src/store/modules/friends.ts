@@ -15,7 +15,7 @@ import Vue from "vue";
 interface FriendObj {
   [key: string]: {
     status: number;
-    uniqueID: string;
+    id: string;
   };
 }
 
@@ -34,31 +34,31 @@ class Friends extends VuexModule {
 
   get friendsWithUser() {
     return Object.values(this.friends).map(friend => {
-      const user: User = this.context.rootState.users.users[friend.uniqueID];
-      const presence = PresencesModule.getPresence(friend.uniqueID);
+      const user: User = this.context.rootState.users.users[friend.id];
+      const presence = PresencesModule.getPresence(friend.id);
       return { recipient: user, ...friend, presence };
     });
   }
 
   @Mutation
-  private ADD_FRIEND(payload: { uniqueID: string; status: number }) {
-    Vue.set(this.friends, payload.uniqueID, {
+  private ADD_FRIEND(payload: { id: string; status: number }) {
+    Vue.set(this.friends, payload.id, {
       status: payload.status,
-      uniqueID: payload.uniqueID
+      id: payload.id
     });
   }
 
   @Action
-  public AddFriend(payload: { uniqueID: string; status: number }) {
+  public AddFriend(payload: { id: string; status: number }) {
     this.ADD_FRIEND(payload);
   }
   @Mutation
-  private REMOVE_FRIEND(payload: { uniqueID: string }) {
-    Vue.delete(this.friends, payload.uniqueID);
+  private REMOVE_FRIEND(payload: { id: string }) {
+    Vue.delete(this.friends, payload.id);
   }
 
   @Action
-  public RemoveFriend(payload: { uniqueID: string }) {
+  public RemoveFriend(payload: { id: string }) {
     this.REMOVE_FRIEND(payload);
   }
 

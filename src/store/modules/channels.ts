@@ -72,7 +72,7 @@ class Channels extends VuexModule {
       const channel = this.channels[channelID];
       if (!channel) return;
       const recipients = channel.recipients?.map(
-        uniqueID => UsersModule.users[uniqueID]
+        id => UsersModule.users[id]
       );
       return { ...channel, recipients };
     };
@@ -83,7 +83,7 @@ class Channels extends VuexModule {
     );
     const map = filter.map(channel => {
       const recipients = channel.recipients?.map(
-        uniqueID => UsersModule.users[uniqueID]
+        id => UsersModule.users[id]
       );
       return { ...channel, recipients };
     });
@@ -133,15 +133,15 @@ class Channels extends VuexModule {
     }
   }
   @Action
-  public LoadDmChannel(uniqueID: string) {
+  public LoadDmChannel(id: string) {
     const findChannel = Object.values(this.channels).find(
-      c => c.recipients && c.recipients.includes(uniqueID)
+      c => c.recipients && c.recipients.includes(id)
     );
     if (findChannel) {
       router.push(`/app/dms/${findChannel?.channelID}`);
       return;
     }
-    getChannelByUserId(uniqueID)
+    getChannelByUserId(id)
       .then(res => {
         for (let i = 0; i < res.channel.recipients.length; i++) {
           const user = res.channel.recipients[i];
@@ -149,7 +149,7 @@ class Channels extends VuexModule {
         }
         this.ADD_CHANNEL({
           channelID: res.channel.channelID,
-          recipients: res.channel.recipients.map(u => u.uniqueID)
+          recipients: res.channel.recipients.map(u => u.id)
         });
         router.push(`/app/dms/${res.channel.channelID}`);
       })

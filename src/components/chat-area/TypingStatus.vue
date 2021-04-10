@@ -49,7 +49,7 @@ export default class MainApp extends Vue {
       .replace(/'/g, "&#039;");
   }
   onTyping(data: TypingData) {
-    if (data.user.unique_id === MeModule.user.uniqueID) return;
+    if (data.user.unique_id === MeModule.user.id) return;
     if (data.channel_id !== this.channelID) return;
     const isTyping = this.typingObj[data.channel_id]?.[data.user.unique_id];
     if (isTyping?.timer) {
@@ -71,16 +71,16 @@ export default class MainApp extends Vue {
       )
     });
   }
-  timeout(channelID: string, uniqueID: string) {
-    this.$delete(this.typingObj[channelID], uniqueID);
+  timeout(channelID: string, id: string) {
+    this.$delete(this.typingObj[channelID], id);
   }
   onNewMessage(message: Message) {
     const objExists = this.typingObj[message.channelID]?.[
-      message.creator.uniqueID
+      message.creator.id
     ];
     if (objExists) {
       objExists.timer && clearTimeout(objExists.timer);
-      this.$delete(this.typingObj[message.channelID], message.creator.uniqueID);
+      this.$delete(this.typingObj[message.channelID], message.creator.id);
     }
   }
 

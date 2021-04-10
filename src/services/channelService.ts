@@ -9,9 +9,9 @@ interface ReturnedDmChannel {
   channelID: string;
   recipients: User[];
 }
-export function getChannelByUserId(uniqueID: string): Promise<Response> {
+export function getChannelByUserId(id: string): Promise<Response> {
   return wrapper()
-    .post(`channels/${uniqueID}`)
+    .post(`channels/${id}`)
     .json();
 }
 

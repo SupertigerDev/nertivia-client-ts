@@ -62,20 +62,20 @@ export function registerFCM(token: string): Promise<any> {
 
 export function addRole(
   serverID: string,
-  uniqueID: string,
+  id: string,
   roleID: string
 ): Promise<any> {
   return wrapper()
-    .patch(`servers/${serverID}/members/${uniqueID}/roles/${roleID}`)
+    .patch(`servers/${serverID}/members/${id}/roles/${roleID}`)
     .json();
 }
 export function removeRole(
   serverID: string,
-  uniqueID: string,
+  id: string,
   roleID: string
 ): Promise<any> {
   return wrapper()
-    .delete(`servers/${serverID}/members/${uniqueID}/roles/${roleID}`)
+    .delete(`servers/${serverID}/members/${id}/roles/${roleID}`)
     .json();
 }
 export function deleteAccount(
@@ -105,9 +105,9 @@ export interface AboutMe {
   gender: string;
   name: string;
 }
-export function fetchUser(uniqueID: string): Promise<ReturnedUser> {
+export function fetchUser(id: string): Promise<ReturnedUser> {
   return wrapper()
-    .get(`user/${uniqueID}`)
+    .get(`user/${id}`)
     .json();
 }
 export function updateSurvay(data: AboutMe): Promise<any> {
@@ -120,13 +120,13 @@ export function logout(): Promise<any> {
     .delete(`user/logout`)
     .json();
 }
-export function blockUser(uniqueID: string): Promise<any> {
+export function blockUser(id: string): Promise<any> {
   return wrapper()
-    .post(`user/block`, {json: {uniqueID}})
+    .post(`user/block`, {json: {id}})
     .json();
 }
-export function UnblockUser(uniqueID: string): Promise<any> {
+export function UnblockUser(id: string): Promise<any> {
   return wrapper()
-    .delete(`user/block`, {json: {uniqueID}})
+    .delete(`user/block`, {json: {id}})
     .json();
 }

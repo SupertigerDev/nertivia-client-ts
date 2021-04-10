@@ -88,7 +88,7 @@ export default class ExploreServerTemplate extends Vue {
     PopoutsModule.ShowPopout({
       id: "profile",
       component: "profile-popout",
-      data: { uniqueID: this.data.creator.uniqueID }
+      data: { id: this.data.creator.id }
     });
   }
   visitClicked() {

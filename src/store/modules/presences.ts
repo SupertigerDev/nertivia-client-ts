@@ -18,10 +18,10 @@ class Presences extends VuexModule {
   presences: PresencesObj = {};
 
   get getPresence() {
-    return (uniqueID: string) => {
-      const myUniqueID = MeModule.user.uniqueID;
-      if (uniqueID === myUniqueID) return MeModule.user.status;
-      return this.presences[uniqueID];
+    return (id: string) => {
+      const myUniqueID = MeModule.user.id;
+      if (id === myUniqueID) return MeModule.user.status;
+      return this.presences[id];
     };
   }
 
@@ -30,18 +30,18 @@ class Presences extends VuexModule {
     this.presences = payload;
   }
   @Mutation
-  private DELETE_PRESENCE(uniqueID: string) {
-    Vue.delete(this.presences, uniqueID);
+  private DELETE_PRESENCE(id: string) {
+    Vue.delete(this.presences, id);
   }
   @Mutation
-  private UPDATE_PRESENCE(payload: { uniqueID: string; presence: number }) {
-    Vue.set(this.presences, payload.uniqueID, payload.presence);
+  private UPDATE_PRESENCE(payload: { id: string; presence: number }) {
+    Vue.set(this.presences, payload.id, payload.presence);
   }
 
   @Action
-  public UpdatePresence(payload: { uniqueID: string; presence: number }) {
+  public UpdatePresence(payload: { id: string; presence: number }) {
     if (payload.presence === 0) {
-      this.DELETE_PRESENCE(payload.uniqueID);
+      this.DELETE_PRESENCE(payload.id);
       return;
     }
     this.UPDATE_PRESENCE(payload);

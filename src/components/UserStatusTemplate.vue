@@ -42,19 +42,19 @@ import Markup from "@/components/Markup.tsx";
 
 @Component({ components: { Markup } })
 export default class UserStatusTemplate extends Vue {
-  @Prop() private uniqueID!: string;
+  @Prop() private id!: string;
   @Prop() private showStatusOnly!: boolean;
   @Prop() private showOffline!: boolean;
   get presence() {
-    const presence = PresencesModule.getPresence(this.uniqueID);
+    const presence = PresencesModule.getPresence(this.id);
     if (!this.showOffline && !presence) return undefined;
     return userStatuses[presence || 0];
   }
   get customStatus() {
-    return CustomStatusesModule.customStatus[this.uniqueID];
+    return CustomStatusesModule.customStatus[this.id];
   }
   get gameStatus() {
-    return programActivitiesModule.programActivity[this.uniqueID];
+    return programActivitiesModule.programActivity[this.id];
   }
 }
 </script>

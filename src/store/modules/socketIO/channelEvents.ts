@@ -25,7 +25,7 @@ const actions: ActionTree<any, any> = {
     ChannelsModule.AddChannel({
       channelID: data.channel.channelID,
       lastMessaged: data.channel.lastMessaged,
-      recipients: data.channel.recipients?.map(u => u.uniqueID)
+      recipients: data.channel.recipients?.map(u => u.id)
     });
   },
   [SERVER_CHANNEL_CREATED](context, data: { channel: Channel }) {

@@ -179,7 +179,7 @@ class Messages extends VuexModule {
           localMessage: true,
           creator: {
             username: "Beep Boop",
-            uniqueID: "0",
+            id: "0",
             bot: true,
             tag: "0000"
           },

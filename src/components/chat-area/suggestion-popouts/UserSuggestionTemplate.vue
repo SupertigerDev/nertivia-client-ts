@@ -4,7 +4,7 @@
       class="avatar"
       :animateGif="selected"
       :imageId="item.avatar"
-      :seedId="item.uniqueID"
+      :seedId="item.id"
       size="20px"
     />
     <div class="name">{{ item.username }}</div>

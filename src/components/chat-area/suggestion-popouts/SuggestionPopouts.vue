@@ -184,7 +184,7 @@ export default class SuggestionPopouts extends Vue {
       const bot = this.botWithPrefixes[i];
       if (!bot.botPrefix) continue;
       if (!args[0].startsWith(bot.botPrefix)) continue;
-      const botCommands = botCommandsModule.botCommands[bot.uniqueID];
+      const botCommands = botCommandsModule.botCommands[bot.id];
       if (!botCommands?.length) continue;
       for (let y = 0; y < botCommands.length; y++) {
         const command = botCommands[y];
@@ -210,7 +210,7 @@ export default class SuggestionPopouts extends Vue {
     //   const bot = this.botWithPrefixes[i];
     //   if (!bot.botPrefix) continue;
     //   if (!cmd.startsWith(bot.botPrefix)) continue;
-    //   const botCommands = botCommandsModule.botCommands[bot.uniqueID];
+    //   const botCommands = botCommandsModule.botCommands[bot.id];
     //   if (!botCommands?.length) continue;
     //   for (let y = 0; y < botCommands.length; y++) {
     //     const command = botCommands[y];
@@ -289,7 +289,7 @@ export default class SuggestionPopouts extends Vue {
     } else {
       if (!this.dmChannel?.recipients?.[0].botPrefix) return [];
       return [
-        botCommandsModule.botCommands[this.dmChannel.recipients[0].uniqueID]
+        botCommandsModule.botCommands[this.dmChannel.recipients[0].id]
       ];
     }
   }

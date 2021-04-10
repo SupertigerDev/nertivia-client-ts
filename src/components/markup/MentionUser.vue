@@ -30,12 +30,12 @@ export default Vue.extend<unknown, unknown, unknown, MentionMemberProps>({
       PopoutsModule.ShowPopout({
         id: "context",
         component: "UserContextMenu",
-        key: this.user.uniqueID + event.clientX + event.clientY,
+        key: this.user.id + event.clientX + event.clientY,
         data: {
           tempUser: this.user,
           x: event.clientX,
           y: event.clientY,
-          uniqueID: this.user.uniqueID
+          id: this.user.id
         }
       });
     },
@@ -51,7 +51,7 @@ export default Vue.extend<unknown, unknown, unknown, MentionMemberProps>({
             roles:
               ServerMembersModule.memberRoles(
                 this.$route.params.server_id,
-                this.user.uniqueID
+                this.user.id
               ) ?? []
           }
         }

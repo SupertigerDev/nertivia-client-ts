@@ -5,7 +5,7 @@
         <div class="header">
           <AvatarImage
             :imageId="user.avatar"
-            :seedId="user.uniqueID"
+            :seedId="user.id"
             :animateGif="false"
             size="30px"
             class="avatar"
@@ -48,7 +48,7 @@ import { MeModule } from "@/store/modules/me";
   components: { AvatarImage }
 })
 export default class ProfilePopout extends Vue {
-  @Prop() private data!: { uniqueID: string; serverID: string };
+  @Prop() private data!: { id: string; serverID: string };
   backgroundClick(event: any) {
     if (event.target.classList.contains("popout-background")) {
       PopoutsModule.ClosePopout("edit-role");
@@ -57,17 +57,17 @@ export default class ProfilePopout extends Vue {
   roleClicked(role: { hasRole: string; id: string; canModify: boolean }) {
     if (!role.canModify) return;
     const func = role.hasRole ? removeRole : addRole;
-    func(this.data.serverID, this.data.uniqueID, role.id);
+    func(this.data.serverID, this.data.id, role.id);
   }
   get serverRoles() {
     const serverID = this.data.serverID;
-    const uniqueID = this.data.uniqueID;
+    const id = this.data.id;
     return ServerRolesModule.sortedServerRolesArr(this.data.serverID)
       .filter(r => !r.default && r.deletable)
       .map(role => {
         const hasRole = ServerMembersModule.memberHasRole(
           serverID,
-          uniqueID,
+          id,
           role.id
         );
         const canModify =
@@ -83,18 +83,18 @@ export default class ProfilePopout extends Vue {
     return (
       ServerMembersModule.highestRoleOrder(
         this.data.serverID,
-        MeModule?.user?.uniqueID || ""
+        MeModule?.user?.id || ""
       ) || 0
     );
   }
   get isServerCreator() {
     return ServersModule.isServerOwner(
       this.data.serverID,
-      MeModule?.user?.uniqueID || ""
+      MeModule?.user?.id || ""
     );
   }
   get user() {
-    return UsersModule.users[this.data.uniqueID] || {};
+    return UsersModule.users[this.data.id] || {};
   }
 }
 </script>

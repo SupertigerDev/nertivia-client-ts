@@ -62,7 +62,7 @@ export default class Bubble extends Vue {
     PopoutsModule.ShowPopout({
       id: "profile",
       component: "profile-popout",
-      data: { uniqueID: this.creator.uniqueID }
+      data: { id: this.creator.id }
     });
   }
 
@@ -76,12 +76,12 @@ export default class Bubble extends Vue {
     PopoutsModule.ShowPopout({
       id: "context",
       component: "UserContextMenu",
-      key: this.message.creator.uniqueID + event.clientX + event.clientY,
+      key: this.message.creator.id + event.clientX + event.clientY,
       data: {
         tempUser: this.message.creator,
         x: event.clientX,
         y: event.clientY,
-        uniqueID: this.message.creator.uniqueID
+        id: this.message.creator.id
       }
     });
   }
@@ -90,7 +90,7 @@ export default class Bubble extends Vue {
     return this.message.creator;
   }
   get isMessageCreatedByMe() {
-    return this.message.creator.uniqueID === MeModule.user.uniqueID;
+    return this.message.creator.id === MeModule.user.id;
   }
 
   // Embeds
@@ -116,7 +116,7 @@ export default class Bubble extends Vue {
     if (!this.server_id) return undefined;
     const role = ServerMembersModule.firstMemberRole(
       this.server_id,
-      this.creator.uniqueID
+      this.creator.id
     );
     return role?.color;
   }

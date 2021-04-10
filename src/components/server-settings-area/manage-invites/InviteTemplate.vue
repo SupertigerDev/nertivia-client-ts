@@ -2,7 +2,7 @@
   <div class="invite">
     <AvatarImage
       :animateGif="false"
-      :seedId="invite.creator.uniqueID"
+      :seedId="invite.creator.id"
       :imageId="invite.creator.avatar"
       :willHaveClickEvent="true"
       size="50px"
@@ -52,7 +52,7 @@ export default class InviteTemplate extends Vue {
     PopoutsModule.ShowPopout({
       id: "profile",
       component: "profile-popout",
-      data: { uniqueID: this.invite.creator.uniqueID }
+      data: { id: this.invite.creator.id }
     });
   }
   copyLink() {

@@ -8,7 +8,7 @@ import {
 } from "vuex-module-decorators";
 import store from "..";
 
-// programActivity[uniqueid]: {name, status};
+// programActivity[user_id]: {name, status};
 interface ProgramActivityObj {
   [key: string]: ProgramActivity;
 }
@@ -32,28 +32,28 @@ class ProgramActivities extends VuexModule {
   }
   @Mutation
   private SET_PROGRAM_ACTIVITY(payload: {
-    uniqueID: string;
+    id: string;
     name: string;
     status: string;
   }) {
-    Vue.set(this.programActivity, payload.uniqueID, payload);
+    Vue.set(this.programActivity, payload.id, payload);
   }
 
   @Action
   public SetProgramActivity(payload: {
-    uniqueID: string;
+    id: string;
     name: string;
     status: string;
   }) {
     this.SET_PROGRAM_ACTIVITY(payload);
   }
   @Mutation
-  private REMOVE_PROGRAM_ACTIVITY(payload: { uniqueID: string }) {
-    Vue.delete(this.programActivity, payload.uniqueID);
+  private REMOVE_PROGRAM_ACTIVITY(payload: { id: string }) {
+    Vue.delete(this.programActivity, payload.id);
   }
 
   @Action
-  public RemoveProgramActivity(payload: { uniqueID: string }) {
+  public RemoveProgramActivity(payload: { id: string }) {
     this.REMOVE_PROGRAM_ACTIVITY(payload);
   }
   @Mutation

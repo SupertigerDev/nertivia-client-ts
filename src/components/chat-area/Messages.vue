@@ -20,7 +20,7 @@ export default Vue.extend({
       return afterTime - beforeTime > minute;
     };
     const creatorMatch = (before: Message, after: Message) =>
-      before.creator.uniqueID === after.creator.uniqueID;
+      before.creator.id === after.creator.id;
 
     const messageComponent = (grouped: boolean, m: Message) =>
       h(m.type === 0 ? MessageTemplate : ActionMessageTemplate, {

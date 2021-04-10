@@ -2,7 +2,7 @@
   <div
     class="mini-profile"
     :style="clampPos"
-    :key="user.uniqueID"
+    :key="user.id"
     v-click-outside="clickOutside"
   >
     <div class="content animate-in">
@@ -11,7 +11,7 @@
           <AvatarImage
             size="80px"
             :imageId="user.avatar"
-            :seedId="user.uniqueID"
+            :seedId="user.id"
             @click.native="openFullProfile"
             :willHaveClickEvent="true"
             :animateGif="true"
@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="status">
-        <UserStatusTemplate :showOffline="true" :uniqueID="user.uniqueID" />
+        <UserStatusTemplate :showOffline="true" :id="user.id" />
       </div>
       <div class="bottom">
         <div class="title" v-if="roles.length">
@@ -70,17 +70,17 @@ export default class MiniProfilePopout extends Vue {
     PopoutsModule.ShowPopout({
       id: "profile",
       component: "profile-popout",
-      data: { uniqueID: this.user?.uniqueID }
+      data: { id: this.user?.id }
     });
   }
   get presence() {
-    if (!this.user?.uniqueID) return userStatuses[0];
-    const presence = PresencesModule.getPresence(this.user.uniqueID);
+    if (!this.user?.id) return userStatuses[0];
+    const presence = PresencesModule.getPresence(this.user.id);
     return userStatuses[presence || 0];
   }
   get customStatus() {
     if (!this.user) return undefined;
-    return CustomStatusesModule.customStatus[this.user.uniqueID];
+    return CustomStatusesModule.customStatus[this.user.id];
   }
   get user() {
     return this.data.member.member;

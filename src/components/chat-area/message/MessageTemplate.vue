@@ -17,7 +17,7 @@
         class="avatar"
         :imageId="creator.avatar"
         :willHaveClickEvent="true"
-        :seedId="creator.uniqueID"
+        :seedId="creator.id"
         :animateGif="hover"
         :badges="creator.badges"
         size="40px"
@@ -88,7 +88,7 @@ export default class MessageLogs extends Vue {
     PopoutsModule.ShowPopout({
       id: "profile",
       component: "profile-popout",
-      data: { uniqueID: this.creator.uniqueID }
+      data: { id: this.creator.id }
     });
   }
 
@@ -96,12 +96,12 @@ export default class MessageLogs extends Vue {
     PopoutsModule.ShowPopout({
       id: "context",
       component: "UserContextMenu",
-      key: this.message.creator.uniqueID + event.clientX + event.clientY,
+      key: this.message.creator.id + event.clientX + event.clientY,
       data: {
         x: event.clientX,
         y: event.clientY,
         tempUser: this.message.creator,
-        uniqueID: this.message.creator.uniqueID
+        id: this.message.creator.id
       }
     });
   }
@@ -125,7 +125,7 @@ export default class MessageLogs extends Vue {
   get isBlocked() {
     return (
       !this.viewBlockedMessage &&
-      UsersModule.blockedUserIDArr.includes(this.message.creator.uniqueID)
+      UsersModule.blockedUserIDArr.includes(this.message.creator.id)
     );
   }
 }

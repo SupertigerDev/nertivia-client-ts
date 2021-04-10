@@ -6,9 +6,9 @@ export interface UpdateServerRequest {
   default_channel_id?: string;
   name?: string;
 }
-export function kickMember(serverID: string, uniqueID: string): Promise<any> {
+export function kickMember(serverID: string, id: string): Promise<any> {
   return wrapper()
-    .delete(`servers/${serverID}/members/${uniqueID}`)
+    .delete(`servers/${serverID}/members/${id}`)
     .json();
 }
 export function getBannedUsers(serverID: string): Promise<any> {
@@ -16,14 +16,14 @@ export function getBannedUsers(serverID: string): Promise<any> {
     .get(`servers/${serverID}/bans`)
     .json();
 }
-export function banMember(serverID: string, uniqueID: string): Promise<any> {
+export function banMember(serverID: string, id: string): Promise<any> {
   return wrapper()
-    .put(`servers/${serverID}/bans/${uniqueID}`)
+    .put(`servers/${serverID}/bans/${id}`)
     .json();
 }
-export function unbanMember(serverID: string, uniqueID: string): Promise<any> {
+export function unbanMember(serverID: string, id: string): Promise<any> {
   return wrapper()
-    .delete(`servers/${serverID}/bans/${uniqueID}`)
+    .delete(`servers/${serverID}/bans/${id}`)
     .json();
 }
 export function muteServer(serverID: string, type: number): Promise<any> {

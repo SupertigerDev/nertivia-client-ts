@@ -35,7 +35,7 @@ export default class MessageArea extends Vue {
       botCommandsModule.FetchAndSetBotCommands({ serverId: this.serverID });
     } else if (this.DMChannel?.recipients?.[0]?.bot) {
       botCommandsModule.FetchAndSetBotCommands({
-        botIDArr: [this.DMChannel.recipients[0].uniqueID]
+        botIDArr: [this.DMChannel.recipients[0].id]
       });
     }
   }

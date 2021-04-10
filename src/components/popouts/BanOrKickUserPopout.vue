@@ -5,7 +5,7 @@
         <div class="header">
           <AvatarImage
             :imageId="user.avatar"
-            :seedId="user.uniqueID"
+            :seedId="user.id"
             :animateGif="false"
             size="30px"
             class="avatar"
@@ -55,7 +55,7 @@ import CustomButton from "@/components/CustomButton.vue";
 export default class ProfilePopout extends Vue {
   requestSent = false;
   @Prop() private data!: {
-    uniqueID: string;
+    id: string;
     serverID: string;
     action: string;
     tempUser: User;
@@ -72,7 +72,7 @@ export default class ProfilePopout extends Vue {
     if (this.requestSent) return;
     this.requestSent = true;
     const fun = this.data.action === "BAN" ? banMember : kickMember;
-    fun(this.data.serverID, this.data.uniqueID)
+    fun(this.data.serverID, this.data.id)
       .then(() => {
         this.close();
       })
@@ -82,7 +82,7 @@ export default class ProfilePopout extends Vue {
   }
 
   get user() {
-    return UsersModule.users[this.data.uniqueID] || this.data.tempUser || {};
+    return UsersModule.users[this.data.id] || this.data.tempUser || {};
   }
 }
 </script>

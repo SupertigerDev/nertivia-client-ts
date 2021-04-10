@@ -155,7 +155,7 @@ class FileUpload extends VuexModule {
             created: Date.now(),
             creator: {
               username: "Beep Boop",
-              uniqueID: "0",
+              id: "0",
               bot: true,
               tag: "0000"
             },

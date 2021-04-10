@@ -65,7 +65,7 @@ interface LastSeenServerChannels {
 interface ReturnedProgramActivity {
   name: string;
   status: string;
-  uniqueID: string;
+  id: string;
 }
 interface ReturnedDmChannel {
   lastMessaged: number;
@@ -75,7 +75,7 @@ interface ReturnedDmChannel {
 
 interface MeUser {
   username: string;
-  uniqueID: string;
+  id: string;
   email: string;
   tag: string;
   admin: number;
@@ -103,7 +103,7 @@ interface ReturnedServer {
   channel_position: string[];
   channels: ReturnedChannel[];
   creator: {
-    uniqueID: string;
+    id: string;
   };
   default_channel_id: string;
   name: string;
@@ -154,7 +154,7 @@ const actions: ActionTree<any, any> = {
       username: data.user.username,
       avatar: data.user.avatar,
       tag: data.user.tag,
-      uniqueID: data.user.uniqueID,
+      id: data.user.id,
       badges: data.user.badges,
       status: data.user.status,
       googleDriveLinked: data.settings.GDriveLinked,
@@ -166,10 +166,10 @@ const actions: ActionTree<any, any> = {
     for (let i = 0; i < data.user.friends.length; i++) {
       const friend = data.user.friends[i];
       const user = friend.recipient;
-      users[user.uniqueID] = user;
-      friends[user.uniqueID] = {
+      users[user.id] = user;
+      friends[user.id] = {
         status: friend.status,
-        uniqueID: user.uniqueID
+        id: user.id
       };
     }
 
@@ -183,12 +183,12 @@ const actions: ActionTree<any, any> = {
       if (channel.recipients)
         for (let i = 0; i < channel.recipients.length; i++) {
           const recipient = channel.recipients[i];
-          users[recipient.uniqueID] = recipient;
+          users[recipient.id] = recipient;
         }
       channels[channel.channelID] = {
         channelID: channel.channelID,
         lastMessaged: channel.lastMessaged,
-        recipients: channel.recipients?.map(r => r.uniqueID)
+        recipients: channel.recipients?.map(r => r.id)
       };
     }
     for (let i = 0; i < data.user.servers.length; i++) {
@@ -225,20 +225,20 @@ const actions: ActionTree<any, any> = {
       if (!serverMembers[serverMember.server_id]) {
         serverMembers[serverMember.server_id] = {};
       }
-      serverMembers[serverMember.server_id][serverMember.member.uniqueID] = {
+      serverMembers[serverMember.server_id][serverMember.member.id] = {
         type: serverMember.type,
-        uniqueID: serverMember.member.uniqueID,
+        id: serverMember.member.id,
         server_id: serverMember.server_id,
         roleIdArr: serverMember.roles || []
       };
-      users[serverMember.member.uniqueID] = serverMember.member;
+      users[serverMember.member.id] = serverMember.member;
     }
 
     const presenceObj: any = {};
     for (let i = 0; i < data.memberStatusArr.length; i++) {
-      const uniqueID = data.memberStatusArr[i][0];
+      const id = data.memberStatusArr[i][0];
       const status = data.memberStatusArr[i][1];
-      presenceObj[uniqueID] = parseInt(status);
+      presenceObj[id] = parseInt(status);
     }
 
     const serverRolesObj: any = {};
@@ -274,7 +274,7 @@ const actions: ActionTree<any, any> = {
     const programActivityObj: any = {};
     for (let i = 0; i < data.programActivityArr.length; i++) {
       const programActivity = data.programActivityArr[i];
-      programActivityObj[programActivity.uniqueID] = {
+      programActivityObj[programActivity.id] = {
         status: programActivity.status,
         name: programActivity.name
       };

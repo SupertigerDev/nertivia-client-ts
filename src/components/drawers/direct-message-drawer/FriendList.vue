@@ -7,21 +7,21 @@
       <FriendRequestTemplate
         v-for="friend in friendRequests"
         :style="{ height: '79px' }"
-        :key="friend.recipient.uniqueID"
+        :key="friend.recipient.id"
         :friend="friend"
       />
       <div class="tab" :style="{ height: '25px' }">Online</div>
       <FriendTemplate
         v-for="friend in onlineFriends"
         :style="{ height: '44px' }"
-        :key="friend.recipient.uniqueID"
+        :key="friend.recipient.id"
         :friend="friend"
       />
       <div class="tab" :style="{ height: '25px' }">Offline</div>
       <FriendTemplate
         v-for="friend in offlineFriends"
         :style="{ height: '44px' }"
-        :key="friend.recipient.uniqueID"
+        :key="friend.recipient.id"
         :friend="friend"
       />
     </virtual-list>
