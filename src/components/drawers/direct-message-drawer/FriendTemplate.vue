@@ -99,7 +99,7 @@ export default class FriendTemplate extends Vue {
   }
   get notification() {
     if (!this.user) return false;
-    return NotificationsModule.notificationByUniqueID(this.user.id);
+    return NotificationsModule.notificationByUserID(this.user.id);
   }
 }
 </script>

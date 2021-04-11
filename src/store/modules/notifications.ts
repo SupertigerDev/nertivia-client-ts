@@ -36,7 +36,7 @@ class Notifications extends VuexModule {
     return (channelID: string) => this.notifications[channelID];
   }
 
-  get notificationByUniqueID() {
+  get notificationByUserID() {
     return (id: string) =>
       Object.values(this.notifications).find(n => {
         const channel = ChannelsModule.channels[n.channelID];

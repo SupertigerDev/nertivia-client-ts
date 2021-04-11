@@ -161,6 +161,7 @@ export default class MainApp extends Vue {
   }
   @Watch("isConnected")
   showConnectionPopout() {
+    AppUpdateModule.check({ force: true });
     if (!this.isConnected) {
       this.showConnectionStatusPopout = true;
     }

@@ -26,9 +26,9 @@ class AppUpdate extends VuexModule {
   }
 
   @Action
-  public check() {
+  public check(options?: {force: boolean}) {
     if (this.updateAvailable) return;
-    if (Date.now() - this.lastCheck <= CHECK_AFTER) return;
+    if (!options?.force && Date.now() - this.lastCheck <= CHECK_AFTER) return;
     this.UPDATE_LAST_CHECK();
     getChangelog().then(log => {
       const version = log[0].version;

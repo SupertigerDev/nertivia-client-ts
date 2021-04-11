@@ -16,24 +16,24 @@ import { PresencesModule } from "../presences";
 import { UsersModule } from "../users";
 
 const actions: ActionTree<any, any> = {
-  [USER_STATUS_CHANGE](context, data: { id: string; status: number, connected?: boolean; custom_status?: string }) {
-    if (data.id === MeModule.user.id) return;
+  [USER_STATUS_CHANGE](context, data: { user_id: string; status: number, connected?: boolean; custom_status?: string }) {
+    if (data.user_id === MeModule.user.id) return;
     if (data.status === 0) {
-      programActivitiesModule.RemoveProgramActivity({ id: data.id });
-      CustomStatusesModule.RemoveCustomStatus({ id: data.id });
+      programActivitiesModule.RemoveProgramActivity({ id: data.user_id });
+      CustomStatusesModule.RemoveCustomStatus({ id: data.user_id });
     }
     PresencesModule.UpdatePresence({
       presence: data.status,
-      id: data.id
+      id: data.user_id
     });
     if (data.connected) {
       if (!data.custom_status) {
-        CustomStatusesModule.RemoveCustomStatus({id: data.id})
+        CustomStatusesModule.RemoveCustomStatus({id: data.user_id})
         return;
       }
       CustomStatusesModule.SetCustomStatus({
         custom_status: data.custom_status,
-        id: data.id
+        id: data.user_id
       });
     }
   },
@@ -42,11 +42,11 @@ const actions: ActionTree<any, any> = {
   },
   [CUSTOM_STATUS_CHANGE](
     context,
-    data: { custom_status: string; id: string }
+    data: { custom_status: string; user_id: string }
   ) {
     CustomStatusesModule.SetCustomStatus({
       custom_status: data.custom_status,
-      id: data.id
+      id: data.user_id
     });
   },
   [SELF_CUSTOM_STATUS_CHANGE](context, data: { custom_status: string }) {
@@ -58,16 +58,16 @@ const actions: ActionTree<any, any> = {
   },
   [PROGRAM_ACTIVITY_CHANGED](
     context,
-    data: { name?: string; status?: string; id: string }
+    data: { name?: string; status?: string; user_id: string }
   ) {
     if (!data.name || !data.status) {
       programActivitiesModule.RemoveProgramActivity({
-        id: data.id
+        id: data.user_id
       });
       return;
     }
     programActivitiesModule.SetProgramActivity({
-      id: data.id,
+      id: data.user_id,
       name: data.name,
       status: data.status
     });

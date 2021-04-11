@@ -120,6 +120,8 @@ export function logout(): Promise<any> {
     .delete(`user/logout`)
     .json();
 }
+
+// move to relationshipService.ts
 export function blockUser(id: string): Promise<any> {
   return wrapper()
     .post(`user/block`, {json: {id}})

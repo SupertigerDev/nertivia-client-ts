@@ -37,8 +37,8 @@ export default class UserDetails extends Vue {
   get permFriendlyNamesArr() {
     const permArr = Object.values(permissions);
     // if its the creator of the server, always allow everything
-    const creatorUniqueID = this.server?.creator?.id;
-    const isServerCreator = creatorUniqueID === this.serverMember.id;
+    const creatorID = this.server?.creator?.id;
+    const isServerCreator = creatorID === this.serverMember.id;
     return permArr.map(p => {
       return {
         ...p,

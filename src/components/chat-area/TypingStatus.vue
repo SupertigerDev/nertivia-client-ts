@@ -16,7 +16,7 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 interface TypingData {
   channel_id: string;
   user: {
-    unique_id: string;
+    id: string;
     username: string;
   };
 }
@@ -49,35 +49,30 @@ export default class MainApp extends Vue {
       .replace(/'/g, "&#039;");
   }
   onTyping(data: TypingData) {
-    if (data.user.unique_id === MeModule.user.id) return;
+    if (data.user.id === MeModule.user.id) return;
     if (data.channel_id !== this.channelID) return;
-    const isTyping = this.typingObj[data.channel_id]?.[data.user.unique_id];
+    const isTyping = this.typingObj[data.channel_id]?.[data.user.id];
     if (isTyping?.timer) {
       clearTimeout(isTyping.timer);
     }
     if (!this.typingObj[data.channel_id]) {
       this.$set(this.typingObj, data.channel_id, {
-        [data.user.unique_id]: {
+        [data.user.id]: {
           username: data.user.username
         }
       });
     }
 
-    this.$set(this.typingObj[data.channel_id], data.user.unique_id, {
+    this.$set(this.typingObj[data.channel_id], data.user.id, {
       username: data.user.username,
-      timer: setTimeout(
-        () => this.timeout(data.channel_id, data.user.unique_id),
-        3500
-      )
+      timer: setTimeout(() => this.timeout(data.channel_id, data.user.id), 3500)
     });
   }
   timeout(channelID: string, id: string) {
     this.$delete(this.typingObj[channelID], id);
   }
   onNewMessage(message: Message) {
-    const objExists = this.typingObj[message.channelID]?.[
-      message.creator.id
-    ];
+    const objExists = this.typingObj[message.channelID]?.[message.creator.id];
     if (objExists) {
       objExists.timer && clearTimeout(objExists.timer);
       this.$delete(this.typingObj[message.channelID], message.creator.id);

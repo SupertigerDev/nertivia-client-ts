@@ -9,11 +9,11 @@ export function sendFriendRequest(username: string, tag: string): Promise<any> {
 }
 export function deleteFriend(id: string): Promise<any> {
   return wrapper()
-    .delete(`user/relationship`, { json: { id } })
+    .delete(`user/relationship`, { json: { id: id } })
     .json();
 }
 export function acceptRequest(id: string): Promise<any> {
   return wrapper()
-    .put(`user/relationship`, { json: { id } })
+    .put(`user/relationship`, { json: { id: id } })
     .json();
 }

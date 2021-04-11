@@ -19,8 +19,8 @@ class Presences extends VuexModule {
 
   get getPresence() {
     return (id: string) => {
-      const myUniqueID = MeModule.user.id;
-      if (id === myUniqueID) return MeModule.user.status;
+      const myUserID = MeModule.user.id;
+      if (id === myUserID) return MeModule.user.status;
       return this.presences[id];
     };
   }
