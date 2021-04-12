@@ -65,7 +65,7 @@ interface LastSeenServerChannels {
 interface ReturnedProgramActivity {
   name: string;
   status: string;
-  id: string;
+  user_id: string;
 }
 interface ReturnedDmChannel {
   lastMessaged: number;
