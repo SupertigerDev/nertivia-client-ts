@@ -6,17 +6,7 @@
           <div class="material-icons back-button" @click="close" title="Back">
             arrow_back
           </div>
-          <img class="banner" v-if="banner" :src="banner" />
-          <input
-            type="file"
-            accept=".jpeg, .jpg, .png, .gif"
-            style="display: none"
-            ref="browseBanner"
-            @change="fileSelected"
-          />
-          <div class="link-button" @click="$refs.browseBanner.click()">
-            Click To Test Banner (WIP)
-          </div>
+          <img class="banner" v-if="bannerURL" :src="bannerURL" />
           <div class="avatar-area">
             <AvatarImage
               :imageId="user.avatar"
@@ -38,10 +28,7 @@
               {{ aboutMe.name }}
             </div>
             <div class="custom-status">
-              <UserStatusTemplate
-                :showOffline="true"
-                :id="user.id"
-              />
+              <UserStatusTemplate :showOffline="true" :id="user.id" />
             </div>
           </div>
           <div class="right">
@@ -174,7 +161,6 @@ import { getBadges } from "@/constants/badges";
 })
 export default class ProfilePopout extends Vue {
   @Prop() private data!: { id: string };
-  banner: any = null;
   returnedUser: ReturnedUser | null = null;
   close() {
     PopoutsModule.ClosePopout("profile");
@@ -183,15 +169,6 @@ export default class ProfilePopout extends Vue {
     if (event.target.classList.contains("popout-background")) {
       this.close();
     }
-  }
-  fileSelected(event: any) {
-    const file = event.target.files[0];
-    event.target.value = "";
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      this.banner = reader.result;
-    };
   }
   blockUser() {
     if (this.isBlocked) {
@@ -219,7 +196,10 @@ export default class ProfilePopout extends Vue {
       this.returnedUser = user;
     });
   }
-
+  get bannerURL() {
+    if (!this.user.banner) return null;
+    return process.env.VUE_APP_NERTIVIA_CDN + this.user.banner;
+  }
   get joiendAt() {
     if (!this.returnedUser) return undefined;
     return friendlyDate(this.returnedUser?.user.created || 0);
@@ -541,6 +521,7 @@ export default class ProfilePopout extends Vue {
   user-select: none;
   opacity: 0.7;
   transition: 0.2s;
+  z-index: 111111111;
   &:hover {
     opacity: 1;
   }

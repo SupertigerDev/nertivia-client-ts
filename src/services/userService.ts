@@ -8,6 +8,7 @@ export interface UpdateUserRequest {
   email?: string;
   new_password?: string;
   avatar?: string;
+  banner?: string;
 }
 
 export function reportError(error: Error, val: string): Promise<any> {

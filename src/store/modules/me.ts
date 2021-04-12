@@ -13,6 +13,7 @@ interface User {
   tag?: string | null;
   email?: string | null;
   avatar?: string | null;
+  banner?: string | null;
   id?: string | null;
   status: number;
   googleDriveLinked?: boolean;
@@ -26,6 +27,7 @@ class Me extends VuexModule {
     tag: null,
     email: null,
     avatar: null,
+    banner: null,
     id: null,
     status: 0
   };

@@ -3,7 +3,53 @@
     <InformationTemplate class="desc" title="Edit Your Profile" />
     <div class="box">
       <div class="error" v-if="errors['other']">{{ errors["other"] }}</div>
-      <div class="outer-avatar">
+
+      <div class="avatar-banner" :class="{ noBanner: !bannerImageUrl }">
+        <div class="banner-container">
+          <img class="banner" v-if="bannerImageUrl" :src="bannerImageUrl" />
+          <div
+            title="Edit Banner"
+            class="material-icons edit-button banner-edit"
+            @click="$refs.bannerInput.click()"
+          >
+            edit
+          </div>
+        </div>
+        <div class="avatar-container">
+          <AvatarImage
+            class="avatar"
+            :imageId="me.avatar"
+            :seedId="me.id"
+            :animateGif="true"
+            :customUrl="newAvatar"
+            size="80px"
+          />
+          <div
+            class="material-icons edit-button avatar-edit"
+            title="Edit Avatar"
+            @click="$refs.avatarInput.click()"
+          >
+            edit
+          </div>
+        </div>
+
+        <input
+          ref="bannerInput"
+          style="display: none"
+          type="file"
+          @change="bannerChange"
+          accept=".jpeg, .jpg, .png, .gif"
+        />
+        <input
+          ref="avatarInput"
+          style="display: none"
+          type="file"
+          @change="avatarChange"
+          accept=".jpeg, .jpg, .png, .gif"
+        />
+      </div>
+
+      <!-- <div class="outer-avatar">
         <div class="avatar" @click="$refs.avatarInput.click()">
           <div class="material-icons edit-button">edit</div>
           <AvatarImage
@@ -23,7 +69,8 @@
         <div class="details">
           <div class="user-tag-detail">{{ me.username }}:{{ me.tag }}</div>
         </div>
-      </div>
+      </div> -->
+
       <CustomInput
         title="Email"
         v-model="email"
@@ -34,7 +81,7 @@
         <CustomInput
           title="Username"
           v-model="username"
-          class="input"
+          class="username"
           :error="errors['username'] || errors['tag']"
           prefixIcon="account_box"
         />
@@ -128,6 +175,7 @@ export default class Account extends Vue {
   newPassword = "";
   newPasswordConfirm = "";
   newAvatar: string | null = null;
+  newBanner: string | null = null;
 
   requestSent = false;
   errors: any = {};
@@ -152,6 +200,7 @@ export default class Account extends Vue {
     this.newPassword = "";
     this.newPasswordConfirm = "";
     this.newAvatar = null;
+    this.newBanner = null;
   }
 
   avatarChange(event: any) {
@@ -161,6 +210,16 @@ export default class Account extends Vue {
     const reader = new FileReader();
     reader.onloadend = event => {
       this.newAvatar = (event.target?.result as any) || null;
+    };
+    reader.readAsDataURL(file);
+  }
+  bannerChange(event: any) {
+    const file: File = event.target.files[0];
+    event.target.value = "";
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onloadend = event => {
+      this.newBanner = (event.target?.result as any) || null;
     };
     reader.readAsDataURL(file);
   }
@@ -184,6 +243,7 @@ export default class Account extends Vue {
       (data.new_password = this.newPassword.trim());
     this.changedItems.emailChanged && (data.email = this.email.trim());
     this.changedItems.avatarChanged && (data.avatar = this.newAvatar || "");
+    this.changedItems.bannerChanged && (data.banner = this.newBanner || "");
 
     if (!this.showPassword) delete data["password"];
 
@@ -240,6 +300,12 @@ export default class Account extends Vue {
     if (connected) this.resetValues();
   }
 
+  get bannerImageUrl() {
+    if (this.newBanner) return this.newBanner;
+    if (!this.me.banner) return null;
+    return process.env.VUE_APP_NERTIVIA_CDN + this.me.banner;
+  }
+
   get me() {
     return MeModule.user;
   }
@@ -266,7 +332,8 @@ export default class Account extends Vue {
       usernameChanged,
       tagChanged,
       newPasswordChanged,
-      avatarChanged
+      avatarChanged,
+      bannerChanged
     } = this.changedItems;
 
     return (
@@ -274,7 +341,8 @@ export default class Account extends Vue {
       usernameChanged ||
       tagChanged ||
       newPasswordChanged ||
-      avatarChanged
+      avatarChanged ||
+      bannerChanged
     );
   }
   get changedItems() {
@@ -284,12 +352,14 @@ export default class Account extends Vue {
     const tagChanged = this.tag !== me.tag;
     const newPasswordChanged = this.newPassword.length;
     const avatarChanged = this.newAvatar?.length || false;
+    const bannerChanged = this.newBanner?.length || false;
     return {
       emailChanged,
       usernameChanged,
       tagChanged,
       newPasswordChanged,
-      avatarChanged
+      avatarChanged,
+      bannerChanged
     };
   }
 }
@@ -315,13 +385,16 @@ export default class Account extends Vue {
   display: flex;
   flex-direction: column;
   padding: 10px;
-  align-self: flex-start;
+  max-width: 500px;
   margin-left: 5px;
 }
 .user-tag {
   display: flex;
   .input {
     flex-shrink: initial;
+  }
+  .username {
+    flex: 1;
   }
   .tag {
     width: 100px;
@@ -336,29 +409,65 @@ export default class Account extends Vue {
     text-decoration: underline;
   }
 }
-.outer-avatar {
-  display: flex;
-  flex-direction: column;
-  align-self: center;
-  margin-bottom: 10px;
-}
-.avatar {
+.avatar-banner {
+  height: 170px;
+  width: 100%;
+  max-width: 500px;
   position: relative;
-  align-self: center;
-  margin-bottom: 5px;
-  cursor: pointer;
-  &:hover {
-    opacity: 0.7;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  margin-bottom: 50px;
+  .banner-container {
+    border-radius: 4px;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+  }
+  .banner {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    position: relative;
+  }
+  &.noBanner::before {
+    content: "Banner";
+    font-size: 24px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  .avatar-container {
+    position: absolute;
+    bottom: -30px;
+    margin-left: 20px;
+    border-radius: 50%;
+    .avatar-edit {
+      top: -2px;
+      right: -2px;
+    }
   }
   .edit-button {
+    cursor: pointer;
+    user-select: none;
     position: absolute;
-    top: 0;
-    right: 0;
     z-index: 1;
     border-radius: 50%;
     background: var(--primary-color);
     font-size: 18px;
+    transition: 0.2s;
     padding: 5px;
+    &.banner-edit {
+      top: -10px;
+      right: -10px;
+    }
+    &:hover {
+      opacity: 0.8;
+    }
   }
 }
 .error {

@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.26.0-beta",
+		"date": "12 April 2021",
+		"title": "Profile Banners",
+		"new": "You can now add a banner to your profile page."
+	},
+	{
 		"version": "1.25.3-beta",
 		"date": "12 April 2021",
 		"title": "Bug fixes",

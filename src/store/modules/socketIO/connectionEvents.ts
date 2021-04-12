@@ -80,6 +80,7 @@ interface MeUser {
   tag: string;
   admin: number;
   avatar?: string | null;
+  banner?: string | null;
   friends: Friend[];
   servers: ReturnedServer[];
   custom_status?: string;
@@ -153,6 +154,7 @@ const actions: ActionTree<any, any> = {
       email: data.user.email,
       username: data.user.username,
       avatar: data.user.avatar,
+      banner: data.user.banner,
       tag: data.user.tag,
       id: data.user.id,
       badges: data.user.badges,
