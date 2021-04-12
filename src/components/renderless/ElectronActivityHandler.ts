@@ -13,7 +13,6 @@ export default class ElectronActivityHandler extends Vue {
   }
   beforeMount() {
     programListener(this.onActivityChange);
-    restartListener()
   }
 
   // functions
@@ -43,7 +42,7 @@ export default class ElectronActivityHandler extends Vue {
   // watchers
   @Watch("isConnected")
   onConnection() {
-    // restartListener();
+    this.emitActivity();
   }
   // computed
   get isConnected() {
