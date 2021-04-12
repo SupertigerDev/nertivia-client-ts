@@ -42,7 +42,7 @@ export default class ElectronActivityHandler extends Vue {
   // watchers
   @Watch("isConnected")
   onConnection() {
-    this.emitActivity();
+    restartListener();
   }
   // computed
   get isConnected() {
