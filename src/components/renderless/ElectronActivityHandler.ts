@@ -13,6 +13,7 @@ export default class ElectronActivityHandler extends Vue {
   }
   beforeMount() {
     programListener(this.onActivityChange);
+    restartListener()
   }
 
   // functions
