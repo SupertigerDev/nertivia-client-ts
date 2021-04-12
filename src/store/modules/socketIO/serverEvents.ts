@@ -153,15 +153,15 @@ const actions: ActionTree<any, any> = {
     UsersModule.AddUsers(usersObj);
     ServerMembersModule.AddServerMembers(serverMembersObj);
   },
-  [SERVER_MEMBER_ADD](context, { serverMember }) {
+  [SERVER_MEMBER_ADD](context, { serverMember, presence, custom_status }) {
     UsersModule.AddUser(serverMember.member);
     PresencesModule.UpdatePresence({
       id: serverMember.member.id,
-      presence: serverMember.presence
+      presence: presence
     })
     CustomStatusesModule.SetCustomStatus({
       id: serverMember.member.id,
-      custom_status: serverMember.custom_status
+      custom_status: custom_status
     })
     ServerMembersModule.AddServerMember(filterServerMemberKeys(serverMember));
   },
