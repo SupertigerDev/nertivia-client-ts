@@ -144,8 +144,8 @@ const actions: ActionTree<any, any> = {
       customStatusObj[id] = custom_status;
     }
     for (let i = 0; i < programActivityArr.length; i++) {
-      const {name, status, id} = programActivityArr[i];
-      activity[id] = {name, status};
+      const {name, status, user_id} = programActivityArr[i];
+      activity[user_id] = {name, status};
     }
     programActivitiesModule.AddActivities(activity);
     PresencesModule.AddPresences(presenceObj);

@@ -274,7 +274,7 @@ const actions: ActionTree<any, any> = {
     const programActivityObj: any = {};
     for (let i = 0; i < data.programActivityArr.length; i++) {
       const programActivity = data.programActivityArr[i];
-      programActivityObj[programActivity.id] = {
+      programActivityObj[programActivity.user_id] = {
         status: programActivity.status,
         name: programActivity.name
       };
