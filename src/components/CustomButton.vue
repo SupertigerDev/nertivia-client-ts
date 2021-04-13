@@ -3,20 +3,21 @@
     class="button"
     type="submit"
     :class="{
-      filled,
       warn: !disabled && warn,
       valid: !disabled && valid,
       disabled
     }"
     @click="$emit('click')"
   >
-    <span v-if="icon && iconPos !== 'right'" class="material-icons">{{
+    <span v-if="icon && iconPos !== 'right'" class="material-icons icon left">{{
       icon
     }}</span>
     {{ name }}
-    <span v-if="icon && iconPos === 'right'" class="material-icons">{{
-      icon
-    }}</span>
+    <span
+      v-if="icon && iconPos === 'right'"
+      class="material-icons icon right"
+      >{{ icon }}</span
+    >
   </button>
 </template>
 
@@ -30,7 +31,6 @@ export default class CustomInput extends Vue {
   @Prop() private warn!: boolean;
   @Prop() private disabled!: boolean;
   @Prop() private valid!: boolean;
-  @Prop() private filled!: boolean;
   @Prop() private icon!: string;
   @Prop() private iconPos!: string;
 }
@@ -42,92 +42,47 @@ export default class CustomInput extends Vue {
   align-items: center;
   align-content: center;
   justify-content: center;
-  color: var(--primary-color);
-  border: solid 1px var(--primary-color);
   margin: 4px;
   border-radius: 6px;
   padding: 8px;
   font-size: 14px;
+  border: none;
   cursor: pointer;
   user-select: none;
   background: none;
   outline: none;
   transition: 0.2s;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.05);
+
   &:hover {
-    background: rgba(255, 255, 255, 0.05);
-  }
-  &:focus {
     background: var(--primary-color);
     color: white;
-  }
-  &.warn {
-    color: var(--alert-color);
-    border: solid 1px var(--alert-color);
-    &:focus {
-      background: var(--alert-color);
+    .icon {
       color: white;
     }
   }
-  &.valid {
-    color: var(--success-color);
-    border: solid 1px var(--success-color);
-    &:focus {
-      background: var(--success-color);
-      color: white;
-    }
+  &.warn:hover {
+    background: var(--alert-color);
   }
-  &.disabled {
-    color: gray;
-    border: solid 1px gray;
+  &.valid:hover {
+    background: var(--success-color);
   }
-
-  &.filled {
-    background: var(--primary-color);
-    color: white;
-    &:hover {
-      color: var(--primary-color);
-      background: rgba(255, 255, 255, 0.05);
-    }
-    &.warn {
-      background: var(--alert-color);
-      color: white;
-      border: solid 1px var(--alert-color);
-      &:hover {
-        background: rgba(255, 255, 255, 0.05);
-        color: var(--alert-color);
-      }
-    }
-
-    &.valid {
-      color: white;
-      background: var(--success-color);
-      border: solid 1px var(--success-color);
-      &:hover {
-        background: rgba(255, 255, 255, 0.05);
-        color: var(--success-color);
-      }
-    }
-    &.disabled {
-      background: gray;
-      &:hover,
-      &:focus {
-        color: white;
-        background: gray;
-        border: solid 1px gray;
-      }
-    }
+}
+.icon {
+  color: var(--primary-color);
+  transition: 0.2s;
+  &.left {
+    margin-right: 5px;
   }
-
-  &.disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    &:hover {
-      background: initial;
-      color: intial;
-    }
-    &:focus {
-      background: initial;
-    }
+  &.right {
+    margin-left: 5px;
   }
+}
+.warn .icon {
+  color: var(--alert-color);
+}
+.valid .icon {
+  color: var(--success-color);
 }
 </style>

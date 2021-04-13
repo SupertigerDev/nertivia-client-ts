@@ -1,6 +1,9 @@
 <template>
   <div class="container selected-channel-page" v-if="channel">
-    <div class="warn" v-if="channel.channelID === server.default_channel_id">
+    <div
+      class="notice warn"
+      v-if="channel.channelID === server.default_channel_id"
+    >
       This is a default channel. You may chnage the default channel in the
       General page. Default channel cannot be deleted.
     </div>
@@ -214,7 +217,7 @@ export default class ManageChannels extends Vue {
   font-size: 18px;
   margin-bottom: 5px;
 }
-.warn {
+.notice.warn {
   border: solid 1px var(--warn-color);
   padding: 5px;
   border-radius: 4px;

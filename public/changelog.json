@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.26.1-beta",
+		"date": "13 April 2021",
+		"title": "Small Visual Changes",
+		"changes": ["Changed button design.", "Slightly changed the input area background color"]
+	},
+	{
 		"version": "1.26.0-beta",
 		"date": "12 April 2021",
 		"title": "Profile Banners",

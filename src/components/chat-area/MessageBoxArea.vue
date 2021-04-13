@@ -188,10 +188,7 @@ export default class MessageBoxArea extends Vue {
       if (!this.channelMessages?.length) return;
       const reversedMessages = [...this.channelMessages].reverse();
       const message = reversedMessages.find(
-        m =>
-          m.creator.id === MeModule.user.id &&
-          !m.type &&
-          m.messageID
+        m => m.creator.id === MeModule.user.id && !m.type && m.messageID
       );
       if (!message) return;
       if (!message.messageID) return;
@@ -472,7 +469,7 @@ export default class MessageBoxArea extends Vue {
 .message-box {
   display: flex;
   flex-direction: column;
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.05);
 
   flex-shrink: 0;
   min-height: 45px;

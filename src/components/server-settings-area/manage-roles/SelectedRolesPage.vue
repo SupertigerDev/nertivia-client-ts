@@ -1,10 +1,10 @@
 <template>
   <div class="container selected-role-page">
-    <div class="warn" v-if="role && role.bot">
+    <div class="notice warn" v-if="role && role.bot">
       This role cannot be deleted/assigned to another member as it is created by
       a bot. Remove the bot to remove this role.
     </div>
-    <div class="warn" v-if="role && role.default">
+    <div class="notice warn" v-if="role && role.default">
       This role cannot be deleted or be un-assigned as this is the default role
       that gets applied to every member.
     </div>
@@ -244,10 +244,7 @@ export default class ManageRolesPage extends Vue {
     );
   }
   get isServerCreator() {
-    return ServersModule.isServerOwner(
-      this.serverID,
-      MeModule?.user?.id || ""
-    );
+    return ServersModule.isServerOwner(this.serverID, MeModule?.user?.id || "");
   }
   get change() {
     const channelName = this.name !== this.role?.name;
@@ -325,7 +322,7 @@ export default class ManageRolesPage extends Vue {
   opacity: 0;
   pointer-events: none;
 }
-.warn {
+.notice.warn {
   border: solid 1px var(--warn-color);
   padding: 5px;
   border-radius: 4px;
