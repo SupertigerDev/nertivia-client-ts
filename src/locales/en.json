@@ -1,0 +1,31 @@
+{
+  "language_name": "English",
+  "language_flag": "🇬🇧",
+  "translators": ["763085785093499319"],
+
+  "settings": {
+    "tab_names": {
+      "account": "Account",
+      "notification": "Notification",
+      "manage-emojis": "Manage Emojis",
+      "startup-options": "Startup Options",
+      "program-activity": "Program Activity",
+      "manage-bots": "Manage Bots",
+      "interface": "Interface",
+      "delete-account": "Delete Account",
+      "changelog": "Changelog"
+    }
+  },
+  "server-settings": {
+    "general": "General",
+    "manage-channels": "Manage Channels",
+    "manage-roles": "Manage Roles",
+    "manage-invites": "Manage Invites",
+    "server-visibility": "Server Visibility",
+    "manage-notification": "Manage Notification",
+    "banned-users": "Banned Users",
+    "manage-users": "Manage Users",
+    "delete-server": "Delete Server"
+  }
+
+}

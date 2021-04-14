@@ -23,6 +23,7 @@ const process = {
 module.exports = {
   transpileDependencies: ["vuex-module-decorators"],
   configureWebpack: {},
+
   pwa: {
     manifestOptions: {
       name: "Nertivia BETA",
@@ -31,5 +32,14 @@ module.exports = {
     },
     themeColor: "#181c22",
     backgroundColor: "#222831"
+  },
+
+  pluginOptions: {
+    i18n: {
+      locale: "en",
+      fallbackLocale: "en",
+      localeDir: "locales",
+      enableInSFC: false
+    }
   }
 };

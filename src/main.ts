@@ -9,6 +9,7 @@ import { applyDefaultTheme } from "./utils/customCssVars";
 import { messagingSupported, messaging } from "./utils/firebaseInstance";
 import { reportError } from "./services/userService";
 import electronBridge from "./utils/electronBridge";
+import i18n from "./i18n";
 
 Vue.use(clipboard);
 
@@ -61,5 +62,6 @@ Vue.directive("click-outside", clickOutside);
 new Vue({
   router,
   store,
+  i18n,
   render: h => h(App)
 }).$mount("#app");

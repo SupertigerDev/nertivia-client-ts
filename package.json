@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/locales/**/*.json\""
   },
   "dependencies": {
     "@hcaptcha/vue-hcaptcha": "^0.3.0",
@@ -26,6 +27,7 @@
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-clipboard2": "^0.3.1",
+    "vue-i18n": "^8.22.3",
     "vue-property-decorator": "^9.1.2",
     "vue-router": "^3.2.0",
     "vue-socket.io-extended": "^4.0.6",
@@ -55,6 +57,7 @@
     "sass": "^1.32.8",
     "sass-loader": "^8.0.2",
     "typescript": "~3.9.3",
+    "vue-cli-plugin-i18n": "~2.1.0",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
