@@ -9,7 +9,7 @@
         @click="changeTab(page.id)"
       >
         <div class="material-icons">{{ page.icon }}</div>
-        <div class="name">{{ page.name }}</div>
+        <div class="name">{{ $t(`server-settings.tab-names.${page.id}`) }}</div>
       </div>
     </div>
   </div>

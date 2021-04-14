@@ -1,6 +1,6 @@
 <template>
   <div class="server-settings-area">
-    <Header :title="page.name" />
+    <Header :title="$t(`server-settings.tab-names.${page.id}`)" />
     <component v-if="page" :is="page.component" :key="serverID" />
   </div>
 </template>
@@ -35,7 +35,8 @@ import { Vue, Component } from "vue-property-decorator";
 })
 export default class ServerSettingsArea extends Vue {
   get page() {
-    return settingsPages[this.$route.params.tab];
+    const id = this.$route.params.tab;
+    return { ...settingsPages[id], id };
   }
   get serverID() {
     return this.$route.params.server_id;

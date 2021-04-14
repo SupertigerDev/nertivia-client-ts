@@ -9,7 +9,7 @@
         @click="changeTab(path)"
       >
         <div class="material-icons">{{ page.icon }}</div>
-        <div class="name">{{ page.name }}</div>
+        <div class="name">{{ $t(`settings.tab-names.${path}`) }}</div>
       </div>
     </div>
     <div class="item" @click="showChangelog">

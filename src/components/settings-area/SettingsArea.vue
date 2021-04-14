@@ -1,6 +1,9 @@
 <template>
   <div class="settings-view">
-    <Header v-if="selectedTab" :title="selectedTab.name" />
+    <Header
+      v-if="selectedTab"
+      :title="$t(`settings.tab-names.${selectedTab.id}`)"
+    />
     <component v-if="selectedTab" :is="selectedTab.component" />
   </div>
 </template>
@@ -63,7 +66,7 @@ export default class SettingsArea extends Vue {
   get selectedTab() {
     const tab = this.$route.params.tab;
     if (tab) {
-      return settingPages[tab];
+      return { ...settingPages[tab], id: tab };
     }
     return undefined;
   }

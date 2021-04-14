@@ -1,10 +1,10 @@
 {
-  "language_name": "English",
-  "language_flag": "🇬🇧",
-  "translators": ["763085785093499319"],
+  "language-name": "English",
+  "language-flag": "🇬🇧",
+  "translators": ["Pancake"],
 
   "settings": {
-    "tab_names": {
+    "tab-names": {
       "account": "Account",
       "notification": "Notification",
       "manage-emojis": "Manage Emojis",
@@ -17,15 +17,17 @@
     }
   },
   "server-settings": {
-    "general": "General",
-    "manage-channels": "Manage Channels",
-    "manage-roles": "Manage Roles",
-    "manage-invites": "Manage Invites",
-    "server-visibility": "Server Visibility",
-    "manage-notification": "Manage Notification",
-    "banned-users": "Banned Users",
-    "manage-users": "Manage Users",
-    "delete-server": "Delete Server"
+    "tab-names": {
+      "general": "General",
+      "manage-channels": "Manage Channels",
+      "manage-roles": "Manage Roles",
+      "manage-invites": "Manage Invites",
+      "server-visibility": "Server Visibility",
+      "manage-notification": "Manage Notification",
+      "banned-users": "Banned Users",
+      "manage-users": "Manage Users",
+      "delete-server": "Delete Server"
+    }
   }
 
 }
