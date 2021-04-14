@@ -119,10 +119,7 @@ export default class ManageRoles extends Vue {
     });
   }
   get isServerCreator() {
-    return ServersModule.isServerOwner(
-      this.serverID,
-      MeModule?.user?.id || ""
-    );
+    return ServersModule.isServerOwner(this.serverID, MeModule?.user?.id || "");
   }
   get roles() {
     return ServerRolesModule.sortedServerRolesArr(this.serverID).filter(

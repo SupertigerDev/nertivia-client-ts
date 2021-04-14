@@ -3,7 +3,6 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import WindowProperties from "@/utils/windowProperties";
 import { Component, Vue, Watch } from "vue-property-decorator";
 
-
 @Component
 export default class UpdateChecker extends Vue {
   lastUpdateChecked = Date.now();
@@ -11,7 +10,7 @@ export default class UpdateChecker extends Vue {
   checkAfter = 600000; // 60 minutes
 
   render() {
-    return null
+    return null;
   }
   mounted() {
     this.showChangelog();
@@ -40,5 +39,4 @@ export default class UpdateChecker extends Vue {
   get focused() {
     return WindowProperties.isFocused;
   }
-
 }

@@ -108,7 +108,10 @@ export function postFormDataMessage(
   formData.append("file", file);
 
   const request = new XMLHttpRequest();
-  request.open("POST", process.env.VUE_APP_FETCH_PREFIX + `/messages/channels/${channelID}`);
+  request.open(
+    "POST",
+    process.env.VUE_APP_FETCH_PREFIX + `/messages/channels/${channelID}`
+  );
   request.setRequestHeader(
     "authorization",
     localStorage.getItem("hauthid") || ""

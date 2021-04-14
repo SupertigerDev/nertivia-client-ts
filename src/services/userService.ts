@@ -79,11 +79,9 @@ export function removeRole(
     .delete(`servers/${serverID}/members/${id}/roles/${roleID}`)
     .json();
 }
-export function deleteAccount(
-  password: string,
-): Promise<any> {
+export function deleteAccount(password: string): Promise<any> {
   return wrapper()
-    .delete(`user/delete-account`, {json: {password}})
+    .delete(`user/delete-account`, { json: { password } })
     .json();
 }
 
@@ -95,7 +93,7 @@ export interface ReturnedUser {
 interface UserExtra {
   about_me: AboutMe;
   created: number;
-  badges?: number
+  badges?: number;
 }
 
 export interface AboutMe {
@@ -113,7 +111,7 @@ export function fetchUser(id: string): Promise<ReturnedUser> {
 }
 export function updateSurvay(data: AboutMe): Promise<any> {
   return wrapper()
-    .put(`user/survey`, {json: data})
+    .put(`user/survey`, { json: data })
     .json();
 }
 export function logout(): Promise<any> {
@@ -125,11 +123,11 @@ export function logout(): Promise<any> {
 // move to relationshipService.ts
 export function blockUser(id: string): Promise<any> {
   return wrapper()
-    .post(`user/block`, {json: {id}})
+    .post(`user/block`, { json: { id } })
     .json();
 }
 export function UnblockUser(id: string): Promise<any> {
   return wrapper()
-    .delete(`user/block`, {json: {id}})
+    .delete(`user/block`, { json: { id } })
     .json();
 }

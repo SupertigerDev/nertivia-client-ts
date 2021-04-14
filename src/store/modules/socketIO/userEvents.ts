@@ -16,7 +16,15 @@ import { PresencesModule } from "../presences";
 import { UsersModule } from "../users";
 
 const actions: ActionTree<any, any> = {
-  [USER_STATUS_CHANGE](context, data: { user_id: string; status: number, connected?: boolean; custom_status?: string }) {
+  [USER_STATUS_CHANGE](
+    context,
+    data: {
+      user_id: string;
+      status: number;
+      connected?: boolean;
+      custom_status?: string;
+    }
+  ) {
     if (data.user_id === MeModule.user.id) return;
     if (data.status === 0) {
       programActivitiesModule.RemoveProgramActivity({ id: data.user_id });
@@ -28,7 +36,7 @@ const actions: ActionTree<any, any> = {
     });
     if (data.connected) {
       if (!data.custom_status) {
-        CustomStatusesModule.RemoveCustomStatus({id: data.user_id})
+        CustomStatusesModule.RemoveCustomStatus({ id: data.user_id });
         return;
       }
       CustomStatusesModule.SetCustomStatus({

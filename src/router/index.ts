@@ -140,9 +140,16 @@ const routes: Array<RouteConfig> = [
         location.href = "/login";
         return;
       }
-      Vue.use(VueSocketIo, io(process.env.VUE_APP_SOCKET_URL || "", { autoConnect: false, transports: ["websocket"] }), {
-        store
-      });
+      Vue.use(
+        VueSocketIo,
+        io(process.env.VUE_APP_SOCKET_URL || "", {
+          autoConnect: false,
+          transports: ["websocket"]
+        }),
+        {
+          store
+        }
+      );
       next();
     }
   }

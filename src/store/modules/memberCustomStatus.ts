@@ -27,11 +27,8 @@ class CustomStatuses extends VuexModule {
     this.INIT_CUSTOM_STATUS(payload);
   }
   @Mutation
-  private SET_CUSTOM_STATUS(payload: {
-    id: string;
-    custom_status: string;
-  }) {
-    Vue.set(this.customStatus, payload.id, payload.custom_status)
+  private SET_CUSTOM_STATUS(payload: { id: string; custom_status: string }) {
+    Vue.set(this.customStatus, payload.id, payload.custom_status);
   }
 
   @Action
@@ -57,6 +54,5 @@ class CustomStatuses extends VuexModule {
   public AddCustomStatuses(payload: CustomStatus | any) {
     this.ADD_CUSTOM_STATUSES(payload);
   }
-
 }
 export const CustomStatusesModule = getModule(CustomStatuses);

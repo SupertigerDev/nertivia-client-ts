@@ -13,7 +13,7 @@ import { PresencesModule } from "./presences";
 import { ServerRolesModule } from "./serverRoles";
 import Vue from "vue";
 import _ from "lodash";
-import {permissions} from "@/constants/rolePermissions";
+import { permissions } from "@/constants/rolePermissions";
 import { bitwiseAdd, bitwiseContains } from "@/utils/bitwise";
 
 interface Servers {
@@ -40,12 +40,12 @@ class ServerMembers extends VuexModule {
   get serverMember() {
     return (server_id: string, id: string) => {
       if (!this.serverMembers[server_id]) return [];
-        const sm = this.serverMembers[server_id][id];
-        if (!sm) return undefined;
-        const user = UsersModule.users[id];
-        const roles = ServerRolesModule.bulkRolesById(server_id, sm.roleIdArr);
-        const presence = PresencesModule.getPresence(id);
-        return { member: user, ...sm, presence, roles };
+      const sm = this.serverMembers[server_id][id];
+      if (!sm) return undefined;
+      const user = UsersModule.users[id];
+      const roles = ServerRolesModule.bulkRolesById(server_id, sm.roleIdArr);
+      const presence = PresencesModule.getPresence(id);
+      return { member: user, ...sm, presence, roles };
     };
   }
   get filteredServerMembers() {
@@ -83,8 +83,8 @@ class ServerMembers extends VuexModule {
     return (server_id: string, id: string) => {
       const roles = this.memberRoles(server_id, id);
       if (!roles) return undefined;
-      return Math.min(...roles.map(r => r.order))
-    }
+      return Math.min(...roles.map(r => r.order));
+    };
   }
 
   get firstMemberRole() {
@@ -125,11 +125,7 @@ class ServerMembers extends VuexModule {
     return (id?: string, serverID?: string) => {
       if (!id) return false;
       if (!serverID) return false;
-      return this.memberHasPermission(
-        id,
-        serverID,
-        permissions.ADMIN.value
-      );
+      return this.memberHasPermission(id, serverID, permissions.ADMIN.value);
     };
   }
 
@@ -139,11 +135,7 @@ class ServerMembers extends VuexModule {
     id: string;
     member: ServerMember;
   }) {
-    Vue.set(
-      this.serverMembers[payload.server_id],
-      payload.id,
-      payload.member
-    );
+    Vue.set(this.serverMembers[payload.server_id], payload.id, payload.member);
   }
   @Action
   public RemoveMemberRole(payload: {
@@ -153,12 +145,12 @@ class ServerMembers extends VuexModule {
   }) {
     const member = this.serverMembers[payload.serverID][payload.id];
     if (!member) return;
-     const newRoleIdArr = member.roleIdArr.filter(r => r !== payload.roleID);
+    const newRoleIdArr = member.roleIdArr.filter(r => r !== payload.roleID);
 
     this.UPDATE_MEMBER_ROLES({
       id: payload.id,
       server_id: payload.serverID,
-      member: {...member, roleIdArr: newRoleIdArr}
+      member: { ...member, roleIdArr: newRoleIdArr }
     });
   }
 
@@ -218,10 +210,7 @@ class ServerMembers extends VuexModule {
     this.ADD_SERVER_MEMBER(payload);
   }
   @Mutation
-  private REMOVE_SERVER_MEMBER(payload: {
-    server_id: string;
-    id: string;
-  }) {
+  private REMOVE_SERVER_MEMBER(payload: { server_id: string; id: string }) {
     Vue.delete(this.serverMembers[payload.server_id], payload.id);
   }
 

@@ -25,13 +25,12 @@ interface ChannelObj {
 class Channels extends VuexModule {
   channels: ChannelObj = {};
 
-
   get rateLimitTimeLeft() {
     return (channelID: string, nowTimeStamp: number) => {
       const rateLimit = (this.channels[channelID]?.rateLimit || 0) * 1000;
       const lastStamp = MessagesModule.lastSentStamp(channelID);
       return lastStamp - nowTimeStamp + rateLimit;
-    } 
+    };
   }
 
   get serverChannels() {
@@ -71,20 +70,16 @@ class Channels extends VuexModule {
     return (channelID: string) => {
       const channel = this.channels[channelID];
       if (!channel) return;
-      const recipients = channel.recipients?.map(
-        id => UsersModule.users[id]
-      );
+      const recipients = channel.recipients?.map(id => UsersModule.users[id]);
       return { ...channel, recipients };
     };
   }
   get getDMChannels() {
     const filter = Object.values(this.channels).filter(
-      channel => channel.recipients?.length && !channel.server_id 
+      channel => channel.recipients?.length && !channel.server_id
     );
     const map = filter.map(channel => {
-      const recipients = channel.recipients?.map(
-        id => UsersModule.users[id]
-      );
+      const recipients = channel.recipients?.map(id => UsersModule.users[id]);
       return { ...channel, recipients };
     });
     return (map as unknown) as Required<DmChannelWithUser>[];

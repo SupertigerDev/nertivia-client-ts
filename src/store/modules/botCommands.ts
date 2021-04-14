@@ -39,17 +39,11 @@ class BotCommands extends VuexModule {
   }
 
   @Mutation
-  private SET_BOT_COMMANDS(payload: {
-    id: string;
-    commands: BotCommand[];
-  }) {
+  private SET_BOT_COMMANDS(payload: { id: string; commands: BotCommand[] }) {
     Vue.set(this.botCommands, payload.id, payload.commands);
   }
   @Mutation
-  private SET_SERVER_BOT_COMMANDS(payload: {
-    serverId: string;
-    id: string;
-  }) {
+  private SET_SERVER_BOT_COMMANDS(payload: { serverId: string; id: string }) {
     const commands = this.serverBotCommands[payload.serverId];
     if (commands) {
       Vue.set(

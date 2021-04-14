@@ -11,7 +11,7 @@ export const CONTRIBUTOR = 128;
 // next value = 256
 
 export function highPriorityBadge(flags: number) {
-  const key = Object.keys(badges).find((key) =>
+  const key = Object.keys(badges).find(key =>
     bitwiseContains(flags, parseInt(key))
   );
   if (!key) return null;
@@ -23,20 +23,19 @@ export function getBadges(flags: number) {
   for (let i = 0; i < keysArr.length; i++) {
     const flag = parseInt(keysArr[i]);
     if (!bitwiseContains(flags, flag)) continue;
-    badgesArr.push(badges[flag])
+    badgesArr.push(badges[flag]);
   }
   return badgesArr;
 }
 
-
 export interface Badge {
-  name: string,
-  iconURL: string
-  color: string
+  name: string;
+  iconURL: string;
+  color: string;
 }
 
 // when adding a new badge, place it in the order you want and add lastest key * 2 as the new key.
-export const badges: {[key: number]: Badge} = {
+export const badges: { [key: number]: Badge } = {
   1: {
     name: "Creator",
     iconURL: process.env.VUE_APP_TWEMOJI_LOCATION + "/1f451.svg",
@@ -77,4 +76,4 @@ export const badges: {[key: number]: Badge} = {
     iconURL: process.env.VUE_APP_TWEMOJI_LOCATION + "/1f5a5.svg",
     color: "#cf24ff"
   }
-}
+};

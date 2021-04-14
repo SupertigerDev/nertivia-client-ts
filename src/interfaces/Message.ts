@@ -20,7 +20,7 @@ export default interface Message {
 }
 
 interface UserExtra {
-  badges?: number
+  badges?: number;
 }
 
 export interface Button {

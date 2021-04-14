@@ -6,9 +6,9 @@ function createInstance() {
     retry: 0,
     timeout: 60000,
     headers: {
-      authorization: localStorage.getItem("hauthid") || "",
+      authorization: localStorage.getItem("hauthid") || ""
     },
-    credentials: 'include'
+    credentials: "include"
   });
 }
 

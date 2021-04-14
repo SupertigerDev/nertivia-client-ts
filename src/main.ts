@@ -20,13 +20,10 @@ declare module "vue/types/vue" {
   }
 }
 
-
 // compatible with old stinky browsers.
 if (!String.prototype.replaceAll) {
-  (String.prototype as any).replaceAll = String.prototype.replace
+  (String.prototype as any).replaceAll = String.prototype.replace;
 }
-
-
 
 if (messagingSupported && process.env.VUE_APP_FCM_API_KEY) {
   messaging().onMessage(payload => {

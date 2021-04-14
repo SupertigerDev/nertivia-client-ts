@@ -33,7 +33,10 @@ const actions: ActionTree<any, any> = {
   },
   [SERVER_CHANNEL_UPDATE](context, channel: Partial<Channel>) {
     if (!channel.channelID) return;
-    MessagesModule.UpdateLastMessageSend({channelID: channel.channelID, timestamp: 0})
+    MessagesModule.UpdateLastMessageSend({
+      channelID: channel.channelID,
+      timestamp: 0
+    });
     ChannelsModule.updateChannel({
       channelID: channel.channelID,
       update: channel

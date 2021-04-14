@@ -39,13 +39,13 @@ function generateNum(n: number): string {
 }
 // channelid: timestamp
 interface LastMessage {
-  [key: string]: number
+  [key: string]: number;
 }
 
 @Module({ dynamic: true, store, namespaced: true, name: "messages" })
 class Messages extends VuexModule {
   messages: MessagesObj = {};
-  lastMessageSent: LastMessage = {}
+  lastMessageSent: LastMessage = {};
 
   get channelMessages() {
     return (id: string) => this.messages[id];
@@ -140,7 +140,10 @@ class Messages extends VuexModule {
     });
     postMessage(trimmedMessage, tempID, payload.channelID)
       .then(res => {
-        this.UpdateLastMessageSend({channelID: payload.channelID, timestamp: Date.now()})
+        this.UpdateLastMessageSend({
+          channelID: payload.channelID,
+          timestamp: Date.now()
+        });
         const message = res.messageCreated;
         this.UpdateMessage({
           channelID: message.channelID,
@@ -156,13 +159,14 @@ class Messages extends VuexModule {
       .catch(res => {
         const ttl = res.ttl;
         if (ttl) {
-          const rateLimit = ChannelsModule.channels[payload.channelID].rateLimit;
-          if (rateLimit){
+          const rateLimit =
+            ChannelsModule.channels[payload.channelID].rateLimit;
+          if (rateLimit) {
             const ms = rateLimit * 1000;
             this.UpdateLastMessageSend({
               channelID: payload.channelID,
-              timestamp: Date.now() - ( ms - ttl)
-            })
+              timestamp: Date.now() - (ms - ttl)
+            });
           }
         }
         this.UpdateMessage({
@@ -345,11 +349,17 @@ class Messages extends VuexModule {
   }
 
   @Mutation
-  private UPDATE_LAST_MESSAGE_SENT(payload: {channelID: string, timestamp: number}) {
-    Vue.set(this.lastMessageSent, payload.channelID, payload.timestamp)
+  private UPDATE_LAST_MESSAGE_SENT(payload: {
+    channelID: string;
+    timestamp: number;
+  }) {
+    Vue.set(this.lastMessageSent, payload.channelID, payload.timestamp);
   }
   @Action
-  public UpdateLastMessageSend(payload: {channelID: string, timestamp: number}) {
+  public UpdateLastMessageSend(payload: {
+    channelID: string;
+    timestamp: number;
+  }) {
     this.UPDATE_LAST_MESSAGE_SENT(payload);
   }
 }

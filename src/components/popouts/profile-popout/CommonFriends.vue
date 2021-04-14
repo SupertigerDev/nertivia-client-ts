@@ -9,11 +9,7 @@
         :title="item.username"
         @click="friendClicked(item)"
       >
-        <AvatarImage
-          :seedId="item.id"
-          :imageId="item.avatar"
-          size="40px"
-        />
+        <AvatarImage :seedId="item.id" :imageId="item.avatar" size="40px" />
       </div>
     </div>
   </div>

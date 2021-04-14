@@ -65,6 +65,5 @@ class ProgramActivities extends VuexModule {
   public AddActivities(payload: ProgramActivityObj | any) {
     this.ADD_ACTIVITIES(payload);
   }
-
 }
 export const programActivitiesModule = getModule(ProgramActivities);

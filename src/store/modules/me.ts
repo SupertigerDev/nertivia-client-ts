@@ -17,7 +17,7 @@ interface User {
   id?: string | null;
   status: number;
   googleDriveLinked?: boolean;
-  badges?: number
+  badges?: number;
 }
 
 @Module({ dynamic: true, store, namespaced: true, name: "me" })

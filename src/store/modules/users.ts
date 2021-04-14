@@ -72,7 +72,7 @@ class Users extends VuexModule {
   @Mutation
   private UNBLOCK_USER(id: string) {
     if (!this.blockedUserIDArr.includes(id)) return;
-    const newBlockedArr = this.blockedUserIDArr.filter(id => id !== id)
+    const newBlockedArr = this.blockedUserIDArr.filter(id => id !== id);
     Vue.set(this, "blockedUserIDArr", newBlockedArr);
   }
   @Action

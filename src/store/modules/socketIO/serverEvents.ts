@@ -144,8 +144,8 @@ const actions: ActionTree<any, any> = {
       customStatusObj[id] = custom_status;
     }
     for (let i = 0; i < programActivityArr.length; i++) {
-      const {name, status, user_id} = programActivityArr[i];
-      activity[user_id] = {name, status};
+      const { name, status, user_id } = programActivityArr[i];
+      activity[user_id] = { name, status };
     }
     programActivitiesModule.AddActivities(activity);
     PresencesModule.AddPresences(presenceObj);
@@ -158,11 +158,11 @@ const actions: ActionTree<any, any> = {
     PresencesModule.UpdatePresence({
       id: serverMember.member.id,
       presence: presence
-    })
+    });
     CustomStatusesModule.SetCustomStatus({
       id: serverMember.member.id,
       custom_status: custom_status
-    })
+    });
     ServerMembersModule.AddServerMember(filterServerMemberKeys(serverMember));
   },
   [SERVER_MEMBER_REMOVE](context, { id, server_id }) {

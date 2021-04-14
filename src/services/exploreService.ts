@@ -18,9 +18,7 @@ export function getServers(
     .get(`explore/servers${param}`)
     .json();
 }
-export function getServer(
-  server_id: string
-): Promise<ServerResponse> {
+export function getServer(server_id: string): Promise<ServerResponse> {
   return wrapper()
     .get(`explore/servers/${server_id}`)
     .json();
@@ -38,11 +36,11 @@ export function updateServer(
   description: string
 ): Promise<any> {
   return wrapper()
-    .patch(`explore/servers/${server_id}`, { json: { description } }).text()
+    .patch(`explore/servers/${server_id}`, { json: { description } })
+    .text();
 }
-export function deleteServer(
-  server_id: string
-): Promise<any> {
+export function deleteServer(server_id: string): Promise<any> {
   return wrapper()
-    .delete(`explore/servers/${server_id}`).text()
+    .delete(`explore/servers/${server_id}`)
+    .text();
 }

@@ -1,15 +1,14 @@
-
 export const genders = [
   { emoji: "👦🏻", name: "Male", code: "M" },
   { emoji: "👧🏼", name: "Female", code: "F" },
   { emoji: "😶", name: "Rather not say", code: "no" }
-]
+];
 export const ageGroups = [
   { emoji: "", name: "14-16", code: "14-16" },
   { emoji: "", name: "17-19", code: "17-19" },
   { emoji: "", name: "20 or above", code: "20+" },
   { emoji: "😶", name: "Rather not say", code: "no" }
-]
+];
 export const continents = [
   { name: "Europe", emoji: "🍃", code: "EU" },
   { name: "Asia", emoji: "🍜", code: "AS" },
@@ -18,7 +17,7 @@ export const continents = [
   { name: "Africa", emoji: "🐘", code: "AF" },
   { name: "Oceania", emoji: "🌊", code: "OC" },
   { emoji: "😶", name: "Rather not say", code: "no" }
-]
+];
 export const countries = [
   { name: "Andorra", emoji: "🇦🇩", code: "EU" },
   { name: "United Arab Emirates", emoji: "🇦🇪", code: "AS" },
@@ -266,4 +265,4 @@ export const countries = [
   { name: "Wallis and Futuna", emoji: "🇼🇫", code: "OC" },
   { name: "Samoa", emoji: "🇼🇸", code: "OC" },
   { emoji: "😶", name: "Rather not say", code: "no" }
-]
+];

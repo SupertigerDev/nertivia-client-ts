@@ -288,9 +288,7 @@ export default class SuggestionPopouts extends Vue {
       return botCommandsModule.serverCommands(this.serverID);
     } else {
       if (!this.dmChannel?.recipients?.[0].botPrefix) return [];
-      return [
-        botCommandsModule.botCommands[this.dmChannel.recipients[0].id]
-      ];
+      return [botCommandsModule.botCommands[this.dmChannel.recipients[0].id]];
     }
   }
   get botWithPrefixes() {

@@ -3,11 +3,10 @@ import { NotificationsModule } from "@/store/modules/notifications";
 import electronBridge from "@/utils/electronBridge";
 import { Component, Vue, Watch } from "vue-property-decorator";
 
-
 @Component
 export default class ElectronBadgeHandler extends Vue {
   render() {
-    return null
+    return null;
   }
   mounted() {
     electronBridge?.send("notification_badge", 0);
@@ -35,5 +34,4 @@ export default class ElectronBadgeHandler extends Vue {
   get firstDmNotification() {
     return NotificationsModule.allDMNotifications?.reverse()?.[0];
   }
-
 }

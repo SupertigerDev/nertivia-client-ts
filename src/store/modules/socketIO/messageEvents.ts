@@ -64,7 +64,10 @@ const actions: ActionTree<any, any> = {
     if (isMe && channel && channel.server_id) {
       LastSeenServerChannelsModule.SetLastSeenChannel(data.message.channelID);
       if (data.message.type === 0)
-        MessagesModule.UpdateLastMessageSend({channelID: channel.channelID, timestamp: Date.now()})
+        MessagesModule.UpdateLastMessageSend({
+          channelID: channel.channelID,
+          timestamp: Date.now()
+        });
     }
 
     // send notification if:

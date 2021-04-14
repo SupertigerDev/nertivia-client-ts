@@ -57,7 +57,6 @@ class Presences extends VuexModule {
     this.ADD_PRESENCES(payload);
   }
 
-
   @Action
   public InitPresences(payload: PresencesObj | any) {
     this.INIT_PRESENCES(payload);

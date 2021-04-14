@@ -1,15 +1,17 @@
-
 import { MeModule } from "@/store/modules/me";
-import { findListeningProgram, programListener, restartListener } from "@/utils/programActivity";
+import {
+  findListeningProgram,
+  programListener,
+  restartListener
+} from "@/utils/programActivity";
 import { Component, Vue, Watch } from "vue-property-decorator";
-
 
 @Component
 export default class ElectronActivityHandler extends Vue {
   programActivityTimeout: NodeJS.Timeout | null = null;
-  currentActiveProgram: {name: string, status: string} | null = null;
+  currentActiveProgram: { name: string; status: string } | null = null;
   render() {
-    return null
+    return null;
   }
   beforeMount() {
     programListener(this.onActivityChange);
@@ -18,9 +20,12 @@ export default class ElectronActivityHandler extends Vue {
   // functions
   emitActivity() {
     if (!this.isConnected) return;
-    this.programActivityTimeout && clearTimeout(this.programActivityTimeout)
+    this.programActivityTimeout && clearTimeout(this.programActivityTimeout);
     if (MeModule.user.status !== 0) {
-      this.$socket.client.emit("programActivity:set", this.currentActiveProgram);
+      this.$socket.client.emit(
+        "programActivity:set",
+        this.currentActiveProgram
+      );
     }
     if (!this.currentActiveProgram) {
       this.programActivityTimeout = null;
@@ -34,7 +39,7 @@ export default class ElectronActivityHandler extends Vue {
     if (_filename) {
       filename = _filename;
     }
-    const program  = findListeningProgram(filename)
+    const program = findListeningProgram(filename);
     console.log("Program Running: " + program?.filename);
     this.currentActiveProgram = program;
     this.emitActivity();
@@ -48,5 +53,4 @@ export default class ElectronActivityHandler extends Vue {
   get isConnected() {
     return MeModule.connected;
   }
-
 }

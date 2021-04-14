@@ -9,14 +9,16 @@ export function lastSelectedServerChannel(serverID: string) {
   return json[serverID];
 }
 
-export function setLastSelectedServerChannel(serverID: string, channelID: string) {
+export function setLastSelectedServerChannel(
+  serverID: string,
+  channelID: string
+) {
   let json;
   if (!localStorage["lastSelectedServerChannel"]) {
-    json = {}
+    json = {};
   } else {
     json = JSON.parse(localStorage["lastSelectedServerChannel"]);
   }
   json[serverID] = channelID;
   localStorage["lastSelectedServerChannel"] = JSON.stringify(json);
 }
-

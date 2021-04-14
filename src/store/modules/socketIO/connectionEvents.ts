@@ -85,7 +85,7 @@ interface MeUser {
   servers: ReturnedServer[];
   custom_status?: string;
   status: number;
-  badges?: number
+  badges?: number;
 }
 interface Friend {
   status: number;
@@ -117,7 +117,7 @@ interface ReturnedChannel {
   server_id?: string;
   lastMessaged: number;
   permissions?: ChannelPermissions;
-  rateLimit?: number
+  rateLimit?: number;
 }
 interface ChannelPermissions {
   send_message?: boolean;
@@ -159,7 +159,7 @@ const actions: ActionTree<any, any> = {
       id: data.user.id,
       badges: data.user.badges,
       status: data.user.status,
-      googleDriveLinked: data.settings.GDriveLinked,
+      googleDriveLinked: data.settings.GDriveLinked
     });
 
     // set friends
