@@ -34,6 +34,11 @@
     "icon": "view_quilt",
     "component": "Interface"
   },
+  "language": {
+    "name": "Language",
+    "icon": "flag",
+    "component": "Language"
+  },
   "delete-account": {
     "name": "Delete Account",
     "icon": "delete",

@@ -1,8 +1,4 @@
 {
-  "language-name": "English",
-  "language-flag": "🇬🇧",
-  "translators": ["Pancake"],
-
   "settings": {
     "tab-names": {
       "account": "Account",
@@ -12,6 +8,7 @@
       "program-activity": "Program Activity",
       "manage-bots": "Manage Bots",
       "interface": "Interface",
+      "language": "Language",
       "delete-account": "Delete Account",
       "changelog": "Changelog"
     }
