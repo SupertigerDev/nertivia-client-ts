@@ -44,7 +44,7 @@
   "settings": {
     "tab-names": {
       "account": "Account",
-      "notification": "Notification",
+      "notification": "Notifications",
       "manage-emojis": "Manage Emojis",
       "startup-options": "Startup Options",
       "program-activity": "Program Activity",
@@ -71,7 +71,7 @@
     },
     "manage-emojis": {
       "details": "Upload your own pretty emojis for free! Emojis must be 3MB or less.",
-      "supported-types": "Supported types are: png, jpg, gif",
+      "supported-types": "Supported file types are: png, jpg, gif",
       "add-emojis-button": "Add Emojis"
     },
     "startup-options": {
@@ -80,7 +80,7 @@
       "open-on-startup": "Open Nertivia On Startup"
     },
     "program-activity": {
-      "details": "Share programs or games you are running by adding apps below. This will replace your custom status when a program is opened and revert back when the program is closed.",
+      "details": "Share programs or games you are running by adding apps below. This will replace your custom status when a program is opened and will revert back when the program is closed.",
       "notice": "To use the program acitivty feature, you must download the Nertivia desktop app."
     },
     "manage-bots": {
@@ -101,7 +101,7 @@
     "delete-account": {
       "notice": "You are about to delete your account",
       "what-gets-deleted": "What will get deleted",
-      "what-wont-delete": "What wont get deleted",
+      "what-wont-delete": "What won't get deleted",
       "messages-sent": "Your messages sent to public servers",
       "requirements": "Requirements",
       "delete-leave-server": "Leave/Delete all servers",
@@ -140,7 +140,7 @@
   },
   "dashboard-tab": {
     "profile": "Profile",
-    "notifications": "Notificattions",
+    "notifications": "Notifications",
     "click-to-add-custom-status": "Click to add custom status"
   },
   "add-friend-popout": {
@@ -156,5 +156,4 @@
       "create": "Create"
     }
   }
-
 }
