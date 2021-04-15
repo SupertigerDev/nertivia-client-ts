@@ -89,7 +89,7 @@
   "dashboard-tab": {
     "notifications": "Benachrichtigungen",
     "profile": "Profil",
-    "click-to-add-custom-status": "Klicken Sie hier, um einen benutzerdefinierten Status hinzuzufügen"
+    "click-to-add-custom-status": "Eigenen Status setzen"
   },
   "dm-tab": {
     "friends": "Freunde",
@@ -101,7 +101,9 @@
     "attach-message": "Nachricht hinzufügen",
     "no-message-perm": "Sie haben nicht die nötigen Rechte, um in diesem Kanal zu sprechen.",
     "not-connected-server": "Nicht verbunden",
-    "type-message": "Geben Sie Ihre Nachricht ein"
+    "type-message": "Geben Sie Ihre Nachricht ein",
+    "back-to-bottom": "Zurück nach unten",
+    "new-messages": "Neue Nachrichten"
   },
   "message-context": {
     "copy": "Kopieren",
@@ -145,5 +147,13 @@
     "edit-roles": "Rollen bearbeiten",
     "kick": "Kicken",
     "view-profile": "Profil ansehen"
+  },
+  "channel-context": {
+    "mute-channel": "Kanal stumm schalten",
+    "unmute-channel": "Kanal nicht mehr stummschalten"
+  },
+  "upload-dialog": {
+    "compress": "Komprimieren",
+    "upload-to": "Hochladen auf"
   }
 }
