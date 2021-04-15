@@ -114,7 +114,7 @@ export default class extends Vue {
       items.push({ type: "seperator" });
       items.push({
         id: "leave_server",
-        name: "Leave Server",
+        name: this.$t("server-context.leave-server"),
         warn: true,
         icon: "exit_to_app"
       });

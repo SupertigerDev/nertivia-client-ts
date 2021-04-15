@@ -1,7 +1,9 @@
+import i18n from "@/i18n";
+
 export default [
-  { name: "Offline", color: "#9c9c9c" },
-  { name: "Online", color: "#91ff91" },
-  { name: "Away", color: "#ff9461" },
-  { name: "Busy", color: "#ff5656" },
-  { name: "Looking To Play", color: "#d073ff" }
+  { name: i18n.t("presence.offline"), color: "#9c9c9c" },
+  { name: i18n.t("presence.online"), color: "#91ff91" },
+  { name: i18n.t("presence.away"), color: "#ff9461" },
+  { name: i18n.t("presence.busy"), color: "#ff5656" },
+  { name: i18n.t("presence.looking-to-play"), color: "#d073ff" }
 ];

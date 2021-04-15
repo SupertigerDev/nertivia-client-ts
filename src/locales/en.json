@@ -35,7 +35,8 @@
   },
   "server-context": {
     "mark-as-read": "Mark As Read",
-    "server-settings": "Server Settings"
+    "server-settings": "Server Settings",
+    "leave-server": "Leave Server"
   },
   "channel-context": {
     "mute-channel": "Mute Channel",
@@ -109,7 +110,7 @@
       "delete-account-button": "Delete My Account"
     },
     "language": {
-      "details": "Contribute by submitting a PR in the GitHub repo.",
+      "details": "Reload may be required after changing language. Contribute by submitting a PR in the GitHub repo.",
       "translators": "Translators"
     }
   },
@@ -155,5 +156,12 @@
       "join": "Join",
       "create": "Create"
     }
+  },
+  "presence": {
+    "offline": "Offline",
+    "online": "Online",
+    "away": "Away",
+    "busy": "Busy",
+    "looking-to-play": "Looking To Play"
   }
 }
