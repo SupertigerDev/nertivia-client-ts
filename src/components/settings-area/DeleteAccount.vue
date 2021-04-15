@@ -3,13 +3,15 @@
     <div class="description">
       <div class="material-icons">info</div>
       <span>
-        You are about to delete your account
+        {{ $t("settings.delete-account.notice") }}
         <span class="username">{{ me.username }}:{{ me.tag }}</span>
         <span>.</span>
       </span>
     </div>
     <div class="box">
-      <div class="title">What will get deleted:</div>
+      <div class="title">
+        {{ $t("settings.delete-account.what-gets-deleted") }}:
+      </div>
       <ul class="list">
         <li>Username</li>
         <li>Email</li>
@@ -20,14 +22,22 @@
         <li>Custom Status</li>
         <li>Google Drive Token</li>
       </ul>
-      <div class="title">What wont get deleted:</div>
+      <div class="title">
+        {{ $t("settings.delete-account.what-wont-delete") }}:
+      </div>
       <ul class="list">
-        <li>Your messages sent to public servers</li>
+        <li>{{ $t("settings.delete-account.messages-sent") }}:</li>
       </ul>
-      <div class="title">Requirements:</div>
+      <div class="title">{{ $t("settings.delete-account.requirements") }}:</div>
       <ul class="list">
-        <li>Leave/Delete all servers <span>(Right click on a server)</span></li>
-        <li>Delete all bots <span>(Settings - My Bots)</span></li>
+        <li>
+          {{ $t("settings.delete-account.delete-leave-server") }}
+          <span>(Right click on a server)</span>
+        </li>
+        <li>
+          {{ $t("settings.delete-account.delete-bots") }}
+          <span>(Settings - My Bots)</span>
+        </li>
       </ul>
       <div class="status warn" v-if="canDelete === null">
         Checking if you meet the Requirements...
@@ -53,7 +63,7 @@
         icon="delete"
         :warn="true"
         :filled="true"
-        name="Delete My Account"
+        :name="$t('settings.delete-account.delete-account-button')"
       />
     </div>
   </div>

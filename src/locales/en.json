@@ -2,9 +2,34 @@
   "save-changes": "Save Changes",
   "saving": "Saving...",
   "are-you-sure": "Are you sure?",
+  "copy-id-button": "Copy ID",
   "time": {
     "today-at": "Today at {0}",
     "yesterday-at": "Yesterday at {0}"
+  },
+  "message-area": {
+    "no-message-perm": "You don't have permission to talk in this channel.",
+    "not-connected-server": "Not Connected",
+    "attach-message": "Attach a message",
+    "type-message": "Type your message"
+  },
+  "user-context": {
+    "view-profile": "View Profile",
+    "edit-roles": "Edit Roles",
+    "kick": "Kick",
+    "ban": "Ban",
+    "copy-user-tag": "Copy User:Tag"
+  },
+  "message-context": {
+    "user": "User",
+    "quote": "Quote",
+    "edit": "Edit",
+    "copy": "Copy",
+    "delete": "Delete"
+  },
+  "server-context": {
+    "mark-as-read": "Mark As Read",
+    "server-settings": "Server Settings"
   },
   "settings": {
     "tab-names": {
@@ -62,6 +87,20 @@
       "copy-token": "Copy Token",
       "reset-token": "Reset Token",
       "delete-bot": "Delete Bot"
+    },
+    "delete-account": {
+      "notice": "You are about to delete your account",
+      "what-gets-deleted": "What will get deleted",
+      "what-wont-delete": "What wont get deleted",
+      "messages-sent": "Your messages sent to public servers",
+      "requirements": "Requirements",
+      "delete-leave-server": "Leave/Delete all servers",
+      "delete-bots": "Delete all bots",
+      "delete-account-button": "Delete My Account"
+    },
+    "language": {
+      "details": "Contribute by submitting a PR in the GitHub repo.",
+      "translators": "Translators"
     }
   },
   "server-settings": {

@@ -87,33 +87,44 @@ export default class extends Vue {
   get items() {
     let items: any = [
       {
-        name: "View Profile",
+        name: this.$t("user-context.view-profile"),
         icon: "person"
       }
     ];
 
     if (this.canManageRoles && this.userExistsInServer) {
-      items.push({ name: "Edit Roles", icon: "leaderboard" });
+      items.push({
+        name: this.$t("user-context.edit-roles"),
+        icon: "leaderboard"
+      });
     }
     if (this.hasBanPermission || this.hasKickPermission) {
       items.push({ type: "seperator" });
     }
     if (this.hasKickPermission && this.userExistsInServer) {
-      items.push({ name: "Kick", icon: "exit_to_app", warn: true });
+      items.push({
+        name: this.$t("user-context.kick"),
+        icon: "exit_to_app",
+        warn: true
+      });
     }
     if (this.hasBanPermission) {
-      items.push({ name: "Ban", icon: "block", warn: true });
+      items.push({
+        name: this.$t("user-context.ban"),
+        icon: "block",
+        warn: true
+      });
     }
     items.push({ type: "seperator" });
 
     items = [
       ...items,
       {
-        name: "Copy User:Tag",
+        name: this.$t("user-context.copy-user-tag"),
         icon: "developer_board"
       },
       {
-        name: "Copy ID",
+        name: this.$t("copy-id-button"),
         icon: "developer_board"
       }
     ];

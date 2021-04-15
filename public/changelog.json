@@ -1,5 +1,12 @@
 [
 	{
+		"version": "1.27.0-beta",
+		"date": "15 April 2021",
+		"title": "Language Support",
+		"new": "Language support has been added to this app.",
+		"body": "Help add more languages <a href='https://github.com/supertiger1234/nertivia-client-ts/tree/master/src/locales' target='_blank' rel='noopener noreferrer'>here</a>."
+	},
+	{
 		"version": "1.26.1-beta",
 		"date": "13 April 2021",
 		"title": "Small Visual Changes",

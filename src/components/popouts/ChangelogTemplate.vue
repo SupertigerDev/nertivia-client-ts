@@ -33,7 +33,7 @@
         color="var(--alert-color)"
       />
 
-      <div class="body" v-if="log.body">{{ log.body }}</div>
+      <div class="body" v-if="log.body" v-html="log.body"></div>
     </div>
   </div>
 </template>

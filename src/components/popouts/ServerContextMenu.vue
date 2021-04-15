@@ -75,7 +75,7 @@ export default class extends Vue {
   get items() {
     let items: any = [
       {
-        name: "Mark As Read",
+        name: this.$t("server-context.mark-as-read"),
         icon: "markunread_mailbox",
         disabled: !this.notifications.length
       },
@@ -84,7 +84,7 @@ export default class extends Vue {
 
     if (this.isServerOwner || this.isAdmin) {
       items.push({
-        name: "Server Settings",
+        name: this.$t("server-context.server-settings"),
         icon: "settings"
       });
     }
@@ -92,16 +92,16 @@ export default class extends Vue {
     items = [
       ...items,
       {
-        name: "Manage Invites",
+        name: this.$t("server-settings.tab-names.manage-invites"),
         icon: "settings"
       },
       {
-        name: "Manage Notification",
+        name: this.$t("server-settings.tab-names.manage-notification"),
         icon: "notifications"
       },
       { type: "seperator" },
       {
-        name: "Copy ID",
+        name: this.$t("copy-id-button"),
         icon: "developer_board"
       }
     ];

@@ -97,24 +97,24 @@ export default class extends Vue {
   get items() {
     const items: any = [
       {
-        name: "User",
+        name: this.$t("message-context.user"),
         icon: "account_box",
         nestContext: true
       },
       {
-        name: "Quote",
+        name: this.$t("message-context.quote"),
         icon: "format_quote"
       }
     ];
     if (this.message.type === 0) {
       items.push({
-        name: "Copy",
+        name: this.$t("message-context.copy"),
         icon: "developer_board"
       });
     }
     if (this.messageCreatedByMe && this.message.type === 0) {
       items.push({
-        name: "Edit",
+        name: this.$t("message-context.edit"),
         icon: "edit"
       });
     }
@@ -122,7 +122,7 @@ export default class extends Vue {
       items.push(
         { type: "seperator" },
         {
-          name: "Delete",
+          name: this.$t("message-context.delete"),
           icon: "delete",
           warn: true
         }
@@ -130,7 +130,7 @@ export default class extends Vue {
     }
     items.push(
       { type: "seperator" },
-      { name: "Copy ID", icon: "developer_board" }
+      { name: this.$t("copy-id-button"), icon: "developer_board" }
     );
 
     return items;

@@ -3,7 +3,10 @@
     <div class="box">
       <div class="description">
         <div class="material-icons">info</div>
-        Change the app language.
+        {{ $t("settings.tab-names.language") }}
+      </div>
+      <div class="notice">
+        {{ $t("settings.language.details") }}
       </div>
       <div class="language-list">
         <div
@@ -17,7 +20,9 @@
           <div class="details">
             <div class="name">{{ obj.name }}</div>
             <div class="translators">
-              <span class="item-label">Translators:</span>
+              <span class="item-label"
+                >{{ $t("settings.language.translators") }}:</span
+              >
               <div
                 class="translator"
                 v-for="(translators, i) in obj.translators"
@@ -77,9 +82,14 @@ export default class Language extends Vue {
   display: flex;
   align-items: center;
   align-content: center;
+
   .material-icons {
     margin-right: 5px;
   }
+}
+.notice {
+  color: rgba(255, 255, 255, 0.6);
+  margin-left: 30px;
   margin-bottom: 10px;
 }
 .flag {

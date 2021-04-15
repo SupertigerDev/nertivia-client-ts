@@ -81,7 +81,7 @@
       />
     </div>
     <div class="no-perm" v-else>
-      You don't have permission to talk in this channel.
+      {{ $t("message-area.no-message-perm") }}
     </div>
   </div>
 </template>
@@ -406,12 +406,12 @@ export default class MessageBoxArea extends Vue {
   }
   get placeholderMessage() {
     if (!this.isConnected) {
-      return "Not Connected";
+      return this.$t("message-area.not-connected-server");
     }
     if (this.showUploadBox) {
-      return "Attach a message";
+      return this.$t("message-area.attach-message");
     }
-    return "Type your message";
+    return this.$t("message-area.type-message");
   }
   get isConnected() {
     return MeModule.connected;
