@@ -1,11 +1,11 @@
 {
-  "save-changes": "Save Changes",
-  "saving": "Saving...",
-  "are-you-sure": "Are you sure?",
-  "copy-id-button": "Copy ID",
+  "save-changes": "Guarder cambios",
+  "saving": "Ahorro...",
+  "are-you-sure": "¿Estas seguro?",
+  "copy-id-button": "Copia ID",
   "time": {
-    "today-at": "Today at {0}",
-    "yesterday-at": "Yesterday at {0}"
+    "today-at": "Hoy a {0}",
+    "yesterday-at": "Ayer a {0}"
   },
   "message-area": {
     "no-message-perm": "You don't have permission to talk in this channel.",
@@ -14,11 +14,11 @@
     "type-message": "Type your message"
   },
   "user-context": {
-    "view-profile": "View Profile",
-    "edit-roles": "Edit Roles",
-    "kick": "Kick",
-    "ban": "Ban",
-    "copy-user-tag": "Copy User:Tag"
+    "view-profile": "Ve Perfil",
+    "edit-roles": "Editar Roles",
+    "kick": "Patada",
+    "ban": "Prohibicíon",
+    "copy-user-tag": "Copiar Usuario:Marbete"
   },
   "message-context": {
     "user": "User",
@@ -123,10 +123,10 @@
     "more-than-three": "{0} people are typing..."
   },
   "dm-tab": {
-    "friends": "Friends",
-    "recents": "Recents",
-    "saved-notes": "Saved Notes",
-    "add-friend": "Add Friend"
+    "friends": "Amigos",
+    "recents": "Recientes",
+    "saved-notes": "Salvado notas",
+    "add-friend": "Agregar Amigo"
   },
   "dashboard-tab": {
     "profile": "Profile",
