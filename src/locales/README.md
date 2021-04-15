@@ -1,6 +1,6 @@
 # How To Translate
 ## Tooling
-If you're using Visual Studio Code, i'd recommend [this extension](https://marketplace.visualstudio.com/items?itemName=Lokalise.i18n-ally)
+If you're using Visual Studio Code, i'd recommend [this extension](https://marketplace.visualstudio.com/items?itemName=Lokalise.i18n-ally)   
 You can also take a look at more tools to make translating easier [here](https://kazupon.github.io/vue-i18n/guide/tooling.html) (Under the "3rd party tooling" tag).
 
 ## How?
