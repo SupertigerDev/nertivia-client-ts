@@ -1,0 +1,154 @@
+{
+  "save-changes": "Save Changes",
+  "saving": "Saving...",
+  "are-you-sure": "Are you sure?",
+  "copy-id-button": "Copy ID",
+  "time": {
+    "today-at": "Today at {0}",
+    "yesterday-at": "Yesterday at {0}"
+  },
+  "message-area": {
+    "no-message-perm": "You don't have permission to talk in this channel.",
+    "not-connected-server": "Not Connected",
+    "attach-message": "Attach a message",
+    "type-message": "Type your message"
+  },
+  "user-context": {
+    "view-profile": "View Profile",
+    "edit-roles": "Edit Roles",
+    "kick": "Kick",
+    "ban": "Ban",
+    "copy-user-tag": "Copy User:Tag"
+  },
+  "message-context": {
+    "user": "User",
+    "quote": "Quote",
+    "edit": "Edit",
+    "copy": "Copy",
+    "delete": "Delete"
+  },
+  "server-context": {
+    "mark-as-read": "Mark As Read",
+    "server-settings": "Server Settings"
+  },
+  "channel-context": {
+    "mute-channel": "Mute Channel",
+    "unmute-channel": "Unmute Channel"
+  },
+  "settings": {
+    "tab-names": {
+      "account": "Account",
+      "notification": "Notification",
+      "manage-emojis": "Manage Emojis",
+      "startup-options": "Startup Options",
+      "program-activity": "Program Activity",
+      "manage-bots": "Manage Bots",
+      "interface": "Interface",
+      "language": "Language",
+      "delete-account": "Delete Account",
+      "changelog": "Changelog"
+    },
+    "account": {
+      "title": "Edit Your Profile",
+      "change-password": "Change Password",
+      "relink-google-drive": "Re-link Google Drive",
+      "link-google-drive": "Link Google Drive",
+      "more-profile": "More Profile",
+      "more-profile-notice": "This information is seen by everyone."
+    },
+    "notification": {
+      "title": "Change your notification settings.",
+      "notification-sound": "Notification Sound",
+      "notification-sound-details": "Makes a cool sound to get your attention",
+      "push-notification": "Push Notification",
+      "push-notification-details": "Get push notifications even when the app is closed."
+    },
+    "manage-emojis": {
+      "details": "Upload your own pretty emojis for free! Emojis must be 3MB or less.",
+      "supported-types": "Supported types are: png, jpg, gif",
+      "add-emojis-button": "Add Emojis"
+    },
+    "startup-options": {
+      "title": "Desktop App Startup Options",
+      "notice": "To modify these settings, you must download the Nertivia desktop app.",
+      "open-on-startup": "Open Nertivia On Startup"
+    },
+    "program-activity": {
+      "details": "Share programs or games you are running by adding apps below. This will replace your custom status when a program is opened and revert back when the program is closed.",
+      "notice": "To use the program acitivty feature, you must download the Nertivia desktop app."
+    },
+    "manage-bots": {
+      "details": "Create bot users which will allow you to use our API to create your own fancy bots.",
+      "command-notice": "Add bot commands to easily let users know which commands exist for your bot",
+      "create-bot-button": "Create Bot",
+      "add-command-button": "Add Command",
+      "edit-bot": "Edit Bot",
+      "edit-commands": "Edit Commands",
+      "create-invite-link": "Create Invite Link",
+      "copy-invite-url": "Copy Invite URL",
+      "manage-token": "Manage Token",
+      "show-token": "Show Token",
+      "copy-token": "Copy Token",
+      "reset-token": "Reset Token",
+      "delete-bot": "Delete Bot"
+    },
+    "delete-account": {
+      "notice": "You are about to delete your account",
+      "what-gets-deleted": "What will get deleted",
+      "what-wont-delete": "What wont get deleted",
+      "messages-sent": "Your messages sent to public servers",
+      "requirements": "Requirements",
+      "delete-leave-server": "Leave/Delete all servers",
+      "delete-bots": "Delete all bots",
+      "delete-account-button": "Delete My Account"
+    },
+    "language": {
+      "details": "Contribute by submitting a PR in the GitHub repo.",
+      "translators": "Translators"
+    }
+  },
+  "server-settings": {
+    "tab-names": {
+      "general": "General",
+      "manage-channels": "Manage Channels",
+      "manage-roles": "Manage Roles",
+      "manage-invites": "Manage Invites",
+      "server-visibility": "Server Visibility",
+      "manage-notification": "Manage Notification",
+      "banned-users": "Banned Users",
+      "manage-users": "Manage Users",
+      "delete-server": "Delete Server"
+    }
+  },
+  "typing-status": {
+    "is-typing": "{0} is typing...",
+    "two-are-typing": "{0} and {1} are typing...",
+    "three-are-typing": "{0}, {1} and {2} are typing...",
+    "more-than-three": "{0} people are typing..."
+  },
+  "dm-tab": {
+    "friends": "Friends",
+    "recents": "Recents",
+    "saved-notes": "Saved Notes",
+    "add-friend": "Add Friend"
+  },
+  "dashboard-tab": {
+    "profile": "Profile",
+    "notifications": "Notificattions",
+    "click-to-add-custom-status": "Click to add custom status"
+  },
+  "add-friend-popout": {
+    "notice": "Add a friend by typing their username and tag.",
+    "adding": "Adding..."
+  },
+  "add-server-popout": {
+    "title": "Add Server",
+    "join-server-notice": "Join a server by entering in an invite code.",
+    "create-server-notice": "Create your own server. Start by naming your server.",
+    "tabs": {
+      "join": "Join",
+      "create": "Create"
+    }
+  }
+
+}
