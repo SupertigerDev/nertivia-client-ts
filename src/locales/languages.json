@@ -2,6 +2,15 @@
     "en": {
         "name": "English",
         "unicode": "🇬🇧",
-        "translators": ["Pancake"]
+        "translators": [
+            "Pancake"
+        ]
+    },
+    "de": {
+        "name": "German / Deutsch",
+        "unicode": "🇩🇪",
+        "translators": [
+            "Toby"
+        ]
     }
 }
