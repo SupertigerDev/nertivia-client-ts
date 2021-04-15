@@ -3,5 +3,10 @@
         "name": "English",
         "unicode": "🇬🇧",
         "translators": ["Pancake"]
+    },
+    "sv": {
+        "name": "Swedish / Svenska",
+        "unicode": "🇸🇪",
+        "translators": ["Chris"]
     }
 }
