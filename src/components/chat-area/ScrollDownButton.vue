@@ -6,7 +6,11 @@
       @click="ScrollDown"
     >
       <div class="material-icons icon">arrow_downward</div>
-      {{ hasNotification ? "New Messages" : "Back To Bottom" }}
+      {{
+        hasNotification
+          ? $t("message-area.new-messages")
+          : $t("message-area.back-to-bottom")
+      }}
     </div>
   </div>
 </template>

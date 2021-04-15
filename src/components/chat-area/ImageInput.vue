@@ -4,8 +4,12 @@
     <div class="details">
       <div class="name">{{ name }}</div>
       <div class="size">{{ sizeLabel }}</div>
-      <CheckBox name="Compress" v-model="compress" @change="onToggleCompress" />
-      <div class="title">Upload To:</div>
+      <CheckBox
+        :name="$t('upload-dialog.compress')"
+        v-model="compress"
+        @change="onToggleCompress"
+      />
+      <div class="title">{{ $t("upload-dialog.upload-to") }}:</div>
       <RadioBox
         :items="['Google Drive', 'Nertivia CDN']"
         @change="onRadioIndexChange"

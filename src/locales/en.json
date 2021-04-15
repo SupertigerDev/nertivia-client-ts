@@ -11,7 +11,13 @@
     "no-message-perm": "You don't have permission to talk in this channel.",
     "not-connected-server": "Not Connected",
     "attach-message": "Attach a message",
-    "type-message": "Type your message"
+    "type-message": "Type your message",
+    "back-to-bottom": "Back To Bottom",
+    "new-messages": "New Messages"
+  },
+  "upload-dialog": {
+    "compress": "Compress",
+    "upload-to": "Upload To"
   },
   "user-context": {
     "view-profile": "View Profile",
