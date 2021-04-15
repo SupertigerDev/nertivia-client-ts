@@ -13,5 +13,10 @@
         "name": "Swedish / Svenska",
         "unicode": "🇸🇪",
         "translators": ["Chris"]
+    },
+    "es": {
+        "name": "Spanish / Español",
+        "unicode": "🇪🇸",
+        "translators": ["Ender"]
     }
 }
