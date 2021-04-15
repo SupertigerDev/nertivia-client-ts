@@ -1,0 +1,167 @@
+{
+  "save-changes": "Zapisz zmiany",
+  "saving": "Zapisywanie...",
+  "are-you-sure": "Czy jesteś pewien?",
+  "copy-id-button": "Kopiuj ID",
+  "time": {
+    "today-at": "Dzisiaj o {0}",
+    "yesterday-at": "Wczoraj o {0}"
+  },
+  "message-area": {
+    "no-message-perm": "Nie masz uprawinień do pisania na tym kanale.",
+    "not-connected-server": "Niepołączony",
+    "attach-message": "Dodaj wiadomość",
+    "type-message": "Napisz wiadomość",
+    "back-to-bottom": "Powrót na dół",
+    "new-messages": "Nowe wiadomości"
+  },
+  "upload-dialog": {
+    "compress": "Kompresuj",
+    "upload-to": "Wyślij na"
+  },
+  "user-context": {
+    "view-profile": "Zobacz profil",
+    "edit-roles": "Edytuj role",
+    "kick": "Wyrzuć",
+    "ban": "Zbanuj",
+    "copy-user-tag": "Kopuj Użytkownik:Tag"
+  },
+  "message-context": {
+    "user": "Użytkownik",
+    "quote": "Cytat",
+    "edit": "Edyduj",
+    "copy": "Kopiuj",
+    "delete": "Usuń"
+  },
+  "server-context": {
+    "mark-as-read": "Oznacz jako przeczytane",
+    "server-settings": "Ustawienia serwera",
+    "leave-server": "Opuść serwer"
+  },
+  "channel-context": {
+    "mute-channel": "Wycisz kanał",
+    "unmute-channel": "Odcisz kanał"
+  },
+  "settings": {
+    "tab-names": {
+      "account": "Konto",
+      "notification": "Powiadomienia",
+      "manage-emojis": "Zarządzanie emoji",
+      "startup-options": "Opcje uruchamiania",
+      "program-activity": "Aktywność programu",
+      "manage-bots": "Zarządzanie botami",
+      "interface": "Interfejs",
+      "language": "Język",
+      "delete-account": "Usuń konto",
+      "changelog": "Dziennik zmian"
+    },
+    "account": {
+      "title": "Edytuj profil",
+      "change-password": "Zmień hasło",
+      "relink-google-drive": "Połącz dysk google ponownie",
+      "link-google-drive": "Połącz dysk google",
+      "more-profile": "Więcej profilu",
+      "more-profile-notice": "Ta informacja jest widoczna dla każdego."
+    },
+    "notification": {
+      "title": "Zmień ustawienia powiadomień.",
+      "notification-sound": "Dzwięk powiadomień",
+      "notification-sound-details": "Wydaje dzwięk, żeby zdobyć twoje zainteresowanie",
+      "push-notification": "Powiadomienie push",
+      "push-notification-details": "Otrzymaj pomiadomienie push, nawet kiedy aplikacja jest zamknięta."
+    },
+    "manage-emojis": {
+      "details": "Wyślij swoje emoji za darmo! Emotki muszą ważyć 3MB albo mniej.",
+      "supported-types": "Obsługiwane typy plików: png, jpg, gif",
+      "add-emojis-button": "Dodaj emoji"
+    },
+    "startup-options": {
+      "title": "Opcje uruchamiania aplikacji",
+      "notice": "Pobierz aplikację, żeby modyfikować te ustawienia.",
+      "open-on-startup": "Otwórz przy uruchamianiu systemu"
+    },
+    "program-activity": {
+      "details": "Dziel się programami lub grami, z których korzystasz poprzez dodanie ich niżej. Podmieni to twój status własny, kiedy program jest uruchomiony i przywróci go, kiedy program jest zamknięty.",
+      "notice": "Pobierz aplikację, żeby używać funkcji aktywności programu."
+    },
+    "manage-bots": {
+      "details": "Twórz użytkowników botów, które pozwolą ci używac naszego API do tworzenia fantastycznych botów.",
+      "command-notice": "Dodaj komendy bota, żeby powiedzieć użytkownikom jakie ma komendy",
+      "create-bot-button": "Stwórz bota",
+      "add-command-button": "Dodaj komendę",
+      "edit-bot": "Edytuj bota",
+      "edit-commands": "Edytuj komendy",
+      "create-invite-link": "Stwórz link zaproszenia",
+      "copy-invite-url": "Kopiuj link zaproszenia",
+      "manage-token": "Zarządzaj tokenem",
+      "show-token": "Pokaż token",
+      "copy-token": "Kopiuj token",
+      "reset-token": "Resetuj token",
+      "delete-bot": "Usuń bota"
+    },
+    "delete-account": {
+      "notice": "Dążysz do usunięcia swojego konta",
+      "what-gets-deleted": "Co zostanie usunięte",
+      "what-wont-delete": "Co nie zostanie usunięte",
+      "messages-sent": "Twoje wiadomości wysłane na serwerach",
+      "requirements": "Wymagania",
+      "delete-leave-server": "Opuść/Usuń wszystkie serwery",
+      "delete-bots": "Usuń wszystkie boty",
+      "delete-account-button": "Usuń moje konto"
+    },
+    "language": {
+      "details": "Może być konieczne odświeżenie po zmianie języka. Przyczyń się przesyłając PR w repo na GitHubie.",
+      "translators": "Tłumaczący"
+    }
+  },
+  "server-settings": {
+    "tab-names": {
+      "general": "Generalne",
+      "manage-channels": "Zarządzanie kanałami",
+      "manage-roles": "Zarządzanie rolami",
+      "manage-invites": "Zarządzanie zaproszeniami",
+      "server-visibility": "Widoczność serwer",
+      "manage-notification": "Zarządzanie powiadomieniami",
+      "banned-users": "Zbanowani użytkownicy",
+      "manage-users": "Zarządzanie użytkownikami",
+      "delete-server": "Usuń serwer"
+    }
+  },
+  "typing-status": {
+    "is-typing": "{0} pisze...",
+    "two-are-typing": "{0} i {1} piszą...",
+    "three-are-typing": "{0}, {1} i {2} piszą...",
+    "more-than-three": "{0} osób pisze..."
+  },
+  "dm-tab": {
+    "friends": "Znajomi",
+    "recents": "Ostatnie",
+    "saved-notes": "Zapisane notatki",
+    "add-friend": "Dodaj znajomego"
+  },
+  "dashboard-tab": {
+    "profile": "Profil",
+    "notifications": "Powiadomienia",
+    "click-to-add-custom-status": "Kliknij, żeby dodać status własny"
+  },
+  "add-friend-popout": {
+    "notice": "Dodaj znajomego poprzez wpisanie jego nazwy użytkownika i tagu.",
+    "adding": "Dodawanie..."
+  },
+  "add-server-popout": {
+    "title": "Dodaj serwer",
+    "join-server-notice": "Dołącz do serwera poprzez zaproszenie.",
+    "create-server-notice": "Stwórz własny serwer. Zacznij od jego nazwania.",
+    "tabs": {
+      "join": "Dołącz",
+      "create": "Stwórz"
+    }
+  },
+  "presence": {
+    "offline": "Niedostępny",
+    "online": "Dostępny",
+    "away": "Zaraz wracam",
+    "busy": "Zajęty",
+    "looking-to-play": "Chcę grać"
+  }
+}
