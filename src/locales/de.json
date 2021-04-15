@@ -1,0 +1,149 @@
+{
+  "settings": {
+    "startup-options": {
+      "open-on-startup": "Nertivia beim Systemstart ausführen",
+      "notice": "Um diese Einstellungen zu ändern, müssen Sie die Nertivia Desktop-App herunterladen.",
+      "title": "Startoptionen für die Desktop-App"
+    },
+    "account": {
+      "change-password": "Passwort ändern",
+      "link-google-drive": "Google Drive verknüpfen",
+      "more-profile": "Mehr Profil",
+      "more-profile-notice": "Diese Informationen sind öffentlich",
+      "title": "Bearbeiten Sie Ihr Profil",
+      "relink-google-drive": "Google Drive erneut verknüpfen"
+    },
+    "delete-account": {
+      "delete-account-button": "Mein Konto löschen",
+      "delete-bots": "Alle Bots löschen",
+      "delete-leave-server": "Alle Server verlassen/löschen",
+      "messages-sent": "Ihre Nachrichten in öffentlichen Servern",
+      "notice": "Sie sind dabei, Ihr Konto zu löschen",
+      "requirements": "Vorraussetzungen",
+      "what-gets-deleted": "Was wird gelöscht",
+      "what-wont-delete": "Was wird nicht gelöscht"
+    },
+    "language": {
+      "details": "Tragen Sie bei, indem Sie eine PR in der GitHub-Repository einreichen.",
+      "translators": "Übersetzer"
+    },
+    "manage-bots": {
+      "add-command-button": "Befehl hinzufügen",
+      "command-notice": "Fügen Sie Bot-Befehle hinzu, um Benutzer einfach darüber zu informieren, welche Befehle für Ihren Bot vorhanden sind",
+      "copy-invite-url": "Einladung kopieren",
+      "copy-token": "Token kopieren",
+      "create-bot-button": "Bot erstellen",
+      "create-invite-link": "Einladung erstellen",
+      "delete-bot": "Bot löschen",
+      "details": "Erstellen Sie Bot-Benutzer, mit denen Sie mithilfe unserer API Ihre eigenen Bots erstellen können.",
+      "edit-bot": "Bot bearbeiten",
+      "edit-commands": "Befehle bearbeiten",
+      "manage-token": "Token verwalten",
+      "reset-token": "Token zurücksetzen",
+      "show-token": "Token anzeigen"
+    },
+    "manage-emojis": {
+      "add-emojis-button": "Emojis hinzufügen",
+      "details": "Laden Sie kostenlos Ihre eigenen hübschen Emojis hoch! Emojis dürfen nicht größer als 3 MB sein.",
+      "supported-types": "Unterstützte Datei-Typen sind: png, jpg, gif"
+    },
+    "notification": {
+      "notification-sound": "Benachrichtigungston",
+      "notification-sound-details": "Macht ein cooles Geräusch, um Ihre Aufmerksamkeit zu erregen",
+      "push-notification": "Push-Benachrichtigung",
+      "push-notification-details": "Erhalten Sie Push-Benachrichtigungen, auch wenn die App geschlossen ist.",
+      "title": "Ändern Sie Ihre Benachrichtigungseinstellungen."
+    },
+    "program-activity": {
+      "details": "Teilen Sie Programme oder Spiele, die Sie ausführen, indem Sie unten Apps hinzufügen. Dies ersetzt Ihren benutzerdefinierten Status beim Öffnen eines Programms und wird beim Schließen des Programms zurückgesetzt.",
+      "notice": "Um die Programmaktivitätsfunktion nutzen zu können, müssen Sie die Nertivia Desktop-App herunterladen."
+    },
+    "tab-names": {
+      "account": "Konto",
+      "changelog": "Changelog",
+      "delete-account": "Konto löschen",
+      "interface": "Benutzeröberfläche",
+      "language": "Sprache",
+      "manage-bots": "Bots verwalten",
+      "manage-emojis": "Emojis Verwalten",
+      "notification": "Benachrichtigungen",
+      "program-activity": "Programmaktivität",
+      "startup-options": "Startoptionen"
+    }
+  },
+  "add-friend-popout": {
+    "adding": "Füge hinzu...",
+    "notice": "Fügen Sie einen Freund hinzu, indem Sie dessen Benutzernamen und Tag eingeben."
+  },
+  "add-server-popout": {
+    "create-server-notice": "Erstellen Sie Ihren eigenen Server. Benennen Sie zunächst Ihren Server.",
+    "join-server-notice": "Treten Sie einem Server bei, indem Sie einen Einladungscode eingeben.",
+    "tabs": {
+      "create": "Erstellen",
+      "join": "Beitreten"
+    },
+    "title": "Server hinzufügen"
+  },
+  "are-you-sure": "Sind Sie sicher?",
+  "copy-id-button": "ID kopieren",
+  "dashboard-tab": {
+    "notifications": "Benachrichtigungen",
+    "profile": "Profil",
+    "click-to-add-custom-status": "Klicken Sie hier, um einen benutzerdefinierten Status hinzuzufügen"
+  },
+  "dm-tab": {
+    "friends": "Freunde",
+    "add-friend": "Freund hinzufügen",
+    "recents": "Letzte",
+    "saved-notes": "Gespeicherte Notizen"
+  },
+  "message-area": {
+    "attach-message": "Nachricht hinzufügen",
+    "no-message-perm": "Sie haben nicht die nötigen Rechte, um in diesem Kanal zu sprechen.",
+    "not-connected-server": "Nicht verbunden",
+    "type-message": "Geben Sie Ihre Nachricht ein"
+  },
+  "message-context": {
+    "copy": "Kopieren",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "quote": "Zitieren",
+    "user": "Benutzer"
+  },
+  "save-changes": "Änderungen speichern",
+  "saving": "Speichere...",
+  "server-context": {
+    "mark-as-read": "Als gelesen markieren",
+    "server-settings": "Server Einstellungen"
+  },
+  "server-settings": {
+    "tab-names": {
+      "banned-users": "Gebannte Benutzer",
+      "delete-server": "Server löschen",
+      "general": "Allgemein",
+      "manage-channels": "Kanäle verwalten",
+      "manage-invites": "Einladungen verwalten",
+      "manage-notification": "Benachrichtigung verwalten",
+      "manage-roles": "Rollen verwalten",
+      "manage-users": "Benutzer verwalten",
+      "server-visibility": "Server-Sichtbarkeit"
+    }
+  },
+  "time": {
+    "today-at": "Heute um {0}",
+    "yesterday-at": "Gestern um {0}"
+  },
+  "typing-status": {
+    "is-typing": "{0} schreibt...",
+    "more-than-three": "{0} Leute schreiben...",
+    "three-are-typing": "{0}, {1} und {2} schreiben...",
+    "two-are-typing": "{0} und {1} schreiben..."
+  },
+  "user-context": {
+    "ban": "Bannen",
+    "copy-user-tag": "Benutzer:Tag kopieren",
+    "edit-roles": "Rollen bearbeiten",
+    "kick": "Kicken",
+    "view-profile": "Profil ansehen"
+  }
+}

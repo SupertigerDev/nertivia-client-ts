@@ -1,4 +1,9 @@
 {
+    "de": {
+        "name": "German / Deutsch",
+        "unicode": "🇩🇪",
+        "translators": ["Toby"]
+    },
     "en": {
         "name": "English",
         "unicode": "🇬🇧",
