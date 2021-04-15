@@ -39,22 +39,17 @@ export default class extends Vue {
     PopoutsModule.ClosePopout("context");
   }
   itemClick(item: any) {
-    switch (item.name) {
-      case "Manage Notification":
-        this.$router.push(
-          `/app/servers/${this.data.server_id}/settings/manage-notification`
-        );
-        break;
-      case "Copy ID":
+    switch (item.id) {
+      case "copy_id":
         this.$copyText(this.data.channelID);
         break;
-      case "Mark As Read":
+      case "mark_as_read":
         this.markAsRead();
         break;
-      case "Unmute Channel":
+      case "unmute_channel":
         unmuteServerChannel(this.server.server_id, this.channel.channelID);
         break;
-      case "Mute Channel":
+      case "mute_channel":
         muteServerChannel(this.server.server_id, this.channel.channelID);
         break;
       default:
@@ -69,18 +64,23 @@ export default class extends Vue {
   get items() {
     const items: any = [
       {
-        name: "Mark As Read",
+        id: "mark_as_read",
+        name: this.$t("server-context.mark-as-read"),
         icon: "markunread_mailbox",
         disabled: !this.notifications
       },
       {
-        name: this.isMuted ? "Unmute Channel" : "Mute Channel",
+        id: this.isMuted ? "unmute_channel" : "mute_channel",
+        name: this.isMuted
+          ? this.$t("channel-context.unmute-channel")
+          : this.$t("channel-context.mute-channel"),
         icon: this.isMuted ? "notifications" : "notifications_off",
         warn: !this.isMuted
       },
       { type: "seperator" },
       {
-        name: "Copy ID",
+        id: "copy_id",
+        name: this.$t("copy-id-button"),
         icon: "developer_board"
       }
     ];
