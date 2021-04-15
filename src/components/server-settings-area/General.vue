@@ -55,7 +55,7 @@
       />
       <CustomButton
         :filled="true"
-        :name="!requestSent ? 'Save Changes' : 'Saving...'"
+        :name="!requestSent ? $t('save-changes') : $t('saving')"
         icon="save"
         v-if="showSaveButton"
         @click="update"

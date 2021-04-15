@@ -2,14 +2,11 @@
   <div class="program-activity">
     <div class="box">
       <InformationTemplate
-        title="Program Activity"
-        information="Share programs or games you are running by adding apps below. This
-      will replace your custom status when a program is opened and revert back
-      when the program is closed."
+        :title="$t('settings.tab-names.program-activity')"
+        :information="$t('settings.program-activity.details')"
       />
       <div class="warn" v-if="!$isElectron">
-        To use the program acitivty feature, you must download the Nertivia
-        desktop app.
+        {{ $t("settings.program-activity.notice") }}
       </div>
       <div class="inner-content" :class="{ disabled: !$isElectron }">
         <div class="program-selector">

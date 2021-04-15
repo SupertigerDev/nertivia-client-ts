@@ -1,6 +1,9 @@
 <template>
   <div class="interface">
-    <InformationTemplate class="desc" title="Edit Your Profile" />
+    <InformationTemplate
+      class="desc"
+      :title="$t('settings.account.title')"
+    />
     <div class="box">
       <div class="error" v-if="errors['other']">{{ errors["other"] }}</div>
 
@@ -102,7 +105,7 @@
         type="password"
       />
       <div class="link" v-if="!showNewPassword" @click="showNewPassword = true">
-        Change Password
+        {{ $t("settings.account.change-password") }}
       </div>
       <CustomInput
         v-if="showNewPassword"
@@ -122,14 +125,16 @@
       />
       <CustomButton
         :filled="true"
-        :name="!requestSent ? 'Save Changes' : 'Saving...'"
+        :name="!requestSent ? $t('save-changes') : $t('saving')"
         icon="save"
         v-if="showSaveButton"
         @click="update"
       />
       <div class="link" @click="relinkButton">
         {{
-          me.googleDriveLinked ? "Re-link Google Drive" : "Link Google Drive"
+          me.googleDriveLinked
+            ? $t("settings.account.relink-google-drive")
+            : $t("settings.account.link-google-drive")
         }}
       </div>
     </div>

@@ -4,11 +4,11 @@
       <div class="content animate-in">
         <div class="header">
           <div class="icon material-icons">person_add</div>
-          <div class="text">Add Friend</div>
+          <div class="text">{{ $t("dm-tab.add-friend") }}</div>
         </div>
         <div class="inner-content">
           <div class="info">
-            Add a friend by typing their username and tag.
+            {{ $t("add-friend-popout.notice") }}
           </div>
           <customInput
             class="input"
@@ -20,7 +20,11 @@
             :validMessage="success"
           />
           <CustomButton
-            :name="requestSent ? 'Adding...' : 'Add Friend'"
+            :name="
+              requestSent
+                ? $t('add-friend-popout.adding')
+                : $t('dm-tab.add-friend')
+            "
             @click="sendRequest"
           />
         </div>

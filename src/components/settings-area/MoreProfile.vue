@@ -2,8 +2,8 @@
   <div class="content">
     <InformationTemplate
       class="desc"
-      title="More Profile"
-      information="This information is seen by everyone."
+      :title="$t('settings.account.more-profile')"
+      :information="$t('settings.account.more-profile-notice')"
     />
     <div class="box">
       <CustomInput title="Name" v-model="name" prefixIcon="face" />
@@ -46,7 +46,7 @@
       />
       <CustomButton
         :filled="true"
-        :name="!saving ? 'Save Changes' : 'Saving...'"
+        :name="!saving ? $t('save-changes') : $t('saving')"
         icon="save"
         v-if="showSaveButton"
         @click="save"

@@ -31,6 +31,15 @@ export default class App extends Vue {
       changeCssVar(key, value, false);
     }
     setThemeColor();
+    this.setLocale();
+  }
+  setLocale() {
+    const currentLocale = localStorage["locale"] || "en";
+    if (currentLocale === "en") return;
+    import(`@/locales/${currentLocale}.json`).then(messages => {
+      this.$i18n.setLocaleMessage(currentLocale, messages.default);
+      this.$i18n.locale = currentLocale;
+    });
   }
 }
 </script>

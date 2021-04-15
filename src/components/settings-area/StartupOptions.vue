@@ -3,15 +3,15 @@
     <div class="box">
       <div class="description">
         <div class="material-icons">info</div>
-        Desktop App Startup Options
+        {{ $t("settings.startup-options.title") }}
       </div>
       <div class="warn" v-if="!$isElectron">
-        To modify these settings, you must download the Nertivia desktop app.
+        {{ $t("settings.startup-options.notice") }}
       </div>
       <div :class="{ disabled: !$isElectron }">
         <CheckBox
           v-model="autoLaunch"
-          name="Open Nertivia On Startup"
+          :name="$t('settings.startup-options.open-on-startup')"
           class="check-box"
           @change="toggleStartup"
         />

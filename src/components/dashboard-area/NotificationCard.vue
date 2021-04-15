@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="title">
-      Notifications
+      {{ $t("dashboard-tab.notifications") }}
     </div>
     <div v-if="!notificatinExists" class="caught-up">All Caught up!</div>
     <div class="item-title" v-if="dmNotifications.length">

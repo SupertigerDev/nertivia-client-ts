@@ -3,11 +3,11 @@
     <div class="tabs">
       <div class="tab" :class="{ selected: tab === 0 }" @click="tab = 0">
         <div class="material-icons icon">account_circle</div>
-        Edit Bot
+        {{ $t("settings.manage-bots.edit-bot") }}
       </div>
       <div class="tab" :class="{ selected: tab === 1 }" @click="tab = 1">
         <div class="material-icons icon">code</div>
-        Edit Commands
+        {{ $t("settings.manage-bots.edit-commands") }}
       </div>
     </div>
     <div class="content">

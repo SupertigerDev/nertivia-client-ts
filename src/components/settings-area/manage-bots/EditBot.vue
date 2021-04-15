@@ -42,7 +42,7 @@
 
       <CustomButton
         :filled="true"
-        :name="!requestSent ? 'Save Changes' : 'Saving...'"
+        :name="!requestSent ? $t('save-changes') : $t('saving')"
         icon="save"
         style="margin-bottom: 10px"
         v-if="showSaveButton"
@@ -51,7 +51,7 @@
 
       <InformationTemplate
         style="margin-bottom:10px;opacity:0.7"
-        title="Create Invite Link"
+        :title="$t('settings.manage-bots.create-invite-link')"
       />
       <CustomInput
         title="Invite Link"
@@ -72,7 +72,7 @@
         />
       </div>
       <CustomButton
-        name="Copy Invite URL"
+        :name="$t('settings.manage-bots.copy-invite-url')"
         :filled="true"
         icon="developer_board"
         style="align-self:flex-start;margin-left:-2px;"
@@ -80,10 +80,10 @@
       />
       <InformationTemplate
         style="margin-bottom:10px;margin-top:10px;opacity:0.7"
-        title="Manage Token"
+        :title="$t('settings.manage-bots.manage-token')"
       />
       <div class="link" v-if="!showToken" @click="showToken = true">
-        Show Token
+        {{ $t("settings.manage-bots.show-token") }}
       </div>
       <CustomInput
         title="Token"
@@ -95,13 +95,13 @@
       />
       <div class="buttons">
         <CustomButton
-          name="Copy Token"
+          :name="$t('settings.manage-bots.copy-token')"
           icon="developer_board"
           :filled="true"
           @click="copyToken"
         />
         <CustomButton
-          name="Reset Token"
+          :name="$t('settings.manage-bots.reset-token')"
           icon="restart_alt"
           :warn="true"
           @click="resetToken"
@@ -109,10 +109,14 @@
       </div>
       <InformationTemplate
         style="margin-bottom:10px;margin-top:10px;opacity:0.7"
-        title="Delete Bot"
+        :title="$t('settings.manage-bots.delete-bot')"
       />
       <CustomButton
-        :name="deleteBotConfirm ? 'Are You Sure?' : 'Delete Bot'"
+        :name="
+          deleteBotConfirm
+            ? $t('are-you-sure')
+            : $t('settings.manage-bots.delete-bot')
+        "
         icon="delete"
         :warn="true"
         @click="deleteBot"

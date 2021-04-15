@@ -1,6 +1,6 @@
 <template>
   <div class="enter-server-code">
-    <div class="title">Join a server by entering in an invite code.</div>
+    <div class="title">{{ $t("add-server-popout.join-server-notice") }}</div>
     <form action="#" class="form" @submit.prevent="joinServer">
       <CustomInput title="Invite Code" v-model="code" :error="error" />
       <CustomButton name="Join Server" />

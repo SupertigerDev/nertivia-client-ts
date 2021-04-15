@@ -3,11 +3,10 @@
     <div class="inner-container">
       <div class="description">
         <div class="material-icons">info</div>
-        Manage Bots
+        {{ $t("settings.tab-names.manage-bots") }}
       </div>
       <div class="notice">
-        Create bot users which will allow you to use our API to create your own
-        fancy bots.
+        {{ $t("settings.manage-bots.details") }}
       </div>
 
       <SelectedBotPage
@@ -20,7 +19,7 @@
       <div class="box" v-if="selectedBotIndex === -1">
         <CustomButton
           class="button"
-          name="Create Bot"
+          :name="$t('settings.manage-bots.create-bot-button')"
           icon="add"
           @click="createBot"
         />

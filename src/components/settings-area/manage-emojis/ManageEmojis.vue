@@ -4,16 +4,16 @@
       <div class="details">
         <div class="description">
           <div class="material-icons">info</div>
-          Manage Emojis
+          {{ $t("settings.tab-names.manage-emojis") }}
         </div>
         <div class="notice">
-          Upload your own pretty emojis for free! Emojis must be 3MB or less.
-          <div>Supported types are: png, jpg, gif</div>
+          {{ $t("settings.manage-emojis.details") }}
+          <div>{{ $t("settings.manage-emojis.supported-types") }}</div>
         </div>
       </div>
       <CustomButton
         class="add-button"
-        name="Add Emojis"
+        :name="$t('settings.manage-emojis.add-emojis-button')"
         icon="add"
         @click="$refs.addEmoji.click()"
         :filled="true"

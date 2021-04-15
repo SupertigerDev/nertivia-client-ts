@@ -6,7 +6,13 @@
         Change the app language.
       </div>
       <div class="language-list">
-        <div class="item" v-for="obj in mappedLanguages" :key="obj.id">
+        <div
+          class="item"
+          :class="{ selected: currentLang === obj.id }"
+          @click="changeLanguage(obj.id)"
+          v-for="obj in mappedLanguages"
+          :key="obj.id"
+        >
           <div class="flag" v-html="obj.flagImage"></div>
           <div class="details">
             <div class="name">{{ obj.name }}</div>
@@ -36,7 +42,20 @@ import emojiParser from "@/utils/emojiParser";
 @Component
 export default class Language extends Vue {
   languages = languages;
+  currentLang = localStorage["locale"] || "en";
 
+  changeLanguage(id: string) {
+    this.currentLang = id;
+    localStorage.setItem("locale", id);
+    if (id === "en") {
+      this.$i18n.locale = "en";
+      return;
+    }
+    import(`@/locales/${id}.json`).then(messages => {
+      this.$i18n.setLocaleMessage(id, messages.default);
+      this.$i18n.locale = id;
+    });
+  }
   get mappedLanguages() {
     return Object.keys(languages).map(key => {
       return {
@@ -65,18 +84,36 @@ export default class Language extends Vue {
 }
 .flag {
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   margin-right: 5px;
 }
 .translators {
   display: flex;
+  gap: 5px;
+  font-size: 14px;
+}
+.language-list {
+  display: flex;
+  flex-direction: column;
   gap: 5px;
 }
 .item {
   display: flex;
   align-items: center;
   align-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  padding: 5px;
+  transition: 0.2s;
+  cursor: pointer;
+  user-select: none;
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  &.selected {
+    background: var(--primary-color);
+  }
 }
 .item-label {
   opacity: 0.8;
@@ -86,6 +123,5 @@ export default class Language extends Vue {
 }
 .box {
   padding: 10px;
-  align-self: flex-start;
 }
 </style>

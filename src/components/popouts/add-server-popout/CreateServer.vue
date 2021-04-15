@@ -1,7 +1,7 @@
 <template>
   <div class="add-server">
     <div class="title">
-      Create your own server. Start by naming your server.
+      {{ $t("add-server-popout.create-server-notice") }}
     </div>
     <form action="#" class="form" @submit.prevent="createServer">
       <CustomInput title="Server Name" v-model="name" :error="error" />

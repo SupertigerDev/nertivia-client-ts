@@ -4,15 +4,15 @@
       <div class="content animate-in">
         <div class="header">
           <div class="icon material-icons">dns</div>
-          <div class="text">Add Server</div>
+          <div class="text">{{ $t("add-server-popout.title") }}</div>
         </div>
         <div class="inner-content">
           <div class="tabs">
             <div class="tab" :class="{ selected: tab === 0 }" @click="tab = 0">
-              Join
+              {{ $t("add-server-popout.tabs.join") }}
             </div>
             <div class="tab" :class="{ selected: tab === 1 }" @click="tab = 1">
-              Create
+              {{ $t("add-server-popout.tabs.create") }}
             </div>
           </div>
           <div class="container">

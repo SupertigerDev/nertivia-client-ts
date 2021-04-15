@@ -1,3 +1,5 @@
+import i18n from "@/i18n";
+
 enum Type {
   "12h" = "12h",
   "24h" = "24h"
@@ -84,9 +86,9 @@ export default (milliseconds: number, type?: Type) => {
   const messageDate = new Date(milliseconds);
 
   if (sameDay(now, messageDate)) {
-    friendlyDate = "Today at " + getFullTime(messageDate, type);
+    friendlyDate = i18n.t("time.today-at",[getFullTime(messageDate, type)]) as string;
   } else if (yesterDay(messageDate)) {
-    friendlyDate = "Yesterday at " + getFullTime(messageDate, type);
+    friendlyDate = i18n.t("time.yesterday-at",[getFullTime(messageDate, type)]) as string;
   } else {
     friendlyDate = getFullDateWithTime(messageDate, type);
   }

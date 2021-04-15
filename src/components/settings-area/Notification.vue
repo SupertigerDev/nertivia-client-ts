@@ -3,23 +3,22 @@
     <div class="box">
       <div class="description">
         <div class="material-icons">info</div>
-        Change your notification settings.
+        {{ $t("settings.notification.title") }}
       </div>
       <CheckBox
         v-model="notificationSound"
-        name="Notification Sound"
+        :name="$t('settings.notification.notification-sound')"
         class="check-box"
-        description="Makes a cool sound to get your attention."
+        :description="$t('settings.notification.notification-sound-details')"
         @change="notificationSoundToggled"
       />
       <CheckBox
         v-if="FCMSupported"
         v-model="pushNotification"
         class="check-box"
-        name="Push Notification"
+        :name="$t('settings.notification.push-notification')"
         @change="pushNotificationToggled"
-        description="Get push notifications even when the app is closed. (Most useful to use
-        on a mobile)"
+        :description="$t('settings.notification.push-notification-details')"
       />
     </div>
   </div>

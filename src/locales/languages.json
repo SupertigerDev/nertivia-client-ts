@@ -3,5 +3,10 @@
         "name": "English",
         "unicode": "🇬🇧",
         "translators": ["Pancake"]
+    },
+    "test": {
+        "name": "Test Language",
+        "unicode": "😀",
+        "translators": ["Pancake"]
     }
 }

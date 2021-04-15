@@ -78,6 +78,9 @@ export default class MainApp extends Vue {
       this.$delete(this.typingObj[message.channelID], message.creator.id);
     }
   }
+  makeStrong(text: string) {
+    return `<strong>${text}</strong>`;
+  }
 
   get channelID() {
     return this.$route.params.channel_id;
@@ -87,25 +90,24 @@ export default class MainApp extends Vue {
     if (!arr.length) return null;
     switch (true) {
       case arr.length == 1:
-        return `<strong>${this.escapeHtml(
-          arr[0].username
-        )}</strong> is typing...`;
+        return this.$t("typing-status.is-typing", [
+          this.makeStrong(arr[0].username)
+        ]);
       case arr.length == 2:
-        return `<strong>${this.escapeHtml(
-          arr[0].username
-        )}</strong> and <strong>${this.escapeHtml(
-          arr[1].username
-        )}</strong> are typing...`;
+        return this.$t("typing-status.two-are-typing", [
+          this.makeStrong(arr[0].username),
+          this.makeStrong(arr[1].username)
+        ]);
       case arr.length == 3:
-        return `<strong>${this.escapeHtml(
-          arr[0].username
-        )}</strong>, <strong>${this.escapeHtml(
-          arr[1].username
-        )}</strong> and <strong>${this.escapeHtml(
-          arr[2].username
-        )}</strong> are typing...`;
+        return this.$t("typing-status.three-are-typing", [
+          this.makeStrong(arr[0].username),
+          this.makeStrong(arr[1].username),
+          this.makeStrong(arr[3].username)
+        ]);
       case arr.length > 3:
-        return `<strong>${arr.length}</strong> people are typing...`;
+        return this.$t("typing-status.more-than-three", [
+          this.makeStrong(arr.length.toString())
+        ]);
       default:
         break;
     }

@@ -15,7 +15,7 @@
       <CustomButton
         icon="add"
         class="button"
-        name="Add Command"
+        :name="$t('settings.manage-bots.add-command-button')"
         :filled="true"
         @click="addButton"
       />
@@ -37,7 +37,7 @@
       <CustomButton
         icon="save"
         class="button"
-        :name="!requestSent ? 'Save Changes' : 'Saving...'"
+        :name="!requestSent ? $t('save-changes') : $t('saving')"
         v-if="showSaveButton"
         :filled="true"
         @click="saveButton"

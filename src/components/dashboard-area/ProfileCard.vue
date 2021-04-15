@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="title" v-if="!hideTitle">
-      Profile
+      {{ $t("dashboard-tab.profile") }}
     </div>
     <div class="content">
       <avatar-image
@@ -23,16 +23,19 @@
       >
         <Markup
           :largeEmoji="false"
-          v-if="!editCustomStatus"
-          :text="customStatus || 'Click to add custom status.'"
+          v-if="!editCustomStatus && customStatus"
+          :text="customStatus"
         />
         <input
           ref="input"
           @keydown="keyDownEvent"
-          v-else
+          v-if="editCustomStatus"
           type="text"
           v-model="customStatusText"
         />
+        <div class="placeholder" v-if="!customStatus && !editCustomStatus">
+          {{ $t("dashboard-tab.click-to-add-custom-status") }}
+        </div>
       </div>
       <div class="online-status" ref="currentStatus" @click="openStatusContext">
         <div class="dot" :style="{ background: statusColor }" />
@@ -207,7 +210,7 @@ export default class ProfileCard extends Vue {
 .custom-status {
   white-space: nowrap;
   overflow: hidden;
-  max-width: 90%;
+  max-width: 95%;
   text-overflow: ellipsis;
   align-self: center;
   margin-top: 5px;
@@ -215,9 +218,11 @@ export default class ProfileCard extends Vue {
   cursor: pointer;
   user-select: none;
   transition: 0.2s;
+  opacity: 0.7;
   &:hover {
     background: rgba(255, 255, 255, 0.2);
     border-radius: 4px;
+    opacity: 1;
   }
   input {
     background: transparent;
@@ -225,6 +230,9 @@ export default class ProfileCard extends Vue {
     border: none;
     outline: none;
     text-align: center;
+  }
+  .placeholder {
+    font-size: 14px;
   }
 }
 .online-status {

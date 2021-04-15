@@ -7,7 +7,7 @@
         :class="{ selected: selectedTab === 0 }"
       >
         <div class="material-icons">group</div>
-        Friends
+        {{ $t("dm-tab.friends") }}
       </div>
       <div
         class="tab"
@@ -15,7 +15,7 @@
         :class="{ selected: selectedTab === 1 }"
       >
         <div class="material-icons">access_time</div>
-        Recents
+        {{ $t("dm-tab.recents") }}
       </div>
     </div>
     <FriendList v-if="selectedTab === 0" />
@@ -27,11 +27,11 @@
         :class="{ selected: savedNotesSelected }"
       >
         <div class="icon material-icons">book</div>
-        <div class="title">Saved Notes</div>
+        <div class="title">{{ $t("dm-tab.saved-notes") }}</div>
       </div>
       <div class="button" @click="addFriendButton">
         <div class="icon material-icons">person_add</div>
-        <div class="title">Add Friend</div>
+        <div class="title">{{ $t("dm-tab.add-friend") }}</div>
       </div>
     </div>
   </div>

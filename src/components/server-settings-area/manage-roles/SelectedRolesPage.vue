@@ -49,7 +49,7 @@
     <CustomButton
       class="button"
       :filled="true"
-      :name="!requestSent ? 'Save Changes' : 'Saving...'"
+      :name="!requestSent ? $t('save-changes') : $t('saving')"
       icon="save"
       v-if="showSaveButton"
       @click="update"
@@ -63,7 +63,7 @@
           ? 'Delete Role'
           : deleteRequestSent
           ? 'Deleting Role...'
-          : 'Are you sure?'
+          : $t('are-you-sure')
       "
       :warn="true"
       icon="delete"
