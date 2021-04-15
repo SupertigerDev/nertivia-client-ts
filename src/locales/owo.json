@@ -1,0 +1,150 @@
+{
+  "save-changes": "Save Changes",
+  "saving": "Saving...",
+  "are-you-sure": "Awe you suwe?",
+  "copy-id-button": "Copy ID",
+  "time": {
+    "today-at": "Today at {0}",
+    "yesterday-at": "Yestewday at {0}"
+  },
+  "message-area": {
+    "no-message-perm": "You don't have pewmission to tawk in this channew.",
+    "not-connected-sewvew": "Nyat Connected",
+    "attach-message": "Attach a message",
+    "type-message": "Type youw message"
+  },
+  "user-context": {
+    "view-profile": "View Pwofiwe",
+    "edit-roles": "Edit Wowes",
+    "kick": "Kick",
+    "ban": "Ban",
+    "copy-user-tag": "Copy Usew:Tag"
+  },
+  "message-context": {
+    "user": "Usew",
+    "quote": "Qwote",
+    "edit": "Edit",
+    "copy": "Copy",
+    "delete": "Dewete"
+  },
+  "server-context": {
+    "mark-as-read": "Mawk As Wead",
+    "server-settings": "Sewvew Settings"
+  },
+  "settings": {
+    "tab-names": {
+      "account": "Account",
+      "notification": "Notification",
+      "manage-emojis": "Manage Emojis",
+      "startup-options": "Stawtup Options",
+      "program-activity": "Progwam Activity",
+      "manage-bots": "Manage Bots",
+      "interface": "Intewface",
+      "language": "Wanguage",
+      "delete-account": "Deete Account",
+      "changelog": "Changewog"
+    },
+    "account": {
+      "title": "Edit Youw Pwofiwe",
+      "change-password": "Change Passwowd",
+      "relink-google-drive": "We-wink Googwe Dive",
+      "link-google-drive": "Wink Googwe Dive",
+      "more-profile": "Mowe Pwofiwe",
+      "more-profile-notice": "This infwowmation is seen by evewyone."
+    },
+    "notification": {
+      "title": "Change youw notification settings.",
+      "notification-sound": "Notification Sound",
+      "notification-sound-details": "Makes a coow sound to get youw attention",
+      "push-notification": "Push Notification",
+      "push-notification-details": "Get push notifications even when the app is cwosed."
+    },
+    "manage-emojis": {
+      "details": "Upwoad youw own pwetty emojis fow fwee! Emojis must be 3MB ow wess.",
+      "supported-types": "Suppowted types awe: png, jpg, gif",
+      "add-emojis-button": "Add Emojis"
+    },
+    "startup-options": {
+      "title": "Desktop App Stawtup Options",
+      "notice": "To modify these settings, you must downwoad the Newtivia desktop app.",
+      "open-on-startup": "Open Newtivia On Stawtup"
+    },
+    "program-activity": {
+      "details": "Shawe pwogwams ow games you awe wunning by adding apps bewow. This wiww wepwace youw custom status when a pwogwam is opened and wevewt back when the pwogwam is cwosed.",
+      "notice": "To use the pwogwam acitivty featue, you must downwoad the Newtivia desktop app."
+    },
+    "manage-bots": {
+      "details": "Cweate bot usews which wiww awwow you to use ouw API to cweate you own fancy bots.",
+      "command-notice": "Add bot commands to easiwy wet usews know which commands exist fow youw bot",
+      "create-bot-button": "Cweate Bot",
+      "add-command-button": "Add Command",
+      "edit-bot": "Edit Bot",
+      "edit-commands": "Edit Commands",
+      "create-invite-link": "Cweate Invite Wink",
+      "copy-invite-url": "Copy Invite URL",
+      "manage-token": "Manage Token",
+      "show-token": "Show Token",
+      "copy-token": "Copy Token",
+      "reset-token": "Weset Token",
+      "delete-bot": "Dewete Bot"
+    },
+    "delete-account": {
+      "notice": "You awe about to dewete youw account",
+      "what-gets-deleted": "What wiww get deweted",
+      "what-wont-delete": "What wont get deweted",
+      "messages-sent": "Youw messages sent to pubwic sewvews",
+      "requirements": "Wequiwements",
+      "delete-leave-sewvew": "Weave/Dewete aww sewvews",
+      "delete-bots": "Dewete aww bots",
+      "delete-account-button": "Dewete My Account"
+    },
+    "language": {
+      "details": "Contwibute by submitting a PR in the GitHub wepo.",
+      "translators": "Twanswatows"
+    }
+  },
+  "server-settings": {
+    "tab-names": {
+      "general": "Genewal",
+      "manage-channels": "Manage Channews",
+      "manage-roles": "Manage Wowes",
+      "manage-invites": "Manage Invites",
+      "server-visibility": "Sewvew Visibiwity",
+      "manage-notification": "Manage Notification",
+      "banned-users": "Banned Usews",
+      "manage-users": "Manage Usews",
+      "delete-server": "Dewete Sewvew"
+    }
+  },
+  "typing-status": {
+    "is-typing": "{0} is typing...",
+    "two-are-typing": "{0} and {1} awe typing...",
+    "three-are-typing": "{0}, {1} and {2} awe typing...",
+    "more-than-three": "{0} peopwe awe typing..."
+  },
+  "dm-tab": {
+    "friends": "Fwiends",
+    "recents": "Wecents",
+    "saved-notes": "Saved Notes",
+    "add-friend": "Add Fwiend"
+  },
+  "dashboard-tab": {
+    "profile": "Pwofiwe",
+    "notifications": "Notificattions",
+    "click-to-add-custom-status": "Cwick to add custom status"
+  },
+  "add-friend-popout": {
+    "notice": "Add a fwiend by typing theiw usewname and tag.",
+    "adding": "Adding..."
+  },
+  "add-server-popout": {
+    "title": "Add Sewvew",
+    "join-server-notice": "Join a sewvew by entewing in an invite code.",
+    "create-server-notice": "Cweate youw own sewvew. Stawt by naming youw sewvew.",
+    "tabs": {
+      "join": "Join",
+      "create": "Cweate"
+    }
+  }
+
+}
