@@ -1,0 +1,150 @@
+{
+  "save-changes": "Spara ändringar",
+  "saving": "Sparar...",
+  "are-you-sure": "Är du säker?",
+  "copy-id-button": "Kopiera ID",
+  "time": {
+    "today-at": "Idag kl. {0}",
+    "yesterday-at": "Igår kl. {0}"
+  },
+  "message-area": {
+    "no-message-perm": "Du har inte tillåtelse att prata i denna kanal.",
+    "not-connected-server": "Ej ansluten",
+    "attach-message": "Bifoga ett meddelande",
+    "type-message": "Skriv ditt meddelande"
+  },
+  "user-context": {
+    "view-profile": "Visa Profil",
+    "edit-roles": "Redigera Roller",
+    "kick": "Kicka",
+    "ban": "Bannlys",
+    "copy-user-tag": "Kopiera Användare:Tagg"
+  },
+  "message-context": {
+    "user": "Användare",
+    "quote": "Citat",
+    "edit": "Redigera",
+    "copy": "Kopiera",
+    "delete": "Radera"
+  },
+  "server-context": {
+    "mark-as-read": "Markera Som Läst",
+    "server-settings": "Serverinställningar"
+  },
+  "settings": {
+    "tab-names": {
+      "account": "Konto",
+      "notification": "Avisering",
+      "manage-emojis": "Hantera Emojis",
+      "startup-options": "Startalternativ",
+      "program-activity": "Programaktivitet",
+      "manage-bots": "Hantera bottar",
+      "interface": "Gränssnitt",
+      "language": "Språk",
+      "delete-account": "Radera Konto",
+      "changelog": "Ändringslogg"
+    },
+    "account": {
+      "title": "Redigera Din Profil",
+      "change-password": "Ändra Lösenord",
+      "relink-google-drive": "Länka om Google Drive",
+      "link-google-drive": "Länka Google Drive",
+      "more-profile": "Mer Profil",
+      "more-profile-notice": "Denna information kan visas av alla."
+    },
+    "notification": {
+      "title": "Ändra dina aviseringsinställningar",
+      "notification-sound": "Aviseringsljud",
+      "notification-sound-details": "Gör ett coolt ljud för att få din uppmärksamhet",
+      "push-notification": "Push-meddelande",
+      "push-notification-details": "Få push-meddelanden även när appen är stängd."
+    },
+    "manage-emojis": {
+      "details": "Ladda upp dina egna fina emojis, helt gratis! Emojis måste vara mindre än 3MB i storlek.",
+      "supported-types": "Stöttade typer är: png, jpg, gif",
+      "add-emojis-button": "Lägg till emojis"
+    },
+    "startup-options": {
+      "title": "Skrivbordsappens startalternativ",
+      "notice": "För att modifiera dessa inställningar måste du installera Nertivia's skrivbordsapp",
+      "open-on-startup": "Öppna Nertivia vid datorns uppstart"
+    },
+    "program-activity": {
+      "details": "Dela program eller spel som du gör genom att lägga till appar nedan. Detta kommer överskrida din egna status när ett program öppnas, och återgå när programmet stängs.",
+      "notice": "För att använda programaktivitetsfunktionen måste du ladda ner Nertivia's skrivbortsapp"
+    },
+    "manage-bots": {
+      "details": "Skapa botanvändare vilket kommer tillåta dig att använda våran API för att skapa dina egna fina bottar.",
+      "command-notice": "Lägg till botkommandon för att enkelt meddela användaren vilka kommandon som existerar för din bot.",
+      "create-bot-button": "Skapa Bot",
+      "add-command-button": "Lägg Till Kommando",
+      "edit-bot": "Redigera Bot",
+      "edit-commands": "Redigera Kommandon",
+      "create-invite-link": "Skapa Inbjudningslänk",
+      "copy-invite-url": "Kopiera Inbjudningslänk",
+      "manage-token": "Hantera Nyckel",
+      "show-token": "Visa Nyckel",
+      "copy-token": "Kopiera Nyckel",
+      "reset-token": "Återställ Nyckel",
+      "delete-bot": "Radera Bot"
+    },
+    "delete-account": {
+      "notice": "Du är på väg att radera ditt konto",
+      "what-gets-deleted": "Vad som kommer raderas",
+      "what-wont-delete": "Vad som inte kommer raderas",
+      "messages-sent": "Dina meddelanden som skickas till offentliga servrar",
+      "requirements": "Krav",
+      "delete-leave-server": "Lämna/Radera alla servrar",
+      "delete-bots": "Radera alla bottar",
+      "delete-account-button": "Radera Mitt Konto"
+    },
+    "language": {
+      "details": "Bidra genom att skicka in ett PR på GitHub repo't.",
+      "translators": "Översättare"
+    }
+  },
+  "server-settings": {
+    "tab-names": {
+      "general": "Allmänt",
+      "manage-channels": "Hantera Kanaler",
+      "manage-roles": "Hantera Roller",
+      "manage-invites": "Hantera Inbjudningar",
+      "server-visibility": "Serversynlighet",
+      "manage-notification": "Hantera Aviseringar",
+      "banned-users": "Bannlysta Användare",
+      "manage-users": "Hantera Användare",
+      "delete-server": "Radera Server"
+    }
+  },
+  "typing-status": {
+    "is-typing": "{0} skriver...",
+    "two-are-typing": "{0} och {1} skriver...",
+    "three-are-typing": "{0}, {1} och {2} skriver...",
+    "more-than-three": "{0} personer skriver..."
+  },
+  "dm-tab": {
+    "friends": "Vänner",
+    "recents": "Nyliga",
+    "saved-notes": "Sparade Anteckningar",
+    "add-friend": "Lägg Till Vän"
+  },
+  "dashboard-tab": {
+    "profile": "Profil",
+    "notifications": "Aviseringar",
+    "click-to-add-custom-status": "Klicka för att lägga till egen status"
+  },
+  "add-friend-popout": {
+    "notice": "Lägg till en vän genom att skriva deras användarnamn och tagg.",
+    "adding": "Lägger till..."
+  },
+  "add-server-popout": {
+    "title": "Lägg Till Server",
+    "join-server-notice": "Gå med i en server genom att ange inbjudningskoden.",
+    "create-server-notice": "Skapa din egna server. Börja med att namnge den.",
+    "tabs": {
+      "join": "Gå med",
+      "create": "Skapa"
+    }
+  }
+
+}

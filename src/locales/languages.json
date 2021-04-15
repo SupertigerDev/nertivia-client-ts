@@ -1,16 +1,17 @@
 {
-    "en": {
-        "name": "English",
-        "unicode": "🇬🇧",
-        "translators": [
-            "Pancake"
-        ]
-    },
     "de": {
         "name": "German / Deutsch",
         "unicode": "🇩🇪",
-        "translators": [
-            "Toby"
-        ]
+        "translators": ["Toby"]
+    },
+    "en": {
+        "name": "English",
+        "unicode": "🇬🇧",
+        "translators": ["Pancake"]
+    },
+    "sv": {
+        "name": "Swedish / Svenska",
+        "unicode": "🇸🇪",
+        "translators": ["Chris"]
     }
 }
