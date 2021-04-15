@@ -38,18 +38,18 @@ export default class extends Vue {
   beforeDestroy() {
     PopoutsModule.ClosePopout("hover-context");
   }
-  itemClick(item: { name: string }) {
-    switch (item.name) {
-      case "Copy":
+  itemClick(item: { id: string }) {
+    switch (item.id) {
+      case "copy":
         this.copyMessage();
         break;
-      case "Quote": {
+      case "quote": {
         const messageBox: any = document.getElementById("message-box");
         messageBox && insert(messageBox, `<m${this.message.messageID}>`);
         messageBox.focus();
         break;
       }
-      case "Delete":
+      case "delete":
         if (!this.message.messageID) return;
         PopoutsModule.ShowPopout({
           component: "delete-message-popout",
@@ -60,10 +60,10 @@ export default class extends Vue {
           id: "delete-message"
         });
         break;
-      case "Edit":
+      case "edit":
         MessageInputModule.SetEditingMessage(this.message);
         break;
-      case "Copy ID":
+      case "copy_id":
         if (this.message.messageID) this.$copyText(this.message.messageID);
         break;
       default:
@@ -97,23 +97,27 @@ export default class extends Vue {
   get items() {
     const items: any = [
       {
+        id: "user",
         name: this.$t("message-context.user"),
         icon: "account_box",
         nestContext: true
       },
       {
+        id: "quote",
         name: this.$t("message-context.quote"),
         icon: "format_quote"
       }
     ];
     if (this.message.type === 0) {
       items.push({
+        id: "copy",
         name: this.$t("message-context.copy"),
         icon: "developer_board"
       });
     }
     if (this.messageCreatedByMe && this.message.type === 0) {
       items.push({
+        id: "edit",
         name: this.$t("message-context.edit"),
         icon: "edit"
       });
@@ -122,6 +126,7 @@ export default class extends Vue {
       items.push(
         { type: "seperator" },
         {
+          id: "delete",
           name: this.$t("message-context.delete"),
           icon: "delete",
           warn: true
@@ -130,7 +135,11 @@ export default class extends Vue {
     }
     items.push(
       { type: "seperator" },
-      { name: this.$t("copy-id-button"), icon: "developer_board" }
+      {
+        id: "copy_id",
+        name: this.$t("copy-id-button"),
+        icon: "developer_board"
+      }
     );
 
     return items;

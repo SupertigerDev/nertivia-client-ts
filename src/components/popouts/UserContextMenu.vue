@@ -46,31 +46,31 @@ export default class extends Vue {
     PopoutsModule.ClosePopout("context");
   }
   itemClick(item: any) {
-    if (item.name === "Copy ID") {
+    if (item.id === "copy_id") {
       this.$copyText(this.data.id);
       return;
     }
-    if (item.name === "Copy User:Tag") {
+    if (item.id === "copy_use_tag") {
       this.$copyText(
         `${this.data.tempUser.username}:${this.data.tempUser.tag}`
       );
       return;
     }
-    if (item.name === "View Profile") {
+    if (item.id === "view_profile") {
       PopoutsModule.ShowPopout({
         id: "profile",
         component: "profile-popout",
         data: { id: this.data.id }
       });
     }
-    if (item.name === "Edit Roles") {
+    if (item.id === "edit_roles") {
       PopoutsModule.ShowPopout({
         id: "edit-role",
         component: "edit-roles-popout",
         data: { id: this.data.id, serverID: this.serverID }
       });
     }
-    if (item.name === "Kick" || item.name === "Ban") {
+    if (item.id === "kick" || item.name === "ban") {
       PopoutsModule.ShowPopout({
         id: "ban-or-kick-user-popout",
         component: "ban-or-kick-user-popout",
@@ -78,7 +78,7 @@ export default class extends Vue {
           id: this.data.id,
           serverID: this.serverID,
           tempUser: this.data.tempUser,
-          action: item.name.toUpperCase()
+          action: item.id.toUpperCase()
         }
       });
     }
@@ -87,6 +87,7 @@ export default class extends Vue {
   get items() {
     let items: any = [
       {
+        id: "view_profile",
         name: this.$t("user-context.view-profile"),
         icon: "person"
       }
@@ -94,6 +95,7 @@ export default class extends Vue {
 
     if (this.canManageRoles && this.userExistsInServer) {
       items.push({
+        id: "edit_roles",
         name: this.$t("user-context.edit-roles"),
         icon: "leaderboard"
       });
@@ -103,6 +105,7 @@ export default class extends Vue {
     }
     if (this.hasKickPermission && this.userExistsInServer) {
       items.push({
+        id: "kick",
         name: this.$t("user-context.kick"),
         icon: "exit_to_app",
         warn: true
@@ -110,6 +113,7 @@ export default class extends Vue {
     }
     if (this.hasBanPermission) {
       items.push({
+        id: "ban",
         name: this.$t("user-context.ban"),
         icon: "block",
         warn: true
@@ -120,10 +124,12 @@ export default class extends Vue {
     items = [
       ...items,
       {
+        id: "copy_user_tag",
         name: this.$t("user-context.copy-user-tag"),
         icon: "developer_board"
       },
       {
+        id: "copy_id",
         name: this.$t("copy-id-button"),
         icon: "developer_board"
       }

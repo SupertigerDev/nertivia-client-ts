@@ -35,29 +35,29 @@ export default class extends Vue {
     leaveServer(this.server.server_id);
   }
   itemClick(item: any) {
-    switch (item.name) {
-      case "Server Settings":
+    switch (item.id) {
+      case "server_settings":
         this.$router.push(
           `/app/servers/${this.data.server_id}/settings/general`
         );
         break;
-      case "Manage Invites":
+      case "manage_invites":
         this.$router.push(
           `/app/servers/${this.data.server_id}/settings/manage-invites`
         );
         break;
-      case "Manage Notification":
+      case "manage_notification":
         this.$router.push(
           `/app/servers/${this.data.server_id}/settings/manage-notification`
         );
         break;
-      case "Leave Server":
+      case "leave_server":
         this.leaveServer();
         break;
-      case "Copy ID":
+      case "copy_id":
         this.$copyText(this.server.server_id);
         break;
-      case "Mark As Read":
+      case "mark_as_read":
         this.markAsRead();
         break;
       default:
@@ -75,6 +75,7 @@ export default class extends Vue {
   get items() {
     let items: any = [
       {
+        id: "mark_as_read",
         name: this.$t("server-context.mark-as-read"),
         icon: "markunread_mailbox",
         disabled: !this.notifications.length
@@ -84,6 +85,7 @@ export default class extends Vue {
 
     if (this.isServerOwner || this.isAdmin) {
       items.push({
+        id: "server_settings",
         name: this.$t("server-context.server-settings"),
         icon: "settings"
       });
@@ -92,15 +94,18 @@ export default class extends Vue {
     items = [
       ...items,
       {
+        id: "manage_invites",
         name: this.$t("server-settings.tab-names.manage-invites"),
         icon: "settings"
       },
       {
+        id: "manage_notification",
         name: this.$t("server-settings.tab-names.manage-notification"),
         icon: "notifications"
       },
       { type: "seperator" },
       {
+        id: "copy_id",
         name: this.$t("copy-id-button"),
         icon: "developer_board"
       }
@@ -108,6 +113,7 @@ export default class extends Vue {
     if (!this.isServerOwner) {
       items.push({ type: "seperator" });
       items.push({
+        id: "leave_server",
         name: "Leave Server",
         warn: true,
         icon: "exit_to_app"
