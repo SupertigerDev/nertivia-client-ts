@@ -6,7 +6,7 @@
           <div
             class="material-icons back-button"
             @click="close"
-            title="{{$t('back')}}"
+            :title="$t('back')"
           >
             close
           </div>

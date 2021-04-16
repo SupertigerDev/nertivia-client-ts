@@ -29,7 +29,7 @@
     </div>
     <CustomButton
       class="back-button"
-      name="{{$t('back')}}"
+      :name="$t('back')"
       :warn="true"
       @click="$emit('close')"
     />

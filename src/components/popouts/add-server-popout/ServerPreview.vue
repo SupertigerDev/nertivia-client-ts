@@ -16,7 +16,7 @@
       <CustomButton
         class="button"
         :warn="true"
-        name="{{$t('back')}}"
+        :name="$t('back')"
         @click="$emit('back')"
       />
       <CustomButton
