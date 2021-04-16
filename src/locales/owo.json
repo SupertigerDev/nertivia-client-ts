@@ -9,7 +9,7 @@
   },
   "message-area": {
     "no-message-perm": "You don't have pewmission to tawk in this channew.",
-    "not-connected-sewvew": "Nyat Connected",
+    "not-connected-server": "Nyat Connected",
     "attach-message": "Attach a message",
     "type-message": "Type youw message"
   },
@@ -94,7 +94,7 @@
       "what-wont-delete": "What wont get deweted",
       "messages-sent": "Youw messages sent to pubwic sewvews",
       "requirements": "Wequiwements",
-      "delete-leave-sewvew": "Weave/Dewete aww sewvews",
+      "delete-leave-server": "Weave/Dewete aww sewvews",
       "delete-bots": "Dewete aww bots",
       "delete-account-button": "Dewete My Account"
     },
