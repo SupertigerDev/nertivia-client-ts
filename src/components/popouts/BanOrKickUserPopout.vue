@@ -23,7 +23,7 @@
               {{ user.username }}?
             </span>
             <div class="buttons">
-              <CustomButton name="Back" @click="close" />
+              <CustomButton :name="$t('back')" @click="close" />
               <CustomButton
                 @click="buttonClicked"
                 :name="

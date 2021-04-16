@@ -52,7 +52,7 @@
     />
     <CustomButton
       class="button back-button"
-      name="Back"
+      :name="$t('back')"
       @click="$emit('close')"
     />
   </div>

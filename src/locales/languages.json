@@ -1,32 +1,32 @@
 {
-    "de": {
-        "name": "German / Deutsch",
-        "unicode": "🇩🇪",
-        "translators": ["Toby"]
-    },
-    "en": {
-        "name": "English",
-        "unicode": "🇬🇧",
-        "translators": ["Pancake"]
-    },
-    "pl": {
-        "name": "Polish",
-        "unicode": "🇵🇱",
-        "translators": ["Cyber"]
-    },
-    "sv": {
-        "name": "Swedish / Svenska",
-        "unicode": "🇸🇪",
-        "translators": ["Chris"]
-    },
-    "es": {
-        "name": "Spanish / Español",
-        "unicode": "🇪🇸",
-        "translators": ["Ender"]
-    },
-    "owo": {
-        "name": "owo",
-        "unicode": "🐱",
-        "translators": ["Ender"]
-    }
+  "de": {
+    "name": "German / Deutsch",
+    "unicode": "🇩🇪",
+    "translators": ["Toby"]
+  },
+  "en": {
+    "name": "English",
+    "unicode": "🇬🇧",
+    "translators": ["Pancake"]
+  },
+  "pl": {
+    "name": "Polish",
+    "unicode": "🇵🇱",
+    "translators": ["Cyber"]
+  },
+  "sv": {
+    "name": "Swedish / Svenska",
+    "unicode": "🇸🇪",
+    "translators": ["Chris"]
+  },
+  "es": {
+    "name": "Spanish / Español",
+    "unicode": "🇪🇸",
+    "translators": ["Ender"]
+  },
+  "owo": {
+    "name": "owo",
+    "unicode": "🐱",
+    "translators": ["Ender"]
+  }
 }
