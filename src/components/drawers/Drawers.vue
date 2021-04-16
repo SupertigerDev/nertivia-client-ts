@@ -165,7 +165,6 @@ export default class MainApp extends Vue {
       if (!this.rightOpened) newX = x - this.startX + 300;
       if (newX <= -300) newX = -300;
       this.rightStyle.transform = "translateX(" + newX + "px" + ")";
-      console.log(this.rightStyle);
     }
   }
   onScroll() {
