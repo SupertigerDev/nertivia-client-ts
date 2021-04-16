@@ -22,7 +22,11 @@
             />
             <div class="buttons">
               <CustomButton name="{{$t('back')}}" @click="close" />
-              <CustomButton name="{{$t('message-context.delete')}}" @click="deleteMessage" :warn="true" />
+              <CustomButton
+                name="{{$t('message-context.delete')}}"
+                @click="deleteMessage"
+                :warn="true"
+              />
             </div>
           </div>
         </div>

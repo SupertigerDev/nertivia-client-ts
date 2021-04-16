@@ -19,7 +19,11 @@
         </div>
       </div>
     </div>
-    <CustomButton class="back-button" name="{{$t('back')}}" @click="$emit('close')" />
+    <CustomButton
+      class="back-button"
+      name="{{$t('back')}}"
+      @click="$emit('close')"
+    />
   </div>
 </template>
 <script lang="ts">

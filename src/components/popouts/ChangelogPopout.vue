@@ -3,7 +3,11 @@
     <div class="generic-popout">
       <div class="content animate-in">
         <div class="header">
-          <div class="material-icons back-button" @click="close" title="{{$t('back')}}">
+          <div
+            class="material-icons back-button"
+            @click="close"
+            title="{{$t('back')}}"
+          >
             close
           </div>
           <div class="text">Changes</div>
