@@ -9,6 +9,11 @@
         "unicode": "🇬🇧",
         "translators": ["Pancake"]
     },
+    "pl": {
+        "name": "Polish",
+        "unicode": "🇵🇱",
+        "translators": ["Cyber"]
+    },
     "sv": {
         "name": "Swedish / Svenska",
         "unicode": "🇸🇪",
