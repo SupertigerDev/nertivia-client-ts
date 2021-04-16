@@ -1,6 +1,6 @@
 <template>
   <div class="common-servers">
-    <div class="title">Common Servers</div>
+    <div class="title">{{ $t("profile-popout.common-servers") }}</div>
     <div class="list">
       <div
         class="server"

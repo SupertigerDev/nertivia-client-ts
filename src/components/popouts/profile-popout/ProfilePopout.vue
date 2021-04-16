@@ -3,7 +3,11 @@
     <div class="profile-popout">
       <div class="content animate-in">
         <div class="top">
-          <div class="material-icons back-button" @click="close" title="Back">
+          <div
+            class="material-icons back-button"
+            @click="close"
+            title="{{$t('back')}}"
+          >
             arrow_back
           </div>
           <img class="banner" v-if="bannerURL" :src="bannerURL" />
@@ -34,7 +38,7 @@
           <div class="right">
             <div class="button" @click="sendMessageButton" v-if="!isMe">
               <div class="material-icons">message</div>
-              Send Message
+              {{ $t("profile-popout.send-message") }}
             </div>
             <div
               class="button"
@@ -42,7 +46,7 @@
               @click="addFriend"
             >
               <div class="material-icons">person_add</div>
-              Add Friend
+              {{ $t("profile-popout.add-friend") }}
             </div>
             <div
               class="button warn"
@@ -50,11 +54,11 @@
               @click="cancelOrDecline"
             >
               <div class="material-icons">person_add_disabled</div>
-              Cancel Request
+              {{ $t("profile-popout.cancel-request") }}
             </div>
             <div class="button" v-if="friendStatus === 1" @click="acceptFriend">
               <div class="material-icons">check</div>
-              Accept Request
+              {{ $t("profile-popout.accept-request") }}
             </div>
             <div
               class="button alert"
@@ -62,7 +66,7 @@
               @click="cancelOrDecline"
             >
               <div class="material-icons">person_add_disabled</div>
-              Remove Friend
+              {{ $t("profile-popout.remove-friend") }}
             </div>
             <div class="button alert" v-if="!isMe" @click="blockUser">
               <div class="material-icons">block</div>
@@ -96,10 +100,11 @@
             <div class="icon material-icons">face</div>
             <span>{{ ageAndGender }}</span>
           </div>
-          <div class="joined detail-item" v-if="joiendAt">
+          <div class="joined detail-item" v-if="joinedAt">
             <div class="icon material-icons">event_note</div>
             <span
-              >Joined <span class="dim">{{ joiendAt }}</span></span
+              >{{ $t("profile-popout.joined-at") }}
+              <span class="dim">{{ joinedAt }}</span></span
             >
           </div>
           <div
@@ -108,7 +113,7 @@
           >
             <div class="icon material-icons">block</div>
             <span
-              >Suspended
+              >{{ $t("profile-popout.suspended") }}
               <span class="dim">{{ aboutMe["Suspend Reason"] }}</span></span
             >
           </div>
@@ -200,7 +205,7 @@ export default class ProfilePopout extends Vue {
     if (!this.user.banner) return null;
     return process.env.VUE_APP_NERTIVIA_CDN + this.user.banner;
   }
-  get joiendAt() {
+  get joinedAt() {
     if (!this.returnedUser) return undefined;
     return friendlyDate(this.returnedUser?.user.created || 0);
   }

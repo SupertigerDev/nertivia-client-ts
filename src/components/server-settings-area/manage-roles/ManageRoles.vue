@@ -3,10 +3,10 @@
     <div class="inner-container">
       <div class="description">
         <div class="material-icons">info</div>
-        Manage Roles
+        {{ $t("server-settings.tab-names.manage-roles") }}
       </div>
       <div class="notice">
-        Manage your roles.
+        {{ $t("server-settings.manage-roles.manage-your-roles") }}
       </div>
       <SelectedRolesPage
         v-if="selectedRoleID"

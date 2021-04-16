@@ -45,14 +45,14 @@ export default class RightDrawer extends Vue {
             })}
             {this.onlineMembersWithNoRoles.length > 0 && (
               <div class="tab" style={{ height: "25px" }}>
-                {this.defaultRole?.name ? this.defaultRole?.name : "Offline"} (
+                {this.defaultRole?.name ?? this.$t("presence.online")} (
                 {this.onlineMembersWithNoRoles.length})
               </div>
             )}
             {renderMembers(this.onlineMembersWithNoRoles)}
             {this.offlineMembers.length > 0 && (
               <div class="tab" style={{ height: "25px" }}>
-                Offline ({this.offlineMembers.length})
+                {this.$t("presence.offline")} ({this.offlineMembers.length})
               </div>
             )}
             {renderMembers(this.offlineMembers)}

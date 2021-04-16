@@ -1,6 +1,7 @@
 {
   "save-changes": "Save Changes",
   "saving": "Saving...",
+  "back": "Back",
   "are-you-sure": "Are you sure?",
   "copy-id-button": "Copy ID",
   "time": {
@@ -125,6 +126,11 @@
       "banned-users": "Banned Users",
       "manage-users": "Manage Users",
       "delete-server": "Delete Server"
+    },
+    "manage-roles": {
+      "manage-your-roles": "Manage your roles.",
+      "default-role": "Default Role",
+      "bot-role": "Bot Role"
     }
   },
   "typing-status": {
@@ -168,6 +174,19 @@
     "looking-to-play": "Looking To Play"
   },
   "right-drawer": {
-    "server-members": "Members ({0})"
+    "server-members": "Members ({0})",
+    "server-offline-members": "Offline ({0})"
+  },
+  "profile-popout": {
+    "common-friends": "Common Friends",
+    "badges": "Badges",
+    "joined-at": "Joined",
+    "suspended": "Suspended",
+    "remove-friend": "Remove Friend",
+    "accept-request": "Accept Request",
+    "cancel-request": "Cancel Request",
+    "add-friend": "Add Friend",
+    "send-message": "Send Message",
+    "common-servers": "Common Servers"
   }
 }

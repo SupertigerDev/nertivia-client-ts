@@ -1,6 +1,6 @@
 <template>
   <div class="badges">
-    <div class="title">Badges</div>
+    <div class="title">{{ $t("profile-popout.badges") }}</div>
     <div class="list">
       <div
         class="badge"
