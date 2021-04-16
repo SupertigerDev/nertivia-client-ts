@@ -89,7 +89,10 @@
   "dashboard-tab": {
     "notifications": "Benachrichtigungen",
     "profile": "Profil",
-    "click-to-add-custom-status": "Eigenen Status setzen"
+    "click-to-add-custom-status": "Eigenen Status setzen",
+    "caught-up": "Komplett Aufgeholt!",
+    "direct-messages": "Direktnachrichten",
+    "servers": "Server"
   },
   "dm-tab": {
     "friends": "Freunde",
@@ -163,5 +166,8 @@
     "offline": "Offline",
     "online": "Online",
     "looking-to-play": "Suche nach Spielen"
+  },
+  "right-drawer": {
+    "server-members": "Mitglieder ({0})"
   }
 }
