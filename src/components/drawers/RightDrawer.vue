@@ -25,7 +25,9 @@ export default class RightDrawer extends Vue {
     };
     return (
       <div class="right-drawer">
-        <div class="header">Members ({this.serverMembers.length})</div>
+        <div class="header">
+          {this.$t("right-drawer.server-members", [this.serverMembers.length])}
+        </div>
         <div class="members" key={this.server_id}>
           <virtual-list
             size={260}
@@ -83,7 +85,7 @@ export default class RightDrawer extends Vue {
     );
   }
   get roleWithMembers() {
-    const roleWithMembers: any = [];
+    const roleWithMembers: any[] = [];
     const consumedMemberIds: string[] = [];
     if (!this.serverRoles) return [];
     for (let i = 0; i < this.serverRoles.length; i++) {

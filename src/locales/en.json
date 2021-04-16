@@ -166,5 +166,8 @@
     "away": "Away",
     "busy": "Busy",
     "looking-to-play": "Looking To Play"
+  },
+  "right-drawer": {
+    "server-members": "Members ({0})"
   }
 }
