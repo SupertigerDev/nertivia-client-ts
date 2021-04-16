@@ -97,6 +97,7 @@ export default class Language extends Vue {
   width: 30px;
   height: 30px;
   margin-right: 5px;
+  margin-left: 3px;
 }
 .translators {
   display: flex;
@@ -133,5 +134,11 @@ export default class Language extends Vue {
 }
 .box {
   padding: 10px;
+}
+</style>
+<style>
+.flag .emoji {
+  height: 100%;
+  width: 100%;
 }
 </style>
