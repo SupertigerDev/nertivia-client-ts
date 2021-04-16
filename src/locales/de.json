@@ -116,7 +116,8 @@
   "saving": "Speichere...",
   "server-context": {
     "mark-as-read": "Als gelesen markieren",
-    "server-settings": "Server Einstellungen"
+    "server-settings": "Server Einstellungen",
+    "leave-server": "Server verlassen"
   },
   "server-settings": {
     "tab-names": {
@@ -155,5 +156,12 @@
   "upload-dialog": {
     "compress": "Komprimieren",
     "upload-to": "Hochladen auf"
+  },
+  "presence": {
+    "away": "Abwesend",
+    "busy": "Beschäftigt",
+    "offline": "Offline",
+    "online": "Online",
+    "looking-to-play": "Suche nach Spielen"
   }
 }
