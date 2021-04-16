@@ -14,10 +14,28 @@
     "ban": "Prohibicíon",
     "copy-user-tag": "Copiar Usuario:Marbete"
   },
+  "message-context": {
+    "user": "Usario",
+    "quote": "Citar",
+    "edit": "Editar",
+    "copy": "Copia",
+    "delete": "Borrar"
+  },
   "dm-tab": {
     "friends": "Amigos",
     "recents": "Recientes",
     "saved-notes": "Salvado notas",
     "add-friend": "Agregar Amigo"
   }
+  "settings": {
+    "tab-names": {
+      "account": "Cuenta",
+      "notification": "Notificatións",
+      "manage-emojis": "Dirija Emojis",
+      "startup-options": "Start-up Opcións",
+      "program-activity": "Programa Actividad",
+      "manage-bots": "Dirija Bots",
+      "interface": "Idioma",
+      "delete-account": "Eliminar Cuenta",
+      "changelog": "Changelog"
 }
