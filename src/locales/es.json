@@ -21,28 +21,28 @@
     "copy-user-tag": "Copiar Usuario:Marbete"
   },
   "message-context": {
-    "user": "User",
-    "quote": "Quote",
-    "edit": "Edit",
-    "copy": "Copy",
-    "delete": "Delete"
+    "user": "Usario",
+    "quote": "Cita",
+    "edit": "Editar",
+    "copy": "Copia",
+    "delete": "Borrar"
   },
   "server-context": {
-    "mark-as-read": "Mark As Read",
-    "server-settings": "Server Settings"
+    "mark-as-read": "Marcar Como Leído",
+    "server-settings": "Servidor Ajustes"
   },
   "settings": {
     "tab-names": {
-      "account": "Account",
-      "notification": "Notification",
-      "manage-emojis": "Manage Emojis",
-      "startup-options": "Startup Options",
-      "program-activity": "Program Activity",
-      "manage-bots": "Manage Bots",
-      "interface": "Interface",
-      "language": "Language",
-      "delete-account": "Delete Account",
-      "changelog": "Changelog"
+      "account": "Cuenta",
+      "notification": "Notificatión",
+      "manage-emojis": "Administrar Emojis",
+      "startup-options": "Start-up Ajustes",
+      "program-activity": "Programa movimient",
+      "manage-bots": "Dirigir Bots",
+      "interface": "Interfaz",
+      "language": "Idioma",
+      "delete-account": "eliminar cuenta",
+      "changelog": "registro de cambios"
     },
     "account": {
       "title": "Edit Your Profile",
