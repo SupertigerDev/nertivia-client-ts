@@ -4,7 +4,11 @@
     <div class="drawer-backdrop" v-if="showBackDrop" @click="closeAll"></div>
     <!-- Left -->
     <transition name="slide">
-      <div class="drawer-container left" :class="{ open: leftOpened }">
+      <div
+        class="drawer-container left"
+        :style="leftStyle"
+        :class="{ open: leftOpened }"
+      >
         <slot class="drawer" name="drawer-left"></slot>
       </div>
     </transition>
@@ -16,6 +20,7 @@
     <transition name="slide-right">
       <div
         class="drawer-container right"
+        :style="rightStyle"
         v-if="isMobile || (!isMobile && rightOpened)"
         :class="{ open: rightOpened }"
       >
@@ -32,10 +37,10 @@ import { DrawersModule } from "@/store/modules/drawers";
 
 @Component
 export default class MainApp extends Vue {
+  leftStyle: any = { transform: "0" };
+  rightStyle: any = { transform: "0" };
   leftDrawerTouch = false;
-  leftDrawerEl: HTMLElement | null = null;
   rightDrawerTouch = false;
-  rightDrawerEl: HTMLElement | null = null;
   startX = 0;
   startY = 0;
   touchStamp = 0;
@@ -46,8 +51,6 @@ export default class MainApp extends Vue {
     window.addEventListener("touchmove", this.onTouchMove);
     window.addEventListener("touchend", this.onTouchEnd);
     window.addEventListener("scroll", this.onScroll, true);
-    this.leftDrawerEl = document.querySelector(".drawer-container.left");
-    this.rightDrawerEl = document.querySelector(".drawer-container.right");
   }
   beforeDestroy() {
     window.removeEventListener("touchstart", this.onTouchStart);
@@ -59,8 +62,6 @@ export default class MainApp extends Vue {
   onTouchStart(event: TouchEvent) {
     this.scrolling = false;
     if (!this.isMobile) return;
-    this.leftDrawerEl = document.querySelector(".drawer-container.left");
-    this.rightDrawerEl = document.querySelector(".drawer-container.right");
 
     this.touchStamp = Date.now();
     const x = event.touches[0].clientX;
@@ -112,10 +113,9 @@ export default class MainApp extends Vue {
     }
 
     if (this.leftDrawerTouch) {
-      if (!this.leftDrawerEl) return;
-      const xPos = parseInt(this.leftDrawerEl.style.transform.slice(11, -3));
+      const xPos = parseInt(this.leftStyle.transform.slice(11, -3));
       const closest = this.closest(xPos, [0, 320]);
-      this.leftDrawerEl.style.transition = "transform 0.2s";
+      this.leftStyle.transition = "transform 0.2s";
 
       DrawersModule.SetLeftDrawer(closest !== 0);
       this.onLeftChange();
@@ -124,8 +124,7 @@ export default class MainApp extends Vue {
       return;
     }
     if (this.rightDrawerTouch) {
-      if (!this.rightDrawerEl) return;
-      const xPos = parseInt(this.rightDrawerEl.style.transform.slice(11, -3));
+      const xPos = parseInt(this.rightStyle.transform.slice(11, -3));
       const closest = this.closest(xPos, [0, -300]);
 
       DrawersModule.SetRightDrawer(closest === 0);
@@ -138,8 +137,6 @@ export default class MainApp extends Vue {
   onTouchMove(event: TouchEvent) {
     if (!this.isMobile) return;
     if (this.scrolling) return;
-    if (!this.leftDrawerEl) return;
-    if (!this.rightDrawerEl) return;
 
     const x = event.touches[0].clientX;
     const touchDistance = x - this.startX;
@@ -159,7 +156,7 @@ export default class MainApp extends Vue {
       let newX = x - this.startX + 320;
       if (!this.leftOpened) newX = x - this.startX;
       if (newX >= 320) newX = 320;
-      this.leftDrawerEl.style.transform = "translateX(" + newX + "px" + ")";
+      this.leftStyle.transform = "translateX(" + newX + "px" + ")";
       return;
     }
     if (this.rightDrawerTouch) {
@@ -167,7 +164,7 @@ export default class MainApp extends Vue {
       let newX = x - this.startX;
       if (!this.rightOpened) newX = x - this.startX + 300;
       if (newX <= -300) newX = -300;
-      this.rightDrawerEl.style.transform = "translateX(" + newX + "px" + ")";
+      this.rightStyle.transform = "translateX(" + newX + "px" + ")";
     }
   }
   onScroll() {
@@ -213,47 +210,41 @@ export default class MainApp extends Vue {
   onMobileChange() {
     DrawersModule.SetRightDrawer(!this.isMobile);
 
-    if (!this.leftDrawerEl) return;
-    if (!this.rightDrawerEl) return;
     if (this.isMobile) {
       this.onLeftChange();
     }
     if (this.isMobile) return;
-    this.leftDrawerEl.style.transform = "";
-    this.rightDrawerEl.style.transform = "";
+    this.leftStyle.transform = "";
+    this.rightStyle.transform = "";
   }
   @Watch("leftOpened")
   onLeftChange() {
     if (!this.isMobile) return;
-    if (!this.leftDrawerEl) return;
-    this.leftDrawerEl.style.transition = "transform 0.2s";
+    this.leftStyle.transition = "transform 0.2s";
 
     setTimeout(() => {
-      if (!this.leftDrawerEl) return;
-      this.leftDrawerEl.style.transition = "";
+      this.leftStyle.transition = "";
     }, 200);
 
     if (this.leftOpened) {
-      return (this.leftDrawerEl.style.transform = "translateX(320px)");
+      return (this.leftStyle.transform = "translateX(320px)");
     } else {
-      return (this.leftDrawerEl.style.transform = "translateX(0px)");
+      return (this.leftStyle.transform = "translateX(0px)");
     }
   }
   @Watch("rightOpened")
   onRightChange() {
     if (!this.isMobile) return;
-    if (!this.rightDrawerEl) return;
-    this.rightDrawerEl.style.transition = "transform 0.2s";
+    this.rightStyle.transition = "transform 0.2s";
 
     setTimeout(() => {
-      if (!this.rightDrawerEl) return;
-      this.rightDrawerEl.style.transition = "";
+      this.rightStyle.transition = "";
     }, 200);
 
     if (this.rightOpened) {
-      return (this.rightDrawerEl.style.transform = "translateX(-300px)");
+      return (this.rightStyle.transform = "translateX(-300px)");
     } else {
-      return (this.rightDrawerEl.style.transform = "translateX(0px)");
+      return (this.rightStyle.transform = "translateX(0px)");
     }
   }
   get showBackDrop() {

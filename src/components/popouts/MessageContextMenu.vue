@@ -70,7 +70,7 @@ export default class extends Vue {
     }
   }
   itemHover(data: any) {
-    if (data.item.name === "User") {
+    if (data.item.id === "user") {
       const rect = data.target.getBoundingClientRect();
       PopoutsModule.ShowPopout({
         id: "hover-context",
