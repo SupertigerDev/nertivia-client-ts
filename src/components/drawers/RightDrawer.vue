@@ -1,5 +1,4 @@
 <script lang="tsx">
-import { DrawersModule } from "@/store/modules/drawers";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
 import WindowProperties from "@/utils/windowProperties";

@@ -112,7 +112,7 @@ import { NotificationsModule } from "@/store/modules/notifications";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { PresencesModule } from "@/store/modules/presences";
 import { lastSelectedServerChannel } from "@/utils/lastSelectedServer";
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 
 @Component({ components: { AvatarImage, UserArea } })
 export default class NavBar extends Vue {

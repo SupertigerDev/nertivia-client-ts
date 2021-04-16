@@ -14,10 +14,8 @@ import ContextMenu from "@/components/ContextMenu.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { ServersModule } from "@/store/modules/servers";
 import { MeModule } from "@/store/modules/me";
-import router from "@/router";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { leaveServer } from "@/services/serverService";
-import { NotificationsModule } from "@/store/modules/notifications";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 
 @Component({ components: { ContextMenu } })

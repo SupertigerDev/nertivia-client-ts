@@ -1,10 +1,8 @@
-import ChannelWithUser from "@/interfaces/DmChannelWithUser";
 import {
   CUSTOM_EMOJI_REMOVE,
   CUSTOM_EMOJI_RENAME,
   CUSTOM_EMOJI_UPLOADED
 } from "@/socketEventConstants";
-import date from "@/utils/date";
 import { ActionTree } from "vuex";
 import { CustomEmojisModule } from "../customEmojis";
 

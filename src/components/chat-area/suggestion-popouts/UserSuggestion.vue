@@ -10,7 +10,7 @@
 <script lang="ts">
 import SuggestionPopoutTemplate from "./SuggestionPopoutTemplate.vue";
 import UserSuggestionTemplate from "./UserSuggestionTemplate.vue";
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import User from "@/interfaces/User";
 
 @Component({ components: { SuggestionPopoutTemplate } })

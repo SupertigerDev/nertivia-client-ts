@@ -162,7 +162,7 @@ export default class ManageRolesPage extends Vue {
       name: this.name,
       permissions: this.permissions,
       hideRole: this.hideRole,
-      color: this.color!
+      color: this.color as string
     })
       .then(role => {
         ServerRolesModule.UpdateServerRole(role);

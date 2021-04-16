@@ -8,7 +8,6 @@ import {
 import store from "..";
 import Vue from "vue";
 import { postFormDataMessage } from "@/services/messagesService";
-import { values } from "lodash";
 import { MessagesModule } from "./messages";
 import fileSize from "filesize";
 
@@ -133,7 +132,7 @@ class FileUpload extends VuexModule {
     if (isUploading) return;
     this.SetQueueUploading({ index: 0, value: true });
     const currentItem = this.uploadQueue[0];
-    await postFormDataMessage(
+    postFormDataMessage(
       currentItem.message,
       currentItem.cdn,
       currentItem.channelID,

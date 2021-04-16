@@ -48,7 +48,6 @@ function sameDay(d1: Date, d2: Date) {
     d1.getMonth() === d2.getMonth() &&
     d1.getDate() === d2.getDate()
   );
-  1;
 }
 function yesterDay(date: Date) {
   const yesterday = new Date();
@@ -86,9 +85,13 @@ export default (milliseconds: number, type?: Type) => {
   const messageDate = new Date(milliseconds);
 
   if (sameDay(now, messageDate)) {
-    friendlyDate = i18n.t("time.today-at",[getFullTime(messageDate, type)]) as string;
+    friendlyDate = i18n.t("time.today-at", [
+      getFullTime(messageDate, type)
+    ]) as string;
   } else if (yesterDay(messageDate)) {
-    friendlyDate = i18n.t("time.yesterday-at",[getFullTime(messageDate, type)]) as string;
+    friendlyDate = i18n.t("time.yesterday-at", [
+      getFullTime(messageDate, type)
+    ]) as string;
   } else {
     friendlyDate = getFullDateWithTime(messageDate, type);
   }

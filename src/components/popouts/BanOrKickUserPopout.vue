@@ -76,7 +76,7 @@ export default class ProfilePopout extends Vue {
       .then(() => {
         this.close();
       })
-      .catch(err => {
+      .catch(() => {
         this.requestSent = false;
       });
   }

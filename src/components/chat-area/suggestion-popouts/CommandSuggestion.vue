@@ -11,7 +11,6 @@
 import SuggestionPopoutTemplate from "./SuggestionPopoutTemplate.vue";
 import CommandSuggestionTemplate from "./CommandSuggestionTemplate.vue";
 import { Component, Prop, Vue } from "vue-property-decorator";
-import Channel from "@/interfaces/Channel";
 import { BotCommand } from "@/store/modules/botCommands";
 import User from "@/interfaces/User";
 

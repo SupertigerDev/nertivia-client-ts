@@ -96,7 +96,7 @@ export default class DeleteAccount extends Vue {
     this.error = null;
     this.deleting = true;
     deleteAccount(this.password)
-      .then(res => {
+      .then(() => {
         location.href = "/";
       })
       .catch(async err => {

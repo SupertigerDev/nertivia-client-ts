@@ -10,24 +10,6 @@ export const TRANSLATOR = 64;
 export const CONTRIBUTOR = 128;
 // next value = 256
 
-export function highPriorityBadge(flags: number) {
-  const key = Object.keys(badges).find(key =>
-    bitwiseContains(flags, parseInt(key))
-  );
-  if (!key) return null;
-  return badges[key];
-}
-export function getBadges(flags: number) {
-  const badgesArr: Badge[] = [];
-  const keysArr = Object.keys(badges);
-  for (let i = 0; i < keysArr.length; i++) {
-    const flag = parseInt(keysArr[i]);
-    if (!bitwiseContains(flags, flag)) continue;
-    badgesArr.push(badges[flag]);
-  }
-  return badgesArr;
-}
-
 export interface Badge {
   name: string;
   iconURL: string;
@@ -77,3 +59,21 @@ export const badges: { [key: number]: Badge } = {
     color: "#cf24ff"
   }
 };
+
+export function highPriorityBadge(flags: number) {
+  const key = Object.keys(badges).find(key =>
+    bitwiseContains(flags, parseInt(key))
+  );
+  if (!key) return null;
+  return badges[key];
+}
+export function getBadges(flags: number) {
+  const badgesArr: Badge[] = [];
+  const keysArr = Object.keys(badges);
+  for (let i = 0; i < keysArr.length; i++) {
+    const flag = parseInt(keysArr[i]);
+    if (!bitwiseContains(flags, flag)) continue;
+    badgesArr.push(badges[flag]);
+  }
+  return badgesArr;
+}

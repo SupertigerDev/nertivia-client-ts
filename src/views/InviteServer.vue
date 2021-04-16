@@ -44,7 +44,6 @@ import CheckBox from "@/components/CheckBox.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import AvatarImage from "@/components/AvatarImage.vue";
 import CustomDropDown from "@/components/CustomDropDown.vue";
-import { inviteBot } from "@/services/botService";
 import Server from "@/interfaces/Server";
 import { PopoutsModule } from "@/store/modules/popouts";
 import {

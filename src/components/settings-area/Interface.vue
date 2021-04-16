@@ -44,7 +44,6 @@ import {
   getAllCssVars,
   getCustomCssVars,
   changeCssVar,
-  removeCustomCssVars,
   applyDefaultTheme
 } from "@/utils/customCssVars";
 @Component

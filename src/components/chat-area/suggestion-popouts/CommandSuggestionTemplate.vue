@@ -25,7 +25,7 @@
 <script lang="ts">
 import User from "@/interfaces/User";
 import { BotCommand } from "@/store/modules/botCommands";
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class ChannelSuggestionTemplate extends Vue {

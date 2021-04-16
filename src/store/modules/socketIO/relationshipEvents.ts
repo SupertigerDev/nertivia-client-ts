@@ -1,4 +1,3 @@
-import ChannelWithUser from "@/interfaces/DmChannelWithUser";
 import User from "@/interfaces/User";
 import {
   RELATIONSHIP_ACCEPT,
@@ -6,9 +5,7 @@ import {
   RELATIONSHIP_REMOVE
 } from "@/socketEventConstants";
 import { ActionTree } from "vuex";
-import { ChannelsModule } from "../channels";
 import { FriendsModule } from "../friends";
-import { MutedChannelsModule } from "../mutedChannels";
 import { UsersModule } from "../users";
 
 const actions: ActionTree<any, any> = {

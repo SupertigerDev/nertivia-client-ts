@@ -16,7 +16,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import EnterServerCode from "./EnterServerCode.vue";
 import ServerPreview from "./ServerPreview.vue";
 

@@ -1,7 +1,3 @@
-function eventBuilder(name: string, prefix = "socket_") {
-  return prefix + toCamel(name);
-}
-
 function toCamel(s: string) {
   return s.replace(/([_][a-z])/gi, $1 => {
     // return s.replace(/([-_][a-z])/ig, ($1) => {
@@ -13,6 +9,11 @@ function toCamel(s: string) {
     );
   });
 }
+
+function eventBuilder(name: string, prefix = "socket_") {
+  return prefix + toCamel(name);
+}
+
 // connection events
 export const CONNECT = eventBuilder("connect");
 export const DISCONNECT = eventBuilder("disconnect");
