@@ -85,6 +85,7 @@
     "title": "Server hinzufügen"
   },
   "are-you-sure": "Sind Sie sicher?",
+  "back": "Zurück",
   "copy-id-button": "ID kopieren",
   "dashboard-tab": {
     "notifications": "Benachrichtigungen",
@@ -133,6 +134,11 @@
       "manage-roles": "Rollen verwalten",
       "manage-users": "Benutzer verwalten",
       "server-visibility": "Server-Sichtbarkeit"
+    },
+    "manage-roles": {
+      "bot-role": "Bot Rolle",
+      "default-role": "Standardrolle",
+      "manage-your-roles": "Verwalten Sie Ihre Rollen."
     }
   },
   "time": {
@@ -168,6 +174,19 @@
     "looking-to-play": "Suche nach Spielen"
   },
   "right-drawer": {
-    "server-members": "Mitglieder ({0})"
+    "server-members": "Mitglieder ({0})",
+    "server-offline-members": "Offline ({0})"
+  },
+  "profile-popout": {
+    "accept-request": "Anfrage annehmen",
+    "add-friend": "Freund hinzufügen",
+    "badges": "Abzeichen",
+    "cancel-request": "Anfrage abbrechen",
+    "common-friends": "Gemeinsame Freunde",
+    "common-servers": "Gemeinsame Server",
+    "joined-at": "Beigetreten",
+    "remove-friend": "Freund entfernen",
+    "send-message": "Direktnachricht senden",
+    "suspended": "Suspendiert"
   }
 }
