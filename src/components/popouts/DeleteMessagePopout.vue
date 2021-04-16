@@ -21,8 +21,8 @@
               :hideContext="true"
             />
             <div class="buttons">
-              <CustomButton name="Back" @click="close" />
-              <CustomButton name="Delete" @click="deleteMessage" :warn="true" />
+              <CustomButton name="{{$t('back')}}" @click="close" />
+              <CustomButton name="{{$t('message-context.delete')}}" @click="deleteMessage" :warn="true" />
             </div>
           </div>
         </div>

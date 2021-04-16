@@ -12,7 +12,7 @@
           </div>
           <div class="buttons">
             <CustomButton
-              name="Back"
+              name="{{$t('back')}}"
               class="no-button"
               @click="close"
               icon="close"
