@@ -1,5 +1,3 @@
-import wrapper from "./wrapper";
-
 export interface Changelog {
   version: string;
   date: string;

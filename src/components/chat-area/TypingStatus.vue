@@ -11,7 +11,7 @@
 import Message from "@/interfaces/Message";
 import { MeModule } from "@/store/modules/me";
 import { eventBus } from "@/utils/globalBus";
-import { Component, Vue, Watch } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 
 interface TypingData {
   channel_id: string;

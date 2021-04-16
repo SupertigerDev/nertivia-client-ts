@@ -9,7 +9,6 @@ import store from "..";
 import { getBotCommands } from "@/services/botService";
 import { ServerMembersModule } from "./serverMembers";
 import Vue from "vue";
-import VueSocketIOExt from "vue-socket.io-extended";
 interface ServerBotCommandsObj {
   // key = server id
   [key: string]: string[];

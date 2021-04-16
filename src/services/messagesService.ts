@@ -117,7 +117,7 @@ export function postFormDataMessage(
     localStorage.getItem("hauthid") || ""
   );
 
-  request.onreadystatechange = function(oEvent) {
+  request.onreadystatechange = function() {
     if (request.readyState === 4) {
       if (request.status === 200) {
         callback(null, null, true);

@@ -14,7 +14,7 @@
 <script lang="ts">
 import AvatarImage from "@/components/AvatarImage.vue";
 import User from "@/interfaces/User";
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component({ components: { AvatarImage } })
 export default class UserSuggestionTemplate extends Vue {

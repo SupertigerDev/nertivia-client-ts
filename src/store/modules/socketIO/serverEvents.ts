@@ -8,7 +8,6 @@ import Vue from "vue";
 import router from "@/router";
 import { UsersModule } from "../users";
 import { MutedServersModule } from "../mutedServers";
-import { deleteMessage } from "@/services/messagesService";
 import { MessagesModule } from "../messages";
 import {
   SERVER_ADD_ROLE,

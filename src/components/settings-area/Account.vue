@@ -1,9 +1,6 @@
 <template>
   <div class="interface">
-    <InformationTemplate
-      class="desc"
-      :title="$t('settings.account.title')"
-    />
+    <InformationTemplate class="desc" :title="$t('settings.account.title')" />
     <div class="box">
       <div class="error" v-if="errors['other']">{{ errors["other"] }}</div>
 

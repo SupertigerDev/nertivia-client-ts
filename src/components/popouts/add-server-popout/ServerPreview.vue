@@ -36,7 +36,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import CustomButton from "@/components/CustomButton.vue";
 

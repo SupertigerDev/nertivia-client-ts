@@ -44,7 +44,7 @@ export default {
     const emojiRow = arr => (
       <div class="emoji-row">
         <div class="wrapper">
-          {arr.map((e, i) => (
+          {arr.map((e) => (
             <EmojiTemplate
               key={e.id}
               emoji={e}

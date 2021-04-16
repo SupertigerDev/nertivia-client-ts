@@ -19,7 +19,6 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
 import User from "@/interfaces/User";
-import { ChannelsModule } from "@/store/modules/channels";
 
 @Component({
   components: { AvatarImage }

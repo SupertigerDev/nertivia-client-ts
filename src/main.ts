@@ -40,7 +40,7 @@ Vue.prototype.$isMobile = /iphone|ipod|android|ie|blackberry|fennec/.test(
 applyDefaultTheme(false);
 
 let cancelErrorReportingForever = false;
-Vue.config.errorHandler = function(err, vm, info) {
+Vue.config.errorHandler = function(err) {
   console.error(err);
   // disable error prompt in dev.
   if ((window as any).webpackHotUpdate) return;

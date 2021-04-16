@@ -4,9 +4,8 @@ import messages from "@/locales/en.json";
 
 Vue.use(VueI18n);
 
-
 export default new VueI18n({
   locale: process.env.VUE_APP_I18N_LOCALE || "en",
   fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || "en",
-  messages: {en: messages}
+  messages: { en: messages }
 });

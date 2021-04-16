@@ -12,13 +12,6 @@ export function programListener(callback: (filename: string) => void) {
   electronBridge?.receive("activity_status_changed", callback);
 }
 
-export function restartListener() {
-  electronBridge?.send("activity_listener_restart", getListeningProgram());
-}
-export function stopListener() {
-  electronBridge?.send("activity_listener_restart", []);
-}
-
 export function getListeningProgram(): Program[] {
   const programsString = localStorage["programActivity"];
   if (!programsString) return [];
@@ -29,6 +22,13 @@ export function findListeningProgram(filename: string): Program | null {
   if (!programsString) return null;
   const programsArr = JSON.parse(programsString);
   return programsArr.find(p => p.filename === filename);
+}
+
+export function restartListener() {
+  electronBridge?.send("activity_listener_restart", getListeningProgram());
+}
+export function stopListener() {
+  electronBridge?.send("activity_listener_restart", []);
 }
 
 export function addListeningProgram(obj: Program) {

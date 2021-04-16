@@ -1,5 +1,3 @@
-import pako from "pako";
-
 export function lastSelectedServerChannel(serverID: string) {
   if (!localStorage["lastSelectedServerChannel"]) {
     return null;

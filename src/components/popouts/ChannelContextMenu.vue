@@ -13,13 +13,8 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import ContextMenu from "@/components/ContextMenu.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { ServersModule } from "@/store/modules/servers";
-import { MeModule } from "@/store/modules/me";
-import router from "@/router";
-import { ServerMembersModule } from "@/store/modules/serverMembers";
-import { NotificationsModule } from "@/store/modules/notifications";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { ChannelsModule } from "@/store/modules/channels";
-import { warn } from "vue-class-component/lib/util";
 import { MutedChannelsModule } from "@/store/modules/mutedChannels";
 import {
   muteServerChannel,

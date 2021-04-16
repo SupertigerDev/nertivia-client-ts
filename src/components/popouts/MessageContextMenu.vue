@@ -19,7 +19,6 @@ import { permissions } from "@/constants/rolePermissions";
 import { ServersModule } from "@/store/modules/servers";
 import { PopoutsModule } from "@/store/modules/popouts";
 import User from "@/interfaces/User";
-import { eventBus } from "@/utils/globalBus";
 import { MessageInputModule } from "@/store/modules/messageInput";
 import { insert } from "text-field-edit";
 

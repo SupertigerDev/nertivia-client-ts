@@ -78,7 +78,7 @@ export default class CustomDropDown extends Vue {
   @Prop({ default: "Select Item" }) private defaultText!: string;
   selectedId = this.defaultId;
 
-  clickOutside(event: any) {
+  clickOutside() {
     this.openDropDown = false;
   }
 
