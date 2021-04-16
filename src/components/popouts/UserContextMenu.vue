@@ -70,7 +70,7 @@ export default class extends Vue {
         data: { id: this.data.id, serverID: this.serverID }
       });
     }
-    if (item.id === "kick" || item.name === "ban") {
+    if (item.id === "kick" || item.id === "ban") {
       PopoutsModule.ShowPopout({
         id: "ban-or-kick-user-popout",
         component: "ban-or-kick-user-popout",
