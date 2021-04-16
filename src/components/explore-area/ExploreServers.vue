@@ -4,7 +4,7 @@
       <div class="material-icons icon">info</div>
       <span
         >Servers are not being actively monitored. Please report servers that
-        dont follow the
+        don't follow the
         <a
           href="/terms-and-conditions"
           target="_blank"

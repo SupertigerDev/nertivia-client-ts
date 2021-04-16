@@ -3,9 +3,11 @@
     <div class="title">
       {{ $t("dashboard-tab.notifications") }}
     </div>
-    <div v-if="!notificatinExists" class="caught-up">All Caught up!</div>
+    <div v-if="!notificatinExists" class="caught-up">
+      {{ $t("dashboard-tab.caught-up") }}
+    </div>
     <div class="item-title" v-if="dmNotifications.length">
-      Direct Messages
+      {{ $t("dashboard-tab.direct-messages") }}
     </div>
     <DashboardNotificationItem
       v-for="notification in dmNotifications"
@@ -13,7 +15,7 @@
       :dmNotification="notification"
     />
     <div class="item-title" v-if="serverChannelNotifications.length">
-      Servers
+      {{ $t("dashboard-tab.servers") }}
     </div>
     <DashboardNotificationServerItem
       v-for="(n, serverID) of serverChannelNotifications"

@@ -142,7 +142,10 @@
   "dashboard-tab": {
     "profile": "Profile",
     "notifications": "Notifications",
-    "click-to-add-custom-status": "Click to add custom status"
+    "click-to-add-custom-status": "Click to add custom status",
+    "caught-up": "All Caught up!",
+    "direct-messages": "Direct Messages",
+    "servers": "Servers"
   },
   "add-friend-popout": {
     "notice": "Add a friend by typing their username and tag.",
