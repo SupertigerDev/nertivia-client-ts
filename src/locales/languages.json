@@ -23,5 +23,10 @@
         "name": "Spanish / Español",
         "unicode": "🇪🇸",
         "translators": ["Ender"]
+    },
+    "owo": {
+        "name": "owo",
+        "unicode": "🐱",
+        "translators": ["Ender"]
     }
 }
