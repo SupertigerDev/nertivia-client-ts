@@ -16,7 +16,7 @@
       <div class="box" v-if="!selectedRoleID">
         <CustomButton
           class="button"
-          name="Create New Role"
+          :name="$t('server-settings.manage-roles.create-role')"
           icon="add"
           @click="createRole"
         />

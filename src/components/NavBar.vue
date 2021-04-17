@@ -5,7 +5,7 @@
       :class="{
         selected: currentTab === ''
       }"
-      title="Dashboard"
+      :title="$t('dashboard-tab.dashboard')"
       @click="changeTab('')"
     >
       <div class="icon material-icons">dashboard</div>
@@ -17,7 +17,7 @@
       :class="{
         selected: currentTab === 'explore'
       }"
-      title="Dashboard"
+      :title="$t('dashboard-tab.explore')"
       @click="changeTab('explore')"
     >
       <div class="icon material-icons">explore</div>
@@ -30,7 +30,7 @@
         selected: currentTab === 'dms',
         notification: dmNotificationExists
       }"
-      title="Direct Messages"
+      :title="$t('dashboard-tab.direct-messages')"
       @click="changeTab('dms')"
     >
       <div class="icon material-icons">forum</div>
@@ -43,7 +43,7 @@
         notification: serverNotificationExists,
         mentioned: serverMentioned
       }"
-      title="Servers"
+      :title="$t('dashboard-tab.servers')"
       @click="changeTab('servers')"
     >
       <div class="icon material-icons">dns</div>
@@ -52,11 +52,11 @@
     <div
       class="item update"
       v-if="updateAvailable"
-      title="Update Available"
+      :title="$t('navbar.update-available')"
       @click="updateAvailableClick"
     >
       <div class="icon material-icons">download</div>
-      <div class="title">Update</div>
+      <div class="title">{{ $t("navbar.update") }}</div>
     </div>
 
     <div class="gap" />

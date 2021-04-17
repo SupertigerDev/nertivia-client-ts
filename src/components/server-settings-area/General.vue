@@ -2,7 +2,7 @@
   <div class="container">
     <div class="description">
       <div class="material-icons">info</div>
-      General Server Settings
+      {{ $t("server-settings.general.general-server-settings") }}
     </div>
     <div class="box">
       <div class="error" v-if="errors['other']">{{ errors["other"] }}</div>

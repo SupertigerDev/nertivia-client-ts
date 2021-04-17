@@ -3,10 +3,10 @@
     <div class="inner-container">
       <div class="description">
         <div class="material-icons">info</div>
-        Manage Channels
+        {{ $t("server-settings.tab-names.manage-channels") }}
       </div>
       <div class="notice">
-        Manage your channels.
+        {{ $t("server-settings.manage-channels.manage-your-channels") }}
       </div>
       <SelectedChannelPage
         v-if="selectedChannelID"
@@ -16,7 +16,7 @@
       <div class="box" v-if="!selectedChannelID">
         <CustomButton
           class="button"
-          name="Create New Channel"
+          :name="$t('server-settings.manage-channels.create-new-channel')"
           icon="add"
           @click="showContext = !showContext"
         />
@@ -24,8 +24,15 @@
           v-if="showContext"
           v-click-outside="outsideClick"
           :items="[
-            { name: 'Text Channel', icon: 'textsms' },
-            { name: 'HTML Channel (WIP)', icon: 'code', disabled: true }
+            {
+              name: $t('server-settings.manage-channels.text-channel'),
+              icon: 'textsms'
+            },
+            {
+              name: $t('server-settings.manage-channels.html-channel'),
+              icon: 'code',
+              disabled: true
+            }
           ]"
           :pos="{ x: 15, y: 110 }"
           @itemClick="createChannel"
