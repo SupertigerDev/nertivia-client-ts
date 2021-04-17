@@ -27,7 +27,10 @@
   "owo": {
     "name": "owo",
     "unicode": "🐱",
-    "translators": ["Ender"]
+    "translators": [
+      "Ender",
+      "Toby"
+    ]
  },
   "fr": {
     "name": "French / Français",
