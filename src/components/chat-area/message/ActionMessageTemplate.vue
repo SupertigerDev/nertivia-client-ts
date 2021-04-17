@@ -117,9 +117,7 @@ export default class ActionMessageTemplate extends Vue {
     text-decoration: underline;
   }
 }
-.message {
-  text-align: center;
-}
+
 .time {
   opacity: 0.8;
   font-size: 14px;
