@@ -11,7 +11,9 @@
     "no-message-perm": "You don't have pewmission to tawk in this channew.",
     "not-connected-server": "Nyat Connected",
     "attach-message": "Attach a message",
-    "type-message": "Type youw message"
+    "type-message": "Type youw message",
+    "back-to-bottom": "Back to Bottom OWO",
+    "new-messages": "Nyu Messigu"
   },
   "user-context": {
     "view-profile": "View Pwofiwe",
@@ -29,7 +31,8 @@
   },
   "server-context": {
     "mark-as-read": "Mawk As Wead",
-    "server-settings": "Sewvew Settings"
+    "server-settings": "Sewvew Settings",
+    "leave-server": "Go home"
   },
   "settings": {
     "tab-names": {
@@ -101,6 +104,14 @@
     "language": {
       "details": "Contwibute by submitting a PR in the GitHub wepo.",
       "translators": "Twanswatows"
+    },
+    "interface": {
+      "amoled-dark": "VEWY Dark",
+      "colors": "Crayon fillings",
+      "description": "Change how to draw Nertivia~",
+      "halloween-2020": "SPOOKY SCAWY SKELETON (2020)",
+      "predefined-themes": "Cool colors",
+      "reset": "Default"
     }
   },
   "server-settings": {
@@ -114,7 +125,68 @@
       "banned-users": "Banned Usews",
       "manage-users": "Manage Usews",
       "delete-server": "Dewete Sewvew"
-    }
+    },
+    "banned-users": {
+      "notice": "Give people back their apartment keys",
+      "unban": "Give keys back",
+      "unbanning": "Throwing keys~~~"
+    },
+    "delete-server": {
+      "deleting": "Annihilating~~~",
+      "type-server-name-to-confirm": "Gib name to annihilate >:3"
+    },
+    "general": {
+      "general-server-settings": "Normal Sewvew Settins"
+    },
+    "manage-channels": {
+      "channel-name": "Chanl Naem",
+      "create-new-channel": "New Channl",
+      "default-channel-notice": "Annihilation not allowed!! If u got rid of dis, nobody could talk anymore :(",
+      "delete-channel": "Annihilate Chanl",
+      "deleting-channel": "Annihilating Channel~~~",
+      "html-channel": "Web-Lookin Channal (But shh, it doesn't exist yet)",
+      "manage-your-channels": "Manag channnnnels",
+      "permission": {
+        "send-message": "Send Messag"
+      },
+      "rate-limit-seconds": "Speed Limit (years)",
+      "text-channel": "Wordy-Channle"
+    },
+    "manage-invites": {
+      "create-invite": "Make an invitation card for ur frens",
+      "create-invites": "Invite frendos",
+      "creator": "God-Emperor",
+      "custom-invite": "Speshul Invite :0",
+      "link": "Zelda",
+      "notice": "Only vewy stwong people can look at all invitations.",
+      "save-custom-link": "Write down the special invitation",
+      "uses": "People invited"
+    },
+    "manage-roles": {
+      "bot-role": "Robot Title",
+      "create-role": "Make a new Title!",
+      "delete-role": "Dewete Title",
+      "default-role": "Everyone's Title",
+      "deleting-role": "Annihilatin' Title~~~",
+      "manage-your-roles": "Book-keep ur Titles.",
+      "hide-role": "Hide Title",
+      "notice-bot": "No delet!!!! IS BOT! Don't turn people into robots :(",
+      "notice-default": "No delet!!!! IS EVERYBODY!!! U need dis, or it break.",
+      "pick-role-color": "Pick collor",
+      "role-name": "Title",
+      "settings": "Configurations"
+    },
+    "manage-users": {
+      "search-user": "Look for a frendo"
+    },
+    "notifications": {
+      "disable-notifications": "Shuddup",
+      "description": "Change Sewvew noisiness",
+      "enable-notifications": "Tell when stuff happens",
+      "mute-sound": "Shhhh, but still show me when stuff happens",
+      "notice": "This is all urs UwU"
+    },
+    "permissions": "Allowed thingus"
   },
   "typing-status": {
     "is-typing": "{0} is typing...",
@@ -131,7 +203,12 @@
   "dashboard-tab": {
     "profile": "Pwofiwe",
     "notifications": "Notificattions",
-    "click-to-add-custom-status": "Cwick to add custom status"
+    "click-to-add-custom-status": "Cwick to add custom status",
+    "caught-up": "Nothin to see here uwu",
+    "dashboard": "Dashboawd",
+    "direct-messages": "Diwect Messig",
+    "explore": "Expwore~",
+    "servers": "Sewvews"
   },
   "add-friend-popout": {
     "notice": "Add a fwiend by typing theiw usewname and tag.",
@@ -145,5 +222,52 @@
       "join": "Join",
       "create": "Cweate"
     }
+  },
+  "generic": {
+    "copy": "Copy",
+    "delete": "Dewete",
+    "user": "Usew",
+    "copied": "Copyfied!!"
+  },
+  "back": "Bacc",
+  "channel-context": {
+    "mute-channel": "Mjute Chanl umu",
+    "unmute-channel": "De-mjute chanl owo"
+  },
+  "connection": {
+    "authenticating": "Paw-thenticating~~~",
+    "loading": "Loadin'~~~",
+    "ready": "Weady! ÒwÓ"
+  },
+  "navbar": {
+    "update": "Updoot",
+    "update-available": "NEW UPDOOT!!!"
+  },
+  "presence": {
+    "away": "Gone umu",
+    "busy": "Buh-zee",
+    "looking-to-play": "Wanna pway~",
+    "offline": "Offwine",
+    "online": "Here rn"
+  },
+  "profile-popout": {
+    "accept-request": "Accept fren-fren",
+    "add-friend": "Add fren",
+    "badges": "Speshul Medals",
+    "cancel-request": "Don't make fren ùmú",
+    "common-friends": "Common frendos :0",
+    "common-servers": "Common serverinos",
+    "joined-at": "Appeared",
+    "remove-friend": "Un-fren!!!! >:(",
+    "send-message": "Massage, er.. Message",
+    "suspended": "On a farm upstate"
+  },
+  "right-drawer": {
+    "server-members": "Total frens ({0})",
+    "server-offline-members": "Shleeping ({0})"
+  },
+  "upload-dialog": {
+    "compress": "Make shmol",
+    "upload-to": "Send to"
   }
 }
