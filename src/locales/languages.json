@@ -27,16 +27,17 @@
     "unicode": "🇪🇸",
     "translators": ["Ender"]
   },
+  "owo": {
+    "name": "owo",
+    "unicode": "🐱",
+    "translators": [
+      "Ender",
+      "Toby"
+    ]
+ },
   "fr": {
     "name": "French / Français",
     "unicode": "🇫🇷",
     "translators": ["Yrdael"]
-  },
-  "owo": {
-    "name": "OwO / UwU",
-    "unicode": "🐱",
-    "translators": [
-      "Ender"
-    ]
   }
 }
