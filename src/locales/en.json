@@ -110,6 +110,14 @@
     "language": {
       "details": "Reload may be required after changing language. Contribute by submitting a PR in the GitHub repo.",
       "translators": "Translators"
+    },
+    "interface": {
+      "description": "Change the appearance of Nertivia.",
+      "colors": "Colors",
+      "reset": "Reset All Colors",
+      "amoled-dark": "AMOLED Dark",
+      "halloween-2020": "Halloween 2020",
+      "predefined-themes": "Pre-defined Themes"
     }
   },
   "server-settings": {

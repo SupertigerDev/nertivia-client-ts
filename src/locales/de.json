@@ -69,6 +69,14 @@
       "notification": "Benachrichtigungen",
       "program-activity": "Programmaktivität",
       "startup-options": "Startoptionen"
+    },
+    "interface": {
+      "colors": "Farben",
+      "reset": "Alle Farben zurücksetzen",
+      "description": "Ändern Sie das Erscheinungsbild von Nertivia.",
+      "amoled-dark": "AMOLED Dunkel",
+      "halloween-2020": "Halloween 2020",
+      "predefined-themes": "Vordefinierte Farbthemen"
     }
   },
   "add-friend-popout": {
