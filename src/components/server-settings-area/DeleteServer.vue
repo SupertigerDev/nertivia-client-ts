@@ -3,7 +3,8 @@
     <div class="description">
       <div class="material-icons">info</div>
       <span
-        >Are you sure you want to delete the server named
+        ><!-- TODO: i18n -->
+        Are you sure you want to delete the server named
         <span class="name" v-if="server">{{ server.name }}</span
         >?</span
       >
@@ -12,13 +13,17 @@
       <CustomInput
         class="input"
         :error="error"
-        title="Type server name to confirm"
+        :title="$t('server-settings.delete-server.type-server-name-to-confirm')"
         v-model="nameInput"
       />
 
       <CustomButton
         :filled="true"
-        :name="!requestSent ? 'Delete Server' : 'Deleting...'"
+        :name="
+          !requestSent
+            ? $t('server-settings.tab-names.delete-server')
+            : $t('server-settings.delete-server.deleting')
+        "
         :warn="true"
         @click="deleteButton"
       />

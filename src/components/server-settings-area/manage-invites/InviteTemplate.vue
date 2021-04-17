@@ -10,7 +10,7 @@
     />
     <div class="details">
       <div>
-        <span>Link:</span
+        <span>{{ $t("server-settings.manage-invites.link") }}:</span
         ><a
           :href="`${prefixURL}i/${invite.invite_code}`"
           target="_blank"
@@ -18,9 +18,12 @@
           >{{ prefixURL }}i/{{ invite.invite_code }}</a
         >
       </div>
-      <div><span>Uses:</span>{{ invite.uses }}</div>
       <div>
-        <span>Creator:</span>
+        <span>{{ $t("server-settings.manage-invites.uses") }}:</span
+        >{{ invite.uses }}
+      </div>
+      <div>
+        <span>{{ $t("server-settings.manage-invites.creator") }}:</span>
         <span class="link" @click="showProfile">{{
           invite.creator.username
         }}</span>
@@ -28,11 +31,11 @@
       <div class="buttons">
         <div class="button" @click="copyLink">
           <span class="material-icons">content_copy</span>
-          <span>Copy</span>
+          <span>{{ $t("generic.copy") }}</span>
         </div>
         <div class="button alert" @click="$emit('deleteClicked')">
           <span class="material-icons">delete</span>
-          <span>Delete</span>
+          <span>{{ $t("generic.delete") }}</span>
         </div>
       </div>
     </div>
@@ -57,7 +60,7 @@ export default class InviteTemplate extends Vue {
   }
   copyLink() {
     this.$copyText(`${this.prefixURL}i/${this.invite.invite_code}`);
-    alert("Copied!");
+    alert(this.$t("generic.copied"));
   }
 }
 </script>

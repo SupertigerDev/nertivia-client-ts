@@ -35,7 +35,7 @@ export default class MainApp extends Vue {
   }
   get connectionMessage() {
     if (this.isConnected && !MeModule.connectionMessage) {
-      return "Ready!";
+      return this.$t("connection.ready");
     }
     return MeModule.connectionMessage;
   }

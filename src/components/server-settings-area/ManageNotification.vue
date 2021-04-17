@@ -2,15 +2,19 @@
   <div class="container">
     <div class="description">
       <div class="material-icons">info</div>
-      Change notifications settings.
+      {{ $t("server-settings.notifications.description") }}
     </div>
     <div class="notice">
-      These settings will only apply to you and wont affect others.
+      {{ $t("server-settings.notifications.notice") }}
     </div>
     <div class="box">
-      <div class="title">Server Settings</div>
+      <div class="title">{{ $t("server-context.server-settings") }}</div>
       <RadioBox
-        :items="['Enable Notifications', 'Mute Sound', 'Disable Notifications']"
+        :items="[
+          $t('server-settings.notifications.enable-notifications'),
+          $t('server-settings.notifications.mute-sound'),
+          $t('server-settings.notifications.disable-notifications')
+        ]"
         @change="onRadioIndexChange"
         v-model="serverNotificationOption"
       />

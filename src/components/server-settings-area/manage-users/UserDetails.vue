@@ -1,12 +1,12 @@
 <template>
   <div class="container">
     <div class="detail">
-      <span class="title">User:</span>
+      <span class="title">{{ $t("generic.user") }}:</span>
       <span>{{ member.username }}:</span>
       <span class="tag">{{ member.tag }}</span>
     </div>
     <div class="detail">
-      <span class="title">Permissions:</span>
+      <span class="title">{{ $t("server-settings.permissions") }}:</span>
       <div class="perms-list">
         <div
           class="list"

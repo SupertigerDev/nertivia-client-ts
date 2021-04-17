@@ -4,12 +4,13 @@
     <div class="inner-container" v-else>
       <div class="description">
         <div class="material-icons">info</div>
-        Create Invites.
+        {{ $t("server-settings.manage-invites.create-invites") }}
       </div>
       <div class="notice">
-        Only admins can see everyones invites.
+        {{ $t("server-settings.manage-invites.notice") }}
         <span v-if="isCreator"
-          >To create a custom invite, your server must be
+          ><!-- TODO: i18n -->
+          To create a custom invite, your server must be
           <a
             href="https://forms.gle/WHEL6avi8Hv2cPYi9"
             target="_blank"
@@ -26,7 +27,7 @@
         >
           <CustomInput
             class="input"
-            title="Custom Invite"
+            :title="$t('server-settings.manage-invites.custom-invite')"
             :prefix="prefixLink"
             v-model="customUrlValue"
             :error="customUrlError"
@@ -34,12 +35,16 @@
           />
           <CustomButton
             class="button"
-            title="Save Custom Link"
+            :title="$t('server-settings.manage-invites.save-custom-link')"
             icon="save"
             @click="saveCustomInvite"
           />
         </div>
-        <CustomButton name="Create Invite" icon="add" @click="createInvite" />
+        <CustomButton
+          :name="$t('server-settings.manage-invites.create-invite')"
+          icon="add"
+          @click="createInvite"
+        />
         <div class="error" v-if="error">{{ error }}</div>
         <div class="invite-list">
           <InviteTemplate

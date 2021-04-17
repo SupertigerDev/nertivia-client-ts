@@ -97,7 +97,7 @@ export default class extends Vue {
     const items: any = [
       {
         id: "user",
-        name: this.$t("message-context.user"),
+        name: this.$t("generic.user"),
         icon: "account_box",
         nestContext: true
       },
@@ -110,7 +110,7 @@ export default class extends Vue {
     if (this.message.type === 0) {
       items.push({
         id: "copy",
-        name: this.$t("message-context.copy"),
+        name: this.$t("generic.copy"),
         icon: "developer_board"
       });
     }
@@ -126,7 +126,7 @@ export default class extends Vue {
         { type: "seperator" },
         {
           id: "delete",
-          name: this.$t("message-context.delete"),
+          name: this.$t("generic.delete"),
           icon: "delete",
           warn: true
         }

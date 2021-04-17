@@ -17,7 +17,11 @@
       class="button"
       :disabled="requestSent"
       @click="unban"
-      :name="requestSent ? 'Unbanning...' : 'Unban'"
+      :name="
+        requestSent
+          ? $t('server-settings.banned-users.unbanning')
+          : $t('server-settings.banned-users.unban')
+      "
       :warn="true"
       :filled="true"
     />

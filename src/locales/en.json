@@ -28,11 +28,8 @@
     "copy-user-tag": "Copy User:Tag"
   },
   "message-context": {
-    "user": "User",
     "quote": "Quote",
-    "edit": "Edit",
-    "copy": "Copy",
-    "delete": "Delete"
+    "edit": "Edit"
   },
   "server-context": {
     "mark-as-read": "Mark As Read",
@@ -116,6 +113,7 @@
     }
   },
   "server-settings": {
+    "permissions": "Permissions",
     "tab-names": {
       "general": "General",
       "manage-channels": "Manage Channels",
@@ -130,7 +128,62 @@
     "manage-roles": {
       "manage-your-roles": "Manage your roles.",
       "default-role": "Default Role",
-      "bot-role": "Bot Role"
+      "bot-role": "Bot Role",
+      "create-role": "Create New Role",
+      "notice-bot": "This role cannot be deleted/assigned to another member as it was created by a bot. Remove the bot to remove this role.",
+      "notice-default": "This role cannot be deleted or be un-assigned as this is the default role that gets applied to every member.",
+      "pick-role-color": "Pick Role Color",
+      "role-name": "Role Name",
+      "settings": "Settings",
+      "delete-role": "Delete Role",
+      "deleting-role": "Deleting Role...",
+      "hide-role": "Hide Role"
+    },
+    "general": {
+      "general-server-settings": "General Server Settings"
+    },
+    "manage-channels": {
+      "manage-your-channels": "Manage your channels.",
+      "delete-channel": "Delete Channel",
+      "deleting-channel": "Deleting Channel...",
+      "channel-name": "Channel Name",
+      "default-channel-notice": "This is a default channel. You may change the default channel in the General page. Default channels cannot be deleted.",
+      "create-new-channel": "Create New Channel",
+      "permission": {
+        "send-message": "Send Messages"
+      },
+      "rate-limit-seconds": "Rate Limit (seconds)",
+      "text-channel": "Text Channel",
+      "html-channel": "HTML Channel (WIP)"
+    },
+    "banned-users": {
+      "notice": "Unban members from here",
+      "unbanning": "Unbanning...",
+      "unban": "Unban"
+    },
+    "manage-invites": {
+      "notice": "Only admins can see everyone's invites.",
+      "create-invites": "Create Invites",
+      "custom-invite": "Custom Invite",
+      "save-custom-link": "Save Custom Link",
+      "create-invite": "Create Invite",
+      "link": "Link",
+      "creator": "Creator",
+      "uses": "Uses"
+    },
+    "manage-users": {
+      "search-user": "Search User"
+    },
+    "delete-server": {
+      "type-server-name-to-confirm": "Type server name to confirm",
+      "deleting": "Deleting..."
+    },
+    "notifications": {
+      "description": "Change notification settings.",
+      "notice": "These settings will only apply to you and won't affect others.",
+      "enable-notifications": "Enable Notifications",
+      "mute-sound": "Mute Sound",
+      "disable-notifications": "Disable Notifications"
     }
   },
   "typing-status": {
@@ -151,7 +204,9 @@
     "click-to-add-custom-status": "Click to add custom status",
     "caught-up": "All Caught Up!",
     "direct-messages": "Direct Messages",
-    "servers": "Servers"
+    "servers": "Servers",
+    "explore": "Explore",
+    "dashboard": "Dashboard"
   },
   "add-friend-popout": {
     "notice": "Add a friend by typing their username and tag.",
@@ -188,5 +243,20 @@
     "add-friend": "Add Friend",
     "send-message": "Send Message",
     "common-servers": "Common Servers"
+  },
+  "connection": {
+    "loading": "Loading...",
+    "ready": "Ready!",
+    "authenticating": "Authenticating..."
+  },
+  "navbar": {
+    "update": "Update",
+    "update-available": "Update Available"
+  },
+  "generic": {
+    "copy": "Copy",
+    "delete": "Delete",
+    "copied": "Copied!",
+    "user": "User"
   }
 }

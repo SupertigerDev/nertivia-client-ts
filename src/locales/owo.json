@@ -21,11 +21,8 @@
     "copy-user-tag": "Copy Usew:Tag"
   },
   "message-context": {
-    "user": "Usew",
     "quote": "Qwote",
-    "edit": "Edit",
-    "copy": "Copy",
-    "delete": "Dewete"
+    "edit": "Edit"
   },
   "server-context": {
     "mark-as-read": "Mawk As Wead",
@@ -145,5 +142,10 @@
       "join": "Join",
       "create": "Cweate"
     }
+  },
+  "generic": {
+    "copy": "Copy",
+    "delete": "Dewete",
+    "user": "Usew"
   }
 }

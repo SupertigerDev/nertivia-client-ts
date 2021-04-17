@@ -2,7 +2,7 @@
   <div class="message-loading animate">
     <div class="center-box">
       <img class="spinner" src="../assets/spinner.svg" alt="" />
-      <div class="title">Loading...</div>
+      <div class="title">{{ $t("connection.loading") }}</div>
     </div>
   </div>
 </template>

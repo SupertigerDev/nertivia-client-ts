@@ -27,11 +27,8 @@
     "copy-user-tag": "Copier Pseudo:Tag"
   },
   "message-context": {
-    "user": "Utilisateur",
     "quote": "Citer",
-    "edit": "Éditer",
-    "copy": "Copier",
-    "delete": "Supprimer"
+    "edit": "Éditer"
   },
   "server-context": {
     "mark-as-read": "Marquer comme lu",
@@ -163,5 +160,10 @@
     "away": "Absent",
     "busy": "Occupé",
     "looking-to-play": "Souhaite jouer"
+  },
+  "generic": {
+    "copy": "Copier",
+    "delete": "Supprimer",
+    "user": "Utilisateur"
   }
 }
