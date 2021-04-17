@@ -1,16 +1,19 @@
 {
+  "en": {
+    "name": "English / Default",
+    "unicode": "🇬🇧",
+    "translators": [
+      "Pancake",
+      "Toby"
+    ]
+  },
   "de": {
     "name": "German / Deutsch",
     "unicode": "🇩🇪",
     "translators": ["Toby"]
   },
-  "en": {
-    "name": "English",
-    "unicode": "🇬🇧",
-    "translators": ["Pancake"]
-  },
   "pl": {
-    "name": "Polish",
+    "name": "Polish / Polskie",
     "unicode": "🇵🇱",
     "translators": ["Cyber"]
   },
@@ -24,14 +27,16 @@
     "unicode": "🇪🇸",
     "translators": ["Ender"]
   },
-  "owo": {
-    "name": "owo",
-    "unicode": "🐱",
-    "translators": ["Ender"]
- },
   "fr": {
     "name": "French / Français",
     "unicode": "🇫🇷",
     "translators": ["Yrdael"]
+  },
+  "owo": {
+    "name": "OwO / UwU",
+    "unicode": "🐱",
+    "translators": [
+      "Ender"
+    ]
   }
 }
