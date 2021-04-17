@@ -23,11 +23,8 @@
     "copy-user-tag": "Copy Usew:Tag"
   },
   "message-context": {
-    "user": "Usew",
     "quote": "Qwote",
-    "edit": "Edit",
-    "copy": "Copy",
-    "delete": "Dewete"
+    "edit": "Edit"
   },
   "server-context": {
     "mark-as-read": "Mawk As Wead",
@@ -268,6 +265,7 @@
   },
   "upload-dialog": {
     "compress": "Make shmol",
-    "upload-to": "Send to"
+    "upload-to": "Send to",
+    "user": "Usew"
   }
 }

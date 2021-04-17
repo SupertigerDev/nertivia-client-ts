@@ -127,7 +127,7 @@ const actions: ActionTree<any, any> = {
   [CONNECT]() {
     MeModule.SetConnectionDetails({
       connected: false,
-      message: "Authenticating..."
+      message: "Authenticating..." // TODO: i18n
     });
     socket().emit("authentication", {
       token: localStorage.getItem("hauthid")

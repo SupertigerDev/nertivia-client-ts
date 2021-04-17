@@ -23,7 +23,7 @@
             <div class="buttons">
               <CustomButton :name="$t('back')" @click="close" />
               <CustomButton
-                :name="$t('message-context.delete')"
+                :name="$t('generic.delete')"
                 @click="deleteMessage"
                 :warn="true"
               />

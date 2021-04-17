@@ -69,6 +69,14 @@
       "notification": "Benachrichtigungen",
       "program-activity": "Programmaktivität",
       "startup-options": "Startoptionen"
+    },
+    "interface": {
+      "colors": "Farben",
+      "reset": "Alle Farben zurücksetzen",
+      "description": "Ändern Sie das Erscheinungsbild von Nertivia.",
+      "amoled-dark": "AMOLED Dunkel",
+      "halloween-2020": "Halloween 2020",
+      "predefined-themes": "Vordefinierte Farbthemen"
     }
   },
   "add-friend-popout": {
@@ -93,13 +101,15 @@
     "click-to-add-custom-status": "Eigenen Status setzen",
     "caught-up": "Komplett Aufgeholt!",
     "direct-messages": "Direktnachrichten",
-    "servers": "Server"
+    "servers": "Server",
+    "dashboard": "Dashboard",
+    "explore": "Erkunden"
   },
   "dm-tab": {
     "friends": "Freunde",
-    "add-friend": "Freund hinzufügen",
+    "add-friend": "Neuer Freund",
     "recents": "Letzte",
-    "saved-notes": "Gespeicherte Notizen"
+    "saved-notes": "Notizen"
   },
   "message-area": {
     "attach-message": "Nachricht hinzufügen",
@@ -110,11 +120,8 @@
     "new-messages": "Neue Nachrichten"
   },
   "message-context": {
-    "copy": "Kopieren",
     "edit": "Bearbeiten",
-    "delete": "Löschen",
-    "quote": "Zitieren",
-    "user": "Benutzer"
+    "quote": "Zitieren"
   },
   "save-changes": "Änderungen speichern",
   "saving": "Speichere...",
@@ -124,6 +131,7 @@
     "leave-server": "Server verlassen"
   },
   "server-settings": {
+    "permissions": "Berechtigungen",
     "tab-names": {
       "banned-users": "Gebannte Benutzer",
       "delete-server": "Server löschen",
@@ -138,7 +146,62 @@
     "manage-roles": {
       "bot-role": "Bot Rolle",
       "default-role": "Standardrolle",
-      "manage-your-roles": "Verwalten Sie Ihre Rollen."
+      "manage-your-roles": "Verwalten Sie Ihre Rollen.",
+      "create-role": "Neue Rolle erstellen",
+      "delete-role": "Rolle löschen",
+      "hide-role": "Rolle ausblenden",
+      "deleting-role": "Lösche Rolle...",
+      "notice-bot": "Diese Rolle kann nicht gelöscht oder einem anderen Mitglied zugewiesen werden, da sie von einem Bot erstellt wurde. Entfernen Sie den Bot, um diese Rolle zu entfernen.",
+      "notice-default": "Diese Rolle kann nicht gelöscht oder ihre Zweisunge entfernt werden, da sie die Standardrolle ist, die auf jedes Mitglied angewendet wird.",
+      "pick-role-color": "Wählen Sie Rollenfarbe",
+      "role-name": "Rollenname",
+      "settings": "Einstellungen"
+    },
+    "general": {
+      "general-server-settings": "Allgemeine Servereinstellungen"
+    },
+    "manage-channels": {
+      "channel-name": "Kanal Name",
+      "delete-channel": "Kanal löschen",
+      "deleting-channel": "Lösche Kanal...",
+      "manage-your-channels": "Verwalten Sie Ihre Kanäle.",
+      "default-channel-notice": "Dies ist ein Standardkanal. Sie können den Standardkanal unter 'Allgemein' ändern. Standardkanäle können nicht gelöscht werden.",
+      "create-new-channel": "Neuen Kanal erstellen",
+      "rate-limit-seconds": "Rate Limit (Sekunden)",
+      "html-channel": "HTML-Kanal (WIP)",
+      "permission": {
+        "send-message": "Nachrichten Senden"
+      },
+      "text-channel": "Textkanal"
+    },
+    "banned-users": {
+      "notice": "Mitglieder von hier aus entbannen",
+      "unban": "Entbannen",
+      "unbanning": "Entbanne..."
+    },
+    "manage-invites": {
+      "create-invite": "Einladung erstellen",
+      "create-invites": "Einladungen erstellen",
+      "custom-invite": "Benutzerdefinierte Einladung",
+      "creator": "Ersteller",
+      "link": "Link",
+      "notice": "Nur Administratoren können alle Einladungen sehen.",
+      "save-custom-link": "Benutzerdefinierten Link speichern",
+      "uses": "Benutzt"
+    },
+    "manage-users": {
+      "search-user": "Benutzer suchen"
+    },
+    "delete-server": {
+      "deleting": "Lösche...",
+      "type-server-name-to-confirm": "Servernamen zur Bestätigung eingeben"
+    },
+    "notifications": {
+      "description": "Ändern Sie die Benachrichtigungseinstellungen.",
+      "disable-notifications": "Benachrichtigungen ausschalten",
+      "enable-notifications": "Benachrichtigungen einschalten",
+      "mute-sound": "Ton stummschalten",
+      "notice": "Diese Einstellungen gelten nur für Sie und wirken sich nicht auf andere aus."
     }
   },
   "time": {
@@ -188,5 +251,20 @@
     "remove-friend": "Freund entfernen",
     "send-message": "Direktnachricht senden",
     "suspended": "Suspendiert"
+  },
+  "connection": {
+    "authenticating": "Authentifiziere...",
+    "loading": "Lade...",
+    "ready": "Bereit!"
+  },
+  "navbar": {
+    "update": "Aktualisieren",
+    "update-available": "Update verfügbar"
+  },
+  "generic": {
+    "copy": "Kopieren",
+    "delete": "Löschen",
+    "copied": "Kopiert!",
+    "user": "Benutzer"
   }
 }

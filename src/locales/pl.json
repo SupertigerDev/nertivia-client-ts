@@ -27,11 +27,8 @@
     "copy-user-tag": "Kopuj Użytkownik:Tag"
   },
   "message-context": {
-    "user": "Użytkownik",
     "quote": "Cytat",
-    "edit": "Edyduj",
-    "copy": "Kopiuj",
-    "delete": "Usuń"
+    "edit": "Edyduj"
   },
   "server-context": {
     "mark-as-read": "Oznacz jako przeczytane",
@@ -163,5 +160,10 @@
     "away": "Zaraz wracam",
     "busy": "Zajęty",
     "looking-to-play": "Chcę grać"
+  },
+  "generic": {
+    "copy": "Kopiuj",
+    "delete": "Usuń",
+    "user": "Użytkownik"
   }
 }

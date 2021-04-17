@@ -21,11 +21,8 @@
     "copy-user-tag": "Kopiera Användare:Tagg"
   },
   "message-context": {
-    "user": "Användare",
     "quote": "Citat",
-    "edit": "Redigera",
-    "copy": "Kopiera",
-    "delete": "Radera"
+    "edit": "Redigera"
   },
   "server-context": {
     "mark-as-read": "Markera Som Läst",
@@ -145,5 +142,10 @@
       "join": "Gå med",
       "create": "Skapa"
     }
+  },
+  "generic": {
+    "copy": "Kopiera",
+    "delete": "Radera",
+    "user": "Användare"
   }
 }

@@ -1,38 +1,36 @@
 <template>
   <div class="container selected-role-page">
     <div class="notice warn" v-if="role && role.bot">
-      This role cannot be deleted/assigned to another member as it is created by
-      a bot. Remove the bot to remove this role.
+      {{ $t("server-settings.manage-roles.notice-bot") }}
     </div>
     <div class="notice warn" v-if="role && role.default">
-      This role cannot be deleted or be un-assigned as this is the default role
-      that gets applied to every member.
+      {{ $t("server-settings.manage-roles.notice-default") }}
     </div>
     <div class="name-color">
       <div
         class="color"
-        title="Pick Role Color"
+        :title="$t('server-settings.manage-roles.pick-role-color')"
         @click="showPicker"
         :style="{ backgroundColor: color || 'white' }"
       />
       <CustomInput
         :error="error"
         class="input"
-        title="Role Name"
+        :title="$t('server-settings.manage-roles.role-name')"
         v-model="name"
       />
       <div class="hidden picker-button" ref="pickerButton">
         <div class="pickr"></div>
       </div>
     </div>
-    <div class="title">Settings</div>
+    <div class="title">{{ $t("server-settings.manage-roles.settings") }}</div>
     <CheckBox
       v-model="hideRole"
       class="check-box"
-      name="Hide Role"
+      :name="$t('server-settings.manage-roles.hide-role')"
       description="Display members with this role along with all the default members"
     />
-    <div class="title">Permissions</div>
+    <div class="title">{{ $t("server-settings.permissions") }}</div>
     <div class="perm-list">
       <CheckBox
         v-for="perm in permissionsList"
@@ -60,9 +58,9 @@
       :filled="true"
       :name="
         !deleteConfirm
-          ? 'Delete Role'
+          ? $t('server-settings.manage-roles.delete-role')
           : deleteRequestSent
-          ? 'Deleting Role...'
+          ? $t('server-settings.manage-roles.deleting-role')
           : $t('are-you-sure')
       "
       :warn="true"

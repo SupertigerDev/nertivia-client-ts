@@ -4,26 +4,27 @@
       class="notice warn"
       v-if="channel.channelID === server.default_channel_id"
     >
-      This is a default channel. You may chnage the default channel in the
-      General page. Default channel cannot be deleted.
+      {{ $t("server-settings.manage-channels.default-channel-notice") }}
     </div>
     <CustomInput
       class="input"
-      title="Channel Name"
+      :title="$t('server-settings.manage-channels.channel-name')"
       :error="error"
       v-model="channelName"
     />
     <!-- TODO: replace with bitwise permissions some day (just like how i made role permissions) -->
     <!-- TODO: Per user channel permission pls -->
-    <div class="title">Permissions</div>
+    <div class="title">
+      {{ $t("server-settings.permissions") }}
+    </div>
     <CheckBox
-      name="Send Message"
+      :name="$t('server-settings.manage-channels.permission.send-message')"
       v-model="sendMessagePermission"
       :colored="true"
     />
     <CustomInput
       class="input slow"
-      title="Rate Limit (seconds)"
+      :title="$t('server-settings.manage-channels.rate-limit-seconds')"
       v-model="rateLimit"
       prefixIcon="query_builder"
     />
@@ -40,9 +41,9 @@
       :filled="true"
       :name="
         !deleteConfirm
-          ? 'Delete Channel'
+          ? $t('server-settings.manage-channels.delete-channel')
           : deleteRequestSent
-          ? 'Deleting Channel...'
+          ? $t('server-settings.manage-channels.deleting-channel')
           : $t('are-you-sure')
       "
       :warn="true"

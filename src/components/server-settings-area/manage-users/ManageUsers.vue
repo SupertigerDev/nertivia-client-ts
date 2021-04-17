@@ -2,7 +2,7 @@
   <div class="container">
     <div class="box">
       <CustomInput
-        title="Search User"
+        :title="$t('server-settings.manage-users.search-user')"
         v-model="searchValue"
         v-show="!selectedServerMember"
       />

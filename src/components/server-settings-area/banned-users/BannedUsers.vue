@@ -4,10 +4,10 @@
     <div class="inner-container" v-else>
       <div class="description">
         <div class="material-icons">info</div>
-        Banned Users
+        {{ $t("server-settings.tab-names.banned-users") }}
       </div>
       <div class="notice">
-        Unban members from here
+        {{ $t("server-settings.banned-users.notice") }}
       </div>
       <div class="box">
         <div class="users-list">

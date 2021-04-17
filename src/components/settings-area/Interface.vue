@@ -2,10 +2,10 @@
   <div class="interface">
     <div class="description">
       <div class="material-icons">info</div>
-      Change the appearance of Nertivia.
+      {{ $t("settings.interface.description") }}
     </div>
     <div class="box">
-      <div class="title">Colors</div>
+      <div class="title">{{ $t("settings.interface.colors") }}</div>
       <div class="hidden picker-button" ref="pickerButton">
         <div class="pickr"></div>
       </div>
@@ -19,17 +19,17 @@
         <div class="name">{{ css.name }}</div>
       </div>
       <div class="reset" @click="resetButton">
-        Reset All Colors
+        {{ $t("settings.interface.reset") }}
       </div>
     </div>
     <div class="box">
-      <div class="title">Event Themes</div>
+      <div class="title">{{ $t("settings.interface.predefined-themes") }}</div>
       <div class="themes-list">
         <div class="theme amoled" @click="applyTheme('amoled')">
-          Apply AMOLED Dark
+          {{ $t("settings.interface.amoled-dark") }}
         </div>
         <div class="theme" @click="applyTheme('halloween')">
-          Apply Halloween Theme 2020
+          {{ $t("settings.interface.halloween-2020") }}
         </div>
       </div>
     </div>
