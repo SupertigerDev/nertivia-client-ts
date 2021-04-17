@@ -28,5 +28,10 @@
     "name": "owo",
     "unicode": "🐱",
     "translators": ["Ender"]
+ },
+  "fr": {
+    "name": "French / Français",
+    "unicode": "🇫🇷",
+    "translators": ["Yrdael"]
   }
 }

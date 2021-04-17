@@ -1,0 +1,167 @@
+{
+  "save-changes": "Appliquer",
+  "saving": "En cours...",
+  "are-you-sure": "Êtes-vous certain ? ",
+  "copy-id-button": "Copier l'ID",
+  "time": {
+    "today-at": "Aujourd'hui à {0}",
+    "yesterday-at": "Hier à {0}"
+  },
+  "message-area": {
+    "no-message-perm": "Vous n'avez pas la permission d'écrire dans ce canal.",
+    "not-connected-server": "Hors-ligne",
+    "attach-message": "Joindre un fichier",
+    "type-message": "Rédiger un message",
+    "back-to-bottom": "En bas SVP",
+    "new-messages": "Nouveaux messages"
+  },
+  "upload-dialog": {
+    "compress": "Compression",
+    "upload-to": "Téléverser à"
+  },
+  "user-context": {
+    "view-profile": "Voir le profil",
+    "edit-roles": "éditer les rôles",
+    "kick": "Virer",
+    "ban": "Bannir",
+    "copy-user-tag": "Copier Pseudo:Tag"
+  },
+  "message-context": {
+    "user": "Utilisateur",
+    "quote": "Citer",
+    "edit": "Éditer",
+    "copy": "Copier",
+    "delete": "Supprimer"
+  },
+  "server-context": {
+    "mark-as-read": "Marquer comme lu",
+    "server-settings": "Paramètres du Serveur",
+    "leave-server": "Quitter le Serveur"
+  },
+  "channel-context": {
+    "mute-channel": "Réduire le canal au silence",
+    "unmute-channel": "Réactiver les notifications du canal"
+  },
+  "settings": {
+    "tab-names": {
+      "account": "Compte",
+      "notification": "Notifications",
+      "manage-emojis": "Gestion des émojis",
+      "startup-options": "Options de démarrage",
+      "program-activity": "Activité logicielle",
+      "manage-bots": "Gestion des Bots",
+      "interface": "Interface",
+      "language": "Langage",
+      "delete-account": "Supprimer le compte",
+      "changelog": "Historique des changements"
+    },
+    "account": {
+      "title": "Éditer le profil",
+      "change-password": "Changer le mot de passe",
+      "relink-google-drive": "Relier à Google Drive",
+      "link-google-drive": "Lier à Google Drive",
+      "more-profile": "Profil détaillé",
+      "more-profile-notice": "Ces informations peuvent être vues par n'importe qui."
+    },
+    "notification": {
+      "title": "Changer les paramètres des notifications.",
+      "notification-sound": "Notifications sonores",
+      "notification-sound-details": "Déclenche un chouette son pour avoir votre attention",
+      "push-notification": "Notifications Push",
+      "push-notification-details": "Avoir des notifications Push même quand l'application est fermée."
+    },
+    "manage-emojis": {
+      "details": "Importez vos beaux émojis gratuitement ! Les émojis ne doivent pas dépasser 3MB.",
+      "supported-types": "Les types de fichers supportés sont: png, jpg, gif",
+      "add-emojis-button": "Ajouter des émojis"
+    },
+    "startup-options": {
+      "title": "Options de démarrage de l'application bureau",
+      "notice": "Vous devez installer la version bureau de l'application afin de pouvoir changer ces paramètres.",
+      "open-on-startup": "Lancer Nertivia au démarrage de l'ordinateur."
+    },
+    "program-activity": {
+      "details": "Partagez des programmes ou jeux que vous êtes en train d'utiliser en les ajoutant ci-dessous. Cela remplacera votre statut personnalisé dès lors qu'un programme partagé se lance. Une fois le programme terminé votre statut personnalisé sera de nouveau affiché.",
+      "notice": "Vous devez installer la version bureau de l'application afin de pouvoir utiliser cette fonctionnalité."
+    },
+    "manage-bots": {
+      "details": "Créer des utilisateurs automatisés vous permettra d'utiliser notre API pour personnaliser vos propres Bots aux petits oignons.",
+      "command-notice": "Ajoutez des commandes pour laisser les utilisateurs savoir quelles sont les commandes disponibles pour vos Bots",
+      "create-bot-button": "Créer un Bot",
+      "add-command-button": "Ajouter une commande",
+      "edit-bot": "Éditer le Bot",
+      "edit-commands": "Éditer les commandes",
+      "create-invite-link": "Créer un lien d'invitation",
+      "copy-invite-url": "Copier l'URL de l'invitation",
+      "manage-token": "Gestion des jetons d'authentification",
+      "show-token": "Montrer le jeton",
+      "copy-token": "Copier le jeton",
+      "reset-token": "réinitialiser le jeton",
+      "delete-bot": "Supprimer le Bot"
+    },
+    "delete-account": {
+      "notice": "Vous êtes sur le point de supprimer votre compte",
+      "what-gets-deleted": "Ce qui sera supprimé",
+      "what-wont-delete": "Ce qui ne sera pas supprimé",
+      "messages-sent": "Vos messages envoyés sur des serveurs publiques",
+      "requirements": "Conditions requises",
+      "delete-leave-server": "Quitter/Supprimer tous les serveurs",
+      "delete-bots": "Supprimer tous les Bots",
+      "delete-account-button": "Supprimer mon compte"
+    },
+    "language": {
+      "details": "Il est possible que vous deviez relancer Nertivia afin d'appliquer les changements. Contribuer en envoyant une PR sur Github.",
+      "translators": "Traducteurs"
+    }
+  },
+  "server-settings": {
+    "tab-names": {
+      "general": "Général",
+      "manage-channels": "Gérer les canaux",
+      "manage-roles": "Gérer les rôles",
+      "manage-invites": "Gérer les invitations",
+      "server-visibility": "Visibilité du serveur",
+      "manage-notification": "Gérer les notifications",
+      "banned-users": "Utilisateurs bannis",
+      "manage-users": "Gérer les utilisateurs",
+      "delete-server": "Supprimer le serveur"
+    }
+  },
+  "typing-status": {
+    "is-typing": "{0} est en train d'écrire...",
+    "two-are-typing": "{0} et {1} sont en train d'écrire...",
+    "three-are-typing": "{0}, {1} et {2} sont en train d'écrire...",
+    "more-than-three": "{0} personnes sont en train d'écrire..."
+  },
+  "dm-tab": {
+    "friends": "Amis",
+    "recents": "Récents",
+    "saved-notes": "Notes enregistrées",
+    "add-friend": "Ajouter un ami"
+  },
+  "dashboard-tab": {
+    "profile": "Profil",
+    "notifications": "Notifications",
+    "click-to-add-custom-status": "Cliquez pour personnaliser votre statut"
+  },
+  "add-friend-popout": {
+    "notice": "Ajoutez un contact en inscrivant leur pseudo et leur tag.",
+    "adding": "Ajout..."
+  },
+  "add-server-popout": {
+    "title": "Ajouter un serveur",
+    "join-server-notice": "Rejoindre un serveur en indiquant le code d'invitation.",
+    "create-server-notice": "Créez votre propre serveur. Commencez par lui donner un nom.",
+    "tabs": {
+      "join": "Rejoindre",
+      "create": "Créer"
+    }
+  },
+  "presence": {
+    "offline": "Déconnecté",
+    "online": "Connecté",
+    "away": "Absent",
+    "busy": "Occupé",
+    "looking-to-play": "Souhaite jouer"
+  }
+}
