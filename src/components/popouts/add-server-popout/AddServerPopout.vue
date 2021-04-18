@@ -6,7 +6,8 @@
           <div class="icon material-icons">dns</div>
           <div class="text">{{ $t("add-server-popout.title") }}</div>
         </div>
-        <div class="inner-content">
+        <TabLayout :tabs="tabs" />
+        <!-- <div class="inner-content">
           <div class="tabs">
             <div class="tab" :class="{ selected: tab === 0 }" @click="tab = 0">
               {{ $t("add-server-popout.tabs.join") }}
@@ -21,7 +22,7 @@
               <CreateServer v-if="tab === 1" key="addServer" />
             </transition>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -29,16 +30,14 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { PopoutsModule } from "@/store/modules/popouts";
-import CustomInput from "@/components/CustomInput.vue";
-import CustomButton from "@/components/CustomButton.vue";
 import CreateServer from "./CreateServer.vue";
 import JoinServer from "./JoinServer.vue";
+import TabLayout from "@/components/TabLayout.vue";
 
 @Component({
-  components: { CustomInput, CustomButton, JoinServer, CreateServer }
+  components: { TabLayout }
 })
 export default class ProfilePopout extends Vue {
-  tab = 0;
   close() {
     PopoutsModule.ClosePopout("add-server");
   }
@@ -48,30 +47,18 @@ export default class ProfilePopout extends Vue {
       this.close();
     }
   }
+  get tabs() {
+    return [
+      { name: this.$t("add-server-popout.tabs.join"), component: JoinServer },
+      {
+        name: this.$t("add-server-popout.tabs.create"),
+        component: CreateServer
+      }
+    ];
+  }
 }
 </script>
 <style lang="scss" scoped>
-.slide-left-leave-active,
-.slide-left-enter-active {
-  transition: 0.3s;
-}
-.slide-left-enter {
-  transform: translate(100%, 0);
-}
-.slide-left-leave-to {
-  transform: translate(-100%, 0);
-}
-.slide-right-leave-active,
-.slide-right-enter-active {
-  transition: 0.3s;
-}
-.slide-right-enter {
-  transform: translate(-100%, 0);
-}
-.slide-right-leave-to {
-  transform: translate(100%, 0);
-}
-
 .add-server-popout {
   background: var(--popout-color);
   border-radius: 4px;
