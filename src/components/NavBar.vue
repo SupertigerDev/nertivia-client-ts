@@ -274,7 +274,7 @@ export default class NavBar extends Vue {
 }
 @media (max-width: 950px) {
   .nav-bar {
-    position: absolute;
+    position: fixed;
     bottom: -56px;
     left: 0;
     right: 0;
