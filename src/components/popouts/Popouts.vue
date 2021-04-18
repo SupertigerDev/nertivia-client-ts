@@ -13,6 +13,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { PopoutsModule } from "@/store/modules/popouts";
+import FloatingProfileCard from "./FloatingProfileCard.vue";
 
 const components = {
   ProfilePopout: () =>
@@ -95,6 +96,10 @@ const components = {
   ChangesToPolicies: () =>
     import(
       /* webpackChunkName: "ChangesToPolicies" */ "@/components/popouts/ChangesToPolicies.vue"
+    ),
+  FloatingProfileCard: () =>
+    import(
+      /* webpackChunkName: "FloatingProfileCard" */ "@/components/popouts/FloatingProfileCard.vue"
     )
 };
 

@@ -46,7 +46,12 @@ class Popouts extends VuexModule {
     component: string;
     data?: any;
     key?: string;
+    toggle?: boolean
   }) {
+    if (payload.toggle && this.isOpened(payload.id)) {
+      this.ClosePopout(payload.id);
+      return;
+    }
     this.SHOW_POPOUT(payload);
   }
 

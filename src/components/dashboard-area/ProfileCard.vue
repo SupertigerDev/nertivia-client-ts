@@ -63,11 +63,15 @@ import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
 
 @Component({ components: { AvatarImage, Markup } })
 export default class ProfileCard extends Vue {
+  @Prop() private identity!: string;
   @Prop() private hideTitle!: boolean;
   editCustomStatus = false;
   customStatusText = "";
   settingsClicked() {
     this.$router.push("/app/settings/account");
+    if (this.identity) {
+      PopoutsModule.ClosePopout(this.identity);
+    }
   }
   customStatusClick() {
     if (this.editCustomStatus) return;

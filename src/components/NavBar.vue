@@ -62,9 +62,9 @@
     <div class="gap" />
     <div
       class="item me"
-      :class="{ selected: showUserArea }"
+      :class="{ selected: isProfileOpened }"
       :title="me.username"
-      @click="showUserArea = !showUserArea"
+      @click="showCardPopup"
     >
       <div class="status-dot" :style="{ backgroundColor: presence.color }" />
       <AvatarImage
@@ -75,7 +75,7 @@
       />
     </div>
 
-    <div
+    <!-- <div
       class="item last"
       :class="{
         selected: currentTab === 'settings'
@@ -85,24 +85,13 @@
     >
       <div class="icon material-icons">settings</div>
       <div class="title">Settings</div>
-    </div>
-
-    <!-- Popouts -->
-    <UserArea
-      class="user-area"
-      v-if="showUserArea"
-      v-click-outside="clickOutsideUserArea"
-    />
+    </div> -->
   </div>
 </template>
 
 <script lang="ts">
 const AvatarImage = () =>
   import(/* webpackChunkName: "AvatarImage" */ "@/components/AvatarImage.vue");
-const UserArea = () =>
-  import(
-    /* webpackChunkName: "UserArea" */ "@/components/popouts/UserArea.vue"
-  );
 import userStatuses from "@/constants/userStatuses";
 import { AppUpdateModule } from "@/store/modules/appUpdate";
 import { DrawersModule } from "@/store/modules/drawers";
@@ -114,15 +103,8 @@ import { PresencesModule } from "@/store/modules/presences";
 import { lastSelectedServerChannel } from "@/utils/lastSelectedServer";
 import { Component, Vue } from "vue-property-decorator";
 
-@Component({ components: { AvatarImage, UserArea } })
+@Component({ components: { AvatarImage } })
 export default class NavBar extends Vue {
-  showUserArea = false;
-  clickOutsideUserArea(event: any) {
-    if (event.target.closest(".item.me")) return;
-    if (event.target.closest(".context")) return;
-    this.showUserArea = false;
-  }
-
   changeTab(name: string) {
     const selectedServerID = this.lastSelectedServerID();
     const serverChannelID = lastSelectedServerChannel(selectedServerID || "");
@@ -149,6 +131,13 @@ export default class NavBar extends Vue {
   }
   lastSelectedDMChannelID(): string | null {
     return localStorage.getItem("lastSelectedDMChannelID");
+  }
+  showCardPopup() {
+    PopoutsModule.ShowPopout({
+      id: "floating-profile-card",
+      component: "FloatingProfileCard",
+      toggle: true
+    });
   }
   get currentTab() {
     return this.$route.path.split("/")[2] || "";
@@ -177,6 +166,9 @@ export default class NavBar extends Vue {
   }
   get updateAvailable() {
     return AppUpdateModule.updateAvailable;
+  }
+  get isProfileOpened() {
+    return PopoutsModule.isOpened("floating-profile-card");
   }
 }
 </script>

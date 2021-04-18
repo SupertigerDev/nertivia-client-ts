@@ -1,5 +1,12 @@
 [
 	{
+		"version": "1.27.1-beta",
+		"date": "18 April 2021",
+		"title": "Bug Fixes",
+		"fixes": "Profile Card would not show in mobile mode.",
+		"changes": "As you can access the settings through the profile card, settings icon is now removed."
+	},
+	{
 		"version": "1.27.0-beta",
 		"date": "15 April 2021",
 		"title": "Language Support",
