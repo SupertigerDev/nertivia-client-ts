@@ -1,9 +1,5 @@
 <template>
-  <div class="interface">
-    <div class="description">
-      <div class="material-icons">info</div>
-      {{ $t("settings.interface.description") }}
-    </div>
+  <div class="color-scheme">
     <div class="box">
       <div class="title">{{ $t("settings.interface.colors") }}</div>
       <div class="hidden picker-button" ref="pickerButton">
@@ -47,7 +43,7 @@ import {
   applyDefaultTheme
 } from "@/utils/customCssVars";
 @Component
-export default class MainApp extends Vue {
+export default class InterfaceVariables extends Vue {
   pickr: Pickr | null = null;
   lastClicked: { key?: string; value?: string; custom?: string } = {};
   customVars = getCustomCssVars();
@@ -76,7 +72,7 @@ export default class MainApp extends Vue {
   }
   showPicker(css: any, event: any) {
     const rect = event.target.getBoundingClientRect();
-    const top = rect.top - 47;
+    const top = rect.top - 100;
     (this.$refs.pickerButton as HTMLElement).style.top = top + "px";
     this.lastClicked = css;
     this.pickr?.setColor(css.custom || css.value);
@@ -125,19 +121,10 @@ export default class MainApp extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.interface {
+.color-scheme {
   display: flex;
-  position: relative;
   flex-direction: column;
-}
-.description {
-  margin: 10px;
-  display: flex;
-  align-items: center;
-  align-content: center;
-  .material-icons {
-    margin-right: 5px;
-  }
+  overflow: auto;
 }
 .title {
   margin-bottom: 5px;

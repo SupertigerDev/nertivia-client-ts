@@ -11,7 +11,7 @@
 <script>
 const Interface = () =>
   import(
-    /* webpackChunkName: "Interface" */ "@/components/settings-area/Interface.vue"
+    /* webpackChunkName: "Interface" */ "@/components/settings-area/interface/Interface.vue"
   );
 const Account = () =>
   import(
