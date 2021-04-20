@@ -120,13 +120,6 @@
         prefixIcon="lock"
         type="password"
       />
-      <CustomButton
-        :filled="true"
-        :name="!requestSent ? $t('save-changes') : $t('saving')"
-        icon="save"
-        v-if="showSaveButton"
-        @click="update"
-      />
       <div class="link" @click="relinkButton">
         {{
           me.googleDriveLinked
@@ -134,6 +127,13 @@
             : $t("settings.account.link-google-drive")
         }}
       </div>
+      <CustomButton
+        :filled="true"
+        :name="!requestSent ? $t('save-changes') : $t('saving')"
+        icon="save"
+        v-if="showSaveButton"
+        @click="update"
+      />
     </div>
     <MoreProfile
       @update="moreProfileUpdate"
