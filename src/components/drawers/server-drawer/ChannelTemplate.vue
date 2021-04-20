@@ -1,12 +1,13 @@
 <template>
-  <div
+  <router-link
+    :to="path"
     class="channel"
+    @click.native="closeDrawer"
     :class="{
       selected: isChannelSelected,
       hasNotification: notificationExists
     }"
-    @contextmenu.prevent="showContext"
-    @click="channelClicked"
+    @contextmenu.prevent.native="showContext"
   >
     <div class="muted material-icons" v-if="isMuted">notifications_off</div>
     <div class="dot" v-else></div>
@@ -17,7 +18,7 @@
     >
       {{ notificationExists.mentioned ? "@" : "" }}
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script lang="ts">
@@ -32,11 +33,8 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 export default class ChannelTemplate extends Vue {
   @Prop() private channel!: Channel;
 
-  channelClicked() {
+  closeDrawer() {
     DrawersModule.SetLeftDrawer(false);
-    this.$router.push(
-      `/app/servers/${this.channel.server_id}/${this.channel.channelID}`
-    );
   }
   showContext(event: any) {
     PopoutsModule.ShowPopout({
@@ -50,6 +48,9 @@ export default class ChannelTemplate extends Vue {
         channelID: this.channel.channelID
       }
     });
+  }
+  get path() {
+    return `/app/servers/${this.channel.server_id}/${this.channel.channelID}`;
   }
   get notificationExists() {
     return LastSeenServerChannelsModule.serverChannelNotification(
@@ -67,6 +68,7 @@ export default class ChannelTemplate extends Vue {
 
 <style lang="scss" scoped>
 .channel {
+  text-decoration: none;
   display: flex;
   align-items: center;
   color: rgba(255, 255, 255, 0.7);

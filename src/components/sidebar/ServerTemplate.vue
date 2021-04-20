@@ -1,15 +1,15 @@
 <template>
-  <div
+  <router-link
+    :to="path"
     class="server"
     :class="{
       selected: isServerSelected,
       notification: serverNotificationArr.length,
       mentioned: mentionedNotificationExists
     }"
-    @contextmenu.prevent="showContext"
-    @click="serverClicked"
-    @mouseover="hover = true"
-    @mouseout="hover = false"
+    @contextmenu.prevent.native="showContext"
+    @mouseover.native="hover = true"
+    @mouseout.native="hover = false"
   >
     <AvatarImage
       size="50px"
@@ -17,7 +17,7 @@
       :seedId="server.server_id"
       :animateGif="hover"
     />
-  </div>
+  </router-link>
 </template>
 
 <script lang="ts">
@@ -33,15 +33,6 @@ export default class MainApp extends Vue {
   @Prop() private server!: Server;
   hover = false;
 
-  serverClicked() {
-    const serverChannelID = lastSelectedServerChannel(
-      this.server.server_id || ""
-    );
-    this.$router.push(
-      `/app/servers/${this.server.server_id}/${serverChannelID ||
-        this.server.default_channel_id}`
-    );
-  }
   showContext(event: MouseEvent) {
     PopoutsModule.ShowPopout({
       id: "context",
@@ -54,7 +45,13 @@ export default class MainApp extends Vue {
       }
     });
   }
-
+  get path() {
+    const serverChannelID = lastSelectedServerChannel(
+      this.server.server_id || ""
+    );
+    return `/app/servers/${this.server.server_id}/${serverChannelID ||
+      this.server.default_channel_id}`;
+  }
   get mentionedNotificationExists() {
     return this.serverNotificationArr.find(c => c.mentioned);
   }
