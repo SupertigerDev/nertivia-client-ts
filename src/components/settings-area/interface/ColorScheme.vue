@@ -14,18 +14,18 @@
         <div class="color-box" :style="{ background: `var(${css.key})` }" />
         <div class="name">{{ css.name }}</div>
       </div>
-      <div class="reset" @click="resetButton">
-        {{ $t("settings.interface.reset") }}
-      </div>
     </div>
     <div class="box">
       <div class="title">{{ $t("settings.interface.predefined-themes") }}</div>
       <div class="themes-list">
-        <div class="theme amoled" @click="applyTheme('amoled')">
-          {{ $t("settings.interface.amoled-dark") }}
+        <div class="theme default" @click="resetButton">
+          {{ $t("settings.interface.default-theme") }}
         </div>
         <div class="theme" @click="applyTheme('halloween')">
           {{ $t("settings.interface.halloween-2020") }}
+        </div>
+        <div class="theme amoled" @click="applyTheme('amoled')">
+          {{ $t("settings.interface.amoled-dark") }}
         </div>
       </div>
     </div>
@@ -196,6 +196,9 @@ export default class InterfaceVariables extends Vue {
     }
     &.amoled {
       background: black;
+    }
+    &.default {
+      background: #368dff;
     }
   }
 }
