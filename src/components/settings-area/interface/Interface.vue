@@ -12,7 +12,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import TabLayout from "@/components/TabLayout.vue";
 import ColorScheme from "./ColorScheme.vue";
-// import CustomCSS from "./CustomCSS.vue";
+// import CustomCSS from "./custom-css/CustomCSS.vue";
 
 @Component({ components: { TabLayout } })
 export default class Interface extends Vue {

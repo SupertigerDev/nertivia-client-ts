@@ -1,11 +1,7 @@
 <template>
   <div class="custom-css">
-    <div class="box">
-      <div class="theme-list" v-if="themes">
-        <div class="item" v-for="theme in themes" :key="theme.id">
-          {{ theme.name }}
-        </div>
-      </div>
+    <div class="theme-list" v-if="themes">
+      <theme-template v-for="theme in themes" :key="theme.id" :theme="theme" />
     </div>
   </div>
 </template>
@@ -13,8 +9,9 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { getThemes, ThemeDetail } from "@/services/themeService";
+import ThemeTemplate from "./ThemeTemplate.vue";
 
-@Component
+@Component({ components: { ThemeTemplate } })
 export default class CustomCSS extends Vue {
   themes: null | ThemeDetail[] = null;
   mounted() {
@@ -38,15 +35,9 @@ export default class CustomCSS extends Vue {
   margin-left: 5px;
 }
 .theme-list {
-  .item {
-    display: flex;
-    padding: 5px;
-    cursor: pointer;
-    border-radius: 4px;
-    user-select: none;
-    &:hover {
-      background: rgba(255, 255, 255, 0.05);
-    }
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 5px;
 }
 </style>
