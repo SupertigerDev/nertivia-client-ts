@@ -72,11 +72,11 @@
     },
     "interface": {
       "colors": "Farben",
-      "reset": "Alle Farben zurücksetzen",
       "description": "Ändern Sie das Erscheinungsbild von Nertivia.",
       "amoled-dark": "AMOLED Dunkel",
       "halloween-2020": "Halloween 2020",
-      "predefined-themes": "Vordefinierte Farbthemen"
+      "predefined-themes": "Vordefinierte Farbthemen",
+      "default-theme": "Standardfarben"
     }
   },
   "add-friend-popout": {

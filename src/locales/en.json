@@ -114,7 +114,6 @@
     "interface": {
       "description": "Change the appearance of Nertivia.",
       "colors": "Colors",
-      "reset": "Reset All Colors",
       "default-theme": "Default Theme",
       "amoled-dark": "AMOLED Dark",
       "halloween-2020": "Halloween 2020",
