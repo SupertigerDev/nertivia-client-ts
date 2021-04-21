@@ -108,7 +108,7 @@
       "description": "Change how to draw Nertivia~",
       "halloween-2020": "SPOOKY SCAWY SKELETON (2020)",
       "predefined-themes": "Cool colors",
-      "reset": "Default"
+      "default-theme": "Bloo Theem"
     }
   },
   "server-settings": {
@@ -265,7 +265,6 @@
   },
   "upload-dialog": {
     "compress": "Make shmol",
-    "upload-to": "Send to",
-    "user": "Usew"
+    "upload-to": "Send to"
   }
 }
