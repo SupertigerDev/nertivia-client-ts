@@ -1,5 +1,12 @@
 [
 	{
+		"version": "1.28.0-beta",
+		"date": "22 April 2021",
+		"title": "Markup Spoilers (by bree)",
+		"new": "Added spoilers to the markup",
+		"body": "Spoilers can be used like <code>||shh!||</code>"
+	},
+	{
 		"version": "1.27.1-beta",
 		"date": "18 April 2021",
 		"title": "Bug Fixes",

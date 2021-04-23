@@ -10,8 +10,9 @@ import MentionUser from "./markup/MentionUser.vue";
 import MentionChannel from "./markup/MentionChannel.vue";
 import MessageQuote from "./markup/MessageQuote.vue";
 import CustomEmoji from "./markup/CustomEmoji.vue";
-import Link from "./markup/Link.vue";
+import Spoiler from "./markup/Spoiler.vue";
 import Emoji from "./markup/Emoji.vue";
+import Link from "./markup/Link.vue";
 
 import {
   parseMarkup,
@@ -96,6 +97,11 @@ function transformEntity(h: CreateElement, entity: Entity, ctx: RenderContext) {
           <code>{transformEntities(h, entity, ctx)}</code>
         </pre>
       );
+    }
+    case "spoiler": {
+      return (
+        <Spoiler>{transformEntities(h, entity, ctx)}</Spoiler>
+      )
     }
     case "blockquote": {
       return <blockquote>{transformEntities(h, entity, ctx)}</blockquote>;
