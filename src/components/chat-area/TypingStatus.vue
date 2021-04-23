@@ -102,7 +102,7 @@ export default class MainApp extends Vue {
         return this.$t("typing-status.three-are-typing", [
           this.makeStrong(arr[0].username),
           this.makeStrong(arr[1].username),
-          this.makeStrong(arr[3].username)
+          this.makeStrong(arr[2].username)
         ]);
       case arr.length > 3:
         return this.$t("typing-status.more-than-three", [
