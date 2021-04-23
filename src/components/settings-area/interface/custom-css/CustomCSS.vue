@@ -1,24 +1,18 @@
 <template>
   <div class="custom-css">
-    <div class="theme-list" v-if="themes">
-      <theme-template v-for="theme in themes" :key="theme.id" :theme="theme" />
-    </div>
+    <Editor v-if="editID" :themeID="editID" />
+    <ThemeList v-if="!editID" @edit="editID = $event" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { getThemes, ThemeDetail } from "@/services/themeService";
-import ThemeTemplate from "./ThemeTemplate.vue";
+import ThemeList from "./ThemeList.vue";
+const Editor = () => import(/* webpackChunkName: "Editor" */ "./Editor.vue");
 
-@Component({ components: { ThemeTemplate } })
+@Component({ components: { ThemeList, Editor } })
 export default class CustomCSS extends Vue {
-  themes: null | ThemeDetail[] = null;
-  mounted() {
-    getThemes().then(res => {
-      this.themes = res;
-    });
-  }
+  editID: null | string = null;
 }
 </script>
 
@@ -27,17 +21,5 @@ export default class CustomCSS extends Vue {
   display: flex;
   flex-direction: column;
   overflow: auto;
-}
-
-.box {
-  padding: 10px;
-  align-self: flex-start;
-  margin-left: 5px;
-}
-.theme-list {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: 5px;
 }
 </style>

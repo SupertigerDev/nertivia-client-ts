@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.28.1-beta",
+		"date": "23 April 2021",
+		"title": "WIP Features",
+		"new": "WIP Features can now be enabled through the settings when they are available."
+	},
+	{
 		"version": "1.28.0-beta",
 		"date": "22 April 2021",
 		"title": "Markup Spoilers (by bree)",

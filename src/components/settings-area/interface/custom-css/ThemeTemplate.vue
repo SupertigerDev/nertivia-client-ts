@@ -1,9 +1,9 @@
 <template>
   <div class="item" :class="{ selected: showOptions }">
-    <div class="name" @click="clicked">{{ theme.name }}</div>
-    <div class="options" v-if="showOptions">
-      <CustomButton name="Apply" icon="done" />
-      <CustomButton name="Edit" icon="edit" />
+    <div class="name" @click="$emit('clicked')">{{ theme.name }}</div>
+    <div class="options" :class="{ show: showOptions }">
+      <CustomButton name="Apply" icon="done" :valid="true" />
+      <CustomButton name="Edit" icon="edit" @click="$emit('edit')" />
       <div class="seperator" />
       <CustomButton name="Delete" :warn="true" icon="delete" />
     </div>
@@ -11,17 +11,14 @@
 </template>
 
 <script lang="ts">
-import { ThemeDetail } from "@/services/themeService";
+import { ThemePreview } from "@/services/themeService";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import CustomButton from "@/components/CustomButton.vue";
 
 @Component({ components: { CustomButton } })
 export default class ThemeTemplate extends Vue {
-  @Prop() private theme!: ThemeDetail;
-  showOptions = false;
-  clicked() {
-    this.showOptions = !this.showOptions;
-  }
+  @Prop() private theme!: ThemePreview;
+  @Prop({ default: false }) private showOptions!: boolean;
 }
 </script>
 
@@ -44,6 +41,14 @@ export default class ThemeTemplate extends Vue {
 .options {
   display: flex;
   align-items: center;
+  height: 0;
+  overflow: hidden;
+  transition: 0.2s;
+  opacity: 0;
+  &.show {
+    opacity: 1;
+    height: 50px;
+  }
 }
 .seperator {
   height: 40px;

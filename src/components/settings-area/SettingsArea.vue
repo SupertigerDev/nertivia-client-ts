@@ -45,6 +45,10 @@ const Language = () =>
   import(
     /* webpackChunkName: "Language" */ "@/components/settings-area/Language.vue"
   );
+const WIPFeatures = () =>
+  import(
+    /* webpackChunkName: "WIPFeatures" */ "@/components/settings-area/WIPFeatures.vue"
+  );
 import Header from "@/components/Header.vue";
 import settingPages from "@/utils/settingPages.json";
 import { Vue, Component } from "vue-property-decorator";
@@ -59,7 +63,8 @@ import { Vue, Component } from "vue-property-decorator";
     DeleteAccount,
     StartupOptions,
     ProgramActivity,
-    Language
+    Language,
+    WIPFeatures
   }
 })
 export default class SettingsArea extends Vue {

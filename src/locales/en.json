@@ -51,7 +51,8 @@
       "interface": "Interface",
       "language": "Language",
       "delete-account": "Delete Account",
-      "changelog": "Changelog"
+      "changelog": "Changelog",
+      "wip-features": "WIP Features"
     },
     "account": {
       "title": "Edit Your Profile",
@@ -106,6 +107,7 @@
       "delete-leave-server": "Leave/Delete all servers",
       "delete-bots": "Delete all bots",
       "delete-account-button": "Delete My Account"
+      
     },
     "language": {
       "details": "Reload may be required after changing language. Contribute by submitting a PR in the GitHub repo.",

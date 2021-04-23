@@ -12,15 +12,22 @@
 import { Component, Vue } from "vue-property-decorator";
 import TabLayout from "@/components/TabLayout.vue";
 import ColorScheme from "./ColorScheme.vue";
-// import CustomCSS from "./custom-css/CustomCSS.vue";
+import CustomCSS from "./custom-css/CustomCSS.vue";
 
 @Component({ components: { TabLayout } })
 export default class Interface extends Vue {
   get tabs() {
-    return [
+    const tabs: any = [
       { name: "Color Scheme", id: "color_scheme", component: ColorScheme }
-      // { name: "Custom CSS", id: "custom_css", component: CustomCSS }
     ];
+    if (localStorage["CSSThemes_wip"] === "true") {
+      tabs.push({
+        name: "Custom CSS",
+        id: "custom_css",
+        component: CustomCSS
+      });
+    }
+    return tabs;
   }
 }
 </script>

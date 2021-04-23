@@ -39,6 +39,11 @@
     "icon": "flag",
     "component": "Language"
   },
+  "wip-features": {
+    "name": "WIP Features",
+    "icon": "science",
+    "component": "WIPFeatures"
+  },
   "delete-account": {
     "name": "Delete Account",
     "icon": "delete",
