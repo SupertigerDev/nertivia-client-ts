@@ -1,6 +1,6 @@
 <template>
   <div class="custom-css">
-    <Editor v-if="editID" :themeID="editID" />
+    <Editor v-if="editID" :themeID="editID" @back="editID = null" />
     <ThemeList v-if="!editID" @edit="editID = $event" />
   </div>
 </template>

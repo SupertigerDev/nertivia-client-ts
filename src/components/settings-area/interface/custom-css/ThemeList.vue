@@ -5,6 +5,9 @@
       :key="theme.id"
       @clicked="clickedID = theme.id"
       @edit="$emit('edit', theme.id)"
+      @applied="appliedThemeID = theme.id"
+      @unapplied="appliedThemeID = null"
+      :applied="appliedThemeID === theme.id"
       :showOptions="clickedID === theme.id"
       :theme="theme"
     />
@@ -20,6 +23,7 @@ import ThemeTemplate from "./ThemeTemplate.vue";
 export default class ThemeList extends Vue {
   themes: null | ThemePreview[] = null;
   clickedID: null | string = null;
+  appliedThemeID: string | null = localStorage["themeID"];
   mounted() {
     getThemes().then(res => {
       this.themes = res;

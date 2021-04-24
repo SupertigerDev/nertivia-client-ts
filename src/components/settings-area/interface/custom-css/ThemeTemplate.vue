@@ -1,8 +1,23 @@
 <template>
-  <div class="item" :class="{ selected: showOptions }">
-    <div class="name" @click="$emit('clicked')">{{ theme.name }}</div>
+  <div class="item" :class="{ selected: showOptions, applied }">
+    <div class="name" @click="$emit('clicked')">
+      {{ theme.name }} <span class="notice" v-if="applied">(In use)</span>
+    </div>
     <div class="options" :class="{ show: showOptions }">
-      <CustomButton name="Apply" icon="done" :valid="true" />
+      <CustomButton
+        name="Apply"
+        @click="apply"
+        v-if="!applied"
+        icon="done"
+        :valid="true"
+      />
+      <CustomButton
+        name="Unapply"
+        @click="unapply"
+        v-else
+        icon="close"
+        :warn="true"
+      />
       <CustomButton name="Edit" icon="edit" @click="$emit('edit')" />
       <div class="seperator" />
       <CustomButton name="Delete" :warn="true" icon="delete" />
@@ -14,11 +29,21 @@
 import { ThemePreview } from "@/services/themeService";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import CustomButton from "@/components/CustomButton.vue";
+import { applyTheme, unapplyTheme } from "@/utils/CSSTheme";
 
 @Component({ components: { CustomButton } })
 export default class ThemeTemplate extends Vue {
   @Prop() private theme!: ThemePreview;
   @Prop({ default: false }) private showOptions!: boolean;
+  @Prop({ default: false }) private applied!: boolean;
+  apply() {
+    applyTheme(this.theme.id);
+    this.$emit("applied");
+  }
+  unapply() {
+    unapplyTheme();
+    this.$emit("unapplied");
+  }
 }
 </script>
 
@@ -29,10 +54,15 @@ export default class ThemeTemplate extends Vue {
   cursor: pointer;
   border-radius: 4px;
   user-select: none;
+  &.applied,
   &.selected,
   &:hover {
     background: rgba(255, 255, 255, 0.05);
   }
+}
+.notice {
+  opacity: 0.6;
+  font-size: 12px;
 }
 .name {
   flex-shrink: 0;

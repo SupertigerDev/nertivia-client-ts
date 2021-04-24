@@ -1,8 +1,29 @@
 <template>
   <div class="editor" v-if="theme">
     <div class="menu-strip">
+      <CustomButton icon="navigate_before" @click="$emit('back')" />
       <input type="text" v-model="name" placeholder="Theme Name" />
-      <CustomButton name="Save & Apply" icon="done" />
+      <CustomButton
+        v-if="showSaveButton"
+        name="Save & Apply"
+        @click="saveAndApplyButton"
+        icon="done"
+        :valid="true"
+      />
+      <CustomButton
+        v-else-if="applied"
+        name="Unapply"
+        @click="unapply"
+        icon="close"
+        :warn="true"
+      />
+      <CustomButton
+        v-else
+        name="Apply"
+        @click="apply"
+        icon="done"
+        :valid="true"
+      />
     </div>
     <codemirror v-model="css" :options="cmOptions" @ready="onCodemirrorReady" />
   </div>
@@ -10,7 +31,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { getTheme, Theme } from "@/services/themeService";
+import { getTheme, Theme, updateTheme } from "@/services/themeService";
+import { applyTheme, unapplyTheme } from "@/utils/CSSTheme";
 import CustomButton from "@/components/CustomButton.vue";
 import "codemirror/addon/hint/show-hint.css";
 import "codemirror/addon/hint/show-hint.js";
@@ -24,6 +46,7 @@ import "codemirror/theme/ayu-mirage.css";
 @Component({ components: { codemirror, CustomButton } })
 export default class Editor extends Vue {
   @Prop() private themeID!: string;
+  applied = localStorage["themeID"] === this.themeID;
   theme: Theme | null = null;
   css = "";
   name = "";
@@ -39,10 +62,38 @@ export default class Editor extends Vue {
       cm.showHint({ completeSingle: false });
     });
   }
+  async saveAndApplyButton() {
+    await this.save();
+    await this.apply();
+  }
+  async save() {
+    return updateTheme(this.themeID, {
+      css: this.css,
+      name: this.name
+    }).then(() => {
+      if (!this.theme) return;
+      this.theme.css = this.css;
+      this.theme.name = this.name;
+    });
+  }
+  async apply() {
+    await applyTheme(this.themeID, this.css);
+    this.applied = true;
+  }
+  unapply() {
+    unapplyTheme();
+    this.applied = false;
+  }
   async mounted() {
     this.theme = await getTheme(this.themeID);
     this.css = this.theme.css;
     this.name = this.theme.name;
+  }
+  get showSaveButton() {
+    if (!this.theme) return false;
+    if (this.name !== this.theme.name) return true;
+    if (this.css !== this.theme.css) return true;
+    return false;
   }
 }
 </script>
@@ -60,7 +111,8 @@ export default class Editor extends Vue {
   align-items: center;
 
   input {
-    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     background: rgba(255, 255, 255, 0.1);
     padding: 5px;
     height: 30px;

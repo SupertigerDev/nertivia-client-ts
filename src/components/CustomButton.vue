@@ -9,9 +9,12 @@
     }"
     @click="$emit('click')"
   >
-    <span v-if="icon && iconPos !== 'right'" class="material-icons icon left">{{
-      icon
-    }}</span>
+    <span
+      v-if="icon && iconPos !== 'right'"
+      class="material-icons icon left"
+      :class="{ 'no-text': !name }"
+      >{{ icon }}</span
+    >
     {{ name }}
     <span
       v-if="icon && iconPos === 'right'"
@@ -77,6 +80,10 @@ export default class CustomInput extends Vue {
   }
   &.right {
     margin-left: 5px;
+  }
+  &.no-text {
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 .warn .icon {

@@ -62,6 +62,7 @@ import { FriendsModule } from "@/store/modules/friends";
 
 import { setLastSelectedServerChannel } from "@/utils/lastSelectedServer";
 import { AppUpdateModule } from "@/store/modules/appUpdate";
+import { applyTheme } from "@/utils/CSSTheme";
 
 @Component({
   components: {
@@ -103,8 +104,13 @@ export default class MainApp extends Vue {
     localStorage.removeItem("lastSelectedServerID");
     this.saveLastSelected();
     this.loadCache();
+    this.applyCSSTheme();
   }
-
+  applyCSSTheme() {
+    const id = localStorage["themeID"];
+    if (!id) return;
+    applyTheme(id);
+  }
   async loadCache() {
     loadAllCacheToState([
       {
