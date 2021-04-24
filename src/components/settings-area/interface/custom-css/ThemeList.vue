@@ -23,7 +23,7 @@ import ThemeTemplate from "./ThemeTemplate.vue";
 export default class ThemeList extends Vue {
   themes: null | ThemePreview[] = null;
   clickedID: null | string = null;
-  appliedThemeID: string | null = localStorage["themeID"];
+  appliedThemeID: string | null = localStorage["themeID"] || null;
   mounted() {
     getThemes().then(res => {
       this.themes = res;
