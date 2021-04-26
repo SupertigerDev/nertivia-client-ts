@@ -6,12 +6,13 @@
         <div class="material-icons">info</div>
         Enable un-finished or experimental features.
       </div>
-      <CheckBox
+      <div style="opacity: 0.6">No WIP Features available right now.</div>
+      <!-- <CheckBox
         name="CSS Themes"
         class="check-box"
         description="Create and apply CSS Themes through interface settings."
         v-model="CSSThemes"
-      />
+      /> -->
     </div>
   </div>
 </template>
@@ -23,11 +24,11 @@ import CheckBox from "@/components/CheckBox.vue";
 @Component({ components: { CheckBox } })
 export default class WIPFeatures extends Vue {
   // im lazy to add it properly D: adding multiple wip features will get messy.
-  CSSThemes = localStorage["CSSThemes_wip"] === "true";
-  @Watch("CSSThemes")
-  onChange() {
-    localStorage["CSSThemes_wip"] = this.CSSThemes;
-  }
+  // CSSThemes = localStorage["CSSThemes_wip"] === "true";
+  // @Watch("CSSThemes")
+  // onChange() {
+  //   localStorage["CSSThemes_wip"] = this.CSSThemes;
+  // }
 }
 </script>
 

@@ -26,12 +26,26 @@ export async function getTheme(id: string) {
 }
 // also zips
 export async function updateTheme(id: string, data: Omit<Theme, 'id'>) {
-  const base64CSS = data.css && zip(data.css);
-  const payload = {
-    name: data.name,
-    css: base64CSS
+  const payload: any = {
+    name: data.name
   }
+  data.css && (payload.css = zip(data.css));
   return await wrapper()
     .patch(`themes/${id}`, {json: payload})
+    .json()
+}
+export async function deleteTheme(id: string) {
+  return await wrapper()
+    .delete(`themes/${id}`)
+    .json()
+}
+// also zips
+export async function createTheme(data: Omit<Theme, 'id'>): Promise<Theme> {
+  const payload = {
+    name: data.name,
+    css: zip(data.css)
+  }
+  return await wrapper()
+    .post(`themes`, {json: payload})
     .json()
 }

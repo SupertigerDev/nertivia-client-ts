@@ -18,15 +18,14 @@ import CustomCSS from "./custom-css/CustomCSS.vue";
 export default class Interface extends Vue {
   get tabs() {
     const tabs: any = [
-      { name: "Color Scheme", id: "color_scheme", component: ColorScheme }
-    ];
-    if (localStorage["CSSThemes_wip"] === "true") {
-      tabs.push({
+      { name: "Color Scheme", id: "color_scheme", component: ColorScheme },
+      {
         name: "Custom CSS",
         id: "custom_css",
         component: CustomCSS
-      });
-    }
+      }
+    ];
+
     return tabs;
   }
 }

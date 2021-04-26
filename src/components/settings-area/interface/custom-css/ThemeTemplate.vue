@@ -20,7 +20,12 @@
       />
       <CustomButton name="Edit" icon="edit" @click="$emit('edit')" />
       <div class="seperator" />
-      <CustomButton name="Delete" :warn="true" icon="delete" />
+      <CustomButton
+        name="Delete"
+        @click="$emit('delete', theme.id)"
+        :warn="true"
+        icon="delete"
+      />
     </div>
   </div>
 </template>

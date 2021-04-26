@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.29.0-beta",
+		"date": "26 April 2021",
+		"title": "CSS Themes",
+		"new": "You can now create CSS Themes through the interface setting. Ability to share themes is coming soon!"
+	},
+	{
 		"version": "1.28.2-beta",
 		"date": "26 April 2021",
 		"title": "Bug Fix",
