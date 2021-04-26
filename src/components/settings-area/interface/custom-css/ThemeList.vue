@@ -63,14 +63,14 @@ export default class ThemeList extends Vue {
   cssTemplate() {
     return `/* Background image example*/
 body {
- background-image: url("https://media.nertivia.net/763085785093499319/6792472026104729600/hd-wallpaper-mountain-range-mountains-114979.jpg");  
- backdrop-filter: blur(10px) brightness(40%);
+	background-image: url("https://media.nertivia.net/763085785093499319/6792472026104729600/hd-wallpaper-mountain-range-mountains-114979.jpg");  
+	backdrop-filter: blur(10px) brightness(40%);
 }
 .drawer-layout .drawer-container {
 	background: rgba(0,0,0,0.2) !important; 
 }
 .drawer-layout .drawer-container .container {
-  background: rgba(0,0,0,0.2) !important; 
+	background: rgba(0,0,0,0.2) !important; 
 }`;
   }
 }
