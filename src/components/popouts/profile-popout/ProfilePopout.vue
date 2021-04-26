@@ -94,7 +94,8 @@
             v-if="aboutMe && (aboutMe.continent || aboutMe.country)"
           >
             <div class="icon material-icons">location_on</div>
-            <span>{{ aboutMe.country || aboutMe.continent }}</span>
+            <span>{{ aboutMe.continent }}</span>
+            <span v-if="aboutMe.country">, {{ aboutMe.country }}</span>
           </div>
           <div class="gender detail-item" v-if="aboutMe && ageAndGender">
             <div class="icon material-icons">face</div>
