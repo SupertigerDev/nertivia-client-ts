@@ -33,6 +33,7 @@ import {
 } from "@/services/themeService";
 import ThemeTemplate from "./ThemeTemplate.vue";
 import CustomButton from "@/components/CustomButton.vue";
+import { unapplyTheme } from "@/utils/CSSTheme";
 
 @Component({ components: { ThemeTemplate, CustomButton } })
 export default class ThemeList extends Vue {
@@ -55,6 +56,7 @@ export default class ThemeList extends Vue {
   }
   deleteTheme(id: string) {
     deleteTheme(id).then(() => {
+      unapplyTheme();
       this.themes = this.themes?.filter(t => t.id !== id) || null;
     });
   }
@@ -62,13 +64,13 @@ export default class ThemeList extends Vue {
     return `/* Background image example*/
 body {
  background-image: url("https://media.nertivia.net/763085785093499319/6792472026104729600/hd-wallpaper-mountain-range-mountains-114979.jpg");  
-  backdrop-filter: blur(10px) brightness(40%);
+ backdrop-filter: blur(10px) brightness(40%);
 }
 .drawer-layout .drawer-container {
 	background: rgba(0,0,0,0.2) !important; 
 }
 .drawer-layout .drawer-container .container {
-   background: rgba(0,0,0,0.2) !important; 
+  background: rgba(0,0,0,0.2) !important; 
 }`;
   }
 }
