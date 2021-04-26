@@ -26,7 +26,7 @@ import AvatarImage from "@/components/AvatarImage.vue";
 import Server from "@/interfaces/Server";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { PopoutsModule } from "@/store/modules/popouts";
-import { lastSelectedServerChannel } from "@/utils/lastSelectedServer";
+import { LastSelectedServersModule } from "@/store/modules/lastSelectedServer";
 
 @Component({ components: { AvatarImage } })
 export default class MainApp extends Vue {
@@ -46,7 +46,7 @@ export default class MainApp extends Vue {
     });
   }
   get path() {
-    const serverChannelID = lastSelectedServerChannel(
+    const serverChannelID = LastSelectedServersModule.lastServerChannelID(
       this.server.server_id || ""
     );
     return `/app/servers/${this.server.server_id}/${serverChannelID ||

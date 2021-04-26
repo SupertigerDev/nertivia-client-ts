@@ -23,7 +23,7 @@ import ServerTemplate from "./ServerTemplate.vue";
 import Draggable from "vuedraggable";
 import Server from "@/interfaces/Server";
 import { changeServerPosition } from "@/services/serverService";
-import { lastSelectedServerChannel } from "@/utils/lastSelectedServer";
+import { LastSelectedServersModule } from "@/store/modules/lastSelectedServer";
 
 @Component({ components: { ServerTemplate, Draggable } })
 export default class Servers extends Vue {
@@ -57,7 +57,9 @@ export default class Servers extends Vue {
       gotoIndex = index + 1;
     }
     const server = this.servers[gotoIndex];
-    const serverChannelID = lastSelectedServerChannel(server.server_id || "");
+    const serverChannelID = LastSelectedServersModule.lastServerChannelID(
+      server.server_id || ""
+    );
     this.$router.push(
       `/app/servers/${server.server_id}/${serverChannelID ||
         server.default_channel_id}`
@@ -75,7 +77,9 @@ export default class Servers extends Vue {
       gotoIndex = index - 1;
     }
     const server = this.servers[gotoIndex];
-    const serverChannelID = lastSelectedServerChannel(server.server_id || "");
+    const serverChannelID = LastSelectedServersModule.lastServerChannelID(
+      server.server_id || ""
+    );
     this.$router.push(
       `/app/servers/${server.server_id}/${serverChannelID ||
         server.default_channel_id}`

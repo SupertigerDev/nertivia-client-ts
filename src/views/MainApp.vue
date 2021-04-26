@@ -60,7 +60,7 @@ import { ServerRolesModule } from "@/store/modules/serverRoles";
 import WindowProperties from "@/utils/windowProperties";
 import { FriendsModule } from "@/store/modules/friends";
 
-import { setLastSelectedServerChannel } from "@/utils/lastSelectedServer";
+import { LastSelectedServersModule } from "@/store/modules/lastSelectedServer";
 import { AppUpdateModule } from "@/store/modules/appUpdate";
 import { applyTheme } from "@/utils/CSSTheme";
 
@@ -159,7 +159,10 @@ export default class MainApp extends Vue {
     AppUpdateModule.check();
     if (this.$route.name !== "message-area") return;
     if (this.currentTab === "servers") {
-      setLastSelectedServerChannel(this.currentServerID, this.currentChannelID);
+      LastSelectedServersModule.UpdateLastSelected({
+        serverID: this.currentServerID,
+        channelID: this.currentChannelID
+      });
       localStorage.setItem("lastSelectedServerID", this.currentServerID);
     } else if (this.currentTab === "dms" && this.currentChannelID) {
       localStorage.setItem("lastSelectedDMChannelID", this.currentChannelID);

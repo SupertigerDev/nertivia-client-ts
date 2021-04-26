@@ -96,18 +96,20 @@ import userStatuses from "@/constants/userStatuses";
 import { AppUpdateModule } from "@/store/modules/appUpdate";
 import { DrawersModule } from "@/store/modules/drawers";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
+import { LastSelectedServersModule } from "@/store/modules/lastSelectedServer";
 import { MeModule } from "@/store/modules/me";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { PresencesModule } from "@/store/modules/presences";
-import { lastSelectedServerChannel } from "@/utils/lastSelectedServer";
 import { Component, Vue } from "vue-property-decorator";
 
 @Component({ components: { AvatarImage } })
 export default class NavBar extends Vue {
   changeTab(name: string) {
     const selectedServerID = this.lastSelectedServerID();
-    const serverChannelID = lastSelectedServerChannel(selectedServerID || "");
+    const serverChannelID = LastSelectedServersModule.lastServerChannelID(
+      selectedServerID || ""
+    );
 
     const selectedDmChannelId = this.lastSelectedDMChannelID();
     let path = name;

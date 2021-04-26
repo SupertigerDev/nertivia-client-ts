@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.28.2-beta",
+		"date": "26 April 2021",
+		"title": "Bug Fix",
+		"fixes": "Fixed a bug where when switching servers, last selected server channel would not save."
+	},
+	{
 		"version": "1.28.1-beta",
 		"date": "23 April 2021",
 		"title": "WIP Features",
