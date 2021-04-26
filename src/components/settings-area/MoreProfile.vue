@@ -112,7 +112,7 @@ export default class MoreProfile extends Vue {
     }
     const continent = continents.find(c => c.name === this.continent);
     if (!continent) return [];
-    return countries.filter(c => c.code === continent.code);
+    return countries.filter(c => c.code === continent.code || c.code === "no");
   }
   get showSaveButton() {
     if (this.name !== (this.aboutMe?.name || "")) return true;
