@@ -126,7 +126,7 @@ export default class MainApp extends Vue {
 .typing-status-box {
   display: flex;
   align-items: center;
-  background: #1a1a1df6;
+  background: var(--typing-status-bg-color);
   position: absolute;
   height: 20px;
   right: 0;

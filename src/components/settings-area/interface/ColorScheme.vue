@@ -11,6 +11,13 @@
         v-for="css in cssVarList"
         :key="css.key"
       >
+        <div
+          class="material-icons revert-icon"
+          @click="revertButton(css, $event)"
+          title="Revert"
+        >
+          replay
+        </div>
         <div class="color-box" :style="{ background: `var(${css.key})` }" />
         <div class="name">{{ css.name }}</div>
       </div>
@@ -40,7 +47,8 @@ import {
   getAllCssVars,
   getCustomCssVars,
   changeCssVar,
-  applyDefaultTheme
+  applyDefaultTheme,
+  applyDefaultValue
 } from "@/utils/customCssVars";
 @Component
 export default class InterfaceVariables extends Vue {
@@ -71,12 +79,17 @@ export default class InterfaceVariables extends Vue {
     this.pickr?.destroyAndRemove();
   }
   showPicker(css: any, event: any) {
+    this.customVars = getCustomCssVars();
+    if (event.target.closest(".revert-icon")) return;
     const rect = event.target.getBoundingClientRect();
     const top = rect.top - 100;
     (this.$refs.pickerButton as HTMLElement).style.top = top + "px";
     this.lastClicked = css;
     this.pickr?.setColor(css.custom || css.value);
     this.pickr?.show();
+  }
+  revertButton(css: any, event: any) {
+    applyDefaultValue(css.key);
   }
   get cssVarList() {
     return getAllCssVars()
@@ -154,6 +167,14 @@ export default class InterfaceVariables extends Vue {
 }
 .title {
   font-weight: bold;
+}
+.revert-icon {
+  margin-right: 5px;
+  opacity: 0.2;
+  transition: 0.2s;
+  &:hover {
+    opacity: 1;
+  }
 }
 .color-box {
   height: 20px;

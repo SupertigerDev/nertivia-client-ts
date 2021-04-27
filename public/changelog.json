@@ -1,5 +1,15 @@
 [
 	{
+		"version": "1.30.0-beta",
+		"date": "27 April 2021",
+		"title": "Bug fixes, Small Features",
+		"new": [
+			"Reset single color in the interface settings.",
+			"Adde typing status background color to interface settings"
+		],
+		"fixes": "Emoji picker not toggling."
+	},
+	{
 		"version": "1.29.0-beta",
 		"date": "26 April 2021",
 		"title": "CSS Themes",

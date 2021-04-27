@@ -112,6 +112,7 @@ export default class MainApp extends Vue {
     align-items: center;
     align-content: center;
     justify-content: center;
+    color: white;
     display: flex;
     font-size: 12px;
     z-index: 1;

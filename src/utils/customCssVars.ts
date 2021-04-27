@@ -51,6 +51,11 @@ export function getAllCssVars() {
 export function removeCustomCssVars() {
   localStorage.removeItem("varColors");
 }
+export function removeCustomCssVar(val: string) {
+  const varColors = JSON.parse(localStorage["varColors"] || "{}");
+  delete varColors[val];
+  localStorage["varColors"] = JSON.stringify(varColors);
+}
 export function getCustomCssVars() {
   const varColors: { [key: string]: string } = JSON.parse(
     localStorage.getItem("varColors") || "{}"
@@ -93,5 +98,12 @@ export function applyDefaultTheme(resetStorage: boolean) {
     const value = (defaultTheme as any)[key];
     changeCssVar("--" + key, value, false);
   }
+  setThemeColor();
+}
+export function applyDefaultValue(val: string) {
+  removeCustomCssVar(val);
+  const defaultVal = defaultTheme[val.substring(2)];
+  changeCssVar(val, defaultVal);
+
   setThemeColor();
 }

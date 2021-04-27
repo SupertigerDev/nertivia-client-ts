@@ -14,5 +14,6 @@
     "popout-color": "#1a1a1d",
     "link-color": "#68aaff",
     "quote-bg-color": "rgba(255, 255, 255, 0.05)",
+    "typing-status-bg-color": "#1a1a1d",
     "pwa-theme-color": "#1a1a1d"
 }

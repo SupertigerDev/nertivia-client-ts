@@ -56,7 +56,7 @@
       />
 
       <ButtonTemplate
-        class="button"
+        class="button emoji-button"
         icon="tag_faces"
         @click="showEmojiPicker = !showEmojiPicker"
       />
