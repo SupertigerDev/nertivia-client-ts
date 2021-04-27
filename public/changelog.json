@@ -5,7 +5,7 @@
 		"title": "Bug fixes, Small Features",
 		"new": [
 			"Reset single color in the interface settings.",
-			"Adde typing status background color to interface settings"
+			"Added typing status background color to interface settings"
 		],
 		"fixes": "Emoji picker not toggling."
 	},
