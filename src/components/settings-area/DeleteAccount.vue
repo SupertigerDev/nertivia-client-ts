@@ -29,6 +29,7 @@
         <li>{{ $t("settings.delete-account.messages-sent") }}:</li>
       </ul>
       <div class="title">{{ $t("settings.delete-account.requirements") }}:</div>
+      <!-- TODO: i18n -->
       <ul class="list">
         <li>
           {{ $t("settings.delete-account.delete-leave-server") }}
