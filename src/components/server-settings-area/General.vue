@@ -131,7 +131,7 @@ export default class General extends Vue {
       })
       .catch(async err => {
         if (!err.response) {
-          this.errors["other"] = "Could not connect to server.";
+          this.errors["other"] = this.$t("could-not-connect-to-server");
           this.requestSent = false;
           return;
         }

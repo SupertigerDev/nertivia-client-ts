@@ -1,6 +1,7 @@
 <template>
   <div class="item">
     <div class="details">
+      <!-- TODO: i18n -->
       <div class="same-line">
         <div class="name">{{ item.file.name }}</div>
         <div class="size">{{ sizeLabel }}</div>

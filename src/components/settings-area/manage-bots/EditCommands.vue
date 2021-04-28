@@ -115,7 +115,7 @@ export default class Account extends Vue {
       })
       .catch(async err => {
         if (!err.response) {
-          this.error = "Could not connect to server.";
+          this.error = this.$t("could-not-connect-to-server").toString();
           return;
         }
         const { errors, message } = await err.response.json();

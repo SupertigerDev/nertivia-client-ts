@@ -54,7 +54,7 @@ export default class General extends Vue {
     deleteServer(this.serverID)
       .catch(async err => {
         if (!err.response) {
-          this.error = "Could not connect to server.";
+          this.error = this.$t("could-not-connect-to-server").toString();
           return;
         }
         this.error = await err.response.json();

@@ -86,7 +86,7 @@ export default class EmojiTemplate extends Vue {
         if (res.response) {
           message = (await res.response.json()).message;
         } else {
-          message = "Could not connect to server.";
+          message = this.$t("could-not-connect-to-server");
         }
         PopoutsModule.ShowPopout({
           id: "custom-emoji-save-error",
@@ -111,7 +111,7 @@ export default class EmojiTemplate extends Vue {
         if (res.response) {
           message = (await res.response.json()).message;
         } else {
-          message = "Could not connect to server.";
+          message = this.$t("could-not-connect-to-server");
         }
         PopoutsModule.ShowPopout({
           id: "custom-emoji-delete-error",

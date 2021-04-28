@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <!-- TODO: i18n -->
     <div class="description">
       <div class="material-icons">info</div>
       Make Your Server Public
@@ -30,7 +31,7 @@
         v-if="visibility === 1 && !response"
         :disabled="updating"
         icon="add"
-        name="Add Server"
+        :name="$t('add-server-popout.title')"
         @click="addServer"
         :filled="true"
       />
@@ -93,7 +94,7 @@ export default class ServerVisibility extends Vue {
       })
       .catch(async err => {
         if (!err.response) {
-          this.error = "Could not connect to server.";
+          this.error = this.$t("could-not-connect-to-server").toString();
           return;
         }
         const json = await err.response.json();
@@ -114,7 +115,7 @@ export default class ServerVisibility extends Vue {
       })
       .catch(async err => {
         if (!err.response) {
-          this.error = "Could not connect to server.";
+          this.error = this.$t("could-not-connect-to-server").toString();
           return;
         }
         const json = await err.response.json();
@@ -134,7 +135,7 @@ export default class ServerVisibility extends Vue {
       })
       .catch(async err => {
         if (!err.response) {
-          this.error = "Could not connect to server.";
+          this.error = this.$t("could-not-connect-to-server").toString();
           return;
         }
         const json = await err.response.json();

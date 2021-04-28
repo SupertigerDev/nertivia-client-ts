@@ -9,6 +9,7 @@
         {{ $t("settings.program-activity.notice") }}
       </div>
       <div class="inner-content" :class="{ disabled: !$isElectron }">
+        <!-- TODO: i18n -->
         <div class="program-selector">
           <CustomDropDown
             title="Select Program"
