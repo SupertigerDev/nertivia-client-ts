@@ -25,6 +25,7 @@ import {
   DISCONNECT,
   RECONNECTING
 } from "@/socketEventConstants";
+import i18n from "@/i18n";
 
 const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
@@ -127,7 +128,7 @@ const actions: ActionTree<any, any> = {
   [CONNECT]() {
     MeModule.SetConnectionDetails({
       connected: false,
-      message: "Authenticating..." // TODO: i18n
+      message: i18n.t("connection.authenticating").toString()
     });
     socket().emit("authentication", {
       token: localStorage.getItem("hauthid")

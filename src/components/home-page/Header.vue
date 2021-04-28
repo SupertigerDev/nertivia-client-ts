@@ -49,7 +49,7 @@ export default {
       })
       .catch(err => {
         if (!err.response) {
-          alert("Could not connect to server.");
+          alert(this.$t("could-not-connect-to-server"));
           return;
         }
         localStorage.clear();

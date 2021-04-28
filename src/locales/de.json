@@ -68,7 +68,8 @@
       "manage-emojis": "Emojis Verwalten",
       "notification": "Benachrichtigungen",
       "program-activity": "Programmaktivität",
-      "startup-options": "Startoptionen"
+      "startup-options": "Startoptionen",
+      "wip-features": "Unfertige Features"
     },
     "interface": {
       "colors": "Farben",
@@ -77,6 +78,10 @@
       "halloween-2020": "Halloween 2020",
       "predefined-themes": "Vordefinierte Farbthemen",
       "default-theme": "Standardfarben"
+    },
+    "wip-features": {
+      "title": "Aktivieren Sie unfertige oder experimentelle Funktionen.",
+      "none-available": "Derzeit sind keine unfertigen Funktionen verfügbar."
     }
   },
   "add-friend-popout": {
@@ -131,7 +136,33 @@
     "leave-server": "Server verlassen"
   },
   "server-settings": {
-    "permissions": "Berechtigungen",
+    "permissions": {
+      "permissions": "Berechtigungen",
+      "admin": {
+        "info": "Aktiviert ALLE Berechtigungen",
+        "name": "Administrator"
+      },
+      "ban-user": {
+        "info": "Nutzer kicken und Wiederbetreten verhindern",
+        "name": "Bannen"
+      },
+      "kick-user": {
+        "info": "Einen Benutzer kicken",
+        "name": "Kicken"
+      },
+      "manage-channels": {
+        "info": "Kanäle bearbeiten oder löschen",
+        "name": "Kanäle verwalten"
+      },
+      "manage-roles": {
+        "info": "Rollen bearbeiten oder löschen",
+        "name": "Rollen verwalten"
+      },
+      "send-messages": {
+        "info": "Nachrichten an Serverkanäle senden",
+        "name": "Nachrichten senden"
+      }
+    },
     "tab-names": {
       "banned-users": "Gebannte Benutzer",
       "delete-server": "Server löschen",
@@ -266,5 +297,15 @@
     "delete": "Löschen",
     "copied": "Kopiert!",
     "user": "Benutzer"
+  },
+  "messages": {
+    "joined": "ist dem Server beigetreten!",
+    "banned": "wurde gebannt",
+    "kicked": "wurde gekickt",
+    "left": "hat den Server verlassen"
+  },
+  "could-not-connect-to-server": "Es konnte keine Verbindung zum Server hergestellt werden.",
+  "chat-area": {
+    "rate-limit-mode": "Langsamer Modus"
   }
 }

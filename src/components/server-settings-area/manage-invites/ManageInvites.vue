@@ -123,7 +123,9 @@ export default class ServerSettingsArea extends Vue {
       .catch(async err => {
         this.creating = false;
         if (!err.response) {
-          return (this.customUrlError = "Could not connect to server.");
+          return (this.customUrlError = this.$t(
+            "could-not-connect-to-server"
+          ).toString());
         }
         const json = await err.response.json();
         return (this.customUrlError = json.message);
@@ -147,7 +149,7 @@ export default class ServerSettingsArea extends Vue {
       .catch(async err => {
         this.creating = false;
         if (!err.response) {
-          this.error = "Could not connect to server.";
+          this.error = this.$t("could-not-connect-to-server").toString();
           return;
         }
         const json = await err.response.json();

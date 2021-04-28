@@ -37,13 +37,14 @@ import friendlyTime from "@/utils/date";
 import { PopoutsModule } from "@/store/modules/popouts";
 import MessageSide from "./MessageSide.vue";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
+import i18n from "@/i18n";
 
 const types = [
   {},
-  { color: "#29bf12", message: "joined the server!" },
-  { color: "#968b8b", message: "left the server" },
-  { color: "#ff9914", message: "has been kicked" },
-  { color: "#d92121", message: "has been banned" }
+  { color: "#29bf12", message: i18n.t("messages.joined") },
+  { color: "#968b8b", message: i18n.t("messages.left") },
+  { color: "#ff9914", message: i18n.t("messages.kicked") },
+  { color: "#d92121", message: i18n.t("messages.banned") }
 ];
 @Component({ components: { AvatarImage, MessageSide } })
 export default class ActionMessageTemplate extends Vue {

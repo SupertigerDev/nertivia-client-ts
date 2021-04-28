@@ -101,7 +101,7 @@ export default class DeleteAccount extends Vue {
       })
       .catch(async err => {
         if (!err.response) {
-          this.error = "Could not connect to server.";
+          this.error = this.$t("could-not-connect-to-server").toString();
           return;
         }
         const data = await err.response.json();

@@ -107,7 +107,6 @@
       "delete-leave-server": "Leave/Delete all servers",
       "delete-bots": "Delete all bots",
       "delete-account-button": "Delete My Account"
-      
     },
     "language": {
       "details": "Reload may be required after changing language. Contribute by submitting a PR in the GitHub repo.",
@@ -120,10 +119,40 @@
       "amoled-dark": "AMOLED Dark",
       "halloween-2020": "Halloween 2020",
       "predefined-themes": "Pre-defined Themes"
+    },
+    "wip-features": {
+      "title": "Enable unfinished or experimental features.",
+      "none-available": "No WIP Features available right now."
     }
   },
   "server-settings": {
-    "permissions": "Permissions",
+    "permissions": {
+      "permissions": "Permissions",
+      "admin": {
+        "name": "Admin",
+        "info": "Enables ALL permissions"
+      },
+      "send-messages": {
+        "name": "Send Messages",
+        "info": "Send messages to server channels"
+      },
+      "manage-roles": {
+        "name": "Manage Roles",
+        "info": "Update or delete roles"
+      },
+      "manage-channels": {
+        "name": "Manage Channels",
+        "info": "Update or delete channels"
+      },
+      "kick-user": {
+        "name": "Kick",
+        "info": "Kick a user"
+      },
+      "ban-user": {
+        "name": "Ban",
+        "info": "Kick & restrict a user from joining"
+      }
+    },
     "tab-names": {
       "general": "General",
       "manage-channels": "Manage Channels",
@@ -268,5 +297,15 @@
     "delete": "Delete",
     "copied": "Copied!",
     "user": "User"
+  },
+  "messages": {
+    "left": "left the server",
+    "kicked": "has been kicked",
+    "banned": "has been banned",
+    "joined": "joined the server!"
+  },
+  "could-not-connect-to-server": "Could not connect to server.",
+  "chat-area": {
+    "rate-limit-mode": "Rate Limit Mode"
   }
 }
