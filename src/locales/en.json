@@ -118,7 +118,9 @@
       "default-theme": "Default Theme",
       "amoled-dark": "AMOLED Dark",
       "halloween-2020": "Halloween 2020",
-      "predefined-themes": "Pre-defined Themes"
+      "predefined-themes": "Pre-defined Themes",
+      "custom-css": "Custom CSS",
+      "color-scheme": "Color Scheme"
     },
     "wip-features": {
       "title": "Enable unfinished or experimental features.",

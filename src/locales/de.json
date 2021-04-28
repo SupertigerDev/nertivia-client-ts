@@ -77,7 +77,9 @@
       "amoled-dark": "AMOLED Dunkel",
       "halloween-2020": "Halloween 2020",
       "predefined-themes": "Vordefinierte Farbthemen",
-      "default-theme": "Standardfarben"
+      "default-theme": "Standardfarben",
+      "color-scheme": "Farbschema",
+      "custom-css": "Benutzerdefiniertes CSS"
     },
     "wip-features": {
       "title": "Aktivieren Sie unfertige oder experimentelle Funktionen.",
