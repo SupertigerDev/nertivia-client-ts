@@ -105,7 +105,7 @@ export default class ProfileCard extends Vue {
           component: "generic-popout",
           data: {
             title: "Oops!",
-            description: "Could not connect to server!"
+            description: this.$t("could-not-connect-to-server")
           }
         });
         return;

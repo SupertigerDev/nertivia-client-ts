@@ -97,7 +97,7 @@ export default class InviteBot extends Vue {
           data: {
             title: "Error Creating Bot",
             description: !err.response
-              ? "Could not connect to server."
+              ? this.$t("could-not-connect-to-server")
               : (await err.response.json()).message
           }
         });

@@ -30,7 +30,7 @@
       :name="$t('server-settings.manage-roles.hide-role')"
       description="Display members with this role along with all the default members"
     />
-    <div class="title">{{ $t("server-settings.permissions") }}</div>
+    <div class="title">{{ $t("server-settings.permissions.permissions") }}</div>
     <div class="perm-list">
       <CheckBox
         v-for="perm in permissionsList"
@@ -168,7 +168,7 @@ export default class ManageRolesPage extends Vue {
       })
       .catch(async err => {
         if (!err.response) {
-          this.error = "Could not connect to server.";
+          this.error = this.$t("could-not-connect-to-server").toString();
           return;
         }
         const { message, errors } = await err.response.json();

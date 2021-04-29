@@ -1,33 +1,60 @@
-// TODO: i18n
+import i18n from "@/i18n";
+
+// Has to be get-methods because otherwise doesn't load properly
+// Maybe fix differently?
 export const permissions = {
   ADMIN: {
-    name: "Admin",
+    get name() {
+      return i18n.t("server-settings.permissions.admin.name");
+    },
     value: 1,
-    info: "Enables ALL permissions"
+    get info() {
+      return i18n.t("server-settings.permissions.admin.info");
+    }
   },
   SEND_MESSAGES: {
-    name: "Send Messages",
+    get name() {
+      return i18n.t("server-settings.permissions.send-messages.name");
+    },
     value: 2,
-    info: "Send messages to server channels"
+    get info() {
+      return i18n.t("server-settings.permissions.send-messages.info");
+    }
   },
   MANAGE_ROLES: {
-    name: "Manage Roles",
+    get name() {
+      return i18n.t("server-settings.permissions.manage-roles.name");
+    },
     value: 4,
-    info: "Update or delete roles"
+    get info() {
+      return i18n.t("server-settings.permissions.manage-roles.info");
+    }
   },
   MANAGE_CHANNELS: {
-    name: "Manage Channels",
+    get name() {
+      return i18n.t("server-settings.permissions.manage-channels.name");
+    },
     value: 8,
-    info: "Update or delete channels"
+    get info() {
+      return i18n.t("server-settings.permissions.manage-channels.info");
+    }
   },
   KICK_USER: {
-    name: "Kick",
+    get name() {
+      return i18n.t("server-settings.permissions.kick-user.name");
+    },
     value: 16,
-    info: "Kick a user"
+    get info() {
+      return i18n.t("server-settings.permissions.kick-user.info");
+    }
   },
   BAN_USER: {
-    name: "Ban",
+    get name() {
+      return i18n.t("server-settings.permissions.ban-user.name");
+    },
     value: 32,
-    info: "Kick & restrict a user from joining"
+    get info() {
+      return i18n.t("server-settings.permissions.ban-user.info");
+    }
   }
 };

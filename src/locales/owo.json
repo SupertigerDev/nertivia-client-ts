@@ -183,7 +183,9 @@
       "mute-sound": "Shhhh, but still show me when stuff happens",
       "notice": "This is all urs UwU"
     },
-    "permissions": "Allowed thingus"
+    "permissions": {
+      "permissions": "Allowed thingus"
+    }
   },
   "typing-status": {
     "is-typing": "{0} is typing...",

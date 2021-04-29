@@ -3,7 +3,7 @@
     <Servers />
     <div
       class="material-icons add-server-button"
-      title="Add Server"
+      :title="$t('add-server-popout.title')"
       @click="addServerClicked"
     >
       add

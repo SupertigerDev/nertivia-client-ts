@@ -6,7 +6,9 @@
       <span class="tag">{{ member.tag }}</span>
     </div>
     <div class="detail">
-      <span class="title">{{ $t("server-settings.permissions") }}:</span>
+      <span class="title"
+        >{{ $t("server-settings.permissions.permissions") }}:</span
+      >
       <div class="perms-list">
         <div
           class="list"

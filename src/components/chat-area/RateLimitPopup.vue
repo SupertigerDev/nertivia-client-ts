@@ -2,7 +2,9 @@
   <div class="ratelimit-popup" :title="rateLimitDuration">
     <div class="immune" v-if="isImmune" />
     <div class="material-icons icon">query_builder</div>
-    <div class="text" v-if="!timeLeft">Rate Limit Mode</div>
+    <div class="text" v-if="!timeLeft">
+      {{ $t("chat-area.rate-limit-mode") }}
+    </div>
     <div class="text" v-if="timeLeft">{{ timeLeft }}</div>
   </div>
 </template>
@@ -28,6 +30,7 @@ export default class RateLimitPopup extends Vue {
     this.interval = setInterval(this.calculate, 500);
   }
   calculate() {
+    // TODO: i18n of ratelimit time
     const now = Date.now();
     const timeLeft = ChannelsModule.rateLimitTimeLeft(this.channelID, now);
     if (this.isImmune || isNaN(timeLeft) || timeLeft <= 0) {

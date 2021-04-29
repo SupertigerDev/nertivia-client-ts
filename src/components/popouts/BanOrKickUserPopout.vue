@@ -24,12 +24,15 @@
             </span>
             <div class="buttons">
               <CustomButton :name="$t('back')" @click="close" />
+              <!-- TODO: i18n -->
               <CustomButton
                 @click="buttonClicked"
                 :name="
                   data.action === 'BAN'
                     ? 'Ban'
-                    : 'Kick' + (requestSent ? 'ing...' : '')
+                    : requestSent
+                    ? 'Kicking...'
+                    : 'Kick'
                 "
                 :warn="true"
               />

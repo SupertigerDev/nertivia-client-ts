@@ -15,7 +15,7 @@
     <!-- TODO: replace with bitwise permissions some day (just like how i made role permissions) -->
     <!-- TODO: Per user channel permission pls -->
     <div class="title">
-      {{ $t("server-settings.permissions") }}
+      {{ $t("server-settings.permissions.permissions") }}
     </div>
     <CheckBox
       :name="$t('server-settings.manage-channels.permission.send-message')"
@@ -146,7 +146,7 @@ export default class ManageChannels extends Vue {
       })
       .catch(async err => {
         if (!err.response) {
-          return (this.error = "Could not connect to server.");
+          return (this.error = this.$t("could-not-connect-to-server").toString());
         }
         const json = await err.response.json();
         const { errors, message } = json;

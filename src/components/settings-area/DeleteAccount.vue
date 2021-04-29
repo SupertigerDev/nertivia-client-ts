@@ -29,6 +29,7 @@
         <li>{{ $t("settings.delete-account.messages-sent") }}:</li>
       </ul>
       <div class="title">{{ $t("settings.delete-account.requirements") }}:</div>
+      <!-- TODO: i18n -->
       <ul class="list">
         <li>
           {{ $t("settings.delete-account.delete-leave-server") }}
@@ -101,7 +102,7 @@ export default class DeleteAccount extends Vue {
       })
       .catch(async err => {
         if (!err.response) {
-          this.error = "Could not connect to server.";
+          this.error = this.$t("could-not-connect-to-server").toString();
           return;
         }
         const data = await err.response.json();
