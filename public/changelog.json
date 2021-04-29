@@ -1,5 +1,15 @@
 [
 	{
+		"version": "1.30.1-beta",
+		"date": "29 April 2021",
+		"title": "Donate Links & Home Page Changes",
+		"new": [
+			"Added Ko-fi donation link to settings <3",
+			"Added 'View Changes' button to the home page.",
+			"Changed Home Page design slightly"
+		]
+	},
+	{
 		"version": "1.30.0-beta",
 		"date": "27 April 2021",
 		"title": "Bug fixes, Small Features",

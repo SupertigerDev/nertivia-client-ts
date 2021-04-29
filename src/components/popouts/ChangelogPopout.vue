@@ -115,6 +115,7 @@ export default class ProfilePopout extends Vue {
 .content {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 .inner-content {
   display: flex;

@@ -6,6 +6,7 @@
         <img class="logo" src="@/assets/logo.svg" alt />
         <div class="title">Welcome to Nertivia BETA</div>
         <div class="version">{{ $version }}</div>
+        <div class="link" @click="showChangelog">View Changes</div>
       </div>
       <div class="main-content">
         <div class="buttons">
@@ -18,16 +19,26 @@
             <div class="name">Download</div>
           </div> -->
         </div>
-        <br />
-        <a
-          class="button github"
-          href="https://github.com/supertiger1234/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img class="icon" src="@/assets/github-logo.svg" alt />
-          <div class="name">View In GitHub</div>
-        </a>
+        <div class="other-buttons">
+          <a
+            class="button github"
+            href="https://github.com/supertiger1234/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img class="icon" src="@/assets/github-logo.svg" alt />
+            <div class="name">View In GitHub</div>
+          </a>
+          <a
+            class="button donate"
+            href="https://ko-fi.com/S6S243GRX"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img class="icon" src="@/assets/kofi-logo.png" alt />
+            <div class="name">Support me on Ko-fi</div>
+          </a>
+        </div>
       </div>
     </div>
     <div class="footer">
@@ -40,9 +51,18 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import Header from "@/components/home-page/Header.vue";
+import { PopoutsModule } from "@/store/modules/popouts";
 
 @Component({ components: { Header } })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  showChangelog() {
+    PopoutsModule.ShowPopout({
+      id: "changelog-popout",
+      component: "ChangelogPopout",
+      data: {}
+    });
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -54,19 +74,19 @@ export default class Home extends Vue {}
 }
 .center-box {
   display: flex;
+  flex-direction: column;
   align-self: center;
-  margin-top: 200px;
+  margin-top: 100px;
 }
 .slideshow {
   display: flex;
   flex-direction: column;
-  height: 370px;
-  width: 370px;
+  height: 260px;
+  flex-shrink: 0;
   align-items: center;
   margin: 10px;
   justify-content: center;
   align-content: center;
-  border-right: solid 1px rgba(255, 255, 255, 0.315);
   .logo {
     height: 200px;
     width: 200px;
@@ -79,18 +99,35 @@ export default class Home extends Vue {}
     font-size: 14px;
     margin-top: 5px;
   }
+  .link {
+    color: var(--link-color);
+    font-size: 14px;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 .main-content {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  height: 370px;
   width: 370px;
   margin: 10px;
 }
 a.button {
   text-decoration: none;
   color: white;
+}
+.other-buttons {
+  display: flex;
+  margin-top: 10px;
+  .button {
+    flex: 1;
+    &.donate {
+      white-space: nowrap;
+    }
+  }
 }
 .button {
   display: flex;
@@ -119,6 +156,14 @@ a.button {
     .name {
       margin-left: 5px;
       color: black;
+    }
+  }
+  &.donate {
+    background: var(--alert-color);
+    align-self: center;
+    .name {
+      margin-left: 5px;
+      color: white;
     }
   }
   .icon {

@@ -12,6 +12,15 @@
         <div class="name">{{ $t(`settings.tab-names.${path}`) }}</div>
       </div>
     </div>
+    <a
+      href="https://ko-fi.com/S6S243GRX"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="item donate"
+    >
+      <img src="@/assets/kofi-logo.png" alt="" />
+      <div class="name">Support me on Ko-fi</div>
+    </a>
     <div class="item" @click="showChangelog">
       <div class="material-icons">description</div>
       <div class="name">Changelog</div>
@@ -87,6 +96,14 @@ export default class MainApp extends Vue {
   &:hover {
     background-color: rgba(255, 255, 255, 0.1);
     opacity: 1;
+  }
+  &.donate {
+    background: var(--alert-color);
+    text-decoration: none;
+    img {
+      height: 30px;
+      width: 30px;
+    }
   }
   &.selected {
     background: rgba(255, 255, 255, 0.1);
