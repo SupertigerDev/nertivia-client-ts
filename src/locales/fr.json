@@ -27,8 +27,11 @@
     "copy-user-tag": "Copier Pseudo:Tag"
   },
   "message-context": {
+    "user": "Utilisateur",
     "quote": "Citer",
-    "edit": "Éditer"
+    "edit": "Éditer",
+    "copy": "Copier",
+    "delete": "Supprimer"
   },
   "server-context": {
     "mark-as-read": "Marquer comme lu",
@@ -93,7 +96,7 @@
       "manage-token": "Gestion des jetons d'authentification",
       "show-token": "Montrer le jeton",
       "copy-token": "Copier le jeton",
-      "reset-token": "réinitialiser le jeton",
+      "reset-token": "Réinitialiser le jeton",
       "delete-bot": "Supprimer le Bot"
     },
     "delete-account": {
@@ -161,9 +164,45 @@
     "busy": "Occupé",
     "looking-to-play": "Souhaite jouer"
   },
+  "right-drawer": {
+    "server-members": "Membres ({0})",
+    "server-offline-members": "Déconnectés ({0})"
+  },
+  "profile-popout": {
+    "common-friends": "Amis en commun",
+    "badges": "Badges",
+    "joined-at": "Inscrit le",
+    "suspended": "Suspendu",
+    "remove-friend": "Retirer le contact",
+    "accept-request": "Accepter la requête",
+    "cancel-request": "Annuler la requête",
+    "add-friend": "Ajouter un ami",
+    "send-message": "Envoyer un message",
+    "common-servers": "Serveurs en commun"
+  },
+  "connection": {
+    "loading": "En cours...",
+    "ready": "Prêt !",
+    "authenticating": "Authentification..."
+  },
+  "navbar": {
+    "update": "mise à jour",
+    "update-available": "Mise à jour disponible"
+  },
   "generic": {
     "copy": "Copier",
     "delete": "Supprimer",
+    "copied": "Copié !",
     "user": "Utilisateur"
+  },
+  "messages": {
+    "left": "a quitté le serveur",
+    "kicked": "a été viré",
+    "banned": "a été banni",
+    "joined": "a rejoint le serveur !"
+  },
+  "could-not-connect-to-server": "N'a pas pu se connecter au serveur.",
+  "chat-area": {
+    "rate-limit-mode": "Mode anti spam"
   }
 }
