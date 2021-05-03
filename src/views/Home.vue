@@ -4,7 +4,7 @@
     <div class="center-box">
       <div class="slideshow">
         <img class="logo" src="@/assets/logo.svg" alt />
-        <div class="title">Welcome to Nertivia BETA</div>
+        <div class="title">Welcome to Nertivia</div>
         <div class="version">{{ $version }}</div>
         <div class="link" @click="showChangelog">View Changes</div>
       </div>

@@ -17,20 +17,20 @@ export default class BrowserTitleHandler extends Vue {
     // DM Notification
     if (this.firstDmNotification) {
       this.setNotificationICO(true);
-      document.title = `(!) ${this.firstDmNotification.sender.username} - Nertivia BETA`;
+      document.title = `(!) ${this.firstDmNotification.sender.username} - Nertivia`;
       return;
     }
     // Server Notification
     const notification: any = this.firstServerNotification;
     if (!notification?.server_id) {
-      document.title = "Nertivia BETA";
+      document.title = "Nertivia";
       this.setNotificationICO(false);
       return;
     }
     this.setNotificationICO(true);
 
     const server = ServersModule.servers[notification.server_id];
-    document.title = `(!) ${server.name}#${notification.name} - Nertivia BETA`;
+    document.title = `(!) ${server.name}#${notification.name} - Nertivia`;
   }
   setNotificationICO(set: boolean) {
     const icoSelector = document.querySelector("link[rel='icon']");

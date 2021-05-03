@@ -31,7 +31,7 @@ jobs:
       - name: Build App
         run: npm run build
         env:
-          VUE_APP_MAIN_APP_URL: "https://beta.nertivia.net/"
+          VUE_APP_MAIN_APP_URL: "https://nertivia.net/"
           VUE_APP_SOCKET_URL: "https://nertivia.net"
           VUE_APP_FETCH_PREFIX: "https://nertivia.net/api"
           VUE_APP_NERTIVIA_CDN: "https://media.nertivia.net/"

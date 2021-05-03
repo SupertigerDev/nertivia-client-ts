@@ -26,8 +26,8 @@ module.exports = {
 
   pwa: {
     manifestOptions: {
-      name: "Nertivia BETA",
-      short_name: "Nertivia BETA",
+      name: "Nertivia",
+      short_name: "Nertivia",
       start_url: "/app"
     },
     themeColor: "#181c22",
