@@ -3,6 +3,7 @@
 		"version": "1.30.2-stable",
 		"date": "03 May 2021",
 		"title": "Stable",
+		"tags": ["ui-breaking"],
 		"new": [
 			"Added download app button"
 		]

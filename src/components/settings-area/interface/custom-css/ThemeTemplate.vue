@@ -5,6 +5,12 @@
     </div>
     <div class="options" :class="{ show: showOptions }">
       <CustomButton
+        name="Publish"
+        v-if="showPublish"
+        @click="$emit('publish', theme.id)"
+        icon="public"
+      />
+      <CustomButton
         name="Apply"
         @click="apply"
         v-if="!applied"
@@ -38,6 +44,7 @@ import { applyTheme, unapplyTheme } from "@/utils/CSSTheme";
 
 @Component({ components: { CustomButton } })
 export default class ThemeTemplate extends Vue {
+  showPublish = localStorage["publishCSSTheme_wip"] === "true";
   @Prop() private theme!: ThemePreview;
   @Prop({ default: false }) private showOptions!: boolean;
   @Prop({ default: false }) private applied!: boolean;

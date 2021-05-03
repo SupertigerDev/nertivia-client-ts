@@ -13,6 +13,7 @@
         @clicked="clickedID = theme.id"
         @delete="deleteTheme"
         @edit="$emit('edit', theme.id)"
+        @publish="$emit('publish', theme)"
         @applied="appliedThemeID = theme.id"
         @unapplied="appliedThemeID = null"
         :applied="appliedThemeID === theme.id"

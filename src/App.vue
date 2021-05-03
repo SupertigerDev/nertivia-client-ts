@@ -1,6 +1,7 @@
 <template>
   <div class="root">
     <WindowControl v-if="$isElectron" />
+    {{ this.$LastUIBreakingVersion }}
     <router-view />
     <Popouts />
   </div>

@@ -6,13 +6,13 @@
         <div class="material-icons">info</div>
         Enable un-finished or experimental features.
       </div>
-      <div style="opacity: 0.6">No WIP Features available right now.</div>
-      <!-- <CheckBox
-        name="CSS Themes"
+      <!-- <div style="opacity: 0.6">No WIP Features available right now.</div> -->
+      <CheckBox
+        name="Publish CSS Theme (Unfinished)"
         class="check-box"
-        description="Create and apply CSS Themes through interface settings."
-        v-model="CSSThemes"
-      /> -->
+        description="Publish your CSS Themes so it shows in the explore tab."
+        v-model="publishCSSTheme"
+      />
     </div>
   </div>
 </template>
@@ -24,11 +24,11 @@ import CheckBox from "@/components/CheckBox.vue";
 @Component({ components: { CheckBox } })
 export default class WIPFeatures extends Vue {
   // im lazy to add it properly D: adding multiple wip features will get messy.
-  // CSSThemes = localStorage["CSSThemes_wip"] === "true";
-  // @Watch("CSSThemes")
-  // onChange() {
-  //   localStorage["CSSThemes_wip"] = this.CSSThemes;
-  // }
+  publishCSSTheme = localStorage["publishCSSTheme_wip"] === "true";
+  @Watch("publishCSSTheme")
+  onChange() {
+    localStorage["publishCSSTheme_wip"] = this.publishCSSTheme;
+  }
 }
 </script>
 

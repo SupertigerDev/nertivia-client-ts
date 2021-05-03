@@ -1,6 +1,10 @@
 const fs = require("fs");
 process.env.VUE_APP_VERSION = require("./public/changelog.json")[0].version;
 
+process.env.VUE_APP_LAST_UI_BREAKING_VERSION = require("./public/changelog.json").find(
+  v => v.tags?.includes("ui-breaking")
+)?.version;
+
 fs.writeFileSync(
   "./public/swenv.js",
   `
