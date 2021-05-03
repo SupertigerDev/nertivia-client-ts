@@ -14,10 +14,15 @@
             <div class="material-icons">open_in_browser</div>
             <div class="name">Open In Browser</div>
           </a>
-          <!-- <div class="button" @click="setPopout('download')">
+          <a
+            class="button"
+            href="https://github.com/supertiger1234/nertivia-desktop-app/releases"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <div class="material-icons">vertical_align_bottom</div>
-            <div class="name">Download</div>
-          </div> -->
+            <div class="name">Desktop App</div>
+          </a>
         </div>
         <div class="other-buttons">
           <a
