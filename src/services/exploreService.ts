@@ -11,6 +11,7 @@ export interface ServerResponse {
   total_members: number;
 }
 
+
 export function getServers(
   param = "?verified=true"
 ): Promise<ServerResponse[]> {
@@ -26,27 +27,38 @@ export function getServer(server_id: string): Promise<ServerResponse> {
 export function addServer(
   server_id: string,
   description: string
-  ): Promise<any> {
-    return wrapper()
+): Promise<any> {
+  return wrapper()
     .post(`explore/servers`, { json: { server_id, description } })
     .text();
-  }
-  export function updateServer(
-    server_id: string,
-    description: string
-    ): Promise<any> {
-      return wrapper()
-      .patch(`explore/servers/${server_id}`, { json: { description } })
-      .text();
-    }
-    export function deleteServer(server_id: string): Promise<any> {
-      return wrapper()
-      .delete(`explore/servers/${server_id}`)
-      .text();
-    }
-    // themes
-    export function getPublicTheme(themeID: string): Promise<any> {
-      return wrapper()
-        .get(`explore/themes/${themeID}`)
-        .json();
-    }
+}
+export function updateServer(
+  server_id: string,
+  description: string
+): Promise<any> {
+  return wrapper()
+    .patch(`explore/servers/${server_id}`, { json: { description } })
+    .text();
+}
+export function deleteServer(server_id: string): Promise<any> {
+  return wrapper()
+    .delete(`explore/servers/${server_id}`)
+    .text();
+}
+// themes
+export interface PublicTheme {
+  approved: boolean
+  css: string
+  description: string
+  id: string
+  name: string
+  screenshot?: string
+  updatedCss: string
+  compatible_version?: string
+}
+
+export function getPublicTheme(themeID: string): Promise<any> {
+  return wrapper()
+    .get(`explore/themes/${themeID}`)
+    .json();
+}
