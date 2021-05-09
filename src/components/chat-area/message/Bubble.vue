@@ -172,6 +172,7 @@ $pointer-size: 10px;
 
 .message {
   color: #e0e0e0;
+  line-height: 1.3rem;
 }
 .image-embed .message {
   margin-top: 4px;

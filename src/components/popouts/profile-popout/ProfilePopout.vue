@@ -87,7 +87,9 @@
           />
           <div class="about detail-item" v-if="aboutMe && aboutMe.about_me">
             <div class="icon material-icons">info_outline</div>
-            <span><Markup :largeEmoji="false" :text="aboutMe.about_me"/></span>
+            <span class="full-details"
+              ><Markup :largeEmoji="false" :text="aboutMe.about_me"
+            /></span>
           </div>
           <div
             class="location detail-item"
@@ -290,6 +292,9 @@ export default class ProfilePopout extends Vue {
   width: 500px;
   height: 600px;
   overflow: hidden;
+}
+.full-details {
+  line-height: 1.3rem;
 }
 .content {
   display: flex;

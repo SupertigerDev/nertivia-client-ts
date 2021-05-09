@@ -32,9 +32,9 @@ export default Vue.extend({
 <style>
 .emoji {
   object-fit: contain;
-  height: 2em;
-  width: 2em;
+  height: 1.4em;
+  width: 1.4em;
+  vertical-align: -7.5px;
   margin: 1px;
-  vertical-align: -9px;
 }
 </style>
