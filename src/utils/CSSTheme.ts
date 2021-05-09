@@ -1,8 +1,12 @@
+import { applyPublicTheme } from "@/services/exploreService";
 import { getTheme } from "@/services/themeService";
 
 export async function applyTheme(id: string, css?: string) {
     if (!css) {
-        const theme = await getTheme(id);
+        let theme = await getTheme(id).catch(() => {
+          //
+        });
+        if (!theme) theme = await applyPublicTheme(id);
         if (!theme) return;
         css = theme.css;
     }

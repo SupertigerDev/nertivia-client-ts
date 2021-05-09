@@ -1,6 +1,8 @@
 import wrapper from "./wrapper";
 import User from "@/interfaces/User";
 import Server from "@/interfaces/Server";
+import { Theme } from "./themeService";
+import { unzip } from "@/utils/zip";
 
 export interface ServerResponse {
   created: number;
@@ -53,12 +55,73 @@ export interface PublicTheme {
   id: string
   name: string
   screenshot?: string
-  updatedCss: string
-  compatible_version?: string
+  updatedCss: boolean
+  compatible_client_version?: string
 }
 
 export function getPublicTheme(themeID: string): Promise<any> {
   return wrapper()
     .get(`explore/themes/${themeID}`)
+    .json();
+}
+export function addPublicTheme(themeID: string, data: any): Promise<any> {
+  return wrapper()
+    .post(`explore/themes/${themeID}`, { json: data })
+    .json();
+}
+export function updatePublicTheme(themeID: string, data: any): Promise<any> {
+  return wrapper()
+    .patch(`explore/themes/${themeID}`, { json: data })
+    .json();
+}
+export async function applyPublicTheme(themeID: string): Promise<any> {
+  return await wrapper()
+    .get(`explore/themes/${themeID}/apply`)
+    .json<Theme>().then(async theme => {
+      return {
+        ...theme,
+        css: await unzip(theme.css) || theme.css
+      };
+    })
+}
+export async function likeTheme(themeID: string): Promise<any> {
+  return await wrapper()
+    .post(`explore/themes/${themeID}/like`)
+    .json()
+}
+export async function unlikeTheme(themeID: string): Promise<any> {
+  return await wrapper()
+    .delete(`explore/themes/${themeID}/like`)
+    .json()
+}
+
+export interface PublicThemeResponse {
+  creator: User
+  description: string
+  id: string
+  screenshot: string
+  theme: { name: string, id: string }
+  likes?: number
+  liked?: boolean
+}
+type SortTheme = "compatible";
+type FilterTheme = "compatible";
+
+export function getPublicThemes(sort?: SortTheme, filter?: FilterTheme, version?: string): Promise<PublicThemeResponse[]> {
+  let params = "?"
+  if (sort) {
+    params += `sort=${sort}&`;
+  }
+  if (filter) {
+    if (filter !== "compatible")
+      params += `filter=${filter}&`;
+  }
+  if (version) {
+    params += `version=${version}&`;
+  }
+  params = params.slice(0, -1)
+
+  return wrapper()
+    .get(`explore/themes${params}`)
     .json();
 }

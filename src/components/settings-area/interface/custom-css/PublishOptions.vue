@@ -12,6 +12,7 @@
       />
     </div>
     <div class="box">
+      <div class="error" v-if="errors['other']">{{ errors["other"] }}</div>
       <div class="status-container">
         <div class="title">Status:</div>
         <div class="status">{{ status }}</div>
@@ -38,20 +39,25 @@
       </div>
 
       <CustomInput :value="theme.name" title="Name" :disabled="true" />
-      <CustomInput title="Description" :textArea="true" value="test" />
+      <CustomInput
+        title="Description"
+        :textArea="true"
+        :error="errors['description']"
+        v-model="description"
+      />
       <CustomButton
         v-if="publicTheme === undefined"
         style="align-self: flex-start"
         icon="public"
-        name="Publish"
-        @click="$emit('back')"
+        :name="requestSent ? 'Publishing...' : 'Publish'"
+        @click="publishForReview"
       />
       <CustomButton
         v-if="publicTheme"
         style="align-self: flex-start"
         icon="public"
-        name="Update"
-        @click="$emit('back')"
+        :name="requestSent ? 'Updating...' : 'Update'"
+        @click="updatePublicTheme"
       />
       <CustomButton
         style="align-self: flex-start"
@@ -66,7 +72,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { getPublicTheme, PublicTheme } from "@/services/exploreService";
+import {
+  addPublicTheme,
+  getPublicTheme,
+  PublicTheme,
+  updatePublicTheme
+} from "@/services/exploreService";
 import CustomButton from "@/components/CustomButton.vue";
 import CustomInput from "@/components/CustomInput.vue";
 import { Theme } from "@/services/themeService";
@@ -77,10 +88,14 @@ export default class PublishOptions extends Vue {
   @Prop() private theme!: Theme;
   publicTheme?: null | PublicTheme = null;
   newImage: null | string = null;
+  description = "";
+  errors: any = {};
+  requestSent = false;
   async mounted() {
     this.publicTheme = await getPublicTheme(this.theme.id).catch(() => {
       this.publicTheme = undefined;
     });
+    this.description = this.publicTheme?.description || "";
   }
   imageChange(event: any) {
     const file: File = event.target.files[0];
@@ -92,18 +107,91 @@ export default class PublishOptions extends Vue {
     };
     reader.readAsDataURL(file);
   }
+  publishForReview() {
+    if (this.requestSent) return;
+    this.requestSent = true;
+    this.errors = {};
+    const data: any = {};
+    if (this.newImage) {
+      data.screenshot = this.newImage;
+    }
+    data.description = this.description;
+    addPublicTheme(this.theme.id, data)
+      .then(json => {
+        this.publicTheme = json;
+      })
+      .catch(async err => {
+        const json = await err.response.json();
+        this.handleError(json);
+      })
+      .finally(() => {
+        this.requestSent = false;
+      });
+  }
+  updatePublicTheme() {
+    if (this.requestSent) return;
+    this.requestSent = true;
+    this.errors = {};
+    const data: any = {};
+    if (this.newImage) {
+      data.screenshot = this.newImage;
+    }
+    data.description = this.description;
+    updatePublicTheme(this.theme.id, data)
+      .then(json => {
+        this.publicTheme = json;
+      })
+      .catch(async err => {
+        const json = await err.response.json();
+        this.handleError(json);
+      })
+      .finally(() => {
+        this.requestSent = false;
+      });
+  }
+  handleError(json: any) {
+    const { errors, message } = json;
+    if (message) {
+      this.$set(this.errors, "other", message);
+      return;
+    }
+    const allowedParams = ["description"];
+    for (let i = 0; i < errors.length; i++) {
+      const { param, msg } = errors[i];
+      if (!allowedParams.includes(param)) {
+        this.$set(this.errors, "other", msg);
 
+        continue;
+      }
+      this.$set(this.errors, param, msg);
+    }
+  }
   get imageURL() {
     if (this.newImage) return this.newImage;
     if (!this.publicTheme) return null;
     return `${process.env.VUE_APP_FETCH_PREFIX}/media/${this.publicTheme.screenshot}`;
   }
   get status() {
+    const themeVersion = this.theme.client_version;
+    const lastBreakingVersion = this.$lastUIBreakingVersion;
+    const isLatestPrivateTheme = themeVersion === lastBreakingVersion;
+    if (this.publicTheme === undefined && !isLatestPrivateTheme)
+      return "Nertivia had some UI breaking changes. Verify that the theme still works as intended and then click on save in the editor, then publish on this page.";
     if (this.publicTheme === undefined) return "Not Published";
-    if (this.publicTheme?.compatible_version !== this.$LastUIBreakingVersion)
-      return "Nertivia had some UI breaking changes. Verify that the theme still works as intended and then click on update.";
-    if (this.publicTheme?.approved) return "Published";
+
+    const publicThemeVersion = this.publicTheme?.compatible_client_version;
+    const isLatestPublicTheme = publicThemeVersion === lastBreakingVersion;
+    if (
+      !themeVersion ||
+      !publicThemeVersion ||
+      !isLatestPublicTheme ||
+      !isLatestPrivateTheme
+    )
+      return "Nertivia had some UI breaking changes. Verify that the theme still works as intended and then click on save in the editor, then update on this page.";
+
+    if (this.publicTheme?.updatedCss) return "Waiting For Update Approval";
     if (!this.publicTheme?.approved) return "Waiting For Approval";
+    if (this.publicTheme?.approved) return "Published";
     return "Unknown";
   }
 }
@@ -145,6 +233,11 @@ export default class PublishOptions extends Vue {
   .status {
     opacity: 0.8;
   }
+}
+.error {
+  color: var(--alert-color);
+  margin-left: 3px;
+  margin-bottom: 5px;
 }
 .avatar-banner {
   height: 170px;

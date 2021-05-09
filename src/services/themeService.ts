@@ -4,6 +4,7 @@ import wrapper from "./wrapper";
 export interface Theme {
   css: string,
   name: string,
+  client_version?: string
   id: string,
 }
 export type ThemePreview = Omit<Theme, 'css'>;
@@ -27,7 +28,8 @@ export async function getTheme(id: string) {
 // also zips
 export async function updateTheme(id: string, data: Omit<Theme, 'id'>) {
   const payload: any = {
-    name: data.name
+    name: data.name,
+    client_version: data.client_version
   }
   data.css && (payload.css = zip(data.css));
   return await wrapper()
@@ -43,7 +45,8 @@ export async function deleteTheme(id: string) {
 export async function createTheme(data: Omit<Theme, 'id'>): Promise<Theme> {
   const payload = {
     name: data.name,
-    css: zip(data.css)
+    css: zip(data.css),
+    client_version: data.client_version 
   }
   return await wrapper()
     .post(`themes`, {json: payload})

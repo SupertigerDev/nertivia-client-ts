@@ -4,5 +4,11 @@
     "id": "servers",
     "icon": "dns",
     "component": "ExploreServers"
+  },
+  "themes":{
+    "name": "Themes",
+    "id": "themes",
+    "icon": "view_quilt",
+    "component": "ExploreThemes"
   }
 }

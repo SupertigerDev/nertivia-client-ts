@@ -17,7 +17,7 @@ declare module "vue/types/vue" {
   interface Vue {
     $isMobile: boolean;
     $version: string;
-    $LastUIBreakingVersion: string;
+    $lastUIBreakingVersion: string;
     $isElectron: string;
   }
 }
@@ -34,7 +34,7 @@ if (messagingSupported && process.env.VUE_APP_FCM_API_KEY) {
 }
 Vue.prototype.$isElectron = electronBridge?.isElectron || false;
 Vue.prototype.$version = process.env.VUE_APP_VERSION;
-Vue.prototype.$LastUIBreakingVersion = process.env.VUE_APP_LAST_UI_BREAKING_VERSION;
+Vue.prototype.$lastUIBreakingVersion = process.env.VUE_APP_LAST_UI_BREAKING_VERSION;
 Vue.prototype.$isMobile = /iphone|ipod|android|ie|blackberry|fennec/.test(
   navigator.userAgent.toLowerCase()
 );

@@ -69,11 +69,13 @@ export default class Editor extends Vue {
   async save() {
     return updateTheme(this.themeID, {
       css: this.css,
-      name: this.name
+      name: this.name,
+      client_version: this.$lastUIBreakingVersion
     }).then(() => {
       if (!this.theme) return;
       this.theme.css = this.css;
       this.theme.name = this.name;
+      this.$set(this.theme, "client_version", this.$lastUIBreakingVersion);
     });
   }
   async apply() {
@@ -91,6 +93,7 @@ export default class Editor extends Vue {
   }
   get showSaveButton() {
     if (!this.theme) return false;
+    if (this.theme.client_version !== this.$lastUIBreakingVersion) return true;
     if (this.name !== this.theme.name) return true;
     if (this.css !== this.theme.css) return true;
     return false;

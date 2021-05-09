@@ -49,7 +49,8 @@ export default class ThemeList extends Vue {
   createTheme() {
     createTheme({
       name: "Untitled",
-      css: this.cssTemplate()
+      css: this.cssTemplate(),
+      client_version: this.$lastUIBreakingVersion
     }).then(theme => {
       this.themes?.push(theme);
       this.$emit("edit", theme.id);
