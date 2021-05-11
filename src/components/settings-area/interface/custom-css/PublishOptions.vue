@@ -169,7 +169,7 @@ export default class PublishOptions extends Vue {
   get imageURL() {
     if (this.newImage) return this.newImage;
     if (!this.publicTheme) return null;
-    return `${process.env.VUE_APP_FETCH_PREFIX}/media/${this.publicTheme.screenshot}`;
+    return `${process.env.VUE_APP_NERTIVIA_CDN}${this.publicTheme.screenshot}`;
   }
   get status() {
     const themeVersion = this.theme.client_version;

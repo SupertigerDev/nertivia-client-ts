@@ -1,30 +1,42 @@
 <template>
   <div
     class="server-template"
+    :class="{ noBanner: !bannerURL }"
     @mouseover="hovering = true"
     @mouseleave="hovering = false"
   >
     <div class="banner">
-      <img loading="lazy" class="banner-img" :src="screenshotURL" />
+      <img
+        loading="lazy"
+        v-if="bannerURL"
+        class="banner-img"
+        :src="bannerURL"
+      />
     </div>
     <div class="container">
       <div class="top">
         <div class="left">
+          <AvatarImage
+            class="avatar"
+            :imageId="data.server.avatar"
+            :seedId="data.server.server_id"
+            size="50px"
+            :animateGif="hovering"
+          />
           <div class="name">
-            {{ data.theme.name }}
-            <!-- <div class="material-icons verified" title="Verified">
+            {{ data.server.name }}
+            <div
+              class="material-icons verified"
+              title="Verified"
+              v-if="data.server.verified"
+            >
               done
-            </div> -->
+            </div>
           </div>
           <div class="mid-info">
-            <div
-              class="likes"
-              :class="{ liked: data.liked }"
-              title="Like"
-              @click="likeTheme"
-            >
-              <div class="material-icons">favorite</div>
-              <span>{{ data.likes }}</span>
+            <div class="member-count" title="Total Members">
+              <div class="material-icons">account_box</div>
+              <span>{{ data.total_members.toLocaleString() }}</span>
             </div>
             <div class="creator" @click="showCreatorProfile">
               <div class="twemoji"><img :src="tweCrown" /></div>
@@ -35,22 +47,17 @@
         <div class="right">
           <CustomButton
             class="button"
-            @click="cloneTheme"
-            :name="cloning ? 'Cloning...' : 'Clone'"
+            v-if="isJoined"
+            @click="visitClicked"
+            name="Visit"
           />
           <CustomButton
-            class="button"
-            v-if="appliedThemeID === data.id"
-            @click="unapplyTheme"
-            :warn="true"
-            name="Unapply"
-          />
-          <CustomButton
-            class="button"
             v-else
-            @click="applyTheme"
+            class="button"
+            @click="joinClicked"
             :valid="true"
-            name="Apply"
+            :disabled="joining"
+            :name="joining ? 'Joining...' : 'Join'"
           />
         </div>
       </div>
@@ -65,26 +72,18 @@
 
 <script lang="ts">
 import AvatarImage from "@/components/AvatarImage.vue";
-import {
-  applyPublicTheme,
-  likeTheme,
-  PublicThemeResponse,
-  unlikeTheme
-} from "@/services/exploreService";
+import { ServerResponse } from "@/services/exploreService";
 import { Vue, Component, Prop } from "vue-property-decorator";
+import { ServersModule } from "@/store/modules/servers";
 import { PopoutsModule } from "@/store/modules/popouts";
 import CustomButton from "@/components/CustomButton.vue";
-import { applyTheme, unapplyTheme } from "@/utils/CSSTheme";
-import { createTheme } from "@/services/themeService";
+import { joinServerById } from "@/services/serverService";
 @Component({ components: { AvatarImage, CustomButton } })
-export default class ExploreThemeTemplate extends Vue {
-  @Prop() private data!: PublicThemeResponse;
-  @Prop() private appliedThemeID!: string | null;
+export default class ExploreServerTemplate extends Vue {
+  joining = false;
   hovering = false;
-  cloning = false;
   tweCrown = process.env.VUE_APP_TWEMOJI_LOCATION + "1f451.svg";
-  likeRequest = false;
-
+  @Prop() private data!: ServerResponse;
   showCreatorProfile() {
     PopoutsModule.ShowPopout({
       id: "profile",
@@ -92,54 +91,29 @@ export default class ExploreThemeTemplate extends Vue {
       data: { id: this.data.creator.id }
     });
   }
-
-  async applyTheme() {
-    applyTheme(this.data.id);
-    this.$emit("applied");
+  visitClicked() {
+    this.$router.push(
+      `/app/servers/${this.isJoined.server_id}/${this.isJoined.default_channel_id}`
+    );
   }
-  async likeTheme() {
-    if (this.likeRequest) return;
-    this.likeRequest = true;
-    if (this.data.liked) {
-      unlikeTheme(this.data.id)
-        .then(() => {
-          this.$emit("unliked");
-        })
-        .finally(() => {
-          this.likeRequest = false;
-        });
-      return;
-    }
-    likeTheme(this.data.id)
-      .then(() => {
-        this.$emit("liked");
-      })
-      .finally(() => {
-        this.likeRequest = false;
-      });
-  }
-
-  unapplyTheme() {
-    unapplyTheme();
-    this.$emit("unapplied");
-  }
-  async cloneTheme() {
-    if (this.cloning) return;
-    this.cloning = true;
-    const theme = await applyPublicTheme(this.data.id);
-    const name = theme.theme.name;
-    const css = theme.css;
-    createTheme({
-      css,
-      name,
-      client_version: this.$lastUIBreakingVersion
+  joinClicked() {
+    this.joining = true;
+    joinServerById(this.data.server.server_id, {
+      socketID: this.$socket.client.id
     }).finally(() => {
-      this.cloning = false;
+      this.joining = false;
     });
   }
-  get screenshotURL() {
-    if (!this.data.screenshot) return null;
-    return process.env.VUE_APP_NERTIVIA_CDN + this.data.screenshot;
+  get isJoined() {
+    return ServersModule.servers[this.data.server.server_id];
+  }
+  get bannerURL() {
+    if (!this.data.server.banner) return null;
+    return (
+      process.env.VUE_APP_NERTIVIA_CDN +
+      this.data.server.banner +
+      (!this.hovering ? "?type=webp" : "")
+    );
   }
 }
 </script>
@@ -160,9 +134,6 @@ export default class ExploreThemeTemplate extends Vue {
       background: rgba(0, 0, 0, 0);
     }
   }
-}
-.right {
-  display: flex;
 }
 .banner {
   background-position: 50%;
@@ -234,6 +205,7 @@ export default class ExploreThemeTemplate extends Vue {
   font-size: 14px;
 }
 .name {
+  margin-top: 25px;
   font-size: 18px;
 }
 .mid-info {
@@ -254,37 +226,20 @@ export default class ExploreThemeTemplate extends Vue {
 .username {
   color: white;
 }
-.likes {
+.member-count {
   margin-bottom: 5px;
   display: flex;
-  user-select: none;
   align-items: center;
+  opacity: 0.4;
   font-size: 14px;
-  cursor: pointer;
-  transition: 0.2s;
-  color: rgba(255, 255, 255, 0.6);
-  &:hover {
-    .material-icons {
-      opacity: 1;
-      color: var(--alert-color);
-    }
-  }
-  &.liked {
-    .material-icons {
-      opacity: 1;
-      color: var(--alert-color);
-    }
-  }
   .material-icons {
-    opacity: 0.6;
-    transition: 0.2s;
     font-size: 19px;
     margin-right: 3px;
   }
   span {
     padding-right: 5px;
     margin-right: 5px;
-    border-right: solid 1px rgba(255, 255, 255, 0.5);
+    border-right: solid 1px white;
   }
 }
 .button {

@@ -27,6 +27,7 @@
       <ServerSettingsDrawer v-if="showServerSettings" />
       <SettingsDrawer v-if="currentTab === 'settings'" />
       <ExploreDrawer v-if="currentTab === 'explore'" />
+      <AdminPanelDrawer v-if="currentTab === 'admin-panel'" />
     </div>
   </div>
 </template>
@@ -56,6 +57,10 @@ const ExploreDrawer = () =>
   import(
     /* webpackChunkName: "ExploreDrawer" */ "@/components/drawers/ExploreDrawer.vue"
   );
+const AdminPanelDrawer = () =>
+  import(
+    /* webpackChunkName: "AdminPanelDrawer" */ "@/components/drawers/AdminPanelDrawer.vue"
+  );
 
 import SideBar from "@/components/sidebar/SideBar.vue";
 
@@ -69,7 +74,8 @@ import { PopoutsModule } from "@/store/modules/popouts";
     SettingsDrawer,
     DirectMessageDrawer,
     ServerSettingsDrawer,
-    ExploreDrawer
+    ExploreDrawer,
+    AdminPanelDrawer
   }
 })
 export default class MainApp extends Vue {

@@ -50,6 +50,17 @@
       <div class="title">Servers</div>
     </div>
     <div
+      class="item"
+      :class="{
+        selected: currentTab === 'admin-panel'
+      }"
+      title="Admin Panel"
+      @click="changeTab('admin-panel')"
+    >
+      <div class="icon material-icons">security</div>
+      <div class="title">Admin Panel</div>
+    </div>
+    <div
       class="item update"
       v-if="updateAvailable"
       :title="$t('navbar.update-available')"
@@ -146,6 +157,9 @@ export default class NavBar extends Vue {
   }
   get me() {
     return MeModule.user;
+  }
+  get isAdmin() {
+    return this.me.type === "CREATOR" || this.me.type === "ADMIN";
   }
   get serverMentioned() {
     return LastSeenServerChannelsModule.allServerNotifications.find(
