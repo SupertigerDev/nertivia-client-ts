@@ -54,6 +54,7 @@
       :class="{
         selected: currentTab === 'admin-panel'
       }"
+      v-if="isAdmin"
       title="Admin Panel"
       @click="changeTab('admin-panel')"
     >
