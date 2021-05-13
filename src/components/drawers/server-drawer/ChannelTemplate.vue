@@ -30,7 +30,7 @@ import { DrawersModule } from "@/store/modules/drawers";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { MutedChannelsModule } from "@/store/modules/mutedChannels";
 import { PopoutsModule } from "@/store/modules/popouts";
-import emojiParser from "@/utils/emojiParser";
+import twemoji from "twemoji";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
@@ -76,7 +76,11 @@ export default class ChannelTemplate extends Vue {
     const customEmojiID = icon.split("_")[1];
 
     if (!isCustom) {
-      return emojiParser.replaceEmojis(icon);
+      return (
+        process.env.VUE_APP_TWEMOJI_LOCATION +
+        twemoji.convert.toCodePoint(icon) +
+        ".svg"
+      );
     }
 
     const image = new Image();

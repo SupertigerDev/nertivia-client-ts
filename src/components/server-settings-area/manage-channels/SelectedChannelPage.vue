@@ -94,7 +94,7 @@ import { ChannelsModule } from "@/store/modules/channels";
 import { ServersModule } from "@/store/modules/servers";
 import { MeModule } from "@/store/modules/me";
 import Channel from "@/interfaces/Channel";
-import emojiParser from "@/utils/emojiParser";
+import twemoji from "twemoji";
 @Component({
   components: {
     CustomInput,
@@ -226,7 +226,11 @@ export default class ManageChannels extends Vue {
     const customEmojiID = this.channelIcon?.split("_")[1];
 
     if (!isCustom) {
-      return emojiParser.replaceEmojis(this.channelIcon);
+      return (
+        process.env.VUE_APP_TWEMOJI_LOCATION +
+        twemoji.convert.toCodePoint(this.channelIcon) +
+        ".svg"
+      );
     }
 
     const image = new Image();
