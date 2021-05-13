@@ -225,20 +225,18 @@ export default class ManageChannels extends Vue {
     const isGif = this.channelIcon?.startsWith("g_");
     const customEmojiID = this.channelIcon?.split("_")[1];
 
-    if (!isCustom) {
-      return (
-        process.env.VUE_APP_TWEMOJI_LOCATION +
-        twemoji.convert.toCodePoint(this.channelIcon) +
-        ".svg"
-      );
-    }
-
     const image = new Image();
     image.classList.add("emoji");
 
-    image.src = `${process.env.VUE_APP_NERTIVIA_CDN}emojis/${customEmojiID}.${
-      isGif ? "gif" : "png"
-    }`;
+    if (isCustom) {
+      image.src = `${process.env.VUE_APP_NERTIVIA_CDN}emojis/${customEmojiID}.${
+        isGif ? "gif" : "png"
+      }`;
+    } else {
+      process.env.VUE_APP_TWEMOJI_LOCATION +
+        twemoji.convert.toCodePoint(this.channelIcon) +
+        ".svg";
+    }
     return image.outerHTML;
   }
 

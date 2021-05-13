@@ -75,20 +75,20 @@ export default class ChannelTemplate extends Vue {
     const isGif = icon.startsWith("g_");
     const customEmojiID = icon.split("_")[1];
 
-    if (!isCustom) {
-      return (
-        process.env.VUE_APP_TWEMOJI_LOCATION +
-        twemoji.convert.toCodePoint(icon) +
-        ".svg"
-      );
-    }
-
     const image = new Image();
     image.classList.add("emoji");
 
-    image.src = `${process.env.VUE_APP_NERTIVIA_CDN}emojis/${customEmojiID}.${
-      isGif ? "gif" : "png"
-    }${!this.hover && isGif ? "?type=webp" : ""}`;
+    if (isCustom) {
+      image.src = `${process.env.VUE_APP_NERTIVIA_CDN}emojis/${customEmojiID}.${
+        isGif ? "gif" : "png"
+      }${!this.hover && isGif ? "?type=webp" : ""}`;
+    } else {
+      image.src =
+        process.env.VUE_APP_TWEMOJI_LOCATION +
+        twemoji.convert.toCodePoint(icon) +
+        ".svg";
+    }
+
     return image.outerHTML;
   }
 }
