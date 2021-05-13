@@ -9,6 +9,7 @@
   "manage-channels":{
     "name": "Manage Channels",
     "id": "manage-channels",
+    "permission": "MANAGE_CHANNELS",
     "icon": "storage",
     "admin": true,
     "component": "ManageChannels"
@@ -16,6 +17,7 @@
   "manage-roles":{
     "name": "Manage Roles",
     "id": "manage-roles",
+    "permission": "MANAGE_ROLES",
     "icon": "leaderboard",
     "admin": true,
     "component": "ManageRoles"
@@ -44,6 +46,7 @@
     "id": "banned-users",
     "icon": " block",
     "admin": true,
+    "permission": "BAN_USER",
     "component": "BannedUsers"
   },
   "manage-users": {

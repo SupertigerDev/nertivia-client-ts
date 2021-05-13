@@ -266,6 +266,10 @@ export default {
       }
       const id = emoji.name || emoji.shortcodes[0];
       addRecentEmoji(id);
+      if (!this.inputElement) {
+        this.$emit("click", emoji);
+        return;
+      }
       insert(this.inputElement, `:${id}: `);
       this.inputElement.focus();
       this.close();

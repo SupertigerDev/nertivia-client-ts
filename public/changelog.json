@@ -1,5 +1,14 @@
 [
 	{
+		"version": "1.32.0-stable",
+		"date": "13 May 2021",
+		"title": "Server Channel Icons",
+		"new": [
+			"You can now add emoji/custom emoji icons to your server channels",
+			"Quick access to channel settings by right clicking on a server channel."
+		]
+	},
+	{
 		"version": "1.31.0-stable",
 		"date": "09 May 2021",
 		"title": "Public Themes",

@@ -6,12 +6,33 @@
     >
       {{ $t("server-settings.manage-channels.default-channel-notice") }}
     </div>
-    <CustomInput
-      class="input"
-      :title="$t('server-settings.manage-channels.channel-name')"
-      :error="error"
-      v-model="channelName"
-    />
+    <div class="grouped">
+      <div class="emoji-button" @click="showIconContext = !showIconContext">
+        <div v-if="channelIcon === null" class="dot" />
+        <div v-else v-html="channelIconHTML" />
+      </div>
+      <ContextMenu
+        v-if="showIconContext"
+        :items="[
+          { id: 'emoji', name: 'Emoji', icon: 'face' },
+          { id: 'default', name: 'Default', icon: 'circle', iconSize: '10px' }
+        ]"
+        @itemClick="onEmojiContextClick"
+        :pos="{ x: 0, y: 60 }"
+      />
+      <EmojiPicker
+        style="top: 60px;left:0px;height:500px;"
+        @click="emojiClicked"
+        v-if="showEmojiPicker"
+      />
+
+      <CustomInput
+        class="input"
+        :title="$t('server-settings.manage-channels.channel-name')"
+        :error="error"
+        v-model="channelName"
+      />
+    </div>
     <!-- TODO: replace with bitwise permissions some day (just like how i made role permissions) -->
     <!-- TODO: Per user channel permission pls -->
     <div class="title">
@@ -63,7 +84,8 @@ import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import CheckBox from "@/components/CheckBox.vue";
-
+import EmojiPicker from "@/components/emoji-picker/EmojiPicker.vue";
+import ContextMenu from "@/components/ContextMenu.vue";
 import {
   deleteServerChannel,
   updateServerChannel
@@ -72,8 +94,15 @@ import { ChannelsModule } from "@/store/modules/channels";
 import { ServersModule } from "@/store/modules/servers";
 import { MeModule } from "@/store/modules/me";
 import Channel from "@/interfaces/Channel";
+import emojiParser from "@/utils/emojiParser";
 @Component({
-  components: { CustomInput, CustomButton, CheckBox }
+  components: {
+    CustomInput,
+    CustomButton,
+    CheckBox,
+    ContextMenu,
+    EmojiPicker
+  }
 })
 export default class ManageChannels extends Vue {
   @Prop() private channelID!: string;
@@ -81,12 +110,16 @@ export default class ManageChannels extends Vue {
   deleteRequestSent = false;
   requestSent = false;
   channelName = this.channel?.name;
+  channelIcon: null | string = null;
   rateLimit = this.channel?.rateLimit || 0;
   error: string | null = null;
+  showIconContext = false;
+  showEmojiPicker = false;
   sendMessagePermission = this.channel?.permissions?.send_message || false;
   reset() {
     this.rateLimit = this.channel?.rateLimit || 0;
     this.channelName = this.channel?.name;
+    this.channelIcon = this.channel?.icon || null;
     if (this.channel?.permissions?.send_message === undefined) {
       return (this.sendMessagePermission = true);
     }
@@ -95,6 +128,29 @@ export default class ManageChannels extends Vue {
   }
   mounted() {
     this.reset();
+  }
+  onEmojiContextClick(item: { id: string }) {
+    switch (item.id) {
+      case "emoji":
+        this.showEmojiPicker = true;
+        this.showIconContext = false;
+        break;
+      case "default":
+        this.channelIcon = null;
+        this.showIconContext = false;
+        break;
+      default:
+        break;
+    }
+  }
+  emojiClicked(emoji: any) {
+    const { unicode, emojiID, gif } = emoji;
+    this.showEmojiPicker = false;
+    if (unicode) {
+      this.channelIcon = unicode;
+      return;
+    }
+    this.channelIcon = `${gif ? "g" : "c"}_${emojiID}`;
   }
   @Watch("connected")
   isConnected(val: boolean) {
@@ -135,7 +191,8 @@ export default class ManageChannels extends Vue {
     updateServerChannel(this.channel.channelID, this.channel.server_id, {
       name: this.channelName,
       permissions: { send_message: this.sendMessagePermission },
-      rateLimit: parseInt(this.rateLimit as any)
+      rateLimit: parseInt(this.rateLimit as any),
+      icon: this.channelIcon || null
     })
       .then(json => {
         ChannelsModule.updateChannel({
@@ -146,7 +203,9 @@ export default class ManageChannels extends Vue {
       })
       .catch(async err => {
         if (!err.response) {
-          return (this.error = this.$t("could-not-connect-to-server").toString());
+          return (this.error = this.$t(
+            "could-not-connect-to-server"
+          ).toString());
         }
         const json = await err.response.json();
         const { errors, message } = json;
@@ -158,6 +217,27 @@ export default class ManageChannels extends Vue {
       })
       .finally(() => (this.requestSent = false));
   }
+
+  get channelIconHTML() {
+    if (!this.channelIcon) return null;
+    const isCustom =
+      this.channelIcon?.startsWith("g_") || this.channelIcon?.startsWith("c_");
+    const isGif = this.channelIcon?.startsWith("g_");
+    const customEmojiID = this.channelIcon?.split("_")[1];
+
+    if (!isCustom) {
+      return emojiParser.replaceEmojis(this.channelIcon);
+    }
+
+    const image = new Image();
+    image.classList.add("emoji");
+
+    image.src = `${process.env.VUE_APP_NERTIVIA_CDN}emojis/${customEmojiID}.${
+      isGif ? "gif" : "png"
+    }`;
+    return image.outerHTML;
+  }
+
   get channel(): Channel | undefined {
     return ChannelsModule.channels[this.channelID];
   }
@@ -165,8 +245,13 @@ export default class ManageChannels extends Vue {
     return ServersModule.servers[this.channel?.server_id || ""];
   }
   get showSaveButton() {
-    const { channelName, sendMessagePermission, rateLimit } = this.changed;
-    return channelName || sendMessagePermission || rateLimit;
+    const {
+      channelName,
+      sendMessagePermission,
+      rateLimit,
+      channelIcon
+    } = this.changed;
+    return channelName || sendMessagePermission || rateLimit || channelIcon;
   }
   get changed() {
     let currentPermission = this.channel?.permissions?.send_message;
@@ -175,10 +260,13 @@ export default class ManageChannels extends Vue {
     }
     const rateLimit = this.rateLimit !== (this.channel?.rateLimit || 0);
     const channelName = this.channelName !== this.channel?.name;
+
+    const channelIcon = (this.channel?.icon || null) !== this.channelIcon;
+
     const sendMessagePermission =
       this.sendMessagePermission !== currentPermission || false;
 
-    return { channelName, sendMessagePermission, rateLimit };
+    return { channelName, sendMessagePermission, rateLimit, channelIcon };
   }
   get connected() {
     return MeModule.connected;
@@ -187,6 +275,31 @@ export default class ManageChannels extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.emoji-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  height: 25px;
+  width: 25px;
+  margin-top: 7px;
+  margin-right: 5px;
+  flex-shrink: 0;
+  transition: 0.2s;
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  cursor: pointer;
+  .dot {
+    background: white;
+    height: 6px;
+    width: 6px;
+    border-radius: 50%;
+  }
+}
+
 .container.selected-channel-page {
   display: flex;
   flex-direction: column;
@@ -204,6 +317,10 @@ export default class ManageChannels extends Vue {
 .button {
   margin-top: 10px;
   margin-left: 0;
+}
+.grouped {
+  position: relative;
+  display: flex;
 }
 .delete-button {
   margin-top: 50px;
@@ -226,5 +343,16 @@ export default class ManageChannels extends Vue {
   margin-bottom: 10px;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.7);
+}
+</style>
+
+<style>
+.emoji-button div {
+  height: 25px;
+  width: 25px;
+}
+.emoji-button .emoji {
+  height: 25px;
+  width: 25px;
 }
 </style>

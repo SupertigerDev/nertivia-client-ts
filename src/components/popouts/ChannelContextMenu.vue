@@ -20,6 +20,9 @@ import {
   muteServerChannel,
   unmuteServerChannel
 } from "@/services/channelService";
+import { ServerMembersModule } from "@/store/modules/serverMembers";
+import { MeModule } from "@/store/modules/me";
+import { permissions } from "@/constants/rolePermissions";
 
 @Component({ components: { ContextMenu } })
 export default class extends Vue {
@@ -47,6 +50,11 @@ export default class extends Vue {
       case "mute_channel":
         muteServerChannel(this.server.server_id, this.channel.channelID);
         break;
+      case "channel_settings":
+        this.$router.push(
+          `/app/servers/${this.server.server_id}/settings/manage-channels/${this.data.channelID}`
+        );
+        break;
       default:
         break;
     }
@@ -57,7 +65,7 @@ export default class extends Vue {
     });
   }
   get items() {
-    const items: any = [
+    const items: any[] = [
       {
         id: "mark_as_read",
         name: this.$t("server-context.mark-as-read"),
@@ -80,6 +88,15 @@ export default class extends Vue {
       }
     ];
 
+    if (this.isCreator || this.canManageChannels) {
+      items.unshift({
+        id: "channel_settings",
+        name: "Channel Settings",
+        icon: "settings",
+        hidden: !this.notifications
+      });
+    }
+
     return items;
   }
   get pos() {
@@ -93,6 +110,16 @@ export default class extends Vue {
   }
   get channel() {
     return ChannelsModule.channels[this.data.channelID];
+  }
+  get isCreator() {
+    return this.server?.creator?.id === MeModule.user.id;
+  }
+  get canManageChannels() {
+    return ServerMembersModule.memberHasPermission(
+      MeModule.user.id || "",
+      this.server.server_id,
+      permissions["MANAGE_CHANNELS"].value
+    );
   }
   get notifications() {
     return LastSeenServerChannelsModule.serverChannelNotification(

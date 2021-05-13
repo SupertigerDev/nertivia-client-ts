@@ -23,6 +23,7 @@ import { Component, Vue } from "vue-property-decorator";
 
 import settingsPages from "@/utils/serverSettingsPages.json";
 import { DrawersModule } from "@/store/modules/drawers";
+import { permissions } from "@/constants/rolePermissions";
 @Component
 export default class MainApp extends Vue {
   changeTab(path: string) {
@@ -49,9 +50,17 @@ export default class MainApp extends Vue {
   }
   get pages() {
     return Object.values(settingsPages).filter((p: any) => {
-      if (p.owner) return this.isCreator;
-      if (!p.admin) return p;
-      return this.isAdmin || this.isCreator;
+      const isAdminOrCreator = this.isCreator || this.isAdmin;
+      if (p.owner && !this.isCreator) return false;
+      if (p.permission && !isAdminOrCreator) {
+        return ServerMembersModule.memberHasPermission(
+          MeModule.user.id || "",
+          this.serverID,
+          permissions[p.permission].value
+        );
+      }
+      if (p.admin && !isAdminOrCreator) return false;
+      return true;
     });
   }
 }

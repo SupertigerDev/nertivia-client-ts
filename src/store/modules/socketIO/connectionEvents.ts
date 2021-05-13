@@ -117,6 +117,7 @@ interface ReturnedChannel {
   channelID: string;
   name?: string;
   server_id?: string;
+  icon?: string | null
   lastMessaged: number;
   permissions?: ChannelPermissions;
   rateLimit?: number;
@@ -217,6 +218,7 @@ const actions: ActionTree<any, any> = {
           server_id: channel.server_id,
           lastMessaged: channel.lastMessaged,
           permissions: channel.permissions,
+          icon: channel.icon,
           rateLimit: channel.rateLimit || 0
         };
       }

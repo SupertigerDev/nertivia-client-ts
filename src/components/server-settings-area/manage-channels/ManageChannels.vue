@@ -90,6 +90,11 @@ export default class ManageChannels extends Vue {
     if (event.target.classList.contains("button")) return;
     this.showContext = false;
   }
+  mounted() {
+    const { id } = this.$route.params;
+    this.selectedChannelID = id || null;
+    id && this.$router.replace({ params: { id: null as any } });
+  }
 
   onDragEnd() {
     const channelIDs = this.channels.map(s => s.channelID);

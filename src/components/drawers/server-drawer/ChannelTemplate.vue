@@ -1,16 +1,18 @@
 <template>
   <router-link
     :to="path"
-    class="channel"
+    class="channel channel-template"
     @click.native="closeDrawer"
+    @mouseover.native="hover = true"
+    @mouseout.native="hover = false"
     :class="{
       selected: isChannelSelected,
       hasNotification: notificationExists
     }"
     @contextmenu.prevent.native="showContext"
   >
-    <div class="muted material-icons" v-if="isMuted">notifications_off</div>
-    <div class="dot" v-else></div>
+    <div v-if="channelIconHTML" v-html="channelIconHTML" class="outer-emoji" />
+    <div v-else class="dot"></div>
     <div class="name">{{ channel.name }}</div>
     <div
       v-if="notificationExists && notificationExists.mentioned"
@@ -18,6 +20,7 @@
     >
       {{ notificationExists.mentioned ? "@" : "" }}
     </div>
+    <div class="muted material-icons" v-if="isMuted">notifications_off</div>
   </router-link>
 </template>
 
@@ -27,11 +30,13 @@ import { DrawersModule } from "@/store/modules/drawers";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { MutedChannelsModule } from "@/store/modules/mutedChannels";
 import { PopoutsModule } from "@/store/modules/popouts";
+import emojiParser from "@/utils/emojiParser";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class ChannelTemplate extends Vue {
   @Prop() private channel!: Channel;
+  hover = false;
 
   closeDrawer() {
     DrawersModule.SetLeftDrawer(false);
@@ -62,6 +67,25 @@ export default class ChannelTemplate extends Vue {
   }
   get isChannelSelected() {
     return this.$route.params.channel_id === this.channel.channelID;
+  }
+  get channelIconHTML() {
+    const icon = this.channel.icon;
+    if (!icon) return null;
+    const isCustom = icon.startsWith("g_") || icon.startsWith("c_");
+    const isGif = icon.startsWith("g_");
+    const customEmojiID = icon.split("_")[1];
+
+    if (!isCustom) {
+      return emojiParser.replaceEmojis(icon);
+    }
+
+    const image = new Image();
+    image.classList.add("emoji");
+
+    image.src = `${process.env.VUE_APP_NERTIVIA_CDN}emojis/${customEmojiID}.${
+      isGif ? "gif" : "png"
+    }${!this.hover && isGif ? "?type=webp" : ""}`;
+    return image.outerHTML;
   }
 }
 </script>
@@ -115,6 +139,7 @@ export default class ChannelTemplate extends Vue {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.1;
 }
 .dot {
   height: 7px;
@@ -146,7 +171,20 @@ export default class ChannelTemplate extends Vue {
 }
 .muted {
   font-size: 18px;
-  margin-left: 5px;
+  margin-left: auto;
   margin-right: 5px;
+  opacity: 0.4;
+}
+</style>
+
+<style>
+.channel.channel-template .outer-emoji {
+  height: 23px;
+}
+.channel.channel-template .emoji {
+  margin-left: 6px;
+  margin-right: 3px;
+  height: 17px;
+  width: 17px;
 }
 </style>

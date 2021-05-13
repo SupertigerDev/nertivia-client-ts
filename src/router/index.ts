@@ -119,7 +119,7 @@ const routes: Array<RouteConfig> = [
     path: "/app",
     children: [
       {
-        path: "servers/:server_id/settings/:tab?",
+        path: "servers/:server_id/settings/:tab?/:id?",
         component: ServerSettingsArea,
         name: "server-settings"
       },

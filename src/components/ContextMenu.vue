@@ -21,7 +21,11 @@
             warn: item.warn
           }"
         >
-          <div class="icon material-icons" v-if="item.icon && !item.type">
+          <div
+            class="icon material-icons"
+            :style="{ fontSize: item.iconSize }"
+            v-if="item.icon && !item.type"
+          >
             {{ item.icon }}
           </div>
           <div
@@ -48,6 +52,7 @@ interface ItemsProp {
   color?: string;
   type?: string;
   icon?: string;
+  iconSize?: string;
   warn?: string;
   disabled?: string;
   nestContext?: string;
@@ -163,6 +168,12 @@ export default class extends Vue {
   align-content: center;
   align-items: center;
   .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 21px;
+    height: 21px;
     transition: 0.2s;
     font-size: 21px;
     color: white;
