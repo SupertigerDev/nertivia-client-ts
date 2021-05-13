@@ -233,7 +233,8 @@ export default class ManageChannels extends Vue {
         isGif ? "gif" : "png"
       }`;
     } else {
-      process.env.VUE_APP_TWEMOJI_LOCATION +
+      image.src =
+        process.env.VUE_APP_TWEMOJI_LOCATION +
         twemoji.convert.toCodePoint(this.channelIcon) +
         ".svg";
     }
