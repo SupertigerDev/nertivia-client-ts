@@ -85,7 +85,7 @@ export default class ChannelTemplate extends Vue {
     } else {
       image.src =
         process.env.VUE_APP_TWEMOJI_LOCATION +
-        twemoji.convert.toCodePoint(icon) +
+        twemoji.convert.toCodePoint(icon).replace("-fe0f", "") +
         ".svg";
     }
 
