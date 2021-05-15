@@ -163,7 +163,7 @@ function transformCustomEntity(
     }
     case "#": {
       const channel = ChannelsModule.channels[expr];
-      if (channel) {
+      if (channel && channel.server_id) {
         ctx.textCount += expr.length;
         return h(MentionChannel, { props: { channel } });
       }
