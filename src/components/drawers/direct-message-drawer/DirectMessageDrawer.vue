@@ -79,7 +79,7 @@ export default class MainApp extends Vue {
     localStorage.setItem("selectedDmTab", index.toString());
   }
   get friendRequestExists() {
-    return this.friends.find(f => f.status <= FriendStatus.PENDING);
+    return this.friends.find(f => f.status === FriendStatus.PENDING);
   }
   get friends() {
     return FriendsModule.friendsWithUser;
