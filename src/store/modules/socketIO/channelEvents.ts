@@ -16,6 +16,7 @@ import {
 } from "@/socketEventConstants";
 import { ServersModule } from "../servers";
 import { MessagesModule } from "../messages";
+import { NotificationsModule } from "../notifications";
 
 const actions: ActionTree<any, any> = {
   [CHANNEL_CREATED](context, data: { channel: ChannelWithUser }) {
@@ -46,6 +47,7 @@ const actions: ActionTree<any, any> = {
     context,
     data: { channelID: string; server_id: string }
   ) {
+    NotificationsModule.DeleteNotification(data.channelID)
     ChannelsModule.RemoveChannel(data.channelID);
   },
 
