@@ -54,7 +54,7 @@ const RecentList = () =>
   );
 
 import { ChannelsModule } from "@/store/modules/channels";
-import { FriendsModule } from "@/store/modules/friends";
+import { FriendsModule, FriendStatus } from "@/store/modules/friends";
 import { MeModule } from "@/store/modules/me";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { PopoutsModule } from "@/store/modules/popouts";
@@ -79,7 +79,7 @@ export default class MainApp extends Vue {
     localStorage.setItem("selectedDmTab", index.toString());
   }
   get friendRequestExists() {
-    return this.friends.find(f => f.status <= 1);
+    return this.friends.find(f => f.status <= FriendStatus.PENDING);
   }
   get friends() {
     return FriendsModule.friendsWithUser;

@@ -107,7 +107,7 @@ const AvatarImage = () =>
 import userStatuses from "@/constants/userStatuses";
 import { AppUpdateModule } from "@/store/modules/appUpdate";
 import { DrawersModule } from "@/store/modules/drawers";
-import { FriendsModule } from "@/store/modules/friends";
+import { FriendsModule, FriendStatus } from "@/store/modules/friends";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { LastSelectedServersModule } from "@/store/modules/lastSelectedServer";
 import { MeModule } from "@/store/modules/me";
@@ -175,7 +175,7 @@ export default class NavBar extends Vue {
     return NotificationsModule.allDMNotifications.length > 0;
   }
   get friendRequestExists() {
-    return this.friends.find(f => f.status <= 1);
+    return this.friends.find(f => f.status === FriendStatus.PENDING);
   }
   get friends() {
     return FriendsModule.friendsWithUser;
