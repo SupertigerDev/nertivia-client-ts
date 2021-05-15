@@ -34,10 +34,15 @@
       "Ender",
       "Toby"
     ]
- },
+  },
   "fr": {
     "name": "French / Français",
     "unicode": "🇫🇷",
     "translators": ["Yrdael"]
+  },
+  "nl": {
+    "name": "Dutch / Nederlands",
+    "unicode": "🇳🇱",
+    "translators": ["Stitch"]
   }
 }

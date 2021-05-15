@@ -1,0 +1,313 @@
+{
+  "save-changes": "Bewerkingen Opslaan",
+  "saving": "Oplaan...",
+  "back": "Terug",
+  "are-you-sure": "Weet je het zeker?",
+  "copy-id-button": "ID Kopiëren",
+  "time": {
+    "today-at": "Vandaag om {0}",
+    "yesterday-at": "Gisteren om {0}"
+  },
+  "message-area": {
+    "no-message-perm": "Je hebt geen toestemming om in dit kanaal te praten.",
+    "not-connected-server": "Niet Verbonden",
+    "attach-message": "Een bericht toevoegen",
+    "type-message": "Typ je bericht",
+    "back-to-bottom": "Terug Naar Onder",
+    "new-messages": "Nieuwe Berichten"
+  },
+  "upload-dialog": {
+    "compress": "Comprimeren",
+    "upload-to": "Upload Naar"
+  },
+  "user-context": {
+    "view-profile": "Bekijk Profiel",
+    "edit-roles": "Rollen Bewerken",
+    "kick": "Kick",
+    "ban": "Ban",
+    "copy-user-tag": "Kopieer User:Tag"
+  },
+  "message-context": {
+    "quote": "Citeer",
+    "edit": "Bewerken"
+  },
+  "server-context": {
+    "mark-as-read": "Markeer Als Gelezen",
+    "server-settings": "Server Instellingen",
+    "leave-server": "Server Verlaten"
+  },
+  "channel-context": {
+    "mute-channel": "Kanaal Dempen",
+    "unmute-channel": "Kanaal Ondempen"
+  },
+  "settings": {
+    "tab-names": {
+      "account": "Account",
+      "notification": "Notificaties",
+      "manage-emojis": "Emojis beheren",
+      "startup-options": "Opstart Opties",
+      "program-activity": "Programma Activiteiten",
+      "manage-bots": "Bots beheren",
+      "interface": "Interface",
+      "language": "Taal",
+      "delete-account": "Account Verwijderen",
+      "changelog": "Wijzigings log",
+      "wip-features": "WIP Features"
+    },
+    "account": {
+      "title": "Profiel Bewerken",
+      "change-password": "Wachtwoord Veranderen",
+      "relink-google-drive": "Google Drive Opnieuw Koppelen",
+      "link-google-drive": "Google Drive Koppelen",
+      "more-profile": "Meer Profiel",
+      "more-profile-notice": "Deze informatie kan iedereen zien."
+    },
+    "notification": {
+      "title": "Notificatie instellingen veranderen.",
+      "notification-sound": "Notificatie Geluid",
+      "notification-sound-details": "Maakt een cool geluid om je aandacht te krijgen.",
+      "push-notification": "Push Notificatie",
+      "push-notification-details": "Krijg push notificaties als de app gesloten is."
+    },
+    "manage-emojis": {
+      "details": "Upload je eigen mooie emojis gratis! Emojis moeten 3MB of minder zijn.",
+      "supported-types": "Ondersteunde bestanden zijn: png, jpg, gif",
+      "add-emojis-button": "Emojis Toevoegen"
+    },
+    "startup-options": {
+      "title": "Desktop App Opstart Opties",
+      "notice": "Om deze wijzigingen op te slaan, moet je de Nertivia desktop app downloaden.",
+      "open-on-startup": "Nertivia Openen Bij Het Opstarten."
+    },
+    "program-activity": {
+      "details": "Deel programma's of games die je open hebt door ze hier onder toe te voegen. Dit vervangt je status als het programma geopend is totdat je het programma sluit.",
+      "notice": "Om programmas te delen moet je de Nertivia desktop app hebben."
+    },
+    "manage-bots": {
+      "details": "Maak bot gebruikers waarmee je met onze API een eigen mooie bot kan maken.",
+      "command-notice": "Maak bot commando's waar gebruikers gemakkelijk alle commando's van je bot kunnen zien",
+      "create-bot-button": "Maak Bot.",
+      "add-command-button": "Voeg Commando Toe",
+      "edit-bot": "Bot Bewerken",
+      "edit-commands": "Commando's Bewerken",
+      "create-invite-link": "Invitatie Link Maken",
+      "copy-invite-url": "Invitatie URL Kopiëren",
+      "manage-token": "Token Beheren",
+      "show-token": "Laat Token Zien",
+      "copy-token": "Token Kopiëren",
+      "reset-token": "Token Resetten",
+      "delete-bot": "Bot Verwijderen"
+    },
+    "delete-account": {
+      "notice": "Je staat op het punt je account te verwijderen",
+      "what-gets-deleted": "Wat wordt verwijderd",
+      "what-wont-delete": "Wat niet wordt verwijderd",
+      "messages-sent": "Je berichten verstuurd naar publieke servers",
+      "requirements": "Vereisten",
+      "delete-leave-server": "Alle servers verlaten/verwijderen",
+      "delete-bots": "Alle bots verwijderen",
+      "delete-account-button": "Verwijder Mijn Account"
+    },
+    "language": {
+      "details": "Misschien moet je opnieuw opstarten na het veranderen van je taal. Draag bij door een PR te maken in de GitHub repo.",
+      "translators": "Vertalers"
+    },
+    "interface": {
+      "description": "Verander het uiterlijk van Nertivia",
+      "colors": "Kleuren",
+      "default-theme": "Standaard Thema",
+      "amoled-dark": "AMOLED Donker",
+      "halloween-2020": "Halloween 2020",
+      "predefined-themes": "Gedefinieerde Thema's",
+      "custom-css": "Eigen CSS",
+      "color-scheme": "Kleuren Schema"
+    },
+    "wip-features": {
+      "title": "Zet onafgemaakte of experimentele functies aan",
+      "none-available": "Geen WIP functies beschikbaar op dit moment"
+    }
+  },
+  "server-settings": {
+    "permissions": {
+      "permissions": "Toestemmingen",
+      "admin": {
+        "name": "Admin",
+        "info": "Activeert alle toestemmingen"
+      },
+      "send-messages": {
+        "name": "Berichten Sturen",
+        "info": "Stuur berichten in server kanalen"
+      },
+      "manage-roles": {
+        "name": "Rollen Beheren",
+        "info": "Rollen updaten of verwijderen"
+      },
+      "manage-channels": {
+        "name": "Kanalen Beheren",
+        "info": "Kanalen updaten of verwijderen"
+      },
+      "kick-user": {
+        "name": "Kick",
+        "info": "Kick een gebruiker"
+      },
+      "ban-user": {
+        "name": "Ban",
+        "info": "Kick & een gebruiker beperken om in de server te gaan"
+      }
+    },
+    "tab-names": {
+      "general": "General",
+      "manage-channels": "Kanalen Beheren",
+      "manage-roles": "Rollen Beheren",
+      "manage-invites": "Invitaties Beheren",
+      "server-visibility": "Server Zichtbaarheid",
+      "manage-notification": "Notificaties beheren",
+      "banned-users": "Verbannen Gebruikers",
+      "manage-users": "Gebruikers Beheren",
+      "delete-server": "Server Verwijderen"
+    },
+    "manage-roles": {
+      "manage-your-roles": "Jou Rollen Beheren",
+      "default-role": "Standaard Rol",
+      "bot-role": "Bot Rol",
+      "create-role": "Nieuwe Rol Maken",
+      "notice-bot": "Deze rol kan niet worden verwijderd/toegevoegd aan een lid omdat het gemaakt is door een bot. Verwijder de bot om deze rol te verwijderen.",
+      "notice-default": "Deze rol kan niet worden verwijderd of weg gehaald bij een lid omdat dit de standaard rol is dat elk lid krijgt.",
+      "pick-role-color": "Kies Rol Kleur",
+      "role-name": "Rol Naam",
+      "settings": "Instellingen",
+      "delete-role": "Rol Verwijderen",
+      "deleting-role": "Rol Aan Het Verwijderen...",
+      "hide-role": "Verstop Rol"
+    },
+    "general": {
+      "general-server-settings": "Algemene Server Instellingen"
+    },
+    "manage-channels": {
+      "manage-your-channels": "Kanalen beheren.",
+      "delete-channel": "Kanaal Verwijderen",
+      "deleting-channel": "Kanaal Aan Het Verwijderen...",
+      "channel-name": "Kanaal Naam",
+      "default-channel-notice": "Dit is een standaard kanaal. Je kan het veranderen in de Algemene pagina. Standaard kanalen kunnet niet worden verwijderd",
+      "create-new-channel": "Nieuw Kanaal Maken",
+      "permission": {
+        "send-message": "Berichten Sturen"
+      },
+      "rate-limit-seconds": "Snelheid Limiet (seconde)",
+      "text-channel": "Text Kanaal",
+      "html-channel": "HTML Kanaal (WIP)"
+    },
+    "banned-users": {
+      "notice": "Unban members from here. Onverban leden via hier",
+      "unbanning": "Onbannen...",
+      "unban": "Onban"
+    },
+    "manage-invites": {
+      "notice": "Only admins can see everyone's invites. Alleen admins kunnen iedereens invites zien",
+      "create-invites": "Maak Invites",
+      "custom-invite": "Eigen Invite",
+      "save-custom-link": "Eigen Link Opslaan",
+      "create-invite": "Invite Maken",
+      "link": "Link",
+      "creator": "Gemaakt Door",
+      "uses": "Keren Gebruikt"
+    },
+    "manage-users": {
+      "search-user": "Zoek Gebruiker"
+    },
+    "delete-server": {
+      "type-server-name-to-confirm": "Typ server naam om te bevestigen",
+      "deleting": "Verwijderen..."
+    },
+    "notifications": {
+      "description": "Verander notificatie instellingen.",
+      "notice": "Deze instellingen worden toegepast aan jou.",
+      "enable-notifications": "Notificaties Inschakelen",
+      "mute-sound": "Demp Geluid",
+      "disable-notifications": "Notificaties Uitschakelen"
+    }
+  },
+  "typing-status": {
+    "is-typing": "{0} is aan het typen...",
+    "two-are-typing": "{0} en {1} zijn aan het typen...",
+    "three-are-typing": "{0}, {1} en {2} zijn aan het typen...",
+    "more-than-three": "{0} mensen aan het typen..."
+  },
+  "dm-tab": {
+    "friends": "Vrienden",
+    "recents": "Recente",
+    "saved-notes": "Opgeslagen Notities",
+    "add-friend": "Vriend Toevoegen"
+  },
+  "dashboard-tab": {
+    "profile": "Profiel",
+    "notifications": "Notificaties",
+    "click-to-add-custom-status": "Klik om eigen status toe te voegen",
+    "caught-up": "Helemaal Op De Hoogte!",
+    "direct-messages": "Directe Berichten",
+    "servers": "Servers",
+    "explore": "Verken",
+    "dashboard": "Dashboard"
+  },
+  "add-friend-popout": {
+    "notice": "Voeg een vriend toe door zijn naam en tag in te vullen",
+    "adding": "Aan Het Toevoegen..."
+  },
+  "add-server-popout": {
+    "title": "Voeg Server Toe",
+    "join-server-notice": "Treed toe aan een server met een invitatie code.",
+    "create-server-notice": "Maak je eigen server. Start bij de naam.",
+    "tabs": {
+      "join": "Treed Toe",
+      "create": "Maak"
+    }
+  },
+  "presence": {
+    "offline": "Offline",
+    "online": "Online",
+    "away": "Weg",
+    "busy": "Druk",
+    "looking-to-play": "Op Zoek Om Te Spelen"
+  },
+  "right-drawer": {
+    "server-members": "Leden ({0})",
+    "server-offline-members": "Offline ({0})"
+  },
+  "profile-popout": {
+    "common-friends": "Gemeenschappelijke Vrienden",
+    "badges": "Badges",
+    "joined-at": "Toe Treedt",
+    "suspended": "Verbannen",
+    "remove-friend": "Vriend Verwijderen",
+    "accept-request": "Verzoek Accepteren",
+    "cancel-request": "Verzoek Annuleren",
+    "add-friend": "Vriend Toevoegen",
+    "send-message": "Stuur Bericht",
+    "common-servers": "Gemeenschappelijke Servers"
+  },
+  "connection": {
+    "loading": "Laden...",
+    "ready": "Klaar!",
+    "authenticating": "Authenticeren..."
+  },
+  "navbar": {
+    "update": "Update",
+    "update-available": "Update Beschikbaar"
+  },
+  "generic": {
+    "copy": "Kopieer",
+    "delete": "Verwijder",
+    "copied": "Gekopieerd!",
+    "user": "Gebruiker"
+  },
+  "messages": {
+    "left": "heeft de server verlaten",
+    "kicked": "werd gekickt",
+    "banned": "is verbannen",
+    "joined": "ging de server in"
+  },
+  "could-not-connect-to-server": "Kon niet verbinden met de server.",
+  "chat-area": {
+    "rate-limit-mode": "Snelheids Limiet Modus"
+  }
+}
