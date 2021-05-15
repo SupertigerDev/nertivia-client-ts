@@ -28,7 +28,7 @@
       class="item"
       :class="{
         selected: currentTab === 'dms',
-        notification: dmNotificationExists
+        notification: dmNotificationExists || friendRequestExists
       }"
       :title="$t('dashboard-tab.direct-messages')"
       @click="changeTab('dms')"
@@ -107,6 +107,7 @@ const AvatarImage = () =>
 import userStatuses from "@/constants/userStatuses";
 import { AppUpdateModule } from "@/store/modules/appUpdate";
 import { DrawersModule } from "@/store/modules/drawers";
+import { FriendsModule } from "@/store/modules/friends";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { LastSelectedServersModule } from "@/store/modules/lastSelectedServer";
 import { MeModule } from "@/store/modules/me";
@@ -172,6 +173,12 @@ export default class NavBar extends Vue {
   }
   get dmNotificationExists() {
     return NotificationsModule.allDMNotifications.length > 0;
+  }
+  get friendRequestExists() {
+    return this.friends.find(f => f.status <= 1);
+  }
+  get friends() {
+    return FriendsModule.friendsWithUser;
   }
   get presence() {
     if (!this.me?.id || !MeModule.connected) return userStatuses[0];

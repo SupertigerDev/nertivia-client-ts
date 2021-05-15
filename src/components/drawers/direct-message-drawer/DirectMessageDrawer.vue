@@ -4,7 +4,10 @@
       <div
         class="tab"
         @click="changeTab(0)"
-        :class="{ selected: selectedTab === 0 }"
+        :class="{
+          selected: selectedTab === 0,
+          notification: friendRequestExists
+        }"
       >
         <div class="material-icons">group</div>
         {{ $t("dm-tab.friends") }}
@@ -12,7 +15,10 @@
       <div
         class="tab"
         @click="changeTab(1)"
-        :class="{ selected: selectedTab === 1 }"
+        :class="{
+          selected: selectedTab === 1,
+          notification: dmNotificationExists
+        }"
       >
         <div class="material-icons">access_time</div>
         {{ $t("dm-tab.recents") }}
@@ -48,7 +54,9 @@ const RecentList = () =>
   );
 
 import { ChannelsModule } from "@/store/modules/channels";
+import { FriendsModule } from "@/store/modules/friends";
 import { MeModule } from "@/store/modules/me";
+import { NotificationsModule } from "@/store/modules/notifications";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { Component, Vue } from "vue-property-decorator";
 
@@ -70,7 +78,15 @@ export default class MainApp extends Vue {
     this.selectedTab = index;
     localStorage.setItem("selectedDmTab", index.toString());
   }
-
+  get friendRequestExists() {
+    return this.friends.find(f => f.status <= 1);
+  }
+  get friends() {
+    return FriendsModule.friendsWithUser;
+  }
+  get dmNotificationExists() {
+    return NotificationsModule.allDMNotifications.length > 0;
+  }
   get savedNotesSelected() {
     const channelID = this.$route.params.channel_id;
     if (!channelID) return false;
@@ -139,6 +155,9 @@ export default class MainApp extends Vue {
   &.selected {
     background: var(--primary-color);
     opacity: 1;
+  }
+  &.notification {
+    background: var(--alert-color);
   }
   .material-icons {
     margin-right: 5px;

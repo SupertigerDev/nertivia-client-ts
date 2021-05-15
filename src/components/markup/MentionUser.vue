@@ -1,7 +1,7 @@
 <template>
-  <span @click="showProfile" @contextmenu.prevent="userContext"
-    ><Mention :text="display"
-  /></span>
+  <span @click="showProfile" @contextmenu.prevent="userContext">
+    <Mention :text="display" />
+  </span>
 </template>
 
 <script lang="ts">
