@@ -1,5 +1,15 @@
 [
 	{
+		"version": "1.33.0-stable",
+		"date": "15 May 2021",
+		"title": "New Mention Design",
+		"changes": [
+			"New Mention design."
+		],
+		"fixes": "Some bugs have been fixed."
+
+	},
+	{
 		"version": "1.32.0-stable",
 		"date": "13 May 2021",
 		"title": "Server Channel Icons",

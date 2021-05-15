@@ -1,5 +1,10 @@
 <template>
-  <span @click="showProfile" @contextmenu.prevent="userContext">
+  <span
+    class="outer-mention"
+    @click="showProfile"
+    @contextmenu.prevent="userContext"
+  >
+    <AvatarImage :imageId="user.avatar" :seedId="user.id" size="20px" />
     <Mention :text="display" />
   </span>
 </template>
@@ -8,6 +13,7 @@
 import Vue from "vue";
 import User from "@/interfaces/User";
 import Mention from "./Mention.vue";
+import AvatarImage from "@/components/AvatarImage.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 
@@ -16,13 +22,13 @@ export interface MentionMemberProps {
 }
 
 export default Vue.extend<unknown, unknown, unknown, MentionMemberProps>({
-  components: { Mention },
+  components: { Mention, AvatarImage },
   props: {
     user: Object
   },
   computed: {
     display() {
-      return `@${this.user.username}`;
+      return `${this.user.username}`;
     }
   },
   methods: {
@@ -60,3 +66,29 @@ export default Vue.extend<unknown, unknown, unknown, MentionMemberProps>({
   }
 });
 </script>
+
+<style>
+.outer-mention {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--link-color);
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.2s;
+  vertical-align: -5px;
+}
+.outer-mention .avatar {
+  margin-right: 2px;
+}
+.outer-mention .avatar .image {
+  border: 0;
+}
+.outer-mention .mention {
+  line-height: 1.1;
+}
+.outer-mention:hover > .mention {
+  text-decoration: underline;
+}
+</style>
