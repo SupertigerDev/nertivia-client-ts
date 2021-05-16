@@ -11,5 +11,11 @@ export default {
 <style>
 .mention {
   display: inline-block;
+  color: var(--link-color);
+  font-weight: bold;
+  cursor: pointer;
+}
+.mention:hover {
+  text-decoration: underline;
 }
 </style>

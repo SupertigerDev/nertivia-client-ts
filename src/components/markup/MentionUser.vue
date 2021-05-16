@@ -72,8 +72,6 @@ export default Vue.extend<unknown, unknown, unknown, MentionMemberProps>({
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--link-color);
-  font-weight: bold;
   border-radius: 4px;
   cursor: pointer;
   transition: 0.2s;
