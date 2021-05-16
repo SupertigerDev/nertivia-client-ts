@@ -71,6 +71,7 @@ class Channels extends VuexModule {
     return (channelID: string) => {
       const channel = this.channels[channelID];
       if (!channel) return;
+      if (channel.server_id) return;
       const recipients = channel.recipients?.map(id => UsersModule.users[id]);
       return { ...channel, recipients };
     };

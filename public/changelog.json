@@ -1,5 +1,15 @@
 [
 	{
+		"version": "1.34.0-stable",
+		"date": "16 May 2021",
+		"title": "DM Header Upgrades",
+		"new": [
+			"Username is now clickable in the DM header",
+			"Added avatar image, user presence and custom status in the DM header.",
+			"Button to cancel message edit."
+		]
+	},
+	{
 		"version": "1.33.0-stable",
 		"date": "15 May 2021",
 		"title": "New Mention Design",
@@ -7,7 +17,6 @@
 			"New Mention design."
 		],
 		"fixes": "Some bugs have been fixed."
-
 	},
 	{
 		"version": "1.32.0-stable",

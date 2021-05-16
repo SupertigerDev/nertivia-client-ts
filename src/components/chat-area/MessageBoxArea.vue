@@ -32,6 +32,13 @@
         class="button"
         icon="close"
         :warn="true"
+        v-else-if="editingMessageID"
+        @click="editingMessage = null"
+      />
+      <ButtonTemplate
+        class="button"
+        icon="close"
+        :warn="true"
         v-else-if="showUploadBox"
         @click="removeAttachment"
       />
