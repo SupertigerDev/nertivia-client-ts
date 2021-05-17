@@ -17,9 +17,7 @@
         <div class="badge bot" v-if="this.quote.creator.bot">BOT</div>
         <!-- <div class="date">DATE</div> -->
       </div>
-      <div class="message">
-        {{ failMessage || this.quote.message }}
-      </div>
+      <div class="message">{{ failMessage || this.quote.message }}</div>
     </div>
     <div
       class="material-icons goto-message-icon"
