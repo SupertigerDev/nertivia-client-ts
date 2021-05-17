@@ -1,35 +1,34 @@
 <template>
-  <article class="quote" v-bind:class="{ quoteFailed: failMessage }">
-    <header class="section">
-      <AvatarImage
-        :seedId="this.quote.creator.id"
-        :imageId="this.quote.creator.avatar"
-        :willHaveClickEvent="true"
-        @click.native="showProfile"
-        size="20px"
-      />
-      <!-- todo: maybe make this a MentionMember -->
-      <span class="username" @click="showProfile"
-        >{{ this.quote.creator.username }}:</span
-      >
-      <!-- todo: add onClick go to message -->
-      <i
-        title="Go to message"
-        class="go-to-message material-icons"
-        @click="goToMessage"
-        >keyboard_arrow_up</i
-      >
-    </header>
-    <main class="message" v-if="!this.quote.message">
-      <div>File Message</div>
-    </main>
-    <main class="message" v-else-if="!failMessage">
-      <div>{{ this.quote.message }}</div>
-    </main>
-    <main v-else class="fail-message">
-      {{ failMessage }}
-    </main>
-  </article>
+  <div class="quote" v-bind:class="{ quoteFailed: failMessage }">
+    <AvatarImage
+      :seedId="this.quote.creator.id"
+      :imageId="this.quote.creator.avatar"
+      :willHaveClickEvent="true"
+      @click.native="showProfile"
+      size="40px"
+    />
+    <div class="content">
+      <div class="details">
+        <div
+          class="username"
+          @click="showProfile"
+          v-text="this.quote.creator.username"
+        />
+        <div class="badge bot" v-if="this.quote.creator.bot">BOT</div>
+        <!-- <div class="date">DATE</div> -->
+      </div>
+      <div class="message">
+        {{ failMessage || this.quote.message }}
+      </div>
+    </div>
+    <div
+      class="material-icons goto-message-icon"
+      title="Go To Message"
+      @click="goToMessage"
+    >
+      keyboard_arrow_up
+    </div>
+  </div>
 </template>
 
 <script lang="tsx">
@@ -39,9 +38,10 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { PopoutsModule } from "@/store/modules/popouts";
 import User from "@/interfaces/User";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
+import Markup from "@/components/Markup";
 import { eventBus } from "@/utils/globalBus";
 
-@Component({components: {AvatarImage}})
+@Component({components: {AvatarImage, Markup}})
 export default class MessageQuote extends Vue {
   @Prop() private quote!: Quote;
   @Prop() private user?: User;
@@ -80,62 +80,53 @@ export default class MessageQuote extends Vue {
 }
 </script>
 
-<style scoped>
-/* todo: use all the css variables here */
+<style lang="scss" scoped>
 .quote {
-  background: var(--quote-bg-color);
-  display: block;
-  border-radius: 4px;
-  overflow: hidden;
-  margin-bottom: 5px;
-  margin-top: 5px;
-}
-
-.section {
   display: flex;
+  background: var(--quote-bg-color);
+  border-radius: 4px;
   padding: 5px;
-  font-weight: bold;
-  align-items: center;
+  margin-top: 5px;
+  margin-bottom: 3px;
 }
-
-.username {
-  font-weight: initial;
-  cursor: pointer;
-  margin-left: 5px;
-}
-
-.username:hover {
-  text-decoration: underline;
-}
-
 .message {
-  padding: 5px;
+  color: #e0e0e0;
+  line-height: 1.3rem;
 }
-
-.go-to-message {
-  cursor: pointer;
-  color: rgba(255, 255, 255, 0.8);
-  margin-left: auto;
+.content {
+  margin: auto;
+  margin-left: 3px;
+}
+.goto-message-icon {
+  font-size: 24px;
   user-select: none;
-  padding-left: 0.75rem;
-}
-
-.go-to-message:hover {
-  color: white;
-}
-
-.material-icons {
-  align-self: center;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: 0.2s;
+  margin-bottom: auto;
   flex-shrink: 0;
-  font-size: 1.25rem;
+  margin-left: auto;
+  &:hover {
+    opacity: 1;
+  }
 }
 
-.quoteFailed {
-  background: #a93e3e;
-}
-
-.fail-message {
-  color: #fff;
-  padding: 0.5em;
+.details {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  .username {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  .date {
+    opacity: 0.6;
+    font-size: 12px;
+    margin-left: 5px;
+  }
 }
 </style>
