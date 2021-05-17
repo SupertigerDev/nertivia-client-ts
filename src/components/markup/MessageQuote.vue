@@ -17,7 +17,7 @@
         <div class="badge bot" v-if="this.quote.creator.bot">BOT</div>
         <!-- <div class="date">DATE</div> -->
       </div>
-      <div class="message">{{ failMessage || this.quote.message }}</div>
+      <div class="message">{{ failMessage || this.quote }}</div>
     </div>
     <div
       class="material-icons goto-message-icon"
@@ -45,6 +45,9 @@ export default class MessageQuote extends Vue {
   @Prop() private user?: User;
 
   get failMessage() {
+    if (!this.quote?.message) {
+      return "File Message";
+    }
     if (this.quote?.message?.length > 1000) {
       return "This quote is too long to be displayed";
     } else {
