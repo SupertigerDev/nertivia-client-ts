@@ -1,5 +1,14 @@
 [
 	{
+		"version": "1.35.1-stable",
+		"date": "17 May 2021",
+		"title": "More Markup Syntax (by bree)",
+		"new": [
+			"Use `code` in addition to ``code`` to create code text.",
+			"Use both _italic_ and *italic* in addition to //italic// to create italicized text."
+		]
+	},
+	{
 		"version": "1.35.0-stable",
 		"date": "17 May 2021",
 		"title": "Quote Redesign",
