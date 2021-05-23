@@ -1,17 +1,16 @@
 <template>
   <div class="explore-area">
     <Header v-if="page" :title="page.name" />
-    WIP
-    <!-- <component v-if="page" :is="page.component" /> -->
+    <component v-if="page" :is="page.component" />
   </div>
 </template>
 
 <script>
 import Header from "@/components/Header.vue";
-import ExploreServers from "./ExploreServers.vue";
+import Overview from "./overview/Overview.vue";
 import { Vue, Component } from "vue-property-decorator";
-import explorePages from "@/utils/explorePages";
-@Component({ components: { Header, ExploreServers } })
+import explorePages from "@/utils/adminPanelPages";
+@Component({ components: { Header, Overview } })
 export default class ExploreArea extends Vue {
   mounted() {
     if (!this.page) {
