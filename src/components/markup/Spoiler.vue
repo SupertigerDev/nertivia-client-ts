@@ -5,30 +5,24 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from "vue";
 export default Vue.extend({
   props: {
     spoiled: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   data() {
     return { isSpoiled: this.spoiled };
   },
   methods: {
     spoil() {
-      this.isSpoiled = true
-    },
-  },
+      this.isSpoiled = true;
+    }
+  }
 });
 </script>
-
-<style>
-:root {
-  --spoiler-color: 30, 30, 40;
-}
-</style>
 
 <style scoped>
 .spoiler {
@@ -45,13 +39,13 @@ export default Vue.extend({
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgb(var(--spoiler-color));
+  background-color: var(--spoiler-color);
   cursor: pointer;
   z-index: 1;
 }
 
 .spoiler.spoiled {
-  background-color: rgb(var(--spoiler-color), 0.2);
+  background-color: transparent;
 }
 
 .spoiler.spoiled::after {
