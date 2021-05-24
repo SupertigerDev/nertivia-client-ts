@@ -17,3 +17,18 @@ export function fetchStats(): Promise<Stats> {
   return wrapper()
     .get(`admin/stats`).json();
 }
+export interface ExpandedUser {
+  avatar: string | null
+  created: number
+  email: string
+  id: string
+  ip: string
+  tag: string
+  username: string
+  banned?: boolean
+  bot?: boolean
+}
+export function fetchRecentUsers(): Promise<ExpandedUser[]> {
+  return wrapper()
+    .get(`admin/users/recent`).json();
+}

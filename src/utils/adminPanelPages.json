@@ -4,17 +4,5 @@
     "id": "overview",
     "icon": "settings",
     "component": "Overview"
-  },
-  "users":{
-    "name": "Users",
-    "id": "users",
-    "icon": "settings",
-    "component": "Users"
-  },
-  "servers":{
-    "name": "Servers",
-    "id": "servers",
-    "icon": "settings",
-    "component": "Servers"
   }
 }

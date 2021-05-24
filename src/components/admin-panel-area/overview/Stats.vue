@@ -1,6 +1,5 @@
 <template>
   <div class="stats">
-    <div class="main-title">Stats</div>
     <div class="items">
       <div class="box">
         <div class="material-icons icon">
@@ -56,11 +55,6 @@ export default class StatsPanel extends Vue {
   display: flex;
   flex-direction: column;
   margin-top: 10px;
-  .main-title {
-    font-size: 18px;
-    margin-left: 10px;
-    margin-bottom: 5px;
-  }
 }
 .items {
   display: flex;
