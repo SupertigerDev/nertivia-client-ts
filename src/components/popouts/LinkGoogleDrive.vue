@@ -22,7 +22,7 @@
             <img src="@/assets/logo.svg" />
           </div>
           <div class="buttons">
-            <CustomButton name="Cancel" @click="close" :warn="true" />
+            <CustomButton name="Cancel" @click="close" :alert="true" />
             <CustomButton name="Link Now" @click="link" :filled="true" />
           </div>
         </div>

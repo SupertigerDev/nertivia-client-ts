@@ -15,7 +15,7 @@
             <CustomButton
               name="Request To Delete Account"
               @click="deleteAccount"
-              :warn="true"
+              :alert="true"
             />
             <CustomButton name="I Agree" @click="agree" :filled="true" />
           </div>

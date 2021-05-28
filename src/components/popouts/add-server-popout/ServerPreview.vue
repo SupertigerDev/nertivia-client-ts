@@ -15,7 +15,7 @@
     <div class="buttons">
       <CustomButton
         class="button"
-        :warn="true"
+        :alert="true"
         :name="$t('back')"
         @click="$emit('back')"
       />

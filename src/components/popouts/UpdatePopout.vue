@@ -10,7 +10,7 @@
             A new update is available which may have bug fixes or new features.
           </div>
           <div class="buttons">
-            <CustomButton name="Later" :warn="true" @click="buttonClicked" />
+            <CustomButton name="Later" :alert="true" @click="buttonClicked" />
             <CustomButton name="Update" :filled="true" @click="updateClicked" />
           </div>
         </div>

@@ -32,7 +32,7 @@
     <CustomButton
       class="back-button"
       :name="$t('back')"
-      :warn="true"
+      :alert="true"
       @click="$emit('close')"
     />
   </div>

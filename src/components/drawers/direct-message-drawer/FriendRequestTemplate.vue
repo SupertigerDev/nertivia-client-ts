@@ -32,7 +32,7 @@
           :filled="true"
           name="Cancel"
           :valid="true"
-          :warn="true"
+          :alert="true"
         />
         <CustomButton
           v-if="friend.status === 1"
@@ -46,7 +46,7 @@
           @click="cancelOrDecline"
           :filled="true"
           name="Decline"
-          :warn="true"
+          :alert="true"
         />
       </div>
     </div>

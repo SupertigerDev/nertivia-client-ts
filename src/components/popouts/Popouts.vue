@@ -100,6 +100,10 @@ const components = {
   FloatingProfileCard: () =>
     import(
       /* webpackChunkName: "FloatingProfileCard" */ "@/components/popouts/FloatingProfileCard.vue"
+    ),
+  AdminSuspendUser: () =>
+    import(
+      /* webpackChunkName: "FloatingProfileCard" */ "@/components/popouts/admin-popouts/SuspendUser.vue"
     )
 };
 

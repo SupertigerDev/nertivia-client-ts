@@ -42,7 +42,7 @@
             class="button"
             v-if="appliedThemeID === data.id"
             @click="unapplyTheme"
-            :warn="true"
+            :alert="true"
             name="Unapply"
           />
           <CustomButton

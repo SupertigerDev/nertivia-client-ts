@@ -2,31 +2,63 @@
   <div class="panel users" v-if="users">
     <div class="title">Users</div>
     <div class="actions">
-      <input class="search" type="text" placeholder="Search User" />
+      <input
+        class="search"
+        type="text"
+        placeholder="Search User"
+        v-model="searchInput"
+        @input="onInput"
+      />
       <div class="material-icons button" title="Refresh" @click="fetchUsers">
         refresh
       </div>
     </div>
     <div class="list">
-      <UserTemplate v-for="user in users" :key="user.id" :user="user" />
+      <UserTemplate
+        v-for="user in users"
+        :key="user.id"
+        @click.native="$emit('click', user)"
+        :user="user"
+        :hover="true"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { ExpandedUser, fetchRecentUsers } from "@/services/adminService";
+import {
+  ExpandedUser,
+  fetchRecentUsers,
+  searchUsers
+} from "@/services/adminService";
 import { Vue, Component, Prop } from "vue-property-decorator";
 import UserTemplate from "./UserTemplate.vue";
 
 @Component({ components: { UserTemplate } })
 export default class Users extends Vue {
   users: ExpandedUser[] | null = null;
+  searchInput = "";
+  timeout: NodeJS.Timeout | null = null;
   mounted() {
     this.fetchUsers();
   }
+  onInput(event: any) {
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
+    this.timeout = setTimeout(() => this.searchUser(event.target.value), 500);
+  }
   async fetchUsers() {
     this.users = [];
+    if (this.searchInput) {
+      this.users = await searchUsers(this.searchInput);
+      return;
+    }
     this.users = await fetchRecentUsers();
+  }
+  async searchUser(value: string) {
+    if (!value) this.fetchUsers();
+    this.users = await searchUsers(value);
   }
 }
 </script>

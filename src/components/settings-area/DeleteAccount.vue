@@ -62,7 +62,7 @@
         @click="deleteAccount"
         v-if="canDelete && password"
         icon="delete"
-        :warn="true"
+        :alert="true"
         :filled="true"
         :name="$t('settings.delete-account.delete-account-button')"
       />

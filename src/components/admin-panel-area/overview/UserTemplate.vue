@@ -1,5 +1,5 @@
 <template>
-  <div class="user-template">
+  <div class="user-template" :class="{ hover }">
     <AvatarImage :seedId="user.id" :imageId="user.avatar" size="40px" />
     <div class="content">
       <div class="main-details">
@@ -24,6 +24,7 @@ import AvatarImage from "@/components/AvatarImage.vue";
 @Component({ components: { AvatarImage } })
 export default class UserTemplate extends Vue {
   @Prop() private user!: ExpandedUser;
+  @Prop() private hover!: boolean;
   get friendlyCreated() {
     return date(this.user.created);
   }
@@ -35,8 +36,8 @@ export default class UserTemplate extends Vue {
   display: flex;
   align-items: center;
   padding: 5px;
-  cursor: pointer;
-  &:hover {
+  &.hover:hover {
+    cursor: pointer;
     background: rgba(255, 255, 255, 0.1);
   }
 }

@@ -63,7 +63,7 @@
           ? $t('server-settings.manage-roles.deleting-role')
           : $t('are-you-sure')
       "
-      :warn="true"
+      :alert="true"
       icon="delete"
       @click="deleteRole"
     />

@@ -1,6 +1,6 @@
 <template>
   <div class="popout-background" @click="backgroundClick">
-    <div class="delete-message-popout">
+    <div class="suspend-user-popout">
       <div class="content animate-in">
         <div class="header">
           <AvatarImage
@@ -10,21 +10,32 @@
             size="30px"
             class="avatar"
           />
-          <div class="text">Delete Message?</div>
+          <div class="text">
+            <span style="font-weight: bold">Suspend</span>
+            {{ user.username }}?
+          </div>
         </div>
         <div class="inner-content">
           <div class="description">
-            <component
-              v-bind:is="messageType"
-              class="message"
-              :message="message"
-              :hideContext="true"
+            <CustomInput
+              class="reason-input"
+              title="Reason"
+              v-model="reason"
+              :textArea="true"
+            />
+            <CheckBox name="IP Ban" :checked="true" />
+            <CheckBox name="Send Email" :checked="false" />
+            <CustomInput
+              class="password-input"
+              title="Confirm Password"
+              v-model="password"
             />
             <div class="buttons">
               <CustomButton :name="$t('back')" @click="close" />
+              <!-- TODO: i18n -->
               <CustomButton
-                :name="$t('generic.delete')"
-                @click="deleteMessage"
+                @click="buttonClicked"
+                :name="requestSent ? 'Suspending...' : 'Suspend'"
                 :alert="true"
               />
             </div>
@@ -35,69 +46,50 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
-import MessageTemplate from "@/components/chat-area/message/MessageTemplate.vue";
-import ActionMessageTemplate from "@/components/chat-area/message/ActionMessageTemplate.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
-import { deleteMessage } from "@/services/messagesService";
-import { MessagesModule } from "@/store/modules/messages";
+import User from "@/interfaces/User";
 import CustomButton from "@/components/CustomButton.vue";
+import CustomInput from "@/components/CustomInput.vue";
+import CheckBox from "@/components/CheckBox.vue";
 
 @Component({
-  components: {
-    AvatarImage,
-    MessageTemplate,
-    ActionMessageTemplate,
-    CustomButton
-  }
+  components: { AvatarImage, CustomButton, CustomInput, CheckBox }
 })
 export default class ProfilePopout extends Vue {
+  reason = "violating the TOS.";
+  password = "";
+  requestSent = false;
   @Prop() private data!: {
-    messageID: string;
-    channelID: string;
+    id: string;
+    serverID: string;
+    user: User;
   };
   close() {
-    PopoutsModule.ClosePopout("delete-message");
+    PopoutsModule.ClosePopout("admin-suspend-user-popout");
   }
   backgroundClick(event: any) {
     if (event.target.classList.contains("popout-background")) {
       this.close();
     }
   }
-  deleteMessage() {
-    if (!this.message) return;
-    if (!this.message.messageID) return;
-    deleteMessage(this.message.channelID, this.message.messageID);
-    this.close();
-  }
-  @Watch("message")
-  onMessageChange() {
-    if (!this.message) {
-      this.close();
-    }
-  }
-  get message() {
-    return MessagesModule.channelMessages(this.data.channelID)?.find(
-      m => m.messageID === this.data.messageID
-    );
-  }
-  get messageType() {
-    return this.message?.type === 0
-      ? "MessageTemplate"
-      : "ActionMessageTemplate";
+  buttonClicked() {
+    if (this.requestSent) return;
+    this.requestSent = true;
   }
   get user() {
-    if (!this.message) return undefined;
-    return this.message.creator;
+    return this.data.user;
   }
 }
 </script>
 <style lang="scss" scoped>
-.delete-message-popout {
+.suspend-user-popout {
   background: var(--popout-color);
   border-radius: 4px;
+  width: 400px;
   overflow: hidden;
+  height: 430px;
 }
 .animate-in {
   opacity: 0;
@@ -129,6 +121,7 @@ export default class ProfilePopout extends Vue {
   justify-content: center;
   pointer-events: all;
 }
+
 .header {
   display: flex;
   align-items: center;
@@ -151,7 +144,10 @@ export default class ProfilePopout extends Vue {
   align-items: center;
 }
 .description {
-  margin-top: 10px;
+  margin-top: 20px;
+}
+.password-input {
+  margin-top: 20px;
 }
 .buttons {
   display: flex;
@@ -159,7 +155,13 @@ export default class ProfilePopout extends Vue {
   align-items: center;
   align-content: center;
   justify-content: center;
-  margin-top: 10px;
-  margin-bottom: 5px;
+}
+</style>
+
+<style lang="scss">
+.reason-input {
+  .main-input.textarea {
+    height: 100px;
+  }
 }
 </style>

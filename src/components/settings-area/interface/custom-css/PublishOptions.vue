@@ -64,7 +64,7 @@
         icon="navigate_before"
         name="Back"
         @click="$emit('back')"
-        :warn="true"
+        :alert="true"
       />
     </div>
   </div>

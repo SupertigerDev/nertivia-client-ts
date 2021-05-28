@@ -34,7 +34,7 @@
                     ? 'Kicking...'
                     : 'Kick'
                 "
-                :warn="true"
+                :alert="true"
               />
             </div>
           </div>

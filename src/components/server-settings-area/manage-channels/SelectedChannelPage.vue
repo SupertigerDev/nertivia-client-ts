@@ -67,7 +67,7 @@
           ? $t('server-settings.manage-channels.deleting-channel')
           : $t('are-you-sure')
       "
-      :warn="true"
+      :alert="true"
       icon="delete"
       v-if="channel.channelID !== server.default_channel_id"
       @click="deleteChannel"

@@ -16,7 +16,7 @@
               class="no-button"
               @click="close"
               icon="close"
-              :warn="true"
+              :alert="true"
             />
             <CustomButton
               name="Visit"

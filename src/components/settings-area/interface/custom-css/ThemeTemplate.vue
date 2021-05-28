@@ -21,14 +21,14 @@
         @click="unapply"
         v-else
         icon="close"
-        :warn="true"
+        :alert="true"
       />
       <CustomButton name="Edit" icon="edit" @click="$emit('edit')" />
       <div class="seperator" />
       <CustomButton
         name="Delete"
         @click="$emit('delete', theme.id)"
-        :warn="true"
+        :alert="true"
         icon="delete"
       />
     </div>

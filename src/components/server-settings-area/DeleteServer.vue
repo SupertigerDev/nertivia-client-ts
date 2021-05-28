@@ -24,7 +24,7 @@
             ? $t('server-settings.tab-names.delete-server')
             : $t('server-settings.delete-server.deleting')
         "
-        :warn="true"
+        :alert="true"
         @click="deleteButton"
       />
     </div>

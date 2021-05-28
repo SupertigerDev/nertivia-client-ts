@@ -41,7 +41,7 @@
         icon="delete"
         name="Delete Server"
         @click="deleteServer"
-        :warn="true"
+        :alert="true"
         :filled="true"
       />
     </div>

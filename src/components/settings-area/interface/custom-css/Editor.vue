@@ -15,7 +15,7 @@
         name="Unapply"
         @click="unapply"
         icon="close"
-        :warn="true"
+        :alert="true"
       />
       <CustomButton
         v-else

@@ -103,7 +103,7 @@
         <CustomButton
           :name="$t('settings.manage-bots.reset-token')"
           icon="restart_alt"
-          :warn="true"
+          :alert="true"
           @click="resetToken"
         />
       </div>
@@ -118,7 +118,7 @@
             : $t('settings.manage-bots.delete-bot')
         "
         icon="delete"
-        :warn="true"
+        :alert="true"
         @click="deleteBot"
         style="align-self:flex-start;"
       />

@@ -22,7 +22,7 @@
           ? $t('server-settings.banned-users.unbanning')
           : $t('server-settings.banned-users.unban')
       "
-      :warn="true"
+      :alert="true"
       :filled="true"
     />
   </div>

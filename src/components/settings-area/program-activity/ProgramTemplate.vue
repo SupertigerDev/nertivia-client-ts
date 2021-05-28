@@ -24,7 +24,7 @@
     </div>
     <div class="buttons">
       <CustomButton
-        :warn="true"
+        :alert="true"
         icon="delete"
         @click="$emit('delete')"
         name="Delete"

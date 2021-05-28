@@ -3,6 +3,7 @@
     class="button"
     type="submit"
     :class="{
+      alert: !disabled && alert,
       warn: !disabled && warn,
       valid: !disabled && valid,
       disabled
@@ -31,6 +32,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 export default class CustomInput extends Vue {
   focused = false;
   @Prop() private name!: string;
+  @Prop() private alert!: boolean;
   @Prop() private warn!: boolean;
   @Prop() private disabled!: boolean;
   @Prop() private valid!: boolean;
@@ -65,8 +67,11 @@ export default class CustomInput extends Vue {
       color: white;
     }
   }
-  &.warn:hover {
+  &.alert:hover {
     background: var(--alert-color);
+  }
+  &.warn:hover {
+    background: var(--warn-color);
   }
   &.valid:hover {
     background: var(--success-color);
@@ -86,8 +91,11 @@ export default class CustomInput extends Vue {
     margin-right: 0;
   }
 }
-.warn .icon {
+.alert .icon {
   color: var(--alert-color);
+}
+.warn .icon {
+  color: var(--warn-color);
 }
 .valid .icon {
   color: var(--success-color);
