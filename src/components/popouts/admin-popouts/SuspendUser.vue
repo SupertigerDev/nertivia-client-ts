@@ -17,17 +17,19 @@
         </div>
         <div class="inner-content">
           <div class="description">
+            <div class="error" v-if="error">{{ error }}</div>
             <CustomInput
               class="reason-input"
               title="Reason"
               v-model="reason"
               :textArea="true"
             />
-            <CheckBox name="IP Ban" :checked="true" />
-            <CheckBox name="Send Email" :checked="false" />
+            <CheckBox name="IP Ban WIP" :checked="true" />
+            <CheckBox name="Send Email WIP" :checked="false" />
             <CustomInput
               class="password-input"
               title="Confirm Password"
+              type="password"
               v-model="password"
             />
             <div class="buttons">
@@ -53,14 +55,16 @@ import User from "@/interfaces/User";
 import CustomButton from "@/components/CustomButton.vue";
 import CustomInput from "@/components/CustomInput.vue";
 import CheckBox from "@/components/CheckBox.vue";
+import { suspendUser } from "@/services/adminService";
 
 @Component({
   components: { AvatarImage, CustomButton, CustomInput, CheckBox }
 })
 export default class ProfilePopout extends Vue {
-  reason = "violating the TOS.";
+  reason = "Violating the TOS.";
   password = "";
   requestSent = false;
+  error: string | null = null;
   @Prop() private data!: {
     id: string;
     serverID: string;
@@ -69,6 +73,7 @@ export default class ProfilePopout extends Vue {
   close() {
     PopoutsModule.ClosePopout("admin-suspend-user-popout");
   }
+
   backgroundClick(event: any) {
     if (event.target.classList.contains("popout-background")) {
       this.close();
@@ -77,6 +82,20 @@ export default class ProfilePopout extends Vue {
   buttonClicked() {
     if (this.requestSent) return;
     this.requestSent = true;
+    this.error = null;
+    suspendUser(this.data.user.id, this.password, this.reason)
+      .then(() => {
+        //
+      })
+      .catch(async err => {
+        if (!err.response) {
+          this.error = "Could not connect to server.";
+          return;
+        }
+        const { message } = await err.response.json();
+        this.error = message;
+      })
+      .finally(() => (this.requestSent = false));
   }
   get user() {
     return this.data.user;
@@ -155,6 +174,9 @@ export default class ProfilePopout extends Vue {
   align-items: center;
   align-content: center;
   justify-content: center;
+}
+.error {
+  color: var(--alert-color);
 }
 </style>
 
