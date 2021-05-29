@@ -224,8 +224,9 @@ export default class ProfilePopout extends Vue {
 
   mounted() {
     this.returnedUser = this.data.fullProfile || null;
+    console.log(this.data.fullProfile);
     if (this.returnedUser) {
-      this.returnedUser;
+      return;
     }
     fetchUser(this.data.id).then(user => {
       this.returnedUser = user;

@@ -39,7 +39,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import User from "@/interfaces/User";
 import ServerRole from "@/interfaces/ServerRole";
@@ -70,6 +70,13 @@ export default class MiniProfilePopout extends Vue {
   mounted() {
     this.height = this.$el.clientHeight;
     this.width = this.$el.clientWidth;
+    fetchUser(this.user.id).then(user => {
+      this.returnedUser = user;
+    });
+  }
+  @Watch("user")
+  onUserChange() {
+    this.returnedUser = null;
     fetchUser(this.user.id).then(user => {
       this.returnedUser = user;
     });
