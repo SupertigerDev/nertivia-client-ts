@@ -14,7 +14,7 @@ import explorePages from "@/utils/adminPanelPages";
 export default class ExploreArea extends Vue {
   mounted() {
     if (!this.page) {
-      this.$router.push("/app/admin-panel/overview");
+      this.$router.replace("/app/admin-panel/overview");
     }
   }
   get page() {

@@ -103,6 +103,20 @@
             <div class="icon material-icons">face</div>
             <span>{{ ageAndGender }}</span>
           </div>
+
+          <div
+            class="bot-creator detail-item"
+            v-if="user.bot && returnedUser.user.createdBy"
+          >
+            <div class="icon material-icons">person</div>
+            <span>
+              <span>Created By </span>
+              <span class="dim" @click="botCreatorClicked">{{
+                returnedUser.user.createdBy.username
+              }}</span>
+            </span>
+          </div>
+
           <div class="joined detail-item" v-if="joinedAt">
             <div class="icon material-icons">event_note</div>
             <span
@@ -110,6 +124,7 @@
               <span class="dim">{{ joinedAt }}</span></span
             >
           </div>
+
           <div
             class="suspend detail-item"
             v-if="aboutMe && aboutMe['Suspend Reason']"
@@ -168,7 +183,7 @@ import { getBadges } from "@/constants/badges";
   }
 })
 export default class ProfilePopout extends Vue {
-  @Prop() private data!: { id: string };
+  @Prop() private data!: { id: string; fullProfile?: ReturnedUser };
   returnedUser: ReturnedUser | null = null;
   close() {
     PopoutsModule.ClosePopout("profile");
@@ -198,8 +213,20 @@ export default class ProfilePopout extends Vue {
   addFriend() {
     sendFriendRequest(this.user.username, this.user.tag);
   }
+  botCreatorClicked() {
+    PopoutsModule.ShowPopout({
+      id: "profile",
+      component: "profile-popout",
+      data: { id: this.returnedUser?.user.createdBy?.id },
+      key: this.returnedUser?.user.createdBy?.id
+    });
+  }
 
   mounted() {
+    this.returnedUser = this.data.fullProfile || null;
+    if (this.returnedUser) {
+      this.returnedUser;
+    }
     fetchUser(this.data.id).then(user => {
       this.returnedUser = user;
     });
@@ -481,6 +508,7 @@ export default class ProfilePopout extends Vue {
   .gender,
   .joined,
   .suspend,
+  .bot-creator,
   .about {
     display: flex;
     align-items: center;
@@ -511,6 +539,17 @@ export default class ProfilePopout extends Vue {
   .gender {
     .material-icons {
       color: rgb(255, 206, 73);
+    }
+  }
+  .bot-creator {
+    .material-icons {
+      color: rgb(255, 206, 73);
+    }
+    .dim {
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
   .joined {

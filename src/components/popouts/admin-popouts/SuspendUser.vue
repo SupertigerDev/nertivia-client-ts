@@ -69,6 +69,7 @@ export default class ProfilePopout extends Vue {
     id: string;
     serverID: string;
     user: User;
+    callback: any;
   };
   close() {
     PopoutsModule.ClosePopout("admin-suspend-user-popout");
@@ -85,7 +86,8 @@ export default class ProfilePopout extends Vue {
     this.error = null;
     suspendUser(this.data.user.id, this.password, this.reason)
       .then(() => {
-        //
+        this.data.callback();
+        this.close();
       })
       .catch(async err => {
         if (!err.response) {

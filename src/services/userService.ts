@@ -94,6 +94,7 @@ interface UserExtra {
   about_me: AboutMe;
   created: number;
   badges?: number;
+  createdBy?: User
 }
 
 export interface AboutMe {

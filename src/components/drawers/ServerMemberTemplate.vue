@@ -59,9 +59,14 @@ export default class RightDrawer extends Vue {
   }
   showProfile() {
     const rect = (this.$el as HTMLElement).getBoundingClientRect();
+    const prevPopout = PopoutsModule.isOpened("profile");
+    if (prevPopout && prevPopout.data.member.id !== this.serverMember.id) {
+      PopoutsModule.ClosePopout("profile");
+    }
     PopoutsModule.ShowPopout({
       id: "profile",
       component: "MiniProfilePopout",
+      toggle: true,
       data: {
         x: rect.x,
         y: rect.y,

@@ -60,6 +60,12 @@ export default class Users extends Vue {
     if (!value) this.fetchUsers();
     this.users = await searchUsers(value);
   }
+  updateUser(user: ExpandedUser) {
+    if (!this.users) return;
+    const index = this.users?.findIndex(u => u.id === user.id);
+    if (index < 0) return;
+    this.$set(this.users, index, user);
+  }
 }
 </script>
 

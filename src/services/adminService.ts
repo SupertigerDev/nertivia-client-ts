@@ -1,3 +1,4 @@
+import User from "@/interfaces/User";
 import wrapper from "./wrapper";
 
 export function deleteEmoji(emojiID: string): Promise<any> {
@@ -32,6 +33,23 @@ export interface ExpandedUser {
 export function fetchRecentUsers(): Promise<ExpandedUser[]> {
   return wrapper()
     .get(`admin/users/recent`).json();
+}
+
+enum ActionType {
+  SUSPEND = "SUSPEND",
+  IP_BAN = "IP_BAN"
+}
+export interface Action {
+  action: ActionType
+  user?: User
+  admin: User
+  ip_ban?: string
+  date: number
+}
+
+export function fetchRecentActions(): Promise<Action[]> {
+  return wrapper()
+    .get(`admin/actions/recent`).json();
 }
 export function searchUsers(value: string): Promise<ExpandedUser[]> {
   return wrapper()

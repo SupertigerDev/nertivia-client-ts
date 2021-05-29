@@ -7,6 +7,8 @@
   >
     <div class="content animate-in">
       <div class="top">
+        <img class="banner" v-if="bannerURL" :src="bannerURL" />
+
         <div class="avatar-area">
           <AvatarImage
             size="80px"
@@ -48,6 +50,7 @@ import WindowProperties from "@/utils/windowProperties";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
 import Markup from "@/components/Markup.tsx";
+import { fetchUser, ReturnedUser } from "@/services/userService";
 
 interface ServerMember {
   member: User;
@@ -57,20 +60,25 @@ interface ServerMember {
 @Component({ components: { AvatarImage, Markup, UserStatusTemplate } })
 export default class MiniProfilePopout extends Vue {
   @Prop() private data!: { x: number; y: number; member: ServerMember };
+  returnedUser: ReturnedUser | null = null;
   height = 0;
   width = 0;
-  clickOutside() {
+  clickOutside(event: any) {
+    if (event.target.closest(".server-member")) return;
     PopoutsModule.ClosePopout("profile");
   }
   mounted() {
     this.height = this.$el.clientHeight;
     this.width = this.$el.clientWidth;
+    fetchUser(this.user.id).then(user => {
+      this.returnedUser = user;
+    });
   }
   openFullProfile() {
     PopoutsModule.ShowPopout({
       id: "profile",
       component: "profile-popout",
-      data: { id: this.user?.id }
+      data: { id: this.user?.id, fullProfile: this.returnedUser }
     });
   }
   get presence() {
@@ -87,6 +95,11 @@ export default class MiniProfilePopout extends Vue {
   }
   get roles() {
     return this.data.member.roles;
+  }
+  get bannerURL() {
+    const banner = this.returnedUser?.user?.banner;
+    if (!banner) return null;
+    return process.env.VUE_APP_NERTIVIA_CDN + banner;
   }
   get clampPos() {
     let top = this.data.y || 0;
@@ -133,6 +146,18 @@ export default class MiniProfilePopout extends Vue {
   pointer-events: all;
   border-radius: 4px;
 }
+.banner {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
 .content {
   display: flex;
   flex-direction: column;
@@ -158,12 +183,15 @@ export default class MiniProfilePopout extends Vue {
   border-radius: 4px;
   height: 100px;
   background: var(--primary-color);
+  position: relative;
 }
 .avatar-area {
   padding-top: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  z-index: 11111111;
   .username {
     margin-top: 5px;
   }
