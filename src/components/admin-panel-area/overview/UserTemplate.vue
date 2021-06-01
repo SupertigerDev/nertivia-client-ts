@@ -48,8 +48,8 @@ export default class UserTemplate extends Vue {
   }
 }
 .main-details {
-  display: flex;
   display: inline;
+  word-break: break-all;
   .tag {
     color: rgba(255, 255, 255, 0.7);
   }

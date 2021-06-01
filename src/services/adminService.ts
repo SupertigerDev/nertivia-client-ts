@@ -41,6 +41,7 @@ enum ActionType {
 }
 export interface Action {
   action: ActionType
+  reason?: string
   user?: User
   admin: User
   ip_ban?: string

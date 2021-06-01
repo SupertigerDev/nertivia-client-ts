@@ -103,7 +103,11 @@ const components = {
     ),
   AdminSuspendUser: () =>
     import(
-      /* webpackChunkName: "FloatingProfileCard" */ "@/components/popouts/admin-popouts/SuspendUser.vue"
+      /* webpackChunkName: "AdminSuspendUser" */ "@/components/popouts/admin-popouts/SuspendUser.vue"
+    ),
+  AdminUnsuspendUser: () =>
+    import(
+      /* webpackChunkName: "AdminUnsuspendUser" */ "@/components/popouts/admin-popouts/UnsuspendUser.vue"
     )
 };
 

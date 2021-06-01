@@ -2,9 +2,8 @@
   <div class="action-template">
     <div class="content">
       <div class="main-details" v-html="actionDetails" />
-      <CustomButton class="button" name="Undo action" />
-
       <div class="date">{{ friendlyDate }}</div>
+      <CustomButton class="button" name="Undo action" />
     </div>
   </div>
 </template>
@@ -25,7 +24,12 @@ export default class ActionTemplate extends Vue {
   }
   get actionDetails() {
     if (this.action.action === "SUSPEND") {
-      return `<strong>${this.action.admin.username}</strong> suspended <strong>${this.action.user?.username}</strong>.`;
+      return `<strong>${
+        this.action.admin.username
+      }</strong> suspended <strong>${
+        this.action.user?.username
+      }</strong> for <strong>${this.action.reason ||
+        "Not specified."}</strong>`;
     }
     if (this.action.action === "IP_BAN") {
       return `<strong>${this.action.admin.username}</strong> IP banned <strong>${this.action.ip_ban}</strong> for 5 days.`;
@@ -49,32 +53,16 @@ export default class ActionTemplate extends Vue {
   margin-left: 5px;
   .date {
     color: rgba(255, 255, 255, 0.4);
+    font-size: 14px;
   }
 }
 .button {
   margin-left: 0;
 }
 .main-details {
-  display: flex;
   display: inline;
+  font-size: 14px;
   color: rgba(255, 255, 255, 0.7);
-}
-.tags {
-  display: flex;
-  .tag {
-    margin-top: 5px;
-    background: rgba(0, 0, 0, 0.24);
-    border-radius: 4px;
-    padding: 3px;
-    font-size: 12px;
-    &.bot {
-      background: var(--primary-color);
-    }
-    &.suspended {
-      background: var(--alert-color);
-      margin-left: 5px;
-    }
-  }
 }
 </style>
 

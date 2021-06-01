@@ -20,6 +20,7 @@
       </div>
     </div>
     <div class="actions">
+      <CustomButton @click="viewProfile" name="View Profile" icon="person" />
       <CustomButton name="Edit User" icon="edit" />
       <CustomButton
         @click="openSuspendPopout"
@@ -29,7 +30,7 @@
         v-if="!user.banned"
       />
       <CustomButton
-        @click="openSuspendPopout"
+        @click="openUnsuspendPopout"
         name="Unsuspend User"
         :alert="true"
         icon="undo"
@@ -75,6 +76,20 @@ export default class SelectedUserPage extends Vue {
       id: "admin-suspend-user-popout",
       component: "AdminSuspendUser",
       data: { user: this.user, callback: this.suspendCallback }
+    });
+  }
+  openUnsuspendPopout() {
+    PopoutsModule.ShowPopout({
+      id: "admin-unsuspend-user-popout",
+      component: "AdminUnsuspendUser",
+      data: { user: this.user, callback: this.suspendCallback }
+    });
+  }
+  viewProfile() {
+    PopoutsModule.ShowPopout({
+      id: "profile",
+      component: "profile-popout",
+      data: { id: this.user?.id }
     });
   }
   suspendCallback() {
