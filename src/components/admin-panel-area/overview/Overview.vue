@@ -11,6 +11,7 @@
 
       <SelectedUserPage
         @suspended="suspendUser"
+        @unsuspend="unsuspendUser"
         @back="selectedUser = null"
         v-if="selectedUser"
         :user="selectedUser"
@@ -30,12 +31,22 @@ import SelectedUserPage from "./SelectedUserPage.vue";
 @Component({ components: { Stats, Users, SelectedUserPage, AdminActions } })
 export default class Overview extends Vue {
   @Ref() readonly users!: Users;
+  @Ref() readonly adminActions!: AdminActions;
+
   selectedUser: ExpandedUser | null = null;
   suspendUser() {
     if (!this.selectedUser) return;
     const newUser = { ...this.selectedUser, banned: true };
     this.users.updateUser(newUser);
     this.$set(this, "selectedUser", newUser);
+    this.adminActions.fetchActions();
+  }
+  unsuspendUser({ removeIPBan }) {
+    if (!this.selectedUser) return;
+    const newUser = { ...this.selectedUser, banned: false };
+    this.users.updateUser(newUser);
+    this.$set(this, "selectedUser", newUser);
+    this.adminActions.fetchActions();
   }
 }
 </script>

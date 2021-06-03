@@ -36,8 +36,10 @@ export function fetchRecentUsers(): Promise<ExpandedUser[]> {
 }
 
 enum ActionType {
-  SUSPEND = "SUSPEND",
-  IP_BAN = "IP_BAN"
+  SUSPEND_USER = "SUSPEND_USER",
+  UNSUSPEND_USER = "UNSUSPEND_USER",
+  BAN_IP = "BAN_IP",
+  UNBAN_IP = "UNBAN_IP",
 }
 export interface Action {
   action: ActionType
@@ -59,4 +61,8 @@ export function searchUsers(value: string): Promise<ExpandedUser[]> {
 export function suspendUser(id: string, password: string, reason: string): Promise<any> {
   return wrapper()
     .post(`admin/users/${id}/suspend`, {json: {password, reason}}).json();
+}
+export function unsuspendUser(id: string, password: string, removeIPBan: boolean): Promise<any> {
+  return wrapper()
+    .delete(`admin/users/${id}/suspend`, {json: {password, removeIPBan}}).json();
 }

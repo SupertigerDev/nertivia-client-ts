@@ -18,7 +18,7 @@
         <div class="inner-content">
           <div class="description">
             <div class="error" v-if="error">{{ error }}</div>
-            <CheckBox name="Remove IP Ban" :checked="true" />
+            <CheckBox name="Remove IP Ban" v-model="removeIPBan" />
             <CheckBox name="Send Email WIP" :checked="false" />
             <CustomInput
               class="password-input"
@@ -49,7 +49,7 @@ import User from "@/interfaces/User";
 import CustomButton from "@/components/CustomButton.vue";
 import CustomInput from "@/components/CustomInput.vue";
 import CheckBox from "@/components/CheckBox.vue";
-import { suspendUser } from "@/services/adminService";
+import { unsuspendUser } from "@/services/adminService";
 
 @Component({
   components: { AvatarImage, CustomButton, CustomInput, CheckBox }
@@ -58,6 +58,7 @@ export default class ProfilePopout extends Vue {
   reason = "Violating the TOS.";
   password = "";
   requestSent = false;
+  removeIPBan = true;
   error: string | null = null;
   @Prop() private data!: {
     id: string;
@@ -78,20 +79,20 @@ export default class ProfilePopout extends Vue {
     if (this.requestSent) return;
     this.requestSent = true;
     this.error = null;
-    // suspendUser(this.data.user.id, this.password, this.reason)
-    //   .then(() => {
-    //     this.data.callback();
-    //     this.close();
-    //   })
-    //   .catch(async err => {
-    //     if (!err.response) {
-    //       this.error = "Could not connect to server.";
-    //       return;
-    //     }
-    //     const { message } = await err.response.json();
-    //     this.error = message;
-    //   })
-    //   .finally(() => (this.requestSent = false));
+    unsuspendUser(this.data.user.id, this.password, this.removeIPBan)
+      .then(() => {
+        this.data.callback({ removeIPBan: this.removeIPBan });
+        this.close();
+      })
+      .catch(async err => {
+        if (!err.response) {
+          this.error = "Could not connect to server.";
+          return;
+        }
+        const { message } = await err.response.json();
+        this.error = message;
+      })
+      .finally(() => (this.requestSent = false));
   }
   get user() {
     return this.data.user;

@@ -82,7 +82,7 @@ export default class SelectedUserPage extends Vue {
     PopoutsModule.ShowPopout({
       id: "admin-unsuspend-user-popout",
       component: "AdminUnsuspendUser",
-      data: { user: this.user, callback: this.suspendCallback }
+      data: { user: this.user, callback: this.unsuspendCallback }
     });
   }
   viewProfile() {
@@ -94,6 +94,9 @@ export default class SelectedUserPage extends Vue {
   }
   suspendCallback() {
     this.$emit("suspended");
+  }
+  unsuspendCallback(removeIPBan: boolean) {
+    this.$emit("unsuspend", { removeIPBan });
   }
   get bannerURL() {
     if (!this.user.banner) return null;
