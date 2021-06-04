@@ -256,8 +256,10 @@ export default class MessageLogs extends Vue {
               if (!message) return;
               this.scrollIntoView(message);
               this.highlightMessage(message);
-              this.moreTopToLoad = true;
-              this.moreBottomToLoad = true;
+              setTimeout(() => {
+                this.moreTopToLoad = true;
+                this.moreBottomToLoad = true;
+              }, 500);
             }, 500);
           });
         });

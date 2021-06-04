@@ -1,5 +1,14 @@
 [
 	{
+		"version": "1.35.2-stable",
+		"date": "04 June 2021",
+		"title": "Bug fix",
+		"fixes": [
+			"Fixed quote message not scrolling to the correct place."
+		],
+		"body": "New features coming soon!"
+	},
+	{
 		"version": "1.35.1-stable",
 		"date": "17 May 2021",
 		"title": "More Markup Syntax (by bree)",
