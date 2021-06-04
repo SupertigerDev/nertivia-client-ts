@@ -254,12 +254,25 @@ export default class MessageLogs extends Vue {
             setTimeout(() => {
               message = document.getElementById("message-" + messageID);
               if (!message) return;
+
+              const intersectionObserver = new IntersectionObserver(entries => {
+                const [entry] = entries;
+                if (entry.isIntersecting) {
+                  setTimeout(() => {
+                    intersectionObserver.disconnect();
+                    console.log("owo");
+                    this.moreTopToLoad = true;
+                    this.moreBottomToLoad = true;
+                  }, 100);
+                }
+              });
+              intersectionObserver.observe(message);
+              setTimeout(() => {
+                intersectionObserver.disconnect();
+              }, 2000);
+
               this.scrollIntoView(message);
               this.highlightMessage(message);
-              setTimeout(() => {
-                this.moreTopToLoad = true;
-                this.moreBottomToLoad = true;
-              }, 500);
             }, 500);
           });
         });
