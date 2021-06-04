@@ -57,7 +57,7 @@ export default class Users extends Vue {
     this.users = await fetchRecentUsers();
   }
   async searchUser(value: string) {
-    if (!value) this.fetchUsers();
+    if (!value) return this.fetchUsers();
     this.users = await searchUsers(value);
   }
   updateUser(user: ExpandedUser) {

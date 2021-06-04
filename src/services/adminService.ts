@@ -58,6 +58,10 @@ export function searchUsers(value: string): Promise<ExpandedUser[]> {
   return wrapper()
     .get(`admin/users/search/${encodeURIComponent(value)}`).json();
 }
+export function searchUsersByIP(user_id: string): Promise<ExpandedUser[]> {
+  return wrapper()
+    .get(`admin/users/ip/${encodeURIComponent(user_id)}`).json();
+}
 export function suspendUser(id: string, password: string, reason: string): Promise<any> {
   return wrapper()
     .post(`admin/users/${id}/suspend`, {json: {password, reason}}).json();

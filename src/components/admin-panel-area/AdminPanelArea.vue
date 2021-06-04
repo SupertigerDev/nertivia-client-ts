@@ -1,5 +1,5 @@
 <template>
-  <div class="explore-area">
+  <div class="admin-area">
     <Header v-if="page" :title="page.name" />
     <component v-if="page" :is="page.component" />
   </div>
@@ -23,7 +23,7 @@ export default class ExploreArea extends Vue {
 }
 </script>
 <style lang="scss" scoped>
-.explore-area {
+.admin-area {
   display: flex;
   flex-direction: column;
   height: 100%;
