@@ -1,7 +1,12 @@
 <template>
   <div class="editor" v-if="theme">
     <div class="menu-strip">
-      <CustomButton icon="navigate_before" @click="$emit('back')" />
+      <CustomButton
+        v-if="!isPopout"
+        icon="navigate_before"
+        class="back-button"
+        @click="$emit('back')"
+      />
       <input type="text" v-model="name" placeholder="Theme Name" />
       <CustomButton
         v-if="showSaveButton"
@@ -23,6 +28,12 @@
         @click="apply"
         icon="done"
         :valid="true"
+      />
+      <CustomButton
+        v-if="!isPopout && !$isMobile"
+        name="Detach"
+        @click="detech"
+        icon="fullscreen"
       />
     </div>
     <codemirror v-model="css" :options="cmOptions" @ready="onCodemirrorReady" />
@@ -48,6 +59,8 @@ export default class Editor extends Vue {
   @Prop() private themeID!: string;
   applied = localStorage["themeID"] === this.themeID;
   theme: Theme | null = null;
+  isPopout = false;
+  popupWindow: Window | null = null;
   css = "";
   name = "";
   cmOptions = {
@@ -67,7 +80,8 @@ export default class Editor extends Vue {
     await this.apply();
   }
   async save() {
-    return updateTheme(this.themeID, {
+    if (!this.theme) return;
+    return updateTheme(this.theme?.id, {
       css: this.css,
       name: this.name,
       client_version: this.$lastUIBreakingVersion
@@ -81,15 +95,67 @@ export default class Editor extends Vue {
   async apply() {
     await applyTheme(this.themeID, this.css);
     this.applied = true;
+    if (this.isPopout) {
+      this.$window.postMessage(
+        { action: "UpdateAndApply", css: this.css, name: this.name },
+        process.env.VUE_APP_MAIN_APP_URL || ""
+      );
+    }
   }
   unapply() {
     unapplyTheme();
     this.applied = false;
+    if (this.isPopout) {
+      this.$window.postMessage(
+        { action: "unapplyTheme" },
+        process.env.VUE_APP_MAIN_APP_URL || ""
+      );
+    }
   }
   async mounted() {
+    const w = window as any;
+    if (w.editor_theme) {
+      this.isPopout = true;
+      this.theme = w.editor_theme;
+      this.css = w.css;
+      this.name = w.name;
+      this.applied = localStorage["themeID"] === this.theme?.id;
+      return;
+    }
     this.theme = await getTheme(this.themeID);
     this.css = this.theme.css;
     this.name = this.theme.name;
+  }
+  detech() {
+    this.popupWindow = this.$window.open(
+      "/popout-css-editor",
+      "popUpWindow",
+      "height=400, width=650"
+    );
+    if (!this.popupWindow) return;
+    (this.popupWindow as any).editor_theme = this.theme;
+    (this.popupWindow as any).css = this.css;
+    (this.popupWindow as any).name = this.name;
+    this.popupWindow.onbeforeunload = () => {
+      console.log("closed");
+    };
+    this.popupWindow.addEventListener("message", event => {
+      const data = event.data;
+      if (data.action === "UpdateAndApply") {
+        if (!this.theme) return;
+        this.css = data.css;
+        this.name = data.name;
+        this.theme.css = data.css;
+        this.theme.name = data.name;
+        this.$set(this.theme, "client_version", this.$lastUIBreakingVersion);
+        this.apply();
+        return;
+      }
+      if (data.action === "unapplyTheme") {
+        this.unapply();
+        return;
+      }
+    });
   }
   get showSaveButton() {
     if (!this.theme) return false;
@@ -112,8 +178,11 @@ export default class Editor extends Vue {
   display: flex;
   flex-shrink: 0;
   align-items: center;
-
+  .back-button {
+    margin-right: 0;
+  }
   input {
+    margin-left: 5px;
     margin-top: 5px;
     margin-bottom: 5px;
     background: rgba(255, 255, 255, 0.1);
@@ -123,6 +192,8 @@ export default class Editor extends Vue {
     color: white;
     outline: none;
     border: none;
+    max-width: 200px;
+    width: 100%;
   }
 }
 </style>

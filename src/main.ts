@@ -19,6 +19,7 @@ declare module "vue/types/vue" {
     $version: string;
     $lastUIBreakingVersion: string;
     $isElectron: string;
+    $window: Window
   }
 }
 
@@ -38,6 +39,7 @@ Vue.prototype.$lastUIBreakingVersion = process.env.VUE_APP_LAST_UI_BREAKING_VERS
 Vue.prototype.$isMobile = /iphone|ipod|android|ie|blackberry|fennec/.test(
   navigator.userAgent.toLowerCase()
 );
+Vue.prototype.$window = window;
 
 applyDefaultTheme(false);
 

@@ -66,6 +66,14 @@ const routes: Array<RouteConfig> = [
       )
   },
   {
+    path: "/popout-css-editor",
+    name: "CSSEditor",
+    component: () =>
+      import(
+        /* webpackChunkName: "CSSEditor" */ "../components/settings-area/interface/custom-css/Editor.vue"
+      )
+  },
+  {
     // TODO: change the path someday
     path: "/GDrive_callback",
     name: "GoogleDriveCallback",

@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.35.3-stable",
+		"date": "04 June 2021",
+		"title": "Detach CSS Editor",
+		"new": "You can now detach the CSS editor which makes it easier to make/edit themes."
+	},
+	{
 		"version": "1.35.2-stable",
 		"date": "04 June 2021",
 		"title": "Bug fix",
