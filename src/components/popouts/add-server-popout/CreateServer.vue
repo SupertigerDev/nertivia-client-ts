@@ -4,7 +4,12 @@
       {{ $t("add-server-popout.create-server-notice") }}
     </div>
     <form action="#" class="form" @submit.prevent="createServer">
-      <CustomInput title="Server Name" v-model="name" :error="error" />
+      <CustomInput
+        title="Server Name"
+        :maxChars="30"
+        v-model="name"
+        :error="error"
+      />
       <CustomButton name="Create Server" />
     </form>
   </div>

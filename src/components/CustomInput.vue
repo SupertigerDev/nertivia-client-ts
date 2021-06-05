@@ -10,7 +10,9 @@
       }"
       @click="$refs.inputBox.focus()"
     >
-      <legend class="title">{{ title }}</legend>
+      <legend class="title">
+        {{ title + (maxChars ? ` (${charCount}/${maxChars})` : "") }}
+      </legend>
       <div class="container">
         <div v-if="prefix" class="prefix">{{ prefix }}</div>
         <div v-if="prefixIcon" class="material-icons prefix icon">
@@ -55,12 +57,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Ref, Vue } from "vue-property-decorator";
 
 @Component({ model: { prop: "value", event: "model" } })
 export default class CustomInput extends Vue {
   focused = false;
+  @Ref() readonly inputBox!: HTMLInputElement;
+
   @Prop() private title!: string;
+  @Prop() private maxChars!: number;
   @Prop() private placeholder!: string;
   @Prop() private type!: string;
   @Prop() private error!: string;
@@ -71,8 +76,12 @@ export default class CustomInput extends Vue {
   @Prop() private prefix!: string;
   @Prop() private prefixIcon!: string;
   @Prop({ default: false }) private hideError!: boolean;
+
   inputEvent(event: any) {
     this.$emit("model", event.target.value);
+  }
+  get charCount() {
+    return this.value.length;
   }
 }
 </script>

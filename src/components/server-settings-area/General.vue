@@ -41,6 +41,7 @@
         class="input"
         :error="errors['name']"
         title="Server Name"
+        :maxChars="30"
         v-model="serverName"
       />
       <CustomDropDown

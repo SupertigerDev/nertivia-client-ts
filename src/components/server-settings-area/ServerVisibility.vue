@@ -14,9 +14,10 @@
       <div class="error">{{ error }}</div>
       <RadioBox :items="['Private', 'Public']" v-model="visibility" />
       <CustomInput
-        :title="`Description (${chars}/150)`"
+        :title="`Description`"
         v-if="visibility === 1"
         :textArea="true"
+        :maxChars="150"
         v-model="description"
       />
       <CustomButton
@@ -150,9 +151,6 @@ export default class ServerVisibility extends Vue {
     if (!this.response) return false;
     if (this.description !== this.response?.description || "") return true;
     return false;
-  }
-  get chars() {
-    return this.description.length;
   }
 
   get serverID() {
