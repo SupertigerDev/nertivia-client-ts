@@ -127,6 +127,10 @@ export default class Editor extends Vue {
     this.name = this.theme.name;
   }
   detech() {
+    if (this.$isElectron) {
+      alert("Open Nertivia in a browser to detach.");
+      return;
+    }
     this.popupWindow = this.$window.open(
       "/popout-css-editor",
       "popUpWindow",
