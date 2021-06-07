@@ -165,6 +165,7 @@ export default class ServerDrawer extends Vue {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  width: 250px;
 }
 
 .server-banner {

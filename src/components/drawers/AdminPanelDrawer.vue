@@ -33,6 +33,9 @@ export default class AdminPanelDrawer extends Vue {
 }
 </script>
 <style lang="scss" scoped>
+.settings-drawer {
+  width: 250px;
+}
 .item {
   display: flex;
   align-items: center;

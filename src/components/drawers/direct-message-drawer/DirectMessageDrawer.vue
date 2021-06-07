@@ -102,6 +102,7 @@ export default class MainApp extends Vue {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  width: 250px;
 }
 
 .buttons {

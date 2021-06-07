@@ -61,6 +61,7 @@ export default class MainApp extends Vue {
   display: flex;
   height: 100%;
   flex-direction: column;
+  width: 250px;
 }
 .items {
   display: flex;

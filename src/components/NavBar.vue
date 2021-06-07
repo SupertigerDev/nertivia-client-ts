@@ -1,5 +1,11 @@
 <template>
-  <div class="nav-bar" :class="{ show: leftDrawerOpened }">
+  <div
+    class="nav-bar"
+    :class="{
+      show: leftDrawerOpened || pinned,
+      'pin-bottom': pinned && !leftDrawerOpened
+    }"
+  >
     <div
       class="item"
       :class="{
@@ -185,6 +191,9 @@ export default class NavBar extends Vue {
     const presence = PresencesModule.getPresence(this.me.id);
     return userStatuses[presence || 0];
   }
+  get pinned() {
+    return this.$route.name !== "message-area";
+  }
   get leftDrawerOpened() {
     return DrawersModule.leftDrawer;
   }
@@ -305,6 +314,10 @@ export default class NavBar extends Vue {
 
     transition: 0.2s;
 
+    &.pin-bottom {
+      position: initial;
+      background: rgba(0, 0, 0, 0.2);
+    }
     &.show {
       bottom: 0px;
     }

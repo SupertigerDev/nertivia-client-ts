@@ -23,9 +23,18 @@ export default class DashboardArea extends Vue {}
 .dashboard-area {
   display: flex;
   flex-direction: column;
+  overflow: auto;
 }
 .content {
   display: flex;
   flex-wrap: wrap;
+}
+</style>
+
+<style scoped>
+@media (max-width: 564px) {
+  .dashboard-area .card {
+    width: 100%;
+  }
 }
 </style>

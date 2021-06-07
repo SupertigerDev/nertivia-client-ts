@@ -20,11 +20,8 @@
         </div>
       </div>
       <DirectMessageDrawer v-if="currentTab === 'dms'" />
-      <ServerDrawer
-        v-if="currentTab === 'servers' && !showServerSettings"
-        :key="selectedServerID"
-      />
-      <ServerSettingsDrawer v-if="showServerSettings" />
+      <ServerDrawer v-if="showServerDrawer" :key="selectedServerID" />
+      <ServerSettingsDrawer v-if="showServerSettingsDrawer" />
       <SettingsDrawer v-if="currentTab === 'settings'" />
       <ExploreDrawer v-if="currentTab === 'explore'" />
       <AdminPanelDrawer v-if="currentTab === 'admin-panel'" />
@@ -103,8 +100,11 @@ export default class MainApp extends Vue {
   get currentTab() {
     return this.$route.path.split("/")[2];
   }
-  get showServerSettings() {
+  get showServerSettingsDrawer() {
     return this.$route.name === "server-settings";
+  }
+  get showServerDrawer() {
+    return this.currentTab === "servers" && !this.showServerSettingsDrawer;
   }
   get selectedServer() {
     return ServersModule.servers[this.selectedServerID];
@@ -116,7 +116,7 @@ export default class MainApp extends Vue {
 .drawer {
   display: flex;
   height: 100%;
-  width: 320px;
+  max-width: 320px;
   flex-shrink: 0;
 }
 .container {
@@ -171,6 +171,7 @@ export default class MainApp extends Vue {
 @media (max-width: 950px) {
   .drawer {
     background: var(--background-color);
+    // width: 320px;
   }
 }
 </style>

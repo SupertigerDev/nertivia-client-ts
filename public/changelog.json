@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.35.4-stable",
+		"date": "07 June 2021",
+		"title": "Changed navigation behavior",
+		"changes": ["[Mobile] Navigation bar now pins at the bottom when the message logs are not showing.", "Dashboard now has a smaller drawer."]
+	},
+	{
 		"version": "1.35.3-stable",
 		"date": "04 June 2021",
 		"title": "Detach CSS Editor",
