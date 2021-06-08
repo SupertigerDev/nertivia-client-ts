@@ -1,0 +1,65 @@
+{
+  "save-changes": "Değişiklikleri Kaydet",
+  "saving": "Kaydediliyor...",
+  "back": "Geri",
+  "are-you-sure": "Emin misin?",
+  "copy-id-button": "ID'yi Kopyala",
+  "time": {
+    "today-at": "Bugün {0}",
+    "yesterday-at": "Dün {0}"
+  },
+  "message-area": {
+    "no-message-perm": "Bu kanalda konuşma izniniz yok.",
+    "not-connected-server": "Bağlı Değil",
+    "attach-message": "Mesaj ekle",
+    "type-message": "Mesajını yaz",
+    "back-to-bottom": "Aşağıya Dön",
+    "new-messages": "Yeni Mesajlar"
+  },
+  "upload-dialog": {
+    "compress": "Kompres",
+    "upload-to": "Şuraya Yükle"
+  },
+  "user-context": {
+    "view-profile": "Profili Görüntüle",
+    "edit-roles": "Rolleri Düzenle",
+    "kick": "At",
+    "ban": "Yasakla",
+    "copy-user-tag": "Kullanıcıyı Etiketini Kopyala"
+  },
+  "message-context": {
+    "quote": "Alıntı",
+    "edit": "Düzenle"
+  },
+  "server-context": {
+    "mark-as-read": "Okundu Olarak İşaretle",
+    "server-settings": "Sunucu Ayarları",
+    "leave-server": "Sunucudan Ayrıl"
+  },
+  "channel-context": {
+    "mute-channel": "Kanalı Sessize Al",
+    "unmute-channel": "Kanalın Sesini Aç"
+  },
+  "settings": {
+    "tab-names": {
+      "account": "Hesap",
+      "notification": "Bildirimler",
+      "manage-emojis": "Emojileri Yönet",
+      "startup-options": "Başlangıç ​​Seçenekleri",
+      "program-activity": "Program Aktivitesi",
+      "manage-bots": "Botları Yönet",
+      "interface": "Arayüz",
+      "language": "Dil",
+      "delete-account": "Hesabı Sil",
+      "changelog": "Değişim Kaydı",
+      "wip-features": "Daha Bitmemiş Özellikler"
+    },
+    "account": {
+      "title": "Profilinizi düzenleyin",
+      "change-password": "Şifreyi değiştir",
+      "relink-google-drive": "Google Drive'ı yeniden bağla",
+      "link-google-drive": "Google Drive'ı bağla",
+      "more-profile": "Daha Fazla Profil",
+      "more-profile-notice": "Bu bilgi herkes tarafından görülür."
+  }
+}
