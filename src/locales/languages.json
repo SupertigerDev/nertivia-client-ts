@@ -44,5 +44,10 @@
     "name": "Dutch / Nederlands",
     "unicode": "🇳🇱",
     "translators": ["Stitch"]
+  },
+  "tr": {
+    "name": "Turkish ",
+    "unicode": "🇹🇷",
+    "translators": ["ekto"]
   }
 }
