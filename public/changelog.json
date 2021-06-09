@@ -1,5 +1,12 @@
 [
 	{
+		"version": "1.36.0-stable",
+		"date": "09 June 2021",
+		"title": "Highlight Code blocks!",
+		"new": ["Code blocks can now be highlighted.", "Copy to clipboard button for code block."],
+		"changes": "Changed background color of inline code block."
+	},
+	{
 		"version": "1.35.4-stable",
 		"date": "07 June 2021",
 		"title": "Changed navigation behavior",

@@ -95,11 +95,7 @@ function transformEntity(h: CreateElement, entity: Entity, ctx: RenderContext) {
     case "codeblock": {
       const lang = entity.params.lang;
       const value = sliceText(ctx, entity.innerSpan);
-      return (
-        <pre class="codeblock">
-          {h(HighlightJS, { props: { lang, value } })}
-        </pre>
-      );
+      return h(HighlightJS, { props: { lang, value } })
     }
     case "spoiler": {
       return (
