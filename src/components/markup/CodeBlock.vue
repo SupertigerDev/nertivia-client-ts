@@ -56,6 +56,7 @@ export default Vue.extend({
 .header .language {
   opacity: 0.6;
   flex: 1;
+  margin-right: 5px;
 }
 .header .material-icons {
   opacity: 0.6;

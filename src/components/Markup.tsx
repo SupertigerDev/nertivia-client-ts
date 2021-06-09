@@ -13,7 +13,7 @@ import CustomEmoji from "./markup/CustomEmoji.vue";
 import Spoiler from "./markup/Spoiler.vue";
 import Emoji from "./markup/Emoji.vue";
 import Link from "./markup/Link.vue";
-import HighlightJS from "@/components/HighlightJS.vue";
+import CodeBlock from "@/components/CodeBlock.vue";
 
 import {
   parseMarkup,
@@ -95,7 +95,7 @@ function transformEntity(h: CreateElement, entity: Entity, ctx: RenderContext) {
     case "codeblock": {
       const lang = entity.params.lang;
       const value = sliceText(ctx, entity.innerSpan);
-      return h(HighlightJS, { props: { lang, value } })
+      return h(CodeBlock, { props: { lang, value } })
     }
     case "spoiler": {
       return (
