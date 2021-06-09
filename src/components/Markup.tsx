@@ -13,7 +13,7 @@ import CustomEmoji from "./markup/CustomEmoji.vue";
 import Spoiler from "./markup/Spoiler.vue";
 import Emoji from "./markup/Emoji.vue";
 import Link from "./markup/Link.vue";
-import CodeBlock from "@/components/CodeBlock.vue";
+import CodeBlock from "./markup/CodeBlock.vue";
 
 import {
   parseMarkup,
