@@ -38,7 +38,7 @@ export default Vue.extend({
         keyboard_arrow_up
       </div>
     );
-    const MarkupBuilder = this.quote.message && h(Markup, {props: {text: this.quote.message}})
+    const MarkupBuilder = this.quote.message && h(Markup, {props: {text: this.quote.message, largeEmoji:false}})
 
     const ContentBuilder = (
       <div class="content">
