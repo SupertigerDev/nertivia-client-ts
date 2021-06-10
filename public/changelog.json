@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.36.1-stable",
+		"date": "09 June 2021",
+		"title": "Markup Inside Quotes",
+		"changes": "Markup now works inside quotes."
+	},
+	{
 		"version": "1.36.0-stable",
 		"date": "09 June 2021",
 		"title": "Highlight Code blocks!",
