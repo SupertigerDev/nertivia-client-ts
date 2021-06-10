@@ -20,14 +20,15 @@
               :message="message"
               :hideContext="true"
             />
-            <div class="buttons">
-              <CustomButton :name="$t('back')" @click="close" />
-              <CustomButton
-                :name="$t('generic.delete')"
-                @click="deleteMessage"
-                :alert="true"
-              />
-            </div>
+          </div>
+          <div class="buttons">
+            <CustomButton icon="close" :name="$t('back')" @click="close" />
+            <CustomButton
+              :name="$t('generic.delete')"
+              @click="deleteMessage"
+              icon="delete"
+              :alert="true"
+            />
           </div>
         </div>
       </div>
@@ -98,7 +99,11 @@ export default class ProfilePopout extends Vue {
   background: var(--popout-color);
   border-radius: 4px;
   overflow: hidden;
+  display: flex;
+  max-height: 400px;
+  max-width: 600px;
 }
+
 .animate-in {
   opacity: 0;
   animation: showUp 0.2s;
@@ -142,7 +147,7 @@ export default class ProfilePopout extends Vue {
 .content {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  width: 100%;
 }
 .inner-content {
   display: flex;
@@ -152,6 +157,9 @@ export default class ProfilePopout extends Vue {
 }
 .description {
   margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
 }
 .buttons {
   display: flex;
