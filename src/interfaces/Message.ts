@@ -11,6 +11,7 @@ export default interface Message {
   mentions?: User[];
   timeEdited?: number;
   files?: File[];
+  reactions?: Reaction[]
   quotes: Quote[];
   embed?: Embed;
   // compressed
@@ -50,6 +51,15 @@ export interface Embed {
     url: string;
     dimensions: { height: number; width: number };
   };
+}
+
+export interface Reaction {
+  emojiID?: string
+  unicode?: string
+  gif?: boolean
+  count: number
+  reacted?: boolean
+
 }
 
 export enum Type {

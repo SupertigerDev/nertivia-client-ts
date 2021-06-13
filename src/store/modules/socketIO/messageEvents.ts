@@ -1,5 +1,5 @@
 import { ActionTree } from "vuex";
-import Message from "@/interfaces/Message";
+import Message, { Reaction } from "@/interfaces/Message";
 import { MessagesModule } from "../messages";
 import { ChannelsModule } from "../channels";
 import { MeModule } from "../me";
@@ -13,9 +13,11 @@ import { eventBus } from "@/utils/globalBus";
 import {
   RECEIVE_MESSAGE,
   DELETE_MESSAGE,
-  UPDATE_MESSAGE
+  UPDATE_MESSAGE,
+  UPDATE_MESSAGE_REACTION
 } from "@/socketEventConstants";
 import { MessageLogStatesModule } from "../messageLogStates";
+import Vue from "vue";
 
 function playNotificationSound(
   mentioned: boolean,
@@ -44,6 +46,14 @@ function playNotificationSound(
   if (!(channelSelected && ["dms", "servers"].includes(tab))) {
     notificationSound.notification(mentioned);
   }
+}
+
+interface MessageReaction {
+  channelID: string,
+  messageID: string,
+  reactedByUserID?: string,
+  unReactedByUserID?: string,
+  reaction: Reaction
 }
 
 const actions: ActionTree<any, any> = {
@@ -115,13 +125,52 @@ const actions: ActionTree<any, any> = {
   [DELETE_MESSAGE](context, data: { channelID: string; messageID: string }) {
     MessagesModule.DeleteMessage(data);
   },
+
   [UPDATE_MESSAGE](context, data: Message) {
     MessagesModule.UpdateMessage({
       channelID: data.channelID,
       messageID: data.messageID,
       message: data
     });
+  },
+
+  [UPDATE_MESSAGE_REACTION](context, data: MessageReaction) {
+    const reactedByMe = data.reactedByUserID === MeModule.user.id;
+    const unReactedByMe = data.unReactedByUserID === MeModule.user.id;
+    if (reactedByMe === true) {
+      data.reaction.reacted = true;
+    }
+    if (unReactedByMe && data.reaction) {
+      data.reaction.reacted = false;
+    }
+
+    const message = MessagesModule.messages[data.channelID]?.find(m => m.messageID === data.messageID);
+    if (!message) return;
+    const newReactions = [...(message?.reactions || [])]
+    const reactionIndex = newReactions.findIndex(r => {
+      if (data.reaction.emojiID && data.reaction.emojiID === r.emojiID) {
+        return true;
+      }
+      return data.reaction.unicode && data.reaction.unicode ===r.unicode 
+    });
+
+    if (data.unReactedByUserID && data.reaction.count === 0) {
+      Vue.delete(newReactions, reactionIndex);
+    } else if (reactionIndex < 0) {
+      newReactions.push(data.reaction)
+    } else {
+      newReactions[reactionIndex] = {...newReactions[reactionIndex], ...data.reaction}
+    }
+    
+    MessagesModule.UpdateMessage({
+      channelID: data.channelID,
+      messageID: data.messageID,
+      message: {
+        reactions: newReactions
+      }
+    });
   }
+
 };
 
 export default {

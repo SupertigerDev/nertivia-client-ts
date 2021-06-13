@@ -41,6 +41,33 @@ export function fetchMessagesAround(
     .get(`messages/channels/${channelID}?around=${messageID}`)
     .json();
 }
+
+
+export interface PostReaction {
+  emojiID?: string,
+  gif?: boolean,
+  unicode?: string
+}
+
+export function addReaction(
+  channelID: string,
+  messageID: string,
+  reaction: PostReaction
+): Promise<any> {
+  return wrapper()
+    .post(`messages/${messageID}/channels/${channelID}/reactions`, {json: reaction})
+    .json();
+}
+export function removeReaction(
+  channelID: string,
+  messageID: string,
+  reaction: PostReaction
+): Promise<any> {
+  return wrapper()
+    .delete(`messages/${messageID}/channels/${channelID}/reactions`, {json: reaction})
+    .json();
+}
+
 export function deleteMessage(
   channelID: string,
   messageID: string

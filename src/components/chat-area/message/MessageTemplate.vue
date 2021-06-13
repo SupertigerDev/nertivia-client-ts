@@ -32,6 +32,10 @@
           <Bubble :message="message" :invite="invite" :grouped="grouped" />
           <MessageSide :message="message" v-if="!hideContext" />
         </div>
+        <Reactions
+          v-if="message.reactions && message.reactions.length"
+          :message="message"
+        />
         <ButtonsMessage
           v-if="message.buttons && message.buttons.length"
           :message="message"
@@ -56,6 +60,7 @@ import AvatarImage from "@/components/AvatarImage.vue";
 import Bubble from "./Bubble.vue";
 import MessageSide from "./MessageSide.vue";
 import ButtonsMessage from "./ButtonsMessage.vue";
+import Reactions from "./Reactions.vue";
 import EmbedMessage from "./EmbedMessage.vue";
 import { time } from "@/utils/date";
 import { PopoutsModule } from "@/store/modules/popouts";
@@ -69,7 +74,8 @@ import { UsersModule } from "@/store/modules/users";
     MessageSide,
     EmbedMessage,
     HTMLEmbed,
-    ButtonsMessage
+    ButtonsMessage,
+    Reactions
   }
 })
 export default class MessageLogs extends Vue {

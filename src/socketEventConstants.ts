@@ -24,6 +24,9 @@ export const AUTH_ERROR = eventBuilder("auth_err");
 export const RECEIVE_MESSAGE = eventBuilder("receive_message");
 export const DELETE_MESSAGE = eventBuilder("delete_message");
 export const UPDATE_MESSAGE = eventBuilder("update_message");
+// message reaction events
+export const ADD_MESSAGE_REACTION = eventBuilder("message:add_reaction");
+export const UPDATE_MESSAGE_REACTION = eventBuilder("message:update_reaction");
 // notification events
 export const NOTIFICATION_DISMISS = eventBuilder("notification:dismiss");
 // channel events
