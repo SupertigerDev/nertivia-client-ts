@@ -2,7 +2,7 @@
   "save-changes": "Guardar cambios",
   "saving": "Guardando...",
   "back": "Volver",
-  "are-you-sure": "¿Estas seguro?",
+  "are-you-sure": "¿Estás seguro?",
   "copy-id-button": "Copiar ID",
   "time": {
     "today-at": "Hoy a {0}",
@@ -10,7 +10,7 @@
   },
   "message-area": {
     "no-message-perm": "No tienes permisos para hablar en este canal.",
-    "not-connected-server": "Sin coneccion",
+    "not-connected-server": "Sin conección",
     "attach-message": "Adjuntar un mensaje",
     "type-message": "¡Escribe un mensaje!",
     "back-to-bottom": "Bajar",
@@ -60,7 +60,7 @@
       "relink-google-drive": "Re-conectar Google Drive",
       "link-google-drive": "Conectar Google Drive",
       "more-profile": "Configuraciones extra",
-      "more-profile-notice": "¡Esta informacion la puede ver todo el mundo!"
+      "more-profile-notice": "¡Esta información la puede ver todo el mundo!"
     },
     "notification": {
       "title": "Configuracion de notificaciones.",
@@ -267,7 +267,7 @@
     "online": "Activo",
     "away": "Ausente",
     "busy": "Ocupado",
-    "looking-to-play": "Buscando jugar"
+    "looking-to-play": "Queriendo jugar"
   },
   "right-drawer": {
     "server-members": "Usuarios ({0})",
