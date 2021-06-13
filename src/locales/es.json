@@ -2,7 +2,7 @@
   "save-changes": "Guardar cambios",
   "saving": "Guardando...",
   "back": "Volver",
-  "are-you-sure": "Estas seguro?",
+  "are-you-sure": "¿Estas seguro?",
   "copy-id-button": "Copiar ID",
   "time": {
     "today-at": "Hoy a {0}",
@@ -63,25 +63,25 @@
       "more-profile-notice": "¡Esta informacion la puede ver todo el mundo!"
     },
     "notification": {
-      "title": "Cambia las opciones de tus notificaciones.",
+      "title": "Configuracion de notificaciones.",
       "notification-sound": "Sonido en notificaciones",
       "notification-sound-details": "Las notificaciones harán un sonido para conseguir tu atencion",
       "push-notification": "Push Notification",
-      "push-notification-details": "Notificaciones visibles en tu pantalla se mostraran cuando Nertivia este cerrado"
+      "push-notification-details": "Notificaciones visibles en tu pantalla, solo se mostraran cuando Nertivia este oculto"
     },
     "manage-emojis": {
-      "details": "¡Sube tus emojis gratuitamente! (Su peso no debe superar los 3MB).",
+      "details": "¡Sube emojis gratuitamente! (Su peso no debe superar los 3MB).",
       "supported-types": "Extensiones soportadas: png, jpg, gif",
       "add-emojis-button": "Añadir emojis"
     },
     "startup-options": {
       "title": "Opciones de inicio",
-      "notice": "Necesitas la aplicacion de escritorio para modificar estas opciones.",
+      "notice": "Necesitas el cliente de escritorio para modificar estas opciones.",
       "open-on-startup": "Abrir Nertivia al inicio"
     },
     "program-activity": {
       "details": "Comparte programas o juegos que estés usando añadiendo apps abajo. Esto va a remplazar tu estatus personalizable cuando un programa es abierto y se revertirá cuando el programa este cerrado.",
-      "notice": "Para usar esta característica, debes descargar la app para escritorio de Nertivia."
+      "notice": "Para usar esta característica debes descargar la app para escritorio de Nertivia."
     },
     "manage-bots": {
       "details": "Crea bots al que le daremos acceso a nuestra API de bots",
@@ -99,17 +99,17 @@
       "delete-bot": "Eliminar bot"
     },
     "delete-account": {
-      "notice": "Estas decidido",
+      "notice": "Estás apunto de eliminar tu cuenta",
       "what-gets-deleted": "Lo que se va a eliminar",
       "what-wont-delete": "Lo que NO se va a eliminar",
       "messages-sent": "Tus mensajes enviados en servidores publicos",
-      "requirements": "Requieres",
-      "delete-leave-server": "Salir/Eliminar todos tus servers",
+      "requirements": "Requisitos",
+      "delete-leave-server": "Salir/Eliminar todos tus servidores",
       "delete-bots": "Eliminar todos tus bots",
       "delete-account-button": "Eliminar cuenta"
     },
     "language": {
-      "details": "Puede que despues de cambiar el idioma debas reiniciar Nertivia. Puedes contribuir enviando una PR a nuestro repo de GitHub",
+      "details": "Puede que despues de cambiar el idioma debas reiniciar Nertivia para que se apliquen los cambios. Puedes contribuir enviando una PR a nuestro repo de GitHub",
       "translators": "Traductores"
     },
     "interface": {
@@ -154,7 +154,7 @@
         "name": "Ban",
         "info": "Echa a un usuario e impide que vuelva a entrar"
       }
-    }
+    },
     "tab-names": {
       "general": "General",
       "manage-channels": "Canales",
@@ -171,10 +171,10 @@
       "default-role": "Rol por defecto",
       "bot-role": "Rol de Bot",
       "create-role": "Crear un rol",
-      "notice-bot": "Este rol no puede ser eliminado ni asignado a otros miembros ya que fue creador para un bot. Remueve el bot para eliminar el rol.",
-      "notice-default": "Este rol se puede eliminar ni remover de un miembro porque es el rol por defecto aplicado a todos los miembros.",
-      "pick-role-color": "Color",
-      "role-name": "Nombre",
+      "notice-bot": "Este rol no puede ser eliminado ni asignado a otros miembros ya que fue creado para un bot. Remueve el bot para eliminar el rol.",
+      "notice-default": "Este rol no se puede quitar de usuarios ya que es el rol por defecto aplicado a cada miembro.",
+      "pick-role-color": "Color del rol",
+      "role-name": "Nombre del rol",
       "settings": "Configuraciones",
       "delete-role": "Eliminar rol",
       "deleting-role": "Elimando rol...",
@@ -198,16 +198,16 @@
       "html-channel": "Canal HTML (WIP)"
     },
     "banned-users": {
-      "notice": "Desbanea miembros por aqui",
+      "notice": "Desbanea usuarios desde aquí",
       "unbanning": "Desbaneando...",
       "unban": "Desbanear"
     },
     "manage-invites": {
       "notice": "Solo los administradores pueden ver todas las invitaciones.",
       "create-invites": "Crear invitaciones",
-      "custom-invite": "Invitacion personalizada",
+      "custom-invite": "Invitación personalizada",
       "save-custom-link": "Guardar link personalizado",
-      "create-invite": "Crear invitacion",
+      "create-invite": "Crear invitación",
       "link": "Link",
       "creator": "Creada por",
       "uses": "Usos"
@@ -221,29 +221,29 @@
     },
     "notifications": {
       "description": "Configurar notificaciones.",
-      "notice": "Los cambios que hagas solo se aplicaran a ti y no a otros.",
+      "notice": "Los cambios que hagas solo se aplicarán a ti y no a otros usuarios.",
       "enable-notifications": "Habilitar notificaciones",
       "mute-sound": "Silenciar notificaciones",
       "disable-notifications": "Deshabilitar notificaciones"
     }
   },
   "typing-status": {
-    "is-typing": "{0} esta escribiendo...",
-    "two-are-typing": "{0} y {1} estan escribiendo...",
-    "three-are-typing": "{0}, {1} y {2} estan escribiendo...",
-    "more-than-three": "{0} usuarios estan escribiendo..."
+    "is-typing": "{0} está escribiendo...",
+    "two-are-typing": "{0} y {1} están escribiendo...",
+    "three-are-typing": "{0}, {1} y {2} están escribiendo...",
+    "more-than-three": "{0} usuarios están escribiendo..."
   },
   "dm-tab": {
     "friends": "Amigos",
     "recents": "Reciente",
-    "saved-notes": "Notas",
+    "saved-notes": "Notas guardadas",
     "add-friend": "Añadir amigo"
   },
   "dashboard-tab": {
     "profile": "Perfil",
     "notifications": "Notificaciones",
     "click-to-add-custom-status": "Clickea para agregar un estado personalizado",
-    "caught-up": "Al dia!",
+    "caught-up": "¡Al día!",
     "direct-messages": "Mensajes directos",
     "servers": "Servidores",
     "explore": "Explora",
@@ -254,24 +254,24 @@
     "adding": "Añadiendo..."
   },
   "add-server-popout": {
-    "title": "Añadir server",
-    "join-server-notice": "Unete a un server con una invitacion.",
-    "create-server-notice": "Crea un servidor. Primero elije tu nombre.",
+    "title": "Añadir servidor",
+    "join-server-notice": "Únete a un servidor con una invitación.",
+    "create-server-notice": "Crea un servidor. Primero elije el nombre.",
     "tabs": {
       "join": "Unirse",
       "create": "Crear"
     }
   },
   "presence": {
-    "offline": "Offline",
-    "online": "Online",
-    "away": "Away",
-    "busy": "Busy",
-    "looking-to-play": "Looking To Play"
+    "offline": "Invisible",
+    "online": "Activo",
+    "away": "Ausente",
+    "busy": "Ocupado",
+    "looking-to-play": "Queriendo jugar"
   },
   "right-drawer": {
     "server-members": "Usuarios ({0})",
-    "server-offline-members": "Offline ({0})"
+    "server-offline-members": "Desconectados ({0})"
   },
   "profile-popout": {
     "common-friends": "Amigos en común",
@@ -288,11 +288,11 @@
   "connection": {
     "loading": "Cargando...",
     "ready": "Listo!",
-    "authenticating": "Verificando..."
+    "authenticating": "Autenticando..."
   },
   "navbar": {
     "update": "Actualizar",
-    "update-available": "Actualizacion disponible!"
+    "update-available": "Actualización disponible!"
   },
   "generic": {
     "copy": "Copiar",
@@ -308,6 +308,6 @@
   },
   "could-not-connect-to-server": "No se pudo conectar al servidor.",
   "chat-area": {
-    "rate-limit-mode": "Limite de Velocidad habilitado"
+    "rate-limit-mode": "Límite de Velocidad habilitado"
   }
 }
