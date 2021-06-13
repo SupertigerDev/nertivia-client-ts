@@ -13,7 +13,7 @@
     "not-connected-server": "Sin conección",
     "attach-message": "Adjuntar un mensaje",
     "type-message": "¡Escribe un mensaje!",
-    "back-to-bottom": "Bajar",
+    "back-to-bottom": "Volver al inicio",
     "new-messages": "Nuevos mensajes"
   },
   "upload-dialog": {
@@ -47,7 +47,7 @@
       "manage-emojis": "Gestionar emojis",
       "startup-options": "Opciones de inicio",
       "program-activity": "Program Activity",
-      "manage-bots": "Gestionar bots",
+      "manage-bots": "Gestionar Bots",
       "interface": "Interfaz",
       "language": "Idioma",
       "delete-account": "Eliminar cuenta",
@@ -84,8 +84,8 @@
       "notice": "Para usar esta característica debes descargar la app para escritorio de Nertivia."
     },
     "manage-bots": {
-      "details": "Crea bots al que le daremos acceso a nuestra API de bots",
-      "command-notice": "Añade comandos para hacer que los usuarios sepan facilmente que comandos tiene tu bot.",
+      "details": "Crea Bots al que le daremos acceso a nuestra API de Bots",
+      "command-notice": "Añade comandos para hacer que los usuarios sepan facilmente que comandos tiene tu Bot.",
       "create-bot-button": "Crear Bot",
       "add-command-button": "Añadir comando",
       "edit-bot": "Gestionar Bot",
@@ -96,7 +96,7 @@
       "show-token": "Mostrar Token",
       "copy-token": "Copiar Token",
       "reset-token": "Restablecer Token",
-      "delete-bot": "Eliminar bot"
+      "delete-bot": "Eliminar Bot"
     },
     "delete-account": {
       "notice": "Estás apunto de eliminar tu cuenta",
@@ -105,7 +105,7 @@
       "messages-sent": "Tus mensajes enviados en servidores publicos",
       "requirements": "Requisitos",
       "delete-leave-server": "Salir/Eliminar todos tus servidores",
-      "delete-bots": "Eliminar todos tus bots",
+      "delete-bots": "Eliminar todos tus Bots",
       "delete-account-button": "Eliminar cuenta"
     },
     "language": {
@@ -160,11 +160,11 @@
       "manage-channels": "Canales",
       "manage-roles": "Roles",
       "manage-invites": "Invitaciones",
-      "server-visibility": "Visibilidad del server",
+      "server-visibility": "Visibilidad del servidor",
       "manage-notification": "Notificaciones",
       "banned-users": "Usuarios baneados",
       "manage-users": "Usuarios",
-      "delete-server": "Eliminar server"
+      "delete-server": "Eliminar servidor"
     },
     "manage-roles": {
       "manage-your-roles": "Configura los roles de tu servidor.",
@@ -184,14 +184,14 @@
       "general-server-settings": "Configuracion general"
     },
      "manage-channels": {
-      "manage-your-channels": "Gestiona tus Canales.",
-      "delete-channel": "Borrar Canal",
-      "deleting-channel": "Borrando Canal...",
-      "channel-name": "Nombre del Canal",
+      "manage-your-channels": "Gestiona tus canales.",
+      "delete-channel": "Borrar canal",
+      "deleting-channel": "Borrando canal...",
+      "channel-name": "Nombre del canal",
       "default-channel-notice": "Este es un canal por defecto. Puedes cambiar el canal por defecto en la página general. Los canales por defecto no pueden ser eliminados.",
-      "create-new-channel": "Crear Nuevo Canal",
+      "create-new-channel": "Crear nuevo canal",
       "permission": {
-        "send-message": "Enviar Mensajes"
+        "send-message": "Enviar mensajes"
       },
       "rate-limit-seconds": "Limite de Velocidad (segundos)",
       "text-channel": "Canal de texto",
@@ -267,7 +267,7 @@
     "online": "Activo",
     "away": "Ausente",
     "busy": "Ocupado",
-    "looking-to-play": "Queriendo jugar"
+    "looking-to-play": "Con ganas de jugar"
   },
   "right-drawer": {
     "server-members": "Usuarios ({0})",
