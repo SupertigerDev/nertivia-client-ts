@@ -1,23 +1,313 @@
 {
-  "save-changes": "Guarder cambios",
-  "saving": "Ahorro...",
-  "are-you-sure": "¿Estas seguro?",
-  "copy-id-button": "Copia ID",
+  "save-changes": "Guardar cambios",
+  "saving": "Guardando...",
+  "back": "Volver",
+  "are-you-sure": "¿Estás seguro?",
+  "copy-id-button": "Copiar ID",
   "time": {
     "today-at": "Hoy a {0}",
     "yesterday-at": "Ayer a {0}"
   },
+  "message-area": {
+    "no-message-perm": "No tienes permisos para hablar en este canal.",
+    "not-connected-server": "Sin conección",
+    "attach-message": "Adjuntar un mensaje",
+    "type-message": "¡Escribe un mensaje!",
+    "back-to-bottom": "Volver al inicio",
+    "new-messages": "Nuevos mensajes"
+  },
+  "upload-dialog": {
+    "compress": "Comprimir",
+    "upload-to": "Subir a"
+  },
   "user-context": {
-    "view-profile": "Ve Perfil",
-    "edit-roles": "Editar Roles",
-    "kick": "Patada",
-    "ban": "Prohibicíon",
-    "copy-user-tag": "Copiar Usuario:Marbete"
+    "view-profile": "Ver perfil",
+    "edit-roles": "Editar roles",
+    "kick": "Echar",
+    "ban": "Banear",
+    "copy-user-tag": "Copiar Tag"
+  },
+  "message-context": {
+    "quote": "Citar",
+    "edit": "Editar"
+  },
+  "server-context": {
+    "mark-as-read": "Marcar como leído",
+    "server-settings": "Configurar servidor",
+    "leave-server": "Salir del servidor"
+  },
+  "channel-context": {
+    "mute-channel": "Silenciar canal",
+    "unmute-channel": "Activar sonido del canal"
+  },
+  "settings": {
+    "tab-names": {
+      "account": "Cuenta",
+      "notification": "Notificaciones",
+      "manage-emojis": "Gestionar emojis",
+      "startup-options": "Opciones de inicio",
+      "program-activity": "Program Activity",
+      "manage-bots": "Gestionar Bots",
+      "interface": "Interfaz",
+      "language": "Idioma",
+      "delete-account": "Eliminar cuenta",
+      "changelog": "Historial de cambios",
+      "wip-features": "Caracteristicas experimentales"
+    },
+    "account": {
+      "title": "Editar perfil",
+      "change-password": "Cambiar contraseña",
+      "relink-google-drive": "Re-conectar Google Drive",
+      "link-google-drive": "Conectar Google Drive",
+      "more-profile": "Configuraciones extra",
+      "more-profile-notice": "¡Esta información la puede ver todo el mundo!"
+    },
+    "notification": {
+      "title": "Configuracion de notificaciones.",
+      "notification-sound": "Sonido en notificaciones",
+      "notification-sound-details": "Las notificaciones harán un sonido para conseguir tu atención",
+      "push-notification": "Push Notification",
+      "push-notification-details": "Notificaciones visibles en tu pantalla, solo se mostraran cuando Nertivia este oculto"
+    },
+    "manage-emojis": {
+      "details": "¡Sube emojis gratuitamente! (Su peso no debe superar los 3MB).",
+      "supported-types": "Extensiones soportadas: png, jpg, gif",
+      "add-emojis-button": "Añadir emojis"
+    },
+    "startup-options": {
+      "title": "Opciones de inicio",
+      "notice": "Necesitas el cliente de escritorio para modificar estas opciones.",
+      "open-on-startup": "Abrir Nertivia al inicio"
+    },
+    "program-activity": {
+      "details": "Comparte programas o juegos que estés usando añadiendo apps abajo. Esto va a remplazar tu estatus personalizable cuando un programa es abierto y se revertirá cuando el programa este cerrado.",
+      "notice": "Para usar esta característica debes descargar la app para escritorio de Nertivia."
+    },
+    "manage-bots": {
+      "details": "Crea Bots al que le daremos acceso a nuestra API de Bots",
+      "command-notice": "Añade comandos para hacer que los usuarios sepan facilmente que comandos tiene tu Bot.",
+      "create-bot-button": "Crear Bot",
+      "add-command-button": "Añadir comando",
+      "edit-bot": "Gestionar Bot",
+      "edit-commands": "Configurar comandos",
+      "create-invite-link": "Crear link de invitación",
+      "copy-invite-url": "Copiar link de invitación",
+      "manage-token": "Gestionar Token",
+      "show-token": "Mostrar Token",
+      "copy-token": "Copiar Token",
+      "reset-token": "Restablecer Token",
+      "delete-bot": "Eliminar Bot"
+    },
+    "delete-account": {
+      "notice": "Estás apunto de eliminar tu cuenta",
+      "what-gets-deleted": "Lo que se va a eliminar",
+      "what-wont-delete": "Lo que NO se va a eliminar",
+      "messages-sent": "Tus mensajes enviados en servidores publicos",
+      "requirements": "Requisitos",
+      "delete-leave-server": "Salir/Eliminar todos tus servidores",
+      "delete-bots": "Eliminar todos tus Bots",
+      "delete-account-button": "Eliminar cuenta"
+    },
+    "language": {
+      "details": "Puede que despues de cambiar el idioma debas reiniciar Nertivia para que se apliquen los cambios. Puedes contribuir enviando una PR a nuestro repo de GitHub",
+      "translators": "Traductores"
+    },
+    "interface": {
+      "description": "Cambia la apariencia de Nertivia.",
+      "colors": "Colores",
+      "default-theme": "Tema por defecto",
+      "amoled-dark": "AMOLED oscuro",
+      "halloween-2020": "Halloween 2020",
+      "predefined-themes": "Temas pre-definidos",
+      "custom-css": "CSS customizable",
+      "color-scheme": "Esquema de colores"
+    },
+    "wip-features": {
+      "title": "Habilita caracteristicas en proceso o experimentales.",
+      "none-available": "No hay caracteristicas WIP por ahora."
+    }
+  },
+  "server-settings": {
+    "permissions": {
+      "permissions": "Permisos",
+      "admin": {
+        "name": "Administrador",
+        "info": "Habilitar TODOS los permisos"
+      },
+      "send-messages": {
+        "name": "Enviar mensajes",
+        "info": "Enviar mensajes en canales"
+      },
+      "manage-roles": {
+        "name": "Configurar roles",
+        "info": "Actualizar o borrar roles"
+      },
+      "manage-channels": {
+        "name": "Configurar canales",
+        "info": "Actualizar o borrar canales"
+      },
+      "kick-user": {
+        "name": "Echar",
+        "info": "Echar a un usuario del servidor"
+      },
+      "ban-user": {
+        "name": "Ban",
+        "info": "Echa a un usuario e impide que vuelva a entrar"
+      }
+    },
+    "tab-names": {
+      "general": "General",
+      "manage-channels": "Canales",
+      "manage-roles": "Roles",
+      "manage-invites": "Invitaciones",
+      "server-visibility": "Visibilidad del servidor",
+      "manage-notification": "Notificaciones",
+      "banned-users": "Usuarios baneados",
+      "manage-users": "Usuarios",
+      "delete-server": "Eliminar servidor"
+    },
+    "manage-roles": {
+      "manage-your-roles": "Configura los roles de tu servidor.",
+      "default-role": "Rol por defecto",
+      "bot-role": "Rol de Bot",
+      "create-role": "Crear un rol",
+      "notice-bot": "Este rol no puede ser eliminado ni asignado a otros miembros ya que fue creado para un bot. Remueve el bot para eliminar el rol.",
+      "notice-default": "Este rol no se puede quitar de usuarios ya que es el rol por defecto aplicado a cada miembro.",
+      "pick-role-color": "Color del rol",
+      "role-name": "Nombre del rol",
+      "settings": "Configuraciones",
+      "delete-role": "Eliminar rol",
+      "deleting-role": "Elimando rol...",
+      "hide-role": "Esconder rol"
+    },
+    "general": {
+      "general-server-settings": "Configuracion general"
+    },
+     "manage-channels": {
+      "manage-your-channels": "Gestiona tus canales.",
+      "delete-channel": "Borrar canal",
+      "deleting-channel": "Borrando canal...",
+      "channel-name": "Nombre del canal",
+      "default-channel-notice": "Este es un canal por defecto. Puedes cambiar el canal por defecto en la página general. Los canales por defecto no pueden ser eliminados.",
+      "create-new-channel": "Crear nuevo canal",
+      "permission": {
+        "send-message": "Enviar mensajes"
+      },
+      "rate-limit-seconds": "Limite de Velocidad (segundos)",
+      "text-channel": "Canal de texto",
+      "html-channel": "Canal HTML (WIP)"
+    },
+    "banned-users": {
+      "notice": "Desbanea usuarios desde aquí",
+      "unbanning": "Desbaneando...",
+      "unban": "Desbanear"
+    },
+    "manage-invites": {
+      "notice": "Solo los administradores pueden ver todas las invitaciones.",
+      "create-invites": "Crear invitaciones",
+      "custom-invite": "Invitación personalizada",
+      "save-custom-link": "Guardar link personalizado",
+      "create-invite": "Crear invitación",
+      "link": "Link",
+      "creator": "Creada por",
+      "uses": "Usos"
+    },
+    "manage-users": {
+      "search-user": "Buscar usuario"
+    },
+    "delete-server": {
+      "type-server-name-to-confirm": "Escribe el nombre del servidor para confirmar",
+      "deleting": "Eliminando..."
+    },
+    "notifications": {
+      "description": "Configurar notificaciones.",
+      "notice": "Los cambios que hagas solo se aplicarán a ti y no a otros usuarios.",
+      "enable-notifications": "Habilitar notificaciones",
+      "mute-sound": "Silenciar notificaciones",
+      "disable-notifications": "Deshabilitar notificaciones"
+    }
+  },
+  "typing-status": {
+    "is-typing": "{0} está escribiendo...",
+    "two-are-typing": "{0} y {1} están escribiendo...",
+    "three-are-typing": "{0}, {1} y {2} están escribiendo...",
+    "more-than-three": "{0} usuarios están escribiendo..."
   },
   "dm-tab": {
     "friends": "Amigos",
-    "recents": "Recientes",
-    "saved-notes": "Salvado notas",
-    "add-friend": "Agregar Amigo"
+    "recents": "Reciente",
+    "saved-notes": "Notas guardadas",
+    "add-friend": "Añadir amigo"
+  },
+  "dashboard-tab": {
+    "profile": "Perfil",
+    "notifications": "Notificaciones",
+    "click-to-add-custom-status": "Clickea para agregar un estado personalizado",
+    "caught-up": "¡Al día!",
+    "direct-messages": "Mensajes directos",
+    "servers": "Servidores",
+    "explore": "Explora",
+    "dashboard": "Dashboard"
+  },
+  "add-friend-popout": {
+    "notice": "Para añadir a un amigo escribe su nombre de usuario y su etiqueta.",
+    "adding": "Añadiendo..."
+  },
+  "add-server-popout": {
+    "title": "Añadir servidor",
+    "join-server-notice": "Únete a un servidor con una invitación.",
+    "create-server-notice": "Crea un servidor. Primero elije el nombre.",
+    "tabs": {
+      "join": "Unirse",
+      "create": "Crear"
+    }
+  },
+  "presence": {
+    "offline": "Invisible",
+    "online": "Activo",
+    "away": "Ausente",
+    "busy": "Ocupado",
+    "looking-to-play": "Con ganas de jugar"
+  },
+  "right-drawer": {
+    "server-members": "Usuarios ({0})",
+    "server-offline-members": "Desconectados ({0})"
+  },
+  "profile-popout": {
+    "common-friends": "Amigos en común",
+    "badges": "Insignias",
+    "joined-at": "Entró",
+    "suspended": "Suspendido",
+    "remove-friend": "Quitar de amigos",
+    "accept-request": "Aceptar solicitud",
+    "cancel-request": "Cancelar solicitud",
+    "add-friend": "Añadir amigo",
+    "send-message": "Enviar mensaje",
+    "common-servers": "Servidores en común"
+  },
+  "connection": {
+    "loading": "Cargando...",
+    "ready": "¡Listo!",
+    "authenticating": "Autenticando..."
+  },
+  "navbar": {
+    "update": "Actualizar",
+    "update-available": "¡Actualización disponible!"
+  },
+  "generic": {
+    "copy": "Copiar",
+    "delete": "Eliminar",
+    "copied": "¡Copiado!",
+    "user": "Usuario"
+  },
+  "messages": {
+    "left": "nos ha abandonado",
+    "kicked": "fue echado",
+    "banned": "ha sido baneado",
+    "joined": "se ha unido"
+  },
+  "could-not-connect-to-server": "No se pudo conectar al servidor.",
+  "chat-area": {
+    "rate-limit-mode": "Límite de Velocidad habilitado"
   }
 }

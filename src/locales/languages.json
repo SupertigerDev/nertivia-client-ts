@@ -25,7 +25,12 @@
   "es": {
     "name": "Spanish / Español",
     "unicode": "🇪🇸",
-    "translators": ["Ender"]
+    "translators": [
+      "ribet",
+      "Fat soldier",
+      "Ar1l",
+      "Ender"
+    ]
   },
   "owo": {
     "name": "owo",
