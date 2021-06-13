@@ -32,7 +32,7 @@
     "edit": "Editar"
   },
   "server-context": {
-    "mark-as-read": "Marcar como leido",
+    "mark-as-read": "Marcar como leído",
     "server-settings": "Configurar servidor",
     "leave-server": "Salir del servidor"
   },
@@ -65,7 +65,7 @@
     "notification": {
       "title": "Configuracion de notificaciones.",
       "notification-sound": "Sonido en notificaciones",
-      "notification-sound-details": "Las notificaciones harán un sonido para conseguir tu atencion",
+      "notification-sound-details": "Las notificaciones harán un sonido para conseguir tu atención",
       "push-notification": "Push Notification",
       "push-notification-details": "Notificaciones visibles en tu pantalla, solo se mostraran cuando Nertivia este oculto"
     },
@@ -90,8 +90,8 @@
       "add-command-button": "Añadir comando",
       "edit-bot": "Gestionar Bot",
       "edit-commands": "Configurar comandos",
-      "create-invite-link": "Crear link de invitacion",
-      "copy-invite-url": "Copiar link de invitacion",
+      "create-invite-link": "Crear link de invitación",
+      "copy-invite-url": "Copiar link de invitación",
       "manage-token": "Gestionar Token",
       "show-token": "Mostrar Token",
       "copy-token": "Copiar Token",
@@ -267,7 +267,7 @@
     "online": "Activo",
     "away": "Ausente",
     "busy": "Ocupado",
-    "looking-to-play": "Queriendo jugar"
+    "looking-to-play": "Buscando jugar"
   },
   "right-drawer": {
     "server-members": "Usuarios ({0})",
@@ -287,12 +287,12 @@
   },
   "connection": {
     "loading": "Cargando...",
-    "ready": "Listo!",
+    "ready": "¡Listo!",
     "authenticating": "Autenticando..."
   },
   "navbar": {
     "update": "Actualizar",
-    "update-available": "Actualización disponible!"
+    "update-available": "¡Actualización disponible!"
   },
   "generic": {
     "copy": "Copiar",
