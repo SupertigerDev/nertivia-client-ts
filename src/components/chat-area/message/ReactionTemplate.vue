@@ -110,3 +110,9 @@ export default class MessageSide extends Vue {
   }
 }
 </style>
+<style>
+.reaction .emoji {
+  height: 1.5em;
+  width: 1.5em;
+}
+</style>
