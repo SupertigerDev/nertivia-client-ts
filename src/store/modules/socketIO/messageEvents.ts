@@ -140,35 +140,15 @@ const actions: ActionTree<any, any> = {
     if (reactedByMe === true) {
       data.reaction.reacted = true;
     }
-    if (unReactedByMe && data.reaction) {
+    if (unReactedByMe) {
       data.reaction.reacted = false;
     }
-
-    const message = MessagesModule.messages[data.channelID]?.find(m => m.messageID === data.messageID);
-    if (!message) return;
-    const newReactions = [...(message?.reactions || [])]
-    const reactionIndex = newReactions.findIndex(r => {
-      if (data.reaction.emojiID && data.reaction.emojiID === r.emojiID) {
-        return true;
-      }
-      return data.reaction.unicode && data.reaction.unicode ===r.unicode 
-    });
-
-    if (data.unReactedByUserID && data.reaction.count === 0) {
-      Vue.delete(newReactions, reactionIndex);
-    } else if (reactionIndex < 0) {
-      newReactions.push(data.reaction)
-    } else {
-      newReactions[reactionIndex] = {...newReactions[reactionIndex], ...data.reaction}
-    }
-    
-    MessagesModule.UpdateMessage({
+    MessagesModule.UpdateMessageReaction({
       channelID: data.channelID,
       messageID: data.messageID,
-      message: {
-        reactions: newReactions
-      }
-    });
+      reaction: data.reaction,
+      removeIfZero: true,
+    })
   }
 
 };

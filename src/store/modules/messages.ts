@@ -13,7 +13,7 @@ import {
   postMessage
 } from "@/services/messagesService";
 import ky from "ky";
-import Message from "@/interfaces/Message";
+import Message, { Reaction } from "@/interfaces/Message";
 import Vue from "vue";
 import { MeModule } from "./me";
 import { ChannelsModule } from "./channels";
@@ -347,7 +347,42 @@ class Messages extends VuexModule {
       this.DeleteChannelMessages(channel.channelID);
     }
   }
+  
+  @Action
+  public UpdateMessageReaction(data: {channelID: string, messageID: string, reaction: Partial<Reaction>, removeIfZero: boolean}) {
+    const message = this.messages[data.channelID]?.find(m => m.messageID === data.messageID);
+    if (!message) return;
+    let reactionIndex = message.reactions?.findIndex(r => {
+      if (data.reaction.emojiID && data.reaction.emojiID === r.emojiID) {
+        return true;
+      }
+      return data.reaction.unicode && data.reaction.unicode ===r.unicode 
+    });
+    if (reactionIndex === undefined) reactionIndex = -1;
+    this.UPDATE_MESSAGE_REACTION({message, reaction: data.reaction, reactionIndex, removeIfZero: data.removeIfZero})
+  }
 
+  @Mutation
+  private UPDATE_MESSAGE_REACTION(payload: {message: Message, reaction: Partial<Reaction>, reactionIndex: number, removeIfZero: boolean}) {
+    const reactions = payload.message.reactions || []
+    if (payload.reaction.count === 0) {
+      if (!payload.message.reactions) return;
+      if (reactions.length === 0) return;
+      if (payload.reactionIndex < 0) return;
+      if (payload.removeIfZero) {
+        Vue.delete(payload.message.reactions, payload.reactionIndex)
+        return;
+      } 
+    }
+    if (payload.reactionIndex < 0 || !reactions[payload.reactionIndex]) {
+      reactions.push(payload.reaction as any)
+      Vue.set(payload.message, "reactions", reactions);
+    } else {
+      if (!payload.message.reactions) return;
+      Vue.set(payload.message.reactions, payload.reactionIndex, {...reactions[payload.reactionIndex], ...payload.reaction});
+    }
+    
+  }
   @Mutation
   private UPDATE_LAST_MESSAGE_SENT(payload: {
     channelID: string;

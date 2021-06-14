@@ -12,6 +12,7 @@
 <script lang="ts">
 import Message, { Reaction } from "@/interfaces/Message";
 import { addReaction, removeReaction } from "@/services/messagesService";
+import { MessagesModule } from "@/store/modules/messages";
 import twemoji from "twemoji";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
@@ -20,6 +21,7 @@ export default class MessageSide extends Vue {
   @Prop() private reaction!: Reaction;
   @Prop() private message!: Message;
   hover = true;
+  requestSent = false;
 
   reactionClicked() {
     if (!this.reaction.reacted) {
@@ -30,18 +32,34 @@ export default class MessageSide extends Vue {
   }
   addReaction() {
     if (!this.message.messageID) return;
+    if (this.requestSent) return;
+    this.requestSent = true;
+    MessagesModule.UpdateMessageReaction({
+      channelID: this.message.channelID,
+      messageID: this.message.messageID,
+      reaction: { ...this.reaction, count: this.reaction.count + 1 },
+      removeIfZero: false
+    });
     addReaction(this.message.channelID, this.message.messageID, {
       emojiID: this.reaction.emojiID,
       gif: this.reaction.gif,
       unicode: this.reaction.unicode
-    });
+    }).finally(() => (this.requestSent = false));
   }
   removeReaction() {
     if (!this.message.messageID) return;
+    if (this.requestSent) return;
+    this.requestSent = true;
+    MessagesModule.UpdateMessageReaction({
+      channelID: this.message.channelID,
+      messageID: this.message.messageID,
+      reaction: { ...this.reaction, count: this.reaction.count - 1 },
+      removeIfZero: false
+    });
     removeReaction(this.message.channelID, this.message.messageID, {
       emojiID: this.reaction.emojiID,
       unicode: this.reaction.unicode
-    });
+    }).finally(() => (this.requestSent = false));
   }
 
   get channelIconHTML() {
@@ -89,7 +107,6 @@ export default class MessageSide extends Vue {
   }
   &:hover {
     background: rgba(0, 0, 0, 0.4);
-    color: var(--primary-color);
   }
 }
 </style>
