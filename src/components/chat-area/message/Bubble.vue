@@ -177,9 +177,9 @@ $pointer-size: 10px;
 .image-embed .message {
   margin-top: 4px;
 }
-.image-embed {
-  display: table-caption;
-}
+// .image-embed {
+//   display: table-caption;
+// }
 
 .details {
   display: flex;
