@@ -53,6 +53,22 @@ class Messages extends VuexModule {
   get lastSentStamp() {
     return (id: string) => this.lastMessageSent[id];
   }
+
+  get messageReaction() {
+    return (payload: {messageID: string, channelID: string, emojiID?: string, unicode?: string}) => {
+      const messages = this.messages[payload.channelID];
+      const message = messages?.find(m => m.messageID === payload.messageID);
+      if (!message) return undefined;
+      if (!message.reactions?.length) return undefined;
+      return message.reactions?.find(r => {
+        if (payload.emojiID && payload.emojiID  === r.emojiID) {
+          return true;
+        }
+        return payload.unicode && payload.unicode ===r.unicode 
+      });
+
+    }
+  }
   @Mutation
   private SET_CHANNEL_MESSAGES(payload: {
     messages: Message[] | null;

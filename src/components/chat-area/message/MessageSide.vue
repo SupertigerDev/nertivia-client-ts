@@ -1,8 +1,13 @@
 <template>
   <div class="message-options">
-    <span class="material-icons options-button" @click="messageContext">
-      more_vert
-    </span>
+    <div class="hor-buttons">
+      <span class="material-icons options-button" @click="messageContext">
+        more_vert
+      </span>
+      <span class="material-icons options-button" @click="openReaction">
+        add_reaction
+      </span>
+    </div>
     <span
       class="material-icons message-status"
       v-if="sendingStatus"
@@ -32,6 +37,18 @@ export default class MessageSide extends Vue {
         y: event.pageY,
         message: this.message,
         tempUser: this.message.creator
+      }
+    });
+  }
+  openReaction(event: MouseEvent) {
+    PopoutsModule.ShowPopout({
+      id: "message-reaction-picker",
+      component: "MessageReactionEmojiPicker",
+      data: {
+        messageID: this.message.messageID,
+        channelID: this.message.channelID,
+        x: event.pageX,
+        y: event.pageY
       }
     });
   }

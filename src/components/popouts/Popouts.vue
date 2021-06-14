@@ -108,6 +108,10 @@ const components = {
   AdminUnsuspendUser: () =>
     import(
       /* webpackChunkName: "AdminUnsuspendUser" */ "@/components/popouts/admin-popouts/UnsuspendUser.vue"
+    ),
+  MessageReactionEmojiPicker: () =>
+    import(
+      /* webpackChunkName: "MessageReactionEmojiPicker" */ "@/components/popouts/MessageReactionEmojiPicker.vue"
     )
 };
 
