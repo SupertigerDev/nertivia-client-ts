@@ -54,13 +54,19 @@ class Messages extends VuexModule {
     return (id: string) => this.lastMessageSent[id];
   }
 
-  get messageReaction() {
-    return (payload: {messageID: string, channelID: string, emojiID?: string, unicode?: string}) => {
+  get messageReactions() {
+    return (payload: {messageID: string, channelID: string}) => {
       const messages = this.messages[payload.channelID];
       const message = messages?.find(m => m.messageID === payload.messageID);
       if (!message) return undefined;
       if (!message.reactions?.length) return undefined;
-      return message.reactions?.find(r => {
+      return message.reactions;
+    }
+  }
+  get messageReaction() {
+    return (payload: {messageID: string, channelID: string, emojiID?: string, unicode?: string}) => {
+      const reactions = this.messageReactions(payload)
+      return reactions?.find(r => {
         if (payload.emojiID && payload.emojiID  === r.emojiID) {
           return true;
         }

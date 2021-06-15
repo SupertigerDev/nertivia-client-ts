@@ -37,6 +37,23 @@ export default class extends Vue {
   emojiPicked(event: { unicode: string; gif: boolean; emojiID: string }) {
     PopoutsModule.ClosePopout(this.identity);
 
+    const reactions = MessagesModule.messageReactions({
+      messageID: this.data.messageID,
+      channelID: this.data.channelID
+    });
+
+    if (reactions && reactions?.length > 10) {
+      PopoutsModule.ShowPopout({
+        id: "add-reaction-limit-reached",
+        component: "generic-popout",
+        data: {
+          title: "Reaction Limit",
+          description: "Reaction limit reached for this message."
+        }
+      });
+      return;
+    }
+
     let oldReaction: Reaction | undefined = MessagesModule.messageReaction({
       messageID: this.data.messageID,
       channelID: this.data.channelID,
