@@ -1,5 +1,14 @@
 [
 	{
+		"version": "1.37.1-stable",
+		"date": "15 June 2021",
+		"title": "Reacted Users List",
+		"new": [
+			"You can now see who reacted to messages by hovering over a reaction. Full list popout coming soon.",
+			"Alt + Shift + Up/Down to switch between unread channels. (Thanks to Toby)"
+		]
+	},
+	{
 		"version": "1.37.0-stable",
 		"date": "14 June 2021",
 		"title": "Message Reactions!",

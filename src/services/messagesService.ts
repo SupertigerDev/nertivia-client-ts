@@ -1,6 +1,7 @@
 import wrapper from "./wrapper";
 import Message from "@/interfaces/Message";
 import Vue from "vue";
+import User from "@/interfaces/User";
 
 const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
 
@@ -57,6 +58,23 @@ export function addReaction(
     .post(`messages/${messageID}/channels/${channelID}/reactions`, {
       json: reaction
     })
+    .json();
+}
+export function getReactedUsers(
+  channelID: string,
+  messageID: string,
+  limit: number,
+  emojiID?: string,
+  unicode?: string
+): Promise<User[]> {
+  const searchParams: any = {limit}
+  if (emojiID) {
+    searchParams.emojiID = emojiID;
+  } else {
+    searchParams.unicode = unicode;
+  }
+  return wrapper()
+    .get(`messages/${messageID}/channels/${channelID}/reactions/users`, {searchParams})
     .json();
 }
 export function removeReaction(

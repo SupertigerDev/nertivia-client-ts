@@ -359,11 +359,25 @@ export default {
   background: var(--card-color);
   border-radius: 4px;
   border: solid 1px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
   transition: 0.3s;
   z-index: 99999;
   height: 352px;
   width: 375px;
   overflow: hidden;
+  opacity: 0;
+  animation: showUp 0.2s;
+  animation-fill-mode: forwards;
+}
+@keyframes showUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 .emojis-list {
   display: flex;

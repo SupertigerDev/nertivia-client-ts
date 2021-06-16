@@ -112,6 +112,10 @@ const components = {
   MessageReactionEmojiPicker: () =>
     import(
       /* webpackChunkName: "MessageReactionEmojiPicker" */ "@/components/popouts/MessageReactionEmojiPicker.vue"
+    ),
+  ReactedUsersPreview: () =>
+    import(
+      /* webpackChunkName: "ReactedUsersPreview" */ "@/components/popouts/ReactedUsersPreview.vue"
     )
 };
 

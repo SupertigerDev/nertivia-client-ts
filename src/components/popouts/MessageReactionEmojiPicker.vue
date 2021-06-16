@@ -120,33 +120,17 @@ export default class extends Vue {
 <style lang="scss" scoped>
 .context {
   pointer-events: all;
-  background: var(--context-menu-bg-color);
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
   position: absolute;
   border-radius: 4px;
-  overflow: hidden;
   z-index: 99999999999;
 }
 .content {
   display: flex;
   flex-direction: column;
-  opacity: 0;
-  animation: showUp 0.2s;
-  animation-fill-mode: forwards;
 }
-.emoji-picker {
+.emoji-picker.emoji-panel {
   position: relative;
   bottom: initial;
   right: initial;
-}
-@keyframes showUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 </style>
