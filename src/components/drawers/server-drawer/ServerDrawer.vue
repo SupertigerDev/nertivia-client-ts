@@ -42,6 +42,8 @@ import { Component, Vue } from "vue-property-decorator";
 
 import ChannelTemplate from "@/components/drawers/server-drawer/ChannelTemplate.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
+import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
+
 @Component({ components: { ChannelTemplate } })
 export default class ServerDrawer extends Vue {
   bannerHover = false;
@@ -57,13 +59,22 @@ export default class ServerDrawer extends Vue {
     if (!event.altKey) return;
     const arrowUp = event.key === "ArrowUp";
     const arrowDown = event.key === "ArrowDown";
-    if (arrowUp || arrowDown) {
-      arrowUp && this.gotoPreviousChannel();
-      arrowDown && this.gotoNextChannel();
-      event.preventDefault();
+    if (arrowUp) {
+      if (event.shiftKey) {
+        this.goToPreviousUnreadChannel();
+      } else {
+        this.goToPreviousChannel();
+      }
+    } else if (arrowDown) {
+      if (event.shiftKey) {
+        this.goToNextUnreadChannel();
+      } else {
+        this.goToNextChannel();
+      }
     }
+    event.preventDefault();
   }
-  gotoPreviousChannel() {
+  goToPreviousChannel() {
     const channels = this.selectedServerChannels;
     const currentChannelIndex = channels.findIndex(
       c => c.channelID === this.selectedDetails.channel_id
@@ -80,7 +91,40 @@ export default class ServerDrawer extends Vue {
       params: { channel_id: channelID }
     });
   }
-  gotoNextChannel() {
+  goToPreviousUnreadChannel() {
+    const servers = ServersModule.sortedServers;
+    const allUnreadChannelIds = LastSeenServerChannelsModule.allServerNotifications.map(
+      notification => notification.channelID
+    );
+    if (allUnreadChannelIds.length === 0) return;
+
+    const channels = servers
+      .map(server => ChannelsModule.sortedServerChannels(server.server_id))
+      .flatMap(serverChannels => serverChannels.map(channel => channel));
+
+    const startIndex = channels.findIndex(
+      channel => channel.channelID === this.selectedDetails.channel_id
+    );
+    if (startIndex === -1) {
+      throw new Error("Couldn't find currently selected channel.");
+    }
+
+    let currentIndex = startIndex;
+    do {
+      currentIndex--;
+      if (currentIndex === -1) currentIndex = channels.length - 1;
+      if (allUnreadChannelIds.includes(channels[currentIndex].channelID)) break;
+    } while (currentIndex !== startIndex);
+
+    this.$router.push({
+      params: {
+        server_id:
+          channels[currentIndex].server_id ?? this.selectedDetails.server_id,
+        channel_id: channels[currentIndex].channelID
+      }
+    });
+  }
+  goToNextChannel() {
     const channels = this.selectedServerChannels;
     const currentChannelIndex = channels.findIndex(
       c => c.channelID === this.selectedDetails.channel_id
@@ -95,6 +139,38 @@ export default class ServerDrawer extends Vue {
     const channelID = channels[gotoIndex].channelID;
     this.$router.push({
       params: { channel_id: channelID }
+    });
+  }
+  goToNextUnreadChannel() {
+    const servers = ServersModule.sortedServers;
+    const allUnreadChannelIds = LastSeenServerChannelsModule.allServerNotifications.map(
+      notification => notification.channelID
+    );
+    if (allUnreadChannelIds.length === 0) return;
+
+    const channels = servers
+      .map(server => ChannelsModule.sortedServerChannels(server.server_id))
+      .flatMap(serverChannels => serverChannels.map(channel => channel));
+
+    const startIndex = channels.findIndex(
+      channel => channel.channelID === this.selectedDetails.channel_id
+    );
+    if (startIndex === -1) {
+      throw new Error("Couldn't find currently selected channel.");
+    }
+
+    let currentIndex = startIndex;
+    do {
+      currentIndex = ++currentIndex % channels.length;
+      if (allUnreadChannelIds.includes(channels[currentIndex].channelID)) break;
+    } while (currentIndex !== startIndex);
+
+    this.$router.push({
+      params: {
+        server_id:
+          channels[currentIndex].server_id ?? this.selectedDetails.server_id,
+        channel_id: channels[currentIndex].channelID
+      }
     });
   }
   showServerContext(event: any) {
