@@ -12,6 +12,7 @@ import Vue from "vue";
 import { MeModule } from "./me";
 import { MutedChannelsModule } from "./mutedChannels";
 import { MutedServersModule } from "./mutedServers";
+import Channel from "@/interfaces/Channel";
 interface LastSeenObj {
   [key: string]: number;
 }
@@ -27,7 +28,7 @@ class LastSeenServerChannels extends VuexModule {
 
   get allServerNotifications() {
     const channelIDArr = Object.keys(ChannelsModule.channels);
-    const res: any = [];
+    const res: (Channel & { mentioned?: boolean })[] = [];
     for (let i = 0; i < channelIDArr.length; i++) {
       const channelID = channelIDArr[i];
       const notificationExists = this.serverChannelNotification(channelID);
@@ -59,7 +60,7 @@ class LastSeenServerChannels extends VuexModule {
         return {
           ...channel,
           mentioned: notification && notification.mentioned
-        };
+        } as Channel & { mentioned?: boolean };
       }
       return undefined;
     };

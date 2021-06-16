@@ -117,7 +117,7 @@ interface ReturnedChannel {
   channelID: string;
   name?: string;
   server_id?: string;
-  icon?: string | null
+  icon?: string | null;
   lastMessaged: number;
   permissions?: ChannelPermissions;
   rateLimit?: number;

@@ -42,11 +42,10 @@ export function fetchMessagesAround(
     .json();
 }
 
-
 export interface PostReaction {
-  emojiID?: string,
-  gif?: boolean,
-  unicode?: string
+  emojiID?: string;
+  gif?: boolean;
+  unicode?: string;
 }
 
 export function addReaction(
@@ -55,7 +54,9 @@ export function addReaction(
   reaction: PostReaction
 ): Promise<any> {
   return wrapper()
-    .post(`messages/${messageID}/channels/${channelID}/reactions`, {json: reaction})
+    .post(`messages/${messageID}/channels/${channelID}/reactions`, {
+      json: reaction
+    })
     .json();
 }
 export function removeReaction(
@@ -64,7 +65,9 @@ export function removeReaction(
   reaction: PostReaction
 ): Promise<any> {
   return wrapper()
-    .delete(`messages/${messageID}/channels/${channelID}/reactions`, {json: reaction})
+    .delete(`messages/${messageID}/channels/${channelID}/reactions`, {
+      json: reaction
+    })
     .json();
 }
 

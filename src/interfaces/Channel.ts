@@ -7,7 +7,7 @@ export default interface Channel extends DmChannel {
   server_id?: string;
   permissions?: ServerPermissions;
   rateLimit?: number;
-  icon?: string | undefined
+  icon?: string | undefined;
 }
 interface ServerPermissions {
   send_message?: boolean;
