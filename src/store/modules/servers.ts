@@ -23,7 +23,7 @@ class Servers extends VuexModule {
     const servers = Object.values(this.servers);
     if (!this.serverPosition) return servers;
     const tempServers = [...servers];
-    const sortServers: any = [];
+    const sortServers: Server[] = [];
     for (let i = 0; i < this.serverPosition.length; i++) {
       const serverID = this.serverPosition[i];
       const index = tempServers.findIndex(s => s.server_id === serverID);
