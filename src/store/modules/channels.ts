@@ -126,7 +126,7 @@ class Channels extends VuexModule {
     if (!channels?.length) return;
     for (let i = 0; i < channels.length; i++) {
       const channel = channels[i];
-      NotificationsModule.DeleteNotification(channel.channelID)
+      NotificationsModule.DeleteNotification(channel.channelID);
       this.RemoveChannel(channel.channelID);
     }
   }

@@ -13,7 +13,6 @@ export interface ServerResponse {
   total_members: number;
 }
 
-
 export function getServers(
   param = "?verified=true"
 ): Promise<ServerResponse[]> {
@@ -49,14 +48,14 @@ export function deleteServer(server_id: string): Promise<any> {
 }
 // themes
 export interface PublicTheme {
-  approved: boolean
-  css: string
-  description: string
-  id: string
-  name: string
-  screenshot?: string
-  updatedCss: boolean
-  compatible_client_version?: string
+  approved: boolean;
+  css: string;
+  description: string;
+  id: string;
+  name: string;
+  screenshot?: string;
+  updatedCss: boolean;
+  compatible_client_version?: string;
 }
 
 export function getPublicTheme(themeID: string): Promise<any> {
@@ -77,49 +76,53 @@ export function updatePublicTheme(themeID: string, data: any): Promise<any> {
 export async function applyPublicTheme(themeID: string): Promise<any> {
   return await wrapper()
     .get(`explore/themes/${themeID}/apply`)
-    .json<Theme>().then(async theme => {
+    .json<Theme>()
+    .then(async theme => {
       return {
         ...theme,
-        css: await unzip(theme.css) || theme.css
+        css: (await unzip(theme.css)) || theme.css
       };
-    })
+    });
 }
 export async function likeTheme(themeID: string): Promise<any> {
   return await wrapper()
     .post(`explore/themes/${themeID}/like`)
-    .json()
+    .json();
 }
 export async function unlikeTheme(themeID: string): Promise<any> {
   return await wrapper()
     .delete(`explore/themes/${themeID}/like`)
-    .json()
+    .json();
 }
 
 export interface PublicThemeResponse {
-  creator: User
-  description: string
-  id: string
-  screenshot: string
-  theme: { name: string, id: string }
-  likes?: number
-  liked?: boolean
+  creator: User;
+  description: string;
+  id: string;
+  screenshot: string;
+  theme: { name: string; id: string };
+  likes?: number;
+  liked?: boolean;
 }
 type SortTheme = "compatible";
 type FilterTheme = "compatible";
 
-export function getPublicThemes(sort?: SortTheme, filter?: FilterTheme, version?: string): Promise<PublicThemeResponse[]> {
-  let params = "?"
+export function getPublicThemes(
+  sort?: SortTheme,
+  filter?: FilterTheme,
+  version?: string
+): Promise<PublicThemeResponse[]> {
+  let params = "?";
   if (sort) {
     params += `sort=${sort}&`;
   }
   if (filter) {
-    if (filter !== "compatible")
-      params += `filter=${filter}&`;
+    if (filter !== "compatible") params += `filter=${filter}&`;
   }
   if (version) {
     params += `version=${version}&`;
   }
-  params = params.slice(0, -1)
+  params = params.slice(0, -1);
 
   return wrapper()
     .get(`explore/themes${params}`)

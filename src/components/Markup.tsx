@@ -95,12 +95,10 @@ function transformEntity(h: CreateElement, entity: Entity, ctx: RenderContext) {
     case "codeblock": {
       const lang = entity.params.lang;
       const value = sliceText(ctx, entity.innerSpan);
-      return h(CodeBlock, { props: { lang, value } })
+      return h(CodeBlock, { props: { lang, value } });
     }
     case "spoiler": {
-      return (
-        <Spoiler>{transformEntities(h, entity, ctx)}</Spoiler>
-      )
+      return <Spoiler>{transformEntities(h, entity, ctx)}</Spoiler>;
     }
     case "blockquote": {
       return <blockquote>{transformEntities(h, entity, ctx)}</blockquote>;
@@ -144,11 +142,11 @@ function transformCustomEntity(
   const expr = sliceText(ctx, entity.innerSpan, { countText: false });
   switch (type) {
     case "@": {
-      let user = ctx.props.message?.mentions?.find(m => m.id === expr)
+      let user = ctx.props.message?.mentions?.find(m => m.id === expr);
       if (!user) {
         user = UsersModule.users[expr];
       }
-      
+
       if (user) {
         ctx.textCount += expr.length;
         return h(MentionUser, {

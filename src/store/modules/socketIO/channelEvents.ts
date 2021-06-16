@@ -47,7 +47,7 @@ const actions: ActionTree<any, any> = {
     context,
     data: { channelID: string; server_id: string }
   ) {
-    NotificationsModule.DeleteNotification(data.channelID)
+    NotificationsModule.DeleteNotification(data.channelID);
     ChannelsModule.RemoveChannel(data.channelID);
   },
 

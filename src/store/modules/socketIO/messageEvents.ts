@@ -49,11 +49,11 @@ function playNotificationSound(
 }
 
 interface MessageReaction {
-  channelID: string,
-  messageID: string,
-  reactedByUserID?: string,
-  unReactedByUserID?: string,
-  reaction: Reaction
+  channelID: string;
+  messageID: string;
+  reactedByUserID?: string;
+  unReactedByUserID?: string;
+  reaction: Reaction;
 }
 
 const actions: ActionTree<any, any> = {
@@ -147,10 +147,9 @@ const actions: ActionTree<any, any> = {
       channelID: data.channelID,
       messageID: data.messageID,
       reaction: data.reaction,
-      removeIfZero: true,
-    })
+      removeIfZero: true
+    });
   }
-
 };
 
 export default {
