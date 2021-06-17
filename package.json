@@ -18,7 +18,7 @@
     "jsonhtmlfyer": "^0.2.1",
     "ky": "^0.27.0",
     "match-sorter": "^6.3.0",
-    "nertivia-markup": "^0.9.1",
+    "nertivia-markup": "^0.10.1",
     "pako": "^1.0.11",
     "register-service-worker": "^1.7.1",
     "seeded-color": "^1.0.1",
@@ -39,9 +39,9 @@
     "vuex-module-decorators": "^1.0.1"
   },
   "devDependencies": {
+    "@types/highlight.js": "^10.1.0",
     "@types/pako": "^1.0.1",
     "@types/twemoji": "^12.1.1",
-    "@types/highlight.js": "^10.1.0",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "@vue/cli-plugin-babel": "~4.5.0",
