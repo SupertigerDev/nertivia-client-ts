@@ -127,6 +127,27 @@ function transformEntity(h: CreateElement, entity: Entity, ctx: RenderContext) {
       const url = sliceText(ctx, entity.innerSpan);
       return h(Link, { props: { url } });
     }
+    case "color": {
+      const { color } = entity.params;
+      const lastCount = ctx.textCount
+      let el
+      if (color.startsWith("#")) {
+        el = h(
+          "span",
+          { style: { color } },
+          transformEntities(h, entity, ctx),
+        );
+      } else {
+        el = transformEntities(h, entity, ctx)
+      }
+
+      if(lastCount !== ctx.textCount) {
+        return el
+      } else {
+        return sliceText(ctx, entity.outerSpan)
+      }
+
+    }
     default: {
       throw new UnreachableCaseError(entity);
     }
@@ -148,7 +169,7 @@ function transformCustomEntity(
       if (!user) {
         user = UsersModule.users[expr];
       }
-      
+
       if (user) {
         ctx.textCount += expr.length;
         return h(MentionUser, {
