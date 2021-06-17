@@ -8,7 +8,7 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 
 @Component
 export default class ElectronActivityHandler extends Vue {
-  programActivityTimeout: NodeJS.Timeout | null = null;
+  programActivityTimeout: number | null = null;
   currentActiveProgram: { name: string; status: string } | null = null;
   render() {
     return null;

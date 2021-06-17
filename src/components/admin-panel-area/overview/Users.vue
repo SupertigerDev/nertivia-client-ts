@@ -38,7 +38,7 @@ import UserTemplate from "./UserTemplate.vue";
 export default class Users extends Vue {
   users: ExpandedUser[] | null = null;
   searchInput = "";
-  timeout: NodeJS.Timeout | null = null;
+  timeout: number | null = null;
   mounted() {
     this.fetchUsers();
   }

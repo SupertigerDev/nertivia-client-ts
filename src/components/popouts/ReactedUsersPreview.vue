@@ -28,7 +28,7 @@ import User from "@/interfaces/User";
 import { getReactedUsers } from "@/services/messagesService";
 import { MessagesModule } from "@/store/modules/messages";
 import { MeModule } from "@/store/modules/me";
-interface Prop {
+interface IProp {
   messageID: string;
   channelID: string;
   emojiID?: string;
@@ -38,7 +38,7 @@ interface Prop {
 }
 @Component({ components: { AvatarImage } })
 export default class extends Vue {
-  @Prop() private data!: Prop;
+  @Prop() private data!: IProp;
   @Prop() private identity!: string;
   users: User[] | null = null;
   height = 0;

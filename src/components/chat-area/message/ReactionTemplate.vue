@@ -29,7 +29,7 @@ export default class MessageSide extends Vue {
   @Prop() private message!: Message;
   hover = false;
   requestSent = false;
-  timeout: NodeJS.Timeout | null = null;
+  timeout: number | null = null;
 
   getReactedUsers() {
     const rect = this.$el.getBoundingClientRect();

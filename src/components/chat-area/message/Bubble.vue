@@ -39,7 +39,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import friendlyDate from "@/utils/date";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { PopoutsModule } from "@/store/modules/popouts";
-import Markup from "@/components/Markup.tsx";
+import Markup from "@/components/Markup";
 import VideoPlayer from "./VideoPlayer.vue";
 import Invite from "@/interfaces/Invite";
 

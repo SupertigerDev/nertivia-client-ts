@@ -42,13 +42,13 @@
     "@types/highlight.js": "^10.1.0",
     "@types/pako": "^1.0.1",
     "@types/twemoji": "^12.1.1",
-    "@typescript-eslint/eslint-plugin": "^2.33.0",
-    "@typescript-eslint/parser": "^2.33.0",
-    "@vue/cli-plugin-babel": "~4.5.0",
+    "@typescript-eslint/eslint-plugin": "^4.27.0",
+    "@typescript-eslint/parser": "^4.27.0",
+    "@vue/cli-plugin-babel": "~4.5.13",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-pwa": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-typescript": "~4.5.0",
+    "@vue/cli-plugin-typescript": "~4.5.13",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/eslint-config-prettier": "^6.0.0",
@@ -59,7 +59,7 @@
     "prettier": "^1.19.1",
     "sass": "^1.32.8",
     "sass-loader": "^8.0.2",
-    "typescript": "~3.9.3",
+    "typescript": "~4.3.3",
     "vue-cli-plugin-i18n": "~2.1.0",
     "vue-template-compiler": "^2.6.11"
   },
@@ -84,7 +84,8 @@
       "@typescript-eslint/camelcase": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-var-requires": 0,
-      "@typescript-eslint/no-use-before-define": "warn"
+      "@typescript-eslint/no-use-before-define": "warn",
+      "@typescript-eslint/explicit-module-boundary-types": "off"
     }
   },
   "browserslist": [

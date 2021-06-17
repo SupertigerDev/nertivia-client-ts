@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import Message, { Button } from "@/interfaces/Message";
-import Markup from "@/components/Markup.tsx";
+import Markup from "@/components/Markup";
 import { buttonClick } from "@/services/messagesService";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { Component, Prop, Vue } from "vue-property-decorator";
@@ -17,7 +17,7 @@ export default class MessageSide extends Vue {
   @Prop() private button!: Button;
   @Prop() private message!: Message;
   posting = false;
-  timeout: NodeJS.Timeout | null = null;
+  timeout: number | null = null;
   click() {
     if (this.posting) return;
     if (!this.message.messageID) return;

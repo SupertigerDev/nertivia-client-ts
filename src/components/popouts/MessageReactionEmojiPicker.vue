@@ -19,7 +19,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import { addReaction } from "@/services/messagesService";
 import { MessagesModule } from "@/store/modules/messages";
 import { Reaction } from "@/interfaces/Message";
-interface Prop {
+interface IProp {
   messageID: string;
   channelID: string;
   x: number;
@@ -27,7 +27,7 @@ interface Prop {
 }
 @Component({ components: { EmojiPicker } })
 export default class extends Vue {
-  @Prop() private data!: Prop;
+  @Prop() private data!: IProp;
   @Prop() private identity!: string;
   clickOutside(event: any) {
     if (event.target.closest(".context")) return;

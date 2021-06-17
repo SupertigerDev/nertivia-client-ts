@@ -38,7 +38,7 @@ import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
 import { programActivitiesModule } from "@/store/modules/memberProgramActivity";
 import { PresencesModule } from "@/store/modules/presences";
 import { Component, Prop, Vue } from "vue-property-decorator";
-import Markup from "@/components/Markup.tsx";
+import Markup from "@/components/Markup";
 
 @Component({ components: { Markup } })
 export default class UserStatusTemplate extends Vue {

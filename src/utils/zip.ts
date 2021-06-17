@@ -16,8 +16,7 @@ export function unzip(base64: string) {
 
 export function unzipAlt(base64: string) {
   try {
-    const binaryString = Buffer.from(base64, "base64").toString();
-    return pako.inflate(binaryString, { to: "string" });
+    return pako.inflate(base64, { to: "string" });
   } catch {
     return null;
   }
