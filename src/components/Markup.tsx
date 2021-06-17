@@ -127,24 +127,19 @@ function transformEntity(h: CreateElement, entity: Entity, ctx: RenderContext) {
     }
     case "color": {
       const { color } = entity.params;
-      const lastCount = ctx.textCount
-      let el
+      const lastCount = ctx.textCount;
+      let el;
       if (color.startsWith("#")) {
-        el = h(
-          "span",
-          { style: { color } },
-          transformEntities(h, entity, ctx),
-        );
+        el = h("span", { style: { color } }, transformEntities(h, entity, ctx));
       } else {
-        el = transformEntities(h, entity, ctx)
+        el = transformEntities(h, entity, ctx);
       }
 
-      if(lastCount !== ctx.textCount) {
-        return el
+      if (lastCount !== ctx.textCount) {
+        return el;
       } else {
-        return sliceText(ctx, entity.outerSpan)
+        return sliceText(ctx, entity.outerSpan);
       }
-
     }
     default: {
       throw new UnreachableCaseError(entity);

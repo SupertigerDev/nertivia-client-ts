@@ -67,14 +67,16 @@ export function getReactedUsers(
   emojiID?: string,
   unicode?: string
 ): Promise<User[]> {
-  const searchParams: any = {limit}
+  const searchParams: any = { limit };
   if (emojiID) {
     searchParams.emojiID = emojiID;
   } else {
     searchParams.unicode = unicode;
   }
   return wrapper()
-    .get(`messages/${messageID}/channels/${channelID}/reactions/users`, {searchParams})
+    .get(`messages/${messageID}/channels/${channelID}/reactions/users`, {
+      searchParams
+    })
     .json();
 }
 export function removeReaction(
