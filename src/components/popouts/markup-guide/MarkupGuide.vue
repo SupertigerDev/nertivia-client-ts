@@ -57,6 +57,10 @@ export default class MarkupGuide extends Vue {
         example: "~~Strikethrough~~"
       },
       {
+        title: "Spoiler",
+        example: "||Spoiler||"
+      },
+      {
         title: "Inline Code",
         example: "`Inline Code`"
       },
@@ -100,7 +104,7 @@ export default class MarkupGuide extends Vue {
   display: flex;
   background: var(--popout-color);
   border-radius: 4px;
-  width: 430px;
+  width: 480px;
   max-height: 600px;
   overflow: hidden;
 }
@@ -164,7 +168,7 @@ export default class MarkupGuide extends Vue {
   .title {
   }
   .usage {
-    width: 180px;
+    flex: 1;
     flex-shrink: 0;
     background: var(--card-color);
     border-radius: 4px;
