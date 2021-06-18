@@ -7,18 +7,21 @@ import { ServerMembersModule } from "@/store/modules/serverMembers";
 import Markup from "@/components/Markup";
 import { eventBus } from "@/utils/globalBus";
 import Vue from "vue";
+import Message from "@/interfaces/Message";
 
 export default Vue.extend({
   components: { AvatarImage, Markup },
   props: {
-    quote: Object,
-    user: Object,
+    quote: Object as () => Quote,
+    user: Object as () => User,
+    nestedLevel: Number,
+    message: Object as () => Message,
   },
   render(h) {
     const AvatarBuilder = (creator: any) => {
       return h(AvatarImage, {
         nativeOn: {
-          click: this.showProfile
+          click: this.showProfile,
         },
         props: {
           seedId: creator.id,
@@ -38,15 +41,23 @@ export default Vue.extend({
         keyboard_arrow_up
       </div>
     );
-    const MarkupBuilder = this.quote.message && h(Markup, {props: {text: this.quote.message, largeEmoji:false}})
+
+    const MarkupBuilder = this.quote.message && h(Markup, {
+      props: {
+        text: this.quote.message,
+        message: this.message,
+        largeEmoji: false,
+        nestedLevel: this.nestedLevel,
+        messageQuoteFormat: this.nestedLevel >= 2 ? "hidden" : "normal",
+      },
+    });
 
     const ContentBuilder = (
       <div class="content">
         <div class="details">
-          <div
-            class="username"
-            onClick={this.showProfile}
-          >{this.quote.creator.username}</div>
+          <div class="username" onClick={this.showProfile}>
+            {this.quote.creator.username}
+          </div>
         </div>
         <div class="message">{this.failMessage || MarkupBuilder}</div>
       </div>

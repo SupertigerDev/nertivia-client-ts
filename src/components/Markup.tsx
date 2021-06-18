@@ -25,12 +25,13 @@ import {
 import "./Markup.scss";
 import emojiParser from "@/utils/emojiParser";
 import { VNode } from "vue/types/umd";
-import User from "@/interfaces/User";
 
 interface MarkupProps {
   text: string;
   largeEmoji: boolean;
   message?: Message;
+  nestedLevel?: number;
+  messageQuoteFormat?: "normal" | "text" | "hidden";
 }
 
 type RenderContext = Vue.RenderContext<MarkupProps> & {
@@ -182,13 +183,20 @@ function transformCustomEntity(
       break;
     }
     case "Q": {
+      const quoteFormat = ctx.props.messageQuoteFormat;
+      if (quoteFormat === "hidden") {
+        ctx.textCount += expr.length;
+        return "";
+      }
       const quote = ctx.props.message?.quotes.find(q => q.messageID === expr);
-      if (quote) {
+      if (quote && quoteFormat != "text") {
         ctx.textCount += expr.length;
         return h(MessageQuote, {
           props: {
             quote,
-            user: quote.creator
+            user: quote.creator,
+            message: ctx.props.message,
+            nestedLevel: (ctx.props.nestedLevel ?? 0) + 1
           }
         });
       }
@@ -246,8 +254,10 @@ export default Vue.extend<MarkupProps>({
   functional: true,
   props: {
     text: String,
+    message: Object,
     largeEmoji: Boolean,
-    message: Object
+    nestedLevel: Number,
+    messageQuoteFormat: String as () => MarkupProps["messageQuoteFormat"]
   },
   render(h, renderContext) {
     renderContext.props.text = replaceOldMentions(renderContext.props.text);
