@@ -11,6 +11,7 @@
   "dependencies": {
     "@hcaptcha/vue-hcaptcha": "^0.3.0",
     "@simonwep/pickr": "^1.8.0",
+    "base64-arraybuffer": "^0.1.4",
     "core-js": "^3.6.5",
     "filesize": "^3.6.1",
     "firebase": "^8.2.9",
