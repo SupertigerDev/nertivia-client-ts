@@ -1,6 +1,6 @@
 <script lang="tsx">
 import Vue from "vue";
-import { unzip } from "@/utils/zip";
+import { unzipAlt } from "@/utils/zip";
 import { JsonInput } from "jsonhtmlfyer";
 import Markup from "@/components/Markup";
 import { PopoutsModule } from "@/store/modules/popouts";
@@ -13,7 +13,7 @@ export default Vue.extend<Props>({
   render(h, { props }) {
     let obj: any = {};
     try {
-      obj = JSON.parse(unzip(props.compressedJSON) || "");
+      obj = JSON.parse(unzipAlt(props.compressedJSON) || "");
     } catch {
       return <div />;
     }

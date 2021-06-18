@@ -10,6 +10,15 @@ const textDecoder = new TextDecoder();
 
 export function unzip(base64: string) {
   try {
+    const binaryString = atob(base64);
+    return pako.inflate(binaryString, { to: "string" });
+  } catch {
+    return null;
+  }
+}
+
+export function unzipAlt(base64: string) {
+  try {
     const base64buf: ArrayBuffer = Base64.decode(base64);
     return pako.inflate(textDecoder.decode(base64buf), { to: "string" });
   } catch (err) {
