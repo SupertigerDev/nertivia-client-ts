@@ -21,6 +21,10 @@
       <img src="@/assets/kofi-logo.png" alt="" />
       <div class="name">Support me on Ko-fi</div>
     </a>
+    <div class="item" @click="showMarkupGuide">
+      <div class="material-icons">menu_book</div>
+      <div class="name">Markup Guide</div>
+    </div>
     <div class="item" @click="showChangelog">
       <div class="material-icons">description</div>
       <div class="name">Changelog</div>
@@ -45,6 +49,12 @@ export default class MainApp extends Vue {
     DrawersModule.SetLeftDrawer(false);
 
     this.$router.push({ params: { tab: path } });
+  }
+  showMarkupGuide() {
+    PopoutsModule.ShowPopout({
+      id: "markup-guide",
+      component: "markup-guide"
+    });
   }
   showChangelog() {
     PopoutsModule.ShowPopout({

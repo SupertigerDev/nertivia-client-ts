@@ -10,25 +10,29 @@ export default Vue.extend({
     text: String
   },
   render(h, { props }) {
+    let sanitizedUrl = props.url;
+    if (!props.url.startsWith("http")) {
+      sanitizedUrl = "https://" + props.url;
+    }
     const clicked = (event: any) => {
-      const text = props.text ?? props.url;
-      if (text !== props.url) {
+      const text = props.text ?? sanitizedUrl;
+      if (text !== sanitizedUrl) {
         event.preventDefault();
         PopoutsModule.ShowPopout({
           id: "html-embed-url-sus",
           component: "OpenLinkConfirm",
-          data: { url: props.url }
+          data: { url: sanitizedUrl }
         });
       }
     };
     return (
       <a
-        href={props.url}
+        href={sanitizedUrl}
         target="_blank"
         rel="noopener noreferrer"
         onclick={clicked}
       >
-        {props.text ?? props.url}
+        {props.text ?? sanitizedUrl}
       </a>
     );
   }

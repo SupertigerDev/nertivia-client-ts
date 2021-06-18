@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.38.1-stable",
+		"date": "18 June 2021",
+		"title": "Markup Guide",
+		"new": "Added markup guide and can be accessed through settings."
+	},
+	{
 		"version": "1.38.0-stable",
 		"date": "17 June 2021",
 		"title": "Markup colors! (by bree)",

@@ -19,6 +19,7 @@ import {
   changeCssVar,
   setThemeColor
 } from "@/utils/customCssVars";
+import { PopoutsModule } from "./store/modules/popouts";
 
 @Component({ components: { WindowControl, Popouts } })
 export default class App extends Vue {
