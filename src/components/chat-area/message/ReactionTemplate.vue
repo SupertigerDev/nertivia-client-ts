@@ -27,10 +27,15 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 export default class MessageSide extends Vue {
   @Prop() private reaction!: Reaction;
   @Prop() private message!: Message;
+  @Prop() private animate!: boolean;
+
   hover = false;
   requestSent = false;
   timeout: number | null = null;
 
+  beforeDestroy() {
+    PopoutsModule.ClosePopout("reacted-users-preview");
+  }
   getReactedUsers() {
     const rect = this.$el.getBoundingClientRect();
     PopoutsModule.ShowPopout({
@@ -106,7 +111,7 @@ export default class MessageSide extends Vue {
     if (isCustom) {
       image.src = `${process.env.VUE_APP_NERTIVIA_CDN}emojis/${
         this.reaction.emojiID
-      }.${isGif ? "gif" : "png"}${!this.hover && isGif ? "?type=webp" : ""}`;
+      }.${isGif ? "gif" : "png"}${!this.animate && isGif ? "?type=webp" : ""}`;
     } else {
       if (!this.reaction.unicode) return image;
       image.src =

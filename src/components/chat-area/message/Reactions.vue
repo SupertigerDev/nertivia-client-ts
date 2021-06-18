@@ -5,6 +5,7 @@
       :key="reaction.emojiID || reaction.unicode"
       :reaction="reaction"
       :message="message"
+      :animate="animate"
     />
   </div>
 </template>
@@ -17,6 +18,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 @Component({ components: { ReactionTemplate } })
 export default class Reactions extends Vue {
   @Prop() private message!: Message;
+  @Prop() private animate!: boolean;
   get buttons() {
     return this.message.buttons;
   }

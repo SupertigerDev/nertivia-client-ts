@@ -34,6 +34,7 @@
         </div>
         <Reactions
           v-if="message.reactions && message.reactions.length"
+          :animate="hover"
           :message="message"
         />
         <ButtonsMessage
