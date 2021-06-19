@@ -17,19 +17,22 @@
     </transition>
     <transition name="slide-fade" mode="out-in" appear v-if="server">
       <div class="bottom">
-        <div
+        <ul
           class="channels"
           :key="server.server_id"
           :style="{
             transitionDelay: server && server.banner ? '0.2s' : '0.1s'
           }"
+        > 
+        <li 
+          v-for="channel in selectedServerChannels"
+          :key="channel.channelID"
         >
           <ChannelTemplate
-            v-for="channel in selectedServerChannels"
-            :key="channel.channelID"
             :channel="channel"
           />
-        </div>
+        </li>
+        </ul>
       </div>
     </transition>
   </div>
@@ -227,21 +230,22 @@ export default class ServerDrawer extends Vue {
   transform: scale(0.9);
   opacity: 0;
 }
-.bottom {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+
+.server-drawer, .bottom, .channels {
+  height: 100%;
 }
+
 .channels {
   display: flex;
   flex-direction: column;
-  overflow: auto;
-}
-.server-drawer {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  gap: 0.5rem;
+  
   width: 250px;
+  
+  padding: 0;
+
+  list-style: none;
+  overflow: hidden;
 }
 
 .server-banner {

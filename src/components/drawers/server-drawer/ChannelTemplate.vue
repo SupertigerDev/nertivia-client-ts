@@ -7,20 +7,14 @@
     @mouseout.native="hover = false"
     :class="{
       selected: isChannelSelected,
-      hasNotification: notificationExists
+      hasNotification: notificationExists,
+      hasIcon: iconURL != null,
     }"
+    :style="channelStyle"
     @contextmenu.prevent.native="showContext"
   >
-    <div v-if="channelIconHTML" v-html="channelIconHTML" class="outer-emoji" />
-    <div v-else class="dot"></div>
+    <div class="icon" aria-hidden="true"></div>
     <div class="name">{{ channel.name }}</div>
-    <div
-      v-if="notificationExists && notificationExists.mentioned"
-      class="notification dot mentioned"
-    >
-      {{ notificationExists.mentioned ? "@" : "" }}
-    </div>
-    <div class="muted material-icons" v-if="isMuted">notifications_off</div>
   </router-link>
 </template>
 
@@ -41,6 +35,7 @@ export default class ChannelTemplate extends Vue {
   closeDrawer() {
     DrawersModule.SetLeftDrawer(false);
   }
+
   showContext(event: any) {
     PopoutsModule.ShowPopout({
       id: "context",
@@ -50,145 +45,133 @@ export default class ChannelTemplate extends Vue {
         x: event.clientX,
         y: event.clientY,
         server_id: this.channel.server_id,
-        channelID: this.channel.channelID
-      }
+        channelID: this.channel.channelID,
+      },
     });
   }
+
   get path() {
     return `/app/servers/${this.channel.server_id}/${this.channel.channelID}`;
   }
+
   get notificationExists() {
     return LastSeenServerChannelsModule.serverChannelNotification(
       this.channel.channelID
     );
   }
+
   get isMuted() {
     return MutedChannelsModule.mutedChannels.includes(this.channel.channelID);
   }
+
   get isChannelSelected() {
     return this.$route.params.channel_id === this.channel.channelID;
   }
-  get channelIconHTML() {
+
+  get iconURL() {
     const icon = this.channel.icon;
-    if (!icon) return null;
+
+    if (!icon) {
+      return null;
+    }
+
     const isCustom = icon.startsWith("g_") || icon.startsWith("c_");
     const isGif = icon.startsWith("g_");
     const customEmojiID = icon.split("_")[1];
 
-    const image = new Image();
-    image.classList.add("emoji");
-
     if (isCustom) {
-      image.src = `${process.env.VUE_APP_NERTIVIA_CDN}emojis/${customEmojiID}.${
+      return `${process.env.VUE_APP_NERTIVIA_CDN}emojis/${customEmojiID}.${
         isGif ? "gif" : "png"
       }${!this.hover && isGif ? "?type=webp" : ""}`;
     } else {
-      image.src =
+      return (
         process.env.VUE_APP_TWEMOJI_LOCATION +
         twemoji.convert.toCodePoint(icon).replace("-fe0f", "") +
-        ".svg";
+        ".svg"
+      );
     }
+  }
 
-    return image.outerHTML;
+  get channelStyle() {
+    return {
+      "--icon-url": this.iconURL && `url("${this.iconURL}")`,
+    };
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .channel {
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  color: rgba(255, 255, 255, 0.7);
-  margin: 4px;
-  height: 30px;
-  user-select: none;
-  position: relative;
-  flex-shrink: 0;
-  overflow: hidden;
-  content-visibility: auto;
-  contain-intrinsic-size: 30px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: 0.2s;
-  &:before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 3px;
-    bottom: 0;
-  }
+  display: grid;
+  grid-template-columns: 1rem 1fr;
+  grid-template-rows: min-content;
+  gap: 0.25rem;
 
-  &:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
-  &.selected {
-    background: rgba(255, 255, 255, 0.1);
-    &:before {
-      background: var(--primary-color);
-    }
-    color: white;
-    .dot {
-      opacity: 1;
-    }
-  }
-  &.hasNotification {
-    &:before {
-      background: var(--alert-color);
-    }
-  }
-}
-.name {
+  align-content: center;
+
+  block-size: 2rem;
+  content-visibility: auto;
+  contain-intrinsic-size: 2rem;
+
+  margin-inline: 0.5rem;
+  padding-inline: 0.5rem 0.5rem;
+
+  border-inline-start: 3px solid transparent;
+  border-radius: 3px;
+
+  color: rgb(255 255 255 / 0.7);
+
+  text-decoration: none;
+  user-select: none;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.1;
-}
-.dot {
-  height: 7px;
-  width: 7px;
-  opacity: 0.7;
-  background: white;
-  margin-left: 10px;
-  margin-right: 10px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  &.notification {
-    height: 10px;
-    width: 10px;
-    background: var(--alert-color);
-    margin: auto;
-    margin-right: 10px;
-    opacity: 1;
-  }
-  &.mentioned {
-    color: white;
-    align-items: center;
-    align-content: center;
-    justify-content: center;
-    display: flex;
-    font-size: 12px;
-    width: 20px;
-    height: 20px;
-  }
-}
-.muted {
-  font-size: 18px;
-  margin-left: auto;
-  margin-right: 5px;
-  opacity: 0.4;
-}
-</style>
 
-<style>
-.channel.channel-template .outer-emoji {
-  height: 23px;
+  &:hover {
+    background: rgb(255 255 255 / 0.1);
+  }
+
+  &.selected,
+  &.hasNotification {
+    border-start-start-radius: 0px;
+    border-end-start-radius: 0px;
+  }
+
+  &.hasNotification {
+    border-color: var(--alert-color);
+  }
+
+  &.selected {
+    color: white;
+    background: rgb(255 255 255 / 0.1);
+    border-color: var(--primary-color);
+  }
 }
-.channel.channel-template .emoji {
-  margin-left: 6px;
-  margin-right: 3px;
-  height: 17px;
-  width: 17px;
+
+.icon {
+  overflow: hidden;
+  align-self: center;
+  justify-self: center;
+
+  display: flex;
+}
+
+.channel:not(.hasIcon) .icon {
+  width: 0.5rem;
+  height: 0.5rem;
+  background: currentColor;
+  border-radius: 100%;
+}
+
+.hasIcon .icon {
+  width: 1rem;
+  height: 1rem;
+  background-image: var(--icon-url);
+  background-size: cover;
+}
+
+.name {
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
