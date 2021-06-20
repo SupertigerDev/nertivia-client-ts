@@ -12,7 +12,7 @@ export default {
         draggable="false"
         title={emoji.annotation}
         alt={emoji.annotation}
-        src={emojiParser.emojiPath(emoji.unicode)}
+        src={emojiParser.twemojiPath(emoji.unicode)}
       />
     );
   }
