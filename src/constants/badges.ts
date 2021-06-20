@@ -17,7 +17,7 @@ export interface Badge {
 }
 
 // when adding a new badge, place it in the order you want and add lastest key * 2 as the new key.
-export const badges: { [key: number]: Badge } = {
+export const badges: Record<number, Badge> = {
   1: {
     name: "Creator",
     iconURL: process.env.VUE_APP_TWEMOJI_LOCATION + "/1f451.svg",
