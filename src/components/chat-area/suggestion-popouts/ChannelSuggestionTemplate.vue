@@ -1,46 +1,93 @@
 <template>
-  <div class="channel" :class="{ selected }">
-    <div class="dot" />
+  <div
+    class="channel"
+    :class="{ selected, hasIcon: iconURL != null }"
+    :style="channelStyle"
+  >
+    <picture class="icon" aria-hidden="true" />
     <div class="name">{{ item.name }}</div>
   </div>
 </template>
 
 <script lang="ts">
 import Channel from "@/interfaces/Channel";
+import { emojiURL } from "@/utils/emojiParser";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class ChannelSuggestionTemplate extends Vue {
   @Prop() private item!: Channel;
   @Prop() private selected!: boolean;
+
+  get iconURL() {
+    const icon = this.item.icon;
+    if (!icon) return null;
+    return emojiURL(icon);
+  }
+
+  get channelStyle() {
+    return {
+      "--icon-url": this.iconURL && `url("${this.iconURL}")`
+    };
+  }
 }
 </script>
 <style scoped lang="scss">
 .channel {
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1rem 1fr;
+  grid-template-rows: min-content;
+  gap: 0.25rem;
+
   align-content: center;
-  height: 25px;
+
+  block-size: 2rem;
+  content-visibility: auto;
+  contain-intrinsic-size: 2rem;
+
+  padding-inline: 0.5rem 0.5rem;
+
+  border-inline-start: 3px solid transparent;
+
+  color: rgb(255 255 255 / 0.7);
+
   cursor: pointer;
   user-select: none;
-  color: rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+  text-decoration: none;
+  overflow: hidden;
+
   &.selected {
     background: var(--primary-color);
     color: white;
-    .dot {
-      background: white;
-    }
   }
 }
-.dot {
-  height: 7px;
-  width: 7px;
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 50%;
-  margin-right: 5px;
-  margin-left: 5px;
+
+.icon {
+  overflow: hidden;
+  align-self: center;
+  justify-self: center;
+
+  display: flex;
 }
+
+.channel:not(.hasIcon) .icon {
+  width: 0.5rem;
+  height: 0.5rem;
+  background: currentColor;
+  border-radius: 100%;
+}
+
+.hasIcon .icon {
+  width: 1rem;
+  height: 1rem;
+  background-image: var(--icon-url);
+  background-size: cover;
+}
+
 .name {
-  margin-right: 5px;
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
