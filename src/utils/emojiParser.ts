@@ -8,14 +8,14 @@ import { CustomEmojisModule } from "@/store/modules/customEmojis";
 const U200D = String.fromCharCode(0x200d);
 const UFE0Fg = /\uFE0F/g;
 
-export const twemojiIconId = (emoji: string) =>
+export const twemojiCodepoints = (emoji: string) =>
   twemoji.convert.toCodePoint(
     emoji.indexOf(U200D) < 0 ? emoji.replace(UFE0Fg, "") : emoji
   );
 
 /** Returns the path of the twemoji */
 export const twemojiPath = (emoji: string) =>
-  `${process.env.VUE_APP_TWEMOJI_LOCATION}${twemojiIconId(emoji)}.svg`;
+  `${process.env.VUE_APP_TWEMOJI_LOCATION}${twemojiCodepoints(emoji)}.svg`;
 
 interface EmojiURLOptions {
   animated?: boolean;
@@ -70,9 +70,9 @@ export const emojiToShortcode = (message: string) => {
 };
 
 export const replaceEmojis = (message: string) => {
-  return twemoji.parse(message, function(icon) {
-    if (!icon) return message;
-    return twemojiPath(icon);
+  return twemoji.parse(message, function(codepoint) {
+    if (!codepoint) return message;
+    return `${process.env.VUE_APP_TWEMOJI_LOCATION}${codepoint}.svg`;
   });
 };
 
@@ -106,7 +106,7 @@ export default {
   searchEmoji,
   findEmoji,
   twemojiPath,
-  twemojiIconId,
+  twemojiCodepoints,
   allEmojis: emojis,
   allGroups: groups
 };
