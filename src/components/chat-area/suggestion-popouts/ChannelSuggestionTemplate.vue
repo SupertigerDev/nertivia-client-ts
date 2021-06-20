@@ -25,7 +25,7 @@ export default class ChannelSuggestionTemplate extends Vue {
     const isCustom = icon.startsWith("g_") || icon.startsWith("c_");
     const isGif = icon.startsWith("g_");
     const customEmojiID = icon.split("_")[1];
-    return emojiURL(customEmojiID, { isCustom, isGif });
+    return emojiURL(isCustom ? customEmojiID : icon, { isCustom, isGif });
   }
 
   get channelStyle() {
