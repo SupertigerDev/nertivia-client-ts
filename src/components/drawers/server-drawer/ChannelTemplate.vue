@@ -8,7 +8,7 @@
     :class="{
       selected: isChannelSelected,
       hasNotification: notificationExists,
-      hasIcon: iconURL != null,
+      hasIcon: iconURL != null
     }"
     :style="channelStyle"
     @contextmenu.prevent.native="showContext"
@@ -45,8 +45,8 @@ export default class ChannelTemplate extends Vue {
         x: event.clientX,
         y: event.clientY,
         server_id: this.channel.server_id,
-        channelID: this.channel.channelID,
-      },
+        channelID: this.channel.channelID
+      }
     });
   }
 
@@ -94,7 +94,7 @@ export default class ChannelTemplate extends Vue {
 
   get channelStyle() {
     return {
-      "--icon-url": this.iconURL && `url("${this.iconURL}")`,
+      "--icon-url": this.iconURL && `url("${this.iconURL}")`
     };
   }
 }
