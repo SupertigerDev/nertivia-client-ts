@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.38.2-stable",
+		"date": "20 June 2021",
+		"title": "Socket.IO 4",
+		"changes": "Updated to socket.io version 4. without this update, Nertivia would not be able to connect."
+	},
+	{
 		"version": "1.38.1-stable",
 		"date": "18 June 2021",
 		"title": "Markup Guide",

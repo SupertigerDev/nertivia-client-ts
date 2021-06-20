@@ -18,6 +18,8 @@ import CustomEmoji from "@/interfaces/CustomEmoji";
 import { CustomEmojisModule } from "../customEmojis";
 import { CustomStatusesModule } from "../memberCustomStatus";
 import { programActivitiesModule } from "../memberProgramActivity";
+import SocketIO from "socket.io-client";
+
 import {
   CONNECT,
   AUTH_ERROR,
@@ -27,7 +29,7 @@ import {
 } from "@/socketEventConstants";
 import i18n from "@/i18n";
 
-const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
+const socket = (() => Vue.prototype.$socket.client) as typeof SocketIO;
 
 interface SuccessEvent {
   user: MeUser;

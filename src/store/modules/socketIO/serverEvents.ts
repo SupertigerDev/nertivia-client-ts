@@ -9,6 +9,8 @@ import router from "@/router";
 import { UsersModule } from "../users";
 import { MutedServersModule } from "../mutedServers";
 import { MessagesModule } from "../messages";
+import SocketIO from "socket.io-client";
+
 import {
   SERVER_ADD_ROLE,
   SERVER_CREATE_ROLE,
@@ -29,7 +31,7 @@ import { PresencesModule } from "../presences";
 import { CustomStatusesModule } from "../memberCustomStatus";
 import { programActivitiesModule } from "../memberProgramActivity";
 
-const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
+const socket = (() => Vue.prototype.$socket.client) as typeof SocketIO;
 
 interface ServerMemberAddOrRemoveRole {
   role_id: string;

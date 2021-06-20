@@ -2,8 +2,9 @@ import wrapper from "./wrapper";
 import Message from "@/interfaces/Message";
 import Vue from "vue";
 import User from "@/interfaces/User";
+import SocketIO from "socket.io-client";
 
-const socket: () => SocketIOClient.Socket = () => Vue.prototype.$socket.client;
+const socket = (() => Vue.prototype.$socket.client) as typeof SocketIO;
 
 interface ResponseFetch {
   channelID: string;
