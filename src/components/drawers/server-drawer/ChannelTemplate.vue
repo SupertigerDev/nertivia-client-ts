@@ -24,7 +24,7 @@ import { DrawersModule } from "@/store/modules/drawers";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { MutedChannelsModule } from "@/store/modules/mutedChannels";
 import { PopoutsModule } from "@/store/modules/popouts";
-import twemoji from "twemoji";
+import { emojiURL } from "@/utils/emojiParser";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
@@ -70,26 +70,11 @@ export default class ChannelTemplate extends Vue {
 
   get iconURL() {
     const icon = this.channel.icon;
-
-    if (!icon) {
-      return null;
-    }
-
+    if (!icon) return null;
     const isCustom = icon.startsWith("g_") || icon.startsWith("c_");
     const isGif = icon.startsWith("g_");
     const customEmojiID = icon.split("_")[1];
-
-    if (isCustom) {
-      return `${process.env.VUE_APP_NERTIVIA_CDN}emojis/${customEmojiID}.${
-        isGif ? "gif" : "png"
-      }${!this.hover && isGif ? "?type=webp" : ""}`;
-    } else {
-      return (
-        process.env.VUE_APP_TWEMOJI_LOCATION +
-        twemoji.convert.toCodePoint(icon).replace("-fe0f", "") +
-        ".svg"
-      );
-    }
+    return emojiURL(customEmojiID, { animated: this.hover, isCustom, isGif });
   }
 
   get channelStyle() {

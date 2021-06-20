@@ -20,7 +20,7 @@ import {
 } from "@/services/messagesService";
 import { MessagesModule } from "@/store/modules/messages";
 import { PopoutsModule } from "@/store/modules/popouts";
-import twemoji from "twemoji";
+import { emojiURL } from "@/utils/emojiParser";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 @Component
@@ -102,24 +102,18 @@ export default class MessageSide extends Vue {
   }
 
   get channelIconHTML() {
-    const isCustom = this.reaction.emojiID;
-    const isGif = this.reaction.gif;
-
     const image = new Image();
     image.classList.add("emoji");
+    let emoji = this.reaction.unicode || this.reaction.emojiID;
 
-    if (isCustom) {
-      image.src = `${process.env.VUE_APP_NERTIVIA_CDN}emojis/${
-        this.reaction.emojiID
-      }.${isGif ? "gif" : "png"}${!this.animate && isGif ? "?type=webp" : ""}`;
+    if (emoji != null) {
+      image.src = emojiURL(emoji, {
+        animated: this.animate,
+        isGif: this.reaction.gif,
+        isCustom: this.reaction.emojiID != null
+      });
     } else {
-      if (!this.reaction.unicode) return image;
-      image.src =
-        process.env.VUE_APP_TWEMOJI_LOCATION +
-        twemoji.convert
-          .toCodePoint(this.reaction.unicode)
-          .replace("-fe0f", "") +
-        ".svg";
+      throw new Error(`AvatarImage is missing an icon to display`);
     }
 
     return image.outerHTML;

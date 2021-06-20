@@ -17,17 +17,21 @@ export const twemojiIconId = (emoji: string) =>
 export const twemojiPath = (emoji: string) =>
   `${process.env.VUE_APP_TWEMOJI_LOCATION}${twemojiIconId(emoji)}.svg`;
 
-export function emojiURL(id: string, { animated = false } = {}) {
-  const isCustom = id.startsWith("g_") || id.startsWith("c_");
-  const isGif = id.startsWith("g_");
-  const customEmojiID = id.split("_")[1];
-
+interface EmojiURLOptions {
+  animated?: boolean;
+  isGif?: boolean;
+  isCustom?: boolean;
+}
+export function emojiURL(
+  emoji: string,
+  { animated = false, isGif = false, isCustom = false }: EmojiURLOptions
+) {
   if (isCustom) {
-    return `${process.env.VUE_APP_NERTIVIA_CDN}emojis/${customEmojiID}.${
+    return `${process.env.VUE_APP_NERTIVIA_CDN}emojis/${emoji}.${
       isGif ? "gif" : "png"
     }${!animated && isGif ? "?type=webp" : ""}`;
   } else {
-    return twemojiPath(id);
+    return twemojiPath(emoji);
   }
 }
 
@@ -91,10 +95,7 @@ export const findEmoji = (shortCode: string) => {
   return emojis.find(emoji => emoji.shortcodes.includes(shortCode));
 };
 
-export {
-  emojis as ALL_EMOJIS,
-  groups as ALL_EMOJI_GROUPS
-}
+export { emojis as ALL_EMOJIS, groups as ALL_EMOJI_GROUPS };
 
 // kept for compatability
 export default {
