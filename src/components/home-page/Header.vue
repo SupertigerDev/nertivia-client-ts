@@ -141,7 +141,7 @@ export default {
   height: 50px;
   width: 50px;
 }
-@media (max-width: 374px) {
+@media (max-width: 300px) {
   .logo {
     display: none;
   }

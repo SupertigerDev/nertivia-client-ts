@@ -29,6 +29,10 @@ const ServerSettingsArea = () =>
   import(
     /* webpackChunkName: "ServerSettingsArea" */ "../components/server-settings-area/ServerSettingsArea.vue"
   );
+const PageNotFound = () =>
+  import(
+    /* webpackChunkName: "PageNotFound" */ "../views/PageNotFound.vue"
+  );
 
 Vue.use(VueRouter);
 
@@ -143,11 +147,10 @@ const routes: Array<RouteConfig> = [
       { path: "explore/:tab?", component: ExploreArea },
       { path: "admin-panel/:tab?", component: AdminPanelArea },
       { path: "/", component: DashboardArea },
-      { path: "*" }
     ],
     name: "App",
     component: () =>
-      import(/* webpackChunkName: "main-app" */ "../views/MainApp.vue"),
+    import(/* webpackChunkName: "main-app" */ "../views/MainApp.vue"),
     beforeEnter(to, from, next) {
       if (!localStorage["hauthid"]) {
         location.href = "/login";
@@ -162,10 +165,12 @@ const routes: Array<RouteConfig> = [
         {
           store
         }
-      );
-      next();
-    }
-  }
+        );
+        next();
+      }
+    },
+    { path: '/404', component: PageNotFound }, 
+    { path: "*", redirect: '/404' },
 ];
 
 const router = new VueRouter({
