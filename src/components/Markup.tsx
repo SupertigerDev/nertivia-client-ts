@@ -186,7 +186,14 @@ function transformCustomEntity(
       const quoteFormat = ctx.props.messageQuoteFormat;
       if (quoteFormat === "hidden") {
         ctx.textCount += expr.length;
-        return "";
+        return (
+          <span
+            class="hidden-quote"
+            title="A quote that's hidden from the view"
+          >
+            (Hidden Quote){" "}
+          </span>
+        );
       }
       const quote = ctx.props.message?.quotes.find(q => q.messageID === expr);
       if (quote && quoteFormat != "text") {

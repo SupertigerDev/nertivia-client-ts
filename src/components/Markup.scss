@@ -22,7 +22,6 @@
   font-size: 16px;
 }
 
-
 .codeblock {
   margin: 0;
   background: rgb(60, 60, 60, 0.4);
@@ -52,4 +51,9 @@ blockquote {
 .large-emoji .emoji {
   height: 5em;
   width: 5em;
+}
+
+.hidden-quote {
+  color: var(--hidden-quote-color);
+  font-weight: bold;
 }
