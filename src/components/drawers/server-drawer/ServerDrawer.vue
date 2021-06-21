@@ -228,19 +228,24 @@ export default class ServerDrawer extends Vue {
   transform: scale(0.9);
   opacity: 0;
 }
+
 .server-drawer {
   display: flex;
   flex-direction: column;
   overflow: hidden;
   width: 250px;
 }
+
 .bottom {
+  display: flex;
+  flex-direction: column;
   overflow: auto;
 }
+
 .server-drawer,
 .bottom,
 .channels {
-  height: 100%;
+  flex: 1;
 }
 
 .channels {
@@ -267,6 +272,7 @@ export default class ServerDrawer extends Vue {
     height: 100%;
   }
 }
+
 @media (max-width: 950px) {
   .server-drawer {
     padding-bottom: 56px;
