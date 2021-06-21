@@ -229,7 +229,13 @@ export default class ServerDrawer extends Vue {
   opacity: 0;
 }
 .server-drawer {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   width: 250px;
+}
+.bottom {
+  overflow: auto;
 }
 .server-drawer,
 .bottom,
@@ -242,12 +248,9 @@ export default class ServerDrawer extends Vue {
   flex-direction: column;
   gap: 0.5rem;
 
-  width: 250px;
-
   padding: 0;
 
   list-style: none;
-  overflow: hidden;
 }
 
 .server-banner {
