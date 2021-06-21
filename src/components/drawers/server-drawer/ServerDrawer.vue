@@ -228,7 +228,9 @@ export default class ServerDrawer extends Vue {
   transform: scale(0.9);
   opacity: 0;
 }
-
+.server-drawer {
+  width: 250px;
+}
 .server-drawer,
 .bottom,
 .channels {
