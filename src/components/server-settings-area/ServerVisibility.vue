@@ -40,7 +40,7 @@
         v-if="visibility === 0 && response"
         :disabled="updating"
         icon="delete"
-        name="Delete Server"
+        name="Make Private"
         @click="deleteServer"
         :alert="true"
         :filled="true"

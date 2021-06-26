@@ -1,5 +1,14 @@
 [
 	{
+		"version": "1.38.3-stable",
+		"date": "26 June 2021",
+		"title": "Small Design Changes",
+		"changes": [
+			"Changed the design of radio box",
+			"Changed the design of checkbox"
+		]
+	},
+	{
 		"version": "1.38.2-stable",
 		"date": "20 June 2021",
 		"title": "Socket.IO 4",

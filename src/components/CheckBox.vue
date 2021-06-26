@@ -1,7 +1,10 @@
 <template>
   <div class="check-box" :class="{ checked, colored }" @click="clicked">
-    <div class="name">{{ name }}</div>
-    <div class="description" v-if="description">{{ description }}</div>
+    <div class="box"><span class="material-icons">check</span></div>
+    <div class="details">
+      <div class="name">{{ name }}</div>
+      <div class="description" v-if="description">{{ description }}</div>
+    </div>
   </div>
 </template>
 
@@ -23,7 +26,8 @@ export default class CheckBox extends Vue {
 <style lang="scss" scoped>
 .check-box {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  align-content: center;
   cursor: pointer;
   user-select: none;
   margin: 2px;
@@ -31,42 +35,63 @@ export default class CheckBox extends Vue {
   overflow: hidden;
   flex-shrink: 0;
   padding: 5px;
-  padding-left: 10px;
+  padding-left: 5px;
   position: relative;
   transition: 0.2s;
-  background: rgba(255, 255, 255, 0.05);
+  &:hover {
+    .box {
+      span {
+        opacity: 0.6;
+      }
+    }
+  }
+
+  .box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 15px;
+    width: 15px;
+    margin-right: 5px;
+    border-radius: 6px;
+    border: solid 2px rgba(255, 255, 255, 0.5);
+    span {
+      opacity: 0;
+      transition: 0.2s;
+      font-size: 12px;
+    }
+  }
 
   &:before {
     content: "";
     position: absolute;
     left: 0;
+    right: 0;
     top: 0;
-    width: 3px;
     bottom: 0;
-    background: rgba(255, 255, 255, 0.3);
+    opacity: 0.1;
+    transition: 0.2s;
+    background: rgba(255, 255, 255, 0.5);
   }
-  &:hover {
-    background: rgba(255, 255, 255, 0.1);
 
-    &:before {
-      background: rgba(255, 255, 255, 0.6);
-    }
-  }
-  &.colored {
-    &:before {
-      background: var(--alert-color);
-    }
-  }
   &.checked {
-    background: rgba(255, 255, 255, 0.1);
-
     &:before {
       background: var(--primary-color);
+    }
+    .box {
+      background: var(--primary-color);
+      span {
+        opacity: 1;
+      }
+    }
+    .description {
+      color: var(--primary-color);
     }
   }
 }
 .description {
   color: rgba(255, 255, 255, 0.5);
   font-size: 14px;
+  transition: 0.2s;
 }
 </style>

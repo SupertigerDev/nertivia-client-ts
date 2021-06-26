@@ -25,12 +25,43 @@ export default class RadioBox extends Vue {
 }
 </script>
 <style lang="scss" scoped>
+.radio-box-list {
+  display: flex;
+  flex-direction: column;
+}
 .radio-box {
   display: flex;
+  position: relative;
+  align-self: flex-start;
   align-items: center;
+  padding-right: 5px;
   cursor: pointer;
   user-select: none;
+  margin: 2px;
+  padding-left: 5px;
+  border-radius: 4px;
+  overflow: hidden;
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    opacity: 0.1;
+    transition: 0.2s;
+    background: rgba(255, 255, 255, 0.5);
+  }
+  &:hover {
+    .circle {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+
   &.checked {
+    &:before {
+      background: var(--primary-color);
+    }
     .circle {
       background: var(--primary-color);
     }
@@ -39,9 +70,9 @@ export default class RadioBox extends Vue {
 .circle {
   border-radius: 50%;
   flex-shrink: 0;
-  height: 15px;
-  width: 15px;
-  background: gray;
+  height: 13px;
+  width: 13px;
+  border: solid 2px rgba(255, 255, 255, 0.5);
   margin: 5px;
   margin-left: 0;
 }
