@@ -54,6 +54,7 @@ export default class CheckBox extends Vue {
     width: 15px;
     margin-right: 5px;
     border-radius: 6px;
+    flex-shrink: 0;
     border: solid 2px rgba(255, 255, 255, 0.5);
     span {
       opacity: 0;
