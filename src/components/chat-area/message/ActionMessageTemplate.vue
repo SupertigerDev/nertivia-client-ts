@@ -98,7 +98,7 @@ export default class ActionMessageTemplate extends Vue {
     return types[this.message.type || 0];
   }
   get time() {
-    return friendlyTime(this.message.created);
+    return friendlyTime(this.message.created, localStorage["timeFormat"]);
   }
 }
 </script>

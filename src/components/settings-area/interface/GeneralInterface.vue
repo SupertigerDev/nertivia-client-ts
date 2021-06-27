@@ -1,6 +1,8 @@
 <template>
   <div class="color-scheme">
     <div class="box">
+      <div class="title">{{ $t("settings.interface.time-format") }}</div>
+      <RadioBox :items="['24-hour', '12-hour']" v-model="timeFormat" />
       <div class="title">{{ $t("settings.interface.colors") }}</div>
       <div class="hidden picker-button" ref="pickerButton">
         <div class="pickr"></div>
@@ -41,8 +43,9 @@
 
 <script lang="ts">
 import "@simonwep/pickr/dist/themes/classic.min.css";
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import Pickr from "@simonwep/pickr";
+import RadioBox from "@/components/RadioBox.vue";
 import {
   getAllCssVars,
   getCustomCssVars,
@@ -50,11 +53,13 @@ import {
   applyDefaultTheme,
   applyDefaultValue
 } from "@/utils/customCssVars";
-@Component
+@Component({ components: { RadioBox } })
 export default class InterfaceVariables extends Vue {
   pickr: Pickr | null = null;
   lastClicked: { key?: string; value?: string; custom?: string } = {};
   customVars = getCustomCssVars();
+  timeFormat = parseInt(localStorage["timeFormat"] || "0");
+
   mounted() {
     this.pickr = Pickr.create({
       el: ".pickr",
@@ -73,6 +78,10 @@ export default class InterfaceVariables extends Vue {
       }
     });
     this.pickr.on("hide", this.colorChanged);
+  }
+  @Watch("timeFormat")
+  onTimeFormatChagne() {
+    localStorage["timeFormat"] = this.timeFormat;
   }
   beforeDestroy() {
     this.pickr?.off("hide", this.colorChanged);
@@ -159,6 +168,7 @@ export default class InterfaceVariables extends Vue {
   user-select: none;
   align-content: center;
   margin: 5px;
+  margin-left: 0;
   &:hover {
     .name {
       opacity: 1;

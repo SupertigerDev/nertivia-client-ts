@@ -39,6 +39,9 @@ export default class CheckBox extends Vue {
   position: relative;
   transition: 0.2s;
   &:hover {
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
     .box {
       span {
         opacity: 0.6;
@@ -56,6 +59,7 @@ export default class CheckBox extends Vue {
     border-radius: 6px;
     flex-shrink: 0;
     border: solid 2px rgba(255, 255, 255, 0.5);
+    z-index: 12111111;
     span {
       opacity: 0;
       transition: 0.2s;
@@ -70,9 +74,8 @@ export default class CheckBox extends Vue {
     right: 0;
     top: 0;
     bottom: 0;
-    opacity: 0.1;
+    opacity: 0.2;
     transition: 0.2s;
-    background: rgba(255, 255, 255, 0.5);
   }
 
   &.checked {
@@ -94,5 +97,9 @@ export default class CheckBox extends Vue {
   color: rgba(255, 255, 255, 0.5);
   font-size: 14px;
   transition: 0.2s;
+  z-index: 11111111;
+}
+.name {
+  z-index: 1111111;
 }
 </style>

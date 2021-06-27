@@ -11,7 +11,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import TabLayout from "@/components/TabLayout.vue";
-import ColorScheme from "./ColorScheme.vue";
+import ColorScheme from "./GeneralInterface.vue";
 import CustomCSS from "./custom-css/CustomCSS.vue";
 
 @Component({ components: { TabLayout } })
@@ -19,7 +19,7 @@ export default class Interface extends Vue {
   get tabs() {
     const tabs: any = [
       {
-        name: this.$t("settings.interface.color-scheme"),
+        name: this.$t("settings.interface.general"),
         id: "color_scheme",
         component: ColorScheme
       },

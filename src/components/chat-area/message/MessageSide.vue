@@ -58,7 +58,9 @@ export default class MessageSide extends Vue {
     if (this.message.timeEdited)
       return {
         icon: "edit",
-        title: "Edited " + friendlyDate(this.message.timeEdited)
+        title:
+          "Edited " +
+          friendlyDate(this.message.timeEdited, localStorage["timeFormat"])
       };
     if (sending === 1) return { icon: "done", title: "Sent" };
     if (sending === 2) return { icon: "error_outline", title: "Not Sent" };

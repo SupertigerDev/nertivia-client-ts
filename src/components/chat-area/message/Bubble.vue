@@ -109,7 +109,7 @@ export default class Bubble extends Vue {
     return files[0];
   }
   get date() {
-    return friendlyDate(this.message.created);
+    return friendlyDate(this.message.created, localStorage["timeFormat"]);
   }
   get roleColor() {
     if (!this.loadRoleColor) return undefined;

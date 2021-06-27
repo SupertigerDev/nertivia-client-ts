@@ -1,8 +1,8 @@
 import i18n from "@/i18n";
 
 enum Type {
-  "12h" = "12h",
-  "24h" = "24h"
+  "24h" = "0",
+  "12h" = "1"
 }
 
 function formatAmPm(date: Date) {
@@ -17,7 +17,7 @@ function formatAmPm(date: Date) {
 }
 
 function getFullTime(date: Date, type?: Type) {
-  if (type === "12h") {
+  if (type === Type["12h"]) {
     return formatAmPm(date);
   }
   let finalTime = "";

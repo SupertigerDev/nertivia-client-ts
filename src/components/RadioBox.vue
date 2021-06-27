@@ -29,6 +29,12 @@ export default class RadioBox extends Vue {
   display: flex;
   flex-direction: column;
 }
+.name {
+  z-index: 11111;
+}
+.circle {
+  z-index: 11111;
+}
 .radio-box {
   display: flex;
   position: relative;
@@ -48,11 +54,13 @@ export default class RadioBox extends Vue {
     right: 0;
     top: 0;
     bottom: 0;
-    opacity: 0.1;
-    transition: 0.2s;
-    background: rgba(255, 255, 255, 0.5);
+    opacity: 0.2;
+    transition: 0.1s;
   }
   &:hover {
+    &:before {
+      background: rgba(255, 255, 255, 0.05);
+    }
     .circle {
       background: rgba(255, 255, 255, 0.1);
     }

@@ -237,7 +237,10 @@ export default class ProfilePopout extends Vue {
   }
   get joinedAt() {
     if (!this.returnedUser) return undefined;
-    return friendlyDate(this.returnedUser?.user.created || 0);
+    return friendlyDate(
+      this.returnedUser?.user.created || 0,
+      localStorage["timeFormat"]
+    );
   }
   get badgesArr() {
     const flags = (this.user as any).badges;

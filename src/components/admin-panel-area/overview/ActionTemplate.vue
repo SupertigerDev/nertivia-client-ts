@@ -20,7 +20,7 @@ import CustomButton from "@/components/CustomButton.vue";
 export default class ActionTemplate extends Vue {
   @Prop() private action!: Action;
   get friendlyDate() {
-    return date(this.action.date);
+    return date(this.action.date, localStorage["timeFormat"]);
   }
   get actionDetails() {
     if (this.action.action === "SUSPEND_USER") {

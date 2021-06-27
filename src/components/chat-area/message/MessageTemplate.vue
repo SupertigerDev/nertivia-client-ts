@@ -122,7 +122,7 @@ export default class MessageLogs extends Vue {
     return this.message.creator;
   }
   get friendlyTime() {
-    return time(this.message.created);
+    return time(this.message.created, localStorage["timeFormat"]);
   }
   get embed() {
     if (!this.message.embed) return undefined;
@@ -208,6 +208,8 @@ export default class MessageLogs extends Vue {
   opacity: 0;
   font-size: 14px;
   align-self: center;
+  text-align: center;
+  font-size: 12px;
   flex-shrink: 0;
   transition: 0.2s;
 }

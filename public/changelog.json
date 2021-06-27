@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.39.0-stable",
+		"date": "27 June 2021",
+		"title": "12-hour time",
+		"new": "Added 12-hour time format. This can be enabled in settings > interface."
+	},
+	{
 		"version": "1.38.3-stable",
 		"date": "26 June 2021",
 		"title": "Small Design Changes",
