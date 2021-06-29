@@ -178,7 +178,7 @@ export default class CustomDropDown extends Vue {
   overflow: hidden;
   max-height: 200px;
   overflow-y: auto;
-  z-index: 1111;
+  z-index: 111111111;
 
   border-radius: 4px;
   .dropdown-content {

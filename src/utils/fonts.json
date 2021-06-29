@@ -1,0 +1,25 @@
+{
+  "arial": {
+    "name": "Arial",
+    "id": "arial",
+    "css": "Arial, sans-serif"
+  },
+  "roboto": {
+    "name": "Roboto",
+    "id": "roboto",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Roboto&display=swap",
+    "css": "'Roboto', sans-serif"
+  },
+  "roboto": {
+    "name": "Roboto",
+    "id": "roboto",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Roboto&display=swap",
+    "css": "'Roboto', sans-serif"
+  },
+  "inter": {
+    "name": "Inter",
+    "id": "inter",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Inter&display=swap",
+    "css": "'Inter', sans-serif"
+  }
+}

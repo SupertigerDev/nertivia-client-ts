@@ -1,6 +1,13 @@
 <template>
   <div class="color-scheme">
     <div class="box">
+      <CustomDropDown
+        title="Font"
+        :defaultId="selectedFont"
+        :items="fonts"
+        IdPath="id"
+        @change="onFontChange"
+      />
       <div class="title">{{ $t("settings.interface.time-format") }}</div>
       <RadioBox :items="['24-hour', '12-hour']" v-model="timeFormat" />
       <div class="title">{{ $t("settings.interface.colors") }}</div>
@@ -46,6 +53,9 @@ import "@simonwep/pickr/dist/themes/classic.min.css";
 import { Component, Vue, Watch } from "vue-property-decorator";
 import Pickr from "@simonwep/pickr";
 import RadioBox from "@/components/RadioBox.vue";
+import CustomDropDown from "@/components/CustomDropDown.vue";
+import fonts from "@/utils/fonts.json";
+import { applyFont } from "@/utils/applyFont";
 import {
   getAllCssVars,
   getCustomCssVars,
@@ -53,12 +63,14 @@ import {
   applyDefaultTheme,
   applyDefaultValue
 } from "@/utils/customCssVars";
-@Component({ components: { RadioBox } })
+@Component({ components: { RadioBox, CustomDropDown } })
 export default class InterfaceVariables extends Vue {
   pickr: Pickr | null = null;
   lastClicked: { key?: string; value?: string; custom?: string } = {};
   customVars = getCustomCssVars();
   timeFormat = parseInt(localStorage["timeFormat"] || "0");
+  fonts = Object.values(fonts);
+  selectedFont = localStorage["font"] || this.fonts[0].id;
 
   mounted() {
     this.pickr = Pickr.create({
@@ -78,6 +90,9 @@ export default class InterfaceVariables extends Vue {
       }
     });
     this.pickr.on("hide", this.colorChanged);
+  }
+  onFontChange(id: string) {
+    applyFont(id);
   }
   @Watch("timeFormat")
   onTimeFormatChagne() {

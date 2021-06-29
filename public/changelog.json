@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.40.0-stable",
+		"date": "29 June 2021",
+		"title": "Font Picker!",
+		"new": "Added a font picker. The font can be changed by going to: settings > interface."
+	},
+	{
 		"version": "1.39.0-stable",
 		"date": "27 June 2021",
 		"title": "12-hour time",

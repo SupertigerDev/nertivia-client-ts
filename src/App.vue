@@ -19,11 +19,14 @@ import {
   changeCssVar,
   setThemeColor
 } from "@/utils/customCssVars";
-import { PopoutsModule } from "./store/modules/popouts";
+import { applyFont } from "./utils/applyFont";
+import fonts from "@/utils/fonts.json";
 
 @Component({ components: { WindowControl, Popouts } })
 export default class App extends Vue {
   mounted() {
+    // applyfont
+    applyFont(localStorage["font"] || fonts[0].id);
     // set custom css colors
     const customVars = getCustomCssVars();
     for (let i = 0; i < Object.keys(customVars).length; i++) {
