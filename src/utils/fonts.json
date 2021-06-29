@@ -21,5 +21,17 @@
     "id": "inter",
     "stylesheet": "https://fonts.googleapis.com/css2?family=Inter&display=swap",
     "css": "'Inter', sans-serif"
+  },
+  "bree-serif": {
+    "name": "Bree Serif",
+    "id": "bree-serif",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap",
+    "css": "'Bree Serif', serif"
+  },
+  "open-sans": {
+    "name": "Open Sans",
+    "id": "open-sans",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Open+Sans&display=swap",
+    "css": "'Open Sans', sans-serif"
   }
 }
