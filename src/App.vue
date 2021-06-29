@@ -26,7 +26,7 @@ import fonts from "@/utils/fonts.json";
 export default class App extends Vue {
   mounted() {
     // applyfont
-    applyFont(localStorage["font"] || fonts[0].id);
+    applyFont(localStorage["font"] || Object.values(fonts)[0].id);
     // set custom css colors
     const customVars = getCustomCssVars();
     for (let i = 0; i < Object.keys(customVars).length; i++) {
