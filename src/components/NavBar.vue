@@ -270,7 +270,6 @@ export default class NavBar extends Vue {
     &.mentioned::before {
       content: "@";
       display: flex;
-      font-family: Avenir, Helvetica, Arial, sans-serif;
       color: white;
       align-items: center;
       align-content: center;

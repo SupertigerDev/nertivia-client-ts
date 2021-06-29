@@ -51,14 +51,11 @@ export default class App extends Vue {
 <style lang="scss">
 body {
   margin: 0;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: white;
 }
-textarea {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-}
+
 html,
 body,
 .root {
