@@ -1,5 +1,15 @@
 [
 	{
+		"version": "1.40.2-stable",
+		"date": "30 June 2021",
+		"title": "Markup Improvements (by bree)",
+		"new": [
+			"Links surrounded with < and > like <https://example.com> will hide the containing characters and the embed",
+			"Added a new markup expression to allow for vertical text"
+		],
+		"body": "The new markup can be used like<pre><code>[vertical: text that is vertical  two spaces indicate a newline ]</code></pre>"
+	},
+	{
 		"version": "1.40.1-stable",
 		"date": "30 June 2021",
 		"title": "YouTube Embed Improvement!",
