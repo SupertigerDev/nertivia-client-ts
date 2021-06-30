@@ -57,3 +57,10 @@ blockquote {
   color: var(--hidden-quote-color);
   font-weight: bold;
 }
+
+.vertical {
+  overflow: auto;
+
+  writing-mode: vertical-rl;
+  max-width: 40vw;
+}

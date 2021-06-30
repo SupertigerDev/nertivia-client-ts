@@ -250,6 +250,18 @@ function transformCustomEntity(
       }
       break;
     }
+    // todo: maybe [^: text] but that might be better for superscript, who knows
+    case "vertical": {
+      const output = expr
+        .split("  ")
+        .join("\n")
+        .trim();
+      console.log(output);
+      if (output.length > 0) {
+        return <div class="vertical">{output}</div>;
+      }
+      break;
+    }
     default: {
       console.warn("Unknown custom entity:", type);
     }
