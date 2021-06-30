@@ -256,7 +256,7 @@ function transformCustomEntity(
         .split("  ")
         .join("\n")
         .trim();
-      console.log(output);
+      
       if (output.length > 0) {
         return <div class="vertical">{output}</div>;
       }
