@@ -10,12 +10,6 @@
     "stylesheet": "https://fonts.googleapis.com/css2?family=Roboto&display=swap",
     "css": "'Roboto', sans-serif"
   },
-  "roboto": {
-    "name": "Roboto",
-    "id": "roboto",
-    "stylesheet": "https://fonts.googleapis.com/css2?family=Roboto&display=swap",
-    "css": "'Roboto', sans-serif"
-  },
   "inter": {
     "name": "Inter",
     "id": "inter",
