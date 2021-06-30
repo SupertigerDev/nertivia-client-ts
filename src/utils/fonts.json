@@ -16,6 +16,12 @@
     "stylesheet": "https://fonts.googleapis.com/css2?family=Inter&display=swap",
     "css": "'Inter', sans-serif"
   },
+  "press-start-2p": {
+    "name": "Press Start 2P",
+    "id": "press-start-2p",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap",
+    "css": "'Press Start 2P', cursive"
+  },
   "bree-serif": {
     "name": "Bree Serif",
     "id": "bree-serif",
