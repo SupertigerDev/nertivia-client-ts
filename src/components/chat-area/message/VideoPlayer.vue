@@ -16,9 +16,7 @@
         ref="video"
         width="100%"
         height="100%"
-        :src="
-          `https://www.youtube-nocookie.com/embed/${youtubeID}?autoplay=1&vq=hd360`
-        "
+        :src="embedURL"
         frameborder="0"
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen
@@ -62,9 +60,17 @@ export default class VideoPlayer extends Vue {
     );
   }
 
-  get youtubeID() {
-    const regex = /(?:https?:)?(?:\/\/)?(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube(?:-nocookie)?\.com\S*?[^\w\s-])([\w-]{11})(?=[^\w-]|$)(?![?=&+%\w.-]*(?:['"][^<>]*>|<\/a>))[?=&+%\w.-]*/gim;
-    return regex.exec(this.youtubeURL)?.[1];
+  get embedURL() {
+    const regex = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*)(?:(\?t|&start)=(\d+))?.*/gim;
+    const result = regex.exec(this.youtubeURL);
+    if (!result) return undefined;
+    const id = result[2];
+    const time = parseInt(result[4]);
+    let url = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&vq=hd360`;
+    if (!isNaN(time)) {
+      url += "&start=" + time;
+    }
+    return url;
   }
   get windowSize() {
     return {

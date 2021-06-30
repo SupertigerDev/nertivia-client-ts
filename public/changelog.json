@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.40.1-stable",
+		"date": "30 June 2021",
+		"title": "YouTube Embed Improvement!",
+		"fixes": "YouTube embed now plays the video at the specified time in the URL using the time query."
+	},
+	{
 		"version": "1.40.0-stable",
 		"date": "29 June 2021",
 		"title": "Font Picker!",
