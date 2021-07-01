@@ -50,7 +50,7 @@ export default class extends Vue {
       this.$copyText(this.data.id);
       return;
     }
-    if (item.id === "copy_use_tag") {
+    if (item.id === "copy_user_tag") {
       this.$copyText(
         `${this.data.tempUser.username}:${this.data.tempUser.tag}`
       );
