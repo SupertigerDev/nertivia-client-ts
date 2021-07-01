@@ -16,11 +16,17 @@
     "stylesheet": "https://fonts.googleapis.com/css2?family=Inter&display=swap",
     "css": "'Inter', sans-serif"
   },
-  "press-start-2p": {
-    "name": "Press Start 2P",
-    "id": "press-start-2p",
-    "stylesheet": "https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap",
-    "css": "'Press Start 2P', cursive"
+  "open-sans": {
+    "name": "Open Sans",
+    "id": "open-sans",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Open+Sans&display=swap",
+    "css": "'Open Sans', sans-serif"
+  },
+  "vt323": {
+    "name": "VT323",
+    "id": "vt323",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=VT323&display=swap",
+    "css": "'VT323', monospace"
   },
   "bree-serif": {
     "name": "Bree Serif",
@@ -28,10 +34,10 @@
     "stylesheet": "https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap",
     "css": "'Bree Serif', serif"
   },
-  "open-sans": {
-    "name": "Open Sans",
-    "id": "open-sans",
-    "stylesheet": "https://fonts.googleapis.com/css2?family=Open+Sans&display=swap",
-    "css": "'Open Sans', sans-serif"
+  "monofett": {
+    "name": "Monofett",
+    "id": "monofett",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Monofett&display=swap",
+    "css": "'Monofett', cursive"
   }
 }

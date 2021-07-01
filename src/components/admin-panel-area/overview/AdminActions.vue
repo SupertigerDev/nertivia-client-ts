@@ -1,7 +1,10 @@
 <template>
   <div class="panel users" v-if="actions">
-    <div class="title">Recent Admin Actions</div>
-    <div class="actions">
+    <div class="title">
+      <div class="text">
+        Recent Admin Actions
+        <div class="notice">Log Expires after 5 days</div>
+      </div>
       <div class="material-icons button" title="Refresh" @click="fetchActions">
         refresh
       </div>
@@ -45,39 +48,31 @@ export default class Users extends Vue {
   border-radius: 4px;
   margin: 10px;
   width: 250px;
+  flex-shrink: 0;
 }
 .list {
   overflow: auto;
 }
 .title {
+  display: flex;
+  align-items: center;
   margin: 5px;
 }
 
-.actions {
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
-  margin-right: 5px;
-  .search {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 4px;
-    border: none;
-    padding: 10px;
-    outline: none;
-    color: white;
-    flex: 1;
+.button {
+  padding-bottom: 5px;
+  padding-top: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  cursor: pointer;
+  margin-left: auto;
+  border-radius: 4px;
+  &:hover {
+    background: var(--primary-color);
   }
-  .button {
-    padding-bottom: 5px;
-    padding-top: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    cursor: pointer;
-    margin-left: 5px;
-    border-radius: 4px;
-    &:hover {
-      background: var(--primary-color);
-    }
-  }
+}
+.notice {
+  opacity: 0.7;
+  font-size: 14px;
 }
 </style>

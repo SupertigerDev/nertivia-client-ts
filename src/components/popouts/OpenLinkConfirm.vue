@@ -48,7 +48,19 @@ export default class ProfilePopout extends Vue {
       this.close();
     }
   }
+  pushRouter(link: string) {
+    const match = process.env.VUE_APP_MAIN_APP_URL + "app";
+    if (link.startsWith(match)) {
+      this.$router.push("/" + link.split(process.env.VUE_APP_MAIN_APP_URL)[1]);
+      return true;
+    }
+    return false;
+  }
   visitLink() {
+    if (this.pushRouter(this.url)) {
+      this.close();
+      return;
+    }
     const win = window.open(this.url, "_blank");
     win?.focus?.();
     this.close();
