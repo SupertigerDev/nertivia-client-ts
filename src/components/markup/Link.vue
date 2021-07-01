@@ -26,12 +26,13 @@ export default Vue.extend({
     const clicked = (event: any) => {
       const text = props.text ?? sanitizedUrl;
       if (text !== sanitizedUrl) {
-        event.preventDefault();
         PopoutsModule.ShowPopout({
           id: "html-embed-url-sus",
           component: "OpenLinkConfirm",
           data: { url: sanitizedUrl }
         });
+        event.preventDefault();
+        return;
       }
       if (pushRouter(sanitizedUrl)) {
         event.preventDefault();
