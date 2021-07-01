@@ -3,7 +3,6 @@
     <div class="box">
       <div class="title">{{ $t("settings.interface.navigation-bar") }}</div>
       <CheckBox name="Show Settings" v-model="showSettings" />
-      {{ showSettings }}
       <CustomDropDown
         title="Font"
         :defaultId="selectedFont"
