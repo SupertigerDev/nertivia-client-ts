@@ -1,4 +1,4 @@
-import fonts from './fonts.json'
+import fonts from "./fonts.json";
 
 export function applyFont(id: string) {
   const font = fonts[id];
@@ -7,15 +7,14 @@ export function applyFont(id: string) {
   localStorage["font"] = id;
   if (font.stylesheet) {
     // add stylesheet
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
     link.href = font.stylesheet;
     document.head.appendChild(link);
   }
 
-
-  const style = document.createElement('style');
-  style.id = "font-pick"
+  const style = document.createElement("style");
+  style.id = "font-pick";
   style.innerHTML = `
   * {
   font-family: ${font.css};

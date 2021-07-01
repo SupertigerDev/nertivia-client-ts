@@ -288,7 +288,7 @@ export default Vue.extend<MarkupProps>({
     message: Object,
     largeEmoji: {
       type: Boolean,
-      default: true,
+      default: true
     },
     nestedLevel: Number,
     messageQuoteFormat: String as () => MarkupProps["messageQuoteFormat"],
@@ -307,7 +307,11 @@ export default Vue.extend<MarkupProps>({
     return (
       <span
         class={{
-          "large-emoji": (!ctx.props.inline && ctx.props.largeEmoji) && ctx.textCount === 0 && ctx.emojiCount <= 5,
+          "large-emoji":
+            !ctx.props.inline &&
+            ctx.props.largeEmoji &&
+            ctx.textCount === 0 &&
+            ctx.emojiCount <= 5,
           inline: ctx.props.inline
         }}
       >

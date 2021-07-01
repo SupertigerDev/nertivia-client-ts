@@ -74,7 +74,11 @@ export default class ChannelTemplate extends Vue {
     const isCustom = icon.startsWith("g_") || icon.startsWith("c_");
     const isGif = icon.startsWith("g_");
     const customEmojiID = icon.split("_")[1];
-    return emojiURL(isCustom ? customEmojiID : icon, { animated: this.hover, isCustom, isGif });
+    return emojiURL(isCustom ? customEmojiID : icon, {
+      animated: this.hover,
+      isCustom,
+      isGif
+    });
   }
 
   get channelStyle() {
