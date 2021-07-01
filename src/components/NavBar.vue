@@ -93,7 +93,8 @@
       />
     </div>
 
-    <!-- <div
+    <div
+      v-if="showSettings"
       class="item last"
       :class="{
         selected: currentTab === 'settings'
@@ -103,7 +104,7 @@
     >
       <div class="icon material-icons">settings</div>
       <div class="title">Settings</div>
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -120,6 +121,7 @@ import { MeModule } from "@/store/modules/me";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { PresencesModule } from "@/store/modules/presences";
+import { ReactiveLocalStorageModule } from "@/store/modules/reactiveLocalStorage";
 import { Component, Vue } from "vue-property-decorator";
 
 @Component({ components: { AvatarImage } })
@@ -159,6 +161,9 @@ export default class NavBar extends Vue {
       component: "FloatingProfileCard",
       toggle: true
     });
+  }
+  get showSettings() {
+    return ReactiveLocalStorageModule.getStore("showSettingsInNavigation");
   }
   get currentTab() {
     return this.$route.path.split("/")[2] || "";

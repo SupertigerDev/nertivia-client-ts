@@ -121,7 +121,8 @@
       "halloween-2020": "Halloween 2020",
       "predefined-themes": "Pre-defined Themes",
       "custom-css": "Custom CSS",
-      "general": "General"
+      "general": "General",
+      "navigation-bar": "Navigation Bar"
     },
     "wip-features": {
       "title": "Enable unfinished or experimental features.",

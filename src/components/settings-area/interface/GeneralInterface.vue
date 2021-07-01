@@ -1,6 +1,9 @@
 <template>
   <div class="color-scheme">
     <div class="box">
+      <div class="title">{{ $t("settings.interface.navigation-bar") }}</div>
+      <CheckBox name="Show Settings" v-model="showSettings" />
+      {{ showSettings }}
       <CustomDropDown
         title="Font"
         :defaultId="selectedFont"
@@ -54,7 +57,9 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 import Pickr from "@simonwep/pickr";
 import RadioBox from "@/components/RadioBox.vue";
 import CustomDropDown from "@/components/CustomDropDown.vue";
+import CheckBox from "@/components/CheckBox.vue";
 import fonts from "@/utils/fonts.json";
+import { ReactiveLocalStorageModule } from "@/store/modules/reactiveLocalStorage";
 import { applyFont } from "@/utils/applyFont";
 import {
   getAllCssVars,
@@ -63,7 +68,7 @@ import {
   applyDefaultTheme,
   applyDefaultValue
 } from "@/utils/customCssVars";
-@Component({ components: { RadioBox, CustomDropDown } })
+@Component({ components: { RadioBox, CustomDropDown, CheckBox } })
 export default class InterfaceVariables extends Vue {
   pickr: Pickr | null = null;
   lastClicked: { key?: string; value?: string; custom?: string } = {};
@@ -114,6 +119,16 @@ export default class InterfaceVariables extends Vue {
   }
   revertButton(css: any, event: any) {
     applyDefaultValue(css.key);
+  }
+
+  set showSettings(value: boolean) {
+    ReactiveLocalStorageModule.setStore({
+      key: "showSettingsInNavigation",
+      value
+    });
+  }
+  get showSettings() {
+    return ReactiveLocalStorageModule.getStore("showSettingsInNavigation");
   }
   get cssVarList() {
     return getAllCssVars()
