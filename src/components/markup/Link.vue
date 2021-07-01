@@ -1,4 +1,5 @@
 <script lang="tsx">
+import router from "@/router";
 import { PopoutsModule } from "@/store/modules/popouts";
 import Vue from "vue";
 
@@ -14,6 +15,14 @@ export default Vue.extend({
     if (!props.url.startsWith("http")) {
       sanitizedUrl = "https://" + props.url;
     }
+    const pushRouter = (link: string) => {
+      const match = process.env.VUE_APP_MAIN_APP_URL + "app";
+      if (link.startsWith(match)) {
+        router.push("/" + link.split(process.env.VUE_APP_MAIN_APP_URL)[1]);
+        return true;
+      }
+      return false;
+    };
     const clicked = (event: any) => {
       const text = props.text ?? sanitizedUrl;
       if (text !== sanitizedUrl) {
@@ -23,6 +32,9 @@ export default Vue.extend({
           component: "OpenLinkConfirm",
           data: { url: sanitizedUrl }
         });
+      }
+      if (pushRouter(sanitizedUrl)) {
+        event.preventDefault();
       }
     };
     return (

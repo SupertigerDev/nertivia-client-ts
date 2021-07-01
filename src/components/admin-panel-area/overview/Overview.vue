@@ -60,6 +60,7 @@ export default class Overview extends Vue {
 }
 .content {
   display: flex;
-  overflow: hidden;
+  overflow: auto;
+  flex: 1;
 }
 </style>

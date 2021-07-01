@@ -78,6 +78,7 @@ export default class Users extends Vue {
   border-radius: 4px;
   margin: 10px;
   width: 250px;
+  flex-shrink: 0;
 }
 .list {
   overflow: auto;
