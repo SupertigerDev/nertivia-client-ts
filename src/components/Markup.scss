@@ -42,6 +42,10 @@ blockquote {
   background: var(--quote-bg-color);
 }
 
+.inline blockquote {
+  padding-block: 0;
+}
+
 .emoji {
   height: 1.4em;
   width: 1.4em;

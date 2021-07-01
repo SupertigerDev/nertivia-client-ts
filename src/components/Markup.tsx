@@ -32,6 +32,7 @@ interface MarkupProps {
   message?: Message;
   nestedLevel?: number;
   messageQuoteFormat?: "normal" | "text" | "hidden";
+  inline: boolean;
 }
 
 type RenderContext = Vue.RenderContext<MarkupProps> & {
@@ -94,9 +95,16 @@ function transformEntity(h: CreateElement, entity: Entity, ctx: RenderContext) {
       );
     }
     case "codeblock": {
-      const lang = entity.params.lang;
-      const value = sliceText(ctx, entity.innerSpan);
-      return h(CodeBlock, { props: { lang, value } });
+      if (!ctx.props.inline) {
+        const lang = entity.params.lang;
+        const value = sliceText(ctx, entity.innerSpan);
+        return h(CodeBlock, { props: { lang, value } });
+      } else {
+        // Inline codeblock I guess
+        return (
+          <span class="codeblock">{sliceText(ctx, entity.innerSpan)}</span>
+        );
+      }
     }
     case "spoiler": {
       return <Spoiler>{transformEntities(h, entity, ctx)}</Spoiler>;
@@ -183,29 +191,31 @@ function transformCustomEntity(
       break;
     }
     case "Q": {
-      const quoteFormat = ctx.props.messageQuoteFormat;
-      if (quoteFormat === "hidden") {
-        ctx.textCount += expr.length;
-        return (
-          <span
-            class="hidden-quote"
-            title="A quote that's hidden from the view"
-          >
-            (Hidden Quote){" "}
-          </span>
-        );
-      }
-      const quote = ctx.props.message?.quotes.find(q => q.messageID === expr);
-      if (quote && quoteFormat != "text") {
-        ctx.textCount += expr.length;
-        return h(MessageQuote, {
-          props: {
-            quote,
-            user: quote.creator,
-            message: ctx.props.message,
-            nestedLevel: (ctx.props.nestedLevel ?? 0) + 1
-          }
-        });
+      if (!ctx.props.inline) {
+        const quoteFormat = ctx.props.messageQuoteFormat;
+        if (quoteFormat === "hidden") {
+          ctx.textCount += expr.length;
+          return (
+            <span
+              class="hidden-quote"
+              title="A quote that's hidden from the view"
+            >
+              (Hidden Quote){" "}
+            </span>
+          );
+        }
+        const quote = ctx.props.message?.quotes.find(q => q.messageID === expr);
+        if (quote && quoteFormat != "text") {
+          ctx.textCount += expr.length;
+          return h(MessageQuote, {
+            props: {
+              quote,
+              user: quote.creator,
+              message: ctx.props.message,
+              nestedLevel: (ctx.props.nestedLevel ?? 0) + 1
+            }
+          });
+        }
       }
       break;
     }
@@ -252,13 +262,15 @@ function transformCustomEntity(
     }
     // todo: maybe [^: text] but that might be better for superscript, who knows
     case "vertical": {
-      const output = expr
-        .split("  ")
-        .join("\n")
-        .trim();
-      
-      if (output.length > 0) {
-        return <div class="vertical">{output}</div>;
+      if (!ctx.props.inline) {
+        const output = expr
+          .split("  ")
+          .join("\n")
+          .trim();
+
+        if (output.length > 0) {
+          return <div class="vertical">{output}</div>;
+        }
       }
       break;
     }
@@ -274,9 +286,18 @@ export default Vue.extend<MarkupProps>({
   props: {
     text: String,
     message: Object,
-    largeEmoji: Boolean,
+    largeEmoji: {
+      type: Boolean,
+      default: true,
+    },
     nestedLevel: Number,
-    messageQuoteFormat: String as () => MarkupProps["messageQuoteFormat"]
+    messageQuoteFormat: String as () => MarkupProps["messageQuoteFormat"],
+    // If the markup should be rendered inline, so that the line-height height doesn't change.
+    // this disables some features and restyles some others.
+    inline: {
+      type: Boolean,
+      default: false
+    }
   },
   render(h, renderContext) {
     renderContext.props.text = replaceOldMentions(renderContext.props.text);
@@ -286,7 +307,8 @@ export default Vue.extend<MarkupProps>({
     return (
       <span
         class={{
-          "large-emoji": ctx.textCount === 0 && ctx.emojiCount <= 5
+          "large-emoji": (!ctx.props.inline && ctx.props.largeEmoji) && ctx.textCount === 0 && ctx.emojiCount <= 5,
+          inline: ctx.props.inline
         }}
       >
         {output}
