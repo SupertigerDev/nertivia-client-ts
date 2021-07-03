@@ -6,8 +6,15 @@
   >
     <div class="outer-content">
       <div class="inner-content" ref="content">
-        <!-- <div class="gif" v-if="isGif">GIF</div> -->
-        <img :src="pauseGifURL" />
+        <div class="gif" v-if="isGif">GIF</div>
+        <img
+          :src="pauseGifURL"
+          :class="{ loaded }"
+          :width="dimensions.width"
+          :height="dimensions.height"
+          loading="lazy"
+          @load="loaded = true"
+        />
       </div>
     </div>
   </div>
@@ -21,25 +28,16 @@ import { PopoutsModule } from "@/store/modules/popouts";
 @Component
 export default class ImageMessageEmbed extends Vue {
   @Prop() private message!: Message & { grouped: boolean };
-  loadImage = false;
+  loaded = false;
 
   onClick() {
     PopoutsModule.ShowPopout({
       id: "image-preview-popout",
       component: "image-preview-popout",
       data: {
-        url: this.imageURL
-      }
+        url: this.imageURL,
+      },
     });
-  }
-
-  fetchImage() {
-    const image = new Image();
-    image.onload = () => {
-      image.onload = null;
-      this.loadImage = true;
-    };
-    image.src = this.pauseGifURL || "";
   }
 
   get isWindowFocused() {
@@ -53,9 +51,11 @@ export default class ImageMessageEmbed extends Vue {
     }
     return url;
   }
+
   get isGif() {
     return this.imageURL?.endsWith(".gif");
   }
+
   get imageURL() {
     const file = this.message.files?.[0];
     if (!file) return undefined;
@@ -66,6 +66,10 @@ export default class ImageMessageEmbed extends Vue {
       process.env.VUE_APP_FETCH_PREFIX +
       `/media/${file.fileID}/${file.fileName}`
     );
+  }
+
+  get dimensions() {
+    return this.message.files?.[0]?.dimensions;
   }
 }
 </script>
@@ -94,26 +98,34 @@ export default class ImageMessageEmbed extends Vue {
     }
   }
 }
-.inner-content {
-  display: flex;
-}
+
 .outer-content {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.inner-content {
+  display: grid;
+}
+
 img {
-  width: 100%;
-  height: 100%;
+  display: grid;
+
+  height: auto;
 
   min-width: 200px;
   min-height: 200px;
 
-  max-height: 500px;
   max-width: 500px;
+  max-height: 500px;
 
   object-fit: contain;
+}
+
+img.loaded {
+  width: 100%;
+  height: 100%;
 }
 
 .image-embed:hover {
