@@ -16,44 +16,19 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import windowProperties from "@/utils/windowProperties";
-import resizeKeepAspect from "@/utils/resizeKeepAspect";
 import { PopoutsModule } from "@/store/modules/popouts";
 @Component
 export default class ImageMessageEmbed extends Vue {
   @Prop() private image!: any;
   loadImage = false;
-  intersectObserver: IntersectionObserver | null = null;
 
-  mounted() {
-    const contentEl = this.$refs["content"] as any;
-
-    this.setDimensions();
-
-    this.intersectObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          this.fetchImage();
-          this.intersectObserver?.unobserve(contentEl);
-          this.intersectObserver?.disconnect();
-        }
-      });
-    });
-    this.intersectObserver.observe(contentEl);
-  }
-  beforeDestroy() {
-    const contentEl = this.$refs["content"] as any;
-
-    this.intersectObserver?.unobserve(contentEl);
-    this.intersectObserver?.disconnect();
-  }
   onClick() {
     PopoutsModule.ShowPopout({
       id: "image-preview-popout",
       component: "image-preview-popout",
       data: {
         url: this.imageURL,
-        dimensions: this.image.dimensions
-      }
+      },
     });
   }
   fetchImage() {
@@ -63,17 +38,6 @@ export default class ImageMessageEmbed extends Vue {
       this.loadImage = true;
     };
     image.src = this.pauseGifURL || "";
-  }
-
-  @Watch("windowSize")
-  setDimensions() {
-    const contentEl = this.$refs["content"] as any;
-    const logsEl = document.getElementById("messageLogs");
-    const dimensions = this.image.dimensions;
-    if (!dimensions) return;
-    if (!contentEl) return;
-    if (!logsEl) return;
-    resizeKeepAspect(contentEl, logsEl, dimensions.width, dimensions.height);
   }
 
   get isWindowFocused() {
@@ -95,12 +59,6 @@ export default class ImageMessageEmbed extends Vue {
       process.env.VUE_APP_IMAGE_PROXY_URL + encodeURIComponent(this.image.url)
     );
   }
-  get windowSize() {
-    return {
-      height: windowProperties.resizeHeight,
-      width: windowProperties.resizeWidth
-    };
-  }
 }
 </script>
 
@@ -112,6 +70,7 @@ export default class ImageMessageEmbed extends Vue {
   overflow: hidden;
   min-width: 200px;
   min-height: 200px;
+  max-width: 500px;
 
   cursor: pointer;
   &:hover {

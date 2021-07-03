@@ -26,6 +26,7 @@
 </template>
 
 <script lang="ts">
+// TODO: remove resizeKeepAspect
 import resizeKeepAspect from "@/utils/resizeKeepAspect";
 import windowProperties from "@/utils/windowProperties";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";

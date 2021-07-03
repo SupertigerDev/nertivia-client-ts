@@ -6,57 +6,33 @@
   >
     <div class="outer-content">
       <div class="inner-content" ref="content">
-        <div class="gif" v-if="isGif">GIF</div>
-        <img v-if="loadImage" :src="pauseGifURL" />
+        <!-- <div class="gif" v-if="isGif">GIF</div> -->
+        <img :src="pauseGifURL" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import windowProperties from "@/utils/windowProperties";
 import Message from "@/interfaces/Message";
-import resizeKeepAspect from "@/utils/resizeKeepAspect";
 import { PopoutsModule } from "@/store/modules/popouts";
 @Component
 export default class ImageMessageEmbed extends Vue {
   @Prop() private message!: Message & { grouped: boolean };
   loadImage = false;
-  intersectObserver: IntersectionObserver | null = null;
 
-  mounted() {
-    const contentEl = this.$refs["content"] as any;
-
-    this.setDimensions();
-
-    this.intersectObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          this.fetchImage();
-          this.intersectObserver?.unobserve(contentEl);
-          this.intersectObserver?.disconnect();
-        }
-      });
-    });
-    this.intersectObserver.observe(contentEl);
-  }
-  beforeDestroy() {
-    const contentEl = this.$refs["content"] as any;
-
-    this.intersectObserver?.unobserve(contentEl);
-    this.intersectObserver?.disconnect();
-  }
   onClick() {
     PopoutsModule.ShowPopout({
       id: "image-preview-popout",
       component: "image-preview-popout",
       data: {
         url: this.imageURL,
-        dimensions: this.dimensions
-      }
+      },
     });
   }
+
   fetchImage() {
     const image = new Image();
     image.onload = () => {
@@ -66,24 +42,6 @@ export default class ImageMessageEmbed extends Vue {
     image.src = this.pauseGifURL || "";
   }
 
-  @Watch("windowSize")
-  setDimensions() {
-    const contentEl = this.$refs["content"] as any;
-    const logsEl = document.getElementById("messageLogs");
-    if (!this.dimensions) return;
-    if (!contentEl) return;
-    if (!logsEl) return;
-    resizeKeepAspect(
-      contentEl,
-      logsEl,
-      this.dimensions.width,
-      this.dimensions.height
-    );
-  }
-
-  get dimensions() {
-    return this.message.files?.[0]?.dimensions;
-  }
   get isWindowFocused() {
     return windowProperties.isFocused;
   }
@@ -109,12 +67,6 @@ export default class ImageMessageEmbed extends Vue {
       `/media/${file.fileID}/${file.fileName}`
     );
   }
-  get windowSize() {
-    return {
-      height: windowProperties.resizeHeight,
-      width: windowProperties.resizeWidth
-    };
-  }
 }
 </script>
 
@@ -126,6 +78,8 @@ export default class ImageMessageEmbed extends Vue {
   background: rgba(0, 0, 0, 0.4);
   min-width: 200px;
   min-height: 200px;
+  max-width: 500px;
+
   overflow: hidden;
   cursor: pointer;
   &:hover {
