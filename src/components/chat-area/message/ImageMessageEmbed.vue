@@ -76,9 +76,6 @@ export default class ImageMessageEmbed extends Vue {
   position: relative;
   border-radius: 4px;
   background: rgba(0, 0, 0, 0.4);
-  min-width: 200px;
-  min-height: 200px;
-  max-width: 500px;
 
   overflow: hidden;
   cursor: pointer;
@@ -104,12 +101,21 @@ export default class ImageMessageEmbed extends Vue {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 200px;
 }
+
 img {
   width: 100%;
   height: 100%;
+
+  min-width: 200px;
+  min-height: 200px;
+
+  max-height: 500px;
+  max-width: 500px;
+
+  object-fit: contain;
 }
+
 .image-embed:hover {
   .gif {
     opacity: 0;

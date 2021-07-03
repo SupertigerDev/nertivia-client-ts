@@ -32,7 +32,7 @@ export default class ProfilePopout extends Vue {
 
   width: 100%;
   height: 100%;
-  padding: 5vmin;
+
   box-sizing: border-box;
 
   background: rgb(12 12 14 / 0.658);
@@ -44,10 +44,12 @@ export default class ProfilePopout extends Vue {
 .image {
   width: auto;
   height: auto;
-  max-width: 65vmin;
-  max-height: 100%;
+
+  max-width: min(90vw, 750px);
+  max-height: min(90vh, 750px);
 
   border-radius: 4px;
+  overflow: hidden;
   box-sizing: border-box;
 
   user-select: none;
