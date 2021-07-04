@@ -1,5 +1,5 @@
 <template>
-  <div class="actionMessage">
+  <div class="message actionMessage">
     <AvatarImage
       class="avatar"
       :imageId="message.creator.avatar"
@@ -124,12 +124,5 @@ export default class ActionMessageTemplate extends Vue {
   font-size: 14px;
   margin-top: 5px;
   text-align: left;
-}
-</style>
-<style lang="scss">
-.actionMessage:hover {
-  .options-button {
-    opacity: 1;
-  }
 }
 </style>

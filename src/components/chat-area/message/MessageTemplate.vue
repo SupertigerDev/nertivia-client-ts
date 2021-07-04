@@ -220,11 +220,3 @@ export default class MessageLogs extends Vue {
   opacity: 0.6;
 }
 </style>
-
-<style lang="scss">
-.message-container:hover {
-  .options-button {
-    opacity: 1;
-  }
-}
-</style>
