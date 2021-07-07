@@ -1,7 +1,7 @@
 <template>
   <div
     class="image-embed"
-    :class="{ animate: isWindowFocused && !loadImage }"
+    :class="{ animate: isWindowFocused }"
     @click="onClick"
   >
     <div class="outer-content">
@@ -35,8 +35,8 @@ export default class ImageMessageEmbed extends Vue {
       id: "image-preview-popout",
       component: "image-preview-popout",
       data: {
-        url: this.imageURL,
-      },
+        url: this.imageURL
+      }
     });
   }
 

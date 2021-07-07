@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.40.3-stable",
+		"date": "7 July 2021",
+		"title": "Cache Input",
+		"new": ["Input now saves when switching channels.", "Message counter now shows when there is more than 4000 characters."]
+	},
+	{
 		"version": "1.40.2-stable",
 		"date": "30 June 2021",
 		"title": "Markup Improvements (by bree)",

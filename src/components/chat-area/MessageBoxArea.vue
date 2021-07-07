@@ -67,12 +67,20 @@
         icon="tag_faces"
         @click="showEmojiPicker = !showEmojiPicker"
       />
-      <ButtonTemplate
-        class="button"
+
+      <div
+        class="button-container"
         v-if="message.trim().length && editingMessageID"
-        @click="sendMessage"
-        icon="edit"
-      />
+      >
+        <ButtonTemplate class="button" @click="sendMessage" icon="edit" />
+        <span
+          class="text-counter"
+          :class="{ max: message.length > 5000 }"
+          v-if="message.length > 4000"
+          >{{ message.length }}<br />/<br />5000</span
+        >
+      </div>
+
       <ButtonTemplate
         class="button"
         v-else-if="!message.length && editingMessageID"
@@ -80,12 +88,23 @@
         :alert="true"
         icon="delete"
       />
-      <ButtonTemplate
-        class="button"
+      <div
+        class="button-container"
         v-else-if="message.trim().length || showUploadBox"
-        @click="sendMessage"
-        :icon="showUploadBox ? 'upload' : 'send'"
-      />
+      >
+        <ButtonTemplate
+          class="button"
+          @click="sendMessage"
+          :warn="message.length > 5000"
+          :icon="showUploadBox ? 'upload' : 'send'"
+        />
+        <span
+          class="text-counter"
+          :class="{ max: message.length > 5000 }"
+          v-if="message.length > 4000"
+          >{{ message.length }}<br />/<br />5000</span
+        >
+      </div>
     </div>
     <div class="no-perm" v-else>
       {{ $t("message-area.no-message-perm") }}
@@ -105,7 +124,7 @@ import EditPanel from "./EditPanel.vue";
 import { MeModule } from "@/store/modules/me";
 import { MessagesModule } from "@/store/modules/messages";
 import { MessageInputModule } from "@/store/modules/messageInput";
-import { Component, Vue, Watch } from "vue-property-decorator";
+import { Component, Ref, Vue, Watch } from "vue-property-decorator";
 import WindowProperties from "@/utils/windowProperties";
 import { editMessage, postTypingStatus } from "@/services/messagesService";
 import Message from "@/interfaces/Message";
@@ -115,6 +134,11 @@ import { ChannelsModule } from "@/store/modules/channels";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { permissions } from "@/constants/rolePermissions";
 import { ServersModule } from "@/store/modules/servers";
+import {
+  cacheInput,
+  deleteInputCache,
+  getInputCache
+} from "@/utils/inputCache";
 import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
 const EmojiPicker = () =>
   import(
@@ -134,10 +158,14 @@ const EmojiPicker = () =>
   }
 })
 export default class MessageBoxArea extends Vue {
+  @Ref("textarea") readonly textarea!: HTMLInputElement;
+
   postTypingTimeout: number | null = null;
+  saveInputTimeout: number | null = null;
   showEmojiPicker = false;
   mounted() {
     this.resizeTextArea();
+    this.message = getInputCache(this.channelID) || "";
   }
   beforeDestroy() {
     this.stopPostingTypingStatus();
@@ -209,7 +237,7 @@ export default class MessageBoxArea extends Vue {
     }
   }
   setEditMessage(messageID?: string, _message?: Required<Message>) {
-    (this.$refs["textarea"] as HTMLElement).focus();
+    this.textarea.focus();
     const message =
       _message || this.channelMessages.find(m => m.messageID === messageID);
     if (!message) return;
@@ -218,9 +246,10 @@ export default class MessageBoxArea extends Vue {
   }
   sendMessage() {
     if (!this.channelMessages) return;
-    (this.$refs["textarea"] as HTMLElement).focus();
+    this.textarea.focus();
     // format message before sending it.
     // replaces custom emoji names with emoji code n stuff
+    if (this.message.length > 5000) return;
     const message = formatMessage(
       this.message,
       ChannelsModule.serverChannels(this.serverID || "")
@@ -238,6 +267,8 @@ export default class MessageBoxArea extends Vue {
         return;
       }
     }
+
+    deleteInputCache(this.channelID);
 
     if (this.showUploadBox) {
       this.message = "";
@@ -335,18 +366,34 @@ export default class MessageBoxArea extends Vue {
   }
   @Watch("message")
   messageChanged() {
+    if (this.saveInputTimeout) {
+      clearTimeout(this.saveInputTimeout);
+    }
+    this.saveInputTimeout = setTimeout(() => {
+      cacheInput(this.channelID, this.message);
+    }, 500);
     this.resizeTextArea();
+    this.postTypingStatus();
   }
   @Watch("channelID")
-  onChannelIDChange() {
+  onChannelIDChange(after: string, before: string) {
+    if (this.saveInputTimeout) {
+      clearTimeout(this.saveInputTimeout);
+    }
+    cacheInput(before, this.message);
+
+    this.message = getInputCache(after) || "";
+
     setTimeout(() => {
       if (this.$isMobile) return;
-      (this.$refs["textarea"] as HTMLElement)?.focus();
+      this.textarea.focus();
+      this.textarea.setSelectionRange(
+        this.textarea.value.length,
+        this.textarea.value.length
+      );
     }, 10);
     this.stopPostingTypingStatus();
-    this.editingMessage = null;
   }
-  @Watch("message")
   async postTypingStatus() {
     if (!this.message.trim().length) {
       this.postTypingTimeout && clearTimeout(this.postTypingTimeout);
@@ -366,6 +413,10 @@ export default class MessageBoxArea extends Vue {
     if (!this.isFocused) {
       this.stopPostingTypingStatus();
     }
+  }
+  @Watch("isConnected")
+  onConnected() {
+    this.resizeTextArea();
   }
   @Watch("windowWidthSize")
   onWidthResize() {
@@ -482,6 +533,16 @@ export default class MessageBoxArea extends Vue {
   min-height: 45px;
   position: relative;
   caret-color: var(--primary-color);
+}
+.text-counter {
+  display: block;
+  color: var(--warn-color);
+  text-align: center;
+  width: 100%;
+  font-size: 12px;
+  &.max {
+    color: var(--alert-color);
+  }
 }
 
 .input-box {
