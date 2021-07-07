@@ -26,6 +26,6 @@ function getAllInputCache(): {[key: string]: string} {
 
 function addInputCache(channelID: string, message: string) {
     const cache = getAllInputCache();
-    cache[channelID] = message;
+    cache[channelID] = message.substring(0, 5000);;
     localStorage["inputCache"] = JSON.stringify(cache);
 }
