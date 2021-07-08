@@ -389,10 +389,11 @@ export default class ProfilePopout extends Vue {
       font-size: 18px;
       overflow: hidden;
       display: flex;
+      align-items: center;
     }
     .tag {
       font-size: 16px;
-      opacity: 0.7;
+      color: rgba(255, 255, 255, 0.7);
     }
     .username {
       white-space: nowrap;
