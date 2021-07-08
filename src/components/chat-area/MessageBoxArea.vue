@@ -418,6 +418,10 @@ export default class MessageBoxArea extends Vue {
   onConnected() {
     this.resizeTextArea();
   }
+  @Watch("editingMessageID")
+  onEditingMessage() {
+    this.textarea.focus();
+  }
   @Watch("windowWidthSize")
   onWidthResize() {
     this.resizeTextArea();
