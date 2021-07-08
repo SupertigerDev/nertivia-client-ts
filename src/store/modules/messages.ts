@@ -166,6 +166,12 @@ class Messages extends VuexModule {
     });
     postMessage(trimmedMessage, tempID, payload.channelID)
       .then(res => {
+        if (ChannelsModule.getDMChannel(payload.channelID)) {
+          ChannelsModule.updateChannel({
+            channelID: payload.channelID,
+            update: { lastMessaged: Date.now() }
+          });
+        }
         this.UpdateLastMessageSend({
           channelID: payload.channelID,
           timestamp: Date.now()
