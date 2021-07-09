@@ -8,7 +8,7 @@
     <div class="content">
       <div
         class="item-container"
-        v-for="(item, i) in items"
+        v-for="(item, i) in itemsWithExtras"
         :class="{ disabled: item.disabled }"
         @click="itemClicked(item)"
         @mouseover="itemHover(item, $event)"
@@ -48,9 +48,10 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import windowProperties from "@/utils/windowProperties";
 
 interface ItemsProp {
-  name: string;
+  name?: string;
   color?: string;
   type?: string;
+  id?: string;
   icon?: string;
   iconSize?: string;
   warn?: string;
@@ -60,11 +61,13 @@ interface ItemsProp {
 @Component
 export default class extends Vue {
   @Prop() private pos!: { x?: number; y?: number };
+  @Prop() private element!: HTMLElement;
   @Prop() private items!: ItemsProp[];
   @Prop() private type!: string;
   height = 0;
   width = 0;
   mount = false;
+  selection = window.getSelection()?.toString();
   currentHoveringItem: any = null;
   clickOutside(event: any) {
     if (!this.mount) return;
@@ -78,12 +81,16 @@ export default class extends Vue {
     this.height = this.$el.clientHeight;
     this.width = this.$el.clientWidth;
   }
-  itemClicked(item: any) {
+  itemClicked(item: ItemsProp) {
     if (item.type === "seperator") return;
     if (item.disabled) return;
     this.$emit("itemClick", item);
     if (item.nestContext) return;
     this.$emit("close");
+
+    if (item.id === "_copy") {
+      document.execCommand("copy");
+    }
   }
   itemHover(item: any, event: any) {
     this.currentHoveringItem = item;
@@ -95,6 +102,21 @@ export default class extends Vue {
         target: event.target.closest(".content")
       });
     }, 200);
+  }
+
+  get itemsWithExtras() {
+    if (!this.selection?.trim()) {
+      return this.items;
+    }
+    const seperator: ItemsProp = {
+      type: "seperator"
+    };
+    const copyItem: ItemsProp = {
+      id: "_copy",
+      name: "Copy",
+      icon: "content_copy"
+    };
+    return [copyItem, seperator, ...this.items];
   }
 
   get clampPos() {
