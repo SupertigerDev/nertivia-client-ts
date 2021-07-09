@@ -4,7 +4,6 @@
     :id="'message-' + message.messageID"
     @mouseover="hover = true"
     @mouseleave="hover = false"
-    @contextmenu="globalContextEvent"
   >
     <div
       class="container blocked"
