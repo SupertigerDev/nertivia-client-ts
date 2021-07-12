@@ -81,7 +81,8 @@ export default class Bubble extends Vue {
         tempUser: this.message.creator,
         x: event.clientX,
         y: event.clientY,
-        id: this.message.creator.id
+        id: this.message.creator.id,
+        element: event.target
       }
     });
   }

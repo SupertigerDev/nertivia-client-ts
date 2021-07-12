@@ -36,7 +36,8 @@ export default class MessageSide extends Vue {
         x: event.pageX,
         y: event.pageY,
         message: this.message,
-        tempUser: this.message.creator
+        tempUser: this.message.creator,
+        element: event.target
       }
     });
   }

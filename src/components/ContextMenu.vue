@@ -11,7 +11,7 @@
         v-for="(item, i) in itemsWithExtras"
         :class="{ disabled: item.disabled }"
         @click="itemClicked(item)"
-        @mouseover="itemHover(item, $event)"
+        @mouseenter="itemHover(item, $event)"
         :key="i"
       >
         <div
@@ -67,7 +67,7 @@ export default class extends Vue {
   height = 0;
   width = 0;
   mount = false;
-  selection = window.getSelection()?.toString();
+  selection = window.getSelection();
   currentHoveringItem: any = null;
   clickOutside(event: any) {
     if (!this.mount) return;
@@ -105,7 +105,9 @@ export default class extends Vue {
   }
 
   get itemsWithExtras() {
-    if (!this.selection?.trim()) {
+    const selectionElement = this.selection?.focusNode?.parentElement;
+    if (selectionElement !== this.element) return this.items;
+    if (!this.selection?.toString()?.trim()) {
       return this.items;
     }
     const seperator: ItemsProp = {

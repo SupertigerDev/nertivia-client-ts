@@ -3,6 +3,7 @@
     ref="context"
     :items="items"
     :pos="pos"
+    :element="data.element"
     @itemClick="itemClick"
     @close="close"
   />
@@ -28,6 +29,7 @@ export default class extends Vue {
     id: string;
     tempUser: User;
     parentContextWidth?: number;
+    element: HTMLElement;
   };
 
   mounted() {

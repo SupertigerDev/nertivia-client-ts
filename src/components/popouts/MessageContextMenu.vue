@@ -3,6 +3,7 @@
     ref="context"
     :items="items"
     :pos="pos"
+    :element="data.element"
     @close="close"
     @itemClick="itemClick"
     @itemHover="itemHover"
@@ -30,6 +31,7 @@ export default class extends Vue {
     y?: number;
     tempUser: User;
     message: Message & { grouped: boolean };
+    element: HTMLElement;
   };
   close() {
     PopoutsModule.ClosePopout("context");
