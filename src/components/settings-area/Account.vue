@@ -84,6 +84,7 @@
           class="username"
           :error="errors['username'] || errors['tag']"
           prefixIcon="account_box"
+          :connectRight="true"
         />
         <CustomInput
           class="tag"
@@ -91,6 +92,7 @@
           :error="errors['tag'] ? ' ' : undefined"
           v-model="tag"
           prefixIcon="local_offer"
+          :connectLeft="true"
         />
       </div>
       <CustomInput

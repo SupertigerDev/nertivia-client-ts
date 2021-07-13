@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.40.4-stable",
+		"date": "13 July 2021",
+		"title": "Small Visual Changes",
+		"changes": "Input box, drop down menu and context menu slight design changes"
+	},
+	{
 		"version": "1.40.3-stable",
 		"date": "7 July 2021",
 		"title": "Cache Input",

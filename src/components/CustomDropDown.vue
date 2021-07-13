@@ -3,7 +3,7 @@
     <fieldset class="content" :class="{ focused, error, valid: validMessage }">
       <legend class="title">{{ title }}</legend>
       <div class="container" @click="openDropDown = !openDropDown">
-        <div class="selected">
+        <div class="selected-preview">
           <AvatarImage
             class="avatar"
             v-if="selectedItem && selectedItem.avatar"
@@ -100,7 +100,7 @@ export default class CustomDropDown extends Vue {
   user-select: none;
 }
 .input .content {
-  border-radius: 4px;
+  border-radius: 8px;
   border: solid 2px rgba(255, 255, 255, 0.2);
   transition: 0.2s;
   position: relative;
@@ -131,7 +131,7 @@ export default class CustomDropDown extends Vue {
   opacity: 0.4;
   font-size: 14px;
 }
-.selected {
+.selected-preview {
   border: none;
   color: white;
   display: inline-block;
@@ -169,10 +169,12 @@ export default class CustomDropDown extends Vue {
   transition: 0.2s;
 }
 .dropdown {
+  display: flex;
+  flex-direction: column;
   position: absolute;
-  left: 0px;
-  right: 0px;
-  top: 45px;
+  left: -2px;
+  right: -2px;
+  top: 47px;
   background: var(--context-menu-bg-color);
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
   overflow: hidden;
@@ -180,10 +182,12 @@ export default class CustomDropDown extends Vue {
   overflow-y: auto;
   z-index: 111111111;
 
-  border-radius: 4px;
+  border-radius: 8px;
   .dropdown-content {
     display: flex;
     flex-direction: column;
+    gap: 5px;
+    padding: 5px;
     opacity: 0;
     animation: showUp 0.2s;
     animation-fill-mode: forwards;
@@ -199,6 +203,7 @@ export default class CustomDropDown extends Vue {
     display: flex;
     align-content: center;
     align-items: center;
+    border-radius: 4px;
     .icon {
       transition: 0.2s;
       font-size: 21px;

@@ -6,7 +6,9 @@
         focused: focused || value.length,
         error,
         valid: validMessage,
-        disabled
+        disabled,
+        connectLeft,
+        connectRight
       }"
       @click="$refs.inputBox.focus()"
     >
@@ -75,6 +77,8 @@ export default class CustomInput extends Vue {
   @Prop() private value!: string;
   @Prop() private prefix!: string;
   @Prop() private prefixIcon!: string;
+  @Prop() private connectLeft!: boolean;
+  @Prop() private connectRight!: boolean;
   @Prop({ default: false }) private hideError!: boolean;
 
   inputEvent(event: any) {
@@ -91,7 +95,7 @@ export default class CustomInput extends Vue {
   flex-shrink: 0;
 }
 .content {
-  border-radius: 4px;
+  border-radius: 8px;
   border: solid 2px rgba(255, 255, 255, 0.2);
   overflow: hidden;
   cursor: text;
@@ -107,6 +111,16 @@ export default class CustomInput extends Vue {
   }
   &.disabled {
     border: solid 2px gray;
+  }
+  .connectLeft {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-left: -1px;
+  }
+  .connectRight {
+    margin-right: -1px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
   }
 }
 .title {
