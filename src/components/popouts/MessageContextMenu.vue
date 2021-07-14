@@ -31,7 +31,7 @@ export default class extends Vue {
     y?: number;
     tempUser: User;
     message: Message & { grouped: boolean };
-    element: HTMLElement;
+    element?: HTMLElement;
   };
   close() {
     PopoutsModule.ClosePopout("context");
@@ -112,7 +112,7 @@ export default class extends Vue {
     if (this.message.type === 0) {
       items.push({
         id: "copy",
-        name: this.$t("generic.copy"),
+        name: "Copy Message",
         icon: "developer_board"
       });
     }

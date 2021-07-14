@@ -4,6 +4,7 @@
     :id="'message-' + message.messageID"
     @mouseover="hover = true"
     @mouseleave="hover = false"
+    @contextmenu="messageContext"
   >
     <div
       class="container blocked"
@@ -97,6 +98,32 @@ export default class MessageLogs extends Vue {
       component: "profile-popout",
       data: { id: this.creator.id }
     });
+  }
+
+  messageContext(event: MouseEvent & { target: HTMLElement }) {
+    if (this.$isMobile) return;
+    const whitelistArr = [".message-content", ".date", ".time"];
+    for (let index = 0; index < whitelistArr.length; index++) {
+      const allowClass = whitelistArr[index];
+      const closestElement = event.target.closest(allowClass);
+      if (closestElement) {
+        event.preventDefault();
+        const id = this.message.tempID || this.message.messageID || "";
+        PopoutsModule.ShowPopout({
+          id: "context",
+          component: "MessageContextMenu",
+          key: id + event.pageX + event.pageY,
+          data: {
+            x: event.pageX,
+            y: event.pageY,
+            message: this.message,
+            tempUser: this.message.creator,
+            element: event.target
+          }
+        });
+        break;
+      }
+    }
   }
 
   userContext(event: MouseEvent) {

@@ -105,11 +105,12 @@ export default class extends Vue {
   }
 
   get itemsWithExtras() {
-    const selectionElement = this.selection?.focusNode?.parentElement;
-    if (selectionElement !== this.element) return this.items;
-    if (!this.selection?.toString()?.trim()) {
-      return this.items;
-    }
+    if (!this.element) return this.items;
+    const clickedElementSelected =
+      this.selection?.toString().length &&
+      this.selection.containsNode(this.element, true);
+
+    if (!clickedElementSelected) return this.items;
     const seperator: ItemsProp = {
       type: "seperator"
     };

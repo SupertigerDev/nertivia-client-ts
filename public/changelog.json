@@ -1,5 +1,12 @@
 [
 	{
+		"version": "1.40.5-stable",
+		"date": "14 July 2021",
+		"title": "Small Improvements and fixes",
+		"new": "You can now highlight and copy messages in the desktop app.",
+		"fixes": "URL embeded images would not load."
+	},
+	{
 		"version": "1.40.4-stable",
 		"date": "13 July 2021",
 		"title": "Small Visual Changes",

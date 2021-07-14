@@ -21,6 +21,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
 export default class ImageMessageEmbed extends Vue {
   @Prop() private image!: any;
   loadImage = false;
+  intersectObserver: IntersectionObserver | null = null;
 
   onClick() {
     PopoutsModule.ShowPopout({
@@ -30,6 +31,20 @@ export default class ImageMessageEmbed extends Vue {
         url: this.imageURL
       }
     });
+  }
+
+  mounted() {
+    const contentEl = this.$refs["content"] as any;
+    this.intersectObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          this.fetchImage();
+          this.intersectObserver?.unobserve(contentEl);
+          this.intersectObserver?.disconnect();
+        }
+      });
+    });
+    this.intersectObserver.observe(contentEl);
   }
   fetchImage() {
     const image = new Image();
@@ -102,13 +117,12 @@ img {
 
   min-width: 200px;
   min-height: 200px;
-  
+
   max-width: 500px;
   max-height: 500px;
 
   object-fit: contain;
 }
-
 
 .image-embed:hover {
   .gif {
