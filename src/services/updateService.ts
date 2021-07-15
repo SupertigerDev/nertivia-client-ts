@@ -3,6 +3,7 @@ export interface Changelog {
   date: string;
   title: string;
   new: string[];
+  image_url?: string;
   changes: string[];
   fixes: string[];
   body: string;

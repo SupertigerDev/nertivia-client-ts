@@ -1,5 +1,13 @@
 [
 	{
+		"version": "1.40.6-stable",
+		"date": "15 July 2021",
+		"title": "Updates To Changelog",
+		"image_url": "/img/changelog/preview-test-1.40.6.png",
+		"new": "Changelog can now contain preview images/GIFs",
+		"changes": "Updated changelog Design"
+	},
+	{
 		"version": "1.40.5-stable",
 		"date": "14 July 2021",
 		"title": "Small Improvements and fixes",
@@ -26,7 +34,7 @@
 			"Links surrounded with < and > like <https://example.com> will hide the containing characters and the embed",
 			"Added a new markup expression to allow for vertical text"
 		],
-		"body": "The new markup can be used like<pre><code>[vertical: text that is vertical  two spaces indicate a newline ]</code></pre>"
+		"body": "The new markup can be used like: <br><span style='background: #ffffff14;border-radius: 4px;padding: 3px;display: inline-block;'>[vertical: text that is vertical  two spaces indicate a newline ]</span>"
 	},
 	{
 		"version": "1.40.1-stable",
