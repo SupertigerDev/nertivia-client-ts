@@ -275,7 +275,7 @@ export default class NavBar extends Vue {
       content: "";
       color: white;
       position: absolute;
-      bottom: 10px;
+      bottom: 18px;
       right: 13px;
       background-color: var(--alert-color);
       border-radius: 50%;
@@ -289,11 +289,12 @@ export default class NavBar extends Vue {
       align-items: center;
       align-content: center;
       justify-content: center;
-      font-size: 12px;
-      width: 20px;
-      height: 20px;
-      bottom: 5px;
-      right: 10px;
+
+      right: 13px;
+      bottom: 17px;
+      font-size: 10px;
+      height: 15px;
+      width: 15px;
     }
   }
 }
@@ -345,21 +346,10 @@ export default class NavBar extends Vue {
     min-width: 50px;
     margin: 0px;
     margin-right: 3px;
-    .icon {
-      font-size: 19px;
-      margin-bottom: 3px;
-    }
     &.notification {
       &::before {
         bottom: 20px;
         right: 15px;
-      }
-      &.mentioned::before {
-        right: 13px;
-        bottom: 17px;
-        font-size: 10px;
-        height: 15px;
-        width: 15px;
       }
     }
   }
