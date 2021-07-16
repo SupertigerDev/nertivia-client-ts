@@ -145,8 +145,6 @@ export default class ChangelogTemplate extends Vue {
   width: 100%;
   height: 200px;
   object-fit: contain;
-  border: solid 2px rgba(255, 255, 255, 0.4);
-  border-radius: 8px;
   margin-bottom: 5px;
 }
 </style>

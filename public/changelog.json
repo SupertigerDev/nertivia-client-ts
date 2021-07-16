@@ -1,5 +1,13 @@
 [
 	{
+		"version": "1.40.7-stable",
+		"date": "16 July 2021",
+		"title": "Small Design Changes",
+		"image_url": "/img/changelog/design-changes-1.40.7.png",
+		"new": "Navigation bar now displays text under the title",
+		"changes": "Changed selected server design"
+	},
+	{
 		"version": "1.40.6-stable",
 		"date": "15 July 2021",
 		"title": "Updates To Changelog",
