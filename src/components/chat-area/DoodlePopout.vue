@@ -16,14 +16,16 @@
           @click="paint && paint.redoStroke()"
         />
         <div class="color-pick">
-          <div class="pick">
-            <div class="box" :style="{ backgroundColor: strokeColor }" />
-            <div class="name">Stroke</div>
-          </div>
-          <div class="pick">
-            <div class="box" :style="{ backgroundColor }" />
-            <div class="name">Background</div>
-          </div>
+          <CustomColorPicker
+            name="Stroke"
+            v-model="strokeColor"
+            @change="onStrokeColorChange"
+          />
+          <CustomColorPicker
+            name="Background"
+            @change="onBackgroundColorChange"
+            v-model="backgroundColor"
+          />
         </div>
       </div>
       <div class="canvas-container">
@@ -37,7 +39,8 @@
 import { Component, Prop, Ref, Vue } from "vue-property-decorator";
 import { PaintingContext } from "doodlepad";
 import CustomButton from "@/components/CustomButton.vue";
-@Component({ components: { CustomButton } })
+import CustomColorPicker from "@/components/CustomColorPicker.vue";
+@Component({ components: { CustomButton, CustomColorPicker } })
 export default class DoodlePopout extends Vue {
   @Ref() readonly canvas!: HTMLCanvasElement;
   context: CanvasRenderingContext2D | null = null;
@@ -69,11 +72,20 @@ export default class DoodlePopout extends Vue {
       this.paint?.redoStroke();
     }
   }
+  onBackgroundColorChange(color: string) {
+    if (!this.paint) return;
+    this.paint.backgroundColor = color;
+  }
+  onStrokeColorChange(color: string) {
+    if (!this.paint) return;
+    this.paint.strokeColor = color;
+  }
 
   close() {
     this.$emit("close");
   }
   backgroundClick(event) {
+    if (event.target.closest(".pcr-app")) return;
     if (!event.target.closest(".doodle-button")) this.close();
   }
 }
@@ -114,22 +126,15 @@ export default class DoodlePopout extends Vue {
   margin: 5px;
   .button {
     margin: 0;
+    width: 50px;
   }
 }
 .color-pick {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   margin: auto;
   margin-right: 0;
-  .pick {
-    display: flex;
-    align-items: center;
-    .box {
-      border-radius: 4px;
-      margin-right: 5px;
-      height: 15px;
-      width: 15px;
-      background: black;
-    }
-  }
 }
 @keyframes showUp {
   from {

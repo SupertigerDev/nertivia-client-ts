@@ -130,6 +130,10 @@ export default class ManageRolesPage extends Vue {
     });
     this.pickr.on("hide", this.colorChanged);
   }
+  beforeDestroy() {
+    this.pickr?.off("hide", this.colorChanged);
+    this.pickr?.destroyAndRemove();
+  }
   showPicker(event: any) {
     const rect = event.target.getBoundingClientRect();
     const top = rect.top - 47;
