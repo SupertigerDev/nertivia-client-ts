@@ -130,4 +130,10 @@ export default class ProfilePopout extends Vue {
   padding-left: 10px;
   padding-right: 10px;
 }
+@media (max-width: 500px) {
+  .generic-popout {
+    max-height: initial;
+    height: 100%;
+  }
+}
 </style>

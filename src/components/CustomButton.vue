@@ -14,12 +14,14 @@
       v-if="icon && iconPos !== 'right'"
       class="material-icons icon left"
       :class="{ 'no-text': !name }"
+      :style="{ fontSize: iconSize }"
       >{{ icon }}</span
     >
     {{ name }}
     <span
       v-if="icon && iconPos === 'right'"
       class="material-icons icon right"
+      :style="{ fontSize: iconSize }"
       >{{ icon }}</span
     >
   </button>
@@ -38,6 +40,7 @@ export default class CustomInput extends Vue {
   @Prop() private valid!: boolean;
   @Prop() private icon!: string;
   @Prop() private iconPos!: string;
+  @Prop() private iconSize!: string;
 }
 </script>
 

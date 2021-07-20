@@ -12,6 +12,7 @@
         :inputElement="$refs.textarea"
         @close="showEmojiPicker = false"
       />
+      <DoodlePopout v-if="showDoodlePopout" @close="showDoodlePopout = false" />
       <ScrollDownButton v-if="!isScrolledDown" />
     </div>
     <TypingStatus />
@@ -31,14 +32,14 @@
       <ButtonTemplate
         class="button"
         icon="close"
-        :alert="true"
+        :warn="true"
         v-else-if="editingMessageID"
         @click="editingMessage = null"
       />
       <ButtonTemplate
         class="button"
         icon="close"
-        :alert="true"
+        :warn="true"
         v-else-if="showUploadBox"
         @click="removeAttachment"
       />
@@ -61,7 +62,14 @@
         :disabled="!isConnected"
         :placeholder="placeholderMessage"
       />
-
+      <ButtonTemplate
+        class="button doodle-button"
+        v-if="
+          !editingMessageID && $window.localStorage['doodlepad_wip'] === 'true'
+        "
+        @click="showDoodlePopout = !showDoodlePopout"
+        icon="draw"
+      />
       <ButtonTemplate
         class="button emoji-button"
         icon="tag_faces"
@@ -85,7 +93,7 @@
         class="button"
         v-else-if="!message.length && editingMessageID"
         @click="sendMessage"
-        :alert="true"
+        :warn="true"
         icon="delete"
       />
       <div
@@ -144,6 +152,10 @@ const EmojiPicker = () =>
   import(
     /* webpackChunkName: "EmojiPicker" */ "@/components/emoji-picker/EmojiPicker.vue"
   );
+const DoodlePopout = () =>
+  import(
+    /* webpackChunkName: "DoodlePopout" */ "@/components/chat-area/DoodlePopout.vue"
+  );
 
 @Component({
   components: {
@@ -154,7 +166,8 @@ const EmojiPicker = () =>
     ButtonTemplate,
     SuggestionPopouts,
     ScrollDownButton,
-    RateLimitPopup
+    RateLimitPopup,
+    DoodlePopout
   }
 })
 export default class MessageBoxArea extends Vue {
@@ -163,6 +176,7 @@ export default class MessageBoxArea extends Vue {
   postTypingTimeout: number | null = null;
   saveInputTimeout: number | null = null;
   showEmojiPicker = false;
+  showDoodlePopout = false;
   mounted() {
     this.resizeTextArea();
     this.message = getInputCache(this.channelID) || "";

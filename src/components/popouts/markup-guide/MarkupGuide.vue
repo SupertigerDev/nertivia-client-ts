@@ -212,6 +212,12 @@ export default class MarkupGuide extends Vue {
     margin-left: 10px;
   }
 }
+@media (max-width: 500px) {
+  .markup-guide-popout {
+    max-height: initial;
+    height: 100%;
+  }
+}
 </style>
 <style>
 .markup-guide-popout .param {

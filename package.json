@@ -13,6 +13,7 @@
     "@simonwep/pickr": "^1.8.0",
     "base64-arraybuffer": "^0.1.4",
     "core-js": "^3.6.5",
+    "doodlepad": "^4.0.2",
     "filesize": "^3.6.1",
     "firebase": "^8.2.9",
     "highlight.js": "^10.6.0",

@@ -10,6 +10,7 @@
       >
         <div class="material-icons">{{ page.icon }}</div>
         <div class="name">{{ $t(`settings.tab-names.${path}`) }}</div>
+        <div class="alert-circle" v-if="page.alert"></div>
       </div>
     </div>
     <a
@@ -39,9 +40,17 @@ import settingPages from "@/utils/settingPages.json";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { DrawersModule } from "@/store/modules/drawers";
 
+interface Pages {
+  [key: string]: {
+    name: string;
+    icon: string;
+    component: string;
+    alert?: boolean;
+  };
+}
 @Component
 export default class MainApp extends Vue {
-  pages = settingPages;
+  pages: Pages = settingPages as any;
   get currentSettingTab() {
     return this.$route.params.tab;
   }
@@ -95,6 +104,14 @@ export default class MainApp extends Vue {
   border-radius: 4px;
   transition: 0.2s;
   overflow: hidden;
+  .alert-circle {
+    height: 7px;
+    width: 7px;
+    margin-left: auto;
+    margin-right: 10px;
+    background: var(--alert-color);
+    border-radius: 50%;
+  }
   .name {
     margin-left: 4px;
   }
