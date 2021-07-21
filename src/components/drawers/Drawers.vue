@@ -44,7 +44,7 @@ export default class MainApp extends Vue {
   startX = 0;
   startY = 0;
   touchStamp = 0;
-  scrolling = false;
+  pauseTouches = false;
   mounted() {
     DrawersModule.SetRightDrawer(!this.isMobile);
     window.addEventListener("touchstart", this.onTouchStart);
@@ -60,7 +60,15 @@ export default class MainApp extends Vue {
   }
 
   onTouchStart(event: TouchEvent) {
-    this.scrolling = false;
+    if ((event.target as any).closest(".pcr-app")) {
+      this.pauseTouches = true;
+      return;
+    }
+    if ((event.target as any).closest(".canvas-container")) {
+      this.pauseTouches = true;
+      return;
+    }
+    this.pauseTouches = false;
     if (!this.isMobile) return;
 
     this.touchStamp = Date.now();
@@ -80,7 +88,7 @@ export default class MainApp extends Vue {
   onTouchEnd(event: TouchEvent) {
     if (!this.isMobile) return;
 
-    this.scrolling = false;
+    this.pauseTouches = false;
     const x = event.changedTouches[0].clientX;
 
     const time = Date.now() - this.touchStamp;
@@ -136,7 +144,7 @@ export default class MainApp extends Vue {
   }
   onTouchMove(event: TouchEvent) {
     if (!this.isMobile) return;
-    if (this.scrolling) return;
+    if (this.pauseTouches) return;
 
     const x = event.touches[0].clientX;
     const touchDistance = x - this.startX;
@@ -168,7 +176,7 @@ export default class MainApp extends Vue {
     }
   }
   onScroll() {
-    this.scrolling = true;
+    this.pauseTouches = true;
   }
   closeAll() {
     this.closeLeft();

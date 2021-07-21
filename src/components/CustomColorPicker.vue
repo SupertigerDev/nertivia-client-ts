@@ -18,6 +18,7 @@ export default class CustomColorPicker extends Vue {
   @Ref() readonly pickerInput!: HTMLElement;
   @Prop() private name!: string;
   @Prop() private color!: string;
+  @Prop({ default: true }) private allowOpacity!: boolean;
 
   pickr: Pickr | null = null;
   popupShowing = false;
@@ -27,7 +28,7 @@ export default class CustomColorPicker extends Vue {
       theme: "classic",
       components: {
         preview: true,
-        opacity: true,
+        opacity: this.allowOpacity,
         hue: true,
         palette: true,
         interaction: {

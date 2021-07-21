@@ -15,6 +15,13 @@
           icon="redo"
           @click="paint && paint.redoStroke()"
         />
+        <CustomButton
+          class="button"
+          :class="{ erase }"
+          name="Erase"
+          :alert="true"
+          @click="onEraseClick"
+        />
         <div class="color-pick">
           <CustomColorPicker
             name="Stroke"
@@ -23,13 +30,39 @@
           />
           <CustomColorPicker
             name="Background"
+            :allowOpacity="false"
             @change="onBackgroundColorChange"
             v-model="backgroundColor"
           />
         </div>
       </div>
       <div class="canvas-container">
-        <canvas ref="canvas"></canvas>
+        <canvas ref="canvas" class="canvas"></canvas>
+      </div>
+      <div class="bottom-items">
+        <div class="title">
+          Stroke <span>{{ strokeSize }}px</span>
+        </div>
+        <input
+          type="range"
+          @change="onStrokeSizeChange"
+          min="1"
+          max="200"
+          v-model="strokeSize"
+          step="1"
+        />
+        <div class="title">
+          Stabilization
+          <span>{{ Math.round(parseFloat(stablization) * 100) }}%</span>
+        </div>
+        <input
+          type="range"
+          @change="onStablizationChange"
+          min="0"
+          max="1"
+          v-model="stablization"
+          step="0.01"
+        />
       </div>
     </div>
   </div>
@@ -47,6 +80,10 @@ export default class DoodlePopout extends Vue {
   paint: PaintingContext | null = null;
   backgroundColor = "white";
   strokeColor = "black";
+  strokeSize = "3";
+  stablization = "0.50";
+  erase = false;
+
   mounted() {
     const parentElement = this.canvas.parentElement;
     if (!parentElement) return;
@@ -58,6 +95,9 @@ export default class DoodlePopout extends Vue {
     this.paint = new PaintingContext(this.context);
     this.paint.backgroundColor = this.backgroundColor;
     this.paint.strokeColor = this.strokeColor;
+    this.paint.strokeSize = parseInt(this.strokeSize);
+    this.paint.strokeSmoothing = parseFloat(this.stablization);
+
     document.addEventListener("keydown", this.onKeyDown);
   }
   beforeDestroy() {
@@ -80,7 +120,25 @@ export default class DoodlePopout extends Vue {
     if (!this.paint) return;
     this.paint.strokeColor = color;
   }
-
+  onStrokeSizeChange(event: any) {
+    if (!this.paint) return;
+    this.paint.strokeSize = parseInt(event.target.value);
+  }
+  onStablizationChange(event: any) {
+    if (!this.paint) return;
+    this.paint.strokeSmoothing = parseFloat(event.target.value);
+  }
+  onEraseClick() {
+    if (!this.paint) return;
+    if (!this.erase) {
+      console.log(this.paint.backgroundColor);
+      this.erase = true;
+      this.paint.strokeColor = "currentBackground";
+      return;
+    }
+    this.erase = false;
+    this.paint.strokeColor = this.strokeColor;
+  }
   close() {
     this.$emit("close");
   }
@@ -119,6 +177,14 @@ export default class DoodlePopout extends Vue {
 }
 .canvas-container {
   height: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+.canvas {
+  touch-action: none;
 }
 .strip {
   display: flex;
@@ -127,6 +193,25 @@ export default class DoodlePopout extends Vue {
   .button {
     margin: 0;
     width: 50px;
+    &.erase {
+      background-color: var(--alert-color);
+      color: white;
+    }
+  }
+}
+.bottom-items {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  margin-bottom: 5px;
+  .title {
+    margin-left: 5px;
+    display: flex;
+    span {
+      margin-left: auto;
+      margin-right: 10px;
+      color: rgba(255, 255, 255, 0.6);
+    }
   }
 }
 .color-pick {
