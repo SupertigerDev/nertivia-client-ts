@@ -21,10 +21,14 @@ import {
 } from "@/utils/customCssVars";
 import { applyFont } from "./utils/applyFont";
 import fonts from "@/utils/fonts.json";
+import { clear } from "idb-keyval";
 
 @Component({ components: { WindowControl, Popouts } })
 export default class App extends Vue {
   mounted() {
+    if (!localStorage["hauthid"]) {
+      clear();
+    }
     // applyfont
     applyFont(localStorage["font"] || Object.values(fonts)[0].id);
     // set custom css colors

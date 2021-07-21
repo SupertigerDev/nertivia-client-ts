@@ -112,7 +112,7 @@ export default class MainApp extends Vue {
     applyTheme(id);
   }
   async loadCache() {
-    loadAllCacheToState([
+    await loadAllCacheToState([
       {
         storage: "me",
         state: MeModule.SetUser
