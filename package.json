@@ -17,6 +17,7 @@
     "filesize": "^3.6.1",
     "firebase": "^8.2.9",
     "highlight.js": "^10.6.0",
+    "idb-keyval": "^5.0.6",
     "jsonhtmlfyer": "^0.2.1",
     "ky": "^0.27.0",
     "match-sorter": "^6.3.0",

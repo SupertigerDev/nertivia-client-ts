@@ -35,6 +35,12 @@
             v-model="backgroundColor"
           />
         </div>
+        <CustomButton
+          class="button"
+          iconSize="18px"
+          icon="send"
+          @click="onSendClick"
+        />
       </div>
       <div class="canvas-container">
         <canvas ref="canvas" class="canvas"></canvas>
@@ -73,6 +79,9 @@ import { Component, Prop, Ref, Vue } from "vue-property-decorator";
 import { PaintingContext } from "doodlepad";
 import CustomButton from "@/components/CustomButton.vue";
 import CustomColorPicker from "@/components/CustomColorPicker.vue";
+import { FileUploadModule } from "@/store/modules/fileUpload";
+import { set, get } from "idb-keyval";
+
 @Component({ components: { CustomButton, CustomColorPicker } })
 export default class DoodlePopout extends Vue {
   @Ref() readonly canvas!: HTMLCanvasElement;
@@ -98,9 +107,27 @@ export default class DoodlePopout extends Vue {
     this.paint.strokeSize = parseInt(this.strokeSize);
     this.paint.strokeSmoothing = parseFloat(this.stablization);
 
+    get("doodlepad").then(val => {
+      if (!val) return;
+      const { strokeHistory, strokeColor, backgroundColor } = val;
+      if (!this.paint) return;
+      this.paint.strokeHistory = strokeHistory;
+      this.paint.backgroundColor = backgroundColor;
+      this.backgroundColor = backgroundColor;
+      this.paint.strokeColor = strokeColor;
+      this.strokeColor = strokeColor;
+      this.paint?.render();
+    });
+
     document.addEventListener("keydown", this.onKeyDown);
   }
   beforeDestroy() {
+    if (!this.paint) return;
+    set("doodlepad", {
+      strokeHistory: this.paint?.strokeHistory,
+      strokeColor: this.strokeColor,
+      backgroundColor: this.backgroundColor
+    });
     document.removeEventListener("keydown", this.onKeyDown);
   }
   onKeyDown(event: KeyboardEvent) {
@@ -138,6 +165,16 @@ export default class DoodlePopout extends Vue {
     this.erase = false;
     this.paint.strokeColor = this.strokeColor;
   }
+  onSendClick() {
+    this.canvas.toBlob(blob => {
+      if (!blob) return;
+      let file = new File([blob], "drawing.png", {
+        type: "image/png"
+      });
+      FileUploadModule.SetFile(file);
+      this.close();
+    }, "image/png");
+  }
   close() {
     this.$emit("close");
   }
@@ -167,8 +204,8 @@ export default class DoodlePopout extends Vue {
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
   transition: 0.3s;
   z-index: 99999;
-  height: 352px;
-  width: 375px;
+  height: 360px;
+  width: 380px;
   overflow: hidden;
   opacity: 0;
   animation: showUp 0.2s;

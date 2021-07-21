@@ -7,7 +7,7 @@
   "roboto": {
     "name": "Roboto",
     "id": "roboto",
-    "stylesheet": "https://fonts.googleapis.com/css2?family=Roboto:light,regular,medium,thin,italic,mediumitalic,bold&display=swap",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Roboto&display=swap",
     "css": "'Roboto', sans-serif"
   },
   "inter": {
