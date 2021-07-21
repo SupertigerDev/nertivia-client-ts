@@ -131,7 +131,6 @@ export default class DoodlePopout extends Vue {
   onEraseClick() {
     if (!this.paint) return;
     if (!this.erase) {
-      console.log(this.paint.backgroundColor);
       this.erase = true;
       this.paint.strokeColor = "currentBackground";
       return;
