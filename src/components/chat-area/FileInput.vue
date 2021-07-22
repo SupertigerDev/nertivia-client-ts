@@ -43,6 +43,7 @@ export default class MainApp extends Vue {
   display: flex;
   align-items: center;
   height: 100%;
+  margin-right: 10px;
 }
 .name {
   display: -webkit-box;

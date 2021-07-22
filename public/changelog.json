@@ -1,5 +1,12 @@
 [
 	{
+		"version": "1.40.8-stable",
+		"date": "22 July 2021",
+		"title": "Responsive Image Upload Dialog",
+		"image_url": "/img/changelog/responsive-upload-dialog-1.40.8.gif",
+		"changes": "Image upload dialog is now responsive and should fit on small screen devices."
+	},
+	{
 		"version": "1.40.7-stable",
 		"date": "16 July 2021",
 		"title": "Small Design Changes",

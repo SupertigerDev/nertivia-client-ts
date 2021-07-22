@@ -1,5 +1,5 @@
 <template>
-  <div class="file-upload" ref="container" :style="{ top: height }">
+  <div class="file-upload" ref="container">
     <div class="animate-container">
       <ImageInput v-if="isImage" />
       <FileInput v-else />
@@ -18,7 +18,6 @@ import ImageInput from "./ImageInput.vue";
 
 @Component({ components: { FileInput, ImageInput } })
 export default class MainApp extends Vue {
-  height = "-90px";
   mounted() {
     if (!this.isImage) {
       if (!MeModule.user.googleDriveLinked) {
@@ -37,9 +36,6 @@ export default class MainApp extends Vue {
       FileUploadModule.SetFile(undefined);
     }
     document.addEventListener("keydown", this.keyDown);
-    this.height =
-      -((this.$refs.container as HTMLElement).clientHeight + 10) + "px";
-    FileUploadModule.SetIsImage(this.isImage || false);
   }
   beforeDestroy() {
     document.removeEventListener("keydown", this.keyDown);
@@ -63,12 +59,14 @@ export default class MainApp extends Vue {
 .file-upload {
   display: flex;
   min-height: 80px;
-  padding-right: 10px;
   background: #2b2c2f;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.6);
   position: absolute;
-  top: -90px;
   left: 10px;
+  position: absolute;
+  bottom: 5px;
+  left: 10px;
+  margin-right: 10px;
   border-radius: 4px;
   z-index: 999999999;
   overflow: hidden;

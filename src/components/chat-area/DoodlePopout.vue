@@ -166,6 +166,7 @@ export default class DoodlePopout extends Vue {
     this.paint.strokeColor = this.strokeColor;
   }
   onSendClick() {
+    FileUploadModule.SetFile(undefined);
     this.canvas.toBlob(blob => {
       if (!blob) return;
       let file = new File([blob], "drawing.png", {

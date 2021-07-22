@@ -1,5 +1,5 @@
 <template>
-  <div class="file">
+  <div class="file" :class="{ mobile: parentWidth < 470 }" :style="{ width }">
     <div class="image-container"><div class="image" ref="image" /></div>
     <div class="details">
       <div class="name">{{ name }}</div>
@@ -21,15 +21,18 @@
 
 <script lang="ts">
 import { FileUploadModule } from "@/store/modules/fileUpload";
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import fileSize from "filesize";
 import CheckBox from "@/components/CheckBox.vue";
 import RadioBox from "@/components/RadioBox.vue";
 import { MeModule } from "@/store/modules/me";
 import { PopoutsModule } from "@/store/modules/popouts";
+import WindowProperties from "@/utils/windowProperties";
 
 @Component({ components: { CheckBox, RadioBox } })
 export default class MainApp extends Vue {
+  messageLogsEl: HTMLElement | null = null;
+  width = "450px";
   mounted() {
     // set image preview
     const reader = new FileReader();
@@ -40,6 +43,7 @@ export default class MainApp extends Vue {
     if (this.file) {
       reader.readAsDataURL(this.file);
     }
+    this.messageLogsEl = document.getElementById("messageLogs");
   }
   onToggleCompress(val: boolean) {
     if (!val && this.exceedCDNMaxSize && this.cdn === 1) {
@@ -61,6 +65,15 @@ export default class MainApp extends Vue {
     if (val === 1 && this.exceedCDNMaxSize) {
       FileUploadModule.SetCompress(true);
     }
+  }
+  @Watch("parentWidth")
+  onParentWidthChange() {
+    if (!this.parentWidth) return;
+    if (this.parentWidth < 470) {
+      this.width = this.parentWidth - 15 + "px";
+      return;
+    }
+    this.width = "450px";
   }
   get exceedCDNMaxSize() {
     const maxCDNSize = 7340000;
@@ -90,6 +103,12 @@ export default class MainApp extends Vue {
   set cdn(val) {
     FileUploadModule.SetCDN(val);
   }
+  get parentWidth() {
+    // this line is needed to make this getter reactive.
+    const windowWidth = WindowProperties.resizeWidth;
+
+    return this.messageLogsEl?.clientWidth || 0;
+  }
 }
 </script>
 
@@ -97,6 +116,7 @@ export default class MainApp extends Vue {
 .details {
   overflow: hidden;
   margin-left: 10px;
+  margin-right: 10px;
   margin-top: 10px;
   margin-bottom: 5px;
 }
@@ -104,8 +124,15 @@ export default class MainApp extends Vue {
   display: flex;
   align-items: center;
   height: 100%;
-  width: 450px;
-  min-width: 400px;
+  &.mobile {
+    flex-direction: column;
+    .image-container {
+      width: 100%;
+    }
+    .details {
+      align-self: flex-start;
+    }
+  }
 }
 .image-container {
   height: 172px;
