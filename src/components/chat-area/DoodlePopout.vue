@@ -22,12 +22,20 @@
           :alert="true"
           @click="onEraseClick"
         />
+        <CustomButton
+          class="button"
+          iconSize="18px"
+          icon="delete"
+          :alert="true"
+          @click="onClearClick"
+        />
         <div class="color-pick">
           <CustomColorPicker
             name="Stroke"
             v-model="strokeColor"
             @change="onStrokeColorChange"
           />
+
           <CustomColorPicker
             name="Background"
             :allowOpacity="false"
@@ -42,6 +50,7 @@
           @click="onSendClick"
         />
       </div>
+
       <div class="canvas-container">
         <canvas ref="canvas" class="canvas"></canvas>
       </div>
@@ -92,6 +101,8 @@ export default class DoodlePopout extends Vue {
   strokeSize = "3";
   stablization = "0.50";
   erase = false;
+  loaded = false;
+  clearCanavsConfirm = false;
 
   mounted() {
     const parentElement = this.canvas.parentElement;
@@ -117,12 +128,14 @@ export default class DoodlePopout extends Vue {
       this.paint.strokeColor = strokeColor;
       this.strokeColor = strokeColor;
       this.paint?.render();
+      this.loaded = true;
     });
 
     document.addEventListener("keydown", this.onKeyDown);
   }
   beforeDestroy() {
     if (!this.paint) return;
+    if (!this.loaded) return;
     set("doodlepad", {
       strokeHistory: this.paint?.strokeHistory,
       strokeColor: this.strokeColor,
@@ -131,11 +144,12 @@ export default class DoodlePopout extends Vue {
     document.removeEventListener("keydown", this.onKeyDown);
   }
   onKeyDown(event: KeyboardEvent) {
-    event.preventDefault();
     if (event.ctrlKey && !event.shiftKey && event.key.toUpperCase() === "Z") {
+      event.preventDefault();
       this.paint?.undoStroke();
     }
     if (event.ctrlKey && event.shiftKey && event.key.toUpperCase() === "Z") {
+      event.preventDefault();
       this.paint?.redoStroke();
     }
   }
@@ -175,6 +189,15 @@ export default class DoodlePopout extends Vue {
       FileUploadModule.SetFile(file);
       this.close();
     }, "image/png");
+  }
+  onClearClick() {
+    if (!this.context) return;
+    set("doodlepad", undefined);
+    this.backgroundColor = "white";
+    this.strokeColor = "black";
+    this.paint = new PaintingContext(this.context);
+    this.paint.backgroundColor = this.backgroundColor;
+    this.paint.strokeColor = this.strokeColor;
   }
   close() {
     this.$emit("close");

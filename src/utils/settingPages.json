@@ -43,7 +43,7 @@
     "name": "WIP Features",
     "icon": "science",
     "component": "WIPFeatures",
-    "alert": true
+    "alert": false
   },
   "delete-account": {
     "name": "Delete Account",

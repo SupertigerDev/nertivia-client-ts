@@ -1,5 +1,12 @@
 [
 	{
+		"version": "1.41.0-stable",
+		"date": "23 July 2021",
+		"title": "Doodlepad",
+		"image_url": "/img/changelog/doodle-pad-1.41.0.png",
+		"new": "Added a doodlepad (thanks to bree!)"
+	},
+	{
 		"version": "1.40.8-stable",
 		"date": "22 July 2021",
 		"title": "Responsive Image Upload Dialog",

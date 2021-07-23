@@ -64,9 +64,7 @@
       />
       <ButtonTemplate
         class="button doodle-button"
-        v-if="
-          !editingMessageID && $window.localStorage['doodlepad_wip'] === 'true'
-        "
+        v-if="!editingMessageID"
         @click="showDoodlePopout = !showDoodlePopout"
         icon="draw"
       />
