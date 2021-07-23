@@ -36,6 +36,7 @@ export default class MainApp extends Vue {
       FileUploadModule.SetFile(undefined);
     }
     document.addEventListener("keydown", this.keyDown);
+    FileUploadModule.SetIsImage(this.isImage || false);
   }
   beforeDestroy() {
     document.removeEventListener("keydown", this.keyDown);
