@@ -25,9 +25,11 @@ import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChan
 import { MeModule } from "@/store/modules/me";
 import { botCommandsModule } from "@/store/modules/botCommands";
 import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
+import { TabsModule } from "@/store/modules/tabs";
+import { ServersModule } from "@/store/modules/servers";
 
 @Component({
-  components: { MessageLogs, MessageBoxArea, Header, LoadingScreen }
+  components: { MessageLogs, MessageBoxArea, Header, LoadingScreen },
 })
 export default class MessageArea extends Vue {
   loadCommands() {
@@ -35,7 +37,7 @@ export default class MessageArea extends Vue {
       botCommandsModule.FetchAndSetBotCommands({ serverId: this.serverID });
     } else if (this.DMChannel?.recipients?.[0]?.bot) {
       botCommandsModule.FetchAndSetBotCommands({
-        botIDArr: [this.DMChannel.recipients[0].id]
+        botIDArr: [this.DMChannel.recipients[0].id],
       });
     }
   }
@@ -53,22 +55,38 @@ export default class MessageArea extends Vue {
     if (!this.isFocused) return;
     if (!(this.hasServerNotification || this.hasDMNotification)) return;
     this.$socket.client.emit("notification:dismiss", {
-      channelID: this.channelID
+      channelID: this.channelID,
     });
   }
-
+  setTitle() {
+    if (this.DMChannel) {
+      const recipient = this.DMChannel.recipients?.[0];
+      if (!recipient) return;
+      TabsModule.setCurrentTab({ name: "@" + recipient.username });
+    }
+    if (this.server) {
+      const serverName = this.server.name;
+      const channelName = this.channel.name;
+      TabsModule.setCurrentTab({ name: `${serverName}#${channelName}` });
+    }
+  }
   mounted() {
     this.dismissNotification();
     this.loadChannelMessages();
+    this.setTitle();
   }
   @Watch("isConnected")
   onConnected() {
     this.loadChannelMessages();
   }
   @Watch("channelID")
-  channalChanged() {
+  channalIDChanged() {
     this.loadChannelMessages();
     this.dismissNotification();
+  }
+  @Watch("channel")
+  channelChanged() {
+    this.setTitle();
   }
   @Watch("isFocused")
   onFocusChange() {
@@ -99,6 +117,13 @@ export default class MessageArea extends Vue {
   }
   get DMChannel() {
     return ChannelsModule.getDMChannel(this.channelID);
+  }
+  get server() {
+    if (this.serverID) {
+      return ServersModule.servers?.[this.serverID];
+    } else {
+      return undefined;
+    }
   }
   get isConnected() {
     return MeModule.connected;

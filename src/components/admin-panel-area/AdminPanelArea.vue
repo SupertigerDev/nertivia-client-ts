@@ -8,14 +8,21 @@
 <script>
 import Header from "@/components/Header.vue";
 import Overview from "./overview/Overview.vue";
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Watch } from "vue-property-decorator";
 import explorePages from "@/utils/adminPanelPages";
+import { TabsModule } from "@/store/modules/tabs";
 @Component({ components: { Header, Overview } })
 export default class ExploreArea extends Vue {
   mounted() {
     if (!this.page) {
       this.$router.replace("/app/admin-panel/overview");
+      return;
     }
+    TabsModule.setCurrentTab({ name: "Explore " + this.page.name });
+  }
+  @Watch("page")
+  onPageChanged() {
+    TabsModule.setCurrentTab({ name: "Admin Panel " + this.page.name });
   }
   get page() {
     return explorePages[this.$route.params.tab];

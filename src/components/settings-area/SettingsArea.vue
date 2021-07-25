@@ -50,8 +50,9 @@ const WIPFeatures = () =>
     /* webpackChunkName: "WIPFeatures" */ "@/components/settings-area/WIPFeatures.vue"
   );
 import Header from "@/components/Header.vue";
+import { TabsModule } from "@/store/modules/tabs";
 import settingPages from "@/utils/settingPages.json";
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Watch } from "vue-property-decorator";
 @Component({
   components: {
     Header,
@@ -64,14 +65,20 @@ import { Vue, Component } from "vue-property-decorator";
     StartupOptions,
     ProgramActivity,
     Language,
-    WIPFeatures
-  }
+    WIPFeatures,
+  },
 })
 export default class SettingsArea extends Vue {
   mounted() {
     if (!this.selectedTab) {
       this.$router.replace({ params: { tab: "account" } });
+      return;
     }
+    TabsModule.setCurrentTab({ name: this.selectedTab.name + " Settings" });
+  }
+  @Watch("selectedTab")
+  onPageChanged() {
+    TabsModule.setCurrentTab({ name: this.selectedTab.name + " Settings" });
   }
   get selectedTab() {
     const tab = this.$route.params.tab;

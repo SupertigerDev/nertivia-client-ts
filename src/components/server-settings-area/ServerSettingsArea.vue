@@ -18,7 +18,8 @@ import DeleteServer from "./DeleteServer.vue";
 import General from "./General.vue";
 import ServerVisibility from "./ServerVisibility.vue";
 
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Watch } from "vue-property-decorator";
+import { TabsModule } from "@/store/modules/tabs";
 @Component({
   components: {
     Header,
@@ -30,10 +31,21 @@ import { Vue, Component } from "vue-property-decorator";
     General,
     DeleteServer,
     BannedUsers,
-    ServerVisibility
-  }
+    ServerVisibility,
+  },
 })
 export default class ServerSettingsArea extends Vue {
+  mounted() {
+    if (!this.page.id) {
+      this.$router.replace({ params: { tab: "general" } });
+      return;
+    }
+    TabsModule.setCurrentTab({ name: this.page.name + " Settings" });
+  }
+  @Watch("page")
+  onPageChanged() {
+    TabsModule.setCurrentTab({ name: this.page.name + " Settings" });
+  }
   get page() {
     const id = this.$route.params.tab;
     return { ...settingsPages[id], id };
