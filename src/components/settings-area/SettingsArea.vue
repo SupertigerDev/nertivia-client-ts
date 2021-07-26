@@ -74,11 +74,17 @@ export default class SettingsArea extends Vue {
       this.$router.replace({ params: { tab: "account" } });
       return;
     }
-    TabsModule.setCurrentTab({ name: this.selectedTab.name + " Settings" });
+    TabsModule.setCurrentTab({
+      icon: this.selectedTab.icon,
+      name: this.selectedTab.name + " Settings",
+    });
   }
   @Watch("selectedTab")
   onPageChanged() {
-    TabsModule.setCurrentTab({ name: this.selectedTab.name + " Settings" });
+    TabsModule.setCurrentTab({
+      icon: this.selectedTab.icon,
+      name: this.selectedTab.name + " Settings",
+    });
   }
   get selectedTab() {
     const tab = this.$route.params.tab;

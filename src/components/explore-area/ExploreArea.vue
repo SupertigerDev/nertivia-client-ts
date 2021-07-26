@@ -19,11 +19,17 @@ export default class ExploreArea extends Vue {
       this.$router.push("/app/explore/servers");
       return;
     }
-    TabsModule.setCurrentTab({ name: "Explore " + this.page.name });
+    TabsModule.setCurrentTab({
+      icon: "explore",
+      name: "Explore " + this.page.name,
+    });
   }
   @Watch("page")
   onPageChanged() {
-    TabsModule.setCurrentTab({ name: "Explore " + this.page.name });
+    TabsModule.setCurrentTab({
+      icon: "explore",
+      name: "Explore " + this.page.name,
+    });
   }
   get page() {
     return explorePages[this.$route.params.tab];

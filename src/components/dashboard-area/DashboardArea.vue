@@ -18,7 +18,7 @@ import { TabsModule } from "@/store/modules/tabs";
 @Component({ components: { NotificationCard, ProfileCard, Header } })
 export default class DashboardArea extends Vue {
   mounted() {
-    TabsModule.setCurrentTab({ name: "Dashboard" });
+    TabsModule.setCurrentTab({ name: "Dashboard", icon: "dashboard" });
   }
 }
 </script>

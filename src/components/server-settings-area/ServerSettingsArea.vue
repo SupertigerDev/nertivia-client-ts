@@ -40,11 +40,17 @@ export default class ServerSettingsArea extends Vue {
       this.$router.replace({ params: { tab: "general" } });
       return;
     }
-    TabsModule.setCurrentTab({ name: this.page.name + " Settings" });
+    TabsModule.setCurrentTab({
+      icon: this.page.icon,
+      name: this.page.name + " Settings",
+    });
   }
   @Watch("page")
   onPageChanged() {
-    TabsModule.setCurrentTab({ name: this.page.name + " Settings" });
+    TabsModule.setCurrentTab({
+      icon: this.page.icon,
+      name: this.page.name + " Settings",
+    });
   }
   get page() {
     const id = this.$route.params.tab;

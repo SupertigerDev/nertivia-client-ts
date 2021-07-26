@@ -62,12 +62,18 @@ export default class MessageArea extends Vue {
     if (this.DMChannel) {
       const recipient = this.DMChannel.recipients?.[0];
       if (!recipient) return;
-      TabsModule.setCurrentTab({ name: "@" + recipient.username });
+      TabsModule.setCurrentTab({
+        name: "@" + recipient.username,
+        user_id: recipient.id,
+      });
     }
     if (this.server) {
       const serverName = this.server.name;
       const channelName = this.channel.name;
-      TabsModule.setCurrentTab({ name: `${serverName}#${channelName}` });
+      TabsModule.setCurrentTab({
+        name: `${serverName}#${channelName}`,
+        server_id: this.serverID,
+      });
     }
   }
   mounted() {

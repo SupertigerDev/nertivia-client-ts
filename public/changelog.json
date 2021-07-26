@@ -1,5 +1,12 @@
 [
 	{
+		"version": "1.42.2-stable",
+		"date": "26 July 2021",
+		"title": "Tab Improvements",
+		"new": "Added icons and avatars to tabs"
+
+	},
+	{
 		"version": "1.42.1-stable",
 		"date": "26 July 2021",
 		"title": "Tab Improvements",

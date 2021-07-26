@@ -1,3 +1,4 @@
+import User from "@/interfaces/User";
 import router from "@/router";
 import { getChangelog } from "@/services/updateService";
 import { setBrowserTitle } from "@/utils/browserTitle";
@@ -18,7 +19,9 @@ export interface Tab {
   name: string,
   icon?: string,
   path?: string,
-  opened?: boolean
+  opened?: boolean,
+  user_id?: string,
+  server_id?: string,
 }
 
 @Module({ dynamic: true, store, namespaced: true, name: "tabs" })
@@ -34,7 +37,7 @@ class Tabs extends VuexModule {
   }
 
   @Action
-  public setCurrentTab(payload: {name: string, icon?: string}) {
+  public setCurrentTab(payload: Tab) {
     const obj = {...payload, path: router.currentRoute.path}
       setBrowserTitle(payload.name);
       const tab = this.tabs.find(t => t.path === router.currentRoute.path);

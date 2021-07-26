@@ -18,11 +18,17 @@ export default class ExploreArea extends Vue {
       this.$router.replace("/app/admin-panel/overview");
       return;
     }
-    TabsModule.setCurrentTab({ name: "Admin Panel " + this.page.name });
+    TabsModule.setCurrentTab({
+      icon: "security",
+      name: "Admin Panel " + this.page.name,
+    });
   }
   @Watch("page")
   onPageChanged() {
-    TabsModule.setCurrentTab({ name: "Admin Panel " + this.page.name });
+    TabsModule.setCurrentTab({
+      icon: "security",
+      name: "Admin Panel " + this.page.name,
+    });
   }
   get page() {
     return explorePages[this.$route.params.tab];
