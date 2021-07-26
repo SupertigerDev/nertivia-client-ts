@@ -77,6 +77,7 @@ export default class MainApp extends Vue {
   overflow: hidden;
   text-overflow: ellipsis;
   font-style: italic;
+  overflow: visible;
 }
 .opened .title {
   font-style: initial;
