@@ -6,7 +6,8 @@
     >
       menu
     </div>
-    <AvatarImage
+    <Tabs />
+    <!-- <AvatarImage
       v-if="DMUser"
       class="avatar"
       :willHaveClickEvent="true"
@@ -18,7 +19,7 @@
     <div class="name" :class="{ clickable: DMChannel }" @click="showProfile">
       {{ title }}
     </div>
-    <UserStatusTemplate class="status" v-if="DMUser" :id="DMUser.id" />
+    <UserStatusTemplate class="status" v-if="DMUser" :id="DMUser.id" /> -->
     <div
       class="open-drawer-button right-drawer material-icons"
       v-if="isServerChannel"
@@ -34,10 +35,11 @@ import { ChannelsModule } from "@/store/modules/channels";
 import { DrawersModule } from "@/store/modules/drawers";
 import { PopoutsModule } from "@/store/modules/popouts";
 import UserStatusTemplate from "@/components/UserStatusTemplate.vue";
+import Tabs from "@/components/HeaderTabs.vue";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
-@Component({ components: { UserStatusTemplate, AvatarImage } })
+@Component({ components: { UserStatusTemplate, AvatarImage, Tabs } })
 export default class MainApp extends Vue {
   @Prop() private title!: string;
   toggleLeftDrawer() {

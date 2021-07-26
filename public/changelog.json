@@ -1,5 +1,13 @@
 [
 	{
+		"version": "1.42.0-stable",
+		"date": "26 July 2021",
+		"title": "Tabs (Beta)",
+		"image_url": "/img/changelog/tabs-1.42.0.gif",
+		"new": "Open chat in tabs inside Nertivia!",
+		"body": "Double click on a tab to make the tab stay opened."
+	},
+	{
 		"version": "1.41.1-stable",
 		"date": "25 July 2021",
 		"title": "Title Improvements",
