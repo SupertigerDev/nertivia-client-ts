@@ -28,7 +28,7 @@ export default class HeaderTabs extends Vue {
 .tabs {
   display: flex;
   gap: 5px;
-  overflow: hidden;
+  overflow: overlay;
   height: 100%;
   padding-left: 5px;
   &::-webkit-scrollbar-thumb {
@@ -37,9 +37,6 @@ export default class HeaderTabs extends Vue {
   &::-webkit-scrollbar {
     width: 3px;
     height: 3px;
-  }
-  &:hover {
-    overflow: overlay;
   }
 }
 .tab {
