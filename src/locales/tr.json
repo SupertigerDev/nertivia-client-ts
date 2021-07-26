@@ -1,66 +1,315 @@
 {
-  "save-changes": "Değişiklikleri Kaydet",
-  "saving": "Kaydediliyor...",
-  "back": "Geri",
-  "are-you-sure": "Emin misin?",
-  "copy-id-button": "ID'yi Kopyala",
-  "time": {
-    "today-at": "Bugün {0}",
-    "yesterday-at": "Dün {0}"
-  },
-  "message-area": {
-    "no-message-perm": "Bu kanalda konuşma izniniz yok.",
-    "not-connected-server": "Bağlı Değil",
-    "attach-message": "Mesaj ekle",
-    "type-message": "Mesajını yaz",
-    "back-to-bottom": "Aşağıya Dön",
-    "new-messages": "Yeni Mesajlar"
-  },
-  "upload-dialog": {
-    "compress": "Kompres",
-    "upload-to": "Şuraya Yükle"
-  },
-  "user-context": {
-    "view-profile": "Profili Görüntüle",
-    "edit-roles": "Rolleri Düzenle",
-    "kick": "At",
-    "ban": "Yasakla",
-    "copy-user-tag": "Kullanıcıyı Etiketini Kopyala"
-  },
-  "message-context": {
-    "quote": "Alıntı",
-    "edit": "Düzenle"
-  },
-  "server-context": {
-    "mark-as-read": "Okundu Olarak İşaretle",
-    "server-settings": "Sunucu Ayarları",
-    "leave-server": "Sunucudan Ayrıl"
-  },
-  "channel-context": {
-    "mute-channel": "Kanalı Sessize Al",
-    "unmute-channel": "Kanalın Sesini Aç"
-  },
-  "settings": {
-    "tab-names": {
-      "account": "Hesap",
-      "notification": "Bildirimler",
-      "manage-emojis": "Emojileri Yönet",
-      "startup-options": "Başlangıç ​​Seçenekleri",
-      "program-activity": "Program Aktivitesi",
-      "manage-bots": "Botları Yönet",
-      "interface": "Arayüz",
-      "language": "Dil",
-      "delete-account": "Hesabı Sil",
-      "changelog": "Değişim Kaydı",
-      "wip-features": "Daha Bitmemiş Özellikler"
+    "save-changes": "Değişiklikleri Kaydet",
+    "saving": "Kaydediliyor...",
+    "back": "Geri",
+    "are-you-sure": "Emin misiniz?",
+    "copy-id-button": "ID Kopyala",
+    "time": {
+      "today-at": "Bugün {0}",
+      "yesterday-at": "Dün {0}"
     },
-    "account": {
-      "title": "Profilinizi düzenleyin",
-      "change-password": "Şifreyi değiştir",
-      "relink-google-drive": "Google Drive'ı yeniden bağla",
-      "link-google-drive": "Google Drive'ı bağla",
-      "more-profile": "Daha Fazla Profil",
-      "more-profile-notice": "Bu bilgi herkes tarafından görülür."
+    "message-area": {
+      "no-message-perm": "Bu kanalda konuşma yetkiniz yok.",
+      "not-connected-server": "Bağlı Değil",
+      "attach-message": "Mesaj Ekle",
+      "type-message": "Mesajını Yaz",
+      "back-to-bottom": "Günümüze Işınlan",
+      "new-messages": "Yeni Mesajlar"
+    },
+    "upload-dialog": {
+      "compress": "Sıkıştır",
+      "upload-to": "Şuraya Yükle:"
+    },
+    "user-context": {
+      "view-profile": "Profili Görüntüle",
+      "edit-roles": "Rolleri Düzenle",
+      "kick": "At",
+      "ban": "Yasakla",
+      "copy-user-tag": "Kullanıcının Etiketini Kopyala"
+    },
+    "message-context": {
+      "quote": "Alıntı",
+      "edit": "Düzenle"
+    },
+    "server-context": {
+      "mark-as-read": "Okundu Olarak İşaretle",
+      "server-settings": "Sunucu Ayarları",
+      "leave-server": "Sunucudan Ayrıl"
+    },
+    "channel-context": {
+      "mute-channel": "Kanalı Sustur",
+      "unmute-channel": "Susturmayı Kaldır"
+    },
+    "settings": {
+      "tab-names": {
+        "account": "Hesap",
+        "notification": "Bildirimler",
+        "manage-emojis": "Emojileri Yönet",
+        "startup-options": "Başlangıç Ayarları",
+        "program-activity": "Program Etkinliği",
+        "manage-bots": "Botları Yönet",
+        "interface": "Arayüz",
+        "language": "Dil",
+        "delete-account": "Hesabı Sil",
+        "changelog": "Değişim Kaydı",
+        "wip-features": "Yapım Aşamasındaki Özellikler"
+      },
+      "account": {
+        "title": "Profilini Düzenle",
+        "change-password": "Şifreyi Değiştir",
+        "relink-google-drive": "GDrive'ı Yeniden Bağla",
+        "link-google-drive": "GDrive'ı Bağla",
+        "more-profile": "More Profile",
+        "more-profile-notice": "Bu bilgi herkes tarafından görüntülenir."
+      },
+      "notification": {
+        "title": "Bildirim ayarlarını değiştir.",
+        "notification-sound": "Bildirim Sesi",
+        "notification-sound-details": "Dikkatinizi çekmek için ilginç sesler çıkarır.",
+        "push-notification": "Anlık Bildirimler",
+        "push-notification-details": "Uygulama kapatılsa bile anlık bildirim almaya devam edin."
+      },
+      "manage-emojis": {
+        "details": "O harika emojilerini ücret ödemeden yükle! Unutmadan, dosyalar 3MB üstüne çıkamaz.",
+        "supported-types": "Desteklenen dosya türleri şunlardır: .png, .jpg, .gif",
+        "add-emojis-button": "Emoji Ekle"
+      },
+      "startup-options": {
+        "title": "Masaüstü Uygulaması Başlatma Seçenekleri",
+        "notice": "Ayarları değiştirmek için Nertivia'yı bilgisayarınıza indirmeniz gereklidir.",
+        "open-on-startup": "Bilgisayar Başladığında Nertivia da Açılsın."
+      },
+      "program-activity": {
+        "details": "Aşağıya uygulamalar ve oyunlar ekleyerek, insanları ne yaptığınızdan haberdar edebilirsiniz. Bu yaptığınız işlem özel durumunuz yerine geçecek ve siz programdan çıktıktan sonra eski haline dönecektir.",
+        "notice": "Program Etkinliği özelliğini kullanmak için bilgisayarınıza Nertivia yazılımını indirmelisiniz."
+      },
+      "manage-bots": {
+        "details": "Kendi muhteşem botlarınızı yazmak için API'mizi kullanmanıza yarayacak bot kullanıcılar oluşturun.",
+        "command-notice": "Kullanılabilir komutları kullanıcılara bildirmek için bot komutlarınızı ekleyin.",
+        "create-bot-button": "Yeni Bot Oluştur",
+        "add-command-button": "Komut Ekle",
+        "edit-bot": "Botu Düzenle",
+        "edit-commands": "Komutu Düzenle",
+        "create-invite-link": "Davet Linki Oluştur",
+        "copy-invite-url": "Davet Bağlantısını Kopyala",
+        "manage-token": "Tokeni Yönet",
+        "show-token": "Tokeni Göster",
+        "copy-token": "Tokeni Kopyala",
+        "reset-token": "Tokeni Yenile",
+        "delete-bot": "Botu Sil"
+      },
+      "delete-account": {
+        "notice": "Yanda belirtilen hesabı silmek üzeresiniz:",
+        "what-gets-deleted": "Neler silinecek?",
+        "what-wont-delete": "Neler Silinmeyecek?",
+        "messages-sent": "Herkese açık sunucularda gönderdiğiniz mesajlar silinmeyecektir.",
+        "requirements": "Gereksinimler",
+        "delete-leave-server": "Bütün Sunuculardan Çıkış Yap/Sil",
+        "delete-bots": "Bütün botları sil",
+        "delete-account-button": "Hesabımı Sil"
+      },
+      "language": {
+        "details": "Dili değiştirdikten sonra sayfayı yeniden yüklemeniz gerekebilir. GitHub üzerinden dil desteğinin gelişmesine yardımcı olabilirsiniz.",
+        "translators": "Çevirmenler"
+      },
+      "interface": {
+        "description": "Nertivia'nın görünümünü değiştir.",
+        "colors": "Renkler",
+        "time-format": "Saat Biçimi",
+        "default-theme": "Varsayılan Tema",
+        "amoled-dark": "AMOLED Siyahı",
+        "halloween-2020": "Cadılar Bayramı 2020",
+        "predefined-themes": "Öntanımlı Temalar",
+        "custom-css": "Özel CSS",
+        "general": "Genel",
+        "navigation-bar": "Gezinti Çubuğu"
+      },
+      "wip-features": {
+        "title": "Tamamlanmamış veya deneysel özellikleri buradan etkinleştirebilirsiniz.",
+        "none-available": "Şu anda kullanılabilir özellik bulunmuyor."
+      }
+    },
+    "server-settings": {
+      "permissions": {
+        "permissions": "İzinler",
+        "admin": {
+          "name": "Yönetici",
+          "info": "Tüm yetkileri kullanmasına izin verir."
+        },
+        "send-messages": {
+          "name": "Mesaj Gönder",
+          "info": "Sunucudaki kanallara mesaj gönder."
+        },
+        "manage-roles": {
+          "name": "Rolleri Yönet",
+          "info": "Rolleri güncelle veya kaldır."
+        },
+        "manage-channels": {
+          "name": "Kanalları Yönet",
+          "info": "Kanalları güncelle veya kaldır."
+        },
+        "kick-user": {
+          "name": "At",
+          "info": "Kullanıcıyı At"
+        },
+        "ban-user": {
+          "name": "Yasakla",
+          "info": "Kullanıcıyı at ve buraya katılmasını engelle."
+        }
+      },
+      "tab-names": {
+        "general": "Genel",
+        "manage-channels": "Kanalları Yönet",
+        "manage-roles": "Rolleri Yönet",
+        "manage-invites": "Davetleri Yönet",
+        "server-visibility": "Sunucu Görünürlüğü",
+        "manage-notification": "Bildirimleri Yönet",
+        "banned-users": "Yasaklanan Kullanıcılar",
+        "manage-users": "Kullanıcıları Yönet",
+        "delete-server": "Sunucuyu Sil"
+      },
+      "manage-roles": {
+        "manage-your-roles": "Rolleri Yönet.",
+        "default-role": "Varsayılan Rol",
+        "bot-role": "Bot Rolü",
+        "create-role": "Yeni Rol Oluştur",
+        "notice-bot": "Bu rol bir bot tarafından oluşturulduğu için silinemez ya da başkasına verilemez. Bu rolü silmek için bağlantılı botu kaldırın.",
+        "notice-default": "Bu rol, katılan her üyeye verilen varsayılan rol olduğu için silinemez ya da geri alınamaz.",
+        "pick-role-color": "Rol Rengini Seç",
+        "role-name": "Rol Adı",
+        "settings": "Ayarlar",
+        "delete-role": "Rolü Sil",
+        "deleting-role": "Rol Siliniyor...",
+        "hide-role": "Rolü Gizle"
+      },
+      "general": {
+        "general-server-settings": "Sunucu Genel Ayarları"
+      },
+      "manage-channels": {
+        "manage-your-channels": "Sunucundaki kanalları buradan yönetebilirsin.",
+        "delete-channel": "Kanalı Sil",
+        "deleting-channel": "Kanal Siliniyor...",
+        "channel-name": "Kanal Adı",
+        "default-channel-notice": "Bu kanal varsayılan olarak seçilmiştir. Genel Sunucu Ayarları üzerinden varsayılan kanalı değiştirebilirsiniz. Varsayılan kanalları silemezsiniz.",
+        "create-new-channel": "Yeni Kanal Oluştur",
+        "permission": {
+          "send-message": "Mesaj Gönder"
+        },
+        "rate-limit-seconds": "Mesaj Hızı Sınırı (saniyede)",
+        "text-channel": "Metin Kanalı",
+        "html-channel": "HTML Kanalı (HGA)"
+      },
+      "banned-users": {
+        "notice": "Buradan yasaklamış olduğunuz üyelerin yasaklarını kaldırabilirsiniz.",
+        "unbanning": "Yasak Kaldırılıyor...",
+        "unban": "Yasak Kaldır"
+      },
+      "manage-invites": {
+        "notice": "Sadece yöneticiler bütün davetleri görebilir.",
+        "create-invites": "Oluşturulan Davetler",
+        "custom-invite": "Özel Davet Bağlantısı",
+        "save-custom-link": "Özel Davet Bağlantısını Kaydet",
+        "create-invite": "Davet Oluştur",
+        "link": "Bağlantı",
+        "creator": "Oluşturan",
+        "uses": "Kullanım Sayısı"
+      },
+      "manage-users": {
+        "search-user": "Kullanıcı Ara"
+      },
+      "delete-server": {
+        "type-server-name-to-confirm": "İşlemi onaylamak için sunucunun adını yazın.",
+        "deleting": "Siliniyor..."
+      },
+      "notifications": {
+        "description": "Bildirim ayarlarını buradan değiştirebilirsiniz.",
+        "notice": "Değişiklikler yalnızca sende uygulanır, diğer kullanıcılar bundan etkilenmez.",
+        "enable-notifications": "Bildirimleri Etkinleştir",
+        "mute-sound": "Sesi Kapat",
+        "disable-notifications": "Bildirimleri Devre Dışı Bırak"
+      }
+    },
+    "typing-status": {
+      "is-typing": "{0} yazıyor...",
+      "two-are-typing": "{0} ve {1} yazıyor...",
+      "three-are-typing": "{0}, {1} ve {2} yazıyor...",
+      "more-than-three": "{0} Birçok kişi yazıyor..."
+    },
+    "dm-tab": {
+      "friends": "Arkadaşlar",
+      "recents": "Son Gelişmeler",
+      "saved-notes": "Kaydedilen Notlar",
+      "add-friend": "Arkadaş Ekle"
+    },
+    "dashboard-tab": {
+      "profile": "Profil",
+      "notifications": "Bildirimler",
+      "click-to-add-custom-status": "Özel durum eklemek için tıkla.",
+      "caught-up": "Pek bir değişiklik yok.",
+      "direct-messages": "Özel Mesajlar",
+      "servers": "Sunucular",
+      "explore": "Keşfet",
+      "dashboard": "Kontrol Paneli"
+    },
+    "add-friend-popout": {
+      "notice": "Kullanıcı adını ve etiketini yazarak bir arkadaş ekleyin. (Örneğin Nertivia:1234)",
+      "adding": "Ekleniyor..."
+    },
+    "add-server-popout": {
+      "title": "Sunucu Ekle",
+      "join-server-notice": "Bir sunucuya katılmak için o sunucuya ait bir davet girin.",
+      "create-server-notice": "Kendinize ait bir sunucu oluşturun. Pekala, önce isim ile başlayalım:",
+      "tabs": {
+        "join": "Katıl",
+        "create": "Oluştur"
+      }
+    },
+    "presence": {
+      "offline": "Çevrimdışı",
+      "online": "Çevrimiçi",
+      "away": "Uzakta",
+      "busy": "Meşgul",
+      "looking-to-play": "Oyuncu 2 Bekleniyor"
+    },
+    "right-drawer": {
+      "server-members": "Üyeler ({0})",
+      "server-offline-members": "Çevrimdışı ({0})"
+    },
+    "profile-popout": {
+      "common-friends": "Ortak Arkadaşlar",
+      "badges": "Rozetler",
+      "joined-at": "Şu Tarihte Katıldı:",
+      "suspended": "Askıya Alındı",
+      "remove-friend": "Arkadaşlıktan Çıkar",
+      "accept-request": "İsteği Kabul Et",
+      "cancel-request": "İsteği İptal Et",
+      "add-friend": "Arkadaş Olarak Ekle",
+      "send-message": "Mesaj Gönder",
+      "common-servers": "Ortak Sunucular"
+    },
+    "connection": {
+      "loading": "Yükleniyor...",
+      "ready": "Hazır!",
+      "authenticating": "Yetkilendiriliyor..."
+    },
+    "navbar": {
+      "update": "Güncelleme",
+      "update-available": "Güncelleme Kullanılabilir!"
+    },
+    "generic": {
+      "copy": "Kopyala",
+      "delete": "Sil",
+      "copied": "Kopyalandı!",
+      "user": "Kullanıcı"
+    },
+    "messages": {
+      "left": "sunucudan ayrıldı.",
+      "kicked": "atıldı!",
+      "banned": "yasaklandı!",
+      "joined": "sunucuya katıldı!"
+    },
+    "could-not-connect-to-server": "Sunucu ile bağlantı kurulamadı.",
+    "chat-area": {
+      "rate-limit-mode": "Mesaj Hız Sınırı Modu Açık."
     }
   }
-}
