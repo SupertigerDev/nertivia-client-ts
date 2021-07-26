@@ -60,6 +60,10 @@ export default class MainApp extends Vue {
   }
 
   onTouchStart(event: TouchEvent) {
+    if ((event.target as any).closest(".header-tabs")) {
+      this.pauseTouches = true;
+      return;
+    }
     if ((event.target as any).closest("input[type=range]")) {
       this.pauseTouches = true;
       return;

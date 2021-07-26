@@ -3,6 +3,7 @@
     class="tab"
     :class="{ selected, opened: tab.opened }"
     :to="tab.path"
+    ref="tab"
     @dblclick.native="openTab"
   >
     <div class="title">{{ tab.name }}</div>
@@ -14,14 +15,25 @@
 
 <script lang="ts">
 import { Tab, TabsModule } from "@/store/modules/tabs";
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Ref, Vue } from "vue-property-decorator";
 
 @Component
 export default class MainApp extends Vue {
   @Prop() private selected!: boolean;
   @Prop() private tab!: Tab;
+  @Ref("tab") readonly tabComponent!: any;
+  mounted() {
+    this.tabComponent.$el.addEventListener("auxclick", this.onMiddleClick);
+  }
+  beforeDestroy() {
+    this.tabComponent.$el.removeEventListener("auxclick", this.onMiddleClick);
+  }
   openTab() {
     TabsModule.openTab({ ...this.tab, opened: true });
+  }
+  onMiddleClick(event: MouseEvent) {
+    event.preventDefault();
+    this.closeTab();
   }
   closeTab() {
     if (!this.tab.path) return;

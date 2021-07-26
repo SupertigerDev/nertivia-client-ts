@@ -1,5 +1,5 @@
 <template>
-  <div class="tabs">
+  <div class="tabs header-tabs">
     <Tab
       v-for="(tab, i) in tabs"
       :key="i"

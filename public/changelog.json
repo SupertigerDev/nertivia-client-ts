@@ -1,5 +1,13 @@
 [
 	{
+		"version": "1.42.1-stable",
+		"date": "26 July 2021",
+		"title": "Tab Improvements",
+		"fixes": "You can now scroll though tabs on mobile without opening the drawer.",
+		"new": ["Middle click on a tab to close it.", "Sending a message should automatically open the tab."]
+
+	},
+	{
 		"version": "1.42.0-stable",
 		"date": "26 July 2021",
 		"title": "Tabs (Beta)",

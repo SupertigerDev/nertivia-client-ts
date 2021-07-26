@@ -146,6 +146,7 @@ import {
   getInputCache
 } from "@/utils/inputCache";
 import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
+import { TabsModule } from "@/store/modules/tabs";
 const EmojiPicker = () =>
   import(
     /* webpackChunkName: "EmojiPicker" */ "@/components/emoji-picker/EmojiPicker.vue"
@@ -279,6 +280,9 @@ export default class MessageBoxArea extends Vue {
         return;
       }
     }
+    if (!TabsModule.currentTab.opened) {
+      TabsModule.openTab({ ...TabsModule.currentTab, opened: true });
+    }
 
     deleteInputCache(this.channelID);
 
@@ -310,6 +314,9 @@ export default class MessageBoxArea extends Vue {
         id: "delete-message"
       });
       return;
+    }
+    if (!TabsModule.currentTab.opened) {
+      TabsModule.openTab({ ...TabsModule.currentTab, opened: true });
     }
     this.message = "";
     this.editingMessage = null;
