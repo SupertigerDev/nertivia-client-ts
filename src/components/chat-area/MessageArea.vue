@@ -29,7 +29,7 @@ import { TabsModule } from "@/store/modules/tabs";
 import { ServersModule } from "@/store/modules/servers";
 
 @Component({
-  components: { MessageLogs, MessageBoxArea, Header, LoadingScreen },
+  components: { MessageLogs, MessageBoxArea, Header, LoadingScreen }
 })
 export default class MessageArea extends Vue {
   loadCommands() {
@@ -37,7 +37,7 @@ export default class MessageArea extends Vue {
       botCommandsModule.FetchAndSetBotCommands({ serverId: this.serverID });
     } else if (this.DMChannel?.recipients?.[0]?.bot) {
       botCommandsModule.FetchAndSetBotCommands({
-        botIDArr: [this.DMChannel.recipients[0].id],
+        botIDArr: [this.DMChannel.recipients[0].id]
       });
     }
   }
@@ -55,16 +55,17 @@ export default class MessageArea extends Vue {
     if (!this.isFocused) return;
     if (!(this.hasServerNotification || this.hasDMNotification)) return;
     this.$socket.client.emit("notification:dismiss", {
-      channelID: this.channelID,
+      channelID: this.channelID
     });
   }
   setTitle() {
     if (this.DMChannel) {
       const recipient = this.DMChannel.recipients?.[0];
       if (!recipient) return;
+      const isSavedNotes = recipient.id === MeModule.user.id;
       TabsModule.setCurrentTab({
-        name: "@" + recipient.username,
-        user_id: recipient.id,
+        name: isSavedNotes ? "Saved Notes" : "@" + recipient.username,
+        user_id: recipient.id
       });
     }
     if (this.server) {
@@ -72,7 +73,7 @@ export default class MessageArea extends Vue {
       const channelName = this.channel.name;
       TabsModule.setCurrentTab({
         name: `${serverName}#${channelName}`,
-        server_id: this.serverID,
+        server_id: this.serverID
       });
     }
   }

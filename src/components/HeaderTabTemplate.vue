@@ -7,9 +7,22 @@
     ref="tab"
     @dblclick.native="openTab"
   >
-    <div class="icon material-icons" v-if="tab.icon">{{ tab.icon }}</div>
-    <AvatarImage v-if="seed" size="20px" :imageId="avatar" :seedId="seed" />
-    <div class="title">{{ tab.name }}</div>
+    <div class="icon material-icons" v-if="tab.icon || isSavedNotes">
+      {{ isSavedNotes ? "book" : tab.icon }}
+    </div>
+    <AvatarImage
+      v-if="seed && !isSavedNotes"
+      size="20px"
+      :imageId="avatar"
+      :seedId="seed"
+    />
+    <div class="title">{{ title }}</div>
+    <UserStatusTemplate
+      class="status"
+      v-if="user && !isSavedNotes"
+      :id="user.id"
+      :showOffline="true"
+    />
     <div class="close-button material-icons" @click.prevent="closeTab">
       close
     </div>
@@ -22,8 +35,10 @@ import { Component, Prop, Ref, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { UsersModule } from "@/store/modules/users";
 import { ServersModule } from "@/store/modules/servers";
+import { MeModule } from "@/store/modules/me";
+import UserStatusTemplate from "@/components/UserStatusTemplate.vue";
 
-@Component({ components: { AvatarImage } })
+@Component({ components: { AvatarImage, UserStatusTemplate } })
 export default class MainApp extends Vue {
   @Prop() private selected!: boolean;
   @Prop() private tab!: Tab;
@@ -47,6 +62,12 @@ export default class MainApp extends Vue {
     if (!this.tab.path) return;
     TabsModule.closeTabByPath(this.tab.path);
   }
+  get title() {
+    if (this.user && !this.isSavedNotes) {
+      return this.user.username;
+    }
+    return this.tab.name;
+  }
   get avatar() {
     return this.user?.avatar || this.server?.avatar;
   }
@@ -60,6 +81,9 @@ export default class MainApp extends Vue {
   get server() {
     if (!this.tab.server_id) return undefined;
     return ServersModule.servers[this.tab.server_id];
+  }
+  get isSavedNotes() {
+    return this.tab.user_id === MeModule.user.id;
   }
 }
 </script>
@@ -78,6 +102,11 @@ export default class MainApp extends Vue {
   cursor: pointer;
   max-width: 200px;
   text-decoration: none;
+  color: white;
+  .status {
+    width: 10px;
+    margin-left: 5px;
+  }
 
   &:hover {
     .close-button.material-icons {
