@@ -47,19 +47,13 @@ export default class RightDrawer extends Vue {
                 renderMembers(role.members)
               ];
             })}
-            {this.onlineMembersWithNoRoles.length > 0 && (
+            {this.membersWithNoRoles.length > 0 && (
               <div class="tab" style={{ height: "25px" }}>
                 {this.defaultRole?.name ? this.defaultRole?.name : "Offline"} (
-                {this.onlineMembersWithNoRoles.length})
+                {this.membersWithNoRoles.length})
               </div>
             )}
-            {renderMembers(this.onlineMembersWithNoRoles)}
-            {this.offlineMembers.length > 0 && (
-              <div class="tab" style={{ height: "25px" }}>
-                Offline ({this.offlineMembers.length})
-              </div>
-            )}
-            {renderMembers(this.offlineMembers)}
+            {renderMembers(this.membersWithNoRoles)}
           </virtual-list>
         </div>
       </div>
@@ -92,7 +86,7 @@ export default class RightDrawer extends Vue {
     if (!this.serverRoles) return [];
     for (let i = 0; i < this.serverRoles.length; i++) {
       const role = this.serverRoles[i];
-      const members = this.onlineMembers.filter(member => {
+      const members = this.members.filter(member => {
         if (consumedMemberIds.includes(member.id)) return false;
         const findRole = member.roles.find(r => r && !r.hideRole);
         if (!findRole) return false;
@@ -105,14 +99,14 @@ export default class RightDrawer extends Vue {
     }
     return roleWithMembers;
   }
-  get onlineMembers() {
-    return this.serverMembers.filter(sm => sm.presence);
+  get members() {
+    return this.serverMembers;
   }
   get defaultRole() {
     return ServerRolesModule.defaultServerRole(this.server_id);
   }
-  get onlineMembersWithNoRoles() {
-    return this.onlineMembers.filter(member => {
+  get membersWithNoRoles() {
+    return this.members.filter(member => {
       if (!member.roles.length) return true;
       const roleExists = member.roles.find(r => r && !r.hideRole);
       return !roleExists;
@@ -120,9 +114,6 @@ export default class RightDrawer extends Vue {
   }
   get serverRoles() {
     return ServerRolesModule.sortedServerRolesArr(this.server_id);
-  }
-  get offlineMembers() {
-    return this.serverMembers.filter(sm => !sm.presence);
   }
   get server_id() {
     return this.$route.params.server_id;
