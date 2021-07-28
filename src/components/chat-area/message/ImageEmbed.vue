@@ -7,7 +7,14 @@
     <div class="outer-content">
       <div class="inner-content" ref="content">
         <div class="gif" v-if="isGif">GIF</div>
-        <img v-if="loadImage" :src="pauseGifURL" />
+        <img
+          :src="pauseGifURL"
+          :class="{ loaded }"
+          :width="image.dimensions.width"
+          :height="image.dimensions.height"
+          loading="lazy"
+          @load="loaded = true"
+        />
       </div>
     </div>
   </div>
@@ -28,17 +35,16 @@ export default class ImageMessageEmbed extends Vue {
       id: "image-preview-popout",
       component: "image-preview-popout",
       data: {
-        url: this.imageURL
-      }
+        url: this.imageURL,
+      },
     });
   }
 
   mounted() {
     const contentEl = this.$refs["content"] as any;
-    this.intersectObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
+    this.intersectObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          this.fetchImage();
           this.intersectObserver?.unobserve(contentEl);
           this.intersectObserver?.disconnect();
         }
@@ -46,18 +52,11 @@ export default class ImageMessageEmbed extends Vue {
     });
     this.intersectObserver.observe(contentEl);
   }
-  fetchImage() {
-    const image = new Image();
-    image.onload = () => {
-      image.onload = null;
-      this.loadImage = true;
-    };
-    image.src = this.pauseGifURL || "";
-  }
 
   get isWindowFocused() {
     return windowProperties.isFocused;
   }
+
   // pause gif when window is not focused
   get pauseGifURL() {
     let url = this.imageURL;
@@ -66,13 +65,19 @@ export default class ImageMessageEmbed extends Vue {
     }
     return url;
   }
+
   get isGif() {
     return this.imageURL?.endsWith(".gif");
   }
+
   get imageURL() {
     return (
       process.env.VUE_APP_IMAGE_PROXY_URL + encodeURIComponent(this.image.url)
     );
+  }
+
+  get dimensions() {
+    return console.log(this.image);
   }
 }
 </script>
@@ -122,6 +127,11 @@ img {
   max-height: 500px;
 
   object-fit: contain;
+}
+
+img.loaded {
+  width: 100%;
+  height: 100%;
 }
 
 .image-embed:hover {
