@@ -1,21 +1,24 @@
 <template>
   <div
     class="image-embed"
-    :class="{ animate: isWindowFocused && !loadImage }"
+    :class="{ animate: isWindowFocused && !loaded, loaded, isGif, failed }"
+    :style="{
+      '--width': image.dimensions.width + 'px',
+      '--height': image.dimensions.height + 'px',
+      '--aspect': `${image.dimensions.width} / ${image.dimensions.height}`,
+    }"
     @click="onClick"
   >
-    <div class="outer-content">
-      <div class="inner-content" ref="content">
-        <div class="gif" v-if="isGif">GIF</div>
-        <img
-          :src="pauseGifURL"
-          :class="{ loaded }"
-          :width="image.dimensions.width"
-          :height="image.dimensions.height"
-          loading="lazy"
-          @load="loaded = true"
-        />
-      </div>
+    <img
+      :src="pauseGifURL"
+      :width="image.dimensions.width"
+      :height="image.dimensions.height"
+      loading="lazy"
+      @load="loaded = true"
+      @error="failed = true"
+    />
+    <div class="overlay">
+      <div class="gif">GIF</div>
     </div>
   </div>
 </template>
@@ -27,8 +30,8 @@ import { PopoutsModule } from "@/store/modules/popouts";
 @Component
 export default class ImageMessageEmbed extends Vue {
   @Prop() private image!: any;
-  loadImage = false;
-  intersectObserver: IntersectionObserver | null = null;
+  loaded = false;
+  failed = false;
 
   onClick() {
     PopoutsModule.ShowPopout({
@@ -38,19 +41,6 @@ export default class ImageMessageEmbed extends Vue {
         url: this.imageURL,
       },
     });
-  }
-
-  mounted() {
-    const contentEl = this.$refs["content"] as any;
-    this.intersectObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          this.intersectObserver?.unobserve(contentEl);
-          this.intersectObserver?.disconnect();
-        }
-      });
-    });
-    this.intersectObserver.observe(contentEl);
   }
 
   get isWindowFocused() {
@@ -75,85 +65,80 @@ export default class ImageMessageEmbed extends Vue {
       process.env.VUE_APP_IMAGE_PROXY_URL + encodeURIComponent(this.image.url)
     );
   }
-
-  get dimensions() {
-    return console.log(this.image);
-  }
 }
 </script>
 
 <style scoped lang="scss">
 .image-embed {
-  position: relative;
+  display: grid;
+  grid: "a" 1fr / minmax(auto, 500px);
+
   border-radius: 4px;
-  background: rgba(0, 0, 0, 0.4);
   overflow: hidden;
 
-  cursor: pointer;
-  &:hover {
-    &::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      pointer-events: none;
-      border-radius: 4px;
-      overflow: hidden;
-      background: rgba(0, 0, 0, 0.3);
-    }
-  }
-}
-.inner-content {
-  display: flex;
-}
-.outer-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
-}
-
-img {
-  display: grid;
-
-  height: auto;
-
+  aspect-ratio: var(--aspect);
   min-width: 200px;
   min-height: 200px;
 
   max-width: 500px;
   max-height: 500px;
 
+  cursor: pointer;
+
+  &.failed,
+  &.failed img {
+    aspect-ratio: unset;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  &:not(.isGif) .gif {
+    visibility: hidden;
+  }
+
+  &:hover {
+    .overlay {
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .gif {
+      opacity: 0;
+    }
+  }
+}
+
+.overlay {
+  grid-area: a;
+  pointer-events: none;
+}
+
+img {
+  grid-area: a;
+
+  width: 100%;
+  height: auto;
+
   object-fit: contain;
 }
 
-img.loaded {
-  width: 100%;
-  height: 100%;
-}
-
-.image-embed:hover {
-  .gif {
-    opacity: 0;
-  }
-}
 .gif {
-  position: absolute;
-  top: 5px;
-  left: 5px;
+  margin: 0.33rem;
+  width: max-content;
+
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(5px);
-  padding: 3px;
-  border-radius: 4px;
-  transition: 0.2s;
+
+  padding: 0.11rem 0.33rem;
+  border-radius: 0.25rem;
+  transition: 0.2s background, 0.2s opacity;
 }
+
 .animate {
   animation: animate 1s;
   animation-iteration-count: infinite;
   animation-direction: alternate;
 }
+
 @keyframes animate {
   from {
     background: rgba(0, 0, 0, 0.4);

@@ -1,5 +1,5 @@
 <template>
-  <div class="message-embed">
+  <div class="message-embed" :class="{ image: imageEmbed }">
     <ImageEmbed v-if="imageEmbed" :image="imageEmbed" />
     <YoutubeEmbed v-else-if="youtubeEmbed" :embed="embed" />
     <GenericEmbed v-else :embed="embed" />
@@ -20,7 +20,8 @@ export default class EmbedMessage extends Vue {
   get youtubeEmbed() {
     if (this.embed.site_name !== "YouTube") return false;
     if (this.embed.type !== "video.other") return false;
-    const regex = /((http(s)?:\/\/)?)(www\.)?((youtube\.com\/)|(youtu.be\/))[\S]+/gm;
+    const regex =
+      /((http(s)?:\/\/)?)(www\.)?((youtube\.com\/)|(youtu.be\/))[\S]+/gm;
     if (!this.embed.url.match(regex)) return false;
     return true;
   }
@@ -34,7 +35,6 @@ export default class EmbedMessage extends Vue {
 </script>
 <style lang="scss" scoped>
 .message-embed {
-  flex-direction: column;
   flex-shrink: 0;
   margin-left: 56px;
   margin-top: 5px;
@@ -42,5 +42,10 @@ export default class EmbedMessage extends Vue {
   background: rgba(0, 0, 0, 0.4);
   align-self: flex-start;
   overflow: hidden;
+  max-width: 100%;
+}
+
+.message-embed.image {
+  background: transparent;
 }
 </style>
