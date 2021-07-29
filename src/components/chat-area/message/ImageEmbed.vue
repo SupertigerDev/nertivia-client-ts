@@ -71,19 +71,21 @@ export default class ImageMessageEmbed extends Vue {
 <style scoped lang="scss">
 .image-embed {
   display: grid;
-  grid: "a" 1fr / minmax(auto, 500px);
+  grid-template: "a" minmax(auto, 500px) / minmax(auto, 500px);
 
   border-radius: 4px;
   overflow: hidden;
 
   aspect-ratio: var(--aspect);
-  min-width: 200px;
-  min-height: 200px;
+  min-height: 100px;
+  min-width: 100px;
 
-  max-width: 500px;
+  max-width: min(100%, 500px);
   max-height: 500px;
 
   cursor: pointer;
+
+  background: rgba(0, 0, 0, 0.3);
 
   &.failed,
   &.failed img {
@@ -116,7 +118,12 @@ img {
   grid-area: a;
 
   width: 100%;
-  height: auto;
+  height: 100%;
+
+  max-width: 100%;
+  max-height: 100%;
+
+  border-radius: 4px;
 
   object-fit: contain;
 }
