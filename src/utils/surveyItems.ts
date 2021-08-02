@@ -1,6 +1,7 @@
 export const genders = [
   { emoji: "👦🏻", name: "Male", code: "M" },
   { emoji: "👧🏼", name: "Female", code: "F" },
+  { emoji: "?", name: "Other", code: "O" },
   { emoji: "😶", name: "Rather not say", code: "no" }
 ];
 export const ageGroups = [
