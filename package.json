@@ -15,7 +15,7 @@
     "core-js": "^3.6.5",
     "doodlepad": "^4.0.2",
     "filesize": "^3.6.1",
-    "firebase": "^8.2.9",
+    "firebase": "^8.8.1",
     "highlight.js": "^10.6.0",
     "idb-keyval": "^5.0.6",
     "jsonhtmlfyer": "^0.2.1",
@@ -49,7 +49,7 @@
     "@typescript-eslint/parser": "^4.27.0",
     "@vue/cli-plugin-babel": "~4.5.13",
     "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-pwa": "~4.5.0",
+    "@vue/cli-plugin-pwa": "~4.5.13",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-typescript": "~4.5.13",
     "@vue/cli-plugin-vuex": "~4.5.0",
@@ -63,7 +63,7 @@
     "sass": "^1.32.8",
     "sass-loader": "^8.0.2",
     "typescript": "4.1.6",
-    "vue-cli-plugin-i18n": "~2.1.0",
+    "vue-cli-plugin-i18n": "~2.1.2",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
