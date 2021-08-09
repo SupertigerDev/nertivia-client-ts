@@ -244,7 +244,7 @@ export default class MessageBoxArea extends Vue {
       e.preventDefault();
       return;
     }
-    if (e.key === "Escape") {
+    if (e.key === "Escape" && this.editingMessage) {
       this.editingMessage = null;
       this.message = "";
     }
