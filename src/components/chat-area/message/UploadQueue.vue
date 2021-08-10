@@ -15,13 +15,16 @@
 <script lang="ts">
 import UploadQueueItem from "./UploadQueueItem.vue";
 import { FileUploadModule } from "@/store/modules/fileUpload";
-import { Component, Vue } from "vue-property-decorator";
-@Component({ components: { UploadQueueItem } })
-export default class UploadQueue extends Vue {
-  get queueItems() {
-    return FileUploadModule.uploadQueue;
+import Vue from "vue";
+export default Vue.extend({
+  name: "UploadQueue",
+  components: { UploadQueueItem },
+  computed: {
+    queueItems(): any {
+      return FileUploadModule.uploadQueue;
+    }
   }
-}
+});
 </script>
 
 <style lang="scss" scoped>

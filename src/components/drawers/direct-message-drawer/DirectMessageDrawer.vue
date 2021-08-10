@@ -58,43 +58,50 @@ import { FriendsModule, FriendStatus } from "@/store/modules/friends";
 import { MeModule } from "@/store/modules/me";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { PopoutsModule } from "@/store/modules/popouts";
-import { Component, Vue } from "vue-property-decorator";
-
-@Component({ components: { FriendList, RecentList } })
-export default class MainApp extends Vue {
-  selectedTab = parseInt(localStorage.getItem("selectedDmTab") || "0");
-
-  openSavedNotes() {
-    if (!MeModule.user.id) return;
-    ChannelsModule.LoadDmChannel(MeModule.user.id);
+import Vue from "vue";
+export default Vue.extend({
+  name: "MainApp",
+  components: { FriendList, RecentList },
+  data() {
+    return {
+      selectedTab: parseInt(localStorage.getItem("selectedDmTab") || "0")
+    };
+  },
+  computed: {
+    friendRequestExists(): any {
+      return this.friends.find(f => f.status === FriendStatus.PENDING);
+    },
+    friends(): any {
+      return FriendsModule.friendsWithUser;
+    },
+    dmNotificationExists(): any {
+      return NotificationsModule.allDMNotifications.length > 0;
+    },
+    savedNotesSelected(): any {
+      const channelID = this.$route.params.channel_id;
+      if (!channelID) return false;
+      const DMChannel = ChannelsModule.getDMChannel(channelID);
+      const recipient = DMChannel?.recipients?.[0];
+      return recipient?.id === MeModule.user.id;
+    }
+  },
+  methods: {
+    openSavedNotes() {
+      if (!MeModule.user.id) return;
+      ChannelsModule.LoadDmChannel(MeModule.user.id);
+    },
+    addFriendButton() {
+      PopoutsModule.ShowPopout({
+        component: "add-friend-popout",
+        id: "add-friend"
+      });
+    },
+    changeTab(index: number) {
+      this.selectedTab = index;
+      localStorage.setItem("selectedDmTab", index.toString());
+    }
   }
-  addFriendButton() {
-    PopoutsModule.ShowPopout({
-      component: "add-friend-popout",
-      id: "add-friend"
-    });
-  }
-  changeTab(index: number) {
-    this.selectedTab = index;
-    localStorage.setItem("selectedDmTab", index.toString());
-  }
-  get friendRequestExists() {
-    return this.friends.find(f => f.status === FriendStatus.PENDING);
-  }
-  get friends() {
-    return FriendsModule.friendsWithUser;
-  }
-  get dmNotificationExists() {
-    return NotificationsModule.allDMNotifications.length > 0;
-  }
-  get savedNotesSelected() {
-    const channelID = this.$route.params.channel_id;
-    if (!channelID) return false;
-    const DMChannel = ChannelsModule.getDMChannel(channelID);
-    const recipient = DMChannel?.recipients?.[0];
-    return recipient?.id === MeModule.user.id;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

@@ -2,8 +2,9 @@
   <h-captcha :sitekey="sitekey" theme="dark" ref="recaptcha" @verify="submit" />
 </template>
 
-<script>
+<script lang="js">
 import hCaptcha from "@hcaptcha/vue-hcaptcha";
+import Vue from "vue";
 
 export default {
   components: { hCaptcha },

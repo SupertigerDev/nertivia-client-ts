@@ -31,42 +31,48 @@ import {
   fetchRecentUsers,
   searchUsers
 } from "@/services/adminService";
-import { Vue, Component, Prop } from "vue-property-decorator";
 import UserTemplate from "./UserTemplate.vue";
-
-@Component({ components: { UserTemplate } })
-export default class Users extends Vue {
-  users: ExpandedUser[] | null = null;
-  searchInput = "";
-  timeout: number | null = null;
+import Vue from "vue";
+export default Vue.extend({
+  name: "Users",
+  components: { UserTemplate },
+  data() {
+    return {
+      users: null as ExpandedUser[] | null,
+      searchInput: "",
+      timeout: null as number | null
+    };
+  },
   mounted() {
     this.fetchUsers();
-  }
-  onInput(event: any) {
-    if (this.timeout) {
-      clearTimeout(this.timeout);
+  },
+  methods: {
+    onInput(event: any) {
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+      }
+      this.timeout = setTimeout(() => this.searchUser(event.target.value), 500);
+    },
+    async fetchUsers() {
+      this.users = [];
+      if (this.searchInput) {
+        this.users = await searchUsers(this.searchInput);
+        return;
+      }
+      this.users = await fetchRecentUsers();
+    },
+    async searchUser(value: string) {
+      if (!value) return this.fetchUsers();
+      this.users = await searchUsers(value);
+    },
+    updateUser(user: ExpandedUser) {
+      if (!this.users) return;
+      const index = this.users?.findIndex(u => u.id === user.id);
+      if (index < 0) return;
+      this.$set(this.users, index, user);
     }
-    this.timeout = setTimeout(() => this.searchUser(event.target.value), 500);
   }
-  async fetchUsers() {
-    this.users = [];
-    if (this.searchInput) {
-      this.users = await searchUsers(this.searchInput);
-      return;
-    }
-    this.users = await fetchRecentUsers();
-  }
-  async searchUser(value: string) {
-    if (!value) return this.fetchUsers();
-    this.users = await searchUsers(value);
-  }
-  updateUser(user: ExpandedUser) {
-    if (!this.users) return;
-    const index = this.users?.findIndex(u => u.id === user.id);
-    if (index < 0) return;
-    this.$set(this.users, index, user);
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

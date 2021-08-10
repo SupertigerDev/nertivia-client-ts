@@ -15,43 +15,49 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import { createServer } from "@/services/serverService";
 import { PopoutsModule } from "@/store/modules/popouts";
-
-@Component({ components: { CustomInput, CustomButton } })
-export default class AddServer extends Vue {
-  name = "";
-  requestSent = false;
-  error: string | null = null;
-  createServer() {
-    if (this.requestSent) return;
-    this.requestSent = true;
-    this.error = null;
-    const trimmedName = this.name.trim();
-    if (!trimmedName.length) {
-      this.requestSent = false;
-      return (this.error = "Server name not provided.");
-    }
-    createServer(trimmedName)
-      .then(async (res: any) => {
-        this.$router.push(
-          `/app/servers/${res.server_id}/${res.default_channel_id}`
-        );
-        PopoutsModule.ClosePopout("add-server");
-      })
-      .catch(async err => {
-        if (!err.response) {
-          this.error = "Cannot connect to server.";
-        } else {
-          this.error = (await err.response.json()).message;
-        }
+import Vue from "vue";
+export default Vue.extend({
+  name: "AddServer",
+  components: { CustomInput, CustomButton },
+  data() {
+    return {
+      name: "",
+      requestSent: false,
+      error: null as string | null
+    };
+  },
+  methods: {
+    createServer() {
+      if (this.requestSent) return;
+      this.requestSent = true;
+      this.error = null;
+      const trimmedName = this.name.trim();
+      if (!trimmedName.length) {
         this.requestSent = false;
-      });
+        return (this.error = "Server name not provided.");
+      }
+      createServer(trimmedName)
+        .then(async (res: any) => {
+          this.$router.push(
+            `/app/servers/${res.server_id}/${res.default_channel_id}`
+          );
+          PopoutsModule.ClosePopout("add-server");
+        })
+        .catch(async err => {
+          if (!err.response) {
+            this.error = "Cannot connect to server.";
+          } else {
+            this.error = (await err.response.json()).message;
+          }
+          this.requestSent = false;
+        });
+    }
   }
-}
+});
 </script>
 
 <style lang="scss" scoped>

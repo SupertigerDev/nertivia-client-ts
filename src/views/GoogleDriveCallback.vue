@@ -15,12 +15,23 @@
 </template>
 <script lang="ts">
 import { GoogleDriveLink } from "@/services/authService";
-import { Component, Vue } from "vue-property-decorator";
-
-@Component
-export default class MainApp extends Vue {
-  loading = true;
-  success = false;
+import Vue from "vue";
+export default Vue.extend({
+  name: "MainApp",
+  data() {
+    return {
+      loading: true,
+      success: false
+    };
+  },
+  computed: {
+    message(): any {
+      if (this.success) {
+        return "Account successfully linked. You may close this tab.";
+      }
+      return "Something went wrong while linking to Google Drive. Try again later.";
+    }
+  },
   mounted() {
     const url = new URL(location.href);
     const token = url.searchParams.get("state");
@@ -39,13 +50,7 @@ export default class MainApp extends Vue {
         this.success = false;
       });
   }
-  get message() {
-    if (this.success) {
-      return "Account successfully linked. You may close this tab.";
-    }
-    return "Something went wrong while linking to Google Drive. Try again later.";
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .login {

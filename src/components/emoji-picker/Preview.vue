@@ -14,32 +14,37 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "Preview",
+  props: {
+    hoveredEmoji: {
+      type: Object as PropType<any>,
+      required: false
+    }
+  },
+  computed: {
+    shortCode(): any {
+      if (this.hoveredEmoji.name) return this.hoveredEmoji.name;
+      else return this.hoveredEmoji.shortcodes?.[0];
+    },
+    name(): any {
+      if (!this.hoveredEmoji.annotation) return null;
+      return this.hoveredEmoji.annotation;
+    },
+    image(): any {
+      const { el, emojiID, gif } = this.hoveredEmoji;
+      if (el) return el;
+      const image = new Image();
+      image.classList.add("emoji");
 
-@Component
-export default class Preview extends Vue {
-  @Prop() private hoveredEmoji!: any;
-
-  get shortCode() {
-    if (this.hoveredEmoji.name) return this.hoveredEmoji.name;
-    else return this.hoveredEmoji.shortcodes?.[0];
+      image.src = `${process.env.VUE_APP_NERTIVIA_CDN}emojis/${emojiID}.${
+        gif ? "gif" : "png"
+      }`;
+      return image.outerHTML;
+    }
   }
-  get name() {
-    if (!this.hoveredEmoji.annotation) return null;
-    return this.hoveredEmoji.annotation;
-  }
-  get image() {
-    const { el, emojiID, gif } = this.hoveredEmoji;
-    if (el) return el;
-    const image = new Image();
-    image.classList.add("emoji");
-
-    image.src = `${process.env.VUE_APP_NERTIVIA_CDN}emojis/${emojiID}.${
-      gif ? "gif" : "png"
-    }`;
-    return image.outerHTML;
-  }
-}
+});
 </script>
 
 <style scoped></style>

@@ -28,35 +28,36 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
 import { PopoutsModule } from "@/store/modules/popouts";
 import CreateServer from "./CreateServer.vue";
 import JoinServer from "./JoinServer.vue";
 import TabLayout from "@/components/TabLayout.vue";
-
-@Component({
-  components: { TabLayout }
-})
-export default class ProfilePopout extends Vue {
-  close() {
-    PopoutsModule.ClosePopout("add-server");
-  }
-
-  backgroundClick(event: any) {
-    if (event.target.classList.contains("popout-background")) {
-      this.close();
+import Vue from "vue";
+export default Vue.extend({
+  name: "ProfilePopout",
+  components: { TabLayout },
+  computed: {
+    tabs(): any {
+      return [
+        { name: this.$t("add-server-popout.tabs.join"), component: JoinServer },
+        {
+          name: this.$t("add-server-popout.tabs.create"),
+          component: CreateServer
+        }
+      ];
+    }
+  },
+  methods: {
+    close() {
+      PopoutsModule.ClosePopout("add-server");
+    },
+    backgroundClick(event: any) {
+      if (event.target.classList.contains("popout-background")) {
+        this.close();
+      }
     }
   }
-  get tabs() {
-    return [
-      { name: this.$t("add-server-popout.tabs.join"), component: JoinServer },
-      {
-        name: this.$t("add-server-popout.tabs.create"),
-        component: CreateServer
-      }
-    ];
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .add-server-popout {

@@ -34,117 +34,137 @@ import { deleteEmoji, updateEmoji } from "@/services/emojiService";
 import { CustomEmojisModule } from "@/store/modules/customEmojis";
 import { PopoutsModule } from "@/store/modules/popouts";
 import emojiParser from "@/utils/emojiParser";
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-
-@Component
-export default class EmojiTemplate extends Vue {
-  @Prop() private emoji!: CustomEmoji;
-  @Prop() private defaultFocused!: boolean;
-  focused = this.defaultFocused || false;
-  saving = false;
-  deleting = false;
-  emojiName = this.emoji.name;
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "EmojiTemplate",
+  props: {
+    emoji: {
+      type: Object as PropType<CustomEmoji>,
+      required: false
+    },
+    defaultFocused: {
+      type: Boolean,
+      required: false
+    }
+  },
+  data() {
+    return {
+      focused: this.defaultFocused || false,
+      saving: false,
+      deleting: false,
+      emojiName: this.emoji.name
+    };
+  },
+  computed: {
+    url(): any {
+      return (
+        process.env.VUE_APP_NERTIVIA_CDN +
+        "emojis/" +
+        this.emoji.emojiID +
+        (this.emoji.gif ? ".gif" : ".png")
+      );
+    },
+    nameChanged(): any {
+      return this.emojiName.trim() !== this.emoji.name;
+    }
+  },
+  watch: {
+    emojiName: {
+      // @ts-ignore
+      handler: "onInput"
+    }
+  },
   mounted() {
     if (this.focused) {
       (this.$refs.input as HTMLElement).focus();
     }
-  }
-  saveButton() {
-    const emojiExists = emojiParser.allEmojis.filter(e =>
-      e.shortcodes.find(s => s === this.emojiName.toLowerCase())
-    );
-    //check if emoji name is already used by custom emojis
-    const customEmojiExists = CustomEmojisModule.customEmojis.filter(
-      e => e.name.toLowerCase() === this.emojiName.toLowerCase()
-    );
-    if (emojiExists.length > 1 || customEmojiExists.length > 1) {
-      PopoutsModule.ShowPopout({
-        id: "custom-emoji-save-error",
-        component: "generic-popout",
-        data: {
-          title: "Oops!",
-          description: "Emoji with this name already exists."
-        }
-      });
-      return;
-    }
-
-    if (this.saving) return;
-    this.saving = true;
-    updateEmoji(this.emoji.emojiID, this.emojiName)
-      .then(() => {
-        CustomEmojisModule.UpdateEmoji({
-          emojiID: this.emoji.emojiID,
-          name: this.emojiName
-        });
-        this.emojiName = this.emoji.name;
-
-        this.saving = false;
-      })
-      .catch(async res => {
-        let message;
-        if (res.response) {
-          message = (await res.response.json()).message;
-        } else {
-          message = this.$t("could-not-connect-to-server");
-        }
+  },
+  methods: {
+    saveButton() {
+      const emojiExists = emojiParser.allEmojis.filter(e =>
+        e.shortcodes.find(s => s === this.emojiName.toLowerCase())
+      );
+      //check if emoji name is already used by custom emojis
+      const customEmojiExists = CustomEmojisModule.customEmojis.filter(
+        e => e.name.toLowerCase() === this.emojiName.toLowerCase()
+      );
+      if (emojiExists.length > 1 || customEmojiExists.length > 1) {
         PopoutsModule.ShowPopout({
           id: "custom-emoji-save-error",
           component: "generic-popout",
           data: {
             title: "Oops!",
-            description: message
+            description: "Emoji with this name already exists."
           }
         });
-        this.saving = false;
-      });
-  }
-  deleteButton() {
-    if (this.deleting) return;
-    this.deleting = true;
-    deleteEmoji(this.emoji.emojiID)
-      .then(() => {
-        CustomEmojisModule.DeleteEmoji(this.emoji.emojiID);
-      })
-      .catch(async res => {
-        let message;
-        if (res.response) {
-          message = (await res.response.json()).message;
-        } else {
-          message = this.$t("could-not-connect-to-server");
-        }
-        PopoutsModule.ShowPopout({
-          id: "custom-emoji-delete-error",
-          component: "generic-popout",
-          data: {
-            title: "Oops!",
-            description: message
+        return;
+      }
+
+      if (this.saving) return;
+      this.saving = true;
+      updateEmoji(this.emoji.emojiID, this.emojiName)
+        .then(() => {
+          CustomEmojisModule.UpdateEmoji({
+            emojiID: this.emoji.emojiID,
+            name: this.emojiName
+          });
+          this.emojiName = this.emoji.name;
+
+          this.saving = false;
+        })
+        .catch(async res => {
+          let message;
+          if (res.response) {
+            message = (await res.response.json()).message;
+          } else {
+            message = this.$t("could-not-connect-to-server");
           }
+          PopoutsModule.ShowPopout({
+            id: "custom-emoji-save-error",
+            component: "generic-popout",
+            data: {
+              title: "Oops!",
+              description: message
+            }
+          });
+          this.saving = false;
         });
-        this.deleting = false;
-      });
-  }
-  keyDown(event: KeyboardEvent) {
-    if (event.key === "Enter") {
-      this.saveButton();
+    },
+    deleteButton() {
+      if (this.deleting) return;
+      this.deleting = true;
+      deleteEmoji(this.emoji.emojiID)
+        .then(() => {
+          CustomEmojisModule.DeleteEmoji(this.emoji.emojiID);
+        })
+        .catch(async res => {
+          let message;
+          if (res.response) {
+            message = (await res.response.json()).message;
+          } else {
+            message = this.$t("could-not-connect-to-server");
+          }
+          PopoutsModule.ShowPopout({
+            id: "custom-emoji-delete-error",
+            component: "generic-popout",
+            data: {
+              title: "Oops!",
+              description: message
+            }
+          });
+          this.deleting = false;
+        });
+    },
+    keyDown(event: KeyboardEvent) {
+      if (event.key === "Enter") {
+        this.saveButton();
+      }
+    },
+    onInput(val: string) {
+      this.emojiName = val.replace(/[^A-Z0-9]+/gi, "_").trim();
     }
   }
-  @Watch("emojiName")
-  onInput(val: string) {
-    this.emojiName = val.replace(/[^A-Z0-9]+/gi, "_").trim();
-  }
-  get url() {
-    return (
-      process.env.VUE_APP_NERTIVIA_CDN +
-      "emojis/" +
-      this.emoji.emojiID +
-      (this.emoji.gif ? ".gif" : ".png")
-    );
-  }
-  get nameChanged() {
-    return this.emojiName.trim() !== this.emoji.name;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

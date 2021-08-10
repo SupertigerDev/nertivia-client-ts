@@ -14,30 +14,42 @@
 
 <script lang="ts">
 import { MessagesModule } from "@/store/modules/messages";
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-
-@Component
-export default class EditPanel extends Vue {
-  @Prop() private messageID!: string;
-
-  @Watch("message")
-  onMessageChange() {
-    if (!this.message) {
-      this.$emit("close");
+import Vue from "vue";
+export default Vue.extend({
+  name: "EditPanel",
+  props: {
+    messageID: {
+      type: String,
+      required: false
+    }
+  },
+  computed: {
+    isImage(): any {
+      return this.message?.files?.[0]?.dimensions;
+    },
+    isFile(): any {
+      return this.message?.files?.[0];
+    },
+    message(): any {
+      return MessagesModule.channelMessages(this.$route.params.channel_id).find(
+        m => m.messageID === this.messageID
+      );
+    }
+  },
+  watch: {
+    message: {
+      // @ts-ignore
+      handler: "onMessageChange"
+    }
+  },
+  methods: {
+    onMessageChange() {
+      if (!this.message) {
+        this.$emit("close");
+      }
     }
   }
-  get isImage() {
-    return this.message?.files?.[0]?.dimensions;
-  }
-  get isFile() {
-    return this.message?.files?.[0];
-  }
-  get message() {
-    return MessagesModule.channelMessages(this.$route.params.channel_id).find(
-      m => m.messageID === this.messageID
-    );
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

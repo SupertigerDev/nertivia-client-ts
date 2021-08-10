@@ -44,50 +44,60 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { UsersModule } from "@/store/modules/users";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { kickMember, banMember } from "@/services/serverService";
 import User from "@/interfaces/User";
 import CustomButton from "@/components/CustomButton.vue";
-
-@Component({
-  components: { AvatarImage, CustomButton }
-})
-export default class ProfilePopout extends Vue {
-  requestSent = false;
-  @Prop() private data!: {
-    id: string;
-    serverID: string;
-    action: string;
-    tempUser: User;
-  };
-  close() {
-    PopoutsModule.ClosePopout("ban-or-kick-user-popout");
-  }
-  backgroundClick(event: any) {
-    if (event.target.classList.contains("popout-background")) {
-      this.close();
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "ProfilePopout",
+  components: { AvatarImage, CustomButton },
+  props: {
+    data: {
+      type: Object as PropType<{
+        id: string;
+        serverID: string;
+        action: string;
+        tempUser: User;
+      }>,
+      required: false
+    }
+  },
+  data() {
+    return {
+      requestSent: false
+    };
+  },
+  computed: {
+    user(): any {
+      return UsersModule.users[this.data.id] || this.data.tempUser || {};
+    }
+  },
+  methods: {
+    close() {
+      PopoutsModule.ClosePopout("ban-or-kick-user-popout");
+    },
+    backgroundClick(event: any) {
+      if (event.target.classList.contains("popout-background")) {
+        this.close();
+      }
+    },
+    buttonClicked() {
+      if (this.requestSent) return;
+      this.requestSent = true;
+      const fun = this.data.action === "BAN" ? banMember : kickMember;
+      fun(this.data.serverID, this.data.id)
+        .then(() => {
+          this.close();
+        })
+        .catch(() => {
+          this.requestSent = false;
+        });
     }
   }
-  buttonClicked() {
-    if (this.requestSent) return;
-    this.requestSent = true;
-    const fun = this.data.action === "BAN" ? banMember : kickMember;
-    fun(this.data.serverID, this.data.id)
-      .then(() => {
-        this.close();
-      })
-      .catch(() => {
-        this.requestSent = false;
-      });
-  }
-
-  get user() {
-    return UsersModule.users[this.data.id] || this.data.tempUser || {};
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .ban-or-kick-popout {

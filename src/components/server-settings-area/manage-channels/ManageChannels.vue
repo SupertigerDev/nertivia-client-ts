@@ -58,7 +58,6 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import Draggable from "vuedraggable";
 import { ServersModule } from "@/store/modules/servers";
@@ -72,7 +71,9 @@ import {
   updateServerChannelPosition
 } from "@/services/channelService";
 import Channel from "@/interfaces/Channel";
-@Component({
+import Vue from "vue";
+export default Vue.extend({
+  name: "ManageChannels",
   components: {
     CustomInput,
     CustomButton,
@@ -80,56 +81,62 @@ import Channel from "@/interfaces/Channel";
     ContextMenu,
     SelectedChannelPage,
     Draggable
-  }
-})
-export default class ManageChannels extends Vue {
-  showContext = false;
-  selectedChannelID: string | null = null;
-  createRequestSent = false;
-  outsideClick(event: any) {
-    if (event.target.classList.contains("button")) return;
-    this.showContext = false;
-  }
+  },
+  data() {
+    return {
+      showContext: false,
+      selectedChannelID: null as string | null,
+      createRequestSent: false
+    };
+  },
+  computed: {
+    server(): any {
+      return ServersModule.servers[this.serverID];
+    },
+    channels: {
+      get(): Channel[] {
+        return ChannelsModule.sortedServerChannels(this.serverID);
+      },
+      set(channels: Channel[]) {
+        ServersModule.UpdateServer({
+          server_id: this.serverID,
+          channel_position: channels.map(c => c.channelID)
+        });
+      }
+    },
+    serverID(): any {
+      return this.$route.params.server_id;
+    }
+  },
   mounted() {
     const { id } = this.$route.params;
     this.selectedChannelID = id || null;
     id && this.$router.replace({ params: { id: null as any } });
+  },
+  methods: {
+    outsideClick(event: any) {
+      if (event.target.classList.contains("button")) return;
+      this.showContext = false;
+    },
+    onDragEnd() {
+      const channelIDs = this.channels.map(s => s.channelID);
+      updateServerChannelPosition(this.serverID, channelIDs);
+    },
+    createChannel() {
+      this.showContext = false;
+      if (this.createRequestSent) return;
+      this.createRequestSent = true;
+      createServerChannel(this.serverID)
+        .then(json => {
+          ChannelsModule.AddChannel(json.channel);
+          this.selectedChannelID = json.channel.channelID;
+        })
+        .finally(() => {
+          this.createRequestSent = false;
+        });
+    }
   }
-
-  onDragEnd() {
-    const channelIDs = this.channels.map(s => s.channelID);
-    updateServerChannelPosition(this.serverID, channelIDs);
-  }
-  createChannel() {
-    this.showContext = false;
-    if (this.createRequestSent) return;
-    this.createRequestSent = true;
-    createServerChannel(this.serverID)
-      .then(json => {
-        ChannelsModule.AddChannel(json.channel);
-        this.selectedChannelID = json.channel.channelID;
-      })
-      .finally(() => {
-        this.createRequestSent = false;
-      });
-  }
-
-  get server() {
-    return ServersModule.servers[this.serverID];
-  }
-  get channels() {
-    return ChannelsModule.sortedServerChannels(this.serverID);
-  }
-  set channels(channels: Channel[]) {
-    ServersModule.UpdateServer({
-      server_id: this.serverID,
-      channel_position: channels.map(c => c.channelID)
-    });
-  }
-  get serverID() {
-    return this.$route.params.server_id;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

@@ -18,51 +18,57 @@
 
 <script lang="ts">
 import { Embed } from "@/interfaces/Message";
-import { Component, Prop, Vue } from "vue-property-decorator";
 import { PopoutsModule } from "@/store/modules/popouts";
-
-@Component
-export default class GenericEmbed extends Vue {
-  @Prop() private embed!: Embed;
-
-  imageClick() {
-    PopoutsModule.ShowPopout({
-      id: "image-preview-popout",
-      component: "image-preview-popout",
-      data: {
-        url: this.imageUrl,
-        dimensions: this.embed.image?.dimensions
-      }
-    });
-  }
-  urlClick(event) {
-    event.preventDefault();
-    PopoutsModule.ShowPopout({
-      id: "html-embed-url-sus",
-      component: "OpenLinkConfirm",
-      data: { url: this.url }
-    });
-  }
-
-  get imageUrl() {
-    if (!this.embed.image?.url) return undefined;
-    return (
-      process.env.VUE_APP_IMAGE_PROXY_URL +
-      encodeURIComponent(this.embed.image.url)
-    );
-  }
-  get title() {
-    return this.embed.title || this.embed.site_name;
-  }
-  get url() {
-    const url = this.embed.url;
-    if (!url) return "#";
-    if (url.startsWith("http://") || url.startsWith("https://")) {
-      return url;
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "GenericEmbed",
+  props: {
+    embed: {
+      type: Object as PropType<Embed>,
+      required: false
     }
-    return `https://${url}`;
+  },
+  computed: {
+    imageUrl(): any {
+      if (!this.embed.image?.url) return undefined;
+      return (
+        process.env.VUE_APP_IMAGE_PROXY_URL +
+        encodeURIComponent(this.embed.image.url)
+      );
+    },
+    title(): any {
+      return this.embed.title || this.embed.site_name;
+    },
+    url(): any {
+      const url = this.embed.url;
+      if (!url) return "#";
+      if (url.startsWith("http://") || url.startsWith("https://")) {
+        return url;
+      }
+      return `https://${url}`;
+    }
+  },
+  methods: {
+    imageClick() {
+      PopoutsModule.ShowPopout({
+        id: "image-preview-popout",
+        component: "image-preview-popout",
+        data: {
+          url: this.imageUrl,
+          dimensions: this.embed.image?.dimensions
+        }
+      });
+    },
+    urlClick(event) {
+      event.preventDefault();
+      PopoutsModule.ShowPopout({
+        id: "html-embed-url-sus",
+        component: "OpenLinkConfirm",
+        data: { url: this.url }
+      });
+    }
   }
-}
+});
 </script>
 <style lang="scss" scoped>
 .generic-embed {

@@ -22,21 +22,26 @@
 
 <script lang="ts">
 import { fetchRecentActions, Action } from "@/services/adminService";
-import { Vue, Component, Prop } from "vue-property-decorator";
 import ActionTemplate from "./ActionTemplate.vue";
-
-@Component({ components: { ActionTemplate } })
-export default class Users extends Vue {
-  actions: Action[] | null = null;
+import Vue from "vue";
+export default Vue.extend({
+  name: "Users",
+  components: { ActionTemplate },
+  data() {
+    return {
+      actions: null as Action[] | null
+    };
+  },
   mounted() {
     this.fetchActions();
+  },
+  methods: {
+    async fetchActions() {
+      this.actions = [];
+      this.actions = await fetchRecentActions();
+    }
   }
-
-  async fetchActions() {
-    this.actions = [];
-    this.actions = await fetchRecentActions();
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

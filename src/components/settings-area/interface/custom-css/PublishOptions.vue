@@ -71,7 +71,6 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import {
   addPublicTheme,
   getPublicTheme,
@@ -82,119 +81,133 @@ import CustomButton from "@/components/CustomButton.vue";
 import CustomInput from "@/components/CustomInput.vue";
 import { Theme } from "@/services/themeService";
 import InformationTemplate from "@/components/InformationTemplate.vue";
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "PublishOptions",
+  components: { CustomButton, CustomInput, InformationTemplate },
+  props: {
+    theme: {
+      type: Object as PropType<Theme>,
+      required: false
+    }
+  },
+  data() {
+    return {
+      publicTheme: null as null | undefined | PublicTheme,
+      newImage: null as null | string,
+      description: "",
+      errors: {} as any,
+      requestSent: false
+    };
+  },
+  computed: {
+    imageURL(): any {
+      if (this.newImage) return this.newImage;
+      if (!this.publicTheme) return null;
+      return `${process.env.VUE_APP_NERTIVIA_CDN}${this.publicTheme.screenshot}`;
+    },
+    status(): any {
+      const themeVersion = this.theme.client_version;
+      const lastBreakingVersion = this.$lastUIBreakingVersion;
+      const isLatestPrivateTheme = themeVersion === lastBreakingVersion;
+      if (this.publicTheme === undefined && !isLatestPrivateTheme)
+        return "Nertivia had some UI breaking changes. Verify that the theme still works as intended and then click on save in the editor, then publish on this page.";
+      if (this.publicTheme === undefined) return "Not Published";
 
-@Component({ components: { CustomButton, CustomInput, InformationTemplate } })
-export default class PublishOptions extends Vue {
-  @Prop() private theme!: Theme;
-  publicTheme?: null | PublicTheme = null;
-  newImage: null | string = null;
-  description = "";
-  errors: any = {};
-  requestSent = false;
+      const publicThemeVersion = this.publicTheme?.compatible_client_version;
+      const isLatestPublicTheme = publicThemeVersion === lastBreakingVersion;
+      if (
+        !themeVersion ||
+        !publicThemeVersion ||
+        !isLatestPublicTheme ||
+        !isLatestPrivateTheme
+      )
+        return "Nertivia had some UI breaking changes. Verify that the theme still works as intended and then click on save in the editor, then update on this page.";
+
+      if (this.publicTheme?.updatedCss) return "Waiting For Update Approval";
+      if (!this.publicTheme?.approved) return "Waiting For Approval";
+      if (this.publicTheme?.approved) return "Published";
+      return "Unknown";
+    }
+  },
   async mounted() {
     this.publicTheme = await getPublicTheme(this.theme.id).catch(() => {
       this.publicTheme = undefined;
     });
     this.description = this.publicTheme?.description || "";
-  }
-  imageChange(event: any) {
-    const file: File = event.target.files[0];
-    event.target.value = "";
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onloadend = event => {
-      this.newImage = (event.target?.result as any) || null;
-    };
-    reader.readAsDataURL(file);
-  }
-  publishForReview() {
-    if (this.requestSent) return;
-    this.requestSent = true;
-    this.errors = {};
-    const data: any = {};
-    if (this.newImage) {
-      data.screenshot = this.newImage;
-    }
-    data.description = this.description;
-    addPublicTheme(this.theme.id, data)
-      .then(json => {
-        this.publicTheme = json;
-      })
-      .catch(async err => {
-        const json = await err.response.json();
-        this.handleError(json);
-      })
-      .finally(() => {
-        this.requestSent = false;
-      });
-  }
-  updatePublicTheme() {
-    if (this.requestSent) return;
-    this.requestSent = true;
-    this.errors = {};
-    const data: any = {};
-    if (this.newImage) {
-      data.screenshot = this.newImage;
-    }
-    data.description = this.description;
-    updatePublicTheme(this.theme.id, data)
-      .then(json => {
-        this.publicTheme = json;
-      })
-      .catch(async err => {
-        const json = await err.response.json();
-        this.handleError(json);
-      })
-      .finally(() => {
-        this.requestSent = false;
-      });
-  }
-  handleError(json: any) {
-    const { errors, message } = json;
-    if (message) {
-      this.$set(this.errors, "other", message);
-      return;
-    }
-    const allowedParams = ["description"];
-    for (let i = 0; i < errors.length; i++) {
-      const { param, msg } = errors[i];
-      if (!allowedParams.includes(param)) {
-        this.$set(this.errors, "other", msg);
-
-        continue;
+  },
+  methods: {
+    imageChange(event: any) {
+      const file: File = event.target.files[0];
+      event.target.value = "";
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onloadend = event => {
+        this.newImage = (event.target?.result as any) || null;
+      };
+      reader.readAsDataURL(file);
+    },
+    publishForReview() {
+      if (this.requestSent) return;
+      this.requestSent = true;
+      this.errors = {};
+      const data: any = {};
+      if (this.newImage) {
+        data.screenshot = this.newImage;
       }
-      this.$set(this.errors, param, msg);
+      data.description = this.description;
+      addPublicTheme(this.theme.id, data)
+        .then(json => {
+          this.publicTheme = json;
+        })
+        .catch(async err => {
+          const json = await err.response.json();
+          this.handleError(json);
+        })
+        .finally(() => {
+          this.requestSent = false;
+        });
+    },
+    updatePublicTheme() {
+      if (this.requestSent) return;
+      this.requestSent = true;
+      this.errors = {};
+      const data: any = {};
+      if (this.newImage) {
+        data.screenshot = this.newImage;
+      }
+      data.description = this.description;
+      updatePublicTheme(this.theme.id, data)
+        .then(json => {
+          this.publicTheme = json;
+        })
+        .catch(async err => {
+          const json = await err.response.json();
+          this.handleError(json);
+        })
+        .finally(() => {
+          this.requestSent = false;
+        });
+    },
+    handleError(json: any) {
+      const { errors, message } = json;
+      if (message) {
+        this.$set(this.errors, "other", message);
+        return;
+      }
+      const allowedParams = ["description"];
+      for (let i = 0; i < errors.length; i++) {
+        const { param, msg } = errors[i];
+        if (!allowedParams.includes(param)) {
+          this.$set(this.errors, "other", msg);
+
+          continue;
+        }
+        this.$set(this.errors, param, msg);
+      }
     }
   }
-  get imageURL() {
-    if (this.newImage) return this.newImage;
-    if (!this.publicTheme) return null;
-    return `${process.env.VUE_APP_NERTIVIA_CDN}${this.publicTheme.screenshot}`;
-  }
-  get status() {
-    const themeVersion = this.theme.client_version;
-    const lastBreakingVersion = this.$lastUIBreakingVersion;
-    const isLatestPrivateTheme = themeVersion === lastBreakingVersion;
-    if (this.publicTheme === undefined && !isLatestPrivateTheme)
-      return "Nertivia had some UI breaking changes. Verify that the theme still works as intended and then click on save in the editor, then publish on this page.";
-    if (this.publicTheme === undefined) return "Not Published";
-
-    const publicThemeVersion = this.publicTheme?.compatible_client_version;
-    const isLatestPublicTheme = publicThemeVersion === lastBreakingVersion;
-    if (
-      !themeVersion ||
-      !publicThemeVersion ||
-      !isLatestPublicTheme ||
-      !isLatestPrivateTheme
-    )
-      return "Nertivia had some UI breaking changes. Verify that the theme still works as intended and then click on save in the editor, then update on this page.";
-
-    if (this.publicTheme?.updatedCss) return "Waiting For Update Approval";
-    if (!this.publicTheme?.approved) return "Waiting For Approval";
-    if (this.publicTheme?.approved) return "Published";
-    return "Unknown";
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

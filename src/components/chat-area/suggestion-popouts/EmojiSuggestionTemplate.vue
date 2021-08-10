@@ -8,29 +8,38 @@
 <script lang="ts">
 import AvatarImage from "@/components/AvatarImage.vue";
 import emojiParser from "@/utils/emojiParser";
-import { Component, Prop, Vue } from "vue-property-decorator";
-
-@Component({ components: { AvatarImage } })
-export default class EmojiSuggestionTemplate extends Vue {
-  @Prop() private item!: any;
-  @Prop() private selected!: boolean;
-
-  get image() {
-    if (this.item.unicode) {
-      return emojiParser.replaceEmojis(this.item.unicode);
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "EmojiSuggestionTemplate",
+  components: { AvatarImage },
+  props: {
+    item: {
+      type: Object as PropType<any>,
+      required: false
+    },
+    selected: {
+      type: Boolean,
+      required: false
     }
-    const image = new Image();
-    image.classList.add("emoji");
+  },
+  computed: {
+    image(): any {
+      if (this.item.unicode) {
+        return emojiParser.replaceEmojis(this.item.unicode);
+      }
+      const image = new Image();
+      image.classList.add("emoji");
 
-    image.src = `${process.env.VUE_APP_NERTIVIA_CDN}emojis/${
-      this.item.emojiID
-    }.${this.item.gif ? "gif" : "png"}`;
-    return image.outerHTML;
+      image.src = `${process.env.VUE_APP_NERTIVIA_CDN}emojis/${
+        this.item.emojiID
+      }.${this.item.gif ? "gif" : "png"}`;
+      return image.outerHTML;
+    },
+    name(): any {
+      return this.item.name || this.item.shortcodes[0];
+    }
   }
-  get name() {
-    return this.item.name || this.item.shortcodes[0];
-  }
-}
+});
 </script>
 <style scoped lang="scss">
 .emoji-suggestion-template {

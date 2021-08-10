@@ -31,38 +31,51 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { PopoutsModule } from "@/store/modules/popouts";
 import CustomButton from "@/components/CustomButton.vue";
 import InformationTemplate from "@/components/InformationTemplate.vue";
 import { googleDriveLinkURL } from "@/services/authService";
 import { MeModule } from "@/store/modules/me";
-@Component({
-  components: { CustomButton, InformationTemplate }
-})
-export default class ProfilePopout extends Vue {
-  @Prop() private identity!: string;
-  close() {
-    PopoutsModule.ClosePopout(this.identity);
-  }
-  link() {
-    googleDriveLinkURL().then(({ url }) => {
-      window.open(url, "_blank");
-    });
-  }
-  buttonClicked() {
-    this.close();
-  }
-  @Watch("linked")
-  onLinkedChange(linked: boolean) {
-    if (linked) {
+import Vue from "vue";
+export default Vue.extend({
+  name: "ProfilePopout",
+  components: { CustomButton, InformationTemplate },
+  props: {
+    identity: {
+      type: String,
+      required: false
+    }
+  },
+  computed: {
+    linked(): any {
+      return MeModule.user.googleDriveLinked;
+    }
+  },
+  watch: {
+    linked: {
+      // @ts-ignore
+      handler: "onLinkedChange"
+    }
+  },
+  methods: {
+    close() {
+      PopoutsModule.ClosePopout(this.identity);
+    },
+    link() {
+      googleDriveLinkURL().then(({ url }) => {
+        window.open(url, "_blank");
+      });
+    },
+    buttonClicked() {
       this.close();
+    },
+    onLinkedChange(linked: boolean) {
+      if (linked) {
+        this.close();
+      }
     }
   }
-  get linked() {
-    return MeModule.user.googleDriveLinked;
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .generic-popout {

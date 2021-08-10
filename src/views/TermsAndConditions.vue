@@ -121,11 +121,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
 import Header from "@/components/home-page/Header.vue";
-
-@Component({ components: { Header } })
-export default class Home extends Vue {}
+import Vue from "vue";
+export default Vue.extend({
+  name: "Home",
+  components: { Header }
+});
 </script>
 
 <style scoped lang="scss">

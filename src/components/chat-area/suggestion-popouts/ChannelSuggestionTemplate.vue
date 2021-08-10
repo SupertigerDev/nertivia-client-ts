@@ -12,28 +12,35 @@
 <script lang="ts">
 import Channel from "@/interfaces/Channel";
 import { emojiURL } from "@/utils/emojiParser";
-import { Component, Prop, Vue } from "vue-property-decorator";
-
-@Component
-export default class ChannelSuggestionTemplate extends Vue {
-  @Prop() private item!: Channel;
-  @Prop() private selected!: boolean;
-
-  get iconURL() {
-    const icon = this.item.icon;
-    if (!icon) return null;
-    const isCustom = icon.startsWith("g_") || icon.startsWith("c_");
-    const isGif = icon.startsWith("g_");
-    const customEmojiID = icon.split("_")[1];
-    return emojiURL(isCustom ? customEmojiID : icon, { isCustom, isGif });
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "ChannelSuggestionTemplate",
+  props: {
+    item: {
+      type: Object as PropType<Channel>,
+      required: false
+    },
+    selected: {
+      type: Boolean,
+      required: false
+    }
+  },
+  computed: {
+    iconURL(): any {
+      const icon = this.item.icon;
+      if (!icon) return null;
+      const isCustom = icon.startsWith("g_") || icon.startsWith("c_");
+      const isGif = icon.startsWith("g_");
+      const customEmojiID = icon.split("_")[1];
+      return emojiURL(isCustom ? customEmojiID : icon, { isCustom, isGif });
+    },
+    channelStyle(): any {
+      return {
+        "--icon-url": this.iconURL && `url("${this.iconURL}")`
+      };
+    }
   }
-
-  get channelStyle() {
-    return {
-      "--icon-url": this.iconURL && `url("${this.iconURL}")`
-    };
-  }
-}
+});
 </script>
 <style scoped lang="scss">
 .channel {

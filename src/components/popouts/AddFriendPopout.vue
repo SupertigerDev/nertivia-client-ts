@@ -33,72 +33,78 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
 import { PopoutsModule } from "@/store/modules/popouts";
 import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import { sendFriendRequest } from "@/services/relationshipService";
-
-@Component({ components: { CustomInput, CustomButton } })
-export default class ProfilePopout extends Vue {
-  error: string | null = null;
-  success: string | null = null;
-  requestSent = false;
-  usernameAndTag = "";
-  close() {
-    PopoutsModule.ClosePopout("add-friend");
-  }
-  sendRequest() {
-    if (this.requestSent) return;
-    this.requestSent = true;
-    this.error = null;
-    this.success = null;
-    // validate username and tag
-    const split = this.usernameAndTag.trim().split(":");
-    if (!this.usernameAndTag.trim().length) {
-      this.error = "Cannot be friends with emptiness.";
-      this.requestSent = false;
-      return;
-    }
-    if (split.length === 1) {
-      this.error = "Tag is required.";
-      this.requestSent = false;
-      return;
-    }
-    if (split.length >= 3) {
-      this.error = "Username must not contain a colon.";
-      this.requestSent = false;
-      return;
-    }
-    if (!split[split.length - 1].length) {
-      this.error = "Tag is required.";
-      this.requestSent = false;
-      return;
-    }
-    const username = split[0].trim();
-    const tag = split[1].trim();
-    sendFriendRequest(username, tag)
-      .then(() => {
-        this.success = "Friend request send!";
+import Vue from "vue";
+export default Vue.extend({
+  name: "ProfilePopout",
+  components: { CustomInput, CustomButton },
+  data() {
+    return {
+      error: null as string | null,
+      success: null as string | null,
+      requestSent: false,
+      usernameAndTag: ""
+    };
+  },
+  methods: {
+    close() {
+      PopoutsModule.ClosePopout("add-friend");
+    },
+    sendRequest() {
+      if (this.requestSent) return;
+      this.requestSent = true;
+      this.error = null;
+      this.success = null;
+      // validate username and tag
+      const split = this.usernameAndTag.trim().split(":");
+      if (!this.usernameAndTag.trim().length) {
+        this.error = "Cannot be friends with emptiness.";
         this.requestSent = false;
-      })
-      .catch(async err => {
+        return;
+      }
+      if (split.length === 1) {
+        this.error = "Tag is required.";
         this.requestSent = false;
-        const json = await err.response.json();
-        if (json?.errors?.[0]) {
-          this.error = json.errors[0].msg;
-        } else {
-          this.error = "Something weng wrong. Show console to fishie.";
-          console.log({ json, response: err.response });
-        }
-      });
-  }
-  backgroundClick(event: any) {
-    if (event.target.classList.contains("popout-background")) {
-      this.close();
+        return;
+      }
+      if (split.length >= 3) {
+        this.error = "Username must not contain a colon.";
+        this.requestSent = false;
+        return;
+      }
+      if (!split[split.length - 1].length) {
+        this.error = "Tag is required.";
+        this.requestSent = false;
+        return;
+      }
+      const username = split[0].trim();
+      const tag = split[1].trim();
+      sendFriendRequest(username, tag)
+        .then(() => {
+          this.success = "Friend request send!";
+          this.requestSent = false;
+        })
+        .catch(async err => {
+          this.requestSent = false;
+          const json = await err.response.json();
+          if (json?.errors?.[0]) {
+            this.error = json.errors[0].msg;
+          } else {
+            this.error = "Something weng wrong. Show console to fishie.";
+            console.log({ json, response: err.response });
+          }
+        });
+    },
+    backgroundClick(event: any) {
+      if (event.target.classList.contains("popout-background")) {
+        this.close();
+      }
     }
   }
-}
+});
 </script>
 <style lang="scss" scoped>
 .add-friend-popout {

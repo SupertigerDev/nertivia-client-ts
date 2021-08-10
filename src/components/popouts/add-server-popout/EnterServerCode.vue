@@ -8,42 +8,48 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import { getServerInfoByCode } from "@/services/serverService";
-
-@Component({ components: { CustomInput, CustomButton } })
-export default class EnterServerCode extends Vue {
-  code = "";
-  requestSent = false;
-  error: string | null = null;
-  joinServer() {
-    if (this.requestSent) return;
-    this.requestSent = true;
-    this.error = null;
-    let trimmedCode = this.code.trim();
-    // check if invite code is a link
-    trimmedCode = trimmedCode.split("/")[trimmedCode.split("/").length - 1];
-    if (!trimmedCode.length) {
-      this.requestSent = false;
-      return (this.error = "Cannot join emptiness.");
-    }
-
-    getServerInfoByCode(trimmedCode)
-      .then(json => {
-        this.$emit("success", { json, code: trimmedCode });
-      })
-      .catch(async err => {
-        if (!err.response) {
-          this.error = "Cannot connect to server.";
-        } else {
-          this.error = (await err.response.json()).message;
-        }
+import Vue from "vue";
+export default Vue.extend({
+  name: "EnterServerCode",
+  components: { CustomInput, CustomButton },
+  data() {
+    return {
+      code: "",
+      requestSent: false,
+      error: null as string | null
+    };
+  },
+  methods: {
+    joinServer() {
+      if (this.requestSent) return;
+      this.requestSent = true;
+      this.error = null;
+      let trimmedCode = this.code.trim();
+      // check if invite code is a link
+      trimmedCode = trimmedCode.split("/")[trimmedCode.split("/").length - 1];
+      if (!trimmedCode.length) {
         this.requestSent = false;
-      });
+        return (this.error = "Cannot join emptiness.");
+      }
+
+      getServerInfoByCode(trimmedCode)
+        .then(json => {
+          this.$emit("success", { json, code: trimmedCode });
+        })
+        .catch(async err => {
+          if (!err.response) {
+            this.error = "Cannot connect to server.";
+          } else {
+            this.error = (await err.response.json()).message;
+          }
+          this.requestSent = false;
+        });
+    }
   }
-}
+});
 </script>
 
 <style lang="scss" scoped>

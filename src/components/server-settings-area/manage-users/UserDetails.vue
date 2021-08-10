@@ -32,50 +32,55 @@
 import { permissions } from "@/constants/rolePermissions";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
 import CustomButton from "@/components/CustomButton.vue";
-import { Vue, Component, Prop } from "vue-property-decorator";
 import { ServersModule } from "@/store/modules/servers";
 import { bitwiseAdd, bitwiseContains } from "@/utils/bitwise";
-
-@Component({ components: { CustomButton } })
-export default class UserDetails extends Vue {
-  @Prop() private serverMember!: any;
-
-  get permFriendlyNamesArr() {
-    const permArr = Object.values(permissions);
-    // if its the creator of the server, always allow everything
-    const creatorID = this.server?.creator?.id;
-    const isServerCreator = creatorID === this.serverMember.id;
-    return permArr.map(p => {
-      return {
-        ...p,
-        hasPerm:
-          bitwiseContains(this.totalPermissions, p.value) || isServerCreator
-      };
-    });
-  }
-
-  get totalPermissions() {
-    let totalPerms = 0;
-    if (this.serverMember?.roles.length) {
-      for (let i = 0; i < this.serverMember.roles.length; i++) {
-        const perm = this.serverMember.roles[i].permissions;
-        totalPerms = bitwiseAdd(totalPerms, perm);
-      }
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "UserDetails",
+  components: { CustomButton },
+  props: {
+    serverMember: {
+      type: Object as PropType<any>,
+      required: false
     }
-    // add default role
-    const defaultRole = ServerRolesModule.defaultServerRole(
-      this.serverMember.server_id
-    );
-    totalPerms = bitwiseAdd(totalPerms, defaultRole?.permissions || 0);
-    return totalPerms;
+  },
+  computed: {
+    permFriendlyNamesArr(): any {
+      const permArr = Object.values(permissions);
+      // if its the creator of the server, always allow everything
+      const creatorID = this.server?.creator?.id;
+      const isServerCreator = creatorID === this.serverMember.id;
+      return permArr.map(p => {
+        return {
+          ...p,
+          hasPerm:
+            bitwiseContains(this.totalPermissions, p.value) || isServerCreator
+        };
+      });
+    },
+    totalPermissions(): any {
+      let totalPerms = 0;
+      if (this.serverMember?.roles.length) {
+        for (let i = 0; i < this.serverMember.roles.length; i++) {
+          const perm = this.serverMember.roles[i].permissions;
+          totalPerms = bitwiseAdd(totalPerms, perm);
+        }
+      }
+      // add default role
+      const defaultRole = ServerRolesModule.defaultServerRole(
+        this.serverMember.server_id
+      );
+      totalPerms = bitwiseAdd(totalPerms, defaultRole?.permissions || 0);
+      return totalPerms;
+    },
+    server(): any {
+      return ServersModule.servers[this.serverMember.server_id];
+    },
+    member(): any {
+      return this.serverMember.member;
+    }
   }
-  get server() {
-    return ServersModule.servers[this.serverMember.server_id];
-  }
-  get member() {
-    return this.serverMember.member;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

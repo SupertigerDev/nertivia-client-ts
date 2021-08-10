@@ -1,5 +1,6 @@
-<script>
+<script lang="tsx">
 import emojiParser from "@/utils/emojiParser";
+import Vue from "vue";
 
 export default {
   functional: true,

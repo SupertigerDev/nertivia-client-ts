@@ -28,35 +28,48 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
 import CustomButton from "@/components/CustomButton.vue";
 import User from "@/interfaces/User";
 import { unbanMember } from "@/services/serverService";
-
-@Component({ components: { AvatarImage, CustomButton } })
-export default class UserTemplate extends Vue {
-  requestSent = false;
-  @Prop() private user!: User;
-  unban() {
-    if (this.requestSent) return;
-    this.requestSent = true;
-    unbanMember(this.serverID, this.user.id).then(() => {
-      this.$emit("deleted");
-    });
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "UserTemplate",
+  components: { AvatarImage, CustomButton },
+  props: {
+    user: {
+      type: Object as PropType<User>,
+      required: false
+    }
+  },
+  data() {
+    return {
+      requestSent: false
+    };
+  },
+  computed: {
+    serverID(): any {
+      return this.$route.params.server_id;
+    }
+  },
+  methods: {
+    unban() {
+      if (this.requestSent) return;
+      this.requestSent = true;
+      unbanMember(this.serverID, this.user.id).then(() => {
+        this.$emit("deleted");
+      });
+    },
+    showProfile() {
+      PopoutsModule.ShowPopout({
+        id: "profile",
+        component: "profile-popout",
+        data: { id: this.user.id }
+      });
+    }
   }
-  showProfile() {
-    PopoutsModule.ShowPopout({
-      id: "profile",
-      component: "profile-popout",
-      data: { id: this.user.id }
-    });
-  }
-  get serverID() {
-    return this.$route.params.server_id;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

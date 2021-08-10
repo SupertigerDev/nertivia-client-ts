@@ -34,20 +34,23 @@
 
 <script lang="ts">
 import { fetchStats } from "@/services/adminService";
-import { Vue, Component, Prop } from "vue-property-decorator";
-
-@Component({})
-export default class StatsPanel extends Vue {
-  userCount: string | null = null;
-  serverCount: string | null = null;
-  messageCount: string | null = null;
+import Vue from "vue";
+export default Vue.extend({
+  name: "StatsPanel",
+  data() {
+    return {
+      userCount: null as string | null,
+      serverCount: null as string | null,
+      messageCount: null as string | null
+    };
+  },
   async mounted() {
     const stats = await fetchStats();
     this.userCount = stats.userCount.toLocaleString();
     this.serverCount = stats.serverCount.toLocaleString();
     this.messageCount = stats.messageCount.toLocaleString();
   }
-}
+});
 </script>
 
 <style lang="scss" scoped>

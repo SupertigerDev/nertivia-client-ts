@@ -16,21 +16,28 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-
 import explorePages from "@/utils/explorePages.json";
 import { DrawersModule } from "@/store/modules/drawers";
-@Component
-export default class MainApp extends Vue {
-  pages = explorePages;
-  changeTab(path: string) {
-    DrawersModule.SetLeftDrawer(false);
-    this.$router.push({ params: { tab: path } });
+import Vue from "vue";
+export default Vue.extend({
+  name: "MainApp",
+  data() {
+    return {
+      pages: explorePages
+    };
+  },
+  computed: {
+    currentTab(): any {
+      return this.$route.params.tab;
+    }
+  },
+  methods: {
+    changeTab(path: string) {
+      DrawersModule.SetLeftDrawer(false);
+      this.$router.push({ params: { tab: path } });
+    }
   }
-  get currentTab() {
-    return this.$route.params.tab;
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .settings-drawer {

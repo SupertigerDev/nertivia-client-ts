@@ -25,36 +25,44 @@
 <script lang="ts">
 import User from "@/interfaces/User";
 import { BotCommand } from "@/store/modules/botCommands";
-import { Component, Prop, Vue } from "vue-property-decorator";
-
-@Component
-export default class ChannelSuggestionTemplate extends Vue {
-  @Prop() private selected!: boolean;
-  @Prop() private item!: {
-    command: BotCommand;
-    bot: User;
-    argsEnteredLength: number;
-  };
-
-  get commandInfo() {
-    return this.item.command.a.split("//")[1];
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "ChannelSuggestionTemplate",
+  props: {
+    selected: {
+      type: Boolean,
+      required: false
+    },
+    item: {
+      type: Object as PropType<{
+        command: BotCommand;
+        bot: User;
+        argsEnteredLength: number;
+      }>,
+      required: false
+    }
+  },
+  computed: {
+    commandInfo(): any {
+      return this.item.command.a.split("//")[1];
+    },
+    args(): any {
+      const regex = /\[(.*?)\]/gm;
+      const argNames = this.item.command.a.match(regex);
+      if (!argNames) return [];
+      return argNames.map((v, i) => {
+        return {
+          name: v,
+          typed: this.item.argsEnteredLength - 1 >= i
+        };
+      });
+    },
+    isSelected(): any {
+      if (this.args.find(a => a.typed)) return false;
+      return this.selected;
+    }
   }
-  get args() {
-    const regex = /\[(.*?)\]/gm;
-    const argNames = this.item.command.a.match(regex);
-    if (!argNames) return [];
-    return argNames.map((v, i) => {
-      return {
-        name: v,
-        typed: this.item.argsEnteredLength - 1 >= i
-      };
-    });
-  }
-  get isSelected() {
-    if (this.args.find(a => a.typed)) return false;
-    return this.selected;
-  }
-}
+});
 </script>
 <style scoped lang="scss">
 .command {

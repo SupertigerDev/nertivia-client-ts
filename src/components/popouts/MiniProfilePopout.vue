@@ -39,7 +39,6 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import User from "@/interfaces/User";
 import ServerRole from "@/interfaces/ServerRole";
@@ -51,93 +50,112 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
 import Markup from "@/components/Markup";
 import { fetchUser, ReturnedUser } from "@/services/userService";
+import Vue, { PropType } from "vue";
 
 interface ServerMember {
   member: User;
   roles: ServerRole[];
 }
 
-@Component({ components: { AvatarImage, Markup, UserStatusTemplate } })
-export default class MiniProfilePopout extends Vue {
-  @Prop() private data!: { x: number; y: number; member: ServerMember };
-  returnedUser: ReturnedUser | null = null;
-  height = 0;
-  width = 0;
-  clickOutside(event: any) {
-    if (event.target.closest(".server-member")) return;
-    PopoutsModule.ClosePopout("profile");
-  }
+export default Vue.extend({
+  name: "MiniProfilePopout",
+  components: { AvatarImage, Markup, UserStatusTemplate },
+  props: {
+    data: {
+      type: Object as PropType<{ x: number; y: number; member: ServerMember }>,
+      required: false
+    }
+  },
+  data() {
+    return {
+      returnedUser: null as ReturnedUser | null,
+      height: 0,
+      width: 0
+    };
+  },
+  computed: {
+    presence(): any {
+      if (!this.user?.id) return userStatuses[0];
+      const presence = PresencesModule.getPresence(this.user.id);
+      return userStatuses[presence || 0];
+    },
+    customStatus(): any {
+      if (!this.user) return undefined;
+      return CustomStatusesModule.customStatus[this.user.id];
+    },
+    user(): any {
+      return this.data.member.member;
+    },
+    roles(): any {
+      return this.data.member.roles;
+    },
+    bannerURL(): any {
+      const banner = this.returnedUser?.user?.banner;
+      if (!banner) return null;
+      return process.env.VUE_APP_NERTIVIA_CDN + banner;
+    },
+    clampPos(): any {
+      let top = this.data.y || 0;
+      const left = this.data.x - 260 || 0;
+
+      // prevent from going left of the screen
+      const clampedLeft = this.clamp(left, 0, left);
+      if (clampedLeft === 0) {
+        top += 50;
+      }
+      // prevent from going bottom of the screen
+      const heightPos = this.height + top;
+      const clampedTop =
+        this.clamp(heightPos, 0, this.windowDiamentions.height) - this.height;
+
+      return {
+        top: clampedTop + "px",
+        left: clampedLeft + "px"
+      };
+    },
+    windowDiamentions(): any {
+      return {
+        height: WindowProperties.resizeHeight,
+        width: WindowProperties.resizeWidth
+      };
+    }
+  },
+  watch: {
+    user: {
+      // @ts-ignore
+      handler: "onUserChange"
+    }
+  },
   mounted() {
     this.height = this.$el.clientHeight;
     this.width = this.$el.clientWidth;
     fetchUser(this.user.id).then(user => {
       this.returnedUser = user;
     });
-  }
-  @Watch("user")
-  onUserChange() {
-    this.returnedUser = null;
-    fetchUser(this.user.id).then(user => {
-      this.returnedUser = user;
-    });
-  }
-  openFullProfile() {
-    PopoutsModule.ShowPopout({
-      id: "profile",
-      component: "profile-popout",
-      data: { id: this.user?.id, fullProfile: this.returnedUser }
-    });
-  }
-  get presence() {
-    if (!this.user?.id) return userStatuses[0];
-    const presence = PresencesModule.getPresence(this.user.id);
-    return userStatuses[presence || 0];
-  }
-  get customStatus() {
-    if (!this.user) return undefined;
-    return CustomStatusesModule.customStatus[this.user.id];
-  }
-  get user() {
-    return this.data.member.member;
-  }
-  get roles() {
-    return this.data.member.roles;
-  }
-  get bannerURL() {
-    const banner = this.returnedUser?.user?.banner;
-    if (!banner) return null;
-    return process.env.VUE_APP_NERTIVIA_CDN + banner;
-  }
-  get clampPos() {
-    let top = this.data.y || 0;
-    const left = this.data.x - 260 || 0;
-
-    // prevent from going left of the screen
-    const clampedLeft = this.clamp(left, 0, left);
-    if (clampedLeft === 0) {
-      top += 50;
+  },
+  methods: {
+    clickOutside(event: any) {
+      if (event.target.closest(".server-member")) return;
+      PopoutsModule.ClosePopout("profile");
+    },
+    onUserChange() {
+      this.returnedUser = null;
+      fetchUser(this.user.id).then(user => {
+        this.returnedUser = user;
+      });
+    },
+    openFullProfile() {
+      PopoutsModule.ShowPopout({
+        id: "profile",
+        component: "profile-popout",
+        data: { id: this.user?.id, fullProfile: this.returnedUser }
+      });
+    },
+    clamp(num: number, min: number, max: number) {
+      return num <= min ? min : num >= max ? max : num;
     }
-    // prevent from going bottom of the screen
-    const heightPos = this.height + top;
-    const clampedTop =
-      this.clamp(heightPos, 0, this.windowDiamentions.height) - this.height;
-
-    return {
-      top: clampedTop + "px",
-      left: clampedLeft + "px"
-    };
   }
-
-  get windowDiamentions() {
-    return {
-      height: WindowProperties.resizeHeight,
-      width: WindowProperties.resizeWidth
-    };
-  }
-  clamp(num: number, min: number, max: number) {
-    return num <= min ? min : num >= max ? max : num;
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .mini-profile {

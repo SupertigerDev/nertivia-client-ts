@@ -18,17 +18,27 @@
 <script lang="ts">
 import { ExpandedUser } from "@/services/adminService";
 import date from "@/utils/date";
-import { Vue, Component, Prop } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
-
-@Component({ components: { AvatarImage } })
-export default class UserTemplate extends Vue {
-  @Prop() private user!: ExpandedUser;
-  @Prop() private hover!: boolean;
-  get friendlyCreated() {
-    return date(this.user.created);
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "UserTemplate",
+  components: { AvatarImage },
+  props: {
+    user: {
+      type: Object as PropType<ExpandedUser>,
+      required: false
+    },
+    hover: {
+      type: Boolean,
+      required: false
+    }
+  },
+  computed: {
+    friendlyCreated(): any {
+      return date(this.user.created);
+    }
   }
-}
+});
 </script>
 
 <style lang="scss" scoped>

@@ -37,35 +37,44 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import UserStatusTemplate from "@/components/UserStatusTemplate.vue";
 import Tabs from "@/components/HeaderTabs.vue";
 import AvatarImage from "@/components/AvatarImage.vue";
-import { Component, Prop, Vue } from "vue-property-decorator";
-
-@Component({ components: { UserStatusTemplate, AvatarImage, Tabs } })
-export default class MainApp extends Vue {
-  @Prop() private title!: string;
-  toggleLeftDrawer() {
-    DrawersModule.SetLeftDrawer(true);
+import Vue from "vue";
+export default Vue.extend({
+  name: "MainApp",
+  components: { UserStatusTemplate, AvatarImage, Tabs },
+  props: {
+    title: {
+      type: String,
+      required: false
+    }
+  },
+  computed: {
+    isServerChannel(): any {
+      return this.$route.params.server_id;
+    },
+    DMChannel(): any {
+      return ChannelsModule.getDMChannel(this.$route.params.channel_id);
+    },
+    DMUser(): any {
+      return this.DMChannel?.recipients?.[0];
+    }
+  },
+  methods: {
+    toggleLeftDrawer() {
+      DrawersModule.SetLeftDrawer(true);
+    },
+    toggleRightDrawer() {
+      DrawersModule.SetRightDrawer(!DrawersModule.rightDrawer);
+    },
+    showProfile() {
+      if (!this.DMUser?.id) return;
+      PopoutsModule.ShowPopout({
+        id: "profile",
+        component: "profile-popout",
+        data: { id: this.DMUser.id }
+      });
+    }
   }
-  toggleRightDrawer() {
-    DrawersModule.SetRightDrawer(!DrawersModule.rightDrawer);
-  }
-  showProfile() {
-    if (!this.DMUser?.id) return;
-    PopoutsModule.ShowPopout({
-      id: "profile",
-      component: "profile-popout",
-      data: { id: this.DMUser.id }
-    });
-  }
-  get isServerChannel() {
-    return this.$route.params.server_id;
-  }
-  get DMChannel() {
-    return ChannelsModule.getDMChannel(this.$route.params.channel_id);
-  }
-  get DMUser() {
-    return this.DMChannel?.recipients?.[0];
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

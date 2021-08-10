@@ -11,7 +11,7 @@
 import Message from "@/interfaces/Message";
 import { MeModule } from "@/store/modules/me";
 import { eventBus } from "@/utils/globalBus";
-import { Component, Vue } from "vue-property-decorator";
+import Vue from "vue";
 
 interface TypingData {
   channel_id: string;
@@ -28,98 +28,108 @@ interface TypingObj {
     };
   };
 }
-@Component
-export default class MainApp extends Vue {
-  typingObj: TypingObj = {};
+
+export default Vue.extend({
+  name: "MainApp",
+  data() {
+    return {
+      typingObj: {} as TypingObj
+    };
+  },
+  computed: {
+    channelID(): any {
+      return this.$route.params.channel_id;
+    },
+    formatedRecipients(): any {
+      const arr = Object.values(this.typingObj[this.channelID]);
+      if (!arr.length) return null;
+      switch (true) {
+        case arr.length == 1:
+          return this.$t("typing-status.is-typing", [
+            this.makeStrong(arr[0].username)
+          ]);
+        case arr.length == 2:
+          return this.$t("typing-status.two-are-typing", [
+            this.makeStrong(arr[0].username),
+            this.makeStrong(arr[1].username)
+          ]);
+        case arr.length == 3:
+          return this.$t("typing-status.three-are-typing", [
+            this.makeStrong(arr[0].username),
+            this.makeStrong(arr[1].username),
+            this.makeStrong(arr[2].username)
+          ]);
+        case arr.length > 3:
+          return this.$t("typing-status.more-than-three", [
+            this.makeStrong(arr.length.toString())
+          ]);
+        default:
+          break;
+      }
+      return arr;
+    },
+    showTyping(): any {
+      return (
+        this.typingObj[this.channelID] &&
+        Object.values(this.typingObj[this.channelID]).length
+      );
+    }
+  },
   mounted() {
     this.$socket.client.on("typingStatus", this.onTyping);
     eventBus.$on("newMessage", this.onNewMessage);
-  }
+  },
   beforeDestroy() {
     this.$socket.client.off("typingStatus", this.onTyping);
     eventBus.$off("newMessage", this.onNewMessage);
-  }
+  },
+  methods: {
+    escapeHtml(unsafe: string) {
+      return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    },
+    onTyping(data: TypingData) {
+      if (data.user.id === MeModule.user.id) return;
+      if (data.channel_id !== this.channelID) return;
+      const isTyping = this.typingObj[data.channel_id]?.[data.user.id];
+      if (isTyping?.timer) {
+        clearTimeout(isTyping.timer);
+      }
+      if (!this.typingObj[data.channel_id]) {
+        this.$set(this.typingObj, data.channel_id, {
+          [data.user.id]: {
+            username: data.user.username
+          }
+        });
+      }
 
-  escapeHtml(unsafe: string) {
-    return unsafe
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  }
-  onTyping(data: TypingData) {
-    if (data.user.id === MeModule.user.id) return;
-    if (data.channel_id !== this.channelID) return;
-    const isTyping = this.typingObj[data.channel_id]?.[data.user.id];
-    if (isTyping?.timer) {
-      clearTimeout(isTyping.timer);
-    }
-    if (!this.typingObj[data.channel_id]) {
-      this.$set(this.typingObj, data.channel_id, {
-        [data.user.id]: {
-          username: data.user.username
-        }
+      this.$set(this.typingObj[data.channel_id], data.user.id, {
+        username: data.user.username,
+        timer: setTimeout(
+          () => this.timeout(data.channel_id, data.user.id),
+          3500
+        )
       });
-    }
-
-    this.$set(this.typingObj[data.channel_id], data.user.id, {
-      username: data.user.username,
-      timer: setTimeout(() => this.timeout(data.channel_id, data.user.id), 3500)
-    });
-  }
-  timeout(channelID: string, id: string) {
-    this.$delete(this.typingObj[channelID], id);
-  }
-  onNewMessage(message: Message) {
-    const objExists = this.typingObj[message.channelID]?.[message.creator.id];
-    if (objExists) {
-      objExists.timer && clearTimeout(objExists.timer);
-      this.$delete(this.typingObj[message.channelID], message.creator.id);
+    },
+    timeout(channelID: string, id: string) {
+      this.$delete(this.typingObj[channelID], id);
+    },
+    onNewMessage(message: Message) {
+      const objExists = this.typingObj[message.channelID]?.[message.creator.id];
+      if (objExists) {
+        objExists.timer && clearTimeout(objExists.timer);
+        this.$delete(this.typingObj[message.channelID], message.creator.id);
+      }
+    },
+    makeStrong(text: string) {
+      return `<strong>${text}</strong>`;
     }
   }
-  makeStrong(text: string) {
-    return `<strong>${text}</strong>`;
-  }
-
-  get channelID() {
-    return this.$route.params.channel_id;
-  }
-  get formatedRecipients() {
-    const arr = Object.values(this.typingObj[this.channelID]);
-    if (!arr.length) return null;
-    switch (true) {
-      case arr.length == 1:
-        return this.$t("typing-status.is-typing", [
-          this.makeStrong(arr[0].username)
-        ]);
-      case arr.length == 2:
-        return this.$t("typing-status.two-are-typing", [
-          this.makeStrong(arr[0].username),
-          this.makeStrong(arr[1].username)
-        ]);
-      case arr.length == 3:
-        return this.$t("typing-status.three-are-typing", [
-          this.makeStrong(arr[0].username),
-          this.makeStrong(arr[1].username),
-          this.makeStrong(arr[2].username)
-        ]);
-      case arr.length > 3:
-        return this.$t("typing-status.more-than-three", [
-          this.makeStrong(arr.length.toString())
-        ]);
-      default:
-        break;
-    }
-    return arr;
-  }
-  get showTyping() {
-    return (
-      this.typingObj[this.channelID] &&
-      Object.values(this.typingObj[this.channelID]).length
-    );
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

@@ -35,10 +35,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
 import settingPages from "@/utils/settingPages.json";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { DrawersModule } from "@/store/modules/drawers";
+import Vue from "vue";
 
 interface Pages {
   [key: string]: {
@@ -48,31 +48,40 @@ interface Pages {
     alert?: boolean;
   };
 }
-@Component
-export default class MainApp extends Vue {
-  pages: Pages = settingPages as any;
-  get currentSettingTab() {
-    return this.$route.params.tab;
-  }
-  changeTab(path: string) {
-    DrawersModule.SetLeftDrawer(false);
 
-    this.$router.push({ params: { tab: path } });
+export default Vue.extend({
+  name: "MainApp",
+  data() {
+    return {
+      pages: (settingPages as any) as Pages
+    };
+  },
+  computed: {
+    currentSettingTab(): any {
+      return this.$route.params.tab;
+    }
+  },
+  methods: {
+    changeTab(path: string) {
+      DrawersModule.SetLeftDrawer(false);
+
+      this.$router.push({ params: { tab: path } });
+    },
+    showMarkupGuide() {
+      PopoutsModule.ShowPopout({
+        id: "markup-guide",
+        component: "markup-guide"
+      });
+    },
+    showChangelog() {
+      PopoutsModule.ShowPopout({
+        id: "changelog-popout",
+        component: "ChangelogPopout",
+        data: {}
+      });
+    }
   }
-  showMarkupGuide() {
-    PopoutsModule.ShowPopout({
-      id: "markup-guide",
-      component: "markup-guide"
-    });
-  }
-  showChangelog() {
-    PopoutsModule.ShowPopout({
-      id: "changelog-popout",
-      component: "ChangelogPopout",
-      data: {}
-    });
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .settings-drawer {

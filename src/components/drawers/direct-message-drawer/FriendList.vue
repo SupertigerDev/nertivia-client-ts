@@ -30,29 +30,30 @@
 
 <script lang="ts">
 import { FriendsModule } from "@/store/modules/friends";
-import { Component, Vue } from "vue-property-decorator";
 import FriendTemplate from "./FriendTemplate.vue";
 import FriendRequestTemplate from "./FriendRequestTemplate.vue";
+import Vue from "vue";
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const virtualList = require("vue-virtual-scroll-list");
-
-@Component({
-  components: { FriendTemplate, FriendRequestTemplate, virtualList }
-})
-export default class FriendList extends Vue {
-  get friends() {
-    return FriendsModule.friendsWithUser;
+export default Vue.extend({
+  name: "FriendList",
+  components: { FriendTemplate, FriendRequestTemplate, virtualList },
+  computed: {
+    friends(): any {
+      return FriendsModule.friendsWithUser;
+    },
+    onlineFriends(): any {
+      return this.friends.filter(f => f.presence && f.status === 2);
+    },
+    offlineFriends(): any {
+      return this.friends.filter(f => !f.presence && f.status === 2);
+    },
+    friendRequests(): any {
+      return this.friends.filter(f => f.status <= 1);
+    }
   }
-  get onlineFriends() {
-    return this.friends.filter(f => f.presence && f.status === 2);
-  }
-  get offlineFriends() {
-    return this.friends.filter(f => !f.presence && f.status === 2);
-  }
-  get friendRequests() {
-    return this.friends.filter(f => f.status <= 1);
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .friend-list {

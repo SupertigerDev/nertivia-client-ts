@@ -9,9 +9,10 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-@Component
-export default class ProfilePopout extends Vue {}
+import Vue from "vue";
+export default Vue.extend({
+  name: "ProfilePopout"
+});
 </script>
 <style lang="scss" scoped>
 .drag-n-drop {

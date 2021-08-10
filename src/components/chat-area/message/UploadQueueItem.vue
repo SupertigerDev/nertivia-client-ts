@@ -27,36 +27,42 @@
 import { ChannelsModule } from "@/store/modules/channels";
 import { ServersModule } from "@/store/modules/servers";
 import fileSize from "filesize";
-import { Component, Prop, Vue } from "vue-property-decorator";
-
-@Component
-export default class UploadQueueItem extends Vue {
-  @Prop() private item!: {
-    file: File;
-    uploading: boolean;
-    progress: number;
-    channelID: string;
-  };
-  get sizeLabel() {
-    return fileSize(this.item.file.size);
-  }
-  get channelName() {
-    if (this.channel.name) {
-      const serverName =
-        ServersModule.servers[this.channel.server_id || ""].name;
-      return serverName + "#" + this.channel.name;
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "UploadQueueItem",
+  props: {
+    item: {
+      type: Object as PropType<{
+        file: File;
+        uploading: boolean;
+        progress: number;
+        channelID: string;
+      }>,
+      required: false
     }
-    const username =
-      "@" + this.DMChannel?.recipients?.[0].username || "Unknown";
-    return username;
+  },
+  computed: {
+    sizeLabel(): any {
+      return fileSize(this.item.file.size);
+    },
+    channelName(): any {
+      if (this.channel.name) {
+        const serverName =
+          ServersModule.servers[this.channel.server_id || ""].name;
+        return serverName + "#" + this.channel.name;
+      }
+      const username =
+        "@" + this.DMChannel?.recipients?.[0].username || "Unknown";
+      return username;
+    },
+    DMChannel(): any {
+      return ChannelsModule.getDMChannel(this.item.channelID);
+    },
+    channel(): any {
+      return ChannelsModule.channels[this.item.channelID];
+    }
   }
-  get DMChannel() {
-    return ChannelsModule.getDMChannel(this.item.channelID);
-  }
-  get channel() {
-    return ChannelsModule.channels[this.item.channelID];
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

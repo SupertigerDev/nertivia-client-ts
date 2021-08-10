@@ -4,19 +4,26 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import ProfileCard from "@/components/dashboard-area/ProfileCard.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
-
-@Component({ components: { ProfileCard } })
-export default class FloatingProfileCard extends Vue {
-  @Prop() private identity!: string;
-  clickOutsideUserArea(event: any) {
-    if (event.target.closest(".item.me")) return;
-    if (event.target.closest(".context")) return;
-    PopoutsModule.ClosePopout(this.identity);
+import Vue from "vue";
+export default Vue.extend({
+  name: "FloatingProfileCard",
+  components: { ProfileCard },
+  props: {
+    identity: {
+      type: String,
+      required: false
+    }
+  },
+  methods: {
+    clickOutsideUserArea(event: any) {
+      if (event.target.closest(".item.me")) return;
+      if (event.target.closest(".context")) return;
+      PopoutsModule.ClosePopout(this.identity);
+    }
   }
-}
+});
 </script>
 
 <style lang="scss" scoped>

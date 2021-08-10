@@ -39,175 +39,186 @@
 <script lang="ts">
 import { ChannelsModule } from "@/store/modules/channels";
 import { ServersModule } from "@/store/modules/servers";
-import { Component, Vue } from "vue-property-decorator";
-
 import ChannelTemplate from "@/components/drawers/server-drawer/ChannelTemplate.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
-
-@Component({ components: { ChannelTemplate } })
-export default class ServerDrawer extends Vue {
-  bannerHover = false;
+import Vue from "vue";
+export default Vue.extend({
+  name: "ServerDrawer",
+  components: { ChannelTemplate },
+  data() {
+    return {
+      bannerHover: false
+    };
+  },
+  computed: {
+    selectedDetails(): any {
+      return {
+        server_id: this.$route.params.server_id,
+        channel_id: this.$route.params.channel_id
+      };
+    },
+    server(): any {
+      return ServersModule.servers[this.selectedDetails.server_id];
+    },
+    bannerURL(): any {
+      const isGif = this.server.banner.endsWith(".gif");
+      let str = `${process.env.VUE_APP_NERTIVIA_CDN}/${this.server.banner}`;
+      if (isGif && !this.bannerHover) {
+        str = str + "?type=webp";
+      }
+      return str;
+    },
+    selectedServerChannels(): any {
+      if (!this.selectedDetails.server_id) return [];
+      return ChannelsModule.sortedServerChannels(
+        this.selectedDetails.server_id
+      );
+    }
+  },
   mounted() {
     window.addEventListener("keydown", this.onKeyDown);
-  }
+  },
   beforeDestroy() {
     window.removeEventListener("keydown", this.onKeyDown);
-  }
-  onKeyDown(event: KeyboardEvent) {
-    if (this.selectedServerChannels.length <= 1) return;
-    if (event.ctrlKey) return;
-    if (!event.altKey) return;
-    const arrowUp = event.key === "ArrowUp";
-    const arrowDown = event.key === "ArrowDown";
-    if (arrowUp) {
-      if (event.shiftKey) {
-        this.goToPreviousUnreadChannel();
+  },
+  methods: {
+    onKeyDown(event: KeyboardEvent) {
+      if (this.selectedServerChannels.length <= 1) return;
+      if (event.ctrlKey) return;
+      if (!event.altKey) return;
+      const arrowUp = event.key === "ArrowUp";
+      const arrowDown = event.key === "ArrowDown";
+      if (arrowUp) {
+        if (event.shiftKey) {
+          this.goToPreviousUnreadChannel();
+        } else {
+          this.goToPreviousChannel();
+        }
+      } else if (arrowDown) {
+        if (event.shiftKey) {
+          this.goToNextUnreadChannel();
+        } else {
+          this.goToNextChannel();
+        }
+      }
+      event.preventDefault();
+    },
+    goToPreviousChannel() {
+      const channels = this.selectedServerChannels;
+      const currentChannelIndex = channels.findIndex(
+        c => c.channelID === this.selectedDetails.channel_id
+      );
+      let gotoIndex = currentChannelIndex;
+      if (currentChannelIndex === -1) return;
+      if (currentChannelIndex === 0) {
+        gotoIndex = channels.length - 1;
       } else {
-        this.goToPreviousChannel();
+        gotoIndex = currentChannelIndex - 1;
       }
-    } else if (arrowDown) {
-      if (event.shiftKey) {
-        this.goToNextUnreadChannel();
+      const channelID = channels[gotoIndex].channelID;
+      this.$router.push({
+        params: { channel_id: channelID }
+      });
+    },
+    goToPreviousUnreadChannel() {
+      const servers = ServersModule.sortedServers;
+      const allUnreadChannelIds = LastSeenServerChannelsModule.allServerNotifications.map(
+        notification => notification.channelID
+      );
+      if (allUnreadChannelIds.length === 0) return;
+
+      const channels = servers
+        .map(server => ChannelsModule.sortedServerChannels(server.server_id))
+        .flatMap(serverChannels => serverChannels.map(channel => channel));
+
+      const startIndex = channels.findIndex(
+        channel => channel.channelID === this.selectedDetails.channel_id
+      );
+      if (startIndex === -1) {
+        throw new Error("Couldn't find currently selected channel.");
+      }
+
+      let currentIndex = startIndex;
+      do {
+        currentIndex--;
+        if (currentIndex === -1) currentIndex = channels.length - 1;
+        if (allUnreadChannelIds.includes(channels[currentIndex].channelID))
+          break;
+      } while (currentIndex !== startIndex);
+
+      this.$router.push({
+        params: {
+          server_id:
+            channels[currentIndex].server_id ?? this.selectedDetails.server_id,
+          channel_id: channels[currentIndex].channelID
+        }
+      });
+    },
+    goToNextChannel() {
+      const channels = this.selectedServerChannels;
+      const currentChannelIndex = channels.findIndex(
+        c => c.channelID === this.selectedDetails.channel_id
+      );
+      let gotoIndex = currentChannelIndex;
+      if (currentChannelIndex === -1) return;
+      if (currentChannelIndex === channels.length - 1) {
+        gotoIndex = 0;
       } else {
-        this.goToNextChannel();
+        gotoIndex = currentChannelIndex + 1;
       }
-    }
-    event.preventDefault();
-  }
-  goToPreviousChannel() {
-    const channels = this.selectedServerChannels;
-    const currentChannelIndex = channels.findIndex(
-      c => c.channelID === this.selectedDetails.channel_id
-    );
-    let gotoIndex = currentChannelIndex;
-    if (currentChannelIndex === -1) return;
-    if (currentChannelIndex === 0) {
-      gotoIndex = channels.length - 1;
-    } else {
-      gotoIndex = currentChannelIndex - 1;
-    }
-    const channelID = channels[gotoIndex].channelID;
-    this.$router.push({
-      params: { channel_id: channelID }
-    });
-  }
-  goToPreviousUnreadChannel() {
-    const servers = ServersModule.sortedServers;
-    const allUnreadChannelIds = LastSeenServerChannelsModule.allServerNotifications.map(
-      notification => notification.channelID
-    );
-    if (allUnreadChannelIds.length === 0) return;
+      const channelID = channels[gotoIndex].channelID;
+      this.$router.push({
+        params: { channel_id: channelID }
+      });
+    },
+    goToNextUnreadChannel() {
+      const servers = ServersModule.sortedServers;
+      const allUnreadChannelIds = LastSeenServerChannelsModule.allServerNotifications.map(
+        notification => notification.channelID
+      );
+      if (allUnreadChannelIds.length === 0) return;
 
-    const channels = servers
-      .map(server => ChannelsModule.sortedServerChannels(server.server_id))
-      .flatMap(serverChannels => serverChannels.map(channel => channel));
+      const channels = servers
+        .map(server => ChannelsModule.sortedServerChannels(server.server_id))
+        .flatMap(serverChannels => serverChannels.map(channel => channel));
 
-    const startIndex = channels.findIndex(
-      channel => channel.channelID === this.selectedDetails.channel_id
-    );
-    if (startIndex === -1) {
-      throw new Error("Couldn't find currently selected channel.");
-    }
-
-    let currentIndex = startIndex;
-    do {
-      currentIndex--;
-      if (currentIndex === -1) currentIndex = channels.length - 1;
-      if (allUnreadChannelIds.includes(channels[currentIndex].channelID)) break;
-    } while (currentIndex !== startIndex);
-
-    this.$router.push({
-      params: {
-        server_id:
-          channels[currentIndex].server_id ?? this.selectedDetails.server_id,
-        channel_id: channels[currentIndex].channelID
+      const startIndex = channels.findIndex(
+        channel => channel.channelID === this.selectedDetails.channel_id
+      );
+      if (startIndex === -1) {
+        throw new Error("Couldn't find currently selected channel.");
       }
-    });
-  }
-  goToNextChannel() {
-    const channels = this.selectedServerChannels;
-    const currentChannelIndex = channels.findIndex(
-      c => c.channelID === this.selectedDetails.channel_id
-    );
-    let gotoIndex = currentChannelIndex;
-    if (currentChannelIndex === -1) return;
-    if (currentChannelIndex === channels.length - 1) {
-      gotoIndex = 0;
-    } else {
-      gotoIndex = currentChannelIndex + 1;
+
+      let currentIndex = startIndex;
+      do {
+        currentIndex = ++currentIndex % channels.length;
+        if (allUnreadChannelIds.includes(channels[currentIndex].channelID))
+          break;
+      } while (currentIndex !== startIndex);
+
+      this.$router.push({
+        params: {
+          server_id:
+            channels[currentIndex].server_id ?? this.selectedDetails.server_id,
+          channel_id: channels[currentIndex].channelID
+        }
+      });
+    },
+    showServerContext(event: any) {
+      PopoutsModule.ShowPopout({
+        id: "context",
+        component: "ServerContextMenu",
+        key: this.server.server_id + event.clientX + event.clientY,
+        data: {
+          x: event.clientX,
+          y: event.clientY,
+          server_id: this.server.server_id
+        }
+      });
     }
-    const channelID = channels[gotoIndex].channelID;
-    this.$router.push({
-      params: { channel_id: channelID }
-    });
   }
-  goToNextUnreadChannel() {
-    const servers = ServersModule.sortedServers;
-    const allUnreadChannelIds = LastSeenServerChannelsModule.allServerNotifications.map(
-      notification => notification.channelID
-    );
-    if (allUnreadChannelIds.length === 0) return;
-
-    const channels = servers
-      .map(server => ChannelsModule.sortedServerChannels(server.server_id))
-      .flatMap(serverChannels => serverChannels.map(channel => channel));
-
-    const startIndex = channels.findIndex(
-      channel => channel.channelID === this.selectedDetails.channel_id
-    );
-    if (startIndex === -1) {
-      throw new Error("Couldn't find currently selected channel.");
-    }
-
-    let currentIndex = startIndex;
-    do {
-      currentIndex = ++currentIndex % channels.length;
-      if (allUnreadChannelIds.includes(channels[currentIndex].channelID)) break;
-    } while (currentIndex !== startIndex);
-
-    this.$router.push({
-      params: {
-        server_id:
-          channels[currentIndex].server_id ?? this.selectedDetails.server_id,
-        channel_id: channels[currentIndex].channelID
-      }
-    });
-  }
-  showServerContext(event: any) {
-    PopoutsModule.ShowPopout({
-      id: "context",
-      component: "ServerContextMenu",
-      key: this.server.server_id + event.clientX + event.clientY,
-      data: {
-        x: event.clientX,
-        y: event.clientY,
-        server_id: this.server.server_id
-      }
-    });
-  }
-  get selectedDetails() {
-    return {
-      server_id: this.$route.params.server_id,
-      channel_id: this.$route.params.channel_id
-    };
-  }
-  get server() {
-    return ServersModule.servers[this.selectedDetails.server_id];
-  }
-  get bannerURL() {
-    const isGif = this.server.banner.endsWith(".gif");
-    let str = `${process.env.VUE_APP_NERTIVIA_CDN}/${this.server.banner}`;
-    if (isGif && !this.bannerHover) {
-      str = str + "?type=webp";
-    }
-    return str;
-  }
-  get selectedServerChannels() {
-    if (!this.selectedDetails.server_id) return [];
-    return ChannelsModule.sortedServerChannels(this.selectedDetails.server_id);
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

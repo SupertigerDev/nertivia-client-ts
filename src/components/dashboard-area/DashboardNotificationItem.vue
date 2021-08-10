@@ -20,50 +20,61 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
-
 import AvatarImage from "@/components/AvatarImage.vue";
 import Channel from "@/interfaces/Channel";
 import Server from "@/interfaces/Server";
 import Notification from "@/interfaces/Notification";
 import { ChannelsModule } from "@/store/modules/channels";
-
-@Component({ components: { AvatarImage } })
-export default class DashboardNotificationItem extends Vue {
-  @Prop() private channel!: Channel & { server: Server };
-  @Prop() private dmNotification!: Notification;
-  onClick() {
-    if (this.isServer) {
-      this.$router.push(
-        `/app/servers/${this.channel.server_id}/${this.channel.channelID}`
-      );
-      return;
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "DashboardNotificationItem",
+  components: { AvatarImage },
+  props: {
+    channel: {
+      type: Object as PropType<Channel & { server: Server }>,
+      required: false
+    },
+    dmNotification: {
+      type: Object as PropType<Notification>,
+      required: false
     }
-    ChannelsModule.LoadDmChannel(this.dmNotification.sender.id);
-  }
-  get isServer() {
-    return this.channel?.server;
-  }
-  get serverDetails() {
-    return {
-      avatar: this.channel.server.avatar,
-      seed: this.channel.server_id,
-      channelName: this.channel.name,
-      serverName: this.channel.server.name
-    };
-  }
-  get details() {
-    if (this.isServer) {
-      return this.serverDetails;
-    } else {
+  },
+  computed: {
+    isServer(): any {
+      return this.channel?.server;
+    },
+    serverDetails(): any {
       return {
-        avatar: this.dmNotification.sender.avatar,
-        seed: this.dmNotification.sender.id,
-        name: this.dmNotification.sender.username
+        avatar: this.channel.server.avatar,
+        seed: this.channel.server_id,
+        channelName: this.channel.name,
+        serverName: this.channel.server.name
       };
+    },
+    details(): any {
+      if (this.isServer) {
+        return this.serverDetails;
+      } else {
+        return {
+          avatar: this.dmNotification.sender.avatar,
+          seed: this.dmNotification.sender.id,
+          name: this.dmNotification.sender.username
+        };
+      }
+    }
+  },
+  methods: {
+    onClick() {
+      if (this.isServer) {
+        this.$router.push(
+          `/app/servers/${this.channel.server_id}/${this.channel.channelID}`
+        );
+        return;
+      }
+      ChannelsModule.LoadDmChannel(this.dmNotification.sender.id);
     }
   }
-}
+});
 </script>
 
 <style lang="scss" scoped>

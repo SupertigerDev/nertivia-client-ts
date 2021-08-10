@@ -71,77 +71,91 @@ import {
   PublicThemeResponse,
   unlikeTheme
 } from "@/services/exploreService";
-import { Vue, Component, Prop } from "vue-property-decorator";
 import { PopoutsModule } from "@/store/modules/popouts";
 import CustomButton from "@/components/CustomButton.vue";
 import { applyTheme, unapplyTheme } from "@/utils/CSSTheme";
 import { createTheme } from "@/services/themeService";
-@Component({ components: { AvatarImage, CustomButton } })
-export default class ExploreThemeTemplate extends Vue {
-  @Prop() private data!: PublicThemeResponse;
-  @Prop() private appliedThemeID!: string | null;
-  hovering = false;
-  cloning = false;
-  tweCrown = process.env.VUE_APP_TWEMOJI_LOCATION + "1f451.svg";
-  likeRequest = false;
-
-  showCreatorProfile() {
-    PopoutsModule.ShowPopout({
-      id: "profile",
-      component: "profile-popout",
-      data: { id: this.data.creator.id }
-    });
-  }
-
-  async applyTheme() {
-    applyTheme(this.data.id);
-    this.$emit("applied");
-  }
-  async likeTheme() {
-    if (this.likeRequest) return;
-    this.likeRequest = true;
-    if (this.data.liked) {
-      unlikeTheme(this.data.id)
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "ExploreThemeTemplate",
+  components: { AvatarImage, CustomButton },
+  props: {
+    data: {
+      type: Object as PropType<PublicThemeResponse>,
+      required: false
+    },
+    appliedThemeID: {
+      type: String,
+      required: false
+    }
+  },
+  data() {
+    return {
+      hovering: false,
+      cloning: false,
+      tweCrown: process.env.VUE_APP_TWEMOJI_LOCATION + "1f451.svg",
+      likeRequest: false
+    };
+  },
+  computed: {
+    screenshotURL(): any {
+      if (!this.data.screenshot) return null;
+      return process.env.VUE_APP_NERTIVIA_CDN + this.data.screenshot;
+    }
+  },
+  methods: {
+    showCreatorProfile() {
+      PopoutsModule.ShowPopout({
+        id: "profile",
+        component: "profile-popout",
+        data: { id: this.data.creator.id }
+      });
+    },
+    async applyTheme() {
+      applyTheme(this.data.id);
+      this.$emit("applied");
+    },
+    async likeTheme() {
+      if (this.likeRequest) return;
+      this.likeRequest = true;
+      if (this.data.liked) {
+        unlikeTheme(this.data.id)
+          .then(() => {
+            this.$emit("unliked");
+          })
+          .finally(() => {
+            this.likeRequest = false;
+          });
+        return;
+      }
+      likeTheme(this.data.id)
         .then(() => {
-          this.$emit("unliked");
+          this.$emit("liked");
         })
         .finally(() => {
           this.likeRequest = false;
         });
-      return;
-    }
-    likeTheme(this.data.id)
-      .then(() => {
-        this.$emit("liked");
-      })
-      .finally(() => {
-        this.likeRequest = false;
+    },
+    unapplyTheme() {
+      unapplyTheme();
+      this.$emit("unapplied");
+    },
+    async cloneTheme() {
+      if (this.cloning) return;
+      this.cloning = true;
+      const theme = await applyPublicTheme(this.data.id);
+      const name = theme.theme.name;
+      const css = theme.css;
+      createTheme({
+        css,
+        name,
+        client_version: this.$lastUIBreakingVersion
+      }).finally(() => {
+        this.cloning = false;
       });
+    }
   }
-
-  unapplyTheme() {
-    unapplyTheme();
-    this.$emit("unapplied");
-  }
-  async cloneTheme() {
-    if (this.cloning) return;
-    this.cloning = true;
-    const theme = await applyPublicTheme(this.data.id);
-    const name = theme.theme.name;
-    const css = theme.css;
-    createTheme({
-      css,
-      name,
-      client_version: this.$lastUIBreakingVersion
-    }).finally(() => {
-      this.cloning = false;
-    });
-  }
-  get screenshotURL() {
-    if (!this.data.screenshot) return null;
-    return process.env.VUE_APP_NERTIVIA_CDN + this.data.screenshot;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

@@ -38,7 +38,6 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import EditBot from "./EditBot.vue";
@@ -47,8 +46,9 @@ import CheckBox from "@/components/CheckBox.vue";
 import User from "@/interfaces/User";
 import { getBot } from "@/services/botService";
 import TabLayout from "@/components/TabLayout.vue";
-
-@Component({
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "ManageChannels",
   components: {
     CustomInput,
     CustomButton,
@@ -56,65 +56,76 @@ import TabLayout from "@/components/TabLayout.vue";
     EditBot,
     EditCommands,
     TabLayout
-  }
-})
-export default class ManageChannels extends Vue {
-  @Prop() private bot!: User;
-  botToken: string | null = null;
-  botPrefix = "";
-  botCommands: any[] = [];
+  },
+  props: {
+    bot: {
+      type: Object as PropType<User>,
+      required: false
+    }
+  },
+  data() {
+    return {
+      botToken: null as string | null,
+      botPrefix: "",
+      botCommands: [] as any[]
+    };
+  },
+  computed: {
+    tabs(): any {
+      return [
+        {
+          id: "edit_bot",
+          name: this.$t("settings.manage-bots.edit-bot"),
+          component: EditBot,
+          props: { bot: this.bot, botToken: this.botToken },
+          events: ["tokenChanged", "updated", "deleted"]
+        },
+        {
+          id: "edit_commands",
+          name: this.$t("settings.manage-bots.edit-commands"),
+          component: EditCommands,
+          props: {
+            bot: this.bot,
+            botPrefix: this.botPrefix,
+            botCommands: this.botCommands
+          },
+          events: ["updated"]
+        }
+      ];
+    }
+  },
   mounted() {
     getBot(this.bot.id, true).then((json: any) => {
       this.botToken = json.token;
       this.botPrefix = json.botPrefix || "";
       this.botCommands = json.botCommands || [];
     });
-  }
-  tabEvent(event: { id: string; eventName: string; data: any }) {
-    if (event.id === "edit_commands") {
-      if (event.eventName === "updated") {
-        this.botCommandsUpdate(event.data);
+  },
+  methods: {
+    tabEvent(event: { id: string; eventName: string; data: any }) {
+      if (event.id === "edit_commands") {
+        if (event.eventName === "updated") {
+          this.botCommandsUpdate(event.data);
+        }
       }
+      if (event.id === "edit_bot") {
+        if (event.eventName === "updated") {
+          this.$emit("updated", event.data);
+        }
+        if (event.eventName === "deleted") {
+          this.$emit("deleted");
+        }
+        if (event.eventName === "tokenChanged") {
+          this.botToken = event.data;
+        }
+      }
+    },
+    botCommandsUpdate({ botCommands, botPrefix }) {
+      this.botCommands = botCommands;
+      this.botPrefix = botPrefix;
     }
-    if (event.id === "edit_bot") {
-      if (event.eventName === "updated") {
-        this.$emit("updated", event.data);
-      }
-      if (event.eventName === "deleted") {
-        this.$emit("deleted");
-      }
-      if (event.eventName === "tokenChanged") {
-        this.botToken = event.data;
-      }
-    }
   }
-  botCommandsUpdate({ botCommands, botPrefix }) {
-    this.botCommands = botCommands;
-    this.botPrefix = botPrefix;
-  }
-  get tabs() {
-    return [
-      {
-        id: "edit_bot",
-        name: this.$t("settings.manage-bots.edit-bot"),
-        component: EditBot,
-        props: { bot: this.bot, botToken: this.botToken },
-        events: ["tokenChanged", "updated", "deleted"]
-      },
-      {
-        id: "edit_commands",
-        name: this.$t("settings.manage-bots.edit-commands"),
-        component: EditCommands,
-        props: {
-          bot: this.bot,
-          botPrefix: this.botPrefix,
-          botCommands: this.botCommands
-        },
-        events: ["updated"]
-      }
-    ];
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

@@ -54,19 +54,39 @@ import {
   getServerInfoByCode,
   joinServerByCode
 } from "@/services/serverService";
-import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import LoadingScreen from "@/components/LoadingScreen.vue";
 import { ServersModule } from "@/store/modules/servers";
-
-@Component({ components: { AvatarImage, CustomButton, LoadingScreen } })
-export default class InviteMessage extends Vue {
-  @Prop() private invite!: any;
-  loading = true;
-  requestSent = false;
-  invalid = false;
-  result: any = null;
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "InviteMessage",
+  components: { AvatarImage, CustomButton, LoadingScreen },
+  props: {
+    invite: {
+      type: Object as PropType<any>,
+      required: false
+    }
+  },
+  data() {
+    return {
+      loading: true,
+      requestSent: false,
+      invalid: false,
+      result: null as any
+    };
+  },
+  computed: {
+    bannerURL(): any {
+      if (!this.result?.banner) return null;
+      return (
+        process.env.VUE_APP_NERTIVIA_CDN + this.result.banner + "?type=webp"
+      );
+    },
+    isJoined(): any {
+      return ServersModule.servers[this.result.server_id];
+    }
+  },
   mounted() {
     const code = this.invite[2];
     getServerInfoByCode(code)
@@ -78,28 +98,21 @@ export default class InviteMessage extends Vue {
         this.loading = false;
         this.invalid = true;
       });
+  },
+  methods: {
+    visitServer() {
+      this.$router.push(
+        `/app/servers/${this.result.server_id}/${this.result.default_channel_id}`
+      );
+    },
+    joinServer() {
+      if (this.requestSent) return;
+      this.requestSent = true;
+      const code = this.invite[2];
+      joinServerByCode(code, this.$socket.client.id);
+    }
   }
-  visitServer() {
-    this.$router.push(
-      `/app/servers/${this.result.server_id}/${this.result.default_channel_id}`
-    );
-  }
-  joinServer() {
-    if (this.requestSent) return;
-    this.requestSent = true;
-    const code = this.invite[2];
-    joinServerByCode(code, this.$socket.client.id);
-  }
-
-  get bannerURL() {
-    if (!this.result?.banner) return null;
-    return process.env.VUE_APP_NERTIVIA_CDN + this.result.banner + "?type=webp";
-  }
-
-  get isJoined() {
-    return ServersModule.servers[this.result.server_id];
-  }
-}
+});
 </script>
 
 <style scoped lang="scss">

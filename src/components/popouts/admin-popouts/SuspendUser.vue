@@ -48,7 +48,6 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
 import User from "@/interfaces/User";
@@ -56,53 +55,64 @@ import CustomButton from "@/components/CustomButton.vue";
 import CustomInput from "@/components/CustomInput.vue";
 import CheckBox from "@/components/CheckBox.vue";
 import { suspendUser } from "@/services/adminService";
-
-@Component({
-  components: { AvatarImage, CustomButton, CustomInput, CheckBox }
-})
-export default class ProfilePopout extends Vue {
-  reason = "Violating the TOS.";
-  password = "";
-  requestSent = false;
-  error: string | null = null;
-  @Prop() private data!: {
-    id: string;
-    serverID: string;
-    user: User;
-    callback: any;
-  };
-  close() {
-    PopoutsModule.ClosePopout("admin-suspend-user-popout");
-  }
-
-  backgroundClick(event: any) {
-    if (event.target.classList.contains("popout-background")) {
-      this.close();
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "ProfilePopout",
+  components: { AvatarImage, CustomButton, CustomInput, CheckBox },
+  props: {
+    data: {
+      type: Object as PropType<{
+        id: string;
+        serverID: string;
+        user: User;
+        callback: any;
+      }>,
+      required: false
+    }
+  },
+  data() {
+    return {
+      reason: "Violating the TOS.",
+      password: "",
+      requestSent: false,
+      error: null as string | null
+    };
+  },
+  computed: {
+    user(): any {
+      return this.data.user;
+    }
+  },
+  methods: {
+    close() {
+      PopoutsModule.ClosePopout("admin-suspend-user-popout");
+    },
+    backgroundClick(event: any) {
+      if (event.target.classList.contains("popout-background")) {
+        this.close();
+      }
+    },
+    buttonClicked() {
+      if (this.requestSent) return;
+      this.requestSent = true;
+      this.error = null;
+      suspendUser(this.data.user.id, this.password, this.reason)
+        .then(() => {
+          this.data.callback();
+          this.close();
+        })
+        .catch(async err => {
+          if (!err.response) {
+            this.error = "Could not connect to server.";
+            return;
+          }
+          const { message } = await err.response.json();
+          this.error = message;
+        })
+        .finally(() => (this.requestSent = false));
     }
   }
-  buttonClicked() {
-    if (this.requestSent) return;
-    this.requestSent = true;
-    this.error = null;
-    suspendUser(this.data.user.id, this.password, this.reason)
-      .then(() => {
-        this.data.callback();
-        this.close();
-      })
-      .catch(async err => {
-        if (!err.response) {
-          this.error = "Could not connect to server.";
-          return;
-        }
-        const { message } = await err.response.json();
-        this.error = message;
-      })
-      .finally(() => (this.requestSent = false));
-  }
-  get user() {
-    return this.data.user;
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .suspend-user-popout {

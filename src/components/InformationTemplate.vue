@@ -10,13 +10,20 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-
-@Component
-export default class ProfilePopout extends Vue {
-  @Prop() private title!: string;
-  @Prop() private information!: string;
-}
+import Vue from "vue";
+export default Vue.extend({
+  name: "ProfilePopout",
+  props: {
+    title: {
+      type: String,
+      required: false
+    },
+    information: {
+      type: String,
+      required: false
+    }
+  }
+});
 </script>
 <style lang="scss" scoped>
 .description {

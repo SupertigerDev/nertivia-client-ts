@@ -35,27 +35,36 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import CustomButton from "@/components/CustomButton.vue";
 import CustomInput from "@/components/CustomInput.vue";
-
-@Component({
-  components: { CustomButton, CustomInput }
-})
-export default class ProgramTemplate extends Vue {
-  @Prop() private item!: any;
-  newStatus = this.item.status;
-  newName = this.item.name;
-  newFilename = this.item.filename;
-  saveButton() {
-    this.$emit("save", {
-      status: this.newStatus,
-      name: this.newName,
-      filename: this.newFilename,
-      id: this.item.id
-    });
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "ProgramTemplate",
+  components: { CustomButton, CustomInput },
+  props: {
+    item: {
+      type: Object as PropType<any>,
+      required: false
+    }
+  },
+  data() {
+    return {
+      newStatus: this.item.status,
+      newName: this.item.name,
+      newFilename: this.item.filename
+    };
+  },
+  methods: {
+    saveButton() {
+      this.$emit("save", {
+        status: this.newStatus,
+        name: this.newName,
+        filename: this.newFilename,
+        id: this.item.id
+      });
+    }
   }
-}
+});
 </script>
 
 <style lang="scss" scoped>

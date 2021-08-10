@@ -73,49 +73,63 @@
 <script lang="ts">
 import AvatarImage from "@/components/AvatarImage.vue";
 import { ServerResponse } from "@/services/exploreService";
-import { Vue, Component, Prop } from "vue-property-decorator";
 import { ServersModule } from "@/store/modules/servers";
 import { PopoutsModule } from "@/store/modules/popouts";
 import CustomButton from "@/components/CustomButton.vue";
 import { joinServerById } from "@/services/serverService";
-@Component({ components: { AvatarImage, CustomButton } })
-export default class ExploreServerTemplate extends Vue {
-  joining = false;
-  hovering = false;
-  tweCrown = process.env.VUE_APP_TWEMOJI_LOCATION + "1f451.svg";
-  @Prop() private data!: ServerResponse;
-  showCreatorProfile() {
-    PopoutsModule.ShowPopout({
-      id: "profile",
-      component: "profile-popout",
-      data: { id: this.data.creator.id }
-    });
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "ExploreServerTemplate",
+  components: { AvatarImage, CustomButton },
+  props: {
+    data: {
+      type: Object as PropType<ServerResponse>,
+      required: false
+    }
+  },
+  data() {
+    return {
+      joining: false,
+      hovering: false,
+      tweCrown: process.env.VUE_APP_TWEMOJI_LOCATION + "1f451.svg"
+    };
+  },
+  computed: {
+    isJoined(): any {
+      return ServersModule.servers[this.data.server.server_id];
+    },
+    bannerURL(): any {
+      if (!this.data.server.banner) return null;
+      return (
+        process.env.VUE_APP_NERTIVIA_CDN +
+        this.data.server.banner +
+        (!this.hovering ? "?type=webp" : "")
+      );
+    }
+  },
+  methods: {
+    showCreatorProfile() {
+      PopoutsModule.ShowPopout({
+        id: "profile",
+        component: "profile-popout",
+        data: { id: this.data.creator.id }
+      });
+    },
+    visitClicked() {
+      this.$router.push(
+        `/app/servers/${this.isJoined.server_id}/${this.isJoined.default_channel_id}`
+      );
+    },
+    joinClicked() {
+      this.joining = true;
+      joinServerById(this.data.server.server_id, {
+        socketID: this.$socket.client.id
+      }).finally(() => {
+        this.joining = false;
+      });
+    }
   }
-  visitClicked() {
-    this.$router.push(
-      `/app/servers/${this.isJoined.server_id}/${this.isJoined.default_channel_id}`
-    );
-  }
-  joinClicked() {
-    this.joining = true;
-    joinServerById(this.data.server.server_id, {
-      socketID: this.$socket.client.id
-    }).finally(() => {
-      this.joining = false;
-    });
-  }
-  get isJoined() {
-    return ServersModule.servers[this.data.server.server_id];
-  }
-  get bannerURL() {
-    if (!this.data.server.banner) return null;
-    return (
-      process.env.VUE_APP_NERTIVIA_CDN +
-      this.data.server.banner +
-      (!this.hovering ? "?type=webp" : "")
-    );
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

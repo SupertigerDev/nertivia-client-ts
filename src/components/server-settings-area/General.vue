@@ -79,7 +79,6 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import CustomDropDown from "@/components/CustomDropDown.vue";
 import CustomButton from "@/components/CustomButton.vue";
@@ -89,136 +88,147 @@ import { ChannelsModule } from "@/store/modules/channels";
 import Server from "@/interfaces/Server";
 import { MeModule } from "@/store/modules/me";
 import { updateServer, UpdateServerRequest } from "@/services/serverService";
-@Component({
-  components: { CustomInput, CustomDropDown, AvatarImage, CustomButton }
-})
-export default class General extends Vue {
-  serverName = "";
-  defaultChannelId = "";
-  newAvatar = "";
-  newBanner = "";
+import Vue from "vue";
+export default Vue.extend({
+  name: "General",
+  components: { CustomInput, CustomDropDown, AvatarImage, CustomButton },
+  data() {
+    return {
+      serverName: "",
+      defaultChannelId: "",
+      newAvatar: "",
+      newBanner: "",
+      errors: {} as any,
+      requestSent: false
+    };
+  },
+  computed: {
+    isConnected(): any {
+      return MeModule.connected;
+    },
+    channels(): any {
+      return ChannelsModule.serverChannels(this.serverID);
+    },
+    server(): any {
+      return ServersModule.servers[this.serverID];
+    },
+    bannerImageUrl(): any {
+      if (this.newBanner) return this.newBanner;
+      if (!this.server.banner) return undefined;
+      return process.env.VUE_APP_NERTIVIA_CDN + this.server.banner;
+    },
+    serverID(): any {
+      return this.$route.params.server_id;
+    },
+    showSaveButton(): any {
+      const {
+        bannerChanged,
+        avatarChanged,
+        nameChanged,
+        defaultChannelChanged
+      } = this.itemsChanged;
 
-  errors: any = {};
-  requestSent = false;
-
+      return (
+        bannerChanged || avatarChanged || nameChanged || defaultChannelChanged
+      );
+    },
+    itemsChanged(): any {
+      const bannerChanged = this.newBanner.length || false;
+      const avatarChanged = this.newAvatar.length || false;
+      const nameChanged = this.serverName !== this.server.name;
+      const defaultChannelChanged =
+        this.defaultChannelId !== this.server.default_channel_id;
+      return {
+        bannerChanged,
+        avatarChanged,
+        nameChanged,
+        defaultChannelChanged
+      };
+    }
+  },
+  watch: {
+    isConnected: {
+      // @ts-ignore
+      handler: "onConnectionChange"
+    }
+  },
   mounted() {
     this.resetValues();
-  }
+  },
+  methods: {
+    resetValues() {
+      this.serverName = this.server?.name || "";
+      this.defaultChannelId = this.server.default_channel_id;
+      this.newBanner = "";
+      this.newAvatar = "";
+    },
+    update() {
+      if (this.requestSent) return;
+      this.requestSent = true;
+      this.errors = {};
+      const data: UpdateServerRequest = {};
 
-  resetValues() {
-    this.serverName = this.server?.name || "";
-    this.defaultChannelId = this.server.default_channel_id;
-    this.newBanner = "";
-    this.newAvatar = "";
-  }
+      this.itemsChanged.nameChanged && (data.name = this.serverName.trim());
+      this.itemsChanged.defaultChannelChanged &&
+        (data.default_channel_id = this.defaultChannelId);
+      this.itemsChanged.avatarChanged && (data.avatar = this.newAvatar);
+      this.itemsChanged.bannerChanged && (data.banner = this.newBanner);
 
-  update() {
-    if (this.requestSent) return;
-    this.requestSent = true;
-    this.errors = {};
-    const data: UpdateServerRequest = {};
-
-    this.itemsChanged.nameChanged && (data.name = this.serverName.trim());
-    this.itemsChanged.defaultChannelChanged &&
-      (data.default_channel_id = this.defaultChannelId);
-    this.itemsChanged.avatarChanged && (data.avatar = this.newAvatar);
-    this.itemsChanged.bannerChanged && (data.banner = this.newBanner);
-
-    updateServer(this.serverID, data)
-      .then((data: Partial<Server>) => {
-        ServersModule.UpdateServer(data);
-        this.resetValues();
-        this.requestSent = false;
-      })
-      .catch(async err => {
-        if (!err.response) {
-          this.errors["other"] = this.$t("could-not-connect-to-server");
+      updateServer(this.serverID, data)
+        .then((data: Partial<Server>) => {
+          ServersModule.UpdateServer(data);
+          this.resetValues();
           this.requestSent = false;
-          return;
-        }
-        const { errors, message } = await err.response.json();
-        if (message) {
-          this.errors["other"] = message;
-          this.requestSent = false;
-          return;
-        }
-        const knownErrs = ["name"];
-        for (let i = 0; i < errors.length; i++) {
-          const error = errors[i];
-          if (!knownErrs.includes(error.param)) {
-            this.errors["other"] = error.msg;
-            continue;
+        })
+        .catch(async err => {
+          if (!err.response) {
+            this.errors["other"] = this.$t("could-not-connect-to-server");
+            this.requestSent = false;
+            return;
           }
-          this.$set(this.errors, error.param, error.msg);
-        }
-        this.requestSent = false;
-      });
+          const { errors, message } = await err.response.json();
+          if (message) {
+            this.errors["other"] = message;
+            this.requestSent = false;
+            return;
+          }
+          const knownErrs = ["name"];
+          for (let i = 0; i < errors.length; i++) {
+            const error = errors[i];
+            if (!knownErrs.includes(error.param)) {
+              this.errors["other"] = error.msg;
+              continue;
+            }
+            this.$set(this.errors, error.param, error.msg);
+          }
+          this.requestSent = false;
+        });
+    },
+    bannerChange(event: any) {
+      const file: File = event.target.files[0];
+      event.target.value = "";
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onloadend = event => {
+        this.newBanner = (event.target?.result as any) || null;
+      };
+      reader.readAsDataURL(file);
+    },
+    avatarChange(event: any) {
+      const file: File = event.target.files[0];
+      event.target.value = "";
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onloadend = event => {
+        this.newAvatar = (event.target?.result as any) || null;
+      };
+      reader.readAsDataURL(file);
+    },
+    onConnectionChange(connected: boolean) {
+      if (connected) this.resetValues();
+    }
   }
-
-  bannerChange(event: any) {
-    const file: File = event.target.files[0];
-    event.target.value = "";
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onloadend = event => {
-      this.newBanner = (event.target?.result as any) || null;
-    };
-    reader.readAsDataURL(file);
-  }
-  avatarChange(event: any) {
-    const file: File = event.target.files[0];
-    event.target.value = "";
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onloadend = event => {
-      this.newAvatar = (event.target?.result as any) || null;
-    };
-    reader.readAsDataURL(file);
-  }
-
-  @Watch("isConnected")
-  onConnectionChange(connected: boolean) {
-    if (connected) this.resetValues();
-  }
-  get isConnected() {
-    return MeModule.connected;
-  }
-
-  get channels() {
-    return ChannelsModule.serverChannels(this.serverID);
-  }
-  get server() {
-    return ServersModule.servers[this.serverID];
-  }
-  get bannerImageUrl() {
-    if (this.newBanner) return this.newBanner;
-    if (!this.server.banner) return undefined;
-    return process.env.VUE_APP_NERTIVIA_CDN + this.server.banner;
-  }
-  get serverID() {
-    return this.$route.params.server_id;
-  }
-  get showSaveButton() {
-    const {
-      bannerChanged,
-      avatarChanged,
-      nameChanged,
-      defaultChannelChanged
-    } = this.itemsChanged;
-
-    return (
-      bannerChanged || avatarChanged || nameChanged || defaultChannelChanged
-    );
-  }
-  get itemsChanged() {
-    const bannerChanged = this.newBanner.length || false;
-    const avatarChanged = this.newAvatar.length || false;
-    const nameChanged = this.serverName !== this.server.name;
-    const defaultChannelChanged =
-      this.defaultChannelId !== this.server.default_channel_id;
-    return { bannerChanged, avatarChanged, nameChanged, defaultChannelChanged };
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

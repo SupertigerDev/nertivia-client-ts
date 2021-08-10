@@ -29,57 +29,83 @@
 // TODO: remove resizeKeepAspect
 import resizeKeepAspect from "@/utils/resizeKeepAspect";
 import windowProperties from "@/utils/windowProperties";
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-@Component({ components: {} })
-export default class VideoPlayer extends Vue {
-  @Prop() private thumbnailURL!: string;
-  @Prop() private file!: { fileID: string; fileName: string; url: string };
-  @Prop() private youtubeURL!: string;
-  loadPlayer = false;
-
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "VideoPlayer",
+  components: {},
+  props: {
+    thumbnailURL: {
+      type: String,
+      required: false
+    },
+    file: {
+      type: Object as PropType<{
+        fileID: string;
+        fileName: string;
+        url: string;
+      }>,
+      required: false
+    },
+    youtubeURL: {
+      type: String,
+      required: false
+    }
+  },
+  data() {
+    return {
+      loadPlayer: false
+    };
+  },
+  computed: {
+    fileURL(): any {
+      if (!this.file) return undefined;
+      // nertivia cdn
+      if (this.file.url) return this.file.url;
+      // google drive cdn
+      return (
+        process.env.VUE_APP_FETCH_PREFIX +
+        `/files/${this.file.fileID}/${this.file.fileName}`
+      );
+    },
+    embedURL(): any {
+      const regex = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*)(?:(\?t|&start)=(\d+))?.*/gim;
+      const result = regex.exec(this.youtubeURL);
+      if (!result) return undefined;
+      const id = result[2];
+      const time = parseInt(result[4]);
+      let url = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&vq=hd360`;
+      if (!isNaN(time)) {
+        url += "&start=" + time;
+      }
+      return url;
+    },
+    windowSize(): any {
+      return {
+        height: windowProperties.resizeHeight,
+        width: windowProperties.resizeWidth
+      };
+    }
+  },
+  watch: {
+    windowSize: {
+      // @ts-ignore
+      handler: "setDimensions"
+    }
+  },
   mounted() {
     this.setDimensions();
-  }
+  },
+  methods: {
+    setDimensions() {
+      const contentEl = this.$refs["content"] as any;
+      const logsEl = document.getElementById("messageLogs");
 
-  @Watch("windowSize")
-  setDimensions() {
-    const contentEl = this.$refs["content"] as any;
-    const logsEl = document.getElementById("messageLogs");
-
-    if (!contentEl) return;
-    if (!logsEl) return;
-    resizeKeepAspect(contentEl, logsEl, 1920, 1080);
-  }
-  get fileURL() {
-    if (!this.file) return undefined;
-    // nertivia cdn
-    if (this.file.url) return this.file.url;
-    // google drive cdn
-    return (
-      process.env.VUE_APP_FETCH_PREFIX +
-      `/files/${this.file.fileID}/${this.file.fileName}`
-    );
-  }
-
-  get embedURL() {
-    const regex = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*)(?:(\?t|&start)=(\d+))?.*/gim;
-    const result = regex.exec(this.youtubeURL);
-    if (!result) return undefined;
-    const id = result[2];
-    const time = parseInt(result[4]);
-    let url = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&vq=hd360`;
-    if (!isNaN(time)) {
-      url += "&start=" + time;
+      if (!contentEl) return;
+      if (!logsEl) return;
+      resizeKeepAspect(contentEl, logsEl, 1920, 1080);
     }
-    return url;
   }
-  get windowSize() {
-    return {
-      height: windowProperties.resizeHeight,
-      width: windowProperties.resizeWidth
-    };
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

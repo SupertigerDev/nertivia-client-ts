@@ -127,7 +127,6 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import AvatarImage from "@/components/AvatarImage.vue";
@@ -139,174 +138,184 @@ import { bitwiseRemove, bitwiseContains, bitwiseAdd } from "@/utils/bitwise";
 
 import { permissions } from "@/constants/rolePermissions";
 import CheckBox from "@/components/CheckBox.vue";
-
-@Component({
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "Account",
   components: {
     CustomInput,
     CustomButton,
     AvatarImage,
     InformationTemplate,
     CheckBox
-  }
-})
-export default class Account extends Vue {
-  @Prop() private bot!: User;
-  @Prop() private botToken!: string | null;
-  username = "";
-  tag = "";
-  newAvatar: string | null = null;
-  showToken = false;
-  requestSent = false;
-  errors: any = {};
-  deleteBotConfirm = false;
-  // invite url
-  permissions = permissions.SEND_MESSAGES.value;
+  },
+  props: {
+    bot: {
+      type: Object as PropType<User>,
+      required: false
+    },
+    botToken: {
+      type: String,
+      required: false
+    }
+  },
+  data() {
+    return {
+      username: "",
+      tag: "",
+      newAvatar: null as string | null,
+      showToken: false,
+      requestSent: false,
+      errors: {} as any,
+      deleteBotConfirm: false,
+      permissions: permissions.SEND_MESSAGES.value
+    };
+  },
+  computed: {
+    perms(): any {
+      return Object.values(permissions).map(p => {
+        return { ...p, hasPerm: !!bitwiseContains(this.permissions, p.value) };
+      });
+    },
+    inviteLink(): any {
+      if (!process.env.VUE_APP_MAIN_APP_URL) return "";
+      return (
+        process.env.VUE_APP_MAIN_APP_URL +
+        `bots/${this.bot.id}?perms=${this.permissions}`
+      );
+    },
+    showSaveButton(): any {
+      const { usernameChanged, tagChanged, avatarChanged } = this.changedItems;
 
+      return usernameChanged || tagChanged || avatarChanged;
+    },
+    changedItems(): any {
+      const bot = this.bot;
+      const usernameChanged = this.username !== bot.username;
+      const tagChanged = this.tag !== bot.tag;
+      const avatarChanged = this.newAvatar?.length || false;
+      return {
+        usernameChanged,
+        tagChanged,
+        avatarChanged
+      };
+    }
+  },
   mounted() {
     this.resetValues();
-  }
-  deleteBot() {
-    if (!this.deleteBotConfirm) {
-      this.deleteBotConfirm = true;
-      return;
-    }
-    deleteBot(this.bot.id)
-      .then(() => {
-        this.$emit("deleted");
-      })
-      .finally(() => (this.deleteBotConfirm = false));
-  }
-  onPermToggle(newChecked: boolean, perm: any) {
-    if (newChecked) {
-      this.permissions = bitwiseAdd(this.permissions, perm.value);
-    } else {
-      this.permissions = bitwiseRemove(this.permissions, perm.value);
-    }
-  }
-  copyInvite() {
-    this.$copyText(this.inviteLink);
-    PopoutsModule.ShowPopout({
-      id: "copy-bot-invite-url",
-      component: "generic-popout",
-      data: {
-        title: "Bot Invite Copied!",
-        description: "URL Coppied!"
+  },
+  methods: {
+    deleteBot() {
+      if (!this.deleteBotConfirm) {
+        this.deleteBotConfirm = true;
+        return;
       }
-    });
-  }
-  copyToken() {
-    this.$copyText(this.botToken || "");
-    PopoutsModule.ShowPopout({
-      id: "copy-token",
-      component: "generic-popout",
-      data: {
-        title: "Don't Paste It In Chats!",
-        description: "Token Copied."
+      deleteBot(this.bot.id)
+        .then(() => {
+          this.$emit("deleted");
+        })
+        .finally(() => (this.deleteBotConfirm = false));
+    },
+    onPermToggle(newChecked: boolean, perm: any) {
+      if (newChecked) {
+        this.permissions = bitwiseAdd(this.permissions, perm.value);
+      } else {
+        this.permissions = bitwiseRemove(this.permissions, perm.value);
       }
-    });
-  }
-  resetToken() {
-    resetBotToken(this.bot.id).then(({ token }) => {
-      this.$emit("tokenChanged", token);
+    },
+    copyInvite() {
+      this.$copyText(this.inviteLink);
       PopoutsModule.ShowPopout({
-        id: "change-bot-token",
+        id: "copy-bot-invite-url",
         component: "generic-popout",
         data: {
-          title: "Token Changed",
-          description: "Token Changed. All connections have been kicked."
+          title: "Bot Invite Copied!",
+          description: "URL Coppied!"
         }
       });
-    });
-  }
-
-  update() {
-    if (this.requestSent) return;
-    this.requestSent = true;
-    this.$set(this, "errors", {});
-    const data: any = {};
-
-    this.changedItems.usernameChanged && (data.username = this.username.trim());
-    this.changedItems.tagChanged && (data.tag = this.tag.trim());
-    this.changedItems.avatarChanged && (data.avatar = this.newAvatar || "");
-
-    updateBot(this.bot.id, data)
-      .then(json => {
-        this.$emit("updated", json);
-        this.$nextTick(() => {
-          this.resetValues();
-        });
-      })
-      .catch(async err => {
-        if (!err.response) {
-          this.errors["other"] = this.$t(
-            "could-not-connect-to-server"
-          ).toString();
-          return;
+    },
+    copyToken() {
+      this.$copyText(this.botToken || "");
+      PopoutsModule.ShowPopout({
+        id: "copy-token",
+        component: "generic-popout",
+        data: {
+          title: "Don't Paste It In Chats!",
+          description: "Token Copied."
         }
-        const knownErrs = ["username", "tag"];
-        const { errors, message } = await err.response.json();
-        if (message) {
-          this.errors["other"] = message;
-          return;
-        }
-        for (let i = 0; i < errors.length; i++) {
-          const error = errors[i];
-          if (!knownErrs.includes(error.param)) {
-            this.errors["other"] = error.msg;
-            continue;
+      });
+    },
+    resetToken() {
+      resetBotToken(this.bot.id).then(({ token }) => {
+        this.$emit("tokenChanged", token);
+        PopoutsModule.ShowPopout({
+          id: "change-bot-token",
+          component: "generic-popout",
+          data: {
+            title: "Token Changed",
+            description: "Token Changed. All connections have been kicked."
           }
-          this.$set(this.errors, error.param, error.msg);
-        }
-      })
-      .finally(() => (this.requestSent = false));
-  }
-  resetValues() {
-    this.username = this.bot.username || "";
-    this.tag = this.bot.tag || "";
-    this.newAvatar = null;
-  }
+        });
+      });
+    },
+    update() {
+      if (this.requestSent) return;
+      this.requestSent = true;
+      this.$set(this, "errors", {});
+      const data: any = {};
 
-  avatarChange(event: any) {
-    const file: File = event.target.files[0];
-    event.target.value = "";
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onloadend = event => {
-      this.newAvatar = (event.target?.result as any) || null;
-    };
-    reader.readAsDataURL(file);
-  }
+      this.changedItems.usernameChanged &&
+        (data.username = this.username.trim());
+      this.changedItems.tagChanged && (data.tag = this.tag.trim());
+      this.changedItems.avatarChanged && (data.avatar = this.newAvatar || "");
 
-  get perms() {
-    return Object.values(permissions).map(p => {
-      return { ...p, hasPerm: !!bitwiseContains(this.permissions, p.value) };
-    });
+      updateBot(this.bot.id, data)
+        .then(json => {
+          this.$emit("updated", json);
+          this.$nextTick(() => {
+            this.resetValues();
+          });
+        })
+        .catch(async err => {
+          if (!err.response) {
+            this.errors["other"] = this.$t(
+              "could-not-connect-to-server"
+            ).toString();
+            return;
+          }
+          const knownErrs = ["username", "tag"];
+          const { errors, message } = await err.response.json();
+          if (message) {
+            this.errors["other"] = message;
+            return;
+          }
+          for (let i = 0; i < errors.length; i++) {
+            const error = errors[i];
+            if (!knownErrs.includes(error.param)) {
+              this.errors["other"] = error.msg;
+              continue;
+            }
+            this.$set(this.errors, error.param, error.msg);
+          }
+        })
+        .finally(() => (this.requestSent = false));
+    },
+    resetValues() {
+      this.username = this.bot.username || "";
+      this.tag = this.bot.tag || "";
+      this.newAvatar = null;
+    },
+    avatarChange(event: any) {
+      const file: File = event.target.files[0];
+      event.target.value = "";
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onloadend = event => {
+        this.newAvatar = (event.target?.result as any) || null;
+      };
+      reader.readAsDataURL(file);
+    }
   }
-
-  get inviteLink() {
-    if (!process.env.VUE_APP_MAIN_APP_URL) return "";
-    return (
-      process.env.VUE_APP_MAIN_APP_URL +
-      `bots/${this.bot.id}?perms=${this.permissions}`
-    );
-  }
-  get showSaveButton() {
-    const { usernameChanged, tagChanged, avatarChanged } = this.changedItems;
-
-    return usernameChanged || tagChanged || avatarChanged;
-  }
-  get changedItems() {
-    const bot = this.bot;
-    const usernameChanged = this.username !== bot.username;
-    const tagChanged = this.tag !== bot.tag;
-    const avatarChanged = this.newAvatar?.length || false;
-    return {
-      usernameChanged,
-      tagChanged,
-      avatarChanged
-    };
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

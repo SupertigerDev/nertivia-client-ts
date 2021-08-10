@@ -52,7 +52,6 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { MeModule } from "@/store/modules/me";
 import userStatuses from "@/constants/userStatuses";
@@ -60,110 +59,127 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import { changeCustomStatus, logout } from "@/services/userService";
 import Markup from "@/components/Markup";
 import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
-
-@Component({ components: { AvatarImage, Markup } })
-export default class ProfileCard extends Vue {
-  @Prop() private identity!: string;
-  @Prop() private hideTitle!: boolean;
-  editCustomStatus = false;
-  customStatusText = "";
-  settingsClicked() {
-    this.$router.push("/app/settings/account");
-    if (this.identity) {
-      PopoutsModule.ClosePopout(this.identity);
+import Vue from "vue";
+export default Vue.extend({
+  name: "ProfileCard",
+  components: { AvatarImage, Markup },
+  props: {
+    identity: {
+      type: String,
+      required: false
+    },
+    hideTitle: {
+      type: Boolean,
+      required: false
     }
-  }
-  customStatusClick() {
-    if (this.editCustomStatus) return;
-    if (this.customStatus) {
-      this.customStatusText = this.customStatus;
+  },
+  data() {
+    return {
+      editCustomStatus: false,
+      customStatusText: ""
+    };
+  },
+  computed: {
+    connected(): any {
+      return MeModule.connected;
+    },
+    connectionMessage(): any {
+      return MeModule.connectionMessage;
+    },
+    me(): any {
+      return MeModule.user;
+    },
+    customStatus(): any {
+      if (!this.me?.id) return undefined;
+      return CustomStatusesModule.customStatus[this.me.id];
+    },
+    statusColor(): any {
+      if (!this.connected) return userStatuses[0].color;
+      return userStatuses[this.me.status].color;
+    },
+    statusName(): any {
+      if (!this.connected) return this.connectionMessage;
+      const name = userStatuses[this.me.status].name;
+      return name === "Offline" ? "Invisible" : name;
     }
-    this.editCustomStatus = true;
-    this.$nextTick(() => (this.$refs.input as HTMLElement).focus());
-  }
-  keyDownEvent(event: KeyboardEvent) {
-    if (event.key === "Escape") {
-      this.editCustomStatus = false;
-      return;
-    }
-    if (event.key === "Enter") {
+  },
+  methods: {
+    settingsClicked() {
+      this.$router.push("/app/settings/account");
+      if (this.identity) {
+        PopoutsModule.ClosePopout(this.identity);
+      }
+    },
+    customStatusClick() {
+      if (this.editCustomStatus) return;
+      if (this.customStatus) {
+        this.customStatusText = this.customStatus;
+      }
+      this.editCustomStatus = true;
+      this.$nextTick(() => (this.$refs.input as HTMLElement).focus());
+    },
+    keyDownEvent(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        this.editCustomStatus = false;
+        return;
+      }
+      if (event.key === "Enter") {
+        this.changeStatus(this.customStatusText);
+        this.editCustomStatus = false;
+        return;
+      }
+    },
+    clickOutside() {
+      if (!this.editCustomStatus) return;
       this.changeStatus(this.customStatusText);
       this.editCustomStatus = false;
-      return;
-    }
-  }
-  clickOutside() {
-    if (!this.editCustomStatus) return;
-    this.changeStatus(this.customStatusText);
-    this.editCustomStatus = false;
-  }
-  changeStatus(status: string) {
-    changeCustomStatus(status).catch(async err => {
-      if (!err.response) {
+    },
+    changeStatus(status: string) {
+      changeCustomStatus(status).catch(async err => {
+        if (!err.response) {
+          PopoutsModule.ShowPopout({
+            id: "custom-status-update-error",
+            component: "generic-popout",
+            data: {
+              title: "Oops!",
+              description: this.$t("could-not-connect-to-server")
+            }
+          });
+          return;
+        }
+        const json = await err.response.json();
         PopoutsModule.ShowPopout({
           id: "custom-status-update-error",
           component: "generic-popout",
           data: {
             title: "Oops!",
-            description: this.$t("could-not-connect-to-server")
+            description: json
           }
         });
-        return;
-      }
-      const json = await err.response.json();
-      PopoutsModule.ShowPopout({
-        id: "custom-status-update-error",
-        component: "generic-popout",
-        data: {
-          title: "Oops!",
-          description: json
-        }
       });
-    });
+    },
+    logOut() {
+      logout().finally(() => {
+        localStorage.clear();
+        location.href = "/";
+      });
+    },
+    openStatusContext() {
+      const el = this.$refs.currentStatus as HTMLElement;
+      const rect = el.getBoundingClientRect();
+      const contextWidth = 148;
+      const rectWidth = rect.width;
+      PopoutsModule.ShowPopout({
+        id: "context",
+        data: {
+          x: rect.left + rectWidth / 2 - contextWidth / 2,
+          y: rect.top + rect.height + 10
+        },
+        component: "StatusListContext"
+      });
+    }
   }
-  logOut() {
-    logout().finally(() => {
-      localStorage.clear();
-      location.href = "/";
-    });
-  }
-  openStatusContext() {
-    const el = this.$refs.currentStatus as HTMLElement;
-    const rect = el.getBoundingClientRect();
-    const contextWidth = 148;
-    const rectWidth = rect.width;
-    PopoutsModule.ShowPopout({
-      id: "context",
-      data: {
-        x: rect.left + rectWidth / 2 - contextWidth / 2,
-        y: rect.top + rect.height + 10
-      },
-      component: "StatusListContext"
-    });
-  }
-  get connected() {
-    return MeModule.connected;
-  }
-  get connectionMessage() {
-    return MeModule.connectionMessage;
-  }
-  get me() {
-    return MeModule.user;
-  }
-  get customStatus() {
-    if (!this.me?.id) return undefined;
-    return CustomStatusesModule.customStatus[this.me.id];
-  }
-  get statusColor() {
-    if (!this.connected) return userStatuses[0].color;
-    return userStatuses[this.me.status].color;
-  }
-  get statusName() {
-    if (!this.connected) return this.connectionMessage;
-    const name = userStatuses[this.me.status].name;
-    return name === "Offline" ? "Invisible" : name;
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .content .title {

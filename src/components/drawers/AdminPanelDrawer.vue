@@ -16,21 +16,28 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-
 import adminPanelPages from "@/utils/adminPanelPages.json";
 import { DrawersModule } from "@/store/modules/drawers";
-@Component
-export default class AdminPanelDrawer extends Vue {
-  pages = adminPanelPages;
-  changeTab(path: string) {
-    DrawersModule.SetLeftDrawer(false);
-    this.$router.push({ params: { tab: path } });
+import Vue from "vue";
+export default Vue.extend({
+  name: "AdminPanelDrawer",
+  data() {
+    return {
+      pages: adminPanelPages
+    };
+  },
+  computed: {
+    currentTab(): any {
+      return this.$route.params.tab;
+    }
+  },
+  methods: {
+    changeTab(path: string) {
+      DrawersModule.SetLeftDrawer(false);
+      this.$router.push({ params: { tab: path } });
+    }
   }
-  get currentTab() {
-    return this.$route.params.tab;
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .settings-drawer {

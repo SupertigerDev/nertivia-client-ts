@@ -10,24 +10,25 @@
 
 <script lang="ts">
 import { FileUploadModule } from "@/store/modules/fileUpload";
-import { Component, Vue } from "vue-property-decorator";
 import fileSize from "filesize";
-
-@Component
-export default class MainApp extends Vue {
-  get name() {
-    return this.file?.name;
+import Vue from "vue";
+export default Vue.extend({
+  name: "MainApp",
+  computed: {
+    name(): any {
+      return this.file?.name;
+    },
+    sizeLabel(): any {
+      return fileSize(this.size);
+    },
+    size(): any {
+      return this.file?.size || 0;
+    },
+    file(): any {
+      return FileUploadModule.file.file;
+    }
   }
-  get sizeLabel() {
-    return fileSize(this.size);
-  }
-  get size() {
-    return this.file?.size || 0;
-  }
-  get file() {
-    return FileUploadModule.file.file;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

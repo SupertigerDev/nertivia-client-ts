@@ -20,32 +20,42 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import { PopoutsModule } from "@/store/modules/popouts";
 import ChangelogTemplate from "./ChangelogTemplate.vue";
 import { Changelog, getChangelog } from "@/services/updateService";
-@Component({
-  components: { ChangelogTemplate }
-})
-export default class ProfilePopout extends Vue {
-  @Prop() private identity!: string;
-  logs: Changelog[] | null = null;
+import Vue from "vue";
+export default Vue.extend({
+  name: "ProfilePopout",
+  components: { ChangelogTemplate },
+  props: {
+    identity: {
+      type: String,
+      required: false
+    }
+  },
+  data() {
+    return {
+      logs: null as Changelog[] | null
+    };
+  },
   mounted() {
     getChangelog().then(logs => {
       this.logs = logs;
     });
+  },
+  methods: {
+    close() {
+      PopoutsModule.ClosePopout(this.identity);
+    },
+    backgroundClick(event: any) {
+      if (!event.target.classList.contains("popout-background")) return;
+      this.close();
+    },
+    buttonClicked() {
+      this.close();
+    }
   }
-  close() {
-    PopoutsModule.ClosePopout(this.identity);
-  }
-  backgroundClick(event: any) {
-    if (!event.target.classList.contains("popout-background")) return;
-    this.close();
-  }
-  buttonClicked() {
-    this.close();
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .generic-popout {

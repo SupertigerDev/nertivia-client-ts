@@ -7,16 +7,26 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-@Component
-export default class ChangelogBullets extends Vue {
-  @Prop() private bullets!: string[] | string;
-  @Prop() private color!: string;
-  get list() {
-    if (typeof this.bullets === "string") return [this.bullets];
-    return this.bullets;
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "ChangelogBullets",
+  props: {
+    bullets: {
+      type: Object as PropType<string[] | string>,
+      required: false
+    },
+    color: {
+      type: String,
+      required: false
+    }
+  },
+  computed: {
+    list(): any {
+      if (typeof this.bullets === "string") return [this.bullets];
+      return this.bullets;
+    }
   }
-}
+});
 </script>
 <style lang="scss" scoped>
 .bullets {

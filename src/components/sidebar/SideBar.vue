@@ -13,18 +13,20 @@
 
 <script lang="ts">
 import { PopoutsModule } from "@/store/modules/popouts";
-import { Component, Vue } from "vue-property-decorator";
 import Servers from "./Servers.vue";
-
-@Component({ components: { Servers } })
-export default class SideBar extends Vue {
-  addServerClicked() {
-    PopoutsModule.ShowPopout({
-      component: "add-server-popout",
-      id: "add-server"
-    });
+import Vue from "vue";
+export default Vue.extend({
+  name: "SideBar",
+  components: { Servers },
+  methods: {
+    addServerClicked() {
+      PopoutsModule.ShowPopout({
+        component: "add-server-popout",
+        id: "add-server"
+      });
+    }
   }
-}
+});
 </script>
 
 <style lang="scss" scoped>

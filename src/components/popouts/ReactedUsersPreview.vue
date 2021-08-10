@@ -19,7 +19,6 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import windowProperties from "@/utils/windowProperties";
 import { PopoutsModule } from "@/store/modules/popouts";
 import AvatarImage from "@/components/AvatarImage.vue";
@@ -28,6 +27,8 @@ import User from "@/interfaces/User";
 import { getReactedUsers } from "@/services/messagesService";
 import { MessagesModule } from "@/store/modules/messages";
 import { MeModule } from "@/store/modules/me";
+import Vue, { PropType } from "vue";
+
 interface IProp {
   messageID: string;
   channelID: string;
@@ -36,87 +37,110 @@ interface IProp {
   x: number;
   y: number;
 }
-@Component({ components: { AvatarImage } })
-export default class ReactedUserPreview extends Vue {
-  @Prop() private data!: IProp;
-  @Prop() private identity!: string;
-  users: User[] | null = null;
-  height = 0;
-  width = 0;
 
+export default Vue.extend({
+  name: "ReactedUserPreview",
+  components: { AvatarImage },
+  props: {
+    data: {
+      type: Object as PropType<IProp>,
+      required: false
+    },
+    identity: {
+      type: String,
+      required: false
+    }
+  },
+  data() {
+    return {
+      users: null as User[] | null,
+      height: 0,
+      width: 0
+    };
+  },
+  computed: {
+    moreLeft(): any {
+      if (!this.users) return 0;
+      if (!this.reaction) return 0;
+      return this.reaction.count - this.users.length - (this.appendMe ? 1 : 0);
+    },
+    appendMe(): any {
+      if (!this.users) return false;
+      if (!this.reaction) return false;
+      return (
+        this.reaction.reacted && !this.users.find(u => u.id === this.me.id)
+      );
+    },
+    me(): any {
+      return MeModule.user;
+    },
+    reaction(): any {
+      return MessagesModule.messageReaction({
+        messageID: this.data.messageID,
+        channelID: this.data.channelID,
+        emojiID: this.data.emojiID,
+        unicode: this.data.unicode
+      });
+    },
+    clampPos(): any {
+      const top = this.data.y || 0;
+      const left = this.data.x || 0;
+
+      // prevent from going bottom of the screen
+      const bottomPos = this.height + top;
+      let clampedTop = top;
+      if (bottomPos > this.windowDiamentions.height - 45) {
+        clampedTop = top - this.height - 35;
+      }
+
+      // prevent from going right of the screen
+      const widthPos = this.width + left;
+      const clampedLeft =
+        this.clamp(widthPos, 0, this.windowDiamentions.width) - this.width;
+
+      return {
+        top: clampedTop + "px",
+        left: clampedLeft + "px"
+      };
+    },
+    windowDiamentions(): any {
+      return {
+        height: windowProperties.resizeHeight,
+        width: windowProperties.resizeWidth
+      };
+    }
+  },
+  watch: {
+    reaction: {
+      // @ts-ignore
+      handler: "onReactionChange"
+    }
+  },
   mounted() {
     this.fetchReactions();
-  }
-  async fetchReactions() {
-    this.users = await getReactedUsers(
-      this.data.channelID,
-      this.data.messageID,
-      3,
-      this.data.emojiID,
-      this.data.unicode
-    );
-    this.$nextTick(() => {
-      this.height = this.$el.clientHeight;
-      this.width = this.$el.clientWidth;
-    });
-  }
-  clamp(num: number, min: number, max: number) {
-    return num <= min ? min : num >= max ? max : num;
-  }
-  get moreLeft() {
-    if (!this.users) return 0;
-    if (!this.reaction) return 0;
-    return this.reaction.count - this.users.length - (this.appendMe ? 1 : 0);
-  }
-  get appendMe() {
-    if (!this.users) return false;
-    if (!this.reaction) return false;
-    return this.reaction.reacted && !this.users.find(u => u.id === this.me.id);
-  }
-
-  get me() {
-    return MeModule.user;
-  }
-  get reaction() {
-    return MessagesModule.messageReaction({
-      messageID: this.data.messageID,
-      channelID: this.data.channelID,
-      emojiID: this.data.emojiID,
-      unicode: this.data.unicode
-    });
-  }
-  @Watch("reaction")
-  onReactionChange() {
-    this.fetchReactions();
-  }
-  get clampPos() {
-    const top = this.data.y || 0;
-    const left = this.data.x || 0;
-
-    // prevent from going bottom of the screen
-    const bottomPos = this.height + top;
-    let clampedTop = top;
-    if (bottomPos > this.windowDiamentions.height - 45) {
-      clampedTop = top - this.height - 35;
+  },
+  methods: {
+    async fetchReactions() {
+      this.users = await getReactedUsers(
+        this.data.channelID,
+        this.data.messageID,
+        3,
+        this.data.emojiID,
+        this.data.unicode
+      );
+      this.$nextTick(() => {
+        this.height = this.$el.clientHeight;
+        this.width = this.$el.clientWidth;
+      });
+    },
+    clamp(num: number, min: number, max: number) {
+      return num <= min ? min : num >= max ? max : num;
+    },
+    onReactionChange() {
+      this.fetchReactions();
     }
-
-    // prevent from going right of the screen
-    const widthPos = this.width + left;
-    const clampedLeft =
-      this.clamp(widthPos, 0, this.windowDiamentions.width) - this.width;
-
-    return {
-      top: clampedTop + "px",
-      left: clampedLeft + "px"
-    };
   }
-  get windowDiamentions() {
-    return {
-      height: windowProperties.resizeHeight,
-      width: windowProperties.resizeWidth
-    };
-  }
-}
+});
 </script>
 
 <style scoped></style>

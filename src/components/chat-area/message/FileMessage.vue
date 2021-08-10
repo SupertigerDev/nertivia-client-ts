@@ -10,17 +10,24 @@
 
 <script lang="ts">
 import Message from "@/interfaces/Message";
-import { Component, Prop, Vue } from "vue-property-decorator";
-@Component
-export default class ImageMessageEmbed extends Vue {
-  @Prop() private message!: Message & { grouped: boolean };
-  get file() {
-    return this.message.files?.[0];
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "ImageMessageEmbed",
+  props: {
+    message: {
+      type: Object as PropType<Message & { grouped: boolean }>,
+      required: false
+    }
+  },
+  computed: {
+    file(): any {
+      return this.message.files?.[0];
+    },
+    url(): any {
+      return `${process.env.VUE_APP_FETCH_PREFIX}/files/${this.file?.fileID}/${this.file?.fileName}`;
+    }
   }
-  get url() {
-    return `${process.env.VUE_APP_FETCH_PREFIX}/files/${this.file?.fileID}/${this.file?.fileName}`;
-  }
-}
+});
 </script>
 
 <style scoped lang="scss">

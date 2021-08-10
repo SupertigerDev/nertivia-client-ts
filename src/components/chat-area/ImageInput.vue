@@ -21,18 +21,68 @@
 
 <script lang="ts">
 import { FileUploadModule } from "@/store/modules/fileUpload";
-import { Component, Vue, Watch } from "vue-property-decorator";
 import fileSize from "filesize";
 import CheckBox from "@/components/CheckBox.vue";
 import RadioBox from "@/components/RadioBox.vue";
 import { MeModule } from "@/store/modules/me";
 import { PopoutsModule } from "@/store/modules/popouts";
 import WindowProperties from "@/utils/windowProperties";
+import Vue from "vue";
+export default Vue.extend({
+  name: "MainApp",
+  components: { CheckBox, RadioBox },
+  data() {
+    return {
+      messageLogsEl: null as HTMLElement | null,
+      width: "450px"
+    };
+  },
+  computed: {
+    exceedCDNMaxSize(): any {
+      const maxCDNSize = 7340000;
+      return (this.file?.size || 0) > maxCDNSize;
+    },
+    name(): any {
+      return this.file?.name;
+    },
+    sizeLabel(): any {
+      return fileSize(this.size);
+    },
+    size(): any {
+      return this.file?.size || 0;
+    },
+    file(): any {
+      return FileUploadModule.file.file;
+    },
+    compress: {
+      get(): any {
+        return FileUploadModule.compress;
+      },
+      set(val) {
+        FileUploadModule.SetCompress(val);
+      }
+    },
+    cdn: {
+      get(): any {
+        return FileUploadModule.cdn;
+      },
+      set(val) {
+        FileUploadModule.SetCDN(val);
+      }
+    },
+    parentWidth(): any {
+      // this line is needed to make this getter reactive.
+      const windowWidth = WindowProperties.resizeWidth;
 
-@Component({ components: { CheckBox, RadioBox } })
-export default class MainApp extends Vue {
-  messageLogsEl: HTMLElement | null = null;
-  width = "450px";
+      return this.messageLogsEl?.clientWidth || 0;
+    }
+  },
+  watch: {
+    parentWidth: {
+      // @ts-ignore
+      handler: "onParentWidthChange"
+    }
+  },
   mounted() {
     // set image preview
     const reader = new FileReader();
@@ -44,72 +94,39 @@ export default class MainApp extends Vue {
       reader.readAsDataURL(this.file);
     }
     this.messageLogsEl = document.getElementById("messageLogs");
-  }
-  onToggleCompress(val: boolean) {
-    if (!val && this.exceedCDNMaxSize && this.cdn === 1) {
-      alert(
-        "Nertivia CDN Max file size: 7MB. \nEither compress the image or upload using Google Drive option."
-      );
-      FileUploadModule.SetCompress(true);
+  },
+  methods: {
+    onToggleCompress(val: boolean) {
+      if (!val && this.exceedCDNMaxSize && this.cdn === 1) {
+        alert(
+          "Nertivia CDN Max file size: 7MB. \nEither compress the image or upload using Google Drive option."
+        );
+        FileUploadModule.SetCompress(true);
+      }
+    },
+    onRadioIndexChange(val: number) {
+      if (val === 0 && !MeModule.user.googleDriveLinked) {
+        this.cdn = 1;
+        PopoutsModule.ShowPopout({
+          id: "link-google-drive",
+          component: "LinkGoogleDrive"
+        });
+        return;
+      }
+      if (val === 1 && this.exceedCDNMaxSize) {
+        FileUploadModule.SetCompress(true);
+      }
+    },
+    onParentWidthChange() {
+      if (!this.parentWidth) return;
+      if (this.parentWidth < 470) {
+        this.width = this.parentWidth - 15 + "px";
+        return;
+      }
+      this.width = "450px";
     }
   }
-  onRadioIndexChange(val: number) {
-    if (val === 0 && !MeModule.user.googleDriveLinked) {
-      this.cdn = 1;
-      PopoutsModule.ShowPopout({
-        id: "link-google-drive",
-        component: "LinkGoogleDrive"
-      });
-      return;
-    }
-    if (val === 1 && this.exceedCDNMaxSize) {
-      FileUploadModule.SetCompress(true);
-    }
-  }
-  @Watch("parentWidth")
-  onParentWidthChange() {
-    if (!this.parentWidth) return;
-    if (this.parentWidth < 470) {
-      this.width = this.parentWidth - 15 + "px";
-      return;
-    }
-    this.width = "450px";
-  }
-  get exceedCDNMaxSize() {
-    const maxCDNSize = 7340000;
-    return (this.file?.size || 0) > maxCDNSize;
-  }
-  get name() {
-    return this.file?.name;
-  }
-  get sizeLabel() {
-    return fileSize(this.size);
-  }
-  get size() {
-    return this.file?.size || 0;
-  }
-  get file() {
-    return FileUploadModule.file.file;
-  }
-  get compress() {
-    return FileUploadModule.compress;
-  }
-  set compress(val) {
-    FileUploadModule.SetCompress(val);
-  }
-  get cdn() {
-    return FileUploadModule.cdn;
-  }
-  set cdn(val) {
-    FileUploadModule.SetCDN(val);
-  }
-  get parentWidth() {
-    // this line is needed to make this getter reactive.
-    const windowWidth = WindowProperties.resizeWidth;
-
-    return this.messageLogsEl?.clientWidth || 0;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

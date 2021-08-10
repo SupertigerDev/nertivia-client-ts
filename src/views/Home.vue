@@ -54,20 +54,22 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
 import Header from "@/components/home-page/Header.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
-
-@Component({ components: { Header } })
-export default class Home extends Vue {
-  showChangelog() {
-    PopoutsModule.ShowPopout({
-      id: "changelog-popout",
-      component: "ChangelogPopout",
-      data: {}
-    });
+import Vue from "vue";
+export default Vue.extend({
+  name: "Home",
+  components: { Header },
+  methods: {
+    showChangelog() {
+      PopoutsModule.ShowPopout({
+        id: "changelog-popout",
+        component: "ChangelogPopout",
+        data: {}
+      });
+    }
   }
-}
+});
 </script>
 
 <style scoped lang="scss">

@@ -42,46 +42,58 @@
 import { CustomEmojisModule } from "@/store/modules/customEmojis";
 import emojiParser from "@/utils/emojiParser";
 import { getRecentEmojis } from "@/utils/recentEmojiManager";
-import { Component, Prop, Vue } from "vue-property-decorator";
-
-@Component
-export default class Tabs extends Vue {
-  @Prop() private pos!: { x?: number; y?: number };
-  categories = ["😀", "🐱", "🍎", "🏀", "🚗", "⌚️", "❤️", "🏁"];
-  tabLeftPos: string | null = null;
-  tabShown = false;
-  findGroupEmojiPos(unicode: string) {
-    return emojiParser.allEmojis.find(e => e.unicode === unicode)?.pos;
-  }
-  tabsHover(event: any, index: number) {
-    const toolTip: any = this.$refs.toolTip;
-    if (index == 0) {
-      toolTip.innerHTML = "Recents";
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "Tabs",
+  props: {
+    pos: {
+      type: Object as PropType<{ x?: number; y?: number }>,
+      required: false
     }
-    if (index == 1) {
-      toolTip.innerHTML = "Custom Emojis";
+  },
+  data() {
+    return {
+      categories: ["😀", "🐱", "🍎", "🏀", "🚗", "⌚️", "❤️", "🏁"],
+      tabLeftPos: null as string | null,
+      tabShown: false
+    };
+  },
+  computed: {
+    recentEmojis(): any {
+      return getRecentEmojis();
+    },
+    customEmojis(): any {
+      return CustomEmojisModule.customEmojis;
     }
-    if (index > 1) {
-      toolTip.innerHTML = (emojiParser.allGroups as any)[index - 2];
+  },
+  methods: {
+    findGroupEmojiPos(unicode: string) {
+      return emojiParser.allEmojis.find(e => e.unicode === unicode)?.pos;
+    },
+    tabsHover(event: any, index: number) {
+      const toolTip: any = this.$refs.toolTip;
+      if (index == 0) {
+        toolTip.innerHTML = "Recents";
+      }
+      if (index == 1) {
+        toolTip.innerHTML = "Custom Emojis";
+      }
+      if (index > 1) {
+        toolTip.innerHTML = (emojiParser.allGroups as any)[index - 2];
+      }
+      this.tabShown = true;
+      const tabLeftPos = event.target.offsetLeft;
+      const toolTipCenter = (this.$refs.toolTip as any).clientWidth / 2;
+      this.tabLeftPos = tabLeftPos - toolTipCenter + 17 + "px";
+    },
+    tabClicked(i: number | string) {
+      this.$emit("click", i);
+    },
+    tabLeave() {
+      this.tabShown = false;
     }
-    this.tabShown = true;
-    const tabLeftPos = event.target.offsetLeft;
-    const toolTipCenter = (this.$refs.toolTip as any).clientWidth / 2;
-    this.tabLeftPos = tabLeftPos - toolTipCenter + 17 + "px";
   }
-  tabClicked(i: number | string) {
-    this.$emit("click", i);
-  }
-  tabLeave() {
-    this.tabShown = false;
-  }
-  get recentEmojis() {
-    return getRecentEmojis();
-  }
-  get customEmojis() {
-    return CustomEmojisModule.customEmojis;
-  }
-}
+});
 </script>
 
 <style scoped></style>

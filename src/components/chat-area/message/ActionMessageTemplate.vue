@@ -29,8 +29,6 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-
 import Message from "@/interfaces/Message";
 import AvatarImage from "@/components/AvatarImage.vue";
 import friendlyTime from "@/utils/date";
@@ -38,6 +36,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import MessageSide from "./MessageSide.vue";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import i18n from "@/i18n";
+import Vue, { PropType } from "vue";
 
 const types = [
   {},
@@ -46,61 +45,75 @@ const types = [
   { color: "#ff9914", message: i18n.t("messages.kicked") },
   { color: "#d92121", message: i18n.t("messages.banned") }
 ];
-@Component({ components: { AvatarImage, MessageSide } })
-export default class ActionMessageTemplate extends Vue {
-  loadRoleColor = false;
-  @Prop() private message!: Message & { grouped: boolean };
-  @Prop({ default: false }) private hideContext!: boolean;
-
+export default Vue.extend({
+  name: "ActionMessageTemplate",
+  components: { AvatarImage, MessageSide },
+  props: {
+    message: {
+      type: Object as PropType<Message & { grouped: boolean }>,
+      required: false
+    },
+    hideContext: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data() {
+    return {
+      loadRoleColor: false
+    };
+  },
+  computed: {
+    roleColor(): any {
+      if (!this.loadRoleColor) return undefined;
+      if (!this.server_id) return undefined;
+      const role = ServerMembersModule.firstMemberRole(
+        this.server_id,
+        this.creator.id
+      );
+      return role?.color;
+    },
+    server_id(): any {
+      return this.$route.params.server_id;
+    },
+    creator(): any {
+      return this.message.creator;
+    },
+    type(): any {
+      return types[this.message.type || 0];
+    },
+    time(): any {
+      return friendlyTime(this.message.created, localStorage["timeFormat"]);
+    }
+  },
   mounted() {
     setTimeout(() => {
       this.loadRoleColor = true;
     }, 10);
+  },
+  methods: {
+    showUserContext(event: MouseEvent) {
+      PopoutsModule.ShowPopout({
+        id: "context",
+        component: "UserContextMenu",
+        key: this.message.creator.id + event.clientX + event.clientY,
+        data: {
+          x: event.clientX,
+          y: event.clientY,
+          id: this.message.creator.id,
+          tempUser: this.message.creator
+        }
+      });
+    },
+    showProfile() {
+      PopoutsModule.ShowPopout({
+        id: "profile",
+        component: "profile-popout",
+        data: { id: this.message.creator.id }
+      });
+    }
   }
-  showUserContext(event: MouseEvent) {
-    PopoutsModule.ShowPopout({
-      id: "context",
-      component: "UserContextMenu",
-      key: this.message.creator.id + event.clientX + event.clientY,
-      data: {
-        x: event.clientX,
-        y: event.clientY,
-        id: this.message.creator.id,
-        tempUser: this.message.creator
-      }
-    });
-  }
-  showProfile() {
-    PopoutsModule.ShowPopout({
-      id: "profile",
-      component: "profile-popout",
-      data: { id: this.message.creator.id }
-    });
-  }
-
-  get roleColor() {
-    if (!this.loadRoleColor) return undefined;
-    if (!this.server_id) return undefined;
-    const role = ServerMembersModule.firstMemberRole(
-      this.server_id,
-      this.creator.id
-    );
-    return role?.color;
-  }
-  get server_id() {
-    return this.$route.params.server_id;
-  }
-
-  get creator() {
-    return this.message.creator;
-  }
-  get type() {
-    return types[this.message.type || 0];
-  }
-  get time() {
-    return friendlyTime(this.message.created, localStorage["timeFormat"]);
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .actionMessage {

@@ -56,73 +56,84 @@
 
 <script lang="ts">
 import { ExpandedUser, searchUsersByIP } from "@/services/adminService";
-import { Vue, Component, Prop } from "vue-property-decorator";
 import UserTemplate from "./UserTemplate.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import CustomInput from "@/components/CustomInput.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
-
-@Component({ components: { UserTemplate, CustomButton, CustomInput } })
-export default class SelectedUserPage extends Vue {
-  @Prop() private user!: ExpandedUser;
-  get items() {
-    return [
-      {
-        name: "Email",
-        icon: "alternate_email",
-        value: this.user.email
-      },
-      {
-        name: "User ID",
-        icon: "perm_identity",
-        value: this.user.id
-      },
-      {
-        name: "User IP",
-        icon: "dns",
-        value: this.user.ip
-      }
-    ];
-  }
-  IPUsers: ExpandedUser[] = [];
-
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "SelectedUserPage",
+  components: { UserTemplate, CustomButton, CustomInput },
+  props: {
+    user: {
+      type: Object as PropType<ExpandedUser>,
+      required: false
+    }
+  },
+  data() {
+    return {
+      IPUsers: [] as ExpandedUser[]
+    };
+  },
+  computed: {
+    items(): any {
+      return [
+        {
+          name: "Email",
+          icon: "alternate_email",
+          value: this.user.email
+        },
+        {
+          name: "User ID",
+          icon: "perm_identity",
+          value: this.user.id
+        },
+        {
+          name: "User IP",
+          icon: "dns",
+          value: this.user.ip
+        }
+      ];
+    },
+    bannerURL(): any {
+      if (!this.user.banner) return null;
+      return process.env.VUE_APP_NERTIVIA_CDN + this.user.banner;
+    }
+  },
   async mounted() {
     this.IPUsers = await searchUsersByIP(this.user.id);
     this.IPUsers = this.IPUsers.filter(u => u.id !== this.user.id);
+  },
+  methods: {
+    openSuspendPopout() {
+      PopoutsModule.ShowPopout({
+        id: "admin-suspend-user-popout",
+        component: "AdminSuspendUser",
+        data: { user: this.user, callback: this.suspendCallback }
+      });
+    },
+    openUnsuspendPopout() {
+      PopoutsModule.ShowPopout({
+        id: "admin-unsuspend-user-popout",
+        component: "AdminUnsuspendUser",
+        data: { user: this.user, callback: this.unsuspendCallback }
+      });
+    },
+    viewProfile(id: string) {
+      PopoutsModule.ShowPopout({
+        id: "profile",
+        component: "profile-popout",
+        data: { id }
+      });
+    },
+    suspendCallback() {
+      this.$emit("suspended");
+    },
+    unsuspendCallback(removeIPBan: boolean) {
+      this.$emit("unsuspend", { removeIPBan });
+    }
   }
-
-  openSuspendPopout() {
-    PopoutsModule.ShowPopout({
-      id: "admin-suspend-user-popout",
-      component: "AdminSuspendUser",
-      data: { user: this.user, callback: this.suspendCallback }
-    });
-  }
-  openUnsuspendPopout() {
-    PopoutsModule.ShowPopout({
-      id: "admin-unsuspend-user-popout",
-      component: "AdminUnsuspendUser",
-      data: { user: this.user, callback: this.unsuspendCallback }
-    });
-  }
-  viewProfile(id: string) {
-    PopoutsModule.ShowPopout({
-      id: "profile",
-      component: "profile-popout",
-      data: { id }
-    });
-  }
-  suspendCallback() {
-    this.$emit("suspended");
-  }
-  unsuspendCallback(removeIPBan: boolean) {
-    this.$emit("unsuspend", { removeIPBan });
-  }
-  get bannerURL() {
-    if (!this.user.banner) return null;
-    return process.env.VUE_APP_NERTIVIA_CDN + this.user.banner;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

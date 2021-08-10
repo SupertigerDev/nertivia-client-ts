@@ -7,39 +7,50 @@
 <script lang="ts">
 import { MeModule } from "@/store/modules/me";
 import { PopoutsModule } from "@/store/modules/popouts";
-import { Component, Vue, Watch } from "vue-property-decorator";
-
-@Component
-export default class MainApp extends Vue {
-  get isConnected() {
-    return MeModule.connected;
-  }
+import Vue from "vue";
+export default Vue.extend({
+  name: "MainApp",
+  computed: {
+    isConnected(): any {
+      return MeModule.connected;
+    },
+    connectionMessage(): any {
+      if (this.isConnected && !MeModule.connectionMessage) {
+        return this.$t("connection.ready");
+      }
+      return MeModule.connectionMessage;
+    }
+  },
+  watch: {
+    isConnected: {
+      // @ts-ignore
+      handler: "closePopout"
+    },
+    connectionMessage: {
+      // @ts-ignore
+      handler: "onConnectionMessage"
+    }
+  },
   mounted() {
     this.closePopout();
-  }
-  @Watch("isConnected")
-  closePopout() {
-    setTimeout(() => {
-      if (!this.isConnected) return;
-      this.$emit("close");
-    }, 3000);
-  }
-  @Watch("connectionMessage")
-  onConnectionMessage(message) {
-    if (message === "terms_not_agreed") {
-      PopoutsModule.ShowPopout({
-        id: "changes-policy-popout",
-        component: "ChangesToPolicies"
-      });
+  },
+  methods: {
+    closePopout() {
+      setTimeout(() => {
+        if (!this.isConnected) return;
+        this.$emit("close");
+      }, 3000);
+    },
+    onConnectionMessage(message) {
+      if (message === "terms_not_agreed") {
+        PopoutsModule.ShowPopout({
+          id: "changes-policy-popout",
+          component: "ChangesToPolicies"
+        });
+      }
     }
   }
-  get connectionMessage() {
-    if (this.isConnected && !MeModule.connectionMessage) {
-      return this.$t("connection.ready");
-    }
-    return MeModule.connectionMessage;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

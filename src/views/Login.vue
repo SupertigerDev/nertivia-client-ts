@@ -56,108 +56,118 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import Captcha from "@/components/Captcha.vue";
 import CustomButton from "@/components/CustomButton.vue";
 
 import { postLogin, confirmEmail } from "@/services/authService";
-
-@Component({ components: { CustomInput, Captcha, CustomButton } })
-export default class MainApp extends Vue {
-  page = 0;
-  email = "";
-  password = "";
-  confirmEmail = "";
-  errors: any = {};
-
-  @Watch("confirmEmail")
-  onEmailConfirmInput() {
-    const value = this.confirmEmail.trim();
-    if (value.length !== 10) return;
-    confirmEmail(this.email, value)
-      .then(data => {
-        localStorage.clear();
-        localStorage["hauthid"] = data.token;
-        this.redirect();
-      })
-      .catch(err => {
-        if (!err.response) return;
-        return err.response.json();
-      })
-      .then(res => {
-        if (!res) return (this.errors["other"] = "Unable to connect to server");
-        if (!res.error) return;
-        return (this.errors["email_confirm"] = res.error);
-      });
-  }
-
-  keyDownEvent(event: KeyboardEvent) {
-    if (event.keyCode === 13) {
-      event.preventDefault();
-      this.formSubmit();
+import Vue from "vue";
+export default Vue.extend({
+  name: "MainApp",
+  components: { CustomInput, Captcha, CustomButton },
+  data() {
+    return {
+      page: 0,
+      email: "",
+      password: "",
+      confirmEmail: "",
+      errors: {} as any
+    };
+  },
+  watch: {
+    confirmEmail: {
+      // @ts-ignore
+      handler: "onEmailConfirmInput"
     }
-  }
-  captchaSubmit(token: string) {
-    this.login(token);
-  }
-  login(token?: string) {
-    const email = this.email;
-    const password = this.password;
-    postLogin(email, password, token)
-      .then(data => {
-        if (data.action === "logged_in") {
+  },
+  methods: {
+    onEmailConfirmInput() {
+      const value = this.confirmEmail.trim();
+      if (value.length !== 10) return;
+      confirmEmail(this.email, value)
+        .then(data => {
           localStorage.clear();
           localStorage["hauthid"] = data.token;
           this.redirect();
-          return;
-        }
-      })
-      .catch(err => {
-        this.page = 0;
-        if (!err.response) {
-          this.errors["other"] = "Unable to connect to server";
-          return;
-        }
-        return err.response.json();
-      })
-      .then(res => {
-        if (!res) return;
-        if (res.code === "CONFIRM_EMAIL") {
-          this.page = 2;
-          return;
-        }
-        if (!res.errors) return;
-        if (res.errors[0].code === 1) {
-          this.page = 1;
-          return;
-        }
-        const errors: any = {};
-        for (let i = 0; i < res.errors.length; i++) {
-          const error = res.errors[i];
-          if (error.param === "email" || error.param === "password") {
-            errors[error.param] = error.msg;
-            continue;
+        })
+        .catch(err => {
+          if (!err.response) return;
+          return err.response.json();
+        })
+        .then(res => {
+          if (!res)
+            return (this.errors["other"] = "Unable to connect to server");
+          if (!res.error) return;
+          return (this.errors["email_confirm"] = res.error);
+        });
+    },
+    keyDownEvent(event: KeyboardEvent) {
+      if (event.keyCode === 13) {
+        event.preventDefault();
+        this.formSubmit();
+      }
+    },
+    captchaSubmit(token: string) {
+      this.login(token);
+    },
+    login(token?: string) {
+      const email = this.email;
+      const password = this.password;
+      postLogin(email, password, token)
+        .then(data => {
+          if (data.action === "logged_in") {
+            localStorage.clear();
+            localStorage["hauthid"] = data.token;
+            this.redirect();
+            return;
           }
-          errors["other"] = error.msg;
-        }
-        this.errors = errors;
-      });
-  }
-  formSubmit() {
-    this.errors = {};
-    this.login();
-  }
-  redirect() {
-    if (!process.env.VUE_APP_MAIN_APP_URL) return;
-    const url: string | undefined = this.$route.query.redirect as any;
-    if (!url || !url.startsWith(process.env.VUE_APP_MAIN_APP_URL)) {
-      location.href = "/app";
-      return;
+        })
+        .catch(err => {
+          this.page = 0;
+          if (!err.response) {
+            this.errors["other"] = "Unable to connect to server";
+            return;
+          }
+          return err.response.json();
+        })
+        .then(res => {
+          if (!res) return;
+          if (res.code === "CONFIRM_EMAIL") {
+            this.page = 2;
+            return;
+          }
+          if (!res.errors) return;
+          if (res.errors[0].code === 1) {
+            this.page = 1;
+            return;
+          }
+          const errors: any = {};
+          for (let i = 0; i < res.errors.length; i++) {
+            const error = res.errors[i];
+            if (error.param === "email" || error.param === "password") {
+              errors[error.param] = error.msg;
+              continue;
+            }
+            errors["other"] = error.msg;
+          }
+          this.errors = errors;
+        });
+    },
+    formSubmit() {
+      this.errors = {};
+      this.login();
+    },
+    redirect() {
+      if (!process.env.VUE_APP_MAIN_APP_URL) return;
+      const url: string | undefined = this.$route.query.redirect as any;
+      if (!url || !url.startsWith(process.env.VUE_APP_MAIN_APP_URL)) {
+        location.href = "/app";
+        return;
+      }
+      location.href = url;
     }
-    location.href = url;
   }
-}
+});
 </script>
 <style lang="scss" scoped>
 .login {

@@ -37,26 +37,39 @@ import userStatuses from "@/constants/userStatuses";
 import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
 import { programActivitiesModule } from "@/store/modules/memberProgramActivity";
 import { PresencesModule } from "@/store/modules/presences";
-import { Component, Prop, Vue } from "vue-property-decorator";
 import Markup from "@/components/Markup";
-
-@Component({ components: { Markup } })
-export default class UserStatusTemplate extends Vue {
-  @Prop() private id!: string;
-  @Prop() private showStatusOnly!: boolean;
-  @Prop() private showOffline!: boolean;
-  get presence() {
-    const presence = PresencesModule.getPresence(this.id);
-    if (!this.showOffline && !presence) return undefined;
-    return userStatuses[presence || 0];
+import Vue from "vue";
+export default Vue.extend({
+  name: "UserStatusTemplate",
+  components: { Markup },
+  props: {
+    id: {
+      type: String,
+      required: false
+    },
+    showStatusOnly: {
+      type: Boolean,
+      required: false
+    },
+    showOffline: {
+      type: Boolean,
+      required: false
+    }
+  },
+  computed: {
+    presence(): any {
+      const presence = PresencesModule.getPresence(this.id);
+      if (!this.showOffline && !presence) return undefined;
+      return userStatuses[presence || 0];
+    },
+    customStatus(): any {
+      return CustomStatusesModule.customStatus[this.id];
+    },
+    gameStatus(): any {
+      return programActivitiesModule.programActivity[this.id];
+    }
   }
-  get customStatus() {
-    return CustomStatusesModule.customStatus[this.id];
-  }
-  get gameStatus() {
-    return programActivitiesModule.programActivity[this.id];
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .status-name {

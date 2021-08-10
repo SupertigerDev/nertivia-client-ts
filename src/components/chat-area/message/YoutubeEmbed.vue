@@ -10,32 +10,38 @@
 
 <script lang="ts">
 import { Embed } from "@/interfaces/Message";
-import { Component, Prop, Vue } from "vue-property-decorator";
 import VideoPlayer from "./VideoPlayer.vue";
-
-@Component({ components: { VideoPlayer } })
-export default class YoutubeEmbed extends Vue {
-  @Prop() private embed!: Embed;
-
-  get imageURL() {
-    if (!this.embed.image?.url) return undefined;
-    return (
-      process.env.VUE_APP_IMAGE_PROXY_URL +
-      encodeURIComponent(this.embed.image.url)
-    );
-  }
-  get title() {
-    return this.embed.title || this.embed.site_name;
-  }
-  get url() {
-    const url = this.embed.url;
-    if (!url) return "#";
-    if (url.startsWith("http://") || url.startsWith("https://")) {
-      return url;
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "YoutubeEmbed",
+  components: { VideoPlayer },
+  props: {
+    embed: {
+      type: Object as PropType<Embed>,
+      required: false
     }
-    return `https://${url}`;
+  },
+  computed: {
+    imageURL(): any {
+      if (!this.embed.image?.url) return undefined;
+      return (
+        process.env.VUE_APP_IMAGE_PROXY_URL +
+        encodeURIComponent(this.embed.image.url)
+      );
+    },
+    title(): any {
+      return this.embed.title || this.embed.site_name;
+    },
+    url(): any {
+      const url = this.embed.url;
+      if (!url) return "#";
+      if (url.startsWith("http://") || url.startsWith("https://")) {
+        return url;
+      }
+      return `https://${url}`;
+    }
   }
-}
+});
 </script>
 <style lang="scss" scoped>
 .youtube-embed {

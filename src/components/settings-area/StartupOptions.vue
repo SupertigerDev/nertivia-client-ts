@@ -28,15 +28,19 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
 import CheckBox from "@/components/CheckBox.vue";
 
 import electronBridge from "@/utils/electronBridge";
-
-@Component({ components: { CheckBox } })
-export default class StartupOptions extends Vue {
-  autoLaunch = false;
-  launchMinimized = false;
+import Vue from "vue";
+export default Vue.extend({
+  name: "StartupOptions",
+  components: { CheckBox },
+  data() {
+    return {
+      autoLaunch: false,
+      launchMinimized: false
+    };
+  },
   async mounted() {
     if (!this.$isElectron) return;
     this.autoLaunch = await electronBridge?.invoke(
@@ -49,16 +53,18 @@ export default class StartupOptions extends Vue {
       "startup.minimized",
       true
     );
+  },
+  methods: {
+    toggleStartup(state: boolean) {
+      this.autoLaunch = state;
+      electronBridge?.invoke("set_store_value", "startup.enabled", state);
+    },
+    toggleLaunchMinimized(state: boolean) {
+      this.launchMinimized = state;
+      electronBridge?.invoke("set_store_value", "startup.minimized", state);
+    }
   }
-  toggleStartup(state: boolean) {
-    this.autoLaunch = state;
-    electronBridge?.invoke("set_store_value", "startup.enabled", state);
-  }
-  toggleLaunchMinimized(state: boolean) {
-    this.launchMinimized = state;
-    electronBridge?.invoke("set_store_value", "startup.minimized", state);
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

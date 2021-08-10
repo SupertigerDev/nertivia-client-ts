@@ -22,27 +22,35 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
 import RadioBox from "@/components/RadioBox.vue";
 import { MutedServersModule } from "@/store/modules/mutedServers";
 import { muteServer } from "@/services/serverService";
-@Component({ components: { RadioBox } })
-export default class ServerSettingsArea extends Vue {
-  onRadioIndexChange(index: number) {
-    muteServer(this.serverID, index);
+import Vue from "vue";
+export default Vue.extend({
+  name: "ServerSettingsArea",
+  components: { RadioBox },
+  computed: {
+    serverID(): any {
+      return this.$route.params.server_id;
+    },
+    serverNotificationOption: {
+      get(): number {
+        return MutedServersModule.mutedServers?.[this.serverID]?.type || 0;
+      },
+      set(val: number) {
+        MutedServersModule.SetMutedServer({
+          serverID: this.serverID,
+          type: val
+        });
+      }
+    }
+  },
+  methods: {
+    onRadioIndexChange(index: number) {
+      muteServer(this.serverID, index);
+    }
   }
-
-  get serverID() {
-    return this.$route.params.server_id;
-  }
-
-  get serverNotificationOption() {
-    return MutedServersModule.mutedServers?.[this.serverID]?.type || 0;
-  }
-  set serverNotificationOption(val: number) {
-    MutedServersModule.SetMutedServer({ serverID: this.serverID, type: val });
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

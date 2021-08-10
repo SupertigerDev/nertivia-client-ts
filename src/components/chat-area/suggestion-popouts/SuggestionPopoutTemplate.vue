@@ -15,36 +15,53 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-
-@Component
-export default class SuggestionPopoutTemplate extends Vue {
-  selectedIndex = 0;
-  @Prop() private items!: any[];
-  @Prop() private template!: any;
-
-  up() {
-    if (this.selectedIndex === 0) {
-      this.selectedIndex = this.items.length - 1;
-      return;
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "SuggestionPopoutTemplate",
+  props: {
+    items: {
+      type: Array as PropType<any[]>,
+      required: false
+    },
+    template: {
+      type: Object as PropType<any>,
+      required: false
     }
-    this.selectedIndex -= 1;
-  }
-  down() {
-    if (this.selectedIndex === this.items.length - 1) {
+  },
+  data() {
+    return {
+      selectedIndex: 0
+    };
+  },
+  watch: {
+    items: {
+      // @ts-ignore
+      handler: "onItemChange"
+    }
+  },
+  methods: {
+    up() {
+      if (this.selectedIndex === 0) {
+        this.selectedIndex = this.items.length - 1;
+        return;
+      }
+      this.selectedIndex -= 1;
+    },
+    down() {
+      if (this.selectedIndex === this.items.length - 1) {
+        this.selectedIndex = 0;
+        return;
+      }
+      this.selectedIndex += 1;
+    },
+    enter() {
+      this.$emit("selected", this.items[this.selectedIndex]);
+    },
+    onItemChange() {
       this.selectedIndex = 0;
-      return;
     }
-    this.selectedIndex += 1;
   }
-  enter() {
-    this.$emit("selected", this.items[this.selectedIndex]);
-  }
-  @Watch("items")
-  onItemChange() {
-    this.selectedIndex = 0;
-  }
-}
+});
 </script>
 
 <style scoped>

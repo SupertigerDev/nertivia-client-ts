@@ -25,34 +25,40 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import { PopoutsModule } from "@/store/modules/popouts";
 import CustomButton from "@/components/CustomButton.vue";
 import InformationTemplate from "@/components/InformationTemplate.vue";
 import AgreementMessage from "@/components/AgreementMessage.vue";
 import { AgreePolicy } from "@/services/authService";
-@Component({
-  components: { CustomButton, InformationTemplate, AgreementMessage }
-})
-export default class ProfilePopout extends Vue {
-  @Prop() private identity!: string;
-  close() {
-    PopoutsModule.ClosePopout(this.identity);
+import Vue from "vue";
+export default Vue.extend({
+  name: "ProfilePopout",
+  components: { CustomButton, InformationTemplate, AgreementMessage },
+  props: {
+    identity: {
+      type: String,
+      required: false
+    }
+  },
+  methods: {
+    close() {
+      PopoutsModule.ClosePopout(this.identity);
+    },
+    deleteAccount() {
+      const w = window.open(
+        "mailto:nertivia@gmail.com?subject=Delete%20My%20Account",
+        "_blank"
+      );
+      w?.focus();
+    },
+    agree() {
+      AgreePolicy().then(() => {
+        this.$socket.client.connect();
+        this.close();
+      });
+    }
   }
-  deleteAccount() {
-    const w = window.open(
-      "mailto:nertivia@gmail.com?subject=Delete%20My%20Account",
-      "_blank"
-    );
-    w?.focus();
-  }
-  agree() {
-    AgreePolicy().then(() => {
-      this.$socket.client.connect();
-      this.close();
-    });
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .generic-popout {

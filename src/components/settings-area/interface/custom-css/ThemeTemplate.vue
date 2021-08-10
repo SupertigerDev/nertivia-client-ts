@@ -37,24 +37,37 @@
 
 <script lang="ts">
 import { ThemePreview } from "@/services/themeService";
-import { Vue, Component, Prop } from "vue-property-decorator";
 import CustomButton from "@/components/CustomButton.vue";
 import { applyTheme, unapplyTheme } from "@/utils/CSSTheme";
-
-@Component({ components: { CustomButton } })
-export default class ThemeTemplate extends Vue {
-  @Prop() private theme!: ThemePreview;
-  @Prop({ default: false }) private showOptions!: boolean;
-  @Prop({ default: false }) private applied!: boolean;
-  apply() {
-    applyTheme(this.theme.id);
-    this.$emit("applied");
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "ThemeTemplate",
+  components: { CustomButton },
+  props: {
+    theme: {
+      type: Object as PropType<ThemePreview>,
+      required: false
+    },
+    showOptions: {
+      type: Boolean,
+      default: false
+    },
+    applied: {
+      type: Boolean,
+      default: false
+    }
+  },
+  methods: {
+    apply() {
+      applyTheme(this.theme.id);
+      this.$emit("applied");
+    },
+    unapply() {
+      unapplyTheme();
+      this.$emit("unapplied");
+    }
   }
-  unapply() {
-    unapplyTheme();
-    this.$emit("unapplied");
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

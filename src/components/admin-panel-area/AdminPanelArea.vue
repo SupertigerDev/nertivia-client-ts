@@ -5,14 +5,26 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Header from "@/components/Header.vue";
 import Overview from "./overview/Overview.vue";
-import { Vue, Component, Watch } from "vue-property-decorator";
 import explorePages from "@/utils/adminPanelPages";
 import { TabsModule } from "@/store/modules/tabs";
-@Component({ components: { Header, Overview } })
-export default class ExploreArea extends Vue {
+import Vue from "vue";
+export default Vue.extend({
+  name: "ExploreArea",
+  components: { Header, Overview },
+  computed: {
+    page(): any {
+      return explorePages[this.$route.params.tab];
+    }
+  },
+  watch: {
+    page: {
+      // @ts-ignore
+      handler: "onPageChanged"
+    }
+  },
   mounted() {
     if (!this.page) {
       this.$router.replace("/app/admin-panel/overview");
@@ -22,18 +34,16 @@ export default class ExploreArea extends Vue {
       icon: "security",
       name: "Admin Panel " + this.page.name
     });
+  },
+  methods: {
+    onPageChanged() {
+      TabsModule.setCurrentTab({
+        icon: "security",
+        name: "Admin Panel " + this.page.name
+      });
+    }
   }
-  @Watch("page")
-  onPageChanged() {
-    TabsModule.setCurrentTab({
-      icon: "security",
-      name: "Admin Panel " + this.page.name
-    });
-  }
-  get page() {
-    return explorePages[this.$route.params.tab];
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .admin-area {

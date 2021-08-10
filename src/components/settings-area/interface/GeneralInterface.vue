@@ -52,7 +52,6 @@
 
 <script lang="ts">
 import "@simonwep/pickr/dist/themes/classic.min.css";
-import { Component, Vue, Watch } from "vue-property-decorator";
 import Pickr from "@simonwep/pickr";
 import RadioBox from "@/components/RadioBox.vue";
 import CustomDropDown from "@/components/CustomDropDown.vue";
@@ -67,15 +66,47 @@ import {
   applyDefaultTheme,
   applyDefaultValue
 } from "@/utils/customCssVars";
-@Component({ components: { RadioBox, CustomDropDown, CheckBox } })
-export default class InterfaceVariables extends Vue {
-  pickr: Pickr | null = null;
-  lastClicked: { key?: string; value?: string; custom?: string } = {};
-  customVars = getCustomCssVars();
-  timeFormat = parseInt(localStorage["timeFormat"] || "0");
-  fonts = Object.values(fonts);
-  selectedFont = localStorage["font"] || this.fonts[0].id;
-
+import Vue from "vue";
+export default Vue.extend({
+  name: "InterfaceVariables",
+  components: { RadioBox, CustomDropDown, CheckBox },
+  data() {
+    return {
+      pickr: null as Pickr | null,
+      lastClicked: {} as { key?: string; value?: string; custom?: string },
+      customVars: getCustomCssVars(),
+      timeFormat: parseInt(localStorage["timeFormat"] || "0"),
+      fonts: Object.values(fonts),
+      selectedFont: localStorage["font"] || Object.values(fonts)[0].id
+    };
+  },
+  computed: {
+    showSettings: {
+      get(): boolean {
+        return ReactiveLocalStorageModule.getStore("showSettingsInNavigation");
+      },
+      set(value: boolean) {
+        ReactiveLocalStorageModule.setStore({
+          key: "showSettingsInNavigation",
+          value
+        });
+      }
+    },
+    cssVarList(): any {
+      return getAllCssVars()
+        .filter(item => item.key.endsWith("color"))
+        .map(item => {
+          const key = item.key.replace(/-/g, " ");
+          return { ...item, name: key, custom: this.customVars[item.key] };
+        });
+    }
+  },
+  watch: {
+    timeFormat: {
+      // @ts-ignore
+      handler: "onTimeFormatChagne"
+    }
+  },
   mounted() {
     this.pickr = Pickr.create({
       el: ".pickr",
@@ -94,81 +125,64 @@ export default class InterfaceVariables extends Vue {
       }
     });
     this.pickr.on("hide", this.colorChanged);
-  }
-  onFontChange(id: string) {
-    applyFont(id);
-  }
-  @Watch("timeFormat")
-  onTimeFormatChagne() {
-    localStorage["timeFormat"] = this.timeFormat;
-  }
+  },
   beforeDestroy() {
     this.pickr?.off("hide", this.colorChanged);
     this.pickr?.destroyAndRemove();
-  }
-  showPicker(css: any, event: any) {
-    this.customVars = getCustomCssVars();
-    if (event.target.closest(".revert-icon")) return;
-    const rect = event.target.getBoundingClientRect();
-    const top = rect.top - 100;
-    (this.$refs.pickerButton as HTMLElement).style.top = top + "px";
-    this.lastClicked = css;
-    this.pickr?.setColor(css.custom || css.value);
-    this.pickr?.show();
-  }
-  revertButton(css: any, event: any) {
-    applyDefaultValue(css.key);
-  }
-
-  set showSettings(value: boolean) {
-    ReactiveLocalStorageModule.setStore({
-      key: "showSettingsInNavigation",
-      value
-    });
-  }
-  get showSettings() {
-    return ReactiveLocalStorageModule.getStore("showSettingsInNavigation");
-  }
-  get cssVarList() {
-    return getAllCssVars()
-      .filter(item => item.key.endsWith("color"))
-      .map(item => {
-        const key = item.key.replace(/-/g, " ");
-        return { ...item, name: key, custom: this.customVars[item.key] };
-      });
-  }
-  colorChanged(event: any) {
-    if (!this.lastClicked.key) return;
-    const hex = event
-      .getColor()
-      .toHEXA()
-      .toString();
-    changeCssVar(this.lastClicked?.key, hex);
-    this.customVars = getCustomCssVars();
-  }
-  resetButton() {
-    applyDefaultTheme(true);
-  }
-  applyTheme(theme: string) {
-    if (theme === "halloween") {
+  },
+  methods: {
+    onFontChange(id: string) {
+      applyFont(id);
+    },
+    onTimeFormatChagne() {
+      localStorage["timeFormat"] = this.timeFormat;
+    },
+    showPicker(css: any, event: any) {
+      this.customVars = getCustomCssVars();
+      if (event.target.closest(".revert-icon")) return;
+      const rect = event.target.getBoundingClientRect();
+      const top = rect.top - 100;
+      (this.$refs.pickerButton as HTMLElement).style.top = top + "px";
+      this.lastClicked = css;
+      this.pickr?.setColor(css.custom || css.value);
+      this.pickr?.show();
+    },
+    revertButton(css: any, event: any) {
+      applyDefaultValue(css.key);
+    },
+    colorChanged(event: any) {
+      if (!this.lastClicked.key) return;
+      const hex = event
+        .getColor()
+        .toHEXA()
+        .toString();
+      changeCssVar(this.lastClicked?.key, hex);
+      this.customVars = getCustomCssVars();
+    },
+    resetButton() {
       applyDefaultTheme(true);
-      changeCssVar("--primary-color", "#ff4c1f");
-      changeCssVar("--main-header-bg-color", "#ff4c1f");
-      changeCssVar("--side-header-bg-color", "#ff4c1fcb");
-      changeCssVar("--my-chat-bubble-color", "#171725");
-    }
-    if (theme === "amoled") {
-      applyDefaultTheme(true);
-      // changeCssVar("--primary-color", "#ff801f");
-      changeCssVar("--background-color", "black");
-      changeCssVar("--drawer-bg-color", "#0e0e0e");
-      // changeCssVar("--main-header-bg-color", "#ff781f");
-      // changeCssVar("--side-header-bg-color", "#d55c0b");
-      // changeCssVar("--my-chat-bubble-color", "#e87b21");
-      // changeCssVar("--others-chat-bubble-color", "#433a50");
+    },
+    applyTheme(theme: string) {
+      if (theme === "halloween") {
+        applyDefaultTheme(true);
+        changeCssVar("--primary-color", "#ff4c1f");
+        changeCssVar("--main-header-bg-color", "#ff4c1f");
+        changeCssVar("--side-header-bg-color", "#ff4c1fcb");
+        changeCssVar("--my-chat-bubble-color", "#171725");
+      }
+      if (theme === "amoled") {
+        applyDefaultTheme(true);
+        // changeCssVar("--primary-color", "#ff801f");
+        changeCssVar("--background-color", "black");
+        changeCssVar("--drawer-bg-color", "#0e0e0e");
+        // changeCssVar("--main-header-bg-color", "#ff781f");
+        // changeCssVar("--side-header-bg-color", "#d55c0b");
+        // changeCssVar("--my-chat-bubble-color", "#e87b21");
+        // changeCssVar("--others-chat-bubble-color", "#433a50");
+      }
     }
   }
-}
+});
 </script>
 
 <style lang="scss" scoped>

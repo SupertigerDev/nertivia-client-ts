@@ -47,7 +47,6 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
 import Header from "@/components/home-page/Header.vue";
 import LoadingScreen from "@/components/LoadingScreen.vue";
 import CheckBox from "@/components/CheckBox.vue";
@@ -60,8 +59,9 @@ import { getBot, inviteBot } from "@/services/botService";
 import Server from "@/interfaces/Server";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { bitwiseContains } from "@/utils/bitwise";
-
-@Component({
+import Vue from "vue";
+export default Vue.extend({
+  name: "InviteBot",
   components: {
     Header,
     CheckBox,
@@ -69,44 +69,44 @@ import { bitwiseContains } from "@/utils/bitwise";
     AvatarImage,
     CustomButton,
     CustomDropDown
-  }
-})
-export default class InviteBot extends Vue {
-  bot: User | null = null;
-  servers: Partial<Server>[] | null = null;
-  loggedIn = false;
-  selectedServerID: string | null = null;
-  requestSent = false;
-
-  selectedServer(serverID: any) {
-    this.selectedServerID = serverID;
-  }
-  inviteBot() {
-    if (!this.bot?.id) return;
-    if (!this.selectedServerID) return;
-    if (this.requestSent) return;
-    this.requestSent = true;
-    inviteBot(this.bot.id, this.selectedServerID, this.permNumber)
-      .then(() => {
-        location.href = "/app";
-      })
-      .catch(async err => {
-        PopoutsModule.ShowPopout({
-          id: "error",
-          component: "generic-popout",
-          data: {
-            title: "Error Creating Bot",
-            description: !err.response
-              ? this.$t("could-not-connect-to-server")
-              : (await err.response.json()).message
-          }
-        });
-      })
-      .finally(() => (this.requestSent = false));
-  }
-  loginButton() {
-    this.$router.push("/login?redirect=" + encodeURIComponent(location.href));
-  }
+  },
+  data() {
+    return {
+      bot: null as User | null,
+      servers: null as Partial<Server>[] | null,
+      loggedIn: false,
+      selectedServerID: null as string | null,
+      requestSent: false
+    };
+  },
+  computed: {
+    mappedServers(): any {
+      return (
+        this.servers?.map(server => {
+          return {
+            name: server.name,
+            server_id: server.server_id,
+            avatar: {
+              seedID: server.server_id,
+              imageID: server.avatar
+            }
+          };
+        }) || []
+      );
+    },
+    botID(): any {
+      return this.$route.params.botid;
+    },
+    permNumber(): any {
+      const str: any = this.$route.query.perms;
+      return parseInt(str || "0") || 0;
+    },
+    perms(): any {
+      return Object.values(permissions).filter(p =>
+        bitwiseContains(this.permNumber, p.value)
+      );
+    }
+  },
   mounted() {
     getBot(this.botID, false, true).then((data: any) => {
       if (data.servers) {
@@ -117,34 +117,39 @@ export default class InviteBot extends Vue {
       }
       this.bot = data;
     });
+  },
+  methods: {
+    selectedServer(serverID: any) {
+      this.selectedServerID = serverID;
+    },
+    inviteBot() {
+      if (!this.bot?.id) return;
+      if (!this.selectedServerID) return;
+      if (this.requestSent) return;
+      this.requestSent = true;
+      inviteBot(this.bot.id, this.selectedServerID, this.permNumber)
+        .then(() => {
+          location.href = "/app";
+        })
+        .catch(async err => {
+          PopoutsModule.ShowPopout({
+            id: "error",
+            component: "generic-popout",
+            data: {
+              title: "Error Creating Bot",
+              description: !err.response
+                ? this.$t("could-not-connect-to-server")
+                : (await err.response.json()).message
+            }
+          });
+        })
+        .finally(() => (this.requestSent = false));
+    },
+    loginButton() {
+      this.$router.push("/login?redirect=" + encodeURIComponent(location.href));
+    }
   }
-  get mappedServers() {
-    return (
-      this.servers?.map(server => {
-        return {
-          name: server.name,
-          server_id: server.server_id,
-          avatar: {
-            seedID: server.server_id,
-            imageID: server.avatar
-          }
-        };
-      }) || []
-    );
-  }
-  get botID() {
-    return this.$route.params.botid;
-  }
-  get permNumber() {
-    const str: any = this.$route.query.perms;
-    return parseInt(str || "0") || 0;
-  }
-  get perms() {
-    return Object.values(permissions).filter(p =>
-      bitwiseContains(this.permNumber, p.value)
-    );
-  }
-}
+});
 </script>
 
 <style scoped lang="scss">

@@ -141,7 +141,6 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import UserStatusTemplate from "@/components/UserStatusTemplate.vue";
 import Markup from "@/components/Markup";
@@ -172,7 +171,9 @@ import Server from "@/interfaces/Server";
 import { ServersModule } from "@/store/modules/servers";
 import User from "@/interfaces/User";
 import { getBadges } from "@/constants/badges";
-@Component({
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "ProfilePopout",
   components: {
     AvatarImage,
     Markup,
@@ -180,48 +181,100 @@ import { getBadges } from "@/constants/badges";
     CommonServers,
     CommonFriends,
     Badges
-  }
-})
-export default class ProfilePopout extends Vue {
-  @Prop() private data!: { id: string; fullProfile?: ReturnedUser };
-  returnedUser: ReturnedUser | null = null;
-  close() {
-    PopoutsModule.ClosePopout("profile");
-  }
-  backgroundClick(event: any) {
-    if (event.target.classList.contains("popout-background")) {
-      this.close();
+  },
+  props: {
+    data: {
+      type: Object as PropType<{ id: string; fullProfile?: ReturnedUser }>,
+      required: false
     }
-  }
-  blockUser() {
-    if (this.isBlocked) {
-      UnblockUser(this.user.id);
-    } else {
-      blockUser(this.user.id);
+  },
+  data() {
+    return {
+      returnedUser: null as ReturnedUser | null
+    };
+  },
+  computed: {
+    bannerURL(): any {
+      if (!this.user.banner) return null;
+      return process.env.VUE_APP_NERTIVIA_CDN + this.user.banner;
+    },
+    joinedAt(): any {
+      if (!this.returnedUser) return undefined;
+      return friendlyDate(
+        this.returnedUser?.user.created || 0,
+        localStorage["timeFormat"]
+      );
+    },
+    badgesArr(): any {
+      const flags = (this.user as any).badges;
+      if (!flags) return [];
+      return getBadges(flags);
+    },
+    ageAndGender(): any {
+      let finalText = "";
+      if (this.aboutMe?.gender && this.aboutMe.gender !== "Rather not say") {
+        finalText = this.aboutMe.gender;
+      }
+      if (this.aboutMe?.age && this.aboutMe.age !== "Rather not say") {
+        if (finalText) {
+          finalText += ", ";
+        }
+        finalText += this.aboutMe.age;
+      }
+      return finalText;
+    },
+    presence(): any {
+      if (!this.user?.id) return userStatuses[0];
+      const presence = PresencesModule.getPresence(this.user.id);
+      return userStatuses[presence || 0];
+    },
+    customStatus(): any {
+      if (this.presence.name === "Offline") return undefined;
+      return CustomStatusesModule.customStatus[this.user.id];
+    },
+    friendStatus(): any {
+      const status = FriendsModule.friends[this.user.id]?.status;
+      return status;
+    },
+    user(): any {
+      if (!this.returnedUser) {
+        return UsersModule.users[this.data.id] || {};
+      }
+      return this.returnedUser.user;
+    },
+    aboutMe(): any {
+      return this.returnedUser?.user.about_me;
+    },
+    isMe(): any {
+      return this.user.id === MeModule.user.id;
+    },
+    isBlocked(): any {
+      return UsersModule.blockedUserIDArr.includes(this.user.id);
+    },
+    commonServers(): any {
+      const commonServers = this.returnedUser?.commonServersArr;
+      if (!commonServers) return [];
+      const servers: Server[] = [];
+      for (let i = 0; i < commonServers.length; i++) {
+        const serverID = commonServers[i];
+        if (!ServersModule.servers[serverID]) continue;
+        servers.push(ServersModule.servers[serverID]);
+      }
+      return servers;
+    },
+    commonFriends(): any {
+      const commonFriends = this.returnedUser?.commonFriendsArr;
+      if (!commonFriends) return [];
+      const friends: User[] = [];
+      for (let i = 0; i < commonFriends.length; i++) {
+        const friendID = commonFriends[i];
+        const friend = FriendsModule.friendWithUser(friendID);
+        if (!friend?.recipient) continue;
+        friends.push(friend.recipient);
+      }
+      return friends;
     }
-  }
-  sendMessageButton() {
-    ChannelsModule.LoadDmChannel(this.user.id);
-    PopoutsModule.ClosePopout("profile");
-  }
-  cancelOrDecline() {
-    deleteFriend(this.user.id);
-  }
-  acceptFriend() {
-    acceptRequest(this.user.id);
-  }
-  addFriend() {
-    sendFriendRequest(this.user.username, this.user.tag);
-  }
-  botCreatorClicked() {
-    PopoutsModule.ShowPopout({
-      id: "profile",
-      component: "profile-popout",
-      data: { id: this.returnedUser?.user.createdBy?.id },
-      key: this.returnedUser?.user.createdBy?.id
-    });
-  }
-
+  },
   mounted() {
     this.returnedUser = this.data.fullProfile || null;
     if (this.returnedUser) {
@@ -230,89 +283,46 @@ export default class ProfilePopout extends Vue {
     fetchUser(this.data.id).then(user => {
       this.returnedUser = user;
     });
-  }
-  get bannerURL() {
-    if (!this.user.banner) return null;
-    return process.env.VUE_APP_NERTIVIA_CDN + this.user.banner;
-  }
-  get joinedAt() {
-    if (!this.returnedUser) return undefined;
-    return friendlyDate(
-      this.returnedUser?.user.created || 0,
-      localStorage["timeFormat"]
-    );
-  }
-  get badgesArr() {
-    const flags = (this.user as any).badges;
-    if (!flags) return [];
-    return getBadges(flags);
-  }
-  get ageAndGender() {
-    let finalText = "";
-    if (this.aboutMe?.gender && this.aboutMe.gender !== "Rather not say") {
-      finalText = this.aboutMe.gender;
-    }
-    if (this.aboutMe?.age && this.aboutMe.age !== "Rather not say") {
-      if (finalText) {
-        finalText += ", ";
+  },
+  methods: {
+    close() {
+      PopoutsModule.ClosePopout("profile");
+    },
+    backgroundClick(event: any) {
+      if (event.target.classList.contains("popout-background")) {
+        this.close();
       }
-      finalText += this.aboutMe.age;
+    },
+    blockUser() {
+      if (this.isBlocked) {
+        UnblockUser(this.user.id);
+      } else {
+        blockUser(this.user.id);
+      }
+    },
+    sendMessageButton() {
+      ChannelsModule.LoadDmChannel(this.user.id);
+      PopoutsModule.ClosePopout("profile");
+    },
+    cancelOrDecline() {
+      deleteFriend(this.user.id);
+    },
+    acceptFriend() {
+      acceptRequest(this.user.id);
+    },
+    addFriend() {
+      sendFriendRequest(this.user.username, this.user.tag);
+    },
+    botCreatorClicked() {
+      PopoutsModule.ShowPopout({
+        id: "profile",
+        component: "profile-popout",
+        data: { id: this.returnedUser?.user.createdBy?.id },
+        key: this.returnedUser?.user.createdBy?.id
+      });
     }
-    return finalText;
   }
-
-  get presence() {
-    if (!this.user?.id) return userStatuses[0];
-    const presence = PresencesModule.getPresence(this.user.id);
-    return userStatuses[presence || 0];
-  }
-  get customStatus() {
-    if (this.presence.name === "Offline") return undefined;
-    return CustomStatusesModule.customStatus[this.user.id];
-  }
-  get friendStatus() {
-    const status = FriendsModule.friends[this.user.id]?.status;
-    return status;
-  }
-  get user() {
-    if (!this.returnedUser) {
-      return UsersModule.users[this.data.id] || {};
-    }
-    return this.returnedUser.user;
-  }
-  get aboutMe() {
-    return this.returnedUser?.user.about_me;
-  }
-  get isMe() {
-    return this.user.id === MeModule.user.id;
-  }
-  get isBlocked() {
-    return UsersModule.blockedUserIDArr.includes(this.user.id);
-  }
-  get commonServers() {
-    const commonServers = this.returnedUser?.commonServersArr;
-    if (!commonServers) return [];
-    const servers: Server[] = [];
-    for (let i = 0; i < commonServers.length; i++) {
-      const serverID = commonServers[i];
-      if (!ServersModule.servers[serverID]) continue;
-      servers.push(ServersModule.servers[serverID]);
-    }
-    return servers;
-  }
-  get commonFriends() {
-    const commonFriends = this.returnedUser?.commonFriendsArr;
-    if (!commonFriends) return [];
-    const friends: User[] = [];
-    for (let i = 0; i < commonFriends.length; i++) {
-      const friendID = commonFriends[i];
-      const friend = FriendsModule.friendWithUser(friendID);
-      if (!friend?.recipient) continue;
-      friends.push(friend.recipient);
-    }
-    return friends;
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .profile-popout {

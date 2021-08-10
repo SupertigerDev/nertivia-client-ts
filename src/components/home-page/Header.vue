@@ -23,10 +23,12 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import { getUser } from "@/services/userService";
 import AvatarImage from "@/components/AvatarImage";
 import HomeHeaderContext from "@/components/popouts/HomeHeaderContext";
+import Vue from "vue";
+
 export default {
   components: { AvatarImage, HomeHeaderContext },
   data() {

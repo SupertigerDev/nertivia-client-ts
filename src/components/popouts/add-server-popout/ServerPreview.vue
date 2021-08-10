@@ -36,13 +36,14 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import CustomButton from "@/components/CustomButton.vue";
 
 import { ServersModule } from "@/store/modules/servers";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { joinServerByCode } from "@/services/serverService";
+import Vue, { PropType } from "vue";
+
 interface Server {
   avatar: string;
   server_id: string;
@@ -50,41 +51,56 @@ interface Server {
   name: string;
   default_channel_id: string;
 }
-@Component({ components: { AvatarImage, CustomButton } })
-export default class PreviewServer extends Vue {
-  @Prop() private server!: { json: Server; code: string };
-  requestSent = false;
-  error: string | null = null;
-  visitServer() {
-    PopoutsModule.ClosePopout("add-server");
-    this.$router.push(
-      `/app/servers/${this.server.json.server_id}/${this.server.json.default_channel_id}`
-    );
+
+export default Vue.extend({
+  name: "PreviewServer",
+  components: { AvatarImage, CustomButton },
+  props: {
+    server: {
+      type: Object as PropType<{ json: Server; code: string }>,
+      required: false
+    }
+  },
+  data() {
+    return {
+      requestSent: false,
+      error: null as string | null
+    };
+  },
+  computed: {
+    bannerURL(): any {
+      if (!this.server.json.banner) return undefined;
+      return process.env.VUE_APP_NERTIVIA_CDN + this.server.json.banner;
+    },
+    isJoined(): any {
+      return ServersModule.servers[this.server.json.server_id];
+    }
+  },
+  methods: {
+    visitServer() {
+      PopoutsModule.ClosePopout("add-server");
+      this.$router.push(
+        `/app/servers/${this.server.json.server_id}/${this.server.json.default_channel_id}`
+      );
+    },
+    joinServer() {
+      if (this.requestSent) return;
+      this.requestSent = true;
+      this.error = null;
+      joinServerByCode(this.server.code, this.$socket.client.id)
+        .then(() => {
+          PopoutsModule.ClosePopout("add-server");
+          this.requestSent = false;
+        })
+        .catch(async err => {
+          this.requestSent = false;
+          if (!err.response) return (this.error = "Cannot connect to server.");
+          const result = await err.response.json();
+          this.error = result.message;
+        });
+    }
   }
-  joinServer() {
-    if (this.requestSent) return;
-    this.requestSent = true;
-    this.error = null;
-    joinServerByCode(this.server.code, this.$socket.client.id)
-      .then(() => {
-        PopoutsModule.ClosePopout("add-server");
-        this.requestSent = false;
-      })
-      .catch(async err => {
-        this.requestSent = false;
-        if (!err.response) return (this.error = "Cannot connect to server.");
-        const result = await err.response.json();
-        this.error = result.message;
-      });
-  }
-  get bannerURL() {
-    if (!this.server.json.banner) return undefined;
-    return process.env.VUE_APP_NERTIVIA_CDN + this.server.json.banner;
-  }
-  get isJoined() {
-    return ServersModule.servers[this.server.json.server_id];
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

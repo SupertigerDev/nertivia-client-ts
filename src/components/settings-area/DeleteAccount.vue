@@ -74,51 +74,62 @@
 import { getBots } from "@/services/botService";
 import { MeModule } from "@/store/modules/me";
 import { ServersModule } from "@/store/modules/servers";
-import { Component, Vue } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import { deleteAccount } from "@/services/userService";
-
-@Component({ components: { CustomInput, CustomButton } })
-export default class DeleteAccount extends Vue {
-  canDelete: boolean | null = null;
-  error: string | null = null;
-  deleting = false;
-  password = "";
+import Vue from "vue";
+export default Vue.extend({
+  name: "DeleteAccount",
+  components: { CustomInput, CustomButton },
+  data() {
+    return {
+      canDelete: null as boolean | null,
+      error: null as string | null,
+      deleting: false,
+      password: ""
+    };
+  },
+  computed: {
+    servers(): any {
+      return Object.keys(ServersModule.servers);
+    },
+    me(): any {
+      return MeModule.user;
+    }
+  },
   mounted() {
-    if (this.servers.length) return (this.canDelete = false);
+    if (this.servers.length) {
+      this.canDelete = false;
+      return;
+    }
     getBots().then(res => {
       if (res.length) return (this.canDelete = false);
       this.canDelete = true;
     });
+  },
+  methods: {
+    deleteAccount() {
+      if (this.deleting) return;
+      this.error = null;
+      this.deleting = true;
+      deleteAccount(this.password)
+        .then(() => {
+          location.href = "/";
+        })
+        .catch(async err => {
+          if (!err.response) {
+            this.error = this.$t("could-not-connect-to-server").toString();
+            return;
+          }
+          const data = await err.response.json();
+          this.error = data.error;
+        })
+        .finally(() => {
+          this.deleting = false;
+        });
+    }
   }
-  deleteAccount() {
-    if (this.deleting) return;
-    this.error = null;
-    this.deleting = true;
-    deleteAccount(this.password)
-      .then(() => {
-        location.href = "/";
-      })
-      .catch(async err => {
-        if (!err.response) {
-          this.error = this.$t("could-not-connect-to-server").toString();
-          return;
-        }
-        const data = await err.response.json();
-        this.error = data.error;
-      })
-      .finally(() => {
-        this.deleting = false;
-      });
-  }
-  get servers() {
-    return Object.keys(ServersModule.servers);
-  }
-  get me() {
-    return MeModule.user;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

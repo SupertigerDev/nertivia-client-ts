@@ -21,57 +21,64 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import windowProperties from "@/utils/windowProperties";
 import Message from "@/interfaces/Message";
 import { PopoutsModule } from "@/store/modules/popouts";
-@Component
-export default class ImageMessageEmbed extends Vue {
-  @Prop() private message!: Message & { grouped: boolean };
-  loaded = false;
-
-  onClick() {
-    PopoutsModule.ShowPopout({
-      id: "image-preview-popout",
-      component: "image-preview-popout",
-      data: {
-        url: this.imageURL
-      }
-    });
-  }
-
-  get isWindowFocused() {
-    return windowProperties.isFocused;
-  }
-  // pause gif when window is not focused
-  get pauseGifURL() {
-    let url = this.imageURL;
-    if (!this.isWindowFocused && this.isGif) {
-      url += `?type=webp`;
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "ImageMessageEmbed",
+  props: {
+    message: {
+      type: Object as PropType<Message & { grouped: boolean }>,
+      required: false
     }
-    return url;
+  },
+  data() {
+    return {
+      loaded: false
+    };
+  },
+  computed: {
+    isWindowFocused(): any {
+      return windowProperties.isFocused;
+    },
+    pauseGifURL(): any {
+      let url = this.imageURL;
+      if (!this.isWindowFocused && this.isGif) {
+        url += `?type=webp`;
+      }
+      return url;
+    },
+    isGif(): any {
+      return this.imageURL?.endsWith(".gif");
+    },
+    imageURL(): any {
+      const file = this.message.files?.[0];
+      if (!file) return undefined;
+      // nertivia cdn
+      if (file.url) return file.url;
+      // google drive cdn
+      return (
+        process.env.VUE_APP_FETCH_PREFIX +
+        `/media/${file.fileID}/${file.fileName}`
+      );
+    },
+    dimensions(): any {
+      return this.message.files?.[0]?.dimensions;
+    }
+  },
+  methods: {
+    onClick() {
+      PopoutsModule.ShowPopout({
+        id: "image-preview-popout",
+        component: "image-preview-popout",
+        data: {
+          url: this.imageURL
+        }
+      });
+    }
   }
-
-  get isGif() {
-    return this.imageURL?.endsWith(".gif");
-  }
-
-  get imageURL() {
-    const file = this.message.files?.[0];
-    if (!file) return undefined;
-    // nertivia cdn
-    if (file.url) return file.url;
-    // google drive cdn
-    return (
-      process.env.VUE_APP_FETCH_PREFIX +
-      `/media/${file.fileID}/${file.fileName}`
-    );
-  }
-
-  get dimensions() {
-    return this.message.files?.[0]?.dimensions;
-  }
-}
+});
 </script>
 
 <style scoped lang="scss">

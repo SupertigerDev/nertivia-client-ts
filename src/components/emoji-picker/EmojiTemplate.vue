@@ -20,7 +20,9 @@
   </div>
 </template>
 
-<script>
+<script lang="tsx">
+import Vue from "vue";
+
 export default {
   props: ["emoji", "addEmojiButton"],
   data() {

@@ -57,7 +57,6 @@
 
 <script lang="ts">
 import Message from "@/interfaces/Message";
-import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import Bubble from "./Bubble.vue";
 import MessageSide from "./MessageSide.vue";
@@ -68,8 +67,9 @@ import { time } from "@/utils/date";
 import { PopoutsModule } from "@/store/modules/popouts";
 import HTMLEmbed from "./HTMLEmbed.vue";
 import { UsersModule } from "@/store/modules/users";
-
-@Component({
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "MessageLogs",
   components: {
     AvatarImage,
     Bubble,
@@ -78,91 +78,102 @@ import { UsersModule } from "@/store/modules/users";
     HTMLEmbed,
     ButtonsMessage,
     Reactions
-  }
-})
-export default class MessageLogs extends Vue {
-  @Prop() private message!: Message;
-  @Prop() private grouped!: boolean;
-  @Prop({ default: false }) private hideContext!: boolean;
-
-  contextPos: { x?: number; y?: number } = {};
-  hover = false;
-  inviteLinkRegex = new RegExp(
-    `${process.env.VUE_APP_MAIN_APP_URL}(invites|i)/([\\S]+)`
-  );
-  viewBlockedMessage = false;
-
-  showProfile() {
-    PopoutsModule.ShowPopout({
-      id: "profile",
-      component: "profile-popout",
-      data: { id: this.creator.id }
-    });
-  }
-
-  messageContext(event: MouseEvent & { target: HTMLElement }) {
-    if (this.$isMobile) return;
-    const whitelistArr = [".message-content", ".date", ".time"];
-    for (let index = 0; index < whitelistArr.length; index++) {
-      const allowClass = whitelistArr[index];
-      const closestElement = event.target.closest(allowClass);
-      if (closestElement) {
-        event.preventDefault();
-        const id = this.message.tempID || this.message.messageID || "";
-        PopoutsModule.ShowPopout({
-          id: "context",
-          component: "MessageContextMenu",
-          key: id + event.pageX + event.pageY,
-          data: {
-            x: event.pageX,
-            y: event.pageY,
-            message: this.message,
-            tempUser: this.message.creator,
-            element: event.target
-          }
-        });
-        break;
+  },
+  props: {
+    message: {
+      type: Object as PropType<Message>,
+      required: false
+    },
+    grouped: {
+      type: Boolean,
+      required: false
+    },
+    hideContext: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data() {
+    return {
+      contextPos: {} as { x?: number; y?: number },
+      hover: false,
+      inviteLinkRegex: new RegExp(
+        `${process.env.VUE_APP_MAIN_APP_URL}(invites|i)/([\\S]+)`
+      ),
+      viewBlockedMessage: false
+    };
+  },
+  computed: {
+    invite(): any {
+      if (!this.message.message) return null;
+      return this.message.message.match(this.inviteLinkRegex);
+    },
+    creator(): any {
+      return this.message.creator;
+    },
+    friendlyTime(): any {
+      return time(this.message.created, localStorage["timeFormat"]);
+    },
+    embed(): any {
+      if (!this.message.embed) return undefined;
+      if (!Object.keys(this.message.embed).length) return undefined;
+      return this.message.embed;
+    },
+    isBlocked(): any {
+      return (
+        !this.viewBlockedMessage &&
+        UsersModule.blockedUserIDArr.includes(this.message.creator.id)
+      );
+    }
+  },
+  methods: {
+    showProfile() {
+      PopoutsModule.ShowPopout({
+        id: "profile",
+        component: "profile-popout",
+        data: { id: this.creator.id }
+      });
+    },
+    messageContext(event: MouseEvent & { target: HTMLElement }) {
+      if (this.$isMobile) return;
+      const whitelistArr = [".message-content", ".date", ".time"];
+      for (let index = 0; index < whitelistArr.length; index++) {
+        const allowClass = whitelistArr[index];
+        const closestElement = event.target.closest(allowClass);
+        if (closestElement) {
+          event.preventDefault();
+          const id = this.message.tempID || this.message.messageID || "";
+          PopoutsModule.ShowPopout({
+            id: "context",
+            component: "MessageContextMenu",
+            key: id + event.pageX + event.pageY,
+            data: {
+              x: event.pageX,
+              y: event.pageY,
+              message: this.message,
+              tempUser: this.message.creator,
+              element: event.target
+            }
+          });
+          break;
+        }
       }
+    },
+    userContext(event: MouseEvent) {
+      PopoutsModule.ShowPopout({
+        id: "context",
+        component: "UserContextMenu",
+        key: this.message.creator.id + event.clientX + event.clientY,
+        data: {
+          x: event.clientX,
+          y: event.clientY,
+          tempUser: this.message.creator,
+          id: this.message.creator.id
+        }
+      });
     }
   }
-
-  userContext(event: MouseEvent) {
-    PopoutsModule.ShowPopout({
-      id: "context",
-      component: "UserContextMenu",
-      key: this.message.creator.id + event.clientX + event.clientY,
-      data: {
-        x: event.clientX,
-        y: event.clientY,
-        tempUser: this.message.creator,
-        id: this.message.creator.id
-      }
-    });
-  }
-
-  get invite() {
-    if (!this.message.message) return null;
-    return this.message.message.match(this.inviteLinkRegex);
-  }
-
-  get creator() {
-    return this.message.creator;
-  }
-  get friendlyTime() {
-    return time(this.message.created, localStorage["timeFormat"]);
-  }
-  get embed() {
-    if (!this.message.embed) return undefined;
-    if (!Object.keys(this.message.embed).length) return undefined;
-    return this.message.embed;
-  }
-  get isBlocked() {
-    return (
-      !this.viewBlockedMessage &&
-      UsersModule.blockedUserIDArr.includes(this.message.creator.id)
-    );
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

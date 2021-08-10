@@ -12,14 +12,19 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import User from "@/interfaces/User";
-
-@Component({ components: { AvatarImage } })
-export default class InviteTemplate extends Vue {
-  @Prop() private bot!: User;
-}
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "InviteTemplate",
+  components: { AvatarImage },
+  props: {
+    bot: {
+      type: Object as PropType<User>,
+      required: false
+    }
+  }
+});
 </script>
 
 <style lang="scss" scoped>

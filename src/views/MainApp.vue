@@ -25,8 +25,6 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
-
 import socketIOModule from "@/store/modules/socketIO/socketIOModule";
 import { ServersModule } from "@/store/modules/servers";
 import { UsersModule } from "@/store/modules/users";
@@ -63,8 +61,9 @@ import { FriendsModule } from "@/store/modules/friends";
 import { LastSelectedServersModule } from "@/store/modules/lastSelectedServer";
 import { AppUpdateModule } from "@/store/modules/appUpdate";
 import { applyTheme } from "@/utils/CSSTheme";
-
-@Component({
+import Vue from "vue";
+export default Vue.extend({
+  name: "MainApp",
   components: {
     Drawers,
     LeftDrawer,
@@ -76,13 +75,46 @@ import { applyTheme } from "@/utils/CSSTheme";
     ElectronBadgeHandler,
     ElectronActivityHandler,
     UpdateChecker
-  }
-})
-export default class MainApp extends Vue {
-  showConnectionStatusPopout = true;
-  // used for electron
-  currentActiveProgram: any | null = null;
-  programActivityTimeout: any = null;
+  },
+  data() {
+    return {
+      showConnectionStatusPopout: true,
+      currentActiveProgram: null as any | null,
+      programActivityTimeout: null as any
+    };
+  },
+  computed: {
+    currentChannelID(): any {
+      return this.$route.params.channel_id;
+    },
+    currentServerID(): any {
+      return this.$route.params.server_id;
+    },
+    currentTab(): any {
+      return this.$route.path.split("/")[2];
+    },
+    isConnected(): any {
+      return MeModule.connected;
+    }
+  },
+  watch: {
+    currentChannelID: {
+      // @ts-ignore
+      handler: "saveLastSelected"
+    },
+    currentServerID: {
+      // @ts-ignore
+      handler: "saveLastSelected"
+    },
+    currentTab: {
+      // @ts-ignore
+      handler: "saveLastSelected"
+    },
+    isConnected: {
+      // @ts-ignore
+      handler: "showConnectionPopout"
+    }
+  },
   mounted() {
     // set store and connect socket.
     this.$store.registerModule("socketIO", socketIOModule);
@@ -98,98 +130,81 @@ export default class MainApp extends Vue {
         client.emit("p");
       });
     }
-  }
+  },
   beforeMount() {
     localStorage.removeItem("lastSelectedDMChannelID");
     localStorage.removeItem("lastSelectedServerID");
     this.saveLastSelected();
     this.loadCache();
     this.applyCSSTheme();
-  }
-  applyCSSTheme() {
-    const id = localStorage["themeID"];
-    if (!id) return;
-    applyTheme(id);
-  }
-  async loadCache() {
-    await loadAllCacheToState([
-      {
-        storage: "me",
-        state: MeModule.SetUser
-      },
-      {
-        storage: "serverPositions",
-        state: ServersModule.SetServerPositions
-      },
-      {
-        storage: "servers",
-        state: ServersModule.InitServers
-      },
-      {
-        storage: "users",
-        state: UsersModule.InitUsers
-      },
-      {
-        storage: "channels",
-        state: ChannelsModule.InitChannels
-      },
-
-      {
-        storage: "friends",
-        state: FriendsModule.InitFriends
-      },
-      {
-        storage: "serverRoles",
-        state: ServerRolesModule.InitServerRoles
-      },
-      {
-        storage: "serverMembers",
-        state: ServerMembersModule.InitServerMembers
-      }
-    ]);
-  }
-
+  },
   beforeDestroy() {
     this.$store.unregisterModule("socketIO");
-  }
-  // save last selected channels
-  @Watch("currentChannelID")
-  @Watch("currentServerID")
-  @Watch("currentTab")
-  saveLastSelected() {
-    AppUpdateModule.check();
-    if (this.$route.name !== "message-area") return;
-    if (this.currentTab === "servers") {
-      LastSelectedServersModule.UpdateLastSelected({
-        serverID: this.currentServerID,
-        channelID: this.currentChannelID
-      });
-      localStorage.setItem("lastSelectedServerID", this.currentServerID);
-    } else if (this.currentTab === "dms" && this.currentChannelID) {
-      localStorage.setItem("lastSelectedDMChannelID", this.currentChannelID);
-    }
-  }
-  @Watch("isConnected")
-  showConnectionPopout() {
-    AppUpdateModule.check({ force: true });
-    if (!this.isConnected) {
-      this.showConnectionStatusPopout = true;
-    }
-  }
+  },
+  methods: {
+    applyCSSTheme() {
+      const id = localStorage["themeID"];
+      if (!id) return;
+      applyTheme(id);
+    },
+    async loadCache() {
+      await loadAllCacheToState([
+        {
+          storage: "me",
+          state: MeModule.SetUser
+        },
+        {
+          storage: "serverPositions",
+          state: ServersModule.SetServerPositions
+        },
+        {
+          storage: "servers",
+          state: ServersModule.InitServers
+        },
+        {
+          storage: "users",
+          state: UsersModule.InitUsers
+        },
+        {
+          storage: "channels",
+          state: ChannelsModule.InitChannels
+        },
 
-  get currentChannelID() {
-    return this.$route.params.channel_id;
+        {
+          storage: "friends",
+          state: FriendsModule.InitFriends
+        },
+        {
+          storage: "serverRoles",
+          state: ServerRolesModule.InitServerRoles
+        },
+        {
+          storage: "serverMembers",
+          state: ServerMembersModule.InitServerMembers
+        }
+      ]);
+    },
+    saveLastSelected() {
+      AppUpdateModule.check();
+      if (this.$route.name !== "message-area") return;
+      if (this.currentTab === "servers") {
+        LastSelectedServersModule.UpdateLastSelected({
+          serverID: this.currentServerID,
+          channelID: this.currentChannelID
+        });
+        localStorage.setItem("lastSelectedServerID", this.currentServerID);
+      } else if (this.currentTab === "dms" && this.currentChannelID) {
+        localStorage.setItem("lastSelectedDMChannelID", this.currentChannelID);
+      }
+    },
+    showConnectionPopout() {
+      AppUpdateModule.check({ force: true });
+      if (!this.isConnected) {
+        this.showConnectionStatusPopout = true;
+      }
+    }
   }
-  get currentServerID() {
-    return this.$route.params.server_id;
-  }
-  get currentTab() {
-    return this.$route.path.split("/")[2];
-  }
-  get isConnected() {
-    return MeModule.connected;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

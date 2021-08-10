@@ -10,44 +10,65 @@ import Message, { Button } from "@/interfaces/Message";
 import Markup from "@/components/Markup";
 import { buttonClick } from "@/services/messagesService";
 import { PopoutsModule } from "@/store/modules/popouts";
-import { Component, Prop, Vue } from "vue-property-decorator";
-
-@Component({ components: { Markup } })
-export default class MessageSide extends Vue {
-  @Prop() private button!: Button;
-  @Prop() private message!: Message;
-  posting = false;
-  timeout: number | null = null;
-  click() {
-    if (this.posting) return;
-    if (!this.message.messageID) return;
-    this.posting = true;
-    this.$socket.client.once("message_button_click_callback", this.onCallback);
-    buttonClick(this.message.channelID, this.message.messageID, this.button.id);
-
-    this.timeout = setTimeout(() => {
-      this.posting = false;
-    }, 20000);
-  }
-  onCallback(data: { id: string; message?: string }) {
-    if (data.id !== this.button.id) return;
-    this.posting = false;
-    this.timeout && clearTimeout(this.timeout);
-    if (data.message?.trim()) {
-      PopoutsModule.ShowPopout({
-        id: "custom-emoji-upload-error",
-        component: "generic-popout",
-        data: {
-          title: this.button.name,
-          description: data.message
-        }
-      });
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "MessageSide",
+  components: { Markup },
+  props: {
+    button: {
+      type: Object as PropType<Button>,
+      required: false
+    },
+    message: {
+      type: Object as PropType<Message>,
+      required: false
     }
-  }
+  },
+  data() {
+    return {
+      posting: false,
+      timeout: null as number | null
+    };
+  },
   destroyed() {
     this.$socket.client.off("message_button_click_callback", this.onCallback);
+  },
+  methods: {
+    click() {
+      if (this.posting) return;
+      if (!this.message.messageID) return;
+      this.posting = true;
+      this.$socket.client.once(
+        "message_button_click_callback",
+        this.onCallback
+      );
+      buttonClick(
+        this.message.channelID,
+        this.message.messageID,
+        this.button.id
+      );
+
+      this.timeout = setTimeout(() => {
+        this.posting = false;
+      }, 20000);
+    },
+    onCallback(data: { id: string; message?: string }) {
+      if (data.id !== this.button.id) return;
+      this.posting = false;
+      this.timeout && clearTimeout(this.timeout);
+      if (data.message?.trim()) {
+        PopoutsModule.ShowPopout({
+          id: "custom-emoji-upload-error",
+          component: "generic-popout",
+          data: {
+            title: this.button.name,
+            description: data.message
+          }
+        });
+      }
+    }
   }
-}
+});
 </script>
 <style lang="scss" scoped>
 .button {

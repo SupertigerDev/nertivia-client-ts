@@ -40,37 +40,43 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
 import languages from "@/locales/languages.json";
 import emojiParser from "@/utils/emojiParser";
-
-@Component
-export default class Language extends Vue {
-  languages = languages;
-  currentLang = localStorage["locale"] || "en";
-
-  changeLanguage(id: string) {
-    this.currentLang = id;
-    localStorage.setItem("locale", id);
-    if (id === "en") {
-      this.$i18n.locale = "en";
-      return;
+import Vue from "vue";
+export default Vue.extend({
+  name: "Language",
+  data() {
+    return {
+      languages: languages,
+      currentLang: localStorage["locale"] || "en"
+    };
+  },
+  computed: {
+    mappedLanguages(): any {
+      return Object.keys(languages).map(key => {
+        return {
+          ...languages[key],
+          id: key,
+          flagImage: emojiParser.replaceEmojis(languages[key].unicode)
+        };
+      });
     }
-    import(`@/locales/${id}.json`).then(messages => {
-      this.$i18n.setLocaleMessage(id, messages.default);
-      this.$i18n.locale = id;
-    });
+  },
+  methods: {
+    changeLanguage(id: string) {
+      this.currentLang = id;
+      localStorage.setItem("locale", id);
+      if (id === "en") {
+        this.$i18n.locale = "en";
+        return;
+      }
+      import(`@/locales/${id}.json`).then(messages => {
+        this.$i18n.setLocaleMessage(id, messages.default);
+        this.$i18n.locale = id;
+      });
+    }
   }
-  get mappedLanguages() {
-    return Object.keys(languages).map(key => {
-      return {
-        ...languages[key],
-        id: key,
-        flagImage: emojiParser.replaceEmojis(languages[key].unicode)
-      };
-    });
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

@@ -5,14 +5,19 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import Channel from "@/interfaces/Channel";
-
-@Component({ components: { AvatarImage } })
-export default class InviteTemplate extends Vue {
-  @Prop() private channel!: Channel;
-}
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "InviteTemplate",
+  components: { AvatarImage },
+  props: {
+    channel: {
+      type: Object as PropType<Channel>,
+      required: false
+    }
+  }
+});
 </script>
 
 <style lang="scss" scoped>

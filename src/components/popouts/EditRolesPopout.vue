@@ -35,7 +35,6 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { UsersModule } from "@/store/modules/users";
 import { PopoutsModule } from "@/store/modules/popouts";
@@ -44,59 +43,68 @@ import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { addRole, removeRole } from "@/services/userService";
 import { ServersModule } from "@/store/modules/servers";
 import { MeModule } from "@/store/modules/me";
-@Component({
-  components: { AvatarImage }
-})
-export default class ProfilePopout extends Vue {
-  @Prop() private data!: { id: string; serverID: string };
-  backgroundClick(event: any) {
-    if (event.target.classList.contains("popout-background")) {
-      PopoutsModule.ClosePopout("edit-role");
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "ProfilePopout",
+  components: { AvatarImage },
+  props: {
+    data: {
+      type: Object as PropType<{ id: string; serverID: string }>,
+      required: false
     }
-  }
-  roleClicked(role: { hasRole: string; id: string; canModify: boolean }) {
-    if (!role.canModify) return;
-    const func = role.hasRole ? removeRole : addRole;
-    func(this.data.serverID, this.data.id, role.id);
-  }
-  get serverRoles() {
-    const serverID = this.data.serverID;
-    const id = this.data.id;
-    return ServerRolesModule.sortedServerRolesArr(this.data.serverID)
-      .filter(r => !r.default && r.deletable)
-      .map(role => {
-        const hasRole = ServerMembersModule.memberHasRole(
-          serverID,
-          id,
-          role.id
-        );
-        const canModify =
-          this.isServerCreator || this.myHighestRoleOrder < role.order;
-        return {
-          ...role,
-          canModify,
-          hasRole
-        };
-      });
-  }
-  get myHighestRoleOrder() {
-    return (
-      ServerMembersModule.highestRoleOrder(
+  },
+  computed: {
+    serverRoles(): any {
+      const serverID = this.data.serverID;
+      const id = this.data.id;
+      return ServerRolesModule.sortedServerRolesArr(this.data.serverID)
+        .filter(r => !r.default && r.deletable)
+        .map(role => {
+          const hasRole = ServerMembersModule.memberHasRole(
+            serverID,
+            id,
+            role.id
+          );
+          const canModify =
+            this.isServerCreator || this.myHighestRoleOrder < role.order;
+          return {
+            ...role,
+            canModify,
+            hasRole
+          };
+        });
+    },
+    myHighestRoleOrder(): any {
+      return (
+        ServerMembersModule.highestRoleOrder(
+          this.data.serverID,
+          MeModule?.user?.id || ""
+        ) || 0
+      );
+    },
+    isServerCreator(): any {
+      return ServersModule.isServerOwner(
         this.data.serverID,
         MeModule?.user?.id || ""
-      ) || 0
-    );
+      );
+    },
+    user(): any {
+      return UsersModule.users[this.data.id] || {};
+    }
+  },
+  methods: {
+    backgroundClick(event: any) {
+      if (event.target.classList.contains("popout-background")) {
+        PopoutsModule.ClosePopout("edit-role");
+      }
+    },
+    roleClicked(role: { hasRole: string; id: string; canModify: boolean }) {
+      if (!role.canModify) return;
+      const func = role.hasRole ? removeRole : addRole;
+      func(this.data.serverID, this.data.id, role.id);
+    }
   }
-  get isServerCreator() {
-    return ServersModule.isServerOwner(
-      this.data.serverID,
-      MeModule?.user?.id || ""
-    );
-  }
-  get user() {
-    return UsersModule.users[this.data.id] || {};
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .profile-popout {

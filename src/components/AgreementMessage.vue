@@ -11,12 +11,16 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-
-@Component
-export default class AgreementMessage extends Vue {
-  @Prop() private prefix!: string;
-}
+import Vue from "vue";
+export default Vue.extend({
+  name: "AgreementMessage",
+  props: {
+    prefix: {
+      type: String,
+      required: false
+    }
+  }
+});
 </script>
 <style scoped>
 .agree-message {

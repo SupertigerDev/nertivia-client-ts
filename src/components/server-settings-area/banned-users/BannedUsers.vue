@@ -23,35 +23,41 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
 import { ServersModule } from "@/store/modules/servers";
 
 import LoadingScreen from "@/components/LoadingScreen.vue";
 import UserTemplate from "./UserTemplate.vue";
 import User from "@/interfaces/User";
 import { getBannedUsers } from "@/services/serverService";
-
-@Component({
-  components: { LoadingScreen, UserTemplate }
-})
-export default class ServerSettingsArea extends Vue {
-  bans: User[] | null = null;
+import Vue from "vue";
+export default Vue.extend({
+  name: "ServerSettingsArea",
+  components: { LoadingScreen, UserTemplate },
+  data() {
+    return {
+      bans: null as User[] | null
+    };
+  },
+  computed: {
+    server(): any {
+      return ServersModule.servers[this.serverID];
+    },
+    serverID(): any {
+      return this.$route.params.server_id;
+    }
+  },
   mounted() {
     getBannedUsers(this.serverID).then(data => {
       this.bans = data.reverse().map(d => d.user);
     });
+  },
+  methods: {
+    userUnbanned(index: number) {
+      if (!this.bans) return;
+      this.$delete(this.bans, index);
+    }
   }
-  userUnbanned(index: number) {
-    if (!this.bans) return;
-    this.$delete(this.bans, index);
-  }
-  get server() {
-    return ServersModule.servers[this.serverID];
-  }
-  get serverID() {
-    return this.$route.params.server_id;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

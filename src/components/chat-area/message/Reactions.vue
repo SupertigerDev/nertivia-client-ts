@@ -13,16 +13,26 @@
 <script lang="ts">
 import Message from "@/interfaces/Message";
 import ReactionTemplate from "./ReactionTemplate.vue";
-import { Component, Prop, Vue } from "vue-property-decorator";
-
-@Component({ components: { ReactionTemplate } })
-export default class Reactions extends Vue {
-  @Prop() private message!: Message;
-  @Prop() private animate!: boolean;
-  get buttons() {
-    return this.message.buttons;
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "Reactions",
+  components: { ReactionTemplate },
+  props: {
+    message: {
+      type: Object as PropType<Message>,
+      required: false
+    },
+    animate: {
+      type: Boolean,
+      required: false
+    }
+  },
+  computed: {
+    buttons(): any {
+      return this.message.buttons;
+    }
   }
-}
+});
 </script>
 <style lang="scss" scoped>
 .message-reactions {

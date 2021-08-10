@@ -15,25 +15,30 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
 import User from "@/interfaces/User";
-
-@Component({
-  components: { AvatarImage }
-})
-export default class CommonServers extends Vue {
-  @Prop() private friends!: User[];
-  friendClicked(friend: User) {
-    PopoutsModule.ShowPopout({
-      id: "profile",
-      component: "profile-popout",
-      data: { id: friend.id },
-      key: friend.id
-    });
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "CommonServers",
+  components: { AvatarImage },
+  props: {
+    friends: {
+      type: Array as PropType<User[]>,
+      required: false
+    }
+  },
+  methods: {
+    friendClicked(friend: User) {
+      PopoutsModule.ShowPopout({
+        id: "profile",
+        component: "profile-popout",
+        data: { id: friend.id },
+        key: friend.id
+      });
+    }
   }
-}
+});
 </script>
 <style scoped lang="scss">
 .list {

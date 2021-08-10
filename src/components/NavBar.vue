@@ -123,93 +123,97 @@ import { NotificationsModule } from "@/store/modules/notifications";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { PresencesModule } from "@/store/modules/presences";
 import { ReactiveLocalStorageModule } from "@/store/modules/reactiveLocalStorage";
-import { Component, Vue } from "vue-property-decorator";
-
-@Component({ components: { AvatarImage } })
-export default class NavBar extends Vue {
-  changeTab(name: string) {
-    const selectedServerID = this.lastSelectedServerID();
-    const serverChannelID = LastSelectedServersModule.lastServerChannelID(
-      selectedServerID || ""
-    );
-
-    const selectedDmChannelId = this.lastSelectedDMChannelID();
-    let path = name;
-    if (this.currentTab === name) return;
-    if (name === "servers" && selectedServerID && serverChannelID) {
-      path += `/${selectedServerID}/${serverChannelID}`;
+import Vue from "vue";
+export default Vue.extend({
+  name: "NavBar",
+  components: { AvatarImage },
+  computed: {
+    showSettings(): any {
+      return ReactiveLocalStorageModule.getStore("showSettingsInNavigation");
+    },
+    currentTab(): any {
+      return this.$route.path.split("/")[2] || "";
+    },
+    me(): any {
+      return MeModule.user;
+    },
+    isAdmin(): any {
+      return this.me.type === "CREATOR" || this.me.type === "ADMIN";
+    },
+    serverMentioned(): any {
+      return LastSeenServerChannelsModule.allServerNotifications.find(
+        c => c.mentioned
+      );
+    },
+    serverNotificationExists(): any {
+      return LastSeenServerChannelsModule.allServerNotifications.length > 0;
+    },
+    dmNotificationExists(): any {
+      return NotificationsModule.allDMNotifications.length > 0;
+    },
+    friendRequestExists(): any {
+      return this.friends.find(f => f.status === FriendStatus.PENDING);
+    },
+    friends(): any {
+      return FriendsModule.friendsWithUser;
+    },
+    presence(): any {
+      if (!this.me?.id || !MeModule.connected) return userStatuses[0];
+      const presence = PresencesModule.getPresence(this.me.id);
+      return userStatuses[presence || 0];
+    },
+    pinned(): any {
+      return this.$route.name !== "message-area";
+    },
+    leftDrawerOpened(): any {
+      return DrawersModule.leftDrawer;
+    },
+    updateAvailable(): any {
+      return AppUpdateModule.updateAvailable;
+    },
+    isProfileOpened(): any {
+      return PopoutsModule.isOpened("floating-profile-card");
     }
-    if (name === "dms" && selectedDmChannelId) {
-      path += `/${selectedDmChannelId}`;
+  },
+  methods: {
+    changeTab(name: string) {
+      const selectedServerID = this.lastSelectedServerID();
+      const serverChannelID = LastSelectedServersModule.lastServerChannelID(
+        selectedServerID || ""
+      );
+
+      const selectedDmChannelId = this.lastSelectedDMChannelID();
+      let path = name;
+      if (this.currentTab === name) return;
+      if (name === "servers" && selectedServerID && serverChannelID) {
+        path += `/${selectedServerID}/${serverChannelID}`;
+      }
+      if (name === "dms" && selectedDmChannelId) {
+        path += `/${selectedDmChannelId}`;
+      }
+      this.$router.push("/app/" + path);
+    },
+    updateAvailableClick() {
+      PopoutsModule.ShowPopout({
+        id: "update-popout",
+        component: "UpdatePopout"
+      });
+    },
+    lastSelectedServerID(): string | null {
+      return localStorage.getItem("lastSelectedServerID");
+    },
+    lastSelectedDMChannelID(): string | null {
+      return localStorage.getItem("lastSelectedDMChannelID");
+    },
+    showCardPopup() {
+      PopoutsModule.ShowPopout({
+        id: "floating-profile-card",
+        component: "FloatingProfileCard",
+        toggle: true
+      });
     }
-    this.$router.push("/app/" + path);
   }
-  updateAvailableClick() {
-    PopoutsModule.ShowPopout({
-      id: "update-popout",
-      component: "UpdatePopout"
-    });
-  }
-  lastSelectedServerID(): string | null {
-    return localStorage.getItem("lastSelectedServerID");
-  }
-  lastSelectedDMChannelID(): string | null {
-    return localStorage.getItem("lastSelectedDMChannelID");
-  }
-  showCardPopup() {
-    PopoutsModule.ShowPopout({
-      id: "floating-profile-card",
-      component: "FloatingProfileCard",
-      toggle: true
-    });
-  }
-  get showSettings() {
-    return ReactiveLocalStorageModule.getStore("showSettingsInNavigation");
-  }
-  get currentTab() {
-    return this.$route.path.split("/")[2] || "";
-  }
-  get me() {
-    return MeModule.user;
-  }
-  get isAdmin() {
-    return this.me.type === "CREATOR" || this.me.type === "ADMIN";
-  }
-  get serverMentioned() {
-    return LastSeenServerChannelsModule.allServerNotifications.find(
-      c => c.mentioned
-    );
-  }
-  get serverNotificationExists() {
-    return LastSeenServerChannelsModule.allServerNotifications.length > 0;
-  }
-  get dmNotificationExists() {
-    return NotificationsModule.allDMNotifications.length > 0;
-  }
-  get friendRequestExists() {
-    return this.friends.find(f => f.status === FriendStatus.PENDING);
-  }
-  get friends() {
-    return FriendsModule.friendsWithUser;
-  }
-  get presence() {
-    if (!this.me?.id || !MeModule.connected) return userStatuses[0];
-    const presence = PresencesModule.getPresence(this.me.id);
-    return userStatuses[presence || 0];
-  }
-  get pinned() {
-    return this.$route.name !== "message-area";
-  }
-  get leftDrawerOpened() {
-    return DrawersModule.leftDrawer;
-  }
-  get updateAvailable() {
-    return AppUpdateModule.updateAvailable;
-  }
-  get isProfileOpened() {
-    return PopoutsModule.isOpened("floating-profile-card");
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

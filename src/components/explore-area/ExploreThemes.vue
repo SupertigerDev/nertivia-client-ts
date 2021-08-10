@@ -41,48 +41,60 @@ import {
 import ThemeTemplate from "./ExploreThemeTemplate.vue";
 import CustomDropDown from "@/components/CustomDropDown.vue";
 import LoadingScreen from "@/components/LoadingScreen.vue";
-import { Vue, Component, Watch } from "vue-property-decorator";
-@Component({ components: { ThemeTemplate, CustomDropDown, LoadingScreen } })
-export default class ExploreThemes extends Vue {
-  data: PublicThemeResponse[] = [];
-  appliedThemeID = localStorage["themeID"] || null;
-  filters = [
-    { name: "Compatible", param: "compatible" },
-    { name: "All", param: undefined }
-  ];
-  selectedFilter = this.filters[0].param;
+import Vue from "vue";
+export default Vue.extend({
+  name: "ExploreThemes",
+  components: { ThemeTemplate, CustomDropDown, LoadingScreen },
+  data() {
+    return {
+      data: [] as PublicThemeResponse[],
+      appliedThemeID: localStorage["themeID"] || null,
+      filters: [
+        { name: "Compatible", param: "compatible" },
+        { name: "All", param: undefined }
+      ],
+      selectedFilter: this.filters[0].param
+    };
+  },
+  watch: {
+    selectedFilter: {
+      // @ts-ignore
+      handler: "onFilterChange"
+    }
+  },
   async mounted() {
     this.loadData();
+  },
+  methods: {
+    async loadData() {
+      this.data = [];
+      this.data = (await getPublicThemes(
+        undefined,
+        undefined,
+        this.$lastUIBreakingVersion
+      )) as any;
+    },
+    liked(index: number) {
+      const newData = this.data?.[index];
+      if (!newData) return;
+      if (newData.likes === undefined) return;
+      newData.liked = true;
+      newData.likes += 1;
+      this.$set(this.data, index, newData);
+    },
+    unliked(index: number) {
+      const newData = this.data?.[index];
+      if (!newData) return;
+      if (newData.likes === undefined) return;
+      newData.liked = false;
+      newData.likes -= 1;
+      this.$set(this.data, index, newData);
+    },
+    async onFilterChange() {
+      this.loadData();
+    }
   }
-  async loadData() {
-    this.data = [];
-    this.data = (await getPublicThemes(
-      undefined,
-      undefined,
-      this.$lastUIBreakingVersion
-    )) as any;
-  }
-  liked(index: number) {
-    const newData = this.data?.[index];
-    if (!newData) return;
-    if (newData.likes === undefined) return;
-    newData.liked = true;
-    newData.likes += 1;
-    this.$set(this.data, index, newData);
-  }
-  unliked(index: number) {
-    const newData = this.data?.[index];
-    if (!newData) return;
-    if (newData.likes === undefined) return;
-    newData.liked = false;
-    newData.likes -= 1;
-    this.$set(this.data, index, newData);
-  }
-  @Watch("selectedFilter")
-  async onFilterChange() {
-    this.loadData();
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

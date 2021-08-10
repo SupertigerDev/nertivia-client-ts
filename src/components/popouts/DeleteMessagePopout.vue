@@ -36,7 +36,6 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import MessageTemplate from "@/components/chat-area/message/MessageTemplate.vue";
 import ActionMessageTemplate from "@/components/chat-area/message/ActionMessageTemplate.vue";
@@ -44,55 +43,68 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import { deleteMessage } from "@/services/messagesService";
 import { MessagesModule } from "@/store/modules/messages";
 import CustomButton from "@/components/CustomButton.vue";
-
-@Component({
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "ProfilePopout",
   components: {
     AvatarImage,
     MessageTemplate,
     ActionMessageTemplate,
     CustomButton
-  }
-})
-export default class ProfilePopout extends Vue {
-  @Prop() private data!: {
-    messageID: string;
-    channelID: string;
-  };
-  close() {
-    PopoutsModule.ClosePopout("delete-message");
-  }
-  backgroundClick(event: any) {
-    if (event.target.classList.contains("popout-background")) {
+  },
+  props: {
+    data: {
+      type: Object as PropType<{
+        messageID: string;
+        channelID: string;
+      }>,
+      required: false
+    }
+  },
+  computed: {
+    message(): any {
+      return MessagesModule.channelMessages(this.data.channelID)?.find(
+        m => m.messageID === this.data.messageID
+      );
+    },
+    messageType(): any {
+      return this.message?.type === 0
+        ? "MessageTemplate"
+        : "ActionMessageTemplate";
+    },
+    user(): any {
+      if (!this.message) return undefined;
+      return this.message.creator;
+    }
+  },
+  watch: {
+    message: {
+      // @ts-ignore
+      handler: "onMessageChange"
+    }
+  },
+  methods: {
+    close() {
+      PopoutsModule.ClosePopout("delete-message");
+    },
+    backgroundClick(event: any) {
+      if (event.target.classList.contains("popout-background")) {
+        this.close();
+      }
+    },
+    deleteMessage() {
+      if (!this.message) return;
+      if (!this.message.messageID) return;
+      deleteMessage(this.message.channelID, this.message.messageID);
       this.close();
+    },
+    onMessageChange() {
+      if (!this.message) {
+        this.close();
+      }
     }
   }
-  deleteMessage() {
-    if (!this.message) return;
-    if (!this.message.messageID) return;
-    deleteMessage(this.message.channelID, this.message.messageID);
-    this.close();
-  }
-  @Watch("message")
-  onMessageChange() {
-    if (!this.message) {
-      this.close();
-    }
-  }
-  get message() {
-    return MessagesModule.channelMessages(this.data.channelID)?.find(
-      m => m.messageID === this.data.messageID
-    );
-  }
-  get messageType() {
-    return this.message?.type === 0
-      ? "MessageTemplate"
-      : "ActionMessageTemplate";
-  }
-  get user() {
-    if (!this.message) return undefined;
-    return this.message.creator;
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .delete-message-popout {

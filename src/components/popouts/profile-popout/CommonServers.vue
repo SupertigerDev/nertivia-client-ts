@@ -19,28 +19,33 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import Server from "@/interfaces/Server";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { LastSelectedServersModule } from "@/store/modules/lastSelectedServer";
-
-@Component({
-  components: { AvatarImage }
-})
-export default class CommonServers extends Vue {
-  @Prop() private servers!: Server[];
-  serverClicked(server: Server) {
-    const serverChannelID = LastSelectedServersModule.lastServerChannelID(
-      server.server_id || ""
-    );
-    this.$router.push(
-      `/app/servers/${server.server_id}/${serverChannelID ||
-        server.default_channel_id}`
-    );
-    PopoutsModule.ClosePopout("profile");
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "CommonServers",
+  components: { AvatarImage },
+  props: {
+    servers: {
+      type: Array as PropType<Server[]>,
+      required: false
+    }
+  },
+  methods: {
+    serverClicked(server: Server) {
+      const serverChannelID = LastSelectedServersModule.lastServerChannelID(
+        server.server_id || ""
+      );
+      this.$router.push(
+        `/app/servers/${server.server_id}/${serverChannelID ||
+          server.default_channel_id}`
+      );
+      PopoutsModule.ClosePopout("profile");
+    }
   }
-}
+});
 </script>
 <style scoped lang="scss">
 .list {

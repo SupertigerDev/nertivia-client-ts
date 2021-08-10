@@ -12,14 +12,19 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import ServerRole from "@/interfaces/ServerRole";
-
-@Component({ components: { AvatarImage } })
-export default class RoleTemplate extends Vue {
-  @Prop() private role!: ServerRole & { canModify: boolean };
-}
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "RoleTemplate",
+  components: { AvatarImage },
+  props: {
+    role: {
+      type: Object as PropType<ServerRole & { canModify: boolean }>,
+      required: false
+    }
+  }
+});
 </script>
 
 <style lang="scss" scoped>

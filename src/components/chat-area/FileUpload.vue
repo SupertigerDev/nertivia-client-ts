@@ -12,12 +12,21 @@ import { FileUploadModule } from "@/store/modules/fileUpload";
 import { MeModule } from "@/store/modules/me";
 import { PopoutsModule } from "@/store/modules/popouts";
 import fileSize from "filesize";
-import { Component, Vue } from "vue-property-decorator";
 import FileInput from "./FileInput.vue";
 import ImageInput from "./ImageInput.vue";
-
-@Component({ components: { FileInput, ImageInput } })
-export default class MainApp extends Vue {
+import Vue from "vue";
+export default Vue.extend({
+  name: "MainApp",
+  components: { FileInput, ImageInput },
+  computed: {
+    isImage(): any {
+      const mimeType = this.file?.type;
+      return mimeType?.split("/")[0] === "image";
+    },
+    file(): any {
+      return FileUploadModule.file.file;
+    }
+  },
   mounted() {
     if (!this.isImage) {
       if (!MeModule.user.googleDriveLinked) {
@@ -37,23 +46,18 @@ export default class MainApp extends Vue {
     }
     document.addEventListener("keydown", this.keyDown);
     FileUploadModule.SetIsImage(this.isImage || false);
-  }
+  },
   beforeDestroy() {
     document.removeEventListener("keydown", this.keyDown);
-  }
-  get isImage() {
-    const mimeType = this.file?.type;
-    return mimeType?.split("/")[0] === "image";
-  }
-  keyDown(event: KeyboardEvent) {
-    if (event.key === "Escape") {
-      FileUploadModule.SetFile(undefined);
+  },
+  methods: {
+    keyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        FileUploadModule.SetFile(undefined);
+      }
     }
   }
-  get file() {
-    return FileUploadModule.file.file;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

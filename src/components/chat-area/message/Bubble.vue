@@ -38,96 +38,107 @@ import ImageMessageEmbed from "./ImageMessageEmbed.vue";
 import FileMessage from "./FileMessage.vue";
 import InviteMessage from "./InviteMessage.vue";
 import { MeModule } from "@/store/modules/me";
-import { Component, Prop, Vue } from "vue-property-decorator";
 import friendlyDate from "@/utils/date";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { PopoutsModule } from "@/store/modules/popouts";
 import Markup from "@/components/Markup";
 import VideoPlayer from "./VideoPlayer.vue";
 import Invite from "@/interfaces/Invite";
-
-@Component({
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "Bubble",
   components: {
     ImageMessageEmbed,
     FileMessage,
     InviteMessage,
     Markup,
     VideoPlayer
-  }
-})
-export default class Bubble extends Vue {
-  loadRoleColor = false;
-  @Prop() private message!: Message;
-  @Prop() private grouped!: boolean;
-  @Prop() private invite!: Invite;
-
-  showProfile() {
-    PopoutsModule.ShowPopout({
-      id: "profile",
-      component: "profile-popout",
-      data: { id: this.creator.id }
-    });
-  }
-
+  },
+  props: {
+    message: {
+      type: Object as PropType<Message>,
+      required: false
+    },
+    grouped: {
+      type: Boolean,
+      required: false
+    },
+    invite: {
+      type: Object as PropType<Invite>,
+      required: false
+    }
+  },
+  data() {
+    return {
+      loadRoleColor: false
+    };
+  },
+  computed: {
+    creator(): any {
+      return this.message.creator;
+    },
+    isMessageCreatedByMe(): any {
+      return this.message.creator.id === MeModule.user.id;
+    },
+    isFileImage(): any {
+      if (!this.file) return false;
+      if (!this.file.dimensions) return false;
+      return true;
+    },
+    isVideo(): any {
+      if (!this.file) return false;
+      return this.file.fileName?.endsWith(".mp4");
+    },
+    file(): any {
+      const files = this.message.files;
+      if (!files || !files.length) return undefined;
+      return files[0];
+    },
+    date(): any {
+      return friendlyDate(this.message.created, localStorage["timeFormat"]);
+    },
+    roleColor(): any {
+      if (!this.loadRoleColor) return undefined;
+      if (!this.server_id) return undefined;
+      const role = ServerMembersModule.firstMemberRole(
+        this.server_id,
+        this.creator.id
+      );
+      return role?.color;
+    },
+    server_id(): any {
+      return this.$route.params.server_id;
+    }
+  },
   mounted() {
     setTimeout(() => {
       this.loadRoleColor = true;
     }, 10);
+  },
+  methods: {
+    showProfile() {
+      PopoutsModule.ShowPopout({
+        id: "profile",
+        component: "profile-popout",
+        data: { id: this.creator.id }
+      });
+    },
+    userContext(event: MouseEvent) {
+      PopoutsModule.ShowPopout({
+        id: "context",
+        component: "UserContextMenu",
+        key: this.message.creator.id + event.clientX + event.clientY,
+        data: {
+          tempUser: this.message.creator,
+          x: event.clientX,
+          y: event.clientY,
+          id: this.message.creator.id,
+          element: event.target
+        }
+      });
+    }
   }
-
-  userContext(event: MouseEvent) {
-    PopoutsModule.ShowPopout({
-      id: "context",
-      component: "UserContextMenu",
-      key: this.message.creator.id + event.clientX + event.clientY,
-      data: {
-        tempUser: this.message.creator,
-        x: event.clientX,
-        y: event.clientY,
-        id: this.message.creator.id,
-        element: event.target
-      }
-    });
-  }
-
-  get creator() {
-    return this.message.creator;
-  }
-  get isMessageCreatedByMe() {
-    return this.message.creator.id === MeModule.user.id;
-  }
-
-  // Embeds
-  get isFileImage() {
-    if (!this.file) return false;
-    if (!this.file.dimensions) return false;
-    return true;
-  }
-  get isVideo() {
-    if (!this.file) return false;
-    return this.file.fileName?.endsWith(".mp4");
-  }
-  get file() {
-    const files = this.message.files;
-    if (!files || !files.length) return undefined;
-    return files[0];
-  }
-  get date() {
-    return friendlyDate(this.message.created, localStorage["timeFormat"]);
-  }
-  get roleColor() {
-    if (!this.loadRoleColor) return undefined;
-    if (!this.server_id) return undefined;
-    const role = ServerMembersModule.firstMemberRole(
-      this.server_id,
-      this.creator.id
-    );
-    return role?.color;
-  }
-  get server_id() {
-    return this.$route.params.server_id;
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 $pointer-size: 10px;

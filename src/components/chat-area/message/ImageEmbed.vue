@@ -24,48 +24,55 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import windowProperties from "@/utils/windowProperties";
 import { PopoutsModule } from "@/store/modules/popouts";
-@Component
-export default class ImageMessageEmbed extends Vue {
-  @Prop() private image!: any;
-  loaded = false;
-  failed = false;
-
-  onClick() {
-    PopoutsModule.ShowPopout({
-      id: "image-preview-popout",
-      component: "image-preview-popout",
-      data: {
-        url: this.imageURL
-      }
-    });
-  }
-
-  get isWindowFocused() {
-    return windowProperties.isFocused;
-  }
-
-  // pause gif when window is not focused
-  get pauseGifURL() {
-    let url = this.imageURL;
-    if (!this.isWindowFocused && this.isGif) {
-      url += `?type=webp`;
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "ImageMessageEmbed",
+  props: {
+    image: {
+      type: Object as PropType<any>,
+      required: false
     }
-    return url;
+  },
+  data() {
+    return {
+      loaded: false,
+      failed: false
+    };
+  },
+  computed: {
+    isWindowFocused(): any {
+      return windowProperties.isFocused;
+    },
+    pauseGifURL(): any {
+      let url = this.imageURL;
+      if (!this.isWindowFocused && this.isGif) {
+        url += `?type=webp`;
+      }
+      return url;
+    },
+    isGif(): any {
+      return this.imageURL?.endsWith(".gif");
+    },
+    imageURL(): any {
+      return (
+        process.env.VUE_APP_IMAGE_PROXY_URL + encodeURIComponent(this.image.url)
+      );
+    }
+  },
+  methods: {
+    onClick() {
+      PopoutsModule.ShowPopout({
+        id: "image-preview-popout",
+        component: "image-preview-popout",
+        data: {
+          url: this.imageURL
+        }
+      });
+    }
   }
-
-  get isGif() {
-    return this.imageURL?.endsWith(".gif");
-  }
-
-  get imageURL() {
-    return (
-      process.env.VUE_APP_IMAGE_PROXY_URL + encodeURIComponent(this.image.url)
-    );
-  }
-}
+});
 </script>
 
 <style scoped lang="scss">

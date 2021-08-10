@@ -47,21 +47,28 @@
 <script lang="ts">
 import ChangelogBulletTemplate from "./ChangelogBulletTemplate.vue";
 import { Changelog } from "@/services/updateService";
-import { Component, Prop, Vue } from "vue-property-decorator";
-@Component({ components: { ChangelogBulletTemplate } })
-export default class ChangelogTemplate extends Vue {
-  @Prop() private log!: Changelog;
-
-  get changes() {
-    return this.log?.changes || [];
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "ChangelogTemplate",
+  components: { ChangelogBulletTemplate },
+  props: {
+    log: {
+      type: Object as PropType<Changelog>,
+      required: false
+    }
+  },
+  computed: {
+    changes(): any {
+      return this.log?.changes || [];
+    },
+    fixes(): any {
+      return this.log?.fixes || [];
+    },
+    newChanges(): any {
+      return this.log?.new || [];
+    }
   }
-  get fixes() {
-    return this.log?.fixes || [];
-  }
-  get newChanges() {
-    return this.log?.new || [];
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .log {

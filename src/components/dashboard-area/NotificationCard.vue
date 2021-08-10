@@ -27,44 +27,44 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
-
 import DashboardNotificationItem from "@/components/dashboard-area/DashboardNotificationItem.vue";
 import DashboardNotificationServerItem from "@/components/dashboard-area/DashboardNotificationServerItem.vue";
 
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { NotificationsModule } from "@/store/modules/notifications";
-@Component({
-  components: { DashboardNotificationItem, DashboardNotificationServerItem }
-})
-export default class DashboardArea extends Vue {
-  get dmNotifications() {
-    return NotificationsModule.allDMNotifications;
-  }
-  get serverChannelNotifications() {
-    const allServerNotifications =
-      LastSeenServerChannelsModule.allServerNotifications;
-    const obj: any = {};
+import Vue from "vue";
+export default Vue.extend({
+  name: "DashboardArea",
+  components: { DashboardNotificationItem, DashboardNotificationServerItem },
+  computed: {
+    dmNotifications(): any {
+      return NotificationsModule.allDMNotifications;
+    },
+    serverChannelNotifications(): any {
+      const allServerNotifications =
+        LastSeenServerChannelsModule.allServerNotifications;
+      const obj: any = {};
 
-    for (let i = 0; i < allServerNotifications.length; i++) {
-      const notification = allServerNotifications[i];
-      if (!notification.server_id) continue;
-      if (!obj[notification.server_id]) {
-        obj[notification.server_id] = [notification];
-        continue;
+      for (let i = 0; i < allServerNotifications.length; i++) {
+        const notification = allServerNotifications[i];
+        if (!notification.server_id) continue;
+        if (!obj[notification.server_id]) {
+          obj[notification.server_id] = [notification];
+          continue;
+        }
+        obj[notification.server_id].push(notification);
       }
-      obj[notification.server_id].push(notification);
-    }
 
-    return obj;
+      return obj;
+    },
+    notificatinExists(): any {
+      return (
+        this.dmNotifications.length ||
+        Object.keys(this.serverChannelNotifications).length
+      );
+    }
   }
-  get notificatinExists() {
-    return (
-      this.dmNotifications.length ||
-      Object.keys(this.serverChannelNotifications).length
-    );
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .content .title {

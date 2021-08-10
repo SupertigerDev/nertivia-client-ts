@@ -11,8 +11,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
 import { PopoutsModule } from "@/store/modules/popouts";
+import Vue from "vue";
 
 const components = {
   ProfilePopout: () =>
@@ -121,15 +121,15 @@ const components = {
       /* webpackChunkName: "ReactedUsersPreview" */ "@/components/popouts/ReactedUsersPreview.vue"
     )
 };
-
-@Component({
-  components
-})
-export default class MainApp extends Vue {
-  get popups() {
-    return PopoutsModule.popouts;
+export default Vue.extend({
+  name: "MainApp",
+  components,
+  computed: {
+    popups(): any {
+      return PopoutsModule.popouts;
+    }
   }
-}
+});
 </script>
 
 <style lang="scss" scoped>

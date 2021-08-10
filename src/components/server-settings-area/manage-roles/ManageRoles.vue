@@ -48,7 +48,6 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import Draggable from "vuedraggable";
 import { ServersModule } from "@/store/modules/servers";
@@ -61,7 +60,9 @@ import { ServerRolesModule } from "@/store/modules/serverRoles";
 import ServerRole from "@/interfaces/ServerRole";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { MeModule } from "@/store/modules/me";
-@Component({
+import Vue from "vue";
+export default Vue.extend({
+  name: "ManageRoles",
   components: {
     CustomInput,
     CustomButton,
@@ -69,87 +70,94 @@ import { MeModule } from "@/store/modules/me";
     ContextMenu,
     Draggable,
     SelectedRolesPage
-  }
-})
-export default class ManageRoles extends Vue {
-  selectedRoleID: string | null = null;
-  createRequestSent = false;
-
-  onDragEnd(event: any) {
-    const newIndex = event.newIndex;
-    const role = this.roles[newIndex];
-    const sendObj = { roleID: role.id, order: newIndex };
-    updateRolePosition(this.serverID, sendObj);
-  }
-  roleClicked(role: any) {
-    if (!role.canModify) return;
-    this.selectedRoleID = role.id;
-  }
-
-  createRole() {
-    if (this.createRequestSent) return;
-    this.createRequestSent = true;
-    createServerRole(this.serverID)
-      .then(res => {
-        ServerRolesModule.AddServerRole(res);
-        this.selectedRoleID = res.id;
-      })
-      .finally(() => {
-        this.createRequestSent = false;
+  },
+  data() {
+    return {
+      selectedRoleID: null as string | null,
+      createRequestSent: false
+    };
+  },
+  computed: {
+    server(): any {
+      return ServersModule.servers[this.serverID];
+    },
+    myHighestRoleOrder(): any {
+      return (
+        ServerMembersModule.highestRoleOrder(
+          this.serverID,
+          MeModule?.user?.id || ""
+        ) || 0
+      );
+    },
+    allowedToMoveRoles(): any {
+      return this.roles.map(r => {
+        return {
+          ...r,
+          canModify: this.isServerCreator || this.myHighestRoleOrder < r.order
+        };
       });
-  }
-
-  get server() {
-    return ServersModule.servers[this.serverID];
-  }
-  get myHighestRoleOrder() {
-    return (
-      ServerMembersModule.highestRoleOrder(
+    },
+    isServerCreator(): any {
+      return ServersModule.isServerOwner(
         this.serverID,
         MeModule?.user?.id || ""
-      ) || 0
-    );
-  }
-  get allowedToMoveRoles() {
-    return this.roles.map(r => {
-      return {
-        ...r,
-        canModify: this.isServerCreator || this.myHighestRoleOrder < r.order
-      };
-    });
-  }
-  get isServerCreator() {
-    return ServersModule.isServerOwner(this.serverID, MeModule?.user?.id || "");
-  }
-  get roles() {
-    return ServerRolesModule.sortedServerRolesArr(this.serverID).filter(
-      r => !r.default
-    );
-  }
-
-  set roles(roles: ServerRole[]) {
-    const orderedRoles = roles.map((r, index) => {
-      return { ...r, order: index };
-    });
-    // to obj
-    const obj: any = {};
-    for (let i = 0; i < orderedRoles.length; i++) {
-      const item = orderedRoles[i];
-      obj[item.id] = item;
+      );
+    },
+    roles: {
+      get(): ServerRole[] {
+        return ServerRolesModule.sortedServerRolesArr(this.serverID).filter(
+          r => !r.default
+        );
+      },
+      set(roles: ServerRole[]) {
+        const orderedRoles = roles.map((r, index) => {
+          return { ...r, order: index };
+        });
+        // to obj
+        const obj: any = {};
+        for (let i = 0; i < orderedRoles.length; i++) {
+          const item = orderedRoles[i];
+          obj[item.id] = item;
+        }
+        this.defaultRole && (obj[this.defaultRole?.id] = this.defaultRole);
+        ServerRolesModule.AddServerRoles({
+          roles: obj,
+          serverID: this.serverID
+        });
+      }
+    },
+    defaultRole(): any {
+      return ServerRolesModule.defaultServerRole(this.serverID);
+    },
+    serverID(): any {
+      return this.$route.params.server_id;
     }
-    this.defaultRole && (obj[this.defaultRole?.id] = this.defaultRole);
-    ServerRolesModule.AddServerRoles({
-      roles: obj,
-      serverID: this.serverID
-    });
+  },
+  methods: {
+    onDragEnd(event: any) {
+      const newIndex = event.newIndex;
+      const role = this.roles[newIndex];
+      const sendObj = { roleID: role.id, order: newIndex };
+      updateRolePosition(this.serverID, sendObj);
+    },
+    roleClicked(role: any) {
+      if (!role.canModify) return;
+      this.selectedRoleID = role.id;
+    },
+    createRole() {
+      if (this.createRequestSent) return;
+      this.createRequestSent = true;
+      createServerRole(this.serverID)
+        .then(res => {
+          ServerRolesModule.AddServerRole(res);
+          this.selectedRoleID = res.id;
+        })
+        .finally(() => {
+          this.createRequestSent = false;
+        });
+    }
   }
-  get defaultRole() {
-    return ServerRolesModule.defaultServerRole(this.serverID);
-  }
-  get serverID() {
-    return this.$route.params.server_id;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

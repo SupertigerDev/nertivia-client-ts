@@ -30,8 +30,8 @@ import SelectedUserPage from "./SelectedUserPage.vue";
 
 @Component({ components: { Stats, Users, SelectedUserPage, AdminActions } })
 export default class Overview extends Vue {
-  @Ref() readonly users!: Users;
-  @Ref() readonly adminActions!: AdminActions;
+  @Ref() readonly users!: any;
+  @Ref() readonly adminActions!: any;
 
   selectedUser: ExpandedUser | null = null;
   suspendUser() {

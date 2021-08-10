@@ -39,7 +39,6 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import SelectedBotPage from "./SelectedBotPage.vue";
@@ -47,59 +46,64 @@ import BotTemplate from "./BotTemplate.vue";
 import User from "@/interfaces/User";
 import { createBot, getBots } from "@/services/botService";
 import { PopoutsModule } from "@/store/modules/popouts";
-
-@Component({
+import Vue from "vue";
+export default Vue.extend({
+  name: "ManageChannels",
   components: {
     CustomInput,
     CustomButton,
     SelectedBotPage,
     BotTemplate
-  }
-})
-export default class ManageChannels extends Vue {
-  showContext = false;
-  selectedBotIndex = -1;
-  createRequestSent = false;
-  bots: User[] | null = null;
-  botUpdated(data) {
-    if (!this.bots) return;
-    const bot = this.bots[this.selectedBotIndex];
-    if (!bot) return;
-    this.$set(this.bots, this.selectedBotIndex, { ...bot, ...data });
-  }
-  botDeleted() {
-    if (!this.bots) return;
-    this.$delete(this.bots, this.selectedBotIndex);
-    this.selectedBotIndex = -1;
-  }
-  createBot() {
-    if (this.createRequestSent) return;
-    this.createRequestSent = true;
-    createBot()
-      .then(bot => {
-        this.bots?.unshift(bot);
-        this.selectedBotIndex = 0;
-      })
-      .catch(async err => {
-        PopoutsModule.ShowPopout({
-          id: "error",
-          component: "generic-popout",
-          data: {
-            title: "Error Creating Bot",
-            description: !err.response
-              ? this.$t("could-not-connect-to-server")
-              : (await err.response.json()).message
-          }
-        });
-      })
-      .finally(() => (this.createRequestSent = false));
-  }
+  },
+  data() {
+    return {
+      showContext: false,
+      selectedBotIndex: -1,
+      createRequestSent: false,
+      bots: null as User[] | null
+    };
+  },
   mounted() {
     getBots().then(bot => {
       this.bots = bot.reverse();
     });
+  },
+  methods: {
+    botUpdated(data) {
+      if (!this.bots) return;
+      const bot = this.bots[this.selectedBotIndex];
+      if (!bot) return;
+      this.$set(this.bots, this.selectedBotIndex, { ...bot, ...data });
+    },
+    botDeleted() {
+      if (!this.bots) return;
+      this.$delete(this.bots, this.selectedBotIndex);
+      this.selectedBotIndex = -1;
+    },
+    createBot() {
+      if (this.createRequestSent) return;
+      this.createRequestSent = true;
+      createBot()
+        .then(bot => {
+          this.bots?.unshift(bot);
+          this.selectedBotIndex = 0;
+        })
+        .catch(async err => {
+          PopoutsModule.ShowPopout({
+            id: "error",
+            component: "generic-popout",
+            data: {
+              title: "Error Creating Bot",
+              description: !err.response
+                ? this.$t("could-not-connect-to-server")
+                : (await err.response.json()).message
+            }
+          });
+        })
+        .finally(() => (this.createRequestSent = false));
+    }
   }
-}
+});
 </script>
 
 <style lang="scss" scoped>

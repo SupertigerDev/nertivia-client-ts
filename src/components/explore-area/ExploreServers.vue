@@ -49,40 +49,54 @@ import { ServerResponse, getServers } from "@/services/exploreService";
 import ServerTemplate from "./ExploreServerTemplate.vue";
 import CustomDropDown from "@/components/CustomDropDown.vue";
 import LoadingScreen from "@/components/LoadingScreen.vue";
-import { Vue, Component, Watch } from "vue-property-decorator";
-@Component({ components: { ServerTemplate, CustomDropDown, LoadingScreen } })
-export default class ExploreArea extends Vue {
-  sortParam = "";
-  filterParam = "verified=true";
-  data: ServerResponse[] | null = null;
-  filters = [
-    { name: "Verified Servers", param: "verified=true" },
-    { name: "All Servers", param: "" }
-  ];
-  sorts = [
-    { name: "Most Users", param: "" },
-    { name: "Least Users", param: "most_users=false" },
-    { name: "Alphabetical", param: "alphabetical=true" },
-    { name: "Date Added", param: "date_added=true" }
-  ];
+import Vue from "vue";
+export default Vue.extend({
+  name: "ExploreArea",
+  components: { ServerTemplate, CustomDropDown, LoadingScreen },
+  data() {
+    return {
+      sortParam: "",
+      filterParam: "verified=true",
+      data: null as ServerResponse[] | null,
+      filters: [
+        { name: "Verified Servers", param: "verified=true" },
+        { name: "All Servers", param: "" }
+      ],
+      sorts: [
+        { name: "Most Users", param: "" },
+        { name: "Least Users", param: "most_users=false" },
+        { name: "Alphabetical", param: "alphabetical=true" },
+        { name: "Date Added", param: "date_added=true" }
+      ]
+    };
+  },
+  computed: {
+    buildParam(): any {
+      if (!this.sortParam && this.filterParam) {
+        return `?${this.filterParam}`;
+      }
+      if (this.sortParam && !this.filterParam) {
+        return `?${this.sortParam}`;
+      }
+      return `?${this.sortParam}&${this.filterParam}`;
+    }
+  },
+  watch: {
+    buildParam: {
+      // @ts-ignore
+      handler: "onFilterChange"
+    }
+  },
   async mounted() {
     this.data = await getServers();
-  }
-  @Watch("buildParam")
-  async onFilterChange() {
-    this.data = null;
-    this.data = await getServers(this.buildParam);
-  }
-  get buildParam() {
-    if (!this.sortParam && this.filterParam) {
-      return `?${this.filterParam}`;
+  },
+  methods: {
+    async onFilterChange() {
+      this.data = null;
+      this.data = await getServers(this.buildParam);
     }
-    if (this.sortParam && !this.filterParam) {
-      return `?${this.sortParam}`;
-    }
-    return `?${this.sortParam}&${this.filterParam}`;
   }
-}
+});
 </script>
 
 <style lang="scss" scoped>

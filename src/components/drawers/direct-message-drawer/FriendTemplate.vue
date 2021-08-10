@@ -48,60 +48,78 @@ import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
 import { MessagesModule } from "@/store/modules/messages";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { PopoutsModule } from "@/store/modules/popouts";
-import { Component, Prop, Vue } from "vue-property-decorator";
-
-@Component({ components: { AvatarImage, UserStatusTemplate } })
-export default class FriendTemplate extends Vue {
-  @Prop() private friend!: { recipient: User; status: number };
-  @Prop() private dmChannel?: Channel & { recipients: User[] };
-  hover = false;
-  clickedEvent(event: any) {
-    DrawersModule.SetLeftDrawer(false);
-    if (
-      !event.target.closest(".avatar") &&
-      !event.target.closest(".close-button")
-    ) {
-      if (!this.user) return;
-      ChannelsModule.LoadDmChannel(this.user.id);
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "FriendTemplate",
+  components: { AvatarImage, UserStatusTemplate },
+  props: {
+    friend: {
+      type: Object as PropType<{ recipient: User; status: number }>,
+      required: false
+    },
+    dmChannel: {
+      type: Object as PropType<Channel & { recipients: User[] }>,
+      required: false
     }
-  }
-  hide() {
-    if (!this.dmChannel) return;
-    if (this.isFriendSelected) {
-      this.$router.push("/app/dms");
+  },
+  data() {
+    return {
+      hover: false
+    };
+  },
+  computed: {
+    user(): any {
+      if (this.friend) {
+        return this.friend.recipient || this.friend;
+      } else {
+        return this.dmChannel?.recipients[0];
+      }
+    },
+    isFriendSelected(): any {
+      const channel = ChannelsModule.getDMChannel(
+        this.$route.params.channel_id
+      );
+      if (!channel) return undefined;
+      if (!channel.recipients) return undefined;
+      return channel.recipients[0].id === this.user?.id;
+    },
+    notification(): any {
+      if (!this.user) return false;
+      return NotificationsModule.notificationByUserID(this.user.id);
     }
-    hideDMChannel(this.dmChannel.channelID).then(() => {
+  },
+  methods: {
+    clickedEvent(event: any) {
+      DrawersModule.SetLeftDrawer(false);
+      if (
+        !event.target.closest(".avatar") &&
+        !event.target.closest(".close-button")
+      ) {
+        if (!this.user) return;
+        ChannelsModule.LoadDmChannel(this.user.id);
+      }
+    },
+    hide() {
       if (!this.dmChannel) return;
-      ChannelsModule.RemoveChannel(this.dmChannel.channelID);
-      MessagesModule.DeleteChannelMessages(this.dmChannel.channelID);
-      MessageLogStatesModule.RemoveState(this.dmChannel.channelID);
-    });
-  }
-  showProfile() {
-    PopoutsModule.ShowPopout({
-      id: "profile",
-      component: "profile-popout",
-      data: { id: this.user?.id }
-    });
-  }
-  get user() {
-    if (this.friend) {
-      return this.friend.recipient || this.friend;
-    } else {
-      return this.dmChannel?.recipients[0];
+      if (this.isFriendSelected) {
+        this.$router.push("/app/dms");
+      }
+      hideDMChannel(this.dmChannel.channelID).then(() => {
+        if (!this.dmChannel) return;
+        ChannelsModule.RemoveChannel(this.dmChannel.channelID);
+        MessagesModule.DeleteChannelMessages(this.dmChannel.channelID);
+        MessageLogStatesModule.RemoveState(this.dmChannel.channelID);
+      });
+    },
+    showProfile() {
+      PopoutsModule.ShowPopout({
+        id: "profile",
+        component: "profile-popout",
+        data: { id: this.user?.id }
+      });
     }
   }
-  get isFriendSelected() {
-    const channel = ChannelsModule.getDMChannel(this.$route.params.channel_id);
-    if (!channel) return undefined;
-    if (!channel.recipients) return undefined;
-    return channel.recipients[0].id === this.user?.id;
-  }
-  get notification() {
-    if (!this.user) return false;
-    return NotificationsModule.notificationByUserID(this.user.id);
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .wrapper {

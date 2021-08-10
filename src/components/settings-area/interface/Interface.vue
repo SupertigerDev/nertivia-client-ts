@@ -9,30 +9,32 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
 import TabLayout from "@/components/TabLayout.vue";
 import ColorScheme from "./GeneralInterface.vue";
 import CustomCSS from "./custom-css/CustomCSS.vue";
+import Vue from "vue";
+export default Vue.extend({
+  name: "Interface",
+  components: { TabLayout },
+  computed: {
+    tabs(): any {
+      const tabs: any = [
+        {
+          name: this.$t("settings.interface.general"),
+          id: "color_scheme",
+          component: ColorScheme
+        },
+        {
+          name: this.$t("settings.interface.custom-css"),
+          id: "custom_css",
+          component: CustomCSS
+        }
+      ];
 
-@Component({ components: { TabLayout } })
-export default class Interface extends Vue {
-  get tabs() {
-    const tabs: any = [
-      {
-        name: this.$t("settings.interface.general"),
-        id: "color_scheme",
-        component: ColorScheme
-      },
-      {
-        name: this.$t("settings.interface.custom-css"),
-        id: "custom_css",
-        component: CustomCSS
-      }
-    ];
-
-    return tabs;
+      return tabs;
+    }
   }
-}
+});
 </script>
 
 <style lang="scss" scoped>

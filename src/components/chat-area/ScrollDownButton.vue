@@ -20,61 +20,64 @@ import { fetchMessages } from "@/services/messagesService";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
 import { MessagesModule } from "@/store/modules/messages";
-import { Component, Vue } from "vue-property-decorator";
-
-@Component
-export default class ScrollDownButton extends Vue {
-  ScrollDown() {
-    const messageLogs = document.getElementById("messageLogs");
-    if (!messageLogs) return;
-    if (!MessageLogStatesModule.isBottomUnloaded(this.channelID)) {
-      document.getElementById("messageLogs")?.scrollTo({
-        behavior: "smooth",
-        top: messageLogs.scrollHeight
-      });
-      this.resetState();
-      return;
+import Vue from "vue";
+export default Vue.extend({
+  name: "ScrollDownButton",
+  computed: {
+    hasNotification(): any {
+      return LastSeenServerChannelsModule.serverChannelNotification(
+        this.channelID
+      );
+    },
+    channelID(): any {
+      return this.$route.params.channel_id;
     }
-    // MessagesModule.SetChannelMessages({
-    //   channelID: this.channelID,
-    //   messages: null
-    // });
+  },
+  methods: {
+    ScrollDown() {
+      const messageLogs = document.getElementById("messageLogs");
+      if (!messageLogs) return;
+      if (!MessageLogStatesModule.isBottomUnloaded(this.channelID)) {
+        document.getElementById("messageLogs")?.scrollTo({
+          behavior: "smooth",
+          top: messageLogs.scrollHeight
+        });
+        this.resetState();
+        return;
+      }
+      // MessagesModule.SetChannelMessages({
+      //   channelID: this.channelID,
+      //   messages: null
+      // });
 
-    fetchMessages(this.channelID).then(json => {
-      MessagesModule.SetChannelMessages({
-        channelID: this.channelID,
-        messages: json.messages.reverse()
-      });
-      this.$nextTick(() => {
+      fetchMessages(this.channelID).then(json => {
+        MessagesModule.SetChannelMessages({
+          channelID: this.channelID,
+          messages: json.messages.reverse()
+        });
         this.$nextTick(() => {
-          document.getElementById("messageLogs")?.scrollTo({
-            behavior: "smooth",
-            top: messageLogs.scrollHeight
+          this.$nextTick(() => {
+            document.getElementById("messageLogs")?.scrollTo({
+              behavior: "smooth",
+              top: messageLogs.scrollHeight
+            });
+            this.resetState();
           });
-          this.resetState();
         });
       });
-    });
+    },
+    resetState() {
+      MessageLogStatesModule.UpdateState({
+        channelID: this.channelID,
+        state: {
+          isScrolledDown: true,
+          bottomUnloaded: undefined,
+          scrollPosition: undefined
+        }
+      });
+    }
   }
-  resetState() {
-    MessageLogStatesModule.UpdateState({
-      channelID: this.channelID,
-      state: {
-        isScrolledDown: true,
-        bottomUnloaded: undefined,
-        scrollPosition: undefined
-      }
-    });
-  }
-  get hasNotification() {
-    return LastSeenServerChannelsModule.serverChannelNotification(
-      this.channelID
-    );
-  }
-  get channelID() {
-    return this.$route.params.channel_id;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

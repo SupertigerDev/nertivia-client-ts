@@ -15,17 +15,20 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 
 import { Badge } from "@/constants/badges";
-
-@Component({
-  components: { AvatarImage }
-})
-export default class Badges extends Vue {
-  @Prop() private badges!: Badge[];
-}
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "Badges",
+  components: { AvatarImage },
+  props: {
+    badges: {
+      type: Array as PropType<Badge[]>,
+      required: false
+    }
+  }
+});
 </script>
 <style scoped lang="scss">
 .badges {

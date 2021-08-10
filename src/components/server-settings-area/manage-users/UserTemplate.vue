@@ -20,51 +20,64 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
 import ServerMember from "@/interfaces/ServerMember";
 import User from "@/interfaces/User";
 import ServerRole from "@/interfaces/ServerRole";
 import { PopoutsModule } from "@/store/modules/popouts";
-
-@Component({ components: { AvatarImage } })
-export default class RightDrawer extends Vue {
-  @Prop() private serverMember!: ServerMember & {
-    member: User;
-    roles: ServerRole[];
-  };
-  hover = false;
-
-  rightClickEvent(event: MouseEvent) {
-    PopoutsModule.ShowPopout({
-      id: "context",
-      component: "UserContextMenu",
-      key: this.member.id + event.clientX + event.clientY,
-      data: {
-        x: event.clientX,
-        y: event.clientY,
-        id: this.member.id
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "RightDrawer",
+  components: { AvatarImage },
+  props: {
+    serverMember: {
+      type: Object as PropType<
+        ServerMember & {
+          member: User;
+          roles: ServerRole[];
+        }
+      >,
+      required: false
+    }
+  },
+  data() {
+    return {
+      hover: false
+    };
+  },
+  computed: {
+    member(): any {
+      return this.serverMember.member;
+    },
+    firstRoleColor(): any {
+      if (this.serverMember.roles[0]) {
+        return this.serverMember.roles[0].color;
       }
-    });
-  }
-
-  get member() {
-    return this.serverMember.member;
-  }
-  get firstRoleColor() {
-    if (this.serverMember.roles[0]) {
-      return this.serverMember.roles[0].color;
+      if (this.defaultRole && this.defaultRole.color) {
+        return this.defaultRole.color;
+      }
+      return undefined;
+    },
+    defaultRole(): any {
+      return ServerRolesModule.defaultServerRole(this.serverMember.server_id);
     }
-    if (this.defaultRole && this.defaultRole.color) {
-      return this.defaultRole.color;
+  },
+  methods: {
+    rightClickEvent(event: MouseEvent) {
+      PopoutsModule.ShowPopout({
+        id: "context",
+        component: "UserContextMenu",
+        key: this.member.id + event.clientX + event.clientY,
+        data: {
+          x: event.clientX,
+          y: event.clientY,
+          id: this.member.id
+        }
+      });
     }
-    return undefined;
   }
-  get defaultRole() {
-    return ServerRolesModule.defaultServerRole(this.serverMember.server_id);
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

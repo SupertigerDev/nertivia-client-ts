@@ -1,8 +1,10 @@
 <template functional>
-  <span class="mention">{{ props.text }}</span>
+  <span class="mention">{{ $props.text }}</span>
 </template>
 
-<script>
+<script lang="js">
+import Vue from "vue";
+
 export default {
   props: ["text"]
 };

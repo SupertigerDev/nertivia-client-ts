@@ -8,29 +8,34 @@
 
 <script lang="ts">
 import { Embed } from "@/interfaces/Message";
-import { Component, Prop, Vue } from "vue-property-decorator";
 import GenericEmbed from "./GenericEmbed.vue";
 import ImageEmbed from "./ImageEmbed.vue";
 import YoutubeEmbed from "./YoutubeEmbed.vue";
-
-@Component({ components: { GenericEmbed, ImageEmbed, YoutubeEmbed } })
-export default class EmbedMessage extends Vue {
-  @Prop() private embed!: Embed;
-
-  get youtubeEmbed() {
-    if (this.embed.site_name !== "YouTube") return false;
-    if (this.embed.type !== "video.other") return false;
-    const regex = /((http(s)?:\/\/)?)(www\.)?((youtube\.com\/)|(youtu.be\/))[\S]+/gm;
-    if (!this.embed.url.match(regex)) return false;
-    return true;
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "EmbedMessage",
+  components: { GenericEmbed, ImageEmbed, YoutubeEmbed },
+  props: {
+    embed: {
+      type: Object as PropType<Embed>,
+      required: false
+    }
+  },
+  computed: {
+    youtubeEmbed(): any {
+      if (this.embed.site_name !== "YouTube") return false;
+      if (this.embed.type !== "video.other") return false;
+      const regex = /((http(s)?:\/\/)?)(www\.)?((youtube\.com\/)|(youtu.be\/))[\S]+/gm;
+      if (!this.embed.url.match(regex)) return false;
+      return true;
+    },
+    imageEmbed(): any {
+      if (Object.keys(this.embed).length !== 1) return undefined;
+      if (!this.embed.image) return undefined;
+      return this.embed.image;
+    }
   }
-
-  get imageEmbed() {
-    if (Object.keys(this.embed).length !== 1) return undefined;
-    if (!this.embed.image) return undefined;
-    return this.embed.image;
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .message-embed {

@@ -1,12 +1,14 @@
-<script>
-import EmojiTemplate from "./EmojiTemplate";
-import Preview from "./Preview";
+<script lang="tsx">
+import EmojiTemplate from "./EmojiTemplate.vue";
+import Preview from "./Preview.vue";
 import VirtualList from "vue-virtual-scroll-list";
-import Tabs from "./Tabs";
+import Tabs from "./Tabs.vue";
 import { addRecentEmoji, getRecentEmojis } from "@/utils/recentEmojiManager";
 import emojiParser from "@/utils/emojiParser";
 import { CustomEmojisModule } from "@/store/modules/customEmojis";
 import { insert } from "text-field-edit";
+import Vue from "vue";
+
 export default {
   props: ["inputElement"],
   components: { VirtualList, EmojiTemplate, Tabs, Preview },

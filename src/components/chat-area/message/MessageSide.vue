@@ -20,54 +20,63 @@
 
 <script lang="ts">
 import Message from "@/interfaces/Message";
-import { Component, Prop, Vue } from "vue-property-decorator";
 import friendlyDate from "@/utils/date";
 import { PopoutsModule } from "@/store/modules/popouts";
-@Component
-export default class MessageSide extends Vue {
-  @Prop() private message!: Message & { grouped: boolean };
-  messageContext(event: MouseEvent) {
-    const id = this.message.tempID || this.message.messageID || "";
-    PopoutsModule.ShowPopout({
-      id: "context",
-      component: "MessageContextMenu",
-      key: id + event.pageX + event.pageY,
-      data: {
-        x: event.pageX,
-        y: event.pageY,
-        message: this.message,
-        tempUser: this.message.creator,
-        element: event.target
-      }
-    });
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "MessageSide",
+  props: {
+    message: {
+      type: Object as PropType<Message & { grouped: boolean }>,
+      required: false
+    }
+  },
+  computed: {
+    sendingStatus(): any {
+      const sending = this.message.sending;
+      if (sending === 0) return { icon: "query_builder", title: "Sending..." };
+      if (this.message.timeEdited)
+        return {
+          icon: "edit",
+          title:
+            "Edited " +
+            friendlyDate(this.message.timeEdited, localStorage["timeFormat"])
+        };
+      if (sending === 1) return { icon: "done", title: "Sent" };
+      if (sending === 2) return { icon: "error_outline", title: "Not Sent" };
+      return undefined;
+    }
+  },
+  methods: {
+    messageContext(event: MouseEvent) {
+      const id = this.message.tempID || this.message.messageID || "";
+      PopoutsModule.ShowPopout({
+        id: "context",
+        component: "MessageContextMenu",
+        key: id + event.pageX + event.pageY,
+        data: {
+          x: event.pageX,
+          y: event.pageY,
+          message: this.message,
+          tempUser: this.message.creator,
+          element: event.target
+        }
+      });
+    },
+    openReaction(event: MouseEvent) {
+      PopoutsModule.ShowPopout({
+        id: "message-reaction-picker",
+        component: "MessageReactionEmojiPicker",
+        data: {
+          messageID: this.message.messageID,
+          channelID: this.message.channelID,
+          x: event.pageX,
+          y: event.pageY
+        }
+      });
+    }
   }
-  openReaction(event: MouseEvent) {
-    PopoutsModule.ShowPopout({
-      id: "message-reaction-picker",
-      component: "MessageReactionEmojiPicker",
-      data: {
-        messageID: this.message.messageID,
-        channelID: this.message.channelID,
-        x: event.pageX,
-        y: event.pageY
-      }
-    });
-  }
-  get sendingStatus() {
-    const sending = this.message.sending;
-    if (sending === 0) return { icon: "query_builder", title: "Sending..." };
-    if (this.message.timeEdited)
-      return {
-        icon: "edit",
-        title:
-          "Edited " +
-          friendlyDate(this.message.timeEdited, localStorage["timeFormat"])
-      };
-    if (sending === 1) return { icon: "done", title: "Sent" };
-    if (sending === 2) return { icon: "error_outline", title: "Not Sent" };
-    return undefined;
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .message-options {

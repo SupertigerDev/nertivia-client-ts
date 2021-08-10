@@ -21,50 +21,61 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import Server from "@/interfaces/Server";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { LastSelectedServersModule } from "@/store/modules/lastSelectedServer";
-
-@Component({ components: { AvatarImage } })
-export default class MainApp extends Vue {
-  @Prop() private server!: Server;
-  hover = false;
-
-  showContext(event: MouseEvent) {
-    PopoutsModule.ShowPopout({
-      id: "context",
-      component: "ServerContextMenu",
-      key: this.server.server_id + event.clientX + event.clientY,
-      data: {
-        x: event.clientX,
-        y: event.clientY,
-        server_id: this.server.server_id
-      }
-    });
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "MainApp",
+  components: { AvatarImage },
+  props: {
+    server: {
+      type: Object as PropType<Server>,
+      required: false
+    }
+  },
+  data() {
+    return {
+      hover: false
+    };
+  },
+  computed: {
+    path(): any {
+      const serverChannelID = LastSelectedServersModule.lastServerChannelID(
+        this.server.server_id || ""
+      );
+      return `/app/servers/${this.server.server_id}/${serverChannelID ||
+        this.server.default_channel_id}`;
+    },
+    mentionedNotificationExists(): any {
+      return this.serverNotificationArr.find(c => c.mentioned);
+    },
+    serverNotificationArr(): any {
+      return LastSeenServerChannelsModule.serverNotifications(
+        this.server.server_id
+      );
+    },
+    isServerSelected(): any {
+      return this.$route.params.server_id === this.server.server_id;
+    }
+  },
+  methods: {
+    showContext(event: MouseEvent) {
+      PopoutsModule.ShowPopout({
+        id: "context",
+        component: "ServerContextMenu",
+        key: this.server.server_id + event.clientX + event.clientY,
+        data: {
+          x: event.clientX,
+          y: event.clientY,
+          server_id: this.server.server_id
+        }
+      });
+    }
   }
-  get path() {
-    const serverChannelID = LastSelectedServersModule.lastServerChannelID(
-      this.server.server_id || ""
-    );
-    return `/app/servers/${this.server.server_id}/${serverChannelID ||
-      this.server.default_channel_id}`;
-  }
-  get mentionedNotificationExists() {
-    return this.serverNotificationArr.find(c => c.mentioned);
-  }
-  get serverNotificationArr() {
-    return LastSeenServerChannelsModule.serverNotifications(
-      this.server.server_id
-    );
-  }
-
-  get isServerSelected() {
-    return this.$route.params.server_id === this.server.server_id;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

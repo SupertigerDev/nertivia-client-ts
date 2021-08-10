@@ -60,40 +60,58 @@ import { acceptRequest, deleteFriend } from "@/services/relationshipService";
 import { ChannelsModule } from "@/store/modules/channels";
 import { PopoutsModule } from "@/store/modules/popouts";
 import CustomButton from "@/components/CustomButton.vue";
-
-import { Component, Prop, Vue } from "vue-property-decorator";
-
-@Component({ components: { AvatarImage, CustomButton } })
-export default class FriendTemplate extends Vue {
-  @Prop() private friend!: { recipient: User; status: number };
-  @Prop() private dmChannel!: { recipients: User[] };
-  hover = false;
-  clickedEvent(event: any) {
-    if (!event.target.closest(".avatar") && !event.target.closest(".button")) {
-      ChannelsModule.LoadDmChannel(this.user.id);
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "FriendTemplate",
+  components: { AvatarImage, CustomButton },
+  props: {
+    friend: {
+      type: Object as PropType<{ recipient: User; status: number }>,
+      required: false
+    },
+    dmChannel: {
+      type: Object as PropType<{ recipients: User[] }>,
+      required: false
+    }
+  },
+  data() {
+    return {
+      hover: false
+    };
+  },
+  computed: {
+    user(): any {
+      if (this.friend) {
+        return this.friend.recipient || this.friend;
+      } else {
+        return this.dmChannel.recipients[0];
+      }
+    }
+  },
+  methods: {
+    clickedEvent(event: any) {
+      if (
+        !event.target.closest(".avatar") &&
+        !event.target.closest(".button")
+      ) {
+        ChannelsModule.LoadDmChannel(this.user.id);
+      }
+    },
+    showProfile() {
+      PopoutsModule.ShowPopout({
+        id: "profile",
+        component: "profile-popout",
+        data: { id: this.user.id }
+      });
+    },
+    cancelOrDecline() {
+      deleteFriend(this.user.id);
+    },
+    acceptFriend() {
+      acceptRequest(this.user.id);
     }
   }
-  showProfile() {
-    PopoutsModule.ShowPopout({
-      id: "profile",
-      component: "profile-popout",
-      data: { id: this.user.id }
-    });
-  }
-  cancelOrDecline() {
-    deleteFriend(this.user.id);
-  }
-  acceptFriend() {
-    acceptRequest(this.user.id);
-  }
-  get user() {
-    if (this.friend) {
-      return this.friend.recipient || this.friend;
-    } else {
-      return this.dmChannel.recipients[0];
-    }
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .wrapper {

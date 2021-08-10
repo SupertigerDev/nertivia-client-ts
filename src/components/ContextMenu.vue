@@ -44,8 +44,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import windowProperties from "@/utils/windowProperties";
+import Vue, { PropType } from "vue";
 
 interface ItemsProp {
   name?: string;
@@ -58,98 +58,119 @@ interface ItemsProp {
   disabled?: string;
   nestContext?: string;
 }
-@Component
-export default class ContextMenu extends Vue {
-  @Prop() private pos!: { x?: number; y?: number };
-  @Prop() private element!: HTMLElement;
-  @Prop() private items!: ItemsProp[];
-  @Prop() private type!: string;
-  height = 0;
-  width = 0;
-  mount = false;
-  selection = window.getSelection();
-  currentHoveringItem: any = null;
-  clickOutside(event: any) {
-    if (!this.mount) return;
-    if (event.target.closest(".context")) return;
-    this.$emit("close");
-  }
+
+export default Vue.extend({
+  name: "ContextMenu",
+  props: {
+    pos: {
+      type: Object as PropType<{ x?: number; y?: number }>,
+      required: false
+    },
+    element: {
+      type: Object as PropType<HTMLElement>,
+      required: false
+    },
+    items: {
+      type: Array as PropType<ItemsProp[]>,
+      required: false
+    },
+    type: {
+      type: String,
+      required: false
+    }
+  },
+  data() {
+    return {
+      height: 0,
+      width: 0,
+      mount: false,
+      selection: window.getSelection(),
+      currentHoveringItem: null as any
+    };
+  },
+  computed: {
+    itemsWithExtras(): any {
+      if (!this.element) return this.items;
+      const clickedElementSelected =
+        this.selection?.toString().length &&
+        this.selection.containsNode(this.element, true);
+
+      if (!clickedElementSelected) return this.items;
+      const seperator: ItemsProp = {
+        type: "seperator"
+      };
+      const copyItem: ItemsProp = {
+        id: "_copy",
+        name: "Copy",
+        icon: "content_copy"
+      };
+      return [copyItem, seperator, ...this.items];
+    },
+    clampPos(): any {
+      const top = this.pos.y || 0;
+      const left = this.pos.x || 0;
+
+      // prevent from going bottom of the screen
+      const heightPos = this.height + top;
+      const clampedTop =
+        this.clamp(heightPos, 0, this.windowDiamentions.height) - this.height;
+      // prevent from going right of the screen
+      const widthPos = this.width + left;
+      const clampedLeft =
+        this.clamp(widthPos, 0, this.windowDiamentions.width) - this.width;
+
+      return {
+        top: clampedTop + "px",
+        left: clampedLeft + "px"
+      };
+    },
+    windowDiamentions(): any {
+      return {
+        height: windowProperties.resizeHeight,
+        width: windowProperties.resizeWidth
+      };
+    }
+  },
   mounted() {
     setTimeout(() => {
       this.mount = true;
     }, 10);
     this.height = this.$el.clientHeight;
     this.width = this.$el.clientWidth;
-  }
-  itemClicked(item: ItemsProp) {
-    if (item.type === "seperator") return;
-    if (item.disabled) return;
-    this.$emit("itemClick", item);
-    if (item.nestContext) return;
-    this.$emit("close");
+  },
+  methods: {
+    clickOutside(event: any) {
+      if (!this.mount) return;
+      if (event.target.closest(".context")) return;
+      this.$emit("close");
+    },
+    itemClicked(item: ItemsProp) {
+      if (item.type === "seperator") return;
+      if (item.disabled) return;
+      this.$emit("itemClick", item);
+      if (item.nestContext) return;
+      this.$emit("close");
 
-    if (item.id === "_copy") {
-      document.execCommand("copy");
+      if (item.id === "_copy") {
+        document.execCommand("copy");
+      }
+    },
+    itemHover(item: any, event: any) {
+      this.currentHoveringItem = item;
+      setTimeout(() => {
+        if (item !== this.currentHoveringItem) return;
+        if (item.type === "seperator") return;
+        this.$emit("itemHover", {
+          item,
+          target: event.target.closest(".content")
+        });
+      }, 200);
+    },
+    clamp(num: number, min: number, max: number) {
+      return num <= min ? min : num >= max ? max : num;
     }
   }
-  itemHover(item: any, event: any) {
-    this.currentHoveringItem = item;
-    setTimeout(() => {
-      if (item !== this.currentHoveringItem) return;
-      if (item.type === "seperator") return;
-      this.$emit("itemHover", {
-        item,
-        target: event.target.closest(".content")
-      });
-    }, 200);
-  }
-
-  get itemsWithExtras() {
-    if (!this.element) return this.items;
-    const clickedElementSelected =
-      this.selection?.toString().length &&
-      this.selection.containsNode(this.element, true);
-
-    if (!clickedElementSelected) return this.items;
-    const seperator: ItemsProp = {
-      type: "seperator"
-    };
-    const copyItem: ItemsProp = {
-      id: "_copy",
-      name: "Copy",
-      icon: "content_copy"
-    };
-    return [copyItem, seperator, ...this.items];
-  }
-
-  get clampPos() {
-    const top = this.pos.y || 0;
-    const left = this.pos.x || 0;
-
-    // prevent from going bottom of the screen
-    const heightPos = this.height + top;
-    const clampedTop =
-      this.clamp(heightPos, 0, this.windowDiamentions.height) - this.height;
-    // prevent from going right of the screen
-    const widthPos = this.width + left;
-    const clampedLeft =
-      this.clamp(widthPos, 0, this.windowDiamentions.width) - this.width;
-
-    return {
-      top: clampedTop + "px",
-      left: clampedLeft + "px"
-    };
-  }
-  get windowDiamentions() {
-    return {
-      height: windowProperties.resizeHeight,
-      width: windowProperties.resizeWidth
-    };
-  }
-  clamp(num: number, min: number, max: number) {
-    return num <= min ? min : num >= max ? max : num;
-  }
-}
+});
 </script>
 
 <style scoped></style>

@@ -11,7 +11,6 @@ const WindowControl = () =>
   import(
     /* webpackChunkName: "WindowControl" */ "@/components/electron/WindowControl.vue"
   );
-import { Component, Vue } from "vue-property-decorator";
 import Popouts from "@/components/popouts/Popouts.vue";
 
 import {
@@ -22,9 +21,10 @@ import {
 import { applyFont } from "./utils/applyFont";
 import fonts from "@/utils/fonts.json";
 import { clear } from "idb-keyval";
-
-@Component({ components: { WindowControl, Popouts } })
-export default class App extends Vue {
+import Vue from "vue";
+export default Vue.extend({
+  name: "App",
+  components: { WindowControl, Popouts },
   mounted() {
     if (!localStorage["hauthid"]) {
       clear();
@@ -40,16 +40,18 @@ export default class App extends Vue {
     }
     setThemeColor();
     this.setLocale();
+  },
+  methods: {
+    setLocale() {
+      const currentLocale = localStorage["locale"] || "en";
+      if (currentLocale === "en") return;
+      import(`@/locales/${currentLocale}.json`).then(messages => {
+        this.$i18n.setLocaleMessage(currentLocale, messages.default);
+        this.$i18n.locale = currentLocale;
+      });
+    }
   }
-  setLocale() {
-    const currentLocale = localStorage["locale"] || "en";
-    if (currentLocale === "en") return;
-    import(`@/locales/${currentLocale}.json`).then(messages => {
-      this.$i18n.setLocaleMessage(currentLocale, messages.default);
-      this.$i18n.locale = currentLocale;
-    });
-  }
-}
+});
 </script>
 
 <style lang="scss">

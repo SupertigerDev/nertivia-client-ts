@@ -16,14 +16,18 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
 import EnterServerCode from "./EnterServerCode.vue";
 import ServerPreview from "./ServerPreview.vue";
-
-@Component({ components: { EnterServerCode, ServerPreview } })
-export default class JoinServer extends Vue {
-  server: any = null;
-}
+import Vue from "vue";
+export default Vue.extend({
+  name: "JoinServer",
+  components: { EnterServerCode, ServerPreview },
+  data() {
+    return {
+      server: null as any
+    };
+  }
+});
 </script>
 
 <style lang="scss" scoped>

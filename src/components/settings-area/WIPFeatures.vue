@@ -18,18 +18,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
 import CheckBox from "@/components/CheckBox.vue";
-
-@Component({ components: { CheckBox } })
-export default class WIPFeatures extends Vue {
-  // // im lazy to add it properly D: adding multiple wip features will get messy.
-  // doodlepad = localStorage["doodlepad_wip"] === "true";
-  // @Watch("doodlepad")
-  // onChange() {
-  //   localStorage["doodlepad_wip"] = this.doodlepad;
-  // }
-}
+import Vue from "vue";
+export default Vue.extend({
+  name: "WIPFeatures",
+  components: { CheckBox }
+});
 </script>
 
 <style lang="scss" scoped>

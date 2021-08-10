@@ -13,31 +13,48 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from "vue-property-decorator";
-
-@Component({})
-export default class CommandTemplate extends Vue {
-  @Prop() private command!: { a: string; c: string; id: string };
-  localCommand = this.command.c;
-  localAction = this.command.a;
-
-  @Watch("localCommand")
-  commandChange() {
-    this.$emit("change", {
-      a: this.localAction,
-      c: this.localCommand,
-      id: this.command.id
-    });
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "CommandTemplate",
+  props: {
+    command: {
+      type: Object as PropType<{ a: string; c: string; id: string }>,
+      required: false
+    }
+  },
+  data() {
+    return {
+      localCommand: this.command.c,
+      localAction: this.command.a
+    };
+  },
+  watch: {
+    localCommand: {
+      // @ts-ignore
+      handler: "commandChange"
+    },
+    localAction: {
+      // @ts-ignore
+      handler: "actionChange"
+    }
+  },
+  methods: {
+    commandChange() {
+      this.$emit("change", {
+        a: this.localAction,
+        c: this.localCommand,
+        id: this.command.id
+      });
+    },
+    actionChange() {
+      this.$emit("change", {
+        a: this.localAction,
+        c: this.localCommand,
+        id: this.command.id
+      });
+    }
   }
-  @Watch("localAction")
-  actionChange() {
-    this.$emit("change", {
-      a: this.localAction,
-      c: this.localCommand,
-      id: this.command.id
-    });
-  }
-}
+});
 </script>
 
 <style lang="scss">

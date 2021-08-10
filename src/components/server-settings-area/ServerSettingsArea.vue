@@ -5,11 +5,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Header from "@/components/Header.vue";
 import settingsPages from "@/utils/serverSettingsPages.json";
 import ManageNotification from "./ManageNotification.vue";
-import ManageInvites from "./manage-invites/ManageInvites";
+import ManageInvites from "./manage-invites/ManageInvites.vue";
 import ManageChannels from "./manage-channels/ManageChannels.vue";
 import ManageRoles from "./manage-roles/ManageRoles.vue";
 import ManageUsers from "./manage-users/ManageUsers.vue";
@@ -17,10 +17,10 @@ import BannedUsers from "./banned-users/BannedUsers.vue";
 import DeleteServer from "./DeleteServer.vue";
 import General from "./General.vue";
 import ServerVisibility from "./ServerVisibility.vue";
-
-import { Vue, Component, Watch } from "vue-property-decorator";
 import { TabsModule } from "@/store/modules/tabs";
-@Component({
+import Vue from "vue";
+export default Vue.extend({
+  name: "ServerSettingsArea",
   components: {
     Header,
     ManageNotification,
@@ -32,9 +32,22 @@ import { TabsModule } from "@/store/modules/tabs";
     DeleteServer,
     BannedUsers,
     ServerVisibility
-  }
-})
-export default class ServerSettingsArea extends Vue {
+  },
+  computed: {
+    page(): any {
+      const id = this.$route.params.tab;
+      return { ...settingsPages[id], id };
+    },
+    serverID(): any {
+      return this.$route.params.server_id;
+    }
+  },
+  watch: {
+    page: {
+      // @ts-ignore
+      handler: "onPageChanged"
+    }
+  },
   mounted() {
     if (!this.page.id) {
       this.$router.replace({ params: { tab: "general" } });
@@ -44,22 +57,16 @@ export default class ServerSettingsArea extends Vue {
       icon: this.page.icon,
       name: this.page.name + " Settings"
     });
+  },
+  methods: {
+    onPageChanged() {
+      TabsModule.setCurrentTab({
+        icon: this.page.icon,
+        name: this.page.name + " Settings"
+      });
+    }
   }
-  @Watch("page")
-  onPageChanged() {
-    TabsModule.setCurrentTab({
-      icon: this.page.icon,
-      name: this.page.name + " Settings"
-    });
-  }
-  get page() {
-    const id = this.$route.params.tab;
-    return { ...settingsPages[id], id };
-  }
-  get serverID() {
-    return this.$route.params.server_id;
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .server-settings-area {

@@ -43,26 +43,37 @@
 </template>
 <script lang="ts">
 import Invite from "@/interfaces/Invite";
-import { Vue, Component, Prop } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
-
-@Component({ components: { AvatarImage } })
-export default class InviteTemplate extends Vue {
-  @Prop() private invite!: Invite;
-  prefixURL = process.env.VUE_APP_MAIN_APP_URL;
-  showProfile() {
-    PopoutsModule.ShowPopout({
-      id: "profile",
-      component: "profile-popout",
-      data: { id: this.invite.creator.id }
-    });
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "InviteTemplate",
+  components: { AvatarImage },
+  props: {
+    invite: {
+      type: Object as PropType<Invite>,
+      required: false
+    }
+  },
+  data() {
+    return {
+      prefixURL: process.env.VUE_APP_MAIN_APP_URL
+    };
+  },
+  methods: {
+    showProfile() {
+      PopoutsModule.ShowPopout({
+        id: "profile",
+        component: "profile-popout",
+        data: { id: this.invite.creator.id }
+      });
+    },
+    copyLink() {
+      this.$copyText(`${this.prefixURL}i/${this.invite.invite_code}`);
+      alert(this.$t("generic.copied"));
+    }
   }
-  copyLink() {
-    this.$copyText(`${this.prefixURL}i/${this.invite.invite_code}`);
-    alert(this.$t("generic.copied"));
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

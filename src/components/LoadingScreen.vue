@@ -8,10 +8,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-
-@Component
-export default class LoadingScreen extends Vue {}
+import Vue from "vue";
+export default Vue.extend({
+  name: "LoadingScreen"
+});
 </script>
 
 <style lang="scss" scoped>

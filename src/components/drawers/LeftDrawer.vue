@@ -30,7 +30,6 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
 import _ from "lodash";
 
 const ServerDrawer = () =>
@@ -63,8 +62,9 @@ import SideBar from "@/components/sidebar/SideBar.vue";
 
 import { ServersModule } from "@/store/modules/servers";
 import { PopoutsModule } from "@/store/modules/popouts";
-
-@Component({
+import Vue from "vue";
+export default Vue.extend({
+  name: "MainApp",
   components: {
     SideBar,
     ServerDrawer,
@@ -73,43 +73,45 @@ import { PopoutsModule } from "@/store/modules/popouts";
     ServerSettingsDrawer,
     ExploreDrawer,
     AdminPanelDrawer
-  }
-})
-export default class MainApp extends Vue {
-  showServerContext(event: any) {
-    PopoutsModule.ShowPopout({
-      id: "context",
-      component: "ServerContextMenu",
-      key: this.selectedServerID + event.clientX + event.clientY,
-      data: {
-        x: event.clientX,
-        y: event.clientY,
-        server_id: this.selectedServerID
+  },
+  computed: {
+    headerName(): any {
+      if (this.selectedServer) {
+        return this.selectedServer.name;
       }
-    });
-  }
-  get headerName() {
-    if (this.selectedServer) {
-      return this.selectedServer.name;
+      return _.capitalize(this.currentTab);
+    },
+    selectedServerID(): any {
+      return this.$route.params.server_id;
+    },
+    currentTab(): any {
+      return this.$route.path.split("/")[2];
+    },
+    showServerSettingsDrawer(): any {
+      return this.$route.name === "server-settings";
+    },
+    showServerDrawer(): any {
+      return this.currentTab === "servers" && !this.showServerSettingsDrawer;
+    },
+    selectedServer(): any {
+      return ServersModule.servers[this.selectedServerID];
     }
-    return _.capitalize(this.currentTab);
+  },
+  methods: {
+    showServerContext(event: any) {
+      PopoutsModule.ShowPopout({
+        id: "context",
+        component: "ServerContextMenu",
+        key: this.selectedServerID + event.clientX + event.clientY,
+        data: {
+          x: event.clientX,
+          y: event.clientY,
+          server_id: this.selectedServerID
+        }
+      });
+    }
   }
-  get selectedServerID() {
-    return this.$route.params.server_id;
-  }
-  get currentTab() {
-    return this.$route.path.split("/")[2];
-  }
-  get showServerSettingsDrawer() {
-    return this.$route.name === "server-settings";
-  }
-  get showServerDrawer() {
-    return this.currentTab === "servers" && !this.showServerSettingsDrawer;
-  }
-  get selectedServer() {
-    return ServersModule.servers[this.selectedServerID];
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

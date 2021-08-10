@@ -4,13 +4,20 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
-
-@Component
-export default class MessageBoxButtonTemplate extends Vue {
-  @Prop() private icon!: string;
-  @Prop() private warn!: boolean;
-}
+import Vue from "vue";
+export default Vue.extend({
+  name: "MessageBoxButtonTemplate",
+  props: {
+    icon: {
+      type: String,
+      required: false
+    },
+    warn: {
+      type: Boolean,
+      required: false
+    }
+  }
+});
 </script>
 
 <style lang="scss" scoped>

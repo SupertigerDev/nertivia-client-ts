@@ -15,77 +15,87 @@ import { ChannelsModule } from "@/store/modules/channels";
 import { MeModule } from "@/store/modules/me";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { ServersModule } from "@/store/modules/servers";
-import { Component, Vue, Watch } from "vue-property-decorator";
-
-@Component
-export default class RateLimitPopup extends Vue {
-  timeLeft = "";
-  interval: any = null;
-
+import Vue from "vue";
+export default Vue.extend({
+  name: "RateLimitPopup",
+  data() {
+    return {
+      timeLeft: "",
+      interval: null as any
+    };
+  },
+  computed: {
+    rateLimitDuration(): any {
+      const value = ChannelsModule.channels[this.channelID].rateLimit || 0;
+      return this.timeConversion(value * 1000);
+    },
+    rateTimeLeft(): any {
+      const now = Date.now();
+      return ChannelsModule.rateLimitTimeLeft(this.channelID, now);
+    },
+    channelID(): any {
+      return this.$route.params.channel_id;
+    },
+    serverID(): any {
+      return this.$route.params.server_id;
+    },
+    isImmune(): any {
+      if (!MeModule.user.id) return false;
+      if (ServersModule.isServerOwner(this.serverID, MeModule.user.id))
+        return true;
+      return ServerMembersModule.memberHasPermission(
+        MeModule.user.id,
+        this.serverID,
+        permissions.ADMIN.value
+      );
+    }
+  },
+  watch: {
+    rateTimeLeft: {
+      // @ts-ignore
+      handler: "onRateLimit"
+    }
+  },
   beforeDestroy() {
     clearInterval(this.interval);
-  }
+  },
   mounted() {
     this.calculate();
     this.interval = setInterval(this.calculate, 500);
-  }
-  calculate() {
-    // TODO: i18n of ratelimit time
-    const now = Date.now();
-    const timeLeft = ChannelsModule.rateLimitTimeLeft(this.channelID, now);
-    if (this.isImmune || isNaN(timeLeft) || timeLeft <= 0) {
-      clearInterval(this.interval);
-      this.interval = null;
-      this.timeLeft = "";
-      return;
-    }
-    this.timeLeft = this.timeConversion(timeLeft);
-  }
-  timeConversion(millisec: number) {
-    const seconds = (millisec / 1000).toFixed(0) as any;
-    const minutes = (millisec / (1000 * 60)).toFixed(1) as any;
-    const hours = (millisec / (1000 * 60 * 60)).toFixed(1) as any;
+  },
+  methods: {
+    calculate() {
+      // TODO: i18n of ratelimit time
+      const now = Date.now();
+      const timeLeft = ChannelsModule.rateLimitTimeLeft(this.channelID, now);
+      if (this.isImmune || isNaN(timeLeft) || timeLeft <= 0) {
+        clearInterval(this.interval);
+        this.interval = null;
+        this.timeLeft = "";
+        return;
+      }
+      this.timeLeft = this.timeConversion(timeLeft);
+    },
+    timeConversion(millisec: number) {
+      const seconds = (millisec / 1000).toFixed(0) as any;
+      const minutes = (millisec / (1000 * 60)).toFixed(1) as any;
+      const hours = (millisec / (1000 * 60 * 60)).toFixed(1) as any;
 
-    if (seconds < 60) {
-      return seconds + " seconds";
-    } else if (minutes < 60) {
-      return minutes + " minutes";
-    } else {
-      return hours + " hours";
+      if (seconds < 60) {
+        return seconds + " seconds";
+      } else if (minutes < 60) {
+        return minutes + " minutes";
+      } else {
+        return hours + " hours";
+      }
+    },
+    onRateLimit() {
+      this.calculate();
+      if (this.interval) return;
+      this.interval = setInterval(this.calculate, 500);
     }
   }
-
-  @Watch("rateTimeLeft")
-  onRateLimit() {
-    this.calculate();
-    if (this.interval) return;
-    this.interval = setInterval(this.calculate, 500);
-  }
-  get rateLimitDuration() {
-    const value = ChannelsModule.channels[this.channelID].rateLimit || 0;
-    return this.timeConversion(value * 1000);
-  }
-  get rateTimeLeft() {
-    const now = Date.now();
-    return ChannelsModule.rateLimitTimeLeft(this.channelID, now);
-  }
-  get channelID() {
-    return this.$route.params.channel_id;
-  }
-  get serverID() {
-    return this.$route.params.server_id;
-  }
-  get isImmune() {
-    if (!MeModule.user.id) return false;
-    if (ServersModule.isServerOwner(this.serverID, MeModule.user.id))
-      return true;
-    return ServerMembersModule.memberHasPermission(
-      MeModule.user.id,
-      this.serverID,
-      permissions.ADMIN.value
-    );
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

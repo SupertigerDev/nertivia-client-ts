@@ -15,56 +15,79 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import { seededColor } from "seeded-color";
 import WindowProperties from "@/utils/windowProperties";
 import { highPriorityBadge } from "@/constants/badges";
-
-@Component
-export default class MainApp extends Vue {
-  @Prop() private size!: string;
-  @Prop() private imageId!: string;
-  @Prop() private seedId!: string;
-  @Prop() private willHaveClickEvent!: boolean;
-  @Prop() private animateGif!: boolean;
-  @Prop() private customUrl!: string;
-  @Prop() private badges!: number;
-
-  get src() {
-    let url = process.env.VUE_APP_NERTIVIA_CDN + this.imageId;
-    if (!this.isGif) return url;
-    if (!this.animateGif || !this.isFocused) {
-      url += "?type=webp";
+import Vue from "vue";
+export default Vue.extend({
+  name: "MainApp",
+  props: {
+    size: {
+      type: String,
+      required: false
+    },
+    imageId: {
+      type: String,
+      required: false
+    },
+    seedId: {
+      type: String,
+      required: false
+    },
+    willHaveClickEvent: {
+      type: Boolean,
+      required: false
+    },
+    animateGif: {
+      type: Boolean,
+      required: false
+    },
+    customUrl: {
+      type: String,
+      required: false
+    },
+    badges: {
+      type: Number,
+      required: false
     }
-    return url;
-  }
-  get highPriorityBadge() {
-    if (!this.badges) return null;
-    return highPriorityBadge(this.badges);
-  }
-  get isFocused() {
-    return WindowProperties.isFocused;
-  }
-  get isGif() {
-    return this.imageId.endsWith(".gif");
-  }
-  get bgColor() {
-    if (this.imageId) return null;
-    if (!this.seedId) return null;
-    return seededColor(this.seedId);
-  }
-  get style() {
-    const style: any = {
-      width: this.size,
-      height: this.size
-    };
+  },
+  computed: {
+    src(): any {
+      let url = process.env.VUE_APP_NERTIVIA_CDN + this.imageId;
+      if (!this.isGif) return url;
+      if (!this.animateGif || !this.isFocused) {
+        url += "?type=webp";
+      }
+      return url;
+    },
+    highPriorityBadge(): any {
+      if (!this.badges) return null;
+      return highPriorityBadge(this.badges);
+    },
+    isFocused(): any {
+      return WindowProperties.isFocused;
+    },
+    isGif(): any {
+      return this.imageId.endsWith(".gif");
+    },
+    bgColor(): any {
+      if (this.imageId) return null;
+      if (!this.seedId) return null;
+      return seededColor(this.seedId);
+    },
+    style(): any {
+      const style: any = {
+        width: this.size,
+        height: this.size
+      };
 
-    if (this.highPriorityBadge) {
-      style.borderColor = this.highPriorityBadge.color;
+      if (this.highPriorityBadge) {
+        style.borderColor = this.highPriorityBadge.color;
+      }
+      return style;
     }
-    return style;
   }
-}
+});
 </script>
 
 <style lang="scss" scoped>

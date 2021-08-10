@@ -10,26 +10,36 @@
 <script lang="ts">
 import SuggestionPopoutTemplate from "./SuggestionPopoutTemplate.vue";
 import UserSuggestionTemplate from "./UserSuggestionTemplate.vue";
-import { Component, Prop, Vue } from "vue-property-decorator";
 import User from "@/interfaces/User";
-
-@Component({ components: { SuggestionPopoutTemplate } })
-export default class UserSuggestion extends Vue {
-  @Prop() private users!: User[];
-  UserSuggestionTemplate = UserSuggestionTemplate;
-
-  up() {
-    (this.$refs.template as any).up();
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "UserSuggestion",
+  components: { SuggestionPopoutTemplate },
+  props: {
+    users: {
+      type: Array as PropType<User[]>,
+      required: false
+    }
+  },
+  data() {
+    return {
+      UserSuggestionTemplate: UserSuggestionTemplate
+    };
+  },
+  methods: {
+    up() {
+      (this.$refs.template as any).up();
+    },
+    down() {
+      (this.$refs.template as any).down();
+    },
+    enter() {
+      (this.$refs.template as any).enter();
+    },
+    onSelected(user: User) {
+      this.$emit("selected", `@${user.username}:${user.tag} `);
+    }
   }
-  down() {
-    (this.$refs.template as any).down();
-  }
-  enter() {
-    (this.$refs.template as any).enter();
-  }
-  onSelected(user: User) {
-    this.$emit("selected", `@${user.username}:${user.tag} `);
-  }
-}
+});
 </script>
 <style scoped></style>

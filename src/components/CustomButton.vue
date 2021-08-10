@@ -28,20 +28,49 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-
-@Component
-export default class CustomInput extends Vue {
-  focused = false;
-  @Prop() private name!: string;
-  @Prop() private alert!: boolean;
-  @Prop() private warn!: boolean;
-  @Prop() private disabled!: boolean;
-  @Prop() private valid!: boolean;
-  @Prop() private icon!: string;
-  @Prop() private iconPos!: string;
-  @Prop() private iconSize!: string;
-}
+import Vue from "vue";
+export default Vue.extend({
+  name: "CustomInput",
+  props: {
+    name: {
+      type: String,
+      required: false
+    },
+    alert: {
+      type: Boolean,
+      required: false
+    },
+    warn: {
+      type: Boolean,
+      required: false
+    },
+    disabled: {
+      type: Boolean,
+      required: false
+    },
+    valid: {
+      type: Boolean,
+      required: false
+    },
+    icon: {
+      type: String,
+      required: false
+    },
+    iconPos: {
+      type: String,
+      required: false
+    },
+    iconSize: {
+      type: String,
+      required: false
+    }
+  },
+  data() {
+    return {
+      focused: false
+    };
+  }
+});
 </script>
 
 <style lang="scss" scoped>

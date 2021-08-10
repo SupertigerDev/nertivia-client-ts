@@ -10,26 +10,36 @@
 <script lang="ts">
 import SuggestionPopoutTemplate from "./SuggestionPopoutTemplate.vue";
 import ChannelSuggestionTemplate from "./ChannelSuggestionTemplate.vue";
-import { Component, Prop, Vue } from "vue-property-decorator";
 import Channel from "@/interfaces/Channel";
-
-@Component({ components: { SuggestionPopoutTemplate } })
-export default class ChannelSuggestion extends Vue {
-  @Prop() private channels!: Channel[];
-  ChannelSuggestionTemplate = ChannelSuggestionTemplate;
-
-  up() {
-    (this.$refs.template as any).up();
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "ChannelSuggestion",
+  components: { SuggestionPopoutTemplate },
+  props: {
+    channels: {
+      type: Array as PropType<Channel[]>,
+      required: false
+    }
+  },
+  data() {
+    return {
+      ChannelSuggestionTemplate: ChannelSuggestionTemplate
+    };
+  },
+  methods: {
+    up() {
+      (this.$refs.template as any).up();
+    },
+    down() {
+      (this.$refs.template as any).down();
+    },
+    enter() {
+      (this.$refs.template as any).enter();
+    },
+    onSelected(channel: Channel) {
+      this.$emit("selected", `#${channel.name}# `);
+    }
   }
-  down() {
-    (this.$refs.template as any).down();
-  }
-  enter() {
-    (this.$refs.template as any).enter();
-  }
-  onSelected(channel: Channel) {
-    this.$emit("selected", `#${channel.name}# `);
-  }
-}
+});
 </script>
 <style scoped></style>

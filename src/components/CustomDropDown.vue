@@ -53,8 +53,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
+import Vue, { PropType } from "vue";
 
 interface Item {
   name: string;
@@ -65,33 +65,63 @@ interface Item {
   };
 }
 
-@Component({ components: { AvatarImage } })
-export default class CustomDropDown extends Vue {
-  focused = true;
-  openDropDown = false;
-  @Prop() private title!: string;
-  @Prop() private items!: (Item | any)[];
-  @Prop() private error!: string;
-  @Prop({ default: null }) private defaultId!: number;
-  @Prop() private validMessage!: string;
-  @Prop() private IdPath!: string;
-  @Prop({ default: "Select Item" }) private defaultText!: string;
-  selectedId = this.defaultId;
-
-  clickOutside() {
-    this.openDropDown = false;
+export default Vue.extend({
+  name: "CustomDropDown",
+  components: { AvatarImage },
+  props: {
+    title: {
+      type: String,
+      required: false
+    },
+    items: {
+      type: Array as PropType<(Item | any)[]>,
+      required: false
+    },
+    error: {
+      type: String,
+      required: false
+    },
+    defaultId: {
+      type: Number,
+      default: null
+    },
+    validMessage: {
+      type: String,
+      required: false
+    },
+    IdPath: {
+      type: String,
+      required: false
+    },
+    defaultText: {
+      type: String,
+      default: "Select Item"
+    }
+  },
+  data() {
+    return {
+      focused: true,
+      openDropDown: false,
+      selectedId: this.defaultId
+    };
+  },
+  computed: {
+    selectedItem(): any {
+      if (this.selectedId === null) return undefined;
+      return this.items.find(i => i[this.IdPath] === this.selectedId);
+    }
+  },
+  methods: {
+    clickOutside() {
+      this.openDropDown = false;
+    },
+    itemClick(id: number) {
+      this.openDropDown = false;
+      this.selectedId = id;
+      this.$emit("change", id);
+    }
   }
-
-  itemClick(id: number) {
-    this.openDropDown = false;
-    this.selectedId = id;
-    this.$emit("change", id);
-  }
-  get selectedItem() {
-    if (this.selectedId === null) return undefined;
-    return this.items.find(i => i[this.IdPath] === this.selectedId);
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

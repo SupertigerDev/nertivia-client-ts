@@ -80,7 +80,6 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import CheckBox from "@/components/CheckBox.vue";
@@ -95,186 +94,206 @@ import { ServersModule } from "@/store/modules/servers";
 import { MeModule } from "@/store/modules/me";
 import Channel from "@/interfaces/Channel";
 import twemoji from "twemoji";
-@Component({
+import Vue from "vue";
+export default Vue.extend({
+  name: "ManageChannels",
   components: {
     CustomInput,
     CustomButton,
     CheckBox,
     ContextMenu,
     EmojiPicker
-  }
-})
-export default class ManageChannels extends Vue {
-  @Prop() private channelID!: string;
-  deleteConfirm = false;
-  deleteRequestSent = false;
-  requestSent = false;
-  channelName = this.channel?.name;
-  channelIcon: null | string = null;
-  rateLimit = this.channel?.rateLimit || 0;
-  error: string | null = null;
-  showIconContext = false;
-  showEmojiPicker = false;
-  sendMessagePermission = this.channel?.permissions?.send_message || false;
-  reset() {
-    this.rateLimit = this.channel?.rateLimit || 0;
-    this.channelName = this.channel?.name;
-    this.channelIcon = this.channel?.icon || null;
-    if (this.channel?.permissions?.send_message === undefined) {
-      return (this.sendMessagePermission = true);
+  },
+  props: {
+    channelID: {
+      type: String,
+      required: false
     }
-    this.sendMessagePermission =
-      this.channel?.permissions?.send_message || false;
-  }
+  },
+  data() {
+    return {
+      deleteConfirm: false,
+      deleteRequestSent: false,
+      requestSent: false,
+      channelName: this.channel?.name,
+      channelIcon: null as null | string,
+      rateLimit: this.channel?.rateLimit || 0,
+      error: null as string | null,
+      showIconContext: false,
+      showEmojiPicker: false,
+      sendMessagePermission: this.channel?.permissions?.send_message || false
+    };
+  },
+  computed: {
+    channelIconHTML(): any {
+      if (!this.channelIcon) return null;
+      const isCustom =
+        this.channelIcon?.startsWith("g_") ||
+        this.channelIcon?.startsWith("c_");
+      const isGif = this.channelIcon?.startsWith("g_");
+      const customEmojiID = this.channelIcon?.split("_")[1];
+
+      const image = new Image();
+      image.classList.add("emoji");
+
+      if (isCustom) {
+        image.src = `${
+          process.env.VUE_APP_NERTIVIA_CDN
+        }emojis/${customEmojiID}.${isGif ? "gif" : "png"}`;
+      } else {
+        image.src =
+          process.env.VUE_APP_TWEMOJI_LOCATION +
+          twemoji.convert.toCodePoint(this.channelIcon).replace("-fe0f", "") +
+          ".svg";
+      }
+      return image.outerHTML;
+    },
+    channel(): Channel | undefined {
+      return ChannelsModule.channels[this.channelID];
+    },
+    server(): any {
+      return ServersModule.servers[this.channel?.server_id || ""];
+    },
+    showSaveButton(): any {
+      const {
+        channelName,
+        sendMessagePermission,
+        rateLimit,
+        channelIcon
+      } = this.changed;
+      return channelName || sendMessagePermission || rateLimit || channelIcon;
+    },
+    changed(): any {
+      let currentPermission = this.channel?.permissions?.send_message;
+      if (this.channel?.permissions?.send_message === undefined) {
+        currentPermission = true;
+      }
+      const rateLimit = this.rateLimit !== (this.channel?.rateLimit || 0);
+      const channelName = this.channelName !== this.channel?.name;
+
+      const channelIcon = (this.channel?.icon || null) !== this.channelIcon;
+
+      const sendMessagePermission =
+        this.sendMessagePermission !== currentPermission || false;
+
+      return { channelName, sendMessagePermission, rateLimit, channelIcon };
+    },
+    connected(): any {
+      return MeModule.connected;
+    }
+  },
+  watch: {
+    connected: {
+      // @ts-ignore
+      handler: "isConnected"
+    },
+    channel: {
+      // @ts-ignore
+      handler: "channelChange"
+    }
+  },
   mounted() {
     this.reset();
-  }
-  onEmojiContextClick(item: { id: string }) {
-    switch (item.id) {
-      case "emoji":
-        this.showEmojiPicker = true;
-        this.showIconContext = false;
-        break;
-      case "default":
-        this.channelIcon = null;
-        this.showIconContext = false;
-        break;
-      default:
-        break;
-    }
-  }
-  emojiClicked(emoji: any) {
-    const { unicode, emojiID, gif } = emoji;
-    this.showEmojiPicker = false;
-    if (unicode) {
-      this.channelIcon = unicode;
-      return;
-    }
-    this.channelIcon = `${gif ? "g" : "c"}_${emojiID}`;
-  }
-  @Watch("connected")
-  isConnected(val: boolean) {
-    if (val) {
-      this.reset();
-    }
-  }
-  @Watch("channel")
-  channelChange(channel: Channel) {
-    if (!channel) {
-      this.$emit("close");
-    }
-  }
-  deleteChannel() {
-    if (!this.channel?.server_id) return;
-    if (this.deleteRequestSent) return;
-    if (!this.deleteConfirm) {
-      this.deleteConfirm = true;
-      return;
-    }
-    this.deleteRequestSent = true;
-
-    deleteServerChannel(this.channelID, this.channel.server_id)
-      .then(() => {
-        this.$emit("close");
-        ChannelsModule.RemoveChannel(this.channelID);
-      })
-      .finally(() => {
-        this.deleteRequestSent = false;
-        this.deleteConfirm = false;
-      });
-  }
-  update() {
-    if (this.requestSent) return;
-    this.requestSent = true;
-    if (!this.channel?.server_id) return;
-    this.error = null;
-    updateServerChannel(this.channel.channelID, this.channel.server_id, {
-      name: this.channelName,
-      permissions: { send_message: this.sendMessagePermission },
-      rateLimit: parseInt(this.rateLimit as any),
-      icon: this.channelIcon || null
-    })
-      .then(json => {
-        ChannelsModule.updateChannel({
-          channelID: json.channelID,
-          update: json
-        });
+  },
+  methods: {
+    reset() {
+      this.rateLimit = this.channel?.rateLimit || 0;
+      this.channelName = this.channel?.name;
+      this.channelIcon = this.channel?.icon || null;
+      if (this.channel?.permissions?.send_message === undefined) {
+        return (this.sendMessagePermission = true);
+      }
+      this.sendMessagePermission =
+        this.channel?.permissions?.send_message || false;
+    },
+    onEmojiContextClick(item: { id: string }) {
+      switch (item.id) {
+        case "emoji":
+          this.showEmojiPicker = true;
+          this.showIconContext = false;
+          break;
+        case "default":
+          this.channelIcon = null;
+          this.showIconContext = false;
+          break;
+        default:
+          break;
+      }
+    },
+    emojiClicked(emoji: any) {
+      const { unicode, emojiID, gif } = emoji;
+      this.showEmojiPicker = false;
+      if (unicode) {
+        this.channelIcon = unicode;
+        return;
+      }
+      this.channelIcon = `${gif ? "g" : "c"}_${emojiID}`;
+    },
+    isConnected(val: boolean) {
+      if (val) {
         this.reset();
+      }
+    },
+    channelChange(channel: Channel) {
+      if (!channel) {
+        this.$emit("close");
+      }
+    },
+    deleteChannel() {
+      if (!this.channel?.server_id) return;
+      if (this.deleteRequestSent) return;
+      if (!this.deleteConfirm) {
+        this.deleteConfirm = true;
+        return;
+      }
+      this.deleteRequestSent = true;
+
+      deleteServerChannel(this.channelID, this.channel.server_id)
+        .then(() => {
+          this.$emit("close");
+          ChannelsModule.RemoveChannel(this.channelID);
+        })
+        .finally(() => {
+          this.deleteRequestSent = false;
+          this.deleteConfirm = false;
+        });
+    },
+    update() {
+      if (this.requestSent) return;
+      this.requestSent = true;
+      if (!this.channel?.server_id) return;
+      this.error = null;
+      updateServerChannel(this.channel.channelID, this.channel.server_id, {
+        name: this.channelName,
+        permissions: { send_message: this.sendMessagePermission },
+        rateLimit: parseInt(this.rateLimit as any),
+        icon: this.channelIcon || null
       })
-      .catch(async err => {
-        if (!err.response) {
-          return (this.error = this.$t(
-            "could-not-connect-to-server"
-          ).toString());
-        }
-        const json = await err.response.json();
-        const { errors, message } = json;
-        if (message) return (this.error = message);
-        for (let i = 0; i < errors.length; i++) {
-          const error = errors[i];
-          this.error = error.msg;
-        }
-      })
-      .finally(() => (this.requestSent = false));
-  }
-
-  get channelIconHTML() {
-    if (!this.channelIcon) return null;
-    const isCustom =
-      this.channelIcon?.startsWith("g_") || this.channelIcon?.startsWith("c_");
-    const isGif = this.channelIcon?.startsWith("g_");
-    const customEmojiID = this.channelIcon?.split("_")[1];
-
-    const image = new Image();
-    image.classList.add("emoji");
-
-    if (isCustom) {
-      image.src = `${process.env.VUE_APP_NERTIVIA_CDN}emojis/${customEmojiID}.${
-        isGif ? "gif" : "png"
-      }`;
-    } else {
-      image.src =
-        process.env.VUE_APP_TWEMOJI_LOCATION +
-        twemoji.convert.toCodePoint(this.channelIcon).replace("-fe0f", "") +
-        ".svg";
+        .then(json => {
+          ChannelsModule.updateChannel({
+            channelID: json.channelID,
+            update: json
+          });
+          this.reset();
+        })
+        .catch(async err => {
+          if (!err.response) {
+            return (this.error = this.$t(
+              "could-not-connect-to-server"
+            ).toString());
+          }
+          const json = await err.response.json();
+          const { errors, message } = json;
+          if (message) return (this.error = message);
+          for (let i = 0; i < errors.length; i++) {
+            const error = errors[i];
+            this.error = error.msg;
+          }
+        })
+        .finally(() => (this.requestSent = false));
     }
-    return image.outerHTML;
   }
-
-  get channel(): Channel | undefined {
-    return ChannelsModule.channels[this.channelID];
-  }
-  get server() {
-    return ServersModule.servers[this.channel?.server_id || ""];
-  }
-  get showSaveButton() {
-    const {
-      channelName,
-      sendMessagePermission,
-      rateLimit,
-      channelIcon
-    } = this.changed;
-    return channelName || sendMessagePermission || rateLimit || channelIcon;
-  }
-  get changed() {
-    let currentPermission = this.channel?.permissions?.send_message;
-    if (this.channel?.permissions?.send_message === undefined) {
-      currentPermission = true;
-    }
-    const rateLimit = this.rateLimit !== (this.channel?.rateLimit || 0);
-    const channelName = this.channelName !== this.channel?.name;
-
-    const channelIcon = (this.channel?.icon || null) !== this.channelIcon;
-
-    const sendMessagePermission =
-      this.sendMessagePermission !== currentPermission || false;
-
-    return { channelName, sendMessagePermission, rateLimit, channelIcon };
-  }
-  get connected() {
-    return MeModule.connected;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

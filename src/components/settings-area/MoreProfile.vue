@@ -56,7 +56,6 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import CustomDropDown from "@/components/CustomDropDown.vue";
@@ -64,66 +63,78 @@ import InformationTemplate from "@/components/InformationTemplate.vue";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { ageGroups, continents, countries, genders } from "@/utils/surveyItems";
 import { AboutMe, updateSurvay } from "@/services/userService";
-
-@Component({
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "MoreProfile",
   components: {
     CustomInput,
     CustomButton,
     AvatarImage,
     InformationTemplate,
     CustomDropDown
-  }
-})
-export default class MoreProfile extends Vue {
-  @Prop() private aboutMe!: AboutMe;
-  about_me = this.aboutMe?.about_me || "";
-  name = this.aboutMe?.name || "";
-  gender = this.aboutMe?.gender || "";
-  age = this.aboutMe?.age || "";
-  continent = this.aboutMe?.continent || "";
-  country = this.aboutMe?.country || "";
-  errors: any = {};
-  genders = genders;
-  ageGroups = ageGroups;
-  continents = continents;
-  countries = countries;
-  saving = false;
-
-  save() {
-    if (this.saving) return;
-    this.errors = false;
-    this.saving = true;
-    updateSurvay({
-      about_me: this.about_me,
-      age: this.age,
-      continent: this.continent,
-      country: this.country,
-      gender: this.gender,
-      name: this.name
-    }).finally(() => {
-      this.saving = false;
-      this.$emit("update");
-    });
-  }
-
-  get filteredCountries() {
-    if (!this.continent || this.continent === "Rather not say") {
-      return [];
+  },
+  props: {
+    aboutMe: {
+      type: Object as PropType<AboutMe>,
+      required: false
     }
-    const continent = continents.find(c => c.name === this.continent);
-    if (!continent) return [];
-    return countries.filter(c => c.code === continent.code || c.code === "no");
+  },
+  data() {
+    return {
+      about_me: this.aboutMe?.about_me || "",
+      name: this.aboutMe?.name || "",
+      gender: this.aboutMe?.gender || "",
+      age: this.aboutMe?.age || "",
+      continent: this.aboutMe?.continent || "",
+      country: this.aboutMe?.country || "",
+      errors: {} as any,
+      genders: genders,
+      ageGroups: ageGroups,
+      continents: continents,
+      countries: countries,
+      saving: false
+    };
+  },
+  computed: {
+    filteredCountries(): any {
+      if (!this.continent || this.continent === "Rather not say") {
+        return [];
+      }
+      const continent = continents.find(c => c.name === this.continent);
+      if (!continent) return [];
+      return countries.filter(
+        c => c.code === continent.code || c.code === "no"
+      );
+    },
+    showSaveButton(): any {
+      if (this.name !== (this.aboutMe?.name || "")) return true;
+      if (this.gender !== (this.aboutMe?.gender || "")) return true;
+      if (this.age !== (this.aboutMe?.age || "")) return true;
+      if (this.continent !== (this.aboutMe?.continent || "")) return true;
+      if (this.country !== (this.aboutMe?.country || "")) return true;
+      if (this.about_me !== (this.aboutMe?.about_me || "")) return true;
+      return false;
+    }
+  },
+  methods: {
+    save() {
+      if (this.saving) return;
+      this.errors = false;
+      this.saving = true;
+      updateSurvay({
+        about_me: this.about_me,
+        age: this.age,
+        continent: this.continent,
+        country: this.country,
+        gender: this.gender,
+        name: this.name
+      }).finally(() => {
+        this.saving = false;
+        this.$emit("update");
+      });
+    }
   }
-  get showSaveButton() {
-    if (this.name !== (this.aboutMe?.name || "")) return true;
-    if (this.gender !== (this.aboutMe?.gender || "")) return true;
-    if (this.age !== (this.aboutMe?.age || "")) return true;
-    if (this.continent !== (this.aboutMe?.continent || "")) return true;
-    if (this.country !== (this.aboutMe?.country || "")) return true;
-    if (this.about_me !== (this.aboutMe?.about_me || "")) return true;
-    return false;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

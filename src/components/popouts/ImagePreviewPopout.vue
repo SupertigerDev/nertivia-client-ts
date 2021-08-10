@@ -6,23 +6,28 @@
 </template>
 <script lang="ts">
 import { PopoutsModule } from "@/store/modules/popouts";
-import { Component, Prop, Vue } from "vue-property-decorator";
-
-@Component
-export default class ProfilePopout extends Vue {
-  @Prop() private data!: {
-    url: string;
-  };
-
-  backgroundClick(event: any) {
-    if (
-      event.target.classList.contains("popout-container") ||
-      event.target.classList.contains("animate-in")
-    ) {
-      PopoutsModule.ClosePopout("image-preview-popout");
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "ProfilePopout",
+  props: {
+    data: {
+      type: Object as PropType<{
+        url: string;
+      }>,
+      required: false
+    }
+  },
+  methods: {
+    backgroundClick(event: any) {
+      if (
+        event.target.classList.contains("popout-container") ||
+        event.target.classList.contains("animate-in")
+      ) {
+        PopoutsModule.ClosePopout("image-preview-popout");
+      }
     }
   }
-}
+});
 </script>
 <style lang="scss" scoped>
 .popout-container {

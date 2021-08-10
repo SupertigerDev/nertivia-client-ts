@@ -14,13 +14,21 @@
 <script lang="ts">
 import AvatarImage from "@/components/AvatarImage.vue";
 import User from "@/interfaces/User";
-import { Component, Prop, Vue } from "vue-property-decorator";
-
-@Component({ components: { AvatarImage } })
-export default class UserSuggestionTemplate extends Vue {
-  @Prop() private item!: User;
-  @Prop() private selected!: boolean;
-}
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "UserSuggestionTemplate",
+  components: { AvatarImage },
+  props: {
+    item: {
+      type: Object as PropType<User>,
+      required: false
+    },
+    selected: {
+      type: Boolean,
+      required: false
+    }
+  }
+});
 </script>
 <style scoped lang="scss">
 .user {

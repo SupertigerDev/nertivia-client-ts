@@ -21,26 +21,34 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import UsersList from "./UsersList.vue";
 import UserDetails from "./UserDetails.vue";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
-
-@Component({ components: { CustomInput, UsersList, UserDetails } })
-export default class ServerSettingsArea extends Vue {
-  searchValue = "";
-  selectedServerMember: any = null;
-  userClicked(id: string) {
-    this.selectedServerMember = ServerMembersModule.serverMember(
-      this.serverID,
-      id
-    );
+import Vue from "vue";
+export default Vue.extend({
+  name: "ServerSettingsArea",
+  components: { CustomInput, UsersList, UserDetails },
+  data() {
+    return {
+      searchValue: "",
+      selectedServerMember: null as any
+    };
+  },
+  computed: {
+    serverID(): any {
+      return this.$route.params.server_id;
+    }
+  },
+  methods: {
+    userClicked(id: string) {
+      this.selectedServerMember = ServerMembersModule.serverMember(
+        this.serverID,
+        id
+      );
+    }
   }
-  get serverID() {
-    return this.$route.params.server_id;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

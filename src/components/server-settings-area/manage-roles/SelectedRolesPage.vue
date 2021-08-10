@@ -77,7 +77,6 @@
 <script lang="ts">
 import "@simonwep/pickr/dist/themes/classic.min.css";
 import Pickr from "@simonwep/pickr";
-import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import CheckBox from "@/components/CheckBox.vue";
@@ -89,28 +88,92 @@ import { permissions } from "@/constants/rolePermissions";
 import { deleteServerRole, updateServerRole } from "@/services/rolesService";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { ServersModule } from "@/store/modules/servers";
-@Component({
-  components: { CustomInput, CustomButton, CheckBox }
-})
-export default class ManageRolesPage extends Vue {
-  @Prop() private roleID!: string;
-  pickr: Pickr | null = null;
+import Vue from "vue";
+export default Vue.extend({
+  name: "ManageRolesPage",
+  components: { CustomInput, CustomButton, CheckBox },
+  props: {
+    roleID: {
+      type: String,
+      required: false
+    }
+  },
+  data() {
+    return {
+      pickr: null as Pickr | null,
+      error: null as string | null,
+      requestSent: false,
+      deleteConfirm: false,
+      deleteRequestSent: false,
+      name: "",
+      permissions: 0,
+      hideRole: false,
+      color: null as string | null | undefined
+    };
+  },
+  computed: {
+    role(): ServerRole | undefined {
+      return ServerRolesModule.serverRoles[this.serverID]?.[this.roleID];
+    },
+    permissionsList(): any {
+      return Object.values(permissions).map(p => {
+        const canModify =
+          this.isServerCreator ||
+          !!ServerMembersModule.memberHasPermission(
+            MeModule.user.id || "",
+            this.serverID,
+            p.value,
+            true
+          );
 
-  error: string | null = null;
-  requestSent = false;
-  deleteConfirm = false;
-  deleteRequestSent = false;
-  name = "";
-  permissions = 0;
-  hideRole = false;
-  color: string | null | undefined = null;
-
-  reset() {
-    this.name = this.role?.name || "";
-    this.permissions = this.role?.permissions || 0;
-    this.hideRole = this.role?.hideRole || false;
-    this.color = this.role?.color;
-  }
+        return {
+          ...p,
+          enabled: !!bitwiseContains(this.permissions || 0, p.value),
+          canModify
+        };
+      });
+    },
+    showSaveButton(): any {
+      return (
+        this.change.channelName ||
+        this.change.perms ||
+        this.change.hideRole ||
+        this.change.color
+      );
+    },
+    isServerCreator(): any {
+      return ServersModule.isServerOwner(
+        this.serverID,
+        MeModule?.user?.id || ""
+      );
+    },
+    change(): any {
+      const channelName = this.name !== this.role?.name;
+      const perms = this.permissions !== this.role?.permissions || 0;
+      const hideRole = this.hideRole !== (this.role?.hideRole || false);
+      const color = this.color !== this.role?.color;
+      return { channelName, perms, hideRole, color };
+    },
+    serverID(): any {
+      return this.$route.params.server_id;
+    },
+    connected(): any {
+      return MeModule.connected;
+    },
+    showDeleteButton(): any {
+      return !this.role?.default && this.role?.deletable;
+    }
+  },
+  watch: {
+    connected: {
+      // @ts-ignore
+      handler: "isConnected"
+    },
+    role: {
+      // @ts-ignore
+      handler: "roleChange"
+    }
+  },
   mounted() {
     this.reset();
     this.pickr = Pickr.create({
@@ -129,143 +192,98 @@ export default class ManageRolesPage extends Vue {
       }
     });
     this.pickr.on("hide", this.colorChanged);
-  }
+  },
   beforeDestroy() {
     this.pickr?.off("hide", this.colorChanged);
     this.pickr?.destroyAndRemove();
-  }
-  showPicker(event: any) {
-    const rect = event.target.getBoundingClientRect();
-    const top = rect.top - 47;
-    (this.$refs.pickerButton as HTMLElement).style.top = top + "px";
-    this.pickr?.setColor(this.color || "white");
-    this.pickr?.show();
-  }
-  colorChanged(event: any) {
-    const hex = event
-      .getColor()
-      .toHEXA()
-      .toString();
-    this.color = hex;
-  }
-  checkBoxChange(checked: boolean, perm: any) {
-    if (!perm.canModify) return;
-    if (checked) {
-      this.permissions = bitwiseAdd(this.permissions, perm.value);
-    } else {
-      this.permissions = bitwiseRemove(this.permissions, perm.value);
-    }
-  }
-  update() {
-    if (this.requestSent) return;
-    this.requestSent = true;
-    this.error = null;
-    updateServerRole(this.serverID, this.roleID, {
-      name: this.name,
-      permissions: this.permissions,
-      hideRole: this.hideRole,
-      color: this.color as string
-    })
-      .then(role => {
-        ServerRolesModule.UpdateServerRole(role);
-        this.reset();
+  },
+  methods: {
+    reset() {
+      this.name = this.role?.name || "";
+      this.permissions = this.role?.permissions || 0;
+      this.hideRole = this.role?.hideRole || false;
+      this.color = this.role?.color;
+    },
+    showPicker(event: any) {
+      const rect = event.target.getBoundingClientRect();
+      const top = rect.top - 47;
+      (this.$refs.pickerButton as HTMLElement).style.top = top + "px";
+      this.pickr?.setColor(this.color || "white");
+      this.pickr?.show();
+    },
+    colorChanged(event: any) {
+      const hex = event
+        .getColor()
+        .toHEXA()
+        .toString();
+      this.color = hex;
+    },
+    checkBoxChange(checked: boolean, perm: any) {
+      if (!perm.canModify) return;
+      if (checked) {
+        this.permissions = bitwiseAdd(this.permissions, perm.value);
+      } else {
+        this.permissions = bitwiseRemove(this.permissions, perm.value);
+      }
+    },
+    update() {
+      if (this.requestSent) return;
+      this.requestSent = true;
+      this.error = null;
+      updateServerRole(this.serverID, this.roleID, {
+        name: this.name,
+        permissions: this.permissions,
+        hideRole: this.hideRole,
+        color: this.color as string
       })
-      .catch(async err => {
-        if (!err.response) {
-          this.error = this.$t("could-not-connect-to-server").toString();
-          return;
-        }
-        const { message, errors } = await err.response.json();
-        this.error = message || errors[0].msg;
-      })
-      .finally(() => {
-        this.requestSent = false;
-      });
-  }
-  deleteRole() {
-    if (this.deleteRequestSent) return;
-    if (!this.deleteConfirm) {
-      this.deleteConfirm = true;
-      return;
-    }
-    this.deleteRequestSent = true;
-    deleteServerRole(this.serverID, this.roleID)
-      .then(() => {
-        ServerRolesModule.DeleteServerRole({
-          server_id: this.serverID,
-          role_id: this.roleID
+        .then(role => {
+          ServerRolesModule.UpdateServerRole(role);
+          this.reset();
+        })
+        .catch(async err => {
+          if (!err.response) {
+            this.error = this.$t("could-not-connect-to-server").toString();
+            return;
+          }
+          const { message, errors } = await err.response.json();
+          this.error = message || errors[0].msg;
+        })
+        .finally(() => {
+          this.requestSent = false;
         });
+    },
+    deleteRole() {
+      if (this.deleteRequestSent) return;
+      if (!this.deleteConfirm) {
+        this.deleteConfirm = true;
+        return;
+      }
+      this.deleteRequestSent = true;
+      deleteServerRole(this.serverID, this.roleID)
+        .then(() => {
+          ServerRolesModule.DeleteServerRole({
+            server_id: this.serverID,
+            role_id: this.roleID
+          });
+          this.$emit("close");
+        })
+        .finally(() => {
+          this.deleteRequestSent = false;
+          this.deleteConfirm = false;
+        });
+    },
+    isConnected(val: boolean) {
+      if (val) {
+        this.reset();
+      }
+    },
+    roleChange(role: ServerRole) {
+      if (!role) {
         this.$emit("close");
-      })
-      .finally(() => {
-        this.deleteRequestSent = false;
-        this.deleteConfirm = false;
-      });
-  }
-  @Watch("connected")
-  isConnected(val: boolean) {
-    if (val) {
-      this.reset();
+      }
     }
   }
-  @Watch("role")
-  roleChange(role: ServerRole) {
-    if (!role) {
-      this.$emit("close");
-    }
-  }
-
-  get role(): ServerRole | undefined {
-    return ServerRolesModule.serverRoles[this.serverID]?.[this.roleID];
-  }
-  get permissionsList() {
-    return Object.values(permissions).map(p => {
-      const canModify =
-        this.isServerCreator ||
-        !!ServerMembersModule.memberHasPermission(
-          MeModule.user.id || "",
-          this.serverID,
-          p.value,
-          true
-        );
-
-      return {
-        ...p,
-        enabled: !!bitwiseContains(this.permissions || 0, p.value),
-        canModify
-      };
-    });
-  }
-
-  get showSaveButton() {
-    return (
-      this.change.channelName ||
-      this.change.perms ||
-      this.change.hideRole ||
-      this.change.color
-    );
-  }
-  get isServerCreator() {
-    return ServersModule.isServerOwner(this.serverID, MeModule?.user?.id || "");
-  }
-  get change() {
-    const channelName = this.name !== this.role?.name;
-    const perms = this.permissions !== this.role?.permissions || 0;
-    const hideRole = this.hideRole !== (this.role?.hideRole || false);
-    const color = this.color !== this.role?.color;
-    return { channelName, perms, hideRole, color };
-  }
-
-  get serverID() {
-    return this.$route.params.server_id;
-  }
-  get connected() {
-    return MeModule.connected;
-  }
-  get showDeleteButton() {
-    return !this.role?.default && this.role?.deletable;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

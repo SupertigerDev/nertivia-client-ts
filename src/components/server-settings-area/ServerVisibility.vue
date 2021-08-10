@@ -49,7 +49,6 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
 import RadioBox from "@/components/RadioBox.vue";
 import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
@@ -60,103 +59,111 @@ import {
   ServerResponse,
   updateServer
 } from "@/services/exploreService";
-@Component({ components: { RadioBox, CustomInput, CustomButton } })
-export default class ServerVisibility extends Vue {
-  error: string | null = null;
-  visibility: number | null = null;
-  response: ServerResponse | null = null;
-  description = "";
-  updating = false;
+import Vue from "vue";
+export default Vue.extend({
+  name: "ServerVisibility",
+  components: { RadioBox, CustomInput, CustomButton },
+  data() {
+    return {
+      error: null as string | null,
+      visibility: null as number | null,
+      response: null as ServerResponse | null,
+      description: "",
+      updating: false
+    };
+  },
+  computed: {
+    showSave(): any {
+      if (!this.response) return false;
+      if (this.description !== this.response?.description || "") return true;
+      return false;
+    },
+    serverID(): any {
+      return this.$route.params.server_id;
+    }
+  },
   mounted() {
     this.getDetails();
-  }
-  getDetails() {
-    this.response = null;
-    getServer(this.serverID)
-      .then(server => {
-        this.visibility = 1;
-        this.response = server;
-        this.description = server.description || "";
-      })
-      .catch(err => {
-        this.visibility = null;
-        if (!err.response) return;
-        this.visibility = 0;
-      });
-  }
-  deleteServer() {
-    if (this.updating) return;
-    this.error = null;
-    this.updating = true;
+  },
+  methods: {
+    getDetails() {
+      this.response = null;
+      getServer(this.serverID)
+        .then(server => {
+          this.visibility = 1;
+          this.response = server;
+          this.description = server.description || "";
+        })
+        .catch(err => {
+          this.visibility = null;
+          if (!err.response) return;
+          this.visibility = 0;
+        });
+    },
+    deleteServer() {
+      if (this.updating) return;
+      this.error = null;
+      this.updating = true;
 
-    deleteServer(this.serverID)
-      .then(() => {
-        this.getDetails();
-      })
-      .catch(async err => {
-        if (!err.response) {
-          this.error = this.$t("could-not-connect-to-server").toString();
-          return;
-        }
-        const json = await err.response.json();
-        this.error = json.message;
-      })
-      .finally(() => {
-        this.updating = false;
-      });
-  }
-  addServer() {
-    if (this.updating) return;
-    this.error = null;
-    this.updating = true;
+      deleteServer(this.serverID)
+        .then(() => {
+          this.getDetails();
+        })
+        .catch(async err => {
+          if (!err.response) {
+            this.error = this.$t("could-not-connect-to-server").toString();
+            return;
+          }
+          const json = await err.response.json();
+          this.error = json.message;
+        })
+        .finally(() => {
+          this.updating = false;
+        });
+    },
+    addServer() {
+      if (this.updating) return;
+      this.error = null;
+      this.updating = true;
 
-    addServer(this.serverID, this.description)
-      .then(() => {
-        this.getDetails();
-      })
-      .catch(async err => {
-        if (!err.response) {
-          this.error = this.$t("could-not-connect-to-server").toString();
-          return;
-        }
-        const json = await err.response.json();
-        this.error = json.message;
-      })
-      .finally(() => {
-        this.updating = false;
-      });
+      addServer(this.serverID, this.description)
+        .then(() => {
+          this.getDetails();
+        })
+        .catch(async err => {
+          if (!err.response) {
+            this.error = this.$t("could-not-connect-to-server").toString();
+            return;
+          }
+          const json = await err.response.json();
+          this.error = json.message;
+        })
+        .finally(() => {
+          this.updating = false;
+        });
+    },
+    update() {
+      if (this.updating) return;
+      this.error = null;
+      this.updating = true;
+      updateServer(this.serverID, this.description)
+        .then(() => {
+          this.getDetails();
+        })
+        .catch(async err => {
+          if (!err.response) {
+            this.error = this.$t("could-not-connect-to-server").toString();
+            return;
+          }
+          const json = await err.response.json();
+          this.error = json.message;
+        })
+        .finally(() => {
+          this.updating = false;
+        });
+    }
   }
-  update() {
-    if (this.updating) return;
-    this.error = null;
-    this.updating = true;
-    updateServer(this.serverID, this.description)
-      .then(() => {
-        this.getDetails();
-      })
-      .catch(async err => {
-        if (!err.response) {
-          this.error = this.$t("could-not-connect-to-server").toString();
-          return;
-        }
-        const json = await err.response.json();
-        this.error = json.message;
-      })
-      .finally(() => {
-        this.updating = false;
-      });
-  }
-
-  get showSave() {
-    if (!this.response) return false;
-    if (this.description !== this.response?.description || "") return true;
-    return false;
-  }
-
-  get serverID() {
-    return this.$route.params.server_id;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

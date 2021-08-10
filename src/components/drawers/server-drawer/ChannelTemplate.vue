@@ -25,68 +25,72 @@ import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChan
 import { MutedChannelsModule } from "@/store/modules/mutedChannels";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { emojiURL } from "@/utils/emojiParser";
-import { Component, Prop, Vue } from "vue-property-decorator";
-
-@Component
-export default class ChannelTemplate extends Vue {
-  @Prop() private channel!: Channel;
-  hover = false;
-
-  closeDrawer() {
-    DrawersModule.SetLeftDrawer(false);
-  }
-
-  showContext(event: any) {
-    PopoutsModule.ShowPopout({
-      id: "context",
-      component: "ChannelContextMenu",
-      key: this.channel.server_id + event.clientX + event.clientY,
-      data: {
-        x: event.clientX,
-        y: event.clientY,
-        server_id: this.channel.server_id,
-        channelID: this.channel.channelID
-      }
-    });
-  }
-
-  get path() {
-    return `/app/servers/${this.channel.server_id}/${this.channel.channelID}`;
-  }
-
-  get notificationExists() {
-    return LastSeenServerChannelsModule.serverChannelNotification(
-      this.channel.channelID
-    );
-  }
-
-  get isMuted() {
-    return MutedChannelsModule.mutedChannels.includes(this.channel.channelID);
-  }
-
-  get isChannelSelected() {
-    return this.$route.params.channel_id === this.channel.channelID;
-  }
-
-  get iconURL() {
-    const icon = this.channel.icon;
-    if (!icon) return null;
-    const isCustom = icon.startsWith("g_") || icon.startsWith("c_");
-    const isGif = icon.startsWith("g_");
-    const customEmojiID = icon.split("_")[1];
-    return emojiURL(isCustom ? customEmojiID : icon, {
-      animated: this.hover,
-      isCustom,
-      isGif
-    });
-  }
-
-  get channelStyle() {
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "ChannelTemplate",
+  props: {
+    channel: {
+      type: Object as PropType<Channel>,
+      required: false
+    }
+  },
+  data() {
     return {
-      "--icon-url": this.iconURL && `url("${this.iconURL}")`
+      hover: false
     };
+  },
+  computed: {
+    path(): any {
+      return `/app/servers/${this.channel.server_id}/${this.channel.channelID}`;
+    },
+    notificationExists(): any {
+      return LastSeenServerChannelsModule.serverChannelNotification(
+        this.channel.channelID
+      );
+    },
+    isMuted(): any {
+      return MutedChannelsModule.mutedChannels.includes(this.channel.channelID);
+    },
+    isChannelSelected(): any {
+      return this.$route.params.channel_id === this.channel.channelID;
+    },
+    iconURL(): any {
+      const icon = this.channel.icon;
+      if (!icon) return null;
+      const isCustom = icon.startsWith("g_") || icon.startsWith("c_");
+      const isGif = icon.startsWith("g_");
+      const customEmojiID = icon.split("_")[1];
+      return emojiURL(isCustom ? customEmojiID : icon, {
+        animated: this.hover,
+        isCustom,
+        isGif
+      });
+    },
+    channelStyle(): any {
+      return {
+        "--icon-url": this.iconURL && `url("${this.iconURL}")`
+      };
+    }
+  },
+  methods: {
+    closeDrawer() {
+      DrawersModule.SetLeftDrawer(false);
+    },
+    showContext(event: any) {
+      PopoutsModule.ShowPopout({
+        id: "context",
+        component: "ChannelContextMenu",
+        key: this.channel.server_id + event.clientX + event.clientY,
+        data: {
+          x: event.clientX,
+          y: event.clientY,
+          server_id: this.channel.server_id,
+          channelID: this.channel.channelID
+        }
+      });
+    }
   }
-}
+});
 </script>
 
 <style lang="scss" scoped>

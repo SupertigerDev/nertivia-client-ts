@@ -47,94 +47,112 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import CommandTemplate from "./CommandTemplate.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import InformationTemplate from "@/components/InformationTemplate.vue";
 import { updateBot } from "@/services/botService";
 import User from "@/interfaces/User";
-
-@Component({
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "Account",
   components: {
     CustomButton,
     CustomInput,
     InformationTemplate,
     CommandTemplate
-  }
-})
-export default class Account extends Vue {
-  @Prop() private botCommands!: any[];
-  @Prop() private botPrefix!: string | null;
-  @Prop() private bot!: User;
-  error: null | string = null;
-  requestSent = false;
-  localBotPrefix = this.botPrefix;
-  localBotCommands = this.botCommands.map(c => {
-    return { ...c, id: Math.random() };
-  });
-  showSaveButton = false;
+  },
+  props: {
+    botCommands: {
+      type: Array as PropType<any[]>,
+      required: false
+    },
+    botPrefix: {
+      type: String,
+      required: false
+    },
+    bot: {
+      type: Object as PropType<User>,
+      required: false
+    }
+  },
+  data() {
+    return {
+      error: null as null | string,
+      requestSent: false,
+      localBotPrefix: this.botPrefix,
+      localBotCommands: this.botCommands.map(c => {
+        return { ...c, id: Math.random() };
+      }),
+      showSaveButton: false
+    };
+  },
+  watch: {
+    localBotPrefix: {
+      // @ts-ignore
+      handler: "onPrefixChange"
+    }
+  },
+  methods: {
+    commandChange(index: number, data: any) {
+      this.showSaveButton = true;
+      this.$set(this.localBotCommands, index, data);
+    },
+    deleteCommand(index: number) {
+      this.showSaveButton = true;
+      this.$delete(this.localBotCommands, index);
+    },
+    addButton() {
+      this.showSaveButton = true;
 
-  commandChange(index: number, data: any) {
-    this.showSaveButton = true;
-    this.$set(this.localBotCommands, index, data);
-  }
-  deleteCommand(index: number) {
-    this.showSaveButton = true;
-    this.$delete(this.localBotCommands, index);
-  }
-  addButton() {
-    this.showSaveButton = true;
-
-    this.localBotCommands.unshift({
-      c: "ban",
-      a: "[@user][reason]//Ban A Member",
-      id: Math.random()
-    });
-  }
-  saveButton() {
-    if (this.requestSent) return;
-    this.requestSent = true;
-    this.error = null;
-    const commands = this.localBotCommands.map(cmd => {
-      return {
-        c: cmd.c,
-        a: cmd.a
-      };
-    });
-    updateBot(this.bot.id, {
-      botPrefix: this.localBotPrefix,
-      botCommands: commands
-    })
-      .then(() => {
-        this.showSaveButton = false;
-        this.$emit("updated", {
-          botPrefix: this.localBotPrefix,
-          botCommands: commands
-        });
+      this.localBotCommands.unshift({
+        c: "ban",
+        a: "[@user][reason]//Ban A Member",
+        id: Math.random()
+      });
+    },
+    saveButton() {
+      if (this.requestSent) return;
+      this.requestSent = true;
+      this.error = null;
+      const commands = this.localBotCommands.map(cmd => {
+        return {
+          c: cmd.c,
+          a: cmd.a
+        };
+      });
+      updateBot(this.bot.id, {
+        botPrefix: this.localBotPrefix,
+        botCommands: commands
       })
-      .catch(async err => {
-        if (!err.response) {
-          this.error = this.$t("could-not-connect-to-server").toString();
-          return;
-        }
-        const { errors, message } = await err.response.json();
-        if (message) {
-          this.error = message;
-          return;
-        }
-        if (errors.length) {
-          this.error = errors[0].msg;
-        }
-      })
-      .finally(() => (this.requestSent = false));
+        .then(() => {
+          this.showSaveButton = false;
+          this.$emit("updated", {
+            botPrefix: this.localBotPrefix,
+            botCommands: commands
+          });
+        })
+        .catch(async err => {
+          if (!err.response) {
+            this.error = this.$t("could-not-connect-to-server").toString();
+            return;
+          }
+          const { errors, message } = await err.response.json();
+          if (message) {
+            this.error = message;
+            return;
+          }
+          if (errors.length) {
+            this.error = errors[0].msg;
+          }
+        })
+        .finally(() => (this.requestSent = false));
+    },
+    onPrefixChange() {
+      this.showSaveButton = true;
+    }
   }
-
-  @Watch("localBotPrefix")
-  onPrefixChange() {
-    this.showSaveButton = true;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

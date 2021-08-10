@@ -22,21 +22,30 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
-
 import AvatarImage from "@/components/AvatarImage.vue";
 import ChannelTemplate from "@/components/drawers/server-drawer/ChannelTemplate.vue";
 import Notification from "@/interfaces/Notification";
 import { ServersModule } from "@/store/modules/servers";
-
-@Component({ components: { AvatarImage, ChannelTemplate } })
-export default class DashboardNotificationItem extends Vue {
-  @Prop() private notifications!: Notification;
-  @Prop() private serverID!: string;
-  get serverDetails() {
-    return ServersModule.servers[this.serverID];
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "DashboardNotificationItem",
+  components: { AvatarImage, ChannelTemplate },
+  props: {
+    notifications: {
+      type: Object as PropType<Notification>,
+      required: false
+    },
+    serverID: {
+      type: String,
+      required: false
+    }
+  },
+  computed: {
+    serverDetails(): any {
+      return ServersModule.servers[this.serverID];
+    }
   }
-}
+});
 </script>
 
 <style lang="scss" scoped>

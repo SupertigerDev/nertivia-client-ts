@@ -37,7 +37,6 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
 import Header from "@/components/home-page/Header.vue";
 import LoadingScreen from "@/components/LoadingScreen.vue";
 import CheckBox from "@/components/CheckBox.vue";
@@ -50,8 +49,9 @@ import {
   getServerInfoByCode,
   joinServerByCode
 } from "@/services/serverService";
-
-@Component({
+import Vue from "vue";
+export default Vue.extend({
+  name: "InviteServer",
   components: {
     Header,
     CheckBox,
@@ -59,50 +59,54 @@ import {
     AvatarImage,
     CustomButton,
     CustomDropDown
-  }
-})
-export default class InviteServer extends Vue {
-  server: Server | null = null;
-  error = false;
-  loggedIn = localStorage["hauthid"] || false;
-  requestSent = false;
-
-  joinServer() {
-    if (this.requestSent) return;
-    this.requestSent = true;
-    joinServerByCode(this.inviteID)
-      .then(() => {
-        location.href = `/app/servers/${this.server?.server_id}/${this.server?.default_channel_id}`;
-      })
-      .catch(async err => {
-        PopoutsModule.ShowPopout({
-          id: "error",
-          component: "generic-popout",
-          data: {
-            title: "Error Joining Server",
-            description: !err.response
-              ? this.$t("could-not-connect-to-server")
-              : (await err.response.json()).message
-          }
-        });
-      })
-      .finally(() => (this.requestSent = false));
-  }
-  loginButton() {
-    this.$router.push("/login?redirect=" + encodeURIComponent(location.href));
-  }
+  },
+  data() {
+    return {
+      server: null as Server | null,
+      error: false,
+      loggedIn: localStorage["hauthid"] || false,
+      requestSent: false
+    };
+  },
+  computed: {
+    inviteID(): any {
+      return this.$route.params.inviteid;
+    }
+  },
   mounted() {
     getServerInfoByCode(this.inviteID)
       .then((data: any) => {
         this.server = data;
       })
       .catch(() => (this.error = true));
+  },
+  methods: {
+    joinServer() {
+      if (this.requestSent) return;
+      this.requestSent = true;
+      joinServerByCode(this.inviteID)
+        .then(() => {
+          location.href = `/app/servers/${this.server?.server_id}/${this.server?.default_channel_id}`;
+        })
+        .catch(async err => {
+          PopoutsModule.ShowPopout({
+            id: "error",
+            component: "generic-popout",
+            data: {
+              title: "Error Joining Server",
+              description: !err.response
+                ? this.$t("could-not-connect-to-server")
+                : (await err.response.json()).message
+            }
+          });
+        })
+        .finally(() => (this.requestSent = false));
+    },
+    loginButton() {
+      this.$router.push("/login?redirect=" + encodeURIComponent(location.href));
+    }
   }
-
-  get inviteID() {
-    return this.$route.params.inviteid;
-  }
-}
+});
 </script>
 
 <style scoped lang="scss">

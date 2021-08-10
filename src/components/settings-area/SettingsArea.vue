@@ -8,7 +8,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 const Interface = () =>
   import(
     /* webpackChunkName: "Interface" */ "@/components/settings-area/interface/Interface.vue"
@@ -52,8 +52,9 @@ const WIPFeatures = () =>
 import Header from "@/components/Header.vue";
 import { TabsModule } from "@/store/modules/tabs";
 import settingPages from "@/utils/settingPages.json";
-import { Vue, Component, Watch } from "vue-property-decorator";
-@Component({
+import Vue from "vue";
+export default Vue.extend({
+  name: "SettingsArea",
   components: {
     Header,
     Interface,
@@ -66,9 +67,22 @@ import { Vue, Component, Watch } from "vue-property-decorator";
     ProgramActivity,
     Language,
     WIPFeatures
-  }
-})
-export default class SettingsArea extends Vue {
+  },
+  computed: {
+    selectedTab(): any {
+      const tab = this.$route.params.tab;
+      if (tab) {
+        return { ...settingPages[tab], id: tab };
+      }
+      return undefined;
+    }
+  },
+  watch: {
+    selectedTab: {
+      // @ts-ignore
+      handler: "onPageChanged"
+    }
+  },
   mounted() {
     if (!this.selectedTab) {
       this.$router.replace({ params: { tab: "account" } });
@@ -78,22 +92,16 @@ export default class SettingsArea extends Vue {
       icon: this.selectedTab.icon,
       name: this.selectedTab.name + " Settings"
     });
-  }
-  @Watch("selectedTab")
-  onPageChanged() {
-    TabsModule.setCurrentTab({
-      icon: this.selectedTab.icon,
-      name: this.selectedTab.name + " Settings"
-    });
-  }
-  get selectedTab() {
-    const tab = this.$route.params.tab;
-    if (tab) {
-      return { ...settingPages[tab], id: tab };
+  },
+  methods: {
+    onPageChanged() {
+      TabsModule.setCurrentTab({
+        icon: this.selectedTab.icon,
+        name: this.selectedTab.name + " Settings"
+      });
     }
-    return undefined;
   }
-}
+});
 </script>
 <style lang="scss" scoped>
 .settings-view {

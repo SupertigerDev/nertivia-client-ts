@@ -41,7 +41,6 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import { getTheme, Theme, updateTheme } from "@/services/themeService";
 import { applyTheme, unapplyTheme } from "@/utils/CSSTheme";
 import CustomButton from "@/components/CustomButton.vue";
@@ -53,65 +52,43 @@ const { codemirror } = require("vue-codemirror");
 import "codemirror/mode/css/css.js";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/ayu-mirage.css";
-
-@Component({ components: { codemirror, CustomButton } })
-export default class Editor extends Vue {
-  @Prop() private themeID!: string;
-  applied = localStorage["themeID"] === this.themeID;
-  theme: Theme | null = null;
-  isPopout = false;
-  popupWindow: Window | null = null;
-  css = "";
-  name = "";
-  cmOptions = {
-    tabSize: 2,
-    mode: "text/css",
-    lineNumbers: true,
-    theme: "ayu-mirage",
-    line: true
-  };
-  onCodemirrorReady(cm) {
-    cm.on("keypress", () => {
-      cm.showHint({ completeSingle: false });
-    });
-  }
-  async saveAndApplyButton() {
-    await this.save();
-    await this.apply();
-  }
-  async save() {
-    if (!this.theme) return;
-    return updateTheme(this.theme?.id, {
-      css: this.css,
-      name: this.name,
-      client_version: this.$lastUIBreakingVersion
-    }).then(() => {
-      if (!this.theme) return;
-      this.theme.css = this.css;
-      this.theme.name = this.name;
-      this.$set(this.theme, "client_version", this.$lastUIBreakingVersion);
-    });
-  }
-  async apply() {
-    await applyTheme(this.themeID, this.css);
-    this.applied = true;
-    if (this.isPopout) {
-      this.$window.postMessage(
-        { action: "UpdateAndApply", css: this.css, name: this.name },
-        process.env.VUE_APP_MAIN_APP_URL || ""
-      );
+import Vue from "vue";
+export default Vue.extend({
+  name: "Editor",
+  components: { codemirror, CustomButton },
+  props: {
+    themeID: {
+      type: String,
+      required: false
     }
-  }
-  unapply() {
-    unapplyTheme();
-    this.applied = false;
-    if (this.isPopout) {
-      this.$window.postMessage(
-        { action: "unapplyTheme" },
-        process.env.VUE_APP_MAIN_APP_URL || ""
-      );
+  },
+  data() {
+    return {
+      applied: localStorage["themeID"] === this.themeID,
+      theme: null as Theme | null,
+      isPopout: false,
+      popupWindow: null as Window | null,
+      css: "",
+      name: "",
+      cmOptions: {
+        tabSize: 2,
+        mode: "text/css",
+        lineNumbers: true,
+        theme: "ayu-mirage",
+        line: true
+      }
+    };
+  },
+  computed: {
+    showSaveButton(): any {
+      if (!this.theme) return false;
+      if (this.theme.client_version !== this.$lastUIBreakingVersion)
+        return true;
+      if (this.name !== this.theme.name) return true;
+      if (this.css !== this.theme.css) return true;
+      return false;
     }
-  }
+  },
   async mounted() {
     const w = window as any;
     if (w.editor_theme) {
@@ -125,50 +102,87 @@ export default class Editor extends Vue {
     this.theme = await getTheme(this.themeID);
     this.css = this.theme.css;
     this.name = this.theme.name;
-  }
-  detech() {
-    if (this.$isElectron) {
-      alert("Open Nertivia in a browser to detach.");
-      return;
-    }
-    this.popupWindow = this.$window.open(
-      "/popout-css-editor",
-      "popUpWindow",
-      "height=400, width=650"
-    );
-    if (!this.popupWindow) return;
-    (this.popupWindow as any).editor_theme = this.theme;
-    (this.popupWindow as any).css = this.css;
-    (this.popupWindow as any).name = this.name;
-    this.popupWindow.onbeforeunload = () => {
-      console.log("closed");
-    };
-    this.popupWindow.addEventListener("message", event => {
-      const data = event.data;
-      if (data.action === "UpdateAndApply") {
+  },
+  methods: {
+    onCodemirrorReady(cm) {
+      cm.on("keypress", () => {
+        cm.showHint({ completeSingle: false });
+      });
+    },
+    async saveAndApplyButton() {
+      await this.save();
+      await this.apply();
+    },
+    async save() {
+      if (!this.theme) return;
+      return updateTheme(this.theme?.id, {
+        css: this.css,
+        name: this.name,
+        client_version: this.$lastUIBreakingVersion
+      }).then(() => {
         if (!this.theme) return;
-        this.css = data.css;
-        this.name = data.name;
-        this.theme.css = data.css;
-        this.theme.name = data.name;
+        this.theme.css = this.css;
+        this.theme.name = this.name;
         this.$set(this.theme, "client_version", this.$lastUIBreakingVersion);
-        this.apply();
+      });
+    },
+    async apply() {
+      await applyTheme(this.themeID, this.css);
+      this.applied = true;
+      if (this.isPopout) {
+        this.$window.postMessage(
+          { action: "UpdateAndApply", css: this.css, name: this.name },
+          process.env.VUE_APP_MAIN_APP_URL || ""
+        );
+      }
+    },
+    unapply() {
+      unapplyTheme();
+      this.applied = false;
+      if (this.isPopout) {
+        this.$window.postMessage(
+          { action: "unapplyTheme" },
+          process.env.VUE_APP_MAIN_APP_URL || ""
+        );
+      }
+    },
+    detech() {
+      if (this.$isElectron) {
+        alert("Open Nertivia in a browser to detach.");
         return;
       }
-      if (data.action === "unapplyTheme") {
-        this.unapply();
-        return;
-      }
-    });
+      this.popupWindow = this.$window.open(
+        "/popout-css-editor",
+        "popUpWindow",
+        "height=400, width=650"
+      );
+      if (!this.popupWindow) return;
+      (this.popupWindow as any).editor_theme = this.theme;
+      (this.popupWindow as any).css = this.css;
+      (this.popupWindow as any).name = this.name;
+      this.popupWindow.onbeforeunload = () => {
+        console.log("closed");
+      };
+      this.popupWindow.addEventListener("message", event => {
+        const data = event.data;
+        if (data.action === "UpdateAndApply") {
+          if (!this.theme) return;
+          this.css = data.css;
+          this.name = data.name;
+          this.theme.css = data.css;
+          this.theme.name = data.name;
+          this.$set(this.theme, "client_version", this.$lastUIBreakingVersion);
+          this.apply();
+          return;
+        }
+        if (data.action === "unapplyTheme") {
+          this.unapply();
+          return;
+        }
+      });
+    }
   }
-  get showSaveButton() {
-    if (!this.theme) return false;
-    if (this.theme.client_version !== this.$lastUIBreakingVersion) return true;
-    if (this.name !== this.theme.name) return true;
-    if (this.css !== this.theme.css) return true;
-    return false;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

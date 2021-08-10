@@ -26,7 +26,6 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import UserStatusTemplate from "@/components/UserStatusTemplate.vue";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
@@ -36,74 +35,89 @@ import ServerRole from "@/interfaces/ServerRole";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { permissions } from "@/constants/rolePermissions";
-
-@Component({ components: { AvatarImage, UserStatusTemplate } })
-export default class RightDrawer extends Vue {
-  @Prop() private serverMember!: ServerMember & {
-    member: User;
-    roles: ServerRole[];
-  };
-  hover = false;
-
-  rightClickEvent(event: MouseEvent) {
-    PopoutsModule.ShowPopout({
-      id: "context",
-      component: "UserContextMenu",
-      key: this.member.id + event.clientX + event.clientY,
-      data: {
-        x: event.clientX,
-        y: event.clientY,
-        id: this.member.id
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "RightDrawer",
+  components: { AvatarImage, UserStatusTemplate },
+  props: {
+    serverMember: {
+      type: Object as PropType<
+        ServerMember & {
+          member: User;
+          roles: ServerRole[];
+        }
+      >,
+      required: false
+    }
+  },
+  data() {
+    return {
+      hover: false
+    };
+  },
+  computed: {
+    member(): any {
+      return this.serverMember.member;
+    },
+    firstRoleColor(): any {
+      if (this.serverMember.roles[0]) {
+        return this.serverMember.roles[0].color;
       }
-    });
-  }
-  showProfile() {
-    const rect = (this.$el as HTMLElement).getBoundingClientRect();
-    const prevPopout = PopoutsModule.isOpened("profile");
-    if (prevPopout && prevPopout.data.member.id !== this.serverMember.id) {
-      PopoutsModule.ClosePopout("profile");
-    }
-    PopoutsModule.ShowPopout({
-      id: "profile",
-      component: "MiniProfilePopout",
-      toggle: true,
-      data: {
-        x: rect.x,
-        y: rect.y,
-        member: this.serverMember
+      if (this.defaultRole && this.defaultRole.color) {
+        return this.defaultRole.color;
       }
-    });
-  }
-  get member() {
-    return this.serverMember.member;
-  }
-  get firstRoleColor() {
-    if (this.serverMember.roles[0]) {
-      return this.serverMember.roles[0].color;
-    }
-    if (this.defaultRole && this.defaultRole.color) {
-      return this.defaultRole.color;
-    }
-    return undefined;
-  }
-  get defaultRole() {
-    return ServerRolesModule.defaultServerRole(this.serverMember.server_id);
-  }
-  get badge() {
-    if (this.serverMember.type === "OWNER")
-      return ["owner", process.env.VUE_APP_TWEMOJI_LOCATION + "1f451.svg"];
+      return undefined;
+    },
+    defaultRole(): any {
+      return ServerRolesModule.defaultServerRole(this.serverMember.server_id);
+    },
+    badge(): any {
+      if (this.serverMember.type === "OWNER")
+        return ["owner", process.env.VUE_APP_TWEMOJI_LOCATION + "1f451.svg"];
 
-    if (this.serverMember.type === "BOT")
-      return ["bot", process.env.VUE_APP_TWEMOJI_LOCATION + "1f916.svg"];
-    const id = this.serverMember.id;
-    const serverID = this.serverMember.server_id;
-    const memberHasPermission = ServerMembersModule.memberHasPermission;
-    if (memberHasPermission(id, serverID, permissions.ADMIN.value)) {
-      return ["admin", process.env.VUE_APP_TWEMOJI_LOCATION + "1f6e1.svg"];
+      if (this.serverMember.type === "BOT")
+        return ["bot", process.env.VUE_APP_TWEMOJI_LOCATION + "1f916.svg"];
+      const id = this.serverMember.id;
+      const serverID = this.serverMember.server_id;
+      const memberHasPermission = ServerMembersModule.memberHasPermission;
+      if (memberHasPermission(id, serverID, permissions.ADMIN.value)) {
+        return ["admin", process.env.VUE_APP_TWEMOJI_LOCATION + "1f6e1.svg"];
+      }
+      return null;
     }
-    return null;
+  },
+  methods: {
+    rightClickEvent(event: MouseEvent) {
+      PopoutsModule.ShowPopout({
+        id: "context",
+        component: "UserContextMenu",
+        key: this.member.id + event.clientX + event.clientY,
+        data: {
+          x: event.clientX,
+          y: event.clientY,
+          id: this.member.id
+        }
+      });
+    },
+    showProfile() {
+      const rect = (this.$el as HTMLElement).getBoundingClientRect();
+      const prevPopout = PopoutsModule.isOpened("profile");
+      if (prevPopout && prevPopout.data.member.id !== this.serverMember.id) {
+        PopoutsModule.ClosePopout("profile");
+      }
+      PopoutsModule.ShowPopout({
+        id: "profile",
+        component: "MiniProfilePopout",
+        toggle: true,
+        data: {
+          x: rect.x,
+          y: rect.y,
+          member: this.serverMember
+        }
+      });
+    }
   }
-}
+});
 </script>
 
 <style lang="scss" scoped>

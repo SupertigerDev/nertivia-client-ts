@@ -10,18 +10,21 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import Tab from "./HeaderTabTemplate.vue";
 import { TabsModule } from "@/store/modules/tabs";
-@Component({ components: { Tab } })
-export default class HeaderTabs extends Vue {
-  get tabs() {
-    return TabsModule.tabs;
+import Vue from "vue";
+export default Vue.extend({
+  name: "HeaderTabs",
+  components: { Tab },
+  computed: {
+    tabs(): any {
+      return TabsModule.tabs;
+    },
+    currentTabIndex(): any {
+      return this.tabs.findIndex(tab => tab.path === this.$route.path);
+    }
   }
-  get currentTabIndex() {
-    return this.tabs.findIndex(tab => tab.path === this.$route.path);
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

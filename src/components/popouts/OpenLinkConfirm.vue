@@ -31,50 +31,63 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import AvatarImage from "@/components/AvatarImage.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
-@Component({
-  components: { AvatarImage, CustomButton }
-})
-export default class ProfilePopout extends Vue {
-  @Prop() private identity!: string;
-  @Prop() private data!: {
-    url: string;
-  };
-  backgroundClick(event: any) {
-    if (event.target.classList.contains("popout-background")) {
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "ProfilePopout",
+  components: { AvatarImage, CustomButton },
+  props: {
+    identity: {
+      type: String,
+      required: false
+    },
+    data: {
+      type: Object as PropType<{
+        url: string;
+      }>,
+      required: false
+    }
+  },
+  computed: {
+    url(): any {
+      if (!this.data.url.startsWith("http")) {
+        return "https://" + this.data.url;
+      }
+      return this.data.url;
+    }
+  },
+  methods: {
+    backgroundClick(event: any) {
+      if (event.target.classList.contains("popout-background")) {
+        this.close();
+      }
+    },
+    pushRouter(link: string) {
+      const match = process.env.VUE_APP_MAIN_APP_URL + "app";
+      if (link.startsWith(match)) {
+        this.$router.push(
+          "/" + link.split(process.env.VUE_APP_MAIN_APP_URL)[1]
+        );
+        return true;
+      }
+      return false;
+    },
+    visitLink() {
+      if (this.pushRouter(this.url)) {
+        this.close();
+        return;
+      }
+      const win = window.open(this.url, "_blank");
+      win?.focus?.();
       this.close();
+    },
+    close() {
+      PopoutsModule.ClosePopout(this.identity);
     }
   }
-  pushRouter(link: string) {
-    const match = process.env.VUE_APP_MAIN_APP_URL + "app";
-    if (link.startsWith(match)) {
-      this.$router.push("/" + link.split(process.env.VUE_APP_MAIN_APP_URL)[1]);
-      return true;
-    }
-    return false;
-  }
-  visitLink() {
-    if (this.pushRouter(this.url)) {
-      this.close();
-      return;
-    }
-    const win = window.open(this.url, "_blank");
-    win?.focus?.();
-    this.close();
-  }
-  close() {
-    PopoutsModule.ClosePopout(this.identity);
-  }
-  get url() {
-    if (!this.data.url.startsWith("http")) {
-      return "https://" + this.data.url;
-    }
-    return this.data.url;
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .generic-popout {

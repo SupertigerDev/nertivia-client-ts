@@ -41,7 +41,6 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
 import CustomButton from "@/components/CustomButton.vue";
 import CustomDropDown from "@/components/CustomDropDown.vue";
 import InformationTemplate from "@/components/InformationTemplate.vue";
@@ -53,70 +52,75 @@ import {
   getListeningProgram,
   restartListener
 } from "@/utils/programActivity";
-
-@Component({
+import Vue from "vue";
+export default Vue.extend({
+  name: "ProgramActivity",
   components: {
     CustomButton,
     CustomDropDown,
     InformationTemplate,
     ProgramTemplate
-  }
-})
-export default class ProgramActivity extends Vue {
-  programs: any = [];
-  listeningPrograms: any = [];
-  selectedID = null;
+  },
+  data() {
+    return {
+      programs: [] as any,
+      listeningPrograms: [] as any,
+      selectedID: null
+    };
+  },
   async mounted() {
     if (!this.$isElectron) return;
     this.getData();
-  }
-  getData() {
-    electronBridge
-      ?.invoke("get_running_programs", getListeningProgram())
-      .then(programs => {
-        this.programs = programs.map(p => {
-          return {
-            name: p.name,
-            note: p.filename,
-            id: p.filename
-          };
+  },
+  methods: {
+    getData() {
+      electronBridge
+        ?.invoke("get_running_programs", getListeningProgram())
+        .then(programs => {
+          this.programs = programs.map(p => {
+            return {
+              name: p.name,
+              note: p.filename,
+              id: p.filename
+            };
+          });
+          this.programs.unshift({
+            name: "Custom",
+            note: "Add Your Own",
+            id: "custom.exe"
+          });
         });
-        this.programs.unshift({
-          name: "Custom",
-          note: "Add Your Own",
-          id: "custom.exe"
-        });
+      this.listeningPrograms = getListeningProgram();
+      restartListener();
+    },
+    addProgram() {
+      if (!this.selectedID) return;
+      const program = this.programs.find(p => p.id === this.selectedID);
+      this.selectedID = null;
+      addListeningProgram({
+        name: program.name,
+        filename: program.id,
+        status: "Playing",
+        id: Math.random().toString()
       });
-    this.listeningPrograms = getListeningProgram();
-    restartListener();
+      this.getData();
+    },
+    deleteClicked(id: string) {
+      let programs = getListeningProgram();
+      programs = programs.filter(p => id !== p.id);
+      localStorage["programActivity"] = JSON.stringify(programs);
+      this.getData();
+    },
+    saveClicked(id: string, updatedItem) {
+      const programs = getListeningProgram();
+      const index = programs.findIndex(p => id === p.id);
+      if (index === -1) return;
+      programs[index] = updatedItem;
+      localStorage["programActivity"] = JSON.stringify(programs);
+      this.getData();
+    }
   }
-  addProgram() {
-    if (!this.selectedID) return;
-    const program = this.programs.find(p => p.id === this.selectedID);
-    this.selectedID = null;
-    addListeningProgram({
-      name: program.name,
-      filename: program.id,
-      status: "Playing",
-      id: Math.random().toString()
-    });
-    this.getData();
-  }
-  deleteClicked(id: string) {
-    let programs = getListeningProgram();
-    programs = programs.filter(p => id !== p.id);
-    localStorage["programActivity"] = JSON.stringify(programs);
-    this.getData();
-  }
-  saveClicked(id: string, updatedItem) {
-    const programs = getListeningProgram();
-    const index = programs.findIndex(p => id === p.id);
-    if (index === -1) return;
-    programs[index] = updatedItem;
-    localStorage["programActivity"] = JSON.stringify(programs);
-    this.getData();
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

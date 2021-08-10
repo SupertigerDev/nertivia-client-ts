@@ -9,18 +9,18 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
-
 import Header from "@/components/Header.vue";
 import NotificationCard from "./NotificationCard.vue";
 import ProfileCard from "./ProfileCard.vue";
 import { TabsModule } from "@/store/modules/tabs";
-@Component({ components: { NotificationCard, ProfileCard, Header } })
-export default class DashboardArea extends Vue {
+import Vue from "vue";
+export default Vue.extend({
+  name: "DashboardArea",
+  components: { NotificationCard, ProfileCard, Header },
   mounted() {
     TabsModule.setCurrentTab({ name: "Dashboard", icon: "dashboard" });
   }
-}
+});
 </script>
 
 <style lang="scss" scoped>

@@ -12,15 +12,22 @@
 <script lang="ts">
 import Message from "@/interfaces/Message";
 import ButtonTemplate from "./ButtonTemplate.vue";
-import { Component, Prop, Vue } from "vue-property-decorator";
-
-@Component({ components: { ButtonTemplate } })
-export default class MessageSide extends Vue {
-  @Prop() private message!: Message;
-  get buttons() {
-    return this.message.buttons;
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "MessageSide",
+  components: { ButtonTemplate },
+  props: {
+    message: {
+      type: Object as PropType<Message>,
+      required: false
+    }
+  },
+  computed: {
+    buttons(): any {
+      return this.message.buttons;
+    }
   }
-}
+});
 </script>
 <style lang="scss" scoped>
 .message-buttons {

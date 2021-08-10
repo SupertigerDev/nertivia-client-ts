@@ -63,100 +63,104 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
 import CustomInput from "@/components/CustomInput.vue";
 import Captcha from "@/components/Captcha.vue";
 import CustomButton from "@/components/CustomButton.vue";
 
 import { resetPassword, resetPasswordRequest } from "@/services/authService";
-
-@Component({ components: { CustomInput, Captcha, CustomButton } })
-export default class MainApp extends Vue {
-  page = 0;
-  email = "";
-  password = "";
-  resetPasswordPostSent = false;
-  errors: any = {};
-
+import Vue from "vue";
+export default Vue.extend({
+  name: "MainApp",
+  components: { CustomInput, Captcha, CustomButton },
+  data() {
+    return {
+      page: 0,
+      email: "",
+      password: "",
+      resetPasswordPostSent: false,
+      errors: {} as any
+    };
+  },
   mounted() {
     if (this.$route.query["unique-id"]) {
       this.page = 3;
     }
-  }
-
-  keyDownEvent(event: KeyboardEvent) {
-    if (event.keyCode === 13) {
-      event.preventDefault();
-      this.resetPasswordRequest();
-    }
-  }
-  resetPasswordRequest(token?: string) {
-    this.errors = {};
-    const email = this.email;
-    resetPasswordRequest(email, token)
-      .then(() => {
-        this.page = 2;
-        return;
-      })
-      .catch(err => {
-        this.page = 0;
-        if (!err.response) {
-          this.errors["other"] = "Unable to connect to server";
-          return;
-        }
-        return err.response.json();
-      })
-      .then(res => {
-        if (!res) return;
-        if (res.code === "CONFIRM_EMAIL") {
+  },
+  methods: {
+    keyDownEvent(event: KeyboardEvent) {
+      if (event.keyCode === 13) {
+        event.preventDefault();
+        this.resetPasswordRequest();
+      }
+    },
+    resetPasswordRequest(token?: string) {
+      this.errors = {};
+      const email = this.email;
+      resetPasswordRequest(email, token)
+        .then(() => {
           this.page = 2;
           return;
-        }
-        if (!res.errors) return;
-        if (res.errors[0].code === 1) {
-          this.page = 1;
-          return;
-        }
-        const errors: any = {};
-        for (let i = 0; i < res.errors.length; i++) {
-          const error = res.errors[i];
-          if (error.param === "email") {
-            errors[error.param] = error.msg;
-            continue;
+        })
+        .catch(err => {
+          this.page = 0;
+          if (!err.response) {
+            this.errors["other"] = "Unable to connect to server";
+            return;
           }
-          errors["other"] = error.msg;
-        }
-        this.errors = errors;
-      });
-  }
-  resetPassword() {
-    if (this.resetPasswordPostSent) return;
-    this.errors = {};
-    this.resetPasswordPostSent = true;
-    const id = this.$route.query["unique-id"];
-    const code = this.$route.query["code"];
-    resetPassword(code as any, id as any, this.password)
-      .then(() => {
-        this.page = 4;
-      })
-      .catch(async err => {
-        if (!err.response) {
-          this.errors["other"] = "Unable to connect to server";
-          return;
-        }
-        const { errors } = await err.response.json();
-        for (let i = 0; i < errors.length; i++) {
-          const error = errors[i];
-          if (error.param === "password") {
-            this.$set(this.errors, error.param, error.msg);
-            continue;
+          return err.response.json();
+        })
+        .then(res => {
+          if (!res) return;
+          if (res.code === "CONFIRM_EMAIL") {
+            this.page = 2;
+            return;
           }
-          this.$set(this.errors, "other", error.msg);
-        }
-      })
-      .finally(() => (this.resetPasswordPostSent = false));
+          if (!res.errors) return;
+          if (res.errors[0].code === 1) {
+            this.page = 1;
+            return;
+          }
+          const errors: any = {};
+          for (let i = 0; i < res.errors.length; i++) {
+            const error = res.errors[i];
+            if (error.param === "email") {
+              errors[error.param] = error.msg;
+              continue;
+            }
+            errors["other"] = error.msg;
+          }
+          this.errors = errors;
+        });
+    },
+    resetPassword() {
+      if (this.resetPasswordPostSent) return;
+      this.errors = {};
+      this.resetPasswordPostSent = true;
+      const id = this.$route.query["unique-id"];
+      const code = this.$route.query["code"];
+      resetPassword(code as any, id as any, this.password)
+        .then(() => {
+          this.page = 4;
+        })
+        .catch(async err => {
+          if (!err.response) {
+            this.errors["other"] = "Unable to connect to server";
+            return;
+          }
+          const { errors } = await err.response.json();
+          for (let i = 0; i < errors.length; i++) {
+            const error = errors[i];
+            if (error.param === "password") {
+              this.$set(this.errors, error.param, error.msg);
+              continue;
+            }
+            this.$set(this.errors, "other", error.msg);
+          }
+        })
+        .finally(() => (this.resetPasswordPostSent = false));
+    }
   }
-}
+});
 </script>
 <style lang="scss" scoped>
 .reset-password {

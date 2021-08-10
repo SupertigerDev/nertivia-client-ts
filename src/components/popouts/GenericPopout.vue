@@ -18,25 +18,34 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
 import CustomButton from "@/components/CustomButton.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
-@Component({
-  components: { CustomButton }
-})
-export default class ProfilePopout extends Vue {
-  @Prop() private identity!: string;
-  @Prop() private data!: {
-    title: string;
-    description: string;
-  };
-  close() {
-    PopoutsModule.ClosePopout(this.identity);
+import Vue, { PropType } from "vue";
+export default Vue.extend({
+  name: "ProfilePopout",
+  components: { CustomButton },
+  props: {
+    identity: {
+      type: String,
+      required: false
+    },
+    data: {
+      type: Object as PropType<{
+        title: string;
+        description: string;
+      }>,
+      required: false
+    }
+  },
+  methods: {
+    close() {
+      PopoutsModule.ClosePopout(this.identity);
+    },
+    buttonClicked() {
+      this.close();
+    }
   }
-  buttonClicked() {
-    this.close();
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .generic-popout {

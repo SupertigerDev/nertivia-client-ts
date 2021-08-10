@@ -19,51 +19,54 @@
 import { MeModule } from "@/store/modules/me";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { ServersModule } from "@/store/modules/servers";
-import { Component, Vue } from "vue-property-decorator";
-
 import settingsPages from "@/utils/serverSettingsPages.json";
 import { DrawersModule } from "@/store/modules/drawers";
 import { permissions } from "@/constants/rolePermissions";
-@Component
-export default class MainApp extends Vue {
-  changeTab(path: string) {
-    DrawersModule.SetLeftDrawer(false);
-    this.$router.push({ params: { tab: path } });
+import Vue from "vue";
+export default Vue.extend({
+  name: "MainApp",
+  computed: {
+    currentSettingTab(): any {
+      return this.$route.params.tab;
+    },
+    serverID(): any {
+      return this.$route.params.server_id;
+    },
+    server(): any {
+      return ServersModule.servers[this.serverID];
+    },
+    isAdmin(): any {
+      return ServerMembersModule.isAdmin(
+        MeModule.user.id || undefined,
+        this.serverID
+      );
+    },
+    isCreator(): any {
+      return this.server?.creator?.id === MeModule.user.id;
+    },
+    pages(): any {
+      return Object.values(settingsPages).filter((p: any) => {
+        const isAdminOrCreator = this.isCreator || this.isAdmin;
+        if (p.owner && !this.isCreator) return false;
+        if (p.permission && !isAdminOrCreator) {
+          return ServerMembersModule.memberHasPermission(
+            MeModule.user.id || "",
+            this.serverID,
+            permissions[p.permission].value
+          );
+        }
+        if (p.admin && !isAdminOrCreator) return false;
+        return true;
+      });
+    }
+  },
+  methods: {
+    changeTab(path: string) {
+      DrawersModule.SetLeftDrawer(false);
+      this.$router.push({ params: { tab: path } });
+    }
   }
-  get currentSettingTab() {
-    return this.$route.params.tab;
-  }
-  get serverID() {
-    return this.$route.params.server_id;
-  }
-  get server() {
-    return ServersModule.servers[this.serverID];
-  }
-  get isAdmin() {
-    return ServerMembersModule.isAdmin(
-      MeModule.user.id || undefined,
-      this.serverID
-    );
-  }
-  get isCreator() {
-    return this.server?.creator?.id === MeModule.user.id;
-  }
-  get pages() {
-    return Object.values(settingsPages).filter((p: any) => {
-      const isAdminOrCreator = this.isCreator || this.isAdmin;
-      if (p.owner && !this.isCreator) return false;
-      if (p.permission && !isAdminOrCreator) {
-        return ServerMembersModule.memberHasPermission(
-          MeModule.user.id || "",
-          this.serverID,
-          permissions[p.permission].value
-        );
-      }
-      if (p.admin && !isAdminOrCreator) return false;
-      return true;
-    });
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .settings-drawer {

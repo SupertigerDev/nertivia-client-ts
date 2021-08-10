@@ -9,11 +9,23 @@
 import Header from "@/components/Header.vue";
 import ExploreServers from "./ExploreServers.vue";
 import ExploreThemes from "./ExploreThemes.vue";
-import { Vue, Component, Watch } from "vue-property-decorator";
 import explorePages from "@/utils/explorePages.json";
 import { TabsModule } from "@/store/modules/tabs";
-@Component({ components: { Header, ExploreServers, ExploreThemes } })
-export default class ExploreArea extends Vue {
+import Vue from "vue";
+export default Vue.extend({
+  name: "ExploreArea",
+  components: { Header, ExploreServers, ExploreThemes },
+  computed: {
+    page(): any {
+      return explorePages[this.$route.params.tab];
+    }
+  },
+  watch: {
+    page: {
+      // @ts-ignore
+      handler: "onPageChanged"
+    }
+  },
   mounted() {
     if (!this.page) {
       this.$router.push("/app/explore/servers");
@@ -23,18 +35,16 @@ export default class ExploreArea extends Vue {
       icon: "explore",
       name: "Explore " + this.page.name
     });
+  },
+  methods: {
+    onPageChanged() {
+      TabsModule.setCurrentTab({
+        icon: "explore",
+        name: "Explore " + this.page.name
+      });
+    }
   }
-  @Watch("page")
-  onPageChanged() {
-    TabsModule.setCurrentTab({
-      icon: "explore",
-      name: "Explore " + this.page.name
-    });
-  }
-  get page() {
-    return explorePages[this.$route.params.tab];
-  }
-}
+});
 </script>
 <style lang="scss" scoped>
 .explore-area {

@@ -14,20 +14,21 @@
 
 <script lang="ts">
 import electronBridge from "@/utils/electronBridge";
-import { Component, Vue } from "vue-property-decorator";
-
-@Component
-export default class App extends Vue {
-  minimize() {
-    electronBridge?.send("window_action", "minimize");
+import Vue from "vue";
+export default Vue.extend({
+  name: "App",
+  methods: {
+    minimize() {
+      electronBridge?.send("window_action", "minimize");
+    },
+    maximize() {
+      electronBridge?.send("window_action", "maximize");
+    },
+    close() {
+      electronBridge?.send("window_action", "close");
+    }
   }
-  maximize() {
-    electronBridge?.send("window_action", "maximize");
-  }
-  close() {
-    electronBridge?.send("window_action", "close");
-  }
-}
+});
 </script>
 
 <style scoped lang="scss">

@@ -16,17 +16,22 @@
 
 <script lang="ts">
 import { Theme } from "@/services/themeService";
-import { Component, Vue } from "vue-property-decorator";
 import ThemeList from "./ThemeList.vue";
+import Vue from "vue";
+
 const Editor = () => import(/* webpackChunkName: "Editor" */ "./Editor.vue");
 const PublishOptions = () =>
   import(/* webpackChunkName: "PublishOptions" */ "./PublishOptions.vue");
-
-@Component({ components: { ThemeList, Editor, PublishOptions } })
-export default class CustomCSS extends Vue {
-  editID: null | string = null;
-  publishTheme: null | Theme = null;
-}
+export default Vue.extend({
+  name: "CustomCSS",
+  components: { ThemeList, Editor, PublishOptions },
+  data() {
+    return {
+      editID: null as null | string,
+      publishTheme: null as null | Theme
+    };
+  }
+});
 </script>
 
 <style lang="scss" scoped>
