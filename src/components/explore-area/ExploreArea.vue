@@ -21,14 +21,14 @@ export default class ExploreArea extends Vue {
     }
     TabsModule.setCurrentTab({
       icon: "explore",
-      name: "Explore " + this.page.name,
+      name: "Explore " + this.page.name
     });
   }
   @Watch("page")
   onPageChanged() {
     TabsModule.setCurrentTab({
       icon: "explore",
-      name: "Explore " + this.page.name,
+      name: "Explore " + this.page.name
     });
   }
   get page() {

@@ -65,8 +65,8 @@ import { Vue, Component, Watch } from "vue-property-decorator";
     StartupOptions,
     ProgramActivity,
     Language,
-    WIPFeatures,
-  },
+    WIPFeatures
+  }
 })
 export default class SettingsArea extends Vue {
   mounted() {
@@ -76,14 +76,14 @@ export default class SettingsArea extends Vue {
     }
     TabsModule.setCurrentTab({
       icon: this.selectedTab.icon,
-      name: this.selectedTab.name + " Settings",
+      name: this.selectedTab.name + " Settings"
     });
   }
   @Watch("selectedTab")
   onPageChanged() {
     TabsModule.setCurrentTab({
       icon: this.selectedTab.icon,
-      name: this.selectedTab.name + " Settings",
+      name: this.selectedTab.name + " Settings"
     });
   }
   get selectedTab() {

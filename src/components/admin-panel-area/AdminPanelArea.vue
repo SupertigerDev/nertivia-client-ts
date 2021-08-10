@@ -20,14 +20,14 @@ export default class ExploreArea extends Vue {
     }
     TabsModule.setCurrentTab({
       icon: "security",
-      name: "Admin Panel " + this.page.name,
+      name: "Admin Panel " + this.page.name
     });
   }
   @Watch("page")
   onPageChanged() {
     TabsModule.setCurrentTab({
       icon: "security",
-      name: "Admin Panel " + this.page.name,
+      name: "Admin Panel " + this.page.name
     });
   }
   get page() {

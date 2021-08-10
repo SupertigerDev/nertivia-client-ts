@@ -5,7 +5,7 @@
     :style="{
       '--width': image.dimensions.width + 'px',
       '--height': image.dimensions.height + 'px',
-      '--aspect': `${image.dimensions.width} / ${image.dimensions.height}`,
+      '--aspect': `${image.dimensions.width} / ${image.dimensions.height}`
     }"
     @click="onClick"
   >
@@ -38,8 +38,8 @@ export default class ImageMessageEmbed extends Vue {
       id: "image-preview-popout",
       component: "image-preview-popout",
       data: {
-        url: this.imageURL,
-      },
+        url: this.imageURL
+      }
     });
   }
 

@@ -25,9 +25,9 @@ export default class BrowserIcoHandler extends Vue {
   }
 
   get serverNotificationCount() {
-    return LastSeenServerChannelsModule.allServerNotifications.length
+    return LastSeenServerChannelsModule.allServerNotifications.length;
   }
   get dmNotificationCount() {
-    return NotificationsModule.allDMNotifications.length
+    return NotificationsModule.allDMNotifications.length;
   }
 }

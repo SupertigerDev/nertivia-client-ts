@@ -31,8 +31,8 @@ import { TabsModule } from "@/store/modules/tabs";
     General,
     DeleteServer,
     BannedUsers,
-    ServerVisibility,
-  },
+    ServerVisibility
+  }
 })
 export default class ServerSettingsArea extends Vue {
   mounted() {
@@ -42,14 +42,14 @@ export default class ServerSettingsArea extends Vue {
     }
     TabsModule.setCurrentTab({
       icon: this.page.icon,
-      name: this.page.name + " Settings",
+      name: this.page.name + " Settings"
     });
   }
   @Watch("page")
   onPageChanged() {
     TabsModule.setCurrentTab({
       icon: this.page.icon,
-      name: this.page.name + " Settings",
+      name: this.page.name + " Settings"
     });
   }
   get page() {

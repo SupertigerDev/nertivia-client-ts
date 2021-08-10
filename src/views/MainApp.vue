@@ -75,8 +75,8 @@ import { applyTheme } from "@/utils/CSSTheme";
     BrowserTitleHandler,
     ElectronBadgeHandler,
     ElectronActivityHandler,
-    UpdateChecker,
-  },
+    UpdateChecker
+  }
 })
 export default class MainApp extends Vue {
   showConnectionStatusPopout = true;
@@ -90,7 +90,7 @@ export default class MainApp extends Vue {
     if (window.BroadcastChannel) {
       const channel = new BroadcastChannel("sw-messages");
       // hack to fix disconnects using service workers;
-      channel.addEventListener("message", (event) => {
+      channel.addEventListener("message", event => {
         const client = this.$socket.client;
         if (event.data !== "ping") return;
         if (WindowProperties.isFocused) return;
@@ -115,37 +115,37 @@ export default class MainApp extends Vue {
     await loadAllCacheToState([
       {
         storage: "me",
-        state: MeModule.SetUser,
+        state: MeModule.SetUser
       },
       {
         storage: "serverPositions",
-        state: ServersModule.SetServerPositions,
+        state: ServersModule.SetServerPositions
       },
       {
         storage: "servers",
-        state: ServersModule.InitServers,
+        state: ServersModule.InitServers
       },
       {
         storage: "users",
-        state: UsersModule.InitUsers,
+        state: UsersModule.InitUsers
       },
       {
         storage: "channels",
-        state: ChannelsModule.InitChannels,
+        state: ChannelsModule.InitChannels
       },
 
       {
         storage: "friends",
-        state: FriendsModule.InitFriends,
+        state: FriendsModule.InitFriends
       },
       {
         storage: "serverRoles",
-        state: ServerRolesModule.InitServerRoles,
+        state: ServerRolesModule.InitServerRoles
       },
       {
         storage: "serverMembers",
-        state: ServerMembersModule.InitServerMembers,
-      },
+        state: ServerMembersModule.InitServerMembers
+      }
     ]);
   }
 
@@ -162,7 +162,7 @@ export default class MainApp extends Vue {
     if (this.currentTab === "servers") {
       LastSelectedServersModule.UpdateLastSelected({
         serverID: this.currentServerID,
-        channelID: this.currentChannelID,
+        channelID: this.currentChannelID
       });
       localStorage.setItem("lastSelectedServerID", this.currentServerID);
     } else if (this.currentTab === "dms" && this.currentChannelID) {

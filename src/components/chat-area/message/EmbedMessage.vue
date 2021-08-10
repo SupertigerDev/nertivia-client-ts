@@ -20,8 +20,7 @@ export default class EmbedMessage extends Vue {
   get youtubeEmbed() {
     if (this.embed.site_name !== "YouTube") return false;
     if (this.embed.type !== "video.other") return false;
-    const regex =
-      /((http(s)?:\/\/)?)(www\.)?((youtube\.com\/)|(youtu.be\/))[\S]+/gm;
+    const regex = /((http(s)?:\/\/)?)(www\.)?((youtube\.com\/)|(youtu.be\/))[\S]+/gm;
     if (!this.embed.url.match(regex)) return false;
     return true;
   }
