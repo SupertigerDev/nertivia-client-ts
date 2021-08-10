@@ -19,7 +19,7 @@ import { leaveServer } from "@/services/serverService";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 
 @Component({ components: { ContextMenu } })
-export default class extends Vue {
+export default class ServerContextMenu extends Vue {
   @Prop() private data!: {
     x: number;
     y: number;

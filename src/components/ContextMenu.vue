@@ -59,7 +59,7 @@ interface ItemsProp {
   nestContext?: string;
 }
 @Component
-export default class extends Vue {
+export default class ContextMenu extends Vue {
   @Prop() private pos!: { x?: number; y?: number };
   @Prop() private element!: HTMLElement;
   @Prop() private items!: ItemsProp[];

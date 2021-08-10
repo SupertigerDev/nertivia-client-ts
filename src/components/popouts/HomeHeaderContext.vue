@@ -15,7 +15,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import { logout } from "@/services/userService";
 
 @Component({ components: { ContextMenu } })
-export default class extends Vue {
+export default class HomeHeaderContext extends Vue {
   @Prop() private data!: {
     x: number;
     y: number;

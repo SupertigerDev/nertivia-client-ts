@@ -24,7 +24,7 @@ import { MessageInputModule } from "@/store/modules/messageInput";
 import { insert } from "text-field-edit";
 
 @Component({ components: { ContextMenu } })
-export default class extends Vue {
+export default class MessageContextMenu extends Vue {
   lastItemHover = null;
   @Prop() private data!: {
     x?: number;

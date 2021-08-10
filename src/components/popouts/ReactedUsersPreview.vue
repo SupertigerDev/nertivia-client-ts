@@ -37,7 +37,7 @@ interface IProp {
   y: number;
 }
 @Component({ components: { AvatarImage } })
-export default class extends Vue {
+export default class ReactedUserPreview extends Vue {
   @Prop() private data!: IProp;
   @Prop() private identity!: string;
   users: User[] | null = null;

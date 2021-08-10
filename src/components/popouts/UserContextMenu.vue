@@ -21,7 +21,7 @@ import { permissions } from "@/constants/rolePermissions";
 import User from "@/interfaces/User";
 
 @Component({ components: { ContextMenu } })
-export default class extends Vue {
+export default class UserContextMenu extends Vue {
   x: number | null = null;
   @Prop() private data!: {
     x: number;

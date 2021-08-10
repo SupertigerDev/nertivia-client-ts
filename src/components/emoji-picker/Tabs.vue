@@ -45,7 +45,7 @@ import { getRecentEmojis } from "@/utils/recentEmojiManager";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
-export default class extends Vue {
+export default class Tabs extends Vue {
   @Prop() private pos!: { x?: number; y?: number };
   categories = ["😀", "🐱", "🍎", "🏀", "🚗", "⌚️", "❤️", "🏁"];
   tabLeftPos: string | null = null;

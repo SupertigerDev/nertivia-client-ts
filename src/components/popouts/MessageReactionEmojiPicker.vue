@@ -26,7 +26,7 @@ interface IProp {
   y: number;
 }
 @Component({ components: { EmojiPicker } })
-export default class extends Vue {
+export default class MessageReactionEmojiPicker extends Vue {
   @Prop() private data!: IProp;
   @Prop() private identity!: string;
   clickOutside(event: any) {

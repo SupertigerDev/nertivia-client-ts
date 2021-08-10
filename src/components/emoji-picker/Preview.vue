@@ -17,7 +17,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
-export default class extends Vue {
+export default class Preview extends Vue {
   @Prop() private hoveredEmoji!: any;
 
   get shortCode() {

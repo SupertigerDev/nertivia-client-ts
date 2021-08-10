@@ -25,7 +25,7 @@ import { MeModule } from "@/store/modules/me";
 import { permissions } from "@/constants/rolePermissions";
 
 @Component({ components: { ContextMenu } })
-export default class extends Vue {
+export default class ChannelContextMenu extends Vue {
   @Prop() private data!: {
     x: number;
     y: number;
