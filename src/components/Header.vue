@@ -34,13 +34,11 @@
 import { ChannelsModule } from "@/store/modules/channels";
 import { DrawersModule } from "@/store/modules/drawers";
 import { PopoutsModule } from "@/store/modules/popouts";
-import UserStatusTemplate from "@/components/UserStatusTemplate.vue";
 import Tabs from "@/components/HeaderTabs.vue";
-import AvatarImage from "@/components/AvatarImage.vue";
 import Vue from "vue";
 export default Vue.extend({
   name: "MainApp",
-  components: { UserStatusTemplate, AvatarImage, Tabs },
+  components: { Tabs },
   props: {
     title: {
       type: String,

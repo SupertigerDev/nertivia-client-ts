@@ -56,7 +56,7 @@
 </template>
 
 <script lang="ts">
-import Message from "@/interfaces/Message";
+import Message, { UserExtra } from "@/interfaces/Message";
 import AvatarImage from "@/components/AvatarImage.vue";
 import Bubble from "./Bubble.vue";
 import MessageSide from "./MessageSide.vue";
@@ -68,6 +68,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import HTMLEmbed from "./HTMLEmbed.vue";
 import { UsersModule } from "@/store/modules/users";
 import Vue, { PropType } from "vue";
+import User from "@/interfaces/User";
 export default Vue.extend({
   name: "MessageLogs",
   components: {
@@ -108,7 +109,7 @@ export default Vue.extend({
       if (!this.message.message) return null;
       return this.message.message.match(this.inviteLinkRegex);
     },
-    creator(): any {
+    creator(): User & UserExtra {
       return this.message.creator;
     },
     friendlyTime(): any {

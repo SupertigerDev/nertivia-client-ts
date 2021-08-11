@@ -1,4 +1,4 @@
-<script lang="tsx">
+<script lang="jsx">
 import EmojiTemplate from "./EmojiTemplate.vue";
 import Preview from "./Preview.vue";
 import VirtualList from "vue-virtual-scroll-list";

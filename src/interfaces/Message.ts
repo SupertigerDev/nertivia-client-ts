@@ -20,7 +20,7 @@ export default interface Message {
   localMessage?: boolean;
 }
 
-interface UserExtra {
+export interface UserExtra {
   badges?: number;
 }
 

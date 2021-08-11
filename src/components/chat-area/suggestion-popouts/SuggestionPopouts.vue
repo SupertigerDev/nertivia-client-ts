@@ -226,7 +226,7 @@ export default Vue.extend({
       get(): any {
         return MessageInputModule.message;
       },
-      set(val) {
+      set(val: string) {
         MessageInputModule.setMessage(val);
       }
     }

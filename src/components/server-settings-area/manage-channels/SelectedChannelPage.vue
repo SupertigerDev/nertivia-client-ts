@@ -115,13 +115,13 @@ export default Vue.extend({
       deleteConfirm: false,
       deleteRequestSent: false,
       requestSent: false,
-      channelName: this.channel?.name,
+      channelName: "" as string | undefined,
       channelIcon: null as null | string,
-      rateLimit: this.channel?.rateLimit || 0,
+      rateLimit: 0,
       error: null as string | null,
       showIconContext: false,
       showEmojiPicker: false,
-      sendMessagePermission: this.channel?.permissions?.send_message || false
+      sendMessagePermission: false
     };
   },
   computed: {

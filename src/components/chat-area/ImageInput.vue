@@ -38,6 +38,9 @@ export default Vue.extend({
     };
   },
   computed: {
+    file(): File | undefined {
+      return FileUploadModule.file.file;
+    },
     exceedCDNMaxSize(): any {
       const maxCDNSize = 7340000;
       return (this.file?.size || 0) > maxCDNSize;
@@ -51,14 +54,11 @@ export default Vue.extend({
     size(): any {
       return this.file?.size || 0;
     },
-    file(): any {
-      return FileUploadModule.file.file;
-    },
     compress: {
       get(): any {
         return FileUploadModule.compress;
       },
-      set(val) {
+      set(val: boolean) {
         FileUploadModule.SetCompress(val);
       }
     },
@@ -66,7 +66,7 @@ export default Vue.extend({
       get(): any {
         return FileUploadModule.cdn;
       },
-      set(val) {
+      set(val: number) {
         FileUploadModule.SetCDN(val);
       }
     },

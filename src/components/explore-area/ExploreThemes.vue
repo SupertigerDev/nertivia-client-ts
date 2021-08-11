@@ -39,12 +39,11 @@ import {
   PublicThemeResponse
 } from "@/services/exploreService";
 import ThemeTemplate from "./ExploreThemeTemplate.vue";
-import CustomDropDown from "@/components/CustomDropDown.vue";
 import LoadingScreen from "@/components/LoadingScreen.vue";
 import Vue from "vue";
 export default Vue.extend({
   name: "ExploreThemes",
-  components: { ThemeTemplate, CustomDropDown, LoadingScreen },
+  components: { ThemeTemplate, LoadingScreen },
   data() {
     return {
       data: [] as PublicThemeResponse[],
@@ -53,7 +52,7 @@ export default Vue.extend({
         { name: "Compatible", param: "compatible" },
         { name: "All", param: undefined }
       ],
-      selectedFilter: this.filters[0].param
+      selectedFilter: "compatible"
     };
   },
   watch: {
