@@ -52,7 +52,7 @@ export default Vue.extend({
   },
   watch: {
     rateTimeLeft: {
-      // @ts-ignore
+      
       handler: "onRateLimit"
     }
   },

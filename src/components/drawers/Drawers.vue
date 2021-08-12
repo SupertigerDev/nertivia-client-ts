@@ -66,15 +66,15 @@ export default Vue.extend({
   },
   watch: {
     isMobile: {
-      // @ts-ignore
+      
       handler: "onMobileChange"
     },
     leftOpened: {
-      // @ts-ignore
+      
       handler: "onLeftChange"
     },
     rightOpened: {
-      // @ts-ignore
+      
       handler: "onRightChange"
     }
   },

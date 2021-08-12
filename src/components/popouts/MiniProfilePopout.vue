@@ -48,7 +48,6 @@ import { PresencesModule } from "@/store/modules/presences";
 import WindowProperties from "@/utils/windowProperties";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
-import Markup from "@/components/Markup";
 import { fetchUser, ReturnedUser } from "@/services/userService";
 import Vue, { PropType } from "vue";
 
@@ -59,7 +58,7 @@ interface ServerMember {
 
 export default Vue.extend({
   name: "MiniProfilePopout",
-  components: { AvatarImage, Markup, UserStatusTemplate },
+  components: { AvatarImage, UserStatusTemplate },
   props: {
     data: {
       type: Object as PropType<{ x: number; y: number; member: ServerMember }>,
@@ -122,7 +121,6 @@ export default Vue.extend({
   },
   watch: {
     user: {
-      // @ts-ignore
       handler: "onUserChange"
     }
   },

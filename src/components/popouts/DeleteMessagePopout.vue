@@ -79,7 +79,6 @@ export default Vue.extend({
   },
   watch: {
     message: {
-      // @ts-ignore
       handler: "onMessageChange"
     }
   },

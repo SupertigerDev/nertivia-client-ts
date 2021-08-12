@@ -166,11 +166,9 @@ export default Vue.extend({
   },
   watch: {
     connected: {
-      // @ts-ignore
       handler: "isConnected"
     },
     role: {
-      // @ts-ignore
       handler: "roleChange"
     }
   },

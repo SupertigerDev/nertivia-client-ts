@@ -70,7 +70,6 @@ export default Vue.extend({
   },
   watch: {
     emojiName: {
-      // @ts-ignore
       handler: "onInput"
     }
   },

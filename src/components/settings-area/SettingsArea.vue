@@ -79,7 +79,6 @@ export default Vue.extend({
   },
   watch: {
     selectedTab: {
-      // @ts-ignore
       handler: "onPageChanged"
     }
   },

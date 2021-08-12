@@ -83,7 +83,6 @@ export default Vue.extend({
   },
   watch: {
     buildParam: {
-      // @ts-ignore
       handler: "onFilterChange"
     }
   },

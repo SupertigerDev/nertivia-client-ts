@@ -249,7 +249,6 @@ export default Vue.extend({
   },
   watch: {
     isConnected: {
-      // @ts-ignore
       handler: "onConnectionChange"
     }
   },

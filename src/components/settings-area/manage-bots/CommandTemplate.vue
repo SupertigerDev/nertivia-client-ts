@@ -30,11 +30,9 @@ export default Vue.extend({
   },
   watch: {
     localCommand: {
-      // @ts-ignore
       handler: "commandChange"
     },
     localAction: {
-      // @ts-ignore
       handler: "actionChange"
     }
   },

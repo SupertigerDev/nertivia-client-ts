@@ -103,7 +103,6 @@ export default Vue.extend({
   },
   watch: {
     timeFormat: {
-      // @ts-ignore
       handler: "onTimeFormatChagne"
     }
   },

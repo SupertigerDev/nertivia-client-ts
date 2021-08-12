@@ -44,7 +44,6 @@ export default Vue.extend({
   },
   watch: {
     page: {
-      // @ts-ignore
       handler: "onPageChanged"
     }
   },

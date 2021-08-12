@@ -79,7 +79,7 @@ export default Vue.extend({
   },
   watch: {
     parentWidth: {
-      // @ts-ignore
+      
       handler: "onParentWidthChange"
     }
   },

@@ -23,11 +23,9 @@ export default Vue.extend({
   },
   watch: {
     isConnected: {
-      // @ts-ignore
       handler: "closePopout"
     },
     connectionMessage: {
-      // @ts-ignore
       handler: "onConnectionMessage"
     }
   },

@@ -112,7 +112,6 @@ export default Vue.extend({
   },
   watch: {
     reaction: {
-      // @ts-ignore
       handler: "onReactionChange"
     }
   },

@@ -35,7 +35,6 @@ import BrowserTitleHandler from "@/components/renderless/BrowserIcoHandler";
 import ElectronBadgeHandler from "@/components/renderless/ElectronBadgeHandler";
 import ElectronActivityHandler from "@/components/renderless/ElectronActivityHandler";
 import UpdateChecker from "@/components/renderless/UpdateChecker";
-import Header from "@/components/Header.vue";
 
 const Drawers = () =>
   import(/* webpackChunkName: "Drawers" */ "@/components/drawers/Drawers.vue");
@@ -69,7 +68,6 @@ export default Vue.extend({
     LeftDrawer,
     RightDrawer,
     NavBar,
-    Header,
     ConnectionStatus,
     BrowserTitleHandler,
     ElectronBadgeHandler,
@@ -99,19 +97,15 @@ export default Vue.extend({
   },
   watch: {
     currentChannelID: {
-      // @ts-ignore
       handler: "saveLastSelected"
     },
     currentServerID: {
-      // @ts-ignore
       handler: "saveLastSelected"
     },
     currentTab: {
-      // @ts-ignore
       handler: "saveLastSelected"
     },
     isConnected: {
-      // @ts-ignore
       handler: "showConnectionPopout"
     }
   },

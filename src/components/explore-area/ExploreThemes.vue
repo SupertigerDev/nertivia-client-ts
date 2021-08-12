@@ -57,7 +57,6 @@ export default Vue.extend({
   },
   watch: {
     selectedFilter: {
-      // @ts-ignore
       handler: "onFilterChange"
     }
   },

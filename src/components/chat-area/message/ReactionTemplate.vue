@@ -66,7 +66,7 @@ export default Vue.extend({
   },
   watch: {
     hover: {
-      // @ts-ignore
+      
       handler: "isHovered"
     }
   },

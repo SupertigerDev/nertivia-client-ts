@@ -89,7 +89,6 @@ export default Vue.extend({
   },
   watch: {
     localBotPrefix: {
-      // @ts-ignore
       handler: "onPrefixChange"
     }
   },

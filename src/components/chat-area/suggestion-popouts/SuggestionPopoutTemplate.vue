@@ -35,7 +35,7 @@ export default Vue.extend({
   },
   watch: {
     items: {
-      // @ts-ignore
+      
       handler: "onItemChange"
     }
   },

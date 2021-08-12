@@ -77,19 +77,15 @@ export default Vue.extend({
   },
   watch: {
     isConnected: {
-      // @ts-ignore
       handler: "onConnected"
     },
     channelID: {
-      // @ts-ignore
       handler: "channalIDChanged"
     },
     channel: {
-      // @ts-ignore
       handler: "channelChanged"
     },
     isFocused: {
-      // @ts-ignore
       handler: "onFocusChange"
     }
   },

@@ -88,7 +88,7 @@ export default Vue.extend({
   },
   watch: {
     windowSize: {
-      // @ts-ignore
+      
       handler: "setDimensions"
     }
   },

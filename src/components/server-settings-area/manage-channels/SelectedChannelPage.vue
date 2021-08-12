@@ -184,11 +184,9 @@ export default Vue.extend({
   },
   watch: {
     connected: {
-      // @ts-ignore
       handler: "isConnected"
     },
     channel: {
-      // @ts-ignore
       handler: "channelChange"
     }
   },

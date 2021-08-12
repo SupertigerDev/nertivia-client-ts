@@ -53,7 +53,6 @@ export default Vue.extend({
   },
   watch: {
     linked: {
-      // @ts-ignore
       handler: "onLinkedChange"
     }
   },
