@@ -66,15 +66,12 @@ export default Vue.extend({
   },
   watch: {
     isMobile: {
-      
       handler: "onMobileChange"
     },
     leftOpened: {
-      
       handler: "onLeftChange"
     },
     rightOpened: {
-      
       handler: "onRightChange"
     }
   },

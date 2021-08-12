@@ -233,11 +233,9 @@ export default Vue.extend({
   },
   watch: {
     channelID: {
-      
       handler: "onChannelChange"
     },
     message: {
-      
       handler: "onMessageChange"
     }
   },

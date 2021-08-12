@@ -22,7 +22,6 @@ export default Vue.extend({
   },
   watch: {
     page: {
-      
       handler: "onPageChanged"
     }
   },

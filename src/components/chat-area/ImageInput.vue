@@ -79,7 +79,6 @@ export default Vue.extend({
   },
   watch: {
     parentWidth: {
-      
       handler: "onParentWidthChange"
     }
   },
