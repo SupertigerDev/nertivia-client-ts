@@ -1,13 +1,16 @@
-<template functional>
-  <span class="mention">{{ $props.text }}</span>
-</template>
-
-<script lang="js">
+<script lang="tsx">
 import Vue from "vue";
-
-export default {
-  props: ["text"]
-};
+export default Vue.extend({
+  props: {
+    text: {
+      type: String
+    }
+  },
+  functional: true,
+  render(h, ctx) {
+    return <span class="mention">{ctx.props.text}</span>;
+  }
+});
 </script>
 
 <style>

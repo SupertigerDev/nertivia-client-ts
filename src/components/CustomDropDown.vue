@@ -82,7 +82,7 @@ export default Vue.extend({
       required: false
     },
     defaultId: {
-      type: Number,
+      type: [Number, String],
       default: null
     },
     validMessage: {

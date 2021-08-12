@@ -67,7 +67,7 @@ export default Vue.extend({
       required: false
     },
     element: {
-      type: Object as PropType<HTMLElement>,
+      type: HTMLElement,
       required: false
     },
     items: {
