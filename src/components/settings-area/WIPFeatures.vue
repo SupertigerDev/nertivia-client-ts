@@ -18,11 +18,9 @@
 </template>
 
 <script lang="ts">
-import CheckBox from "@/components/CheckBox.vue";
 import Vue from "vue";
 export default Vue.extend({
-  name: "WIPFeatures",
-  components: { CheckBox }
+  name: "WIPFeatures"
 });
 </script>
 

@@ -31,13 +31,12 @@
   </div>
 </template>
 <script lang="ts">
-import AvatarImage from "@/components/AvatarImage.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
 import Vue, { PropType } from "vue";
 export default Vue.extend({
   name: "ProfilePopout",
-  components: { AvatarImage, CustomButton },
+  components: { CustomButton },
   props: {
     identity: {
       type: String,

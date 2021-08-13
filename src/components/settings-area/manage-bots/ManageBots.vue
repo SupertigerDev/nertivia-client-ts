@@ -39,7 +39,6 @@
   </div>
 </template>
 <script lang="ts">
-import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import SelectedBotPage from "./SelectedBotPage.vue";
 import BotTemplate from "./BotTemplate.vue";
@@ -50,7 +49,6 @@ import Vue from "vue";
 export default Vue.extend({
   name: "ManageChannels",
   components: {
-    CustomInput,
     CustomButton,
     SelectedBotPage,
     BotTemplate

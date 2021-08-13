@@ -60,7 +60,6 @@ import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import CustomDropDown from "@/components/CustomDropDown.vue";
 import InformationTemplate from "@/components/InformationTemplate.vue";
-import AvatarImage from "@/components/AvatarImage.vue";
 import { ageGroups, continents, countries, genders } from "@/utils/surveyItems";
 import { AboutMe, updateSurvay } from "@/services/userService";
 import Vue, { PropType } from "vue";
@@ -69,7 +68,6 @@ export default Vue.extend({
   components: {
     CustomInput,
     CustomButton,
-    AvatarImage,
     InformationTemplate,
     CustomDropDown
   },

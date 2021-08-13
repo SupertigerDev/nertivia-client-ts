@@ -5,12 +5,10 @@
   </div>
 </template>
 <script lang="ts">
-import AvatarImage from "@/components/AvatarImage.vue";
 import Channel from "@/interfaces/Channel";
 import Vue, { PropType } from "vue";
 export default Vue.extend({
   name: "InviteTemplate",
-  components: { AvatarImage },
   props: {
     channel: {
       type: Object as PropType<Channel>,

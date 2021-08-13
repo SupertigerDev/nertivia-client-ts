@@ -6,12 +6,10 @@
 </template>
 
 <script lang="ts">
-import AvatarImage from "@/components/AvatarImage.vue";
 import emojiParser from "@/utils/emojiParser";
 import Vue, { PropType } from "vue";
 export default Vue.extend({
   name: "EmojiSuggestionTemplate",
-  components: { AvatarImage },
   props: {
     item: {
       type: Object as PropType<any>,

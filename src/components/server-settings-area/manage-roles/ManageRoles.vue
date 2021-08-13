@@ -48,12 +48,10 @@
   </div>
 </template>
 <script lang="ts">
-import CustomInput from "@/components/CustomInput.vue";
 import Draggable from "vuedraggable";
 import { ServersModule } from "@/store/modules/servers";
 import CustomButton from "@/components/CustomButton.vue";
 import RoleTemplate from "./RoleTemplate.vue";
-import ContextMenu from "@/components/ContextMenu.vue";
 import SelectedRolesPage from "./SelectedRolesPage.vue";
 import { createServerRole, updateRolePosition } from "@/services/rolesService";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
@@ -64,10 +62,8 @@ import Vue from "vue";
 export default Vue.extend({
   name: "ManageRoles",
   components: {
-    CustomInput,
     CustomButton,
     RoleTemplate,
-    ContextMenu,
     Draggable,
     SelectedRolesPage
   },

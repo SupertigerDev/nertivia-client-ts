@@ -38,11 +38,9 @@
   </div>
 </template>
 <script lang="ts">
-import CustomInput from "@/components/CustomInput.vue";
-import CustomButton from "@/components/CustomButton.vue";
 import EditBot from "./EditBot.vue";
 import EditCommands from "./EditCommands.vue";
-import CheckBox from "@/components/CheckBox.vue";
+
 import User from "@/interfaces/User";
 import { getBot } from "@/services/botService";
 import TabLayout from "@/components/TabLayout.vue";
@@ -50,11 +48,6 @@ import Vue, { PropType } from "vue";
 export default Vue.extend({
   name: "ManageChannels",
   components: {
-    CustomInput,
-    CustomButton,
-    CheckBox,
-    EditBot,
-    EditCommands,
     TabLayout
   },
   props: {

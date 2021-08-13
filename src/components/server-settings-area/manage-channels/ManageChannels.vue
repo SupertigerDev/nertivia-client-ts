@@ -58,7 +58,6 @@
   </div>
 </template>
 <script lang="ts">
-import CustomInput from "@/components/CustomInput.vue";
 import Draggable from "vuedraggable";
 import { ServersModule } from "@/store/modules/servers";
 import CustomButton from "@/components/CustomButton.vue";
@@ -75,7 +74,6 @@ import Vue from "vue";
 export default Vue.extend({
   name: "ManageChannels",
   components: {
-    CustomInput,
     CustomButton,
     ChannelTemplate,
     ContextMenu,

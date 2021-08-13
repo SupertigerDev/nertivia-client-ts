@@ -15,13 +15,10 @@
   </div>
 </template>
 <script lang="ts">
-import AvatarImage from "@/components/AvatarImage.vue";
-
 import { Badge } from "@/constants/badges";
 import Vue, { PropType } from "vue";
 export default Vue.extend({
   name: "Badges",
-  components: { AvatarImage },
   props: {
     badges: {
       type: Array as PropType<Badge[]>,

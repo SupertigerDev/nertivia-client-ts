@@ -39,10 +39,8 @@
 <script lang="ts">
 import Header from "@/components/home-page/Header.vue";
 import LoadingScreen from "@/components/LoadingScreen.vue";
-import CheckBox from "@/components/CheckBox.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import AvatarImage from "@/components/AvatarImage.vue";
-import CustomDropDown from "@/components/CustomDropDown.vue";
 import Server from "@/interfaces/Server";
 import { PopoutsModule } from "@/store/modules/popouts";
 import {
@@ -54,11 +52,9 @@ export default Vue.extend({
   name: "InviteServer",
   components: {
     Header,
-    CheckBox,
     LoadingScreen,
     AvatarImage,
-    CustomButton,
-    CustomDropDown
+    CustomButton
   },
   data() {
     return {

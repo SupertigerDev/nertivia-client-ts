@@ -99,9 +99,6 @@ export default Vue.extend({
         if (a?.custom) return -1;
         return 1;
       });
-      if (sort.length && sort?.[0].custom) {
-        this.customUrlValue = sort[0].invite_code;
-      }
       return sort;
     },
     isVerified(): any {
@@ -117,6 +114,9 @@ export default Vue.extend({
   mounted() {
     getInvites(this.serverID).then((arr: Invite[]) => {
       this.invites = arr;
+      if (this.sortedInvites.length && this.sortedInvites?.[0].custom) {
+        this.customUrlValue = this.sortedInvites[0].invite_code;
+      }
     });
   },
   methods: {

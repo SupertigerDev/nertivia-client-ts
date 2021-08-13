@@ -9,15 +9,13 @@
 </template>
 
 <script lang="ts">
-import { ExpandedUser } from "@/services/adminService";
 import date from "@/utils/date";
-import AvatarImage from "@/components/AvatarImage.vue";
 import { Action } from "@/services/adminService";
 import CustomButton from "@/components/CustomButton.vue";
 import Vue, { PropType } from "vue";
 export default Vue.extend({
   name: "ActionTemplate",
-  components: { AvatarImage, CustomButton },
+  components: { CustomButton },
   props: {
     action: {
       type: Object as PropType<Action>,

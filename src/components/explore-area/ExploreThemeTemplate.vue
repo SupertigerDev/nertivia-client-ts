@@ -64,7 +64,6 @@
 </template>
 
 <script lang="ts">
-import AvatarImage from "@/components/AvatarImage.vue";
 import {
   applyPublicTheme,
   likeTheme,
@@ -78,7 +77,7 @@ import { createTheme } from "@/services/themeService";
 import Vue, { PropType } from "vue";
 export default Vue.extend({
   name: "ExploreThemeTemplate",
-  components: { AvatarImage, CustomButton },
+  components: { CustomButton },
   props: {
     data: {
       type: Object as PropType<PublicThemeResponse>,

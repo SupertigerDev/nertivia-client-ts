@@ -12,12 +12,10 @@
   </div>
 </template>
 <script lang="ts">
-import AvatarImage from "@/components/AvatarImage.vue";
 import ServerRole from "@/interfaces/ServerRole";
 import Vue, { PropType } from "vue";
 export default Vue.extend({
   name: "RoleTemplate",
-  components: { AvatarImage },
   props: {
     role: {
       type: Object as PropType<ServerRole & { canModify: boolean }>,
