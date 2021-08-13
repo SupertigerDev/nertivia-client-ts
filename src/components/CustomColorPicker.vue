@@ -9,19 +9,26 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Ref } from "vue-property-decorator";
 import "@simonwep/pickr/dist/themes/classic.min.css";
 import Pickr from "@simonwep/pickr";
+import Vue from "vue";
 
-@Component({ model: { prop: "color", event: "change" } })
-export default class CustomColorPicker extends Vue {
-  @Ref() readonly pickerInput!: HTMLElement;
-  @Prop() private name!: string;
-  @Prop() private color!: string;
-  @Prop({ default: true }) private allowOpacity!: boolean;
-
-  pickr: Pickr | null = null;
-  popupShowing = false;
+export default Vue.extend({
+  name: "CustomColorPicker",
+  model: { prop: "color", event: "change" },
+  props: {
+    color: String,
+    name: String,
+    allowOpacity: {
+      default: true
+    }
+  },
+  data() {
+    return {
+      pickr: null as null | Pickr,
+      popupShowing: false
+    };
+  },
   mounted() {
     this.pickr = Pickr.create({
       el: ".picker-input",
@@ -39,25 +46,27 @@ export default class CustomColorPicker extends Vue {
       }
     });
     this.pickr.on("hide", this.colorChanged);
-  }
+  },
   beforeDestroy() {
     this.pickr?.off("hide", this.colorChanged);
     this.pickr?.destroyAndRemove();
+  },
+  methods: {
+    showPicker(event: any) {
+      this.pickr?.setColor(this.color || "white");
+      this.pickr?.show();
+      this.popupShowing = true;
+    },
+    colorChanged(event: any) {
+      this.popupShowing = false;
+      const hex = event
+        .getColor()
+        .toHEXA()
+        .toString();
+      this.$emit("change", hex);
+    }
   }
-  showPicker(event: any) {
-    this.pickr?.setColor(this.color || "white");
-    this.pickr?.show();
-    this.popupShowing = true;
-  }
-  colorChanged(event: any) {
-    this.popupShowing = false;
-    const hex = event
-      .getColor()
-      .toHEXA()
-      .toString();
-    this.$emit("change", hex);
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

@@ -10,7 +10,7 @@
         connectLeft,
         connectRight
       }"
-      @click="$refs.inputBox.focus()"
+      @click="onClick"
     >
       <legend class="title">
         {{ title + (maxChars ? ` (${charCount}/${maxChars})` : "") }}
@@ -59,35 +59,46 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Ref, Vue } from "vue-property-decorator";
+import Vue from "vue";
 
-@Component({ model: { prop: "value", event: "model" } })
-export default class CustomInput extends Vue {
-  focused = false;
-  @Ref() readonly inputBox!: HTMLInputElement;
-
-  @Prop() private title!: string;
-  @Prop() private maxChars!: number;
-  @Prop() private placeholder!: string;
-  @Prop() private type!: string;
-  @Prop() private error!: string;
-  @Prop({ default: false }) private disabled!: boolean;
-  @Prop({ default: false }) private textArea!: boolean;
-  @Prop() private validMessage!: string;
-  @Prop() private value!: string;
-  @Prop() private prefix!: string;
-  @Prop() private prefixIcon!: string;
-  @Prop() private connectLeft!: boolean;
-  @Prop() private connectRight!: boolean;
-  @Prop({ default: false }) private hideError!: boolean;
-
-  inputEvent(event: any) {
-    this.$emit("model", event.target.value);
+export default Vue.extend({
+  name: "CustomInput",
+  model: { prop: "value", event: "model" },
+  data() {
+    return {
+      focused: false
+    };
+  },
+  props: {
+    title: String,
+    maxChars: Number,
+    placeholder: String,
+    type: String,
+    error: String,
+    disabled: { default: false },
+    textArea: { default: false },
+    validMessage: String,
+    value: String,
+    prefix: String,
+    prefixIcon: String,
+    connectLeft: Boolean,
+    connectRight: Boolean,
+    hideError: { default: false }
+  },
+  methods: {
+    inputEvent(event: any) {
+      this.$emit("model", event.target.value);
+    },
+    onClick(event: { target: HTMLInputElement }) {
+      event.target.click();
+    }
+  },
+  computed: {
+    charCount(): number {
+      return this.value.length;
+    }
   }
-  get charCount() {
-    return this.value.length;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

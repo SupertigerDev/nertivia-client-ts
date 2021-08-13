@@ -119,7 +119,10 @@ export default class DoodlePopout extends Vue {
     this.paint.strokeSmoothing = parseFloat(this.stablization);
 
     get("doodlepad").then(val => {
-      if (!val) return;
+      if (!val) {
+        this.loaded = true;
+        return;
+      }
       const { strokeHistory, strokeColor, backgroundColor } = val;
       if (!this.paint) return;
       this.paint.strokeHistory = strokeHistory;
