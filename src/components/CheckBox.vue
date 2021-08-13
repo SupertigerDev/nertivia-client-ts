@@ -9,19 +9,34 @@
 </template>
 
 <script lang="ts">
-import { Component, Model, Prop, Vue } from "vue-property-decorator";
-
-@Component
-export default class CheckBox extends Vue {
-  @Model("change", { type: Boolean }) readonly checked!: boolean;
-  @Prop() private name!: string;
-  @Prop() private description?: string;
-  @Prop() private colored!: string;
-
-  clicked() {
-    this.$emit("change", !this.checked);
+import Vue from "vue";
+export default Vue.extend({
+  name: "CheckBox",
+  model: {
+    prop: "checked",
+    event: "change"
+  },
+  props: {
+    checked: {
+      type: Boolean
+    },
+    name: {
+      type: String
+    },
+    description: {
+      type: String,
+      required: false
+    },
+    colored: {
+      type: Boolean
+    }
+  },
+  methods: {
+    clicked() {
+      this.$emit("change", !this.checked);
+    }
   }
-}
+});
 </script>
 <style lang="scss" scoped>
 .check-box {

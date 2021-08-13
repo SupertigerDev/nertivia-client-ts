@@ -1,5 +1,9 @@
 <template>
-  <div class="role" :class="{ disabled: !role.canModify && !role.default }">
+  <div
+    class="role"
+    v-if="role"
+    :class="{ disabled: !role.canModify && !role.default }"
+  >
     <div class="color" :style="{ backgroundColor: role.color }" />
     <div class="name">{{ role.name }}</div>
     <div class="info" v-if="role.bot">
