@@ -7,7 +7,7 @@ import {
 } from "vuex-module-decorators";
 import store from "..";
 import { saveCache } from "@/utils/localCache";
-import ServerMember from "@/interfaces/ServerMember";
+import ServerMember, { ExtraServerMembers } from "@/interfaces/ServerMember";
 import { UsersModule } from "./users";
 import { PresencesModule } from "./presences";
 import { ServerRolesModule } from "./serverRoles";
@@ -15,6 +15,8 @@ import Vue from "vue";
 import _ from "lodash";
 import { permissions } from "@/constants/rolePermissions";
 import { bitwiseAdd, bitwiseContains } from "@/utils/bitwise";
+import ServerRole from "@/interfaces/ServerRole";
+import User from "@/interfaces/User";
 
 interface Servers {
   [key: string]: Members;
@@ -22,6 +24,7 @@ interface Servers {
 interface Members {
   [key: string]: ServerMember;
 }
+
 
 @Module({ dynamic: true, store, namespaced: true, name: "serverMembers" })
 class ServerMembers extends VuexModule {
@@ -38,8 +41,8 @@ class ServerMembers extends VuexModule {
   }
 
   get serverMember() {
-    return (server_id: string, id: string) => {
-      if (!this.serverMembers[server_id]) return [];
+    return (server_id: string, id: string): ExtraServerMembers | undefined => {
+      if (!this.serverMembers[server_id]) return undefined;
       const sm = this.serverMembers[server_id][id];
       if (!sm) return undefined;
       const user = UsersModule.users[id];
@@ -49,7 +52,7 @@ class ServerMembers extends VuexModule {
     };
   }
   get filteredServerMembers() {
-    return (server_id: string) => {
+    return (server_id: string): ExtraServerMembers[] => {
       if (!this.serverMembers[server_id]) return [];
       return Object.values(this.serverMembers[server_id]).map(sm => {
         const user = UsersModule.users[sm.id];

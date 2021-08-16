@@ -7,7 +7,7 @@
         v-show="!selectedUser"
         @click="selectedUser = $event"
       />
-      <AdminActions v-show="!selectedUser" />
+      <AdminActions v-show="!selectedUser" ref="adminActions" />
 
       <SelectedUserPage
         @suspended="suspendUser"
@@ -22,33 +22,43 @@
 
 <script lang="ts">
 import { ExpandedUser } from "@/services/adminService";
-import { Vue, Component, Prop, Ref } from "vue-property-decorator";
+// import { Vue, Component, Prop, Ref } from "vue-property-decorator";
 import Stats from "./Stats.vue";
 import Users from "./Users.vue";
 import AdminActions from "./AdminActions.vue";
 import SelectedUserPage from "./SelectedUserPage.vue";
 
-@Component({ components: { Stats, Users, SelectedUserPage, AdminActions } })
-export default class Overview extends Vue {
-  @Ref() readonly users!: any;
-  @Ref() readonly adminActions!: any;
-
-  selectedUser: ExpandedUser | null = null;
-  suspendUser() {
-    if (!this.selectedUser) return;
-    const newUser = { ...this.selectedUser, banned: true };
-    this.users.updateUser(newUser);
-    this.$set(this, "selectedUser", newUser);
-    this.adminActions.fetchActions();
+import Vue from "vue";
+export default Vue.extend({
+  components: { Stats, Users, SelectedUserPage, AdminActions },
+  data() {
+    return {
+      selectedUser: null as ExpandedUser | null
+    };
+  },
+  methods: {
+    getUserComponent() {
+      return this.$refs.users as InstanceType<typeof Users>;
+    },
+    getAdminActionsComponent() {
+      return this.$refs.adminActions as InstanceType<typeof AdminActions>;
+    },
+    suspendUser() {
+      if (!this.selectedUser) return;
+      const newUser = { ...this.selectedUser, banned: true };
+      this.getUserComponent().updateUser(newUser);
+      this.$set(this, "selectedUser", newUser);
+      this.getAdminActionsComponent().fetchActions();
+    },
+    unsuspendUser({ removeIPBan }) {
+      if (!this.selectedUser) return;
+      const newUser = { ...this.selectedUser, banned: false };
+      this.getUserComponent().updateUser(newUser);
+      this.$set(this, "selectedUser", newUser);
+      this.getAdminActionsComponent().fetchActions();
+    }
   }
-  unsuspendUser({ removeIPBan }) {
-    if (!this.selectedUser) return;
-    const newUser = { ...this.selectedUser, banned: false };
-    this.users.updateUser(newUser);
-    this.$set(this, "selectedUser", newUser);
-    this.adminActions.fetchActions();
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

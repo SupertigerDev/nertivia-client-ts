@@ -31,7 +31,6 @@
 
 <script lang="ts">
 import { Tab, TabsModule } from "@/store/modules/tabs";
-import { Component, Prop, Ref } from "vue-property-decorator";
 import Vue, { PropType } from "vue";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { UsersModule } from "@/store/modules/users";
@@ -97,55 +96,6 @@ export default Vue.extend({
     }
   }
 });
-
-@Component({ components: { AvatarImage, UserStatusTemplate } })
-export class MainApp extends Vue {
-  @Prop() private selected!: boolean;
-  @Prop() private tab!: Tab;
-  @Ref("tab") readonly tabComponent!: any;
-  mounted() {
-    this.tabComponent.$el.addEventListener("auxclick", this.onMiddleClick);
-  }
-  beforeDestroy() {
-    this.tabComponent.$el.removeEventListener("auxclick", this.onMiddleClick);
-  }
-  openTab() {
-    TabsModule.openTab({ ...this.tab, opened: true });
-  }
-  onMiddleClick(event: MouseEvent) {
-    if (event.button === 1) {
-      event.preventDefault();
-      this.closeTab();
-    }
-  }
-  closeTab() {
-    if (!this.tab.path) return;
-    TabsModule.closeTabByPath(this.tab.path);
-  }
-  get title() {
-    if (this.user && !this.isSavedNotes) {
-      return this.user.username;
-    }
-    return this.tab.name;
-  }
-  get avatar() {
-    return this.user?.avatar || this.server?.avatar;
-  }
-  get seed() {
-    return this.tab.server_id || this.tab.user_id;
-  }
-  get user() {
-    if (!this.tab.user_id) return undefined;
-    return UsersModule.users[this.tab.user_id];
-  }
-  get server() {
-    if (!this.tab.server_id) return undefined;
-    return ServersModule.servers[this.tab.server_id];
-  }
-  get isSavedNotes() {
-    return this.tab.user_id === MeModule.user.id;
-  }
-}
 </script>
 
 <style lang="scss" scoped>

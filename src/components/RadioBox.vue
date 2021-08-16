@@ -14,15 +14,20 @@
 </template>
 
 <script lang="ts">
-import { Component, Model, Prop, Vue } from "vue-property-decorator";
-@Component
-export default class RadioBox extends Vue {
-  @Model("change", { type: Number }) readonly selectedIndex!: number;
-  @Prop() private items!: string[];
-  clicked(index: number) {
-    this.$emit("change", index);
+import Vue, { PropType } from "vue";
+
+export default Vue.extend({
+  model: { event: "change", prop: "selectedIndex" },
+  props: {
+    items: Array as PropType<string[]>,
+    selectedIndex: Number
+  },
+  methods: {
+    clicked(index: number) {
+      this.$emit("change", index);
+    }
   }
-}
+});
 </script>
 <style lang="scss" scoped>
 .radio-box-list {
