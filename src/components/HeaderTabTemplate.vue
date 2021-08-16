@@ -31,15 +31,75 @@
 
 <script lang="ts">
 import { Tab, TabsModule } from "@/store/modules/tabs";
-import { Component, Prop, Ref, Vue } from "vue-property-decorator";
+import { Component, Prop, Ref } from "vue-property-decorator";
+import Vue, { PropType } from "vue";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { UsersModule } from "@/store/modules/users";
 import { ServersModule } from "@/store/modules/servers";
 import { MeModule } from "@/store/modules/me";
 import UserStatusTemplate from "@/components/UserStatusTemplate.vue";
+import Server from "@/interfaces/Server";
+import User from "@/interfaces/User";
+
+export default Vue.extend({
+  components: { AvatarImage, UserStatusTemplate },
+  props: {
+    selected: Boolean,
+    tab: Object as PropType<Tab>
+  },
+  mounted() {
+    this.getTabElement().addEventListener("auxclick", this.onMiddleClick);
+  },
+  beforeDestroy() {
+    this.getTabElement().removeEventListener("auxclick", this.onMiddleClick);
+  },
+  methods: {
+    getTabElement() {
+      return (this.$refs?.tab as any).$el as HTMLElement;
+    },
+    onMiddleClick(event: MouseEvent) {
+      if (event.button === 1) {
+        event.preventDefault();
+        this.closeTab();
+      }
+    },
+    openTab() {
+      TabsModule.openTab({ ...this.tab, opened: true });
+    },
+    closeTab() {
+      if (!this.tab.path) return;
+      TabsModule.closeTabByPath(this.tab.path);
+    }
+  },
+  computed: {
+    seed(): string | undefined {
+      return this.tab.server_id || this.tab.user_id;
+    },
+    user(): User | undefined {
+      if (!this.tab.user_id) return undefined;
+      return UsersModule.users[this.tab.user_id];
+    },
+    server(): Server | undefined {
+      if (!this.tab.server_id) return undefined;
+      return ServersModule.servers[this.tab.server_id];
+    },
+    title(): string {
+      if (this.user && !this.isSavedNotes) {
+        return this.user.username;
+      }
+      return this.tab.name;
+    },
+    avatar(): string | undefined {
+      return this.user?.avatar || this.server?.avatar;
+    },
+    isSavedNotes(): boolean {
+      return this.tab.user_id === MeModule.user.id;
+    }
+  }
+});
 
 @Component({ components: { AvatarImage, UserStatusTemplate } })
-export default class MainApp extends Vue {
+export class MainApp extends Vue {
   @Prop() private selected!: boolean;
   @Prop() private tab!: Tab;
   @Ref("tab") readonly tabComponent!: any;

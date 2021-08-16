@@ -84,33 +84,36 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Ref, Vue } from "vue-property-decorator";
+import Vue from "vue";
 import { PaintingContext } from "doodlepad";
 import CustomButton from "@/components/CustomButton.vue";
 import CustomColorPicker from "@/components/CustomColorPicker.vue";
 import { FileUploadModule } from "@/store/modules/fileUpload";
 import { set, get } from "idb-keyval";
 
-@Component({ components: { CustomButton, CustomColorPicker } })
-export default class DoodlePopout extends Vue {
-  @Ref() readonly canvas!: HTMLCanvasElement;
-  context: CanvasRenderingContext2D | null = null;
-  paint: PaintingContext | null = null;
-  backgroundColor = "white";
-  strokeColor = "black";
-  strokeSize = "3";
-  stablization = "0.50";
-  erase = false;
-  loaded = false;
-  clearCanavsConfirm = false;
-
+export default Vue.extend({
+  components: { CustomButton, CustomColorPicker },
+  data() {
+    return {
+      context: null as CanvasRenderingContext2D | null,
+      paint: null as PaintingContext | null,
+      backgroundColor: "white",
+      strokeColor: "black",
+      strokeSize: "3",
+      stablization: "0.50",
+      erase: false,
+      loaded: false,
+      clearCanavsConfirm: false
+    };
+  },
   mounted() {
-    const parentElement = this.canvas.parentElement;
+    const canvas = this.getCanvas();
+    const parentElement = canvas.parentElement;
     if (!parentElement) return;
-    this.canvas.height = parentElement.clientHeight;
-    this.canvas.width = parentElement.clientWidth;
+    canvas.height = parentElement.clientHeight;
+    canvas.width = parentElement.clientWidth;
 
-    this.context = this.canvas.getContext("2d");
+    this.context = canvas.getContext("2d");
     if (!this.context) return;
     this.paint = new PaintingContext(this.context);
     this.paint.backgroundColor = this.backgroundColor;
@@ -135,7 +138,7 @@ export default class DoodlePopout extends Vue {
     });
 
     document.addEventListener("keydown", this.onKeyDown);
-  }
+  },
   beforeDestroy() {
     if (!this.paint) return;
     if (!this.loaded) return;
@@ -145,71 +148,76 @@ export default class DoodlePopout extends Vue {
       backgroundColor: this.backgroundColor
     });
     document.removeEventListener("keydown", this.onKeyDown);
-  }
-  onKeyDown(event: KeyboardEvent) {
-    if (event.ctrlKey && !event.shiftKey && event.key.toUpperCase() === "Z") {
-      event.preventDefault();
-      this.paint?.undoStroke();
+  },
+  methods: {
+    getCanvas() {
+      return this.$refs.canvas as HTMLCanvasElement;
+    },
+    onKeyDown(event: KeyboardEvent) {
+      if (event.ctrlKey && !event.shiftKey && event.key.toUpperCase() === "Z") {
+        event.preventDefault();
+        this.paint?.undoStroke();
+      }
+      if (event.ctrlKey && event.shiftKey && event.key.toUpperCase() === "Z") {
+        event.preventDefault();
+        this.paint?.redoStroke();
+      }
+    },
+    onBackgroundColorChange(color: string) {
+      if (!this.paint) return;
+      this.paint.backgroundColor = color;
+    },
+    onStrokeColorChange(color: string) {
+      if (!this.paint) return;
+      this.paint.strokeColor = color;
+    },
+    onStrokeSizeChange(event: any) {
+      if (!this.paint) return;
+      this.paint.strokeSize = parseInt(event.target.value);
+    },
+    onStablizationChange(event: any) {
+      if (!this.paint) return;
+      this.paint.strokeSmoothing = parseFloat(event.target.value);
+    },
+    onEraseClick() {
+      if (!this.paint) return;
+      if (!this.erase) {
+        this.erase = true;
+        this.paint.strokeColor = "currentBackground";
+        return;
+      }
+      this.erase = false;
+      this.paint.strokeColor = this.strokeColor;
+    },
+    onSendClick() {
+      FileUploadModule.SetFile(undefined);
+      this.getCanvas().toBlob(blob => {
+        if (!blob) return;
+        let file = new File([blob], "drawing.png", {
+          type: "image/png"
+        });
+        FileUploadModule.SetFile(file);
+        this.close();
+      }, "image/png");
+    },
+    onClearClick() {
+      if (!this.context) return;
+      set("doodlepad", undefined);
+      this.backgroundColor = "white";
+      this.strokeColor = "black";
+      this.paint = new PaintingContext(this.context);
+      this.paint.backgroundColor = this.backgroundColor;
+      this.paint.strokeColor = this.strokeColor;
+    },
+    close() {
+      this.$emit("close");
+    },
+    backgroundClick(event) {
+      if (event.target.closest(".pcr-app")) return;
+      if (!event.target.closest(".doodle-button")) this.close();
     }
-    if (event.ctrlKey && event.shiftKey && event.key.toUpperCase() === "Z") {
-      event.preventDefault();
-      this.paint?.redoStroke();
-    }
   }
-  onBackgroundColorChange(color: string) {
-    if (!this.paint) return;
-    this.paint.backgroundColor = color;
-  }
-  onStrokeColorChange(color: string) {
-    if (!this.paint) return;
-    this.paint.strokeColor = color;
-  }
-  onStrokeSizeChange(event: any) {
-    if (!this.paint) return;
-    this.paint.strokeSize = parseInt(event.target.value);
-  }
-  onStablizationChange(event: any) {
-    if (!this.paint) return;
-    this.paint.strokeSmoothing = parseFloat(event.target.value);
-  }
-  onEraseClick() {
-    if (!this.paint) return;
-    if (!this.erase) {
-      this.erase = true;
-      this.paint.strokeColor = "currentBackground";
-      return;
-    }
-    this.erase = false;
-    this.paint.strokeColor = this.strokeColor;
-  }
-  onSendClick() {
-    FileUploadModule.SetFile(undefined);
-    this.canvas.toBlob(blob => {
-      if (!blob) return;
-      let file = new File([blob], "drawing.png", {
-        type: "image/png"
-      });
-      FileUploadModule.SetFile(file);
-      this.close();
-    }, "image/png");
-  }
-  onClearClick() {
-    if (!this.context) return;
-    set("doodlepad", undefined);
-    this.backgroundColor = "white";
-    this.strokeColor = "black";
-    this.paint = new PaintingContext(this.context);
-    this.paint.backgroundColor = this.backgroundColor;
-    this.paint.strokeColor = this.strokeColor;
-  }
-  close() {
-    this.$emit("close");
-  }
-  backgroundClick(event) {
-    if (event.target.closest(".pcr-app")) return;
-    if (!event.target.closest(".doodle-button")) this.close();
-  }
-}
+});
 </script>
 
 <style scoped lang="scss">
