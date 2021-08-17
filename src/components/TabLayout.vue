@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import Vue, { PropType } from "vue";
 interface Tab {
   name: string;
   id: string;
@@ -7,11 +7,16 @@ interface Tab {
   props?: any;
   events?: string[];
 }
-@Component
-export default class TabLayout extends Vue {
-  @Prop() private tabs!: Tab[];
-  currentTab = 0;
 
+export default Vue.extend({
+  data() {
+    return {
+      currentTab: 0
+    };
+  },
+  props: {
+    tabs: Array as PropType<Tab[]>
+  },
   render(h) {
     const Tab = ({ props }) => (
       <div
@@ -24,11 +29,12 @@ export default class TabLayout extends Vue {
         {props.name}
       </div>
     );
+
     const Tabs = () => (
       <div class="tabs">
-        {this.tabs.map((tab, i) =>
-          h(Tab, { props: { name: tab.name, index: i } })
-        )}
+        {this.tabs.map((tab, i) => (
+          <Tab props={{ name: tab.name, index: i }} />
+        ))}
       </div>
     );
     const customEvents = () => {
@@ -63,7 +69,7 @@ export default class TabLayout extends Vue {
       </div>
     );
   }
-}
+});
 </script>
 
 <style scoped lang="scss">

@@ -4,33 +4,32 @@ import {
   programListener,
   restartListener
 } from "@/utils/programActivity";
-import Vue from 'vue';
+import Vue from "vue";
 export default Vue.extend({
-  name: 'ElectronActivityHandler',
+  name: "ElectronActivityHandler",
   data() {
     return {
       programActivityTimeout: null as number | null,
-      currentActiveProgram: null as { name: string; status: string } | null,
+      currentActiveProgram: null as { name: string; status: string } | null
     };
   },
   render(h) {
-    return h('template')
+    return h("template");
   },
   computed: {
     isConnected(): any {
       return MeModule.connected;
-    },
+    }
   },
   watch: {
-    'isConnected': {
-      handler: 'onConnection',
-    },
+    isConnected: {
+      handler: "onConnection"
+    }
   },
   beforeMount() {
     programListener(this.onActivityChange);
   },
   methods: {
-
     emitActivity() {
       if (!this.isConnected) return;
       this.programActivityTimeout && clearTimeout(this.programActivityTimeout);
@@ -58,6 +57,6 @@ export default Vue.extend({
     },
     onConnection() {
       restartListener();
-    },
-  },
+    }
+  }
 });

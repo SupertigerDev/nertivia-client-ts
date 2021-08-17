@@ -8,4 +8,8 @@ export default interface ServerMember {
   roleIdArr: string[];
 }
 
-export type ExtraServerMembers = ServerMember & {member: User, presence: number, roles: ServerRole[]};
+export type ExtraServerMembers = ServerMember & {
+  member: User;
+  presence: number;
+  roles: ServerRole[];
+};

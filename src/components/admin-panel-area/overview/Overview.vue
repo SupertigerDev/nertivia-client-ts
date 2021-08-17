@@ -22,7 +22,6 @@
 
 <script lang="ts">
 import { ExpandedUser } from "@/services/adminService";
-// import { Vue, Component, Prop, Ref } from "vue-property-decorator";
 import Stats from "./Stats.vue";
 import Users from "./Users.vue";
 import AdminActions from "./AdminActions.vue";

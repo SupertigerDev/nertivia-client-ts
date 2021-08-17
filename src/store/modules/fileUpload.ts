@@ -11,7 +11,7 @@ import { postFormDataMessage } from "@/services/messagesService";
 import { MessagesModule } from "./messages";
 import fileSize from "filesize";
 
-interface UploadQueue {
+export interface UploadQueue {
   message: string;
   uploading: boolean;
   compress: boolean;

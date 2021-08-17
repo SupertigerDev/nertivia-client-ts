@@ -1,28 +1,28 @@
 import { AppUpdateModule } from "@/store/modules/appUpdate";
 import { PopoutsModule } from "@/store/modules/popouts";
 import WindowProperties from "@/utils/windowProperties";
-import Vue from 'vue';
+import Vue from "vue";
 export default Vue.extend({
-  name: 'UpdateChecker',
+  name: "UpdateChecker",
   data() {
     return {
       lastUpdateChecked: Date.now(),
       updateAvailable: false,
-      checkAfter: 600000,
+      checkAfter: 600000
     };
   },
   render(h) {
-    return h('template')
+    return h("template");
   },
   computed: {
     focused(): any {
       return WindowProperties.isFocused;
-    },
+    }
   },
   watch: {
-    'focused': {
-      handler: 'onFocusChange',
-    },
+    focused: {
+      handler: "onFocusChange"
+    }
   },
   mounted() {
     this.showChangelog();
@@ -43,6 +43,6 @@ export default Vue.extend({
     },
     onFocusChange() {
       AppUpdateModule.check();
-    },
-  },
+    }
+  }
 });

@@ -25,7 +25,6 @@ interface Members {
   [key: string]: ServerMember;
 }
 
-
 @Module({ dynamic: true, store, namespaced: true, name: "serverMembers" })
 class ServerMembers extends VuexModule {
   // serverMembers[server_id][unique_id]

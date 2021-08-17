@@ -1,11 +1,11 @@
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { NotificationsModule } from "@/store/modules/notifications";
 import electronBridge from "@/utils/electronBridge";
-import Vue from 'vue';
+import Vue from "vue";
 export default Vue.extend({
-  name: 'ElectronBadgeHandler',
+  name: "ElectronBadgeHandler",
   render(h) {
-    return h('template')
+    return h("template");
   },
   computed: {
     firstServerNotification(): any {
@@ -15,21 +15,20 @@ export default Vue.extend({
     },
     firstDmNotification(): any {
       return NotificationsModule.allDMNotifications?.reverse()?.[0];
-    },
+    }
   },
   watch: {
-    'firstServerNotification': {
-      handler: 'onNotification',
+    firstServerNotification: {
+      handler: "onNotification"
     },
-    'firstDmNotification': {
-      handler: 'onNotification',
-    },
+    firstDmNotification: {
+      handler: "onNotification"
+    }
   },
   mounted() {
     electronBridge?.send("notification_badge", 0);
   },
   methods: {
-
     onNotification() {
       this.setElectronBadge();
     },
@@ -39,6 +38,6 @@ export default Vue.extend({
         return;
       }
       electronBridge?.send("notification_badge", 0);
-    },
-  },
+    }
+  }
 });

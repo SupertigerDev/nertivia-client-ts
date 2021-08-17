@@ -7,43 +7,44 @@
   >
     <transition-group :name="messageTransition ? 'message' : ''" tag="div">
       <Messages :channelID="channelID" class="message" />
-      <UploadQueue v-if="uploadQueue.length" key="upload-queue" />
+      <UploadQueueComponent v-if="uploadQueue.length" key="upload-queue" />
     </transition-group>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
+import Vue from "vue";
 import { MessagesModule } from "@/store/modules/messages";
-import UploadQueue from "./message/UploadQueue.vue";
 import Messages from "./Messages.vue";
+import UploadQueueComponent from "./message/UploadQueue.vue";
 import windowProperties from "@/utils/windowProperties";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import FileDragDrop from "@/utils/FileDragDrop";
-import { FileUploadModule } from "@/store/modules/fileUpload";
+import { FileUploadModule, UploadQueue } from "@/store/modules/fileUpload";
 import { PopoutsModule } from "@/store/modules/popouts";
 import Message from "@/interfaces/Message";
 import { eventBus } from "@/utils/globalBus";
 import { fetchMessagesAround } from "@/services/messagesService";
 import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
-@Component({
-  components: {
-    UploadQueue,
-    Messages
-  }
-})
-export default class MessageLogs extends Vue {
-  fileDragDropHandler: FileDragDrop | undefined;
-
-  // when loading more messages above
-  isLoadingTopMore = false;
-  isLoadingBottomMore = false;
-  moreTopToLoad = true;
-  moreBottomToLoad = false;
-  currentChannelID = this.channelID;
-  scrollTop = 0;
-  scrollBottom = 0;
+import Notification from "@/interfaces/Notification";
+export default Vue.extend({
+  components: { UploadQueueComponent, Messages },
+  data() {
+    return {
+      fileDragDropHandler: undefined as FileDragDrop | undefined,
+      isLoadingTopMore: false,
+      isLoadingBottomMore: false,
+      moreTopToLoad: true,
+      moreBottomToLoad: false,
+      currentChannelID: "",
+      scrollTop: 0,
+      scrollBottom: 0
+    };
+  },
+  created() {
+    this.currentChannelID = this.channelID;
+  },
   mounted() {
     const scrollTop = MessageLogStatesModule.scrollTop(this.channelID);
     if (scrollTop === undefined) {
@@ -67,7 +68,7 @@ export default class MessageLogs extends Vue {
     this.fileDragDropHandler.onDragOut(this.fileDragOut);
     this.dismissNotification();
     eventBus.$on("scrollToMessage", this.goToMessage);
-  }
+  },
   beforeDestroy() {
     const isScrolledDown = MessageLogStatesModule.isScrolledDown(
       this.currentChannelID
@@ -80,304 +81,307 @@ export default class MessageLogs extends Vue {
     });
     this.fileDragDropHandler?.destroy();
     eventBus.$off("scrollToMessage", this.goToMessage);
-  }
-  fileDragEnter() {
-    PopoutsModule.ShowPopout({
-      id: "file-drag",
-      component: "Drag-drop-popout"
-    });
-  }
-  fileDragOut() {
-    PopoutsModule.ClosePopout("file-drag");
-  }
-  fileDrop(file: File) {
-    PopoutsModule.ClosePopout("file-drag");
-    FileUploadModule.SetFile(file);
-  }
-  loadMoreTop() {
-    if (!this.channelMessages) return;
-    if (this.channelMessages.length <= 40) return;
-    if (!this.moreTopToLoad) return;
-    const logs: Element = this.$refs.logs as any;
-    if (this.isLoadingTopMore) return;
-    this.isLoadingTopMore = true;
-    this.moreBottomToLoad = true;
-    MessagesModule.continueLoadMessages(this.channelID).then(async messages => {
+  },
+  methods: {
+    fileDragEnter() {
+      PopoutsModule.ShowPopout({
+        id: "file-drag",
+        component: "Drag-drop-popout"
+      });
+    },
+    fileDragOut() {
+      PopoutsModule.ClosePopout("file-drag");
+    },
+    fileDrop(file: File) {
+      PopoutsModule.ClosePopout("file-drag");
+      FileUploadModule.SetFile(file);
+    },
+    loadMoreTop() {
       if (!this.channelMessages) return;
-      if (!messages) return;
-      if (!messages.length) {
-        this.moreTopToLoad = false;
-        return;
-      }
-      const clamped = await MessagesModule.ClampChannelMessages({
-        channelID: this.channelID,
-        reverseClamp: true,
-        checkScrolledBottom: false
-      });
-      if (clamped) {
-        MessageLogStatesModule.UpdateState({
-          channelID: this.currentChannelID,
-          state: {
-            bottomUnloaded: true
+      if (this.channelMessages.length <= 40) return;
+      if (!this.moreTopToLoad) return;
+      const logs: Element = this.$refs.logs as any;
+      if (this.isLoadingTopMore) return;
+      this.isLoadingTopMore = true;
+      this.moreBottomToLoad = true;
+      MessagesModule.continueLoadMessages(this.channelID).then(
+        async messages => {
+          if (!this.channelMessages) return;
+          if (!messages) return;
+          if (!messages.length) {
+            this.moreTopToLoad = false;
+            return;
           }
-        });
-      }
-      MessagesModule.SetChannelMessages({
-        channelID: this.channelID,
-        messages: [...messages.reverse(), ...this.channelMessages]
-      });
-
-      const beforeHeight = logs.scrollHeight;
-      const beforeScrollTop = logs.scrollTop;
-
-      this.$nextTick(() => {
-        this.$nextTick(() => {
-          logs.scrollTop = logs.scrollHeight - beforeHeight + beforeScrollTop;
-          setTimeout(() => {
-            this.isLoadingTopMore = false;
-            if (this.scrolledToEnd.isTop) {
-              this.loadMoreTop();
-            }
-          }, 1000);
-        });
-      });
-    });
-  }
-  loadMoreBottom() {
-    if (!this.channelMessages) return;
-    if (this.channelMessages.length <= 40) return;
-    if (!this.moreBottomToLoad) return;
-    const logs: Element = this.$refs.logs as any;
-    if (this.isLoadingBottomMore) return;
-    this.isLoadingBottomMore = true;
-    this.moreTopToLoad = true;
-    MessagesModule.beforeLoadMessages(this.channelID).then(messages => {
-      let dontContinue = false;
-      if (!this.channelMessages) dontContinue = true;
-      if (!messages) dontContinue = true;
-
-      if (!messages?.length || messages?.length < 50) {
-        MessageLogStatesModule.UpdateState({
-          channelID: this.currentChannelID,
-          state: {
-            bottomUnloaded: false
+          const clamped = await MessagesModule.ClampChannelMessages({
+            channelID: this.channelID,
+            reverseClamp: true,
+            checkScrolledBottom: false
+          });
+          if (clamped) {
+            MessageLogStatesModule.UpdateState({
+              channelID: this.currentChannelID,
+              state: {
+                bottomUnloaded: true
+              }
+            });
           }
-        });
-        this.moreBottomToLoad = false;
-        !messages?.length && (dontContinue = true);
-      }
-      if (dontContinue || !messages) {
-        this.isLoadingBottomMore = false;
-        return;
-      }
-      MessagesModule.ClampChannelMessages({
-        channelID: this.channelID,
-        checkScrolledBottom: false
-      });
-      MessagesModule.SetChannelMessages({
-        channelID: this.channelID,
-        messages: [...(this.channelMessages as any), ...messages]
-      });
+          MessagesModule.SetChannelMessages({
+            channelID: this.channelID,
+            messages: [...messages.reverse(), ...this.channelMessages]
+          });
 
-      const beforeScrollTop = logs.scrollTop;
+          const beforeHeight = logs.scrollHeight;
+          const beforeScrollTop = logs.scrollTop;
 
-      this.$nextTick(() => {
-        this.$nextTick(() => {
-          logs.scrollTop = beforeScrollTop;
-          setTimeout(() => {
-            this.isLoadingBottomMore = false;
-            if (this.scrolledToEnd.isBottom) {
-              this.loadMoreBottom();
-            }
-          }, 1000);
-        });
-      });
-    });
-  }
-
-  onScroll(event: { target: Element }) {
-    this.scrollTop = event.target.scrollTop;
-    // max distance to scroll to bottom when new messsages loaded
-    const maxDistance = 22;
-    const currentPos = event.target.scrollTop + event.target.clientHeight;
-    const scrollHeight = event.target.scrollHeight;
-
-    this.scrollBottom = scrollHeight - currentPos;
-
-    const isBottom = this.scrollBottom <= maxDistance;
-    if (this.isScrolledDown !== isBottom) {
-      MessageLogStatesModule.UpdateState({
-        channelID: this.channelID,
-        state: {
-          isScrolledDown: isBottom
+          this.$nextTick(() => {
+            this.$nextTick(() => {
+              logs.scrollTop =
+                logs.scrollHeight - beforeHeight + beforeScrollTop;
+              setTimeout(() => {
+                this.isLoadingTopMore = false;
+                if (this.scrolledToEnd.isTop) {
+                  this.loadMoreTop();
+                }
+              }, 1000);
+            });
+          });
         }
-      });
-    }
-  }
-  scrollDown(ifScrolledDown = false) {
-    if (ifScrolledDown && !this.isScrolledDown) return;
-    const element = this.$refs.logs as Element;
-    element.scrollTop = element.scrollHeight;
-  }
-  dismissNotification() {
-    if (!this.windowIsFocused || !this.isScrolledDown) return;
-    if (!(this.hasServerNotification || this.hasDMNotification)) return;
-    this.$socket.client.emit("notification:dismiss", {
-      channelID: this.channelID
-    });
-  }
-  goToMessage(messageID: string) {
-    let message = document.getElementById("message-" + messageID);
+      );
+    },
+    loadMoreBottom() {
+      if (!this.channelMessages) return;
+      if (this.channelMessages.length <= 40) return;
+      if (!this.moreBottomToLoad) return;
+      const logs: Element = this.$refs.logs as any;
+      if (this.isLoadingBottomMore) return;
+      this.isLoadingBottomMore = true;
+      this.moreTopToLoad = true;
+      MessagesModule.beforeLoadMessages(this.channelID).then(messages => {
+        let dontContinue = false;
+        if (!this.channelMessages) dontContinue = true;
+        if (!messages) dontContinue = true;
 
-    if (message) {
-      this.scrollIntoView(message);
-      this.highlightMessage(message);
-      return;
-    }
-    fetchMessagesAround(this.channelID, messageID).then(
-      ({ channelID, messages }) => {
-        MessageLogStatesModule.UpdateState({
-          channelID: this.currentChannelID,
-          state: {
-            bottomUnloaded: true
-          }
+        if (!messages?.length || messages?.length < 50) {
+          MessageLogStatesModule.UpdateState({
+            channelID: this.currentChannelID,
+            state: {
+              bottomUnloaded: false
+            }
+          });
+          this.moreBottomToLoad = false;
+          !messages?.length && (dontContinue = true);
+        }
+        if (dontContinue || !messages) {
+          this.isLoadingBottomMore = false;
+          return;
+        }
+        MessagesModule.ClampChannelMessages({
+          channelID: this.channelID,
+          checkScrolledBottom: false
         });
         MessagesModule.SetChannelMessages({
-          channelID,
-          messages: messages.reverse()
+          channelID: this.channelID,
+          messages: [...(this.channelMessages as any), ...messages]
         });
 
-        // stinky solution but oh well. for some reason it always scrolls down
-        // without this mess.
+        const beforeScrollTop = logs.scrollTop;
+
         this.$nextTick(() => {
           this.$nextTick(() => {
+            logs.scrollTop = beforeScrollTop;
             setTimeout(() => {
-              message = document.getElementById("message-" + messageID);
-              if (!message) return;
-
-              const intersectionObserver = new IntersectionObserver(entries => {
-                const [entry] = entries;
-                if (entry.isIntersecting) {
-                  setTimeout(() => {
-                    intersectionObserver.disconnect();
-                    console.log("owo");
-                    this.moreTopToLoad = true;
-                    this.moreBottomToLoad = true;
-                  }, 100);
-                }
-              });
-              intersectionObserver.observe(message);
-              setTimeout(() => {
-                intersectionObserver.disconnect();
-              }, 2000);
-
-              this.scrollIntoView(message);
-              this.highlightMessage(message);
-            }, 500);
+              this.isLoadingBottomMore = false;
+              if (this.scrolledToEnd.isBottom) {
+                this.loadMoreBottom();
+              }
+            }, 1000);
           });
         });
-      }
-    );
-  }
-  scrollIntoView(message: HTMLElement) {
-    message.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-      inline: "center"
-    });
-  }
-  highlightMessage(message: HTMLElement) {
-    if (message.classList.contains("highlight")) return;
-    message.classList.add("highlight");
-    setTimeout(() => {
-      message.classList.remove("highlight");
-    }, 3000);
-  }
-  @Watch("channelMessages")
-  onMessageChanges() {
-    if (this.isScrolledDown) {
-      this.dismissNotification();
-      this.$nextTick(() => {
-        this.scrollDown();
       });
-    }
-  }
-  @Watch("windowSize")
-  onWindowSizeChange() {
-    if (this.isScrolledDown) {
-      this.scrollDown();
-    }
-  }
-  @Watch("uploadQueue")
-  onUploadQueueChange() {
-    this.$nextTick(() => {
-      this.scrollDown(true);
-    });
-  }
-  @Watch("isScrolledDown")
-  onScrolldDown() {
-    this.dismissNotification();
-  }
+    },
 
-  @Watch("scrolledToEnd")
-  onScrolledToEnd(status: { isTop: boolean; isBottom: boolean }) {
-    if (!this.channelMessages) return;
-    if (this.channelMessages.length <= 40) return;
-    if (status.isTop) {
-      this.loadMoreTop();
-    }
-    if (status.isBottom) {
-      this.loadMoreBottom();
-    }
-  }
+    onScroll(event: { target: Element }) {
+      this.scrollTop = event.target.scrollTop;
+      // max distance to scroll to bottom when new messsages loaded
+      const maxDistance = 22;
+      const currentPos = event.target.scrollTop + event.target.clientHeight;
+      const scrollHeight = event.target.scrollHeight;
 
-  // used for loading more.
-  get scrolledToEnd() {
-    const distance = 400;
-    const isTop = this.scrollTop <= distance;
-    const isBottom = this.scrollBottom <= distance;
-    return { isTop, isBottom };
-  }
+      this.scrollBottom = scrollHeight - currentPos;
 
-  get messageTransition() {
-    if (!this.windowIsFocused) return false;
-    if (this.isLoadingTopMore) return false;
-    return !this.isLoadingBottomMore;
+      const isBottom = this.scrollBottom <= maxDistance;
+      if (this.isScrolledDown !== isBottom) {
+        MessageLogStatesModule.UpdateState({
+          channelID: this.channelID,
+          state: {
+            isScrolledDown: isBottom
+          }
+        });
+      }
+    },
+    scrollDown(ifScrolledDown = false) {
+      if (ifScrolledDown && !this.isScrolledDown) return;
+      const element = this.$refs.logs as Element;
+      element.scrollTop = element.scrollHeight;
+    },
+    dismissNotification() {
+      if (!this.windowIsFocused || !this.isScrolledDown) return;
+      if (!(this.hasServerNotification || this.hasDMNotification)) return;
+      this.$socket.client.emit("notification:dismiss", {
+        channelID: this.channelID
+      });
+    },
+    goToMessage(messageID: string) {
+      let message = document.getElementById("message-" + messageID);
+
+      if (message) {
+        this.scrollIntoView(message);
+        this.highlightMessage(message);
+        return;
+      }
+      fetchMessagesAround(this.channelID, messageID).then(
+        ({ channelID, messages }) => {
+          MessageLogStatesModule.UpdateState({
+            channelID: this.currentChannelID,
+            state: {
+              bottomUnloaded: true
+            }
+          });
+          MessagesModule.SetChannelMessages({
+            channelID,
+            messages: messages.reverse()
+          });
+
+          // stinky solution but oh well. for some reason it always scrolls down
+          // without this mess.
+          this.$nextTick(() => {
+            this.$nextTick(() => {
+              setTimeout(() => {
+                message = document.getElementById("message-" + messageID);
+                if (!message) return;
+
+                const intersectionObserver = new IntersectionObserver(
+                  entries => {
+                    const [entry] = entries;
+                    if (entry.isIntersecting) {
+                      setTimeout(() => {
+                        intersectionObserver.disconnect();
+                        this.moreTopToLoad = true;
+                        this.moreBottomToLoad = true;
+                      }, 100);
+                    }
+                  }
+                );
+                intersectionObserver.observe(message);
+                setTimeout(() => {
+                  intersectionObserver.disconnect();
+                }, 2000);
+
+                this.scrollIntoView(message);
+                this.highlightMessage(message);
+              }, 500);
+            });
+          });
+        }
+      );
+    },
+    scrollIntoView(message: HTMLElement) {
+      message.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "center"
+      });
+    },
+    highlightMessage(message: HTMLElement) {
+      if (message.classList.contains("highlight")) return;
+      message.classList.add("highlight");
+      setTimeout(() => {
+        message.classList.remove("highlight");
+      }, 3000);
+    }
+  },
+  watch: {
+    channelMessages() {
+      if (this.isScrolledDown) {
+        this.dismissNotification();
+        this.$nextTick(() => {
+          this.scrollDown();
+        });
+      }
+    },
+    windowSize() {
+      if (this.isScrolledDown) {
+        this.scrollDown();
+      }
+    },
+    uploadQueue() {
+      this.$nextTick(() => {
+        this.scrollDown(true);
+      });
+    },
+    isScrolledDown() {
+      this.dismissNotification();
+    },
+    scrolledToEnd(status: { isTop: boolean; isBottom: boolean }) {
+      if (!this.channelMessages) return;
+      if (this.channelMessages.length <= 40) return;
+      if (status.isTop) {
+        this.loadMoreTop();
+      }
+      if (status.isBottom) {
+        this.loadMoreBottom();
+      }
+    }
+  },
+  computed: {
+    // used for loading more.
+    scrolledToEnd(): { isTop: boolean; isBottom: boolean } {
+      const distance = 400;
+      const isTop = this.scrollTop <= distance;
+      const isBottom = this.scrollBottom <= distance;
+      return { isTop, isBottom };
+    },
+
+    messageTransition(): boolean {
+      if (!this.windowIsFocused) return false;
+      if (this.isLoadingTopMore) return false;
+      return !this.isLoadingBottomMore;
+    },
+    messageType(): any {
+      return (message: any): string =>
+        message.type === 0 ? "MessageTemplate" : "ActionMessageTemplate";
+    },
+    hasServerNotification(): any {
+      return LastSeenServerChannelsModule.serverChannelNotification(
+        this.channelID
+      );
+    },
+    hasDMNotification(): Notification {
+      return NotificationsModule.notificationByChannelID(this.channelID);
+    },
+    windowIsFocused(): boolean {
+      return windowProperties.isFocused;
+    },
+    channelMessages(): Message[] | undefined {
+      return MessagesModule.messages[this.channelID];
+    },
+    channelID(): string {
+      return this.$route.params.channel_id;
+    },
+    isScrolledDown(): boolean {
+      return MessageLogStatesModule.isScrolledDown(this.channelID);
+    },
+    windowSize(): { height: number; width: number } {
+      return {
+        height: windowProperties.resizeHeight,
+        width: windowProperties.resizeWidth
+      };
+    },
+    uploadQueue(): UploadQueue[] {
+      return FileUploadModule.uploadQueue;
+    }
   }
-  get messageType() {
-    return (message: any) =>
-      message.type === 0 ? "MessageTemplate" : "ActionMessageTemplate";
-  }
-  get hasServerNotification() {
-    return LastSeenServerChannelsModule.serverChannelNotification(
-      this.channelID
-    );
-  }
-  get hasDMNotification() {
-    return NotificationsModule.notificationByChannelID(this.channelID);
-  }
-  get windowIsFocused() {
-    return windowProperties.isFocused;
-  }
-  get channelMessages(): Message[] | undefined {
-    return MessagesModule.messages[this.channelID];
-  }
-  get channelID() {
-    return this.$route.params.channel_id;
-  }
-  get isScrolledDown() {
-    return MessageLogStatesModule.isScrolledDown(this.channelID);
-  }
-  get windowSize() {
-    return {
-      height: windowProperties.resizeHeight,
-      width: windowProperties.resizeWidth
-    };
-  }
-  get uploadQueue() {
-    return FileUploadModule.uploadQueue;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

@@ -2,10 +2,7 @@
   <div class="message-box">
     <div class="floating-items" v-if="hasSendMessagePerm">
       <SuggestionPopouts ref="suggestionPopouts" />
-      <FileUpload
-        v-if="showUploadBox"
-        :key="showUploadBox.name + showUploadBox.size"
-      />
+      <FileUpload v-if="uploadFile" :key="uploadFile.name + uploadFile.size" />
       <RateLimitPopup v-if="rateLimit" />
       <EmojiPicker
         v-if="showEmojiPicker"
@@ -26,7 +23,7 @@
         class="button"
         icon="attach_file"
         @click="$refs.sendFileBrowse.click()"
-        v-if="!showUploadBox && !editingMessageID"
+        v-if="!uploadFile && !editingMessageID"
       />
 
       <ButtonTemplate
@@ -40,7 +37,7 @@
         class="button"
         icon="close"
         :warn="true"
-        v-else-if="showUploadBox"
+        v-else-if="uploadFile"
         @click="removeAttachment"
       />
 
@@ -96,13 +93,13 @@
       />
       <div
         class="button-container"
-        v-else-if="message.trim().length || showUploadBox"
+        v-else-if="message.trim().length || uploadFile"
       >
         <ButtonTemplate
           class="button"
           @click="sendMessage"
           :warn="message.length > 5000"
-          :icon="showUploadBox ? 'upload' : 'send'"
+          :icon="uploadFile ? 'upload' : 'send'"
         />
         <span
           class="text-counter"
@@ -130,7 +127,7 @@ import EditPanel from "./EditPanel.vue";
 import { MeModule } from "@/store/modules/me";
 import { MessagesModule } from "@/store/modules/messages";
 import { MessageInputModule } from "@/store/modules/messageInput";
-import { Component, Ref, Vue, Watch } from "vue-property-decorator";
+import Vue from "vue";
 import WindowProperties from "@/utils/windowProperties";
 import { editMessage, postTypingStatus } from "@/services/messagesService";
 import Message from "@/interfaces/Message";
@@ -147,6 +144,7 @@ import {
 } from "@/utils/inputCache";
 import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
 import { TabsModule } from "@/store/modules/tabs";
+import Channel from "@/interfaces/Channel";
 const EmojiPicker = () =>
   import(
     /* webpackChunkName: "EmojiPicker" */ "@/components/emoji-picker/EmojiPicker.vue"
@@ -156,7 +154,7 @@ const DoodlePopout = () =>
     /* webpackChunkName: "DoodlePopout" */ "@/components/chat-area/DoodlePopout.vue"
   );
 
-@Component({
+export default Vue.extend({
   components: {
     FileUpload,
     TypingStatus,
@@ -167,383 +165,390 @@ const DoodlePopout = () =>
     ScrollDownButton,
     RateLimitPopup,
     DoodlePopout
-  }
-})
-export default class MessageBoxArea extends Vue {
-  @Ref("textarea") readonly textarea!: HTMLInputElement;
-
-  postTypingTimeout: number | null = null;
-  saveInputTimeout: number | null = null;
-  showEmojiPicker = false;
-  showDoodlePopout = false;
+  },
+  data() {
+    return {
+      postTypingTimeout: null as number | null,
+      saveInputTimeout: null as number | null,
+      showEmojiPicker: false,
+      showDoodlePopout: false
+    };
+  },
   mounted() {
     this.resizeTextArea();
     this.message = getInputCache(this.channelID) || "";
-  }
+  },
   beforeDestroy() {
     this.stopPostingTypingStatus();
-  }
+  },
+  methods: {
+    getTextarea() {
+      return this.$refs.textarea as HTMLInputElement;
+    },
+    // ctrl + v event (for screenshots)
+    onPaste(event: any) {
+      const items = (event.clipboardData || event.originalEvent.clipboardData)
+        .items;
+      for (const index in items) {
+        const item = items[index];
+        if (item.kind === "file") {
+          const blob = item.getAsFile();
+          FileUploadModule.SetFile(blob);
+        }
+      }
+    },
+    onKeyUpEvent(event: KeyboardEvent) {
+      (this.$refs.suggestionPopouts as any).onkeyUp(event);
+    },
+    keyDownEvent(e: KeyboardEvent) {
+      // if suggestions popout is showing
+      if ((this.$refs.suggestionPopouts as any).isPopoutShowing) {
+        const up = e.key === "ArrowUp";
+        const down = e.key === "ArrowDown";
+        const enter = e.key === "Enter";
+        const tab = e.key === "Tab";
+        if (up) {
+          e.preventDefault();
+          (this.$refs.suggestionPopouts as any).onArrowUp();
+        }
+        if (down) {
+          e.preventDefault();
+          (this.$refs.suggestionPopouts as any).onArrowDown();
+        }
+        if (enter || tab) {
+          e.preventDefault();
+          (this.$refs.suggestionPopouts as any).onEnter();
+          return;
+        }
+      }
 
-  // ctrl + v event (for screenshots)
-  onPaste(event: any) {
-    const items = (event.clipboardData || event.originalEvent.clipboardData)
-      .items;
-    for (const index in items) {
-      const item = items[index];
-      if (item.kind === "file") {
-        const blob = item.getAsFile();
-        FileUploadModule.SetFile(blob);
-      }
-    }
-  }
-  onKeyUpEvent(event: KeyboardEvent) {
-    (this.$refs.suggestionPopouts as any).onkeyUp(event);
-  }
-  keyDownEvent(e: KeyboardEvent) {
-    // if suggestions popout is showing
-    if ((this.$refs.suggestionPopouts as any).isPopoutShowing) {
-      const up = e.key === "ArrowUp";
-      const down = e.key === "ArrowDown";
-      const enter = e.key === "Enter";
-      const tab = e.key === "Tab";
-      if (up) {
+      // shift + enter = new line
+      if (e.shiftKey) return;
+      // enter key send message
+      if (e.key === "Enter") {
         e.preventDefault();
-        (this.$refs.suggestionPopouts as any).onArrowUp();
-      }
-      if (down) {
-        e.preventDefault();
-        (this.$refs.suggestionPopouts as any).onArrowDown();
-      }
-      if (enter || tab) {
-        e.preventDefault();
-        (this.$refs.suggestionPopouts as any).onEnter();
+        this.sendMessage();
         return;
       }
-    }
 
-    // shift + enter = new line
-    if (e.shiftKey) return;
-    // enter key send message
-    if (e.key === "Enter") {
-      e.preventDefault();
-      this.sendMessage();
-      return;
-    }
-
-    // up key to edit previous message
-    if (e.key === "ArrowUp") {
-      if (this.message.trim()) return;
-      if (!this.channelMessages?.length) return;
-      const reversedMessages = [...this.channelMessages].reverse();
-      const message = reversedMessages.find(
-        m => m.creator.id === MeModule.user.id && !m.type && m.messageID
-      );
+      // up key to edit previous message
+      if (e.key === "ArrowUp") {
+        if (this.message.trim()) return;
+        if (!this.channelMessages?.length) return;
+        const reversedMessages = [...this.channelMessages].reverse();
+        const message = reversedMessages.find(
+          m => m.creator.id === MeModule.user.id && !m.type && m.messageID
+        );
+        if (!message) return;
+        if (!message.messageID) return;
+        this.setEditMessage(undefined, message as Required<Message>);
+        e.preventDefault();
+        return;
+      }
+      if (e.key === "Escape" && this.editingMessage) {
+        this.editingMessage = null;
+        this.message = "";
+      }
+    },
+    setEditMessage(messageID?: string, _message?: Required<Message>) {
+      this.getTextarea().focus();
+      const message =
+        _message || this.channelMessages.find(m => m.messageID === messageID);
       if (!message) return;
-      if (!message.messageID) return;
-      this.setEditMessage(undefined, message as Required<Message>);
-      e.preventDefault();
-      return;
-    }
-    if (e.key === "Escape" && this.editingMessage) {
-      this.editingMessage = null;
-      this.message = "";
-    }
-  }
-  setEditMessage(messageID?: string, _message?: Required<Message>) {
-    this.textarea.focus();
-    const message =
-      _message || this.channelMessages.find(m => m.messageID === messageID);
-    if (!message) return;
-    FileUploadModule.SetFile(undefined);
-    this.editingMessage = message;
-  }
-  sendMessage() {
-    if (!this.channelMessages) return;
-    this.textarea.focus();
-    // format message before sending it.
-    // replaces custom emoji names with emoji code n stuff
-    if (this.message.length > 5000) return;
-    const message = formatMessage(
-      this.message,
-      ChannelsModule.serverChannels(this.serverID || "")
-    );
-
-    if (this.editingMessageID) {
-      this.editMessage(message);
-      return;
-    }
-
-    if (!this.isImmune) {
-      const now = Date.now();
-      const timeLeft = ChannelsModule.rateLimitTimeLeft(this.channelID, now);
-      if (this.rateLimit && timeLeft > 0) {
-        return;
-      }
-    }
-    if (!TabsModule.currentTab.opened) {
-      TabsModule.openTab({ ...TabsModule.currentTab, opened: true });
-    }
-
-    deleteInputCache(this.channelID);
-
-    if (this.showUploadBox) {
-      this.message = "";
-      FileUploadModule.AddToQueue({
-        channelID: this.$route.params.channel_id,
-        message
-      });
-      return;
-    } else {
-      if (!this.message.trim().length) return;
-      this.message = "";
-      MessagesModule.SendMessage({
-        message,
-        channelID: this.$route.params.channel_id
-      });
-    }
-  }
-
-  editMessage(message: string) {
-    if (!this.editingMessageID) return;
-    const messageID = this.editingMessageID;
-    const channelID = this.channelID;
-    if (!this.message.length) {
-      PopoutsModule.ShowPopout({
-        component: "delete-message-popout",
-        data: { messageID: this.editingMessageID, channelID: this.channelID },
-        id: "delete-message"
-      });
-      return;
-    }
-    if (!TabsModule.currentTab.opened) {
-      TabsModule.openTab({ ...TabsModule.currentTab, opened: true });
-    }
-    this.message = "";
-    this.editingMessage = null;
-
-    const findMessage = this.channelMessages.find(
-      e => e.messageID === messageID
-    );
-    if (message.trim() === findMessage?.message) return;
-
-    MessagesModule.UpdateMessage({
-      channelID,
-      messageID,
-      message: {
-        message,
-        sending: 0
-      }
-    });
-
-    editMessage(messageID, channelID, { message })
-      .then(() => {
-        MessagesModule.UpdateMessage({
-          channelID,
-          messageID,
-          message: {
-            sending: 1,
-            timeEdited: Date.now()
-          }
-        });
-      })
-      .catch(() => {
-        MessagesModule.UpdateMessage({
-          channelID,
-          messageID,
-          message: {
-            sending: 2,
-            timeEdited: undefined
-          }
-        });
-      });
-  }
-  resizeTextArea() {
-    this.$nextTick(() => {
-      const textarea = this.$refs.textarea as HTMLElement;
-      if (!textarea) return;
-      textarea.style.height = "";
-      if (textarea.scrollHeight >= 230) {
-        textarea.style.height = "230px";
-        return;
-      }
-      textarea.style.height = textarea.scrollHeight + "px";
-    });
-  }
-  stopPostingTypingStatus() {
-    this.postTypingTimeout && clearTimeout(this.postTypingTimeout);
-    this.postTypingTimeout = null;
-  }
-
-  attachmentChange(event: any) {
-    const file: File = event.target.files[0];
-    event.target.value = "";
-    FileUploadModule.SetFile(file);
-    (this.$refs["textarea"] as HTMLElement).focus();
-  }
-  removeAttachment() {
-    FileUploadModule.SetFile(undefined);
-  }
-  @Watch("message")
-  messageChanged() {
-    if (this.saveInputTimeout) {
-      clearTimeout(this.saveInputTimeout);
-    }
-    this.saveInputTimeout = setTimeout(() => {
-      cacheInput(this.channelID, this.message);
-    }, 500);
-    this.resizeTextArea();
-    this.postTypingStatus();
-  }
-  @Watch("channelID")
-  onChannelIDChange(after: string, before: string) {
-    if (this.saveInputTimeout) {
-      clearTimeout(this.saveInputTimeout);
-    }
-    cacheInput(before, this.message);
-
-    this.message = getInputCache(after) || "";
-
-    setTimeout(() => {
-      if (this.$isMobile) return;
-      this.textarea.focus();
-      this.textarea.setSelectionRange(
-        this.textarea.value.length,
-        this.textarea.value.length
+      FileUploadModule.SetFile(undefined);
+      this.editingMessage = message;
+    },
+    sendMessage() {
+      if (!this.channelMessages) return;
+      this.getTextarea().focus();
+      // format message before sending it.
+      // replaces custom emoji names with emoji code n stuff
+      if (this.message.length > 5000) return;
+      const message = formatMessage(
+        this.message,
+        ChannelsModule.serverChannels(this.serverID || "")
       );
-    }, 10);
-    this.stopPostingTypingStatus();
-  }
-  async postTypingStatus() {
-    if (!this.message.trim().length) {
+
+      if (this.editingMessageID) {
+        this.editMessage(message);
+        return;
+      }
+
+      if (!this.isImmune) {
+        const now = Date.now();
+        const timeLeft = ChannelsModule.rateLimitTimeLeft(this.channelID, now);
+        if (this.rateLimit && timeLeft > 0) {
+          return;
+        }
+      }
+      if (!TabsModule.currentTab.opened) {
+        TabsModule.openTab({ ...TabsModule.currentTab, opened: true });
+      }
+
+      deleteInputCache(this.channelID);
+
+      if (this.uploadFile) {
+        this.message = "";
+        FileUploadModule.AddToQueue({
+          channelID: this.$route.params.channel_id,
+          message
+        });
+        return;
+      } else {
+        if (!this.message.trim().length) return;
+        this.message = "";
+        MessagesModule.SendMessage({
+          message,
+          channelID: this.$route.params.channel_id
+        });
+      }
+    },
+
+    editMessage(message: string) {
+      if (!this.editingMessageID) return;
+      const messageID = this.editingMessageID;
+      const channelID = this.channelID;
+      if (!this.message.length) {
+        PopoutsModule.ShowPopout({
+          component: "delete-message-popout",
+          data: { messageID: this.editingMessageID, channelID: this.channelID },
+          id: "delete-message"
+        });
+        return;
+      }
+      if (!TabsModule.currentTab.opened) {
+        TabsModule.openTab({ ...TabsModule.currentTab, opened: true });
+      }
+      this.message = "";
+      this.editingMessage = null;
+
+      const findMessage = this.channelMessages.find(
+        e => e.messageID === messageID
+      );
+      if (message.trim() === findMessage?.message) return;
+
+      MessagesModule.UpdateMessage({
+        channelID,
+        messageID,
+        message: {
+          message,
+          sending: 0
+        }
+      });
+
+      editMessage(messageID, channelID, { message })
+        .then(() => {
+          MessagesModule.UpdateMessage({
+            channelID,
+            messageID,
+            message: {
+              sending: 1,
+              timeEdited: Date.now()
+            }
+          });
+        })
+        .catch(() => {
+          MessagesModule.UpdateMessage({
+            channelID,
+            messageID,
+            message: {
+              sending: 2,
+              timeEdited: undefined
+            }
+          });
+        });
+    },
+    resizeTextArea() {
+      this.$nextTick(() => {
+        const textarea = this.$refs.textarea as HTMLElement;
+        if (!textarea) return;
+        textarea.style.height = "";
+        if (textarea.scrollHeight >= 230) {
+          textarea.style.height = "230px";
+          return;
+        }
+        textarea.style.height = textarea.scrollHeight + "px";
+      });
+    },
+    stopPostingTypingStatus() {
       this.postTypingTimeout && clearTimeout(this.postTypingTimeout);
       this.postTypingTimeout = null;
-      return;
+    },
+
+    attachmentChange(event: any) {
+      const file: File = event.target.files[0];
+      event.target.value = "";
+      FileUploadModule.SetFile(file);
+      (this.$refs["textarea"] as HTMLElement).focus();
+    },
+    removeAttachment() {
+      FileUploadModule.SetFile(undefined);
+    },
+    async postTypingStatus() {
+      if (!this.message.trim().length) {
+        this.postTypingTimeout && clearTimeout(this.postTypingTimeout);
+        this.postTypingTimeout = null;
+        return;
+      }
+      if (this.postTypingTimeout) return;
+      postTypingStatus(this.channelID);
+      this.postTypingTimeout = setTimeout(() => {
+        this.postTypingTimeout = null;
+        if (!this.message.trim().length) return;
+        this.postTypingStatus();
+      }, 2000);
     }
-    if (this.postTypingTimeout) return;
-    postTypingStatus(this.channelID);
-    this.postTypingTimeout = setTimeout(() => {
-      this.postTypingTimeout = null;
-      if (!this.message.trim().length) return;
+  },
+  watch: {
+    message() {
+      if (this.saveInputTimeout) {
+        clearTimeout(this.saveInputTimeout);
+      }
+      this.saveInputTimeout = setTimeout(() => {
+        cacheInput(this.channelID, this.message);
+      }, 500);
+      this.resizeTextArea();
       this.postTypingStatus();
-    }, 2000);
-  }
-  @Watch("isFocused")
-  onFocusChange() {
-    if (!this.isFocused) {
+    },
+    channelID(after: string, before: string) {
+      if (this.saveInputTimeout) {
+        clearTimeout(this.saveInputTimeout);
+      }
+      cacheInput(before, this.message);
+
+      this.message = getInputCache(after) || "";
+      const textarea = this.getTextarea();
+
+      setTimeout(() => {
+        if (this.$isMobile) return;
+        textarea.focus();
+        textarea.setSelectionRange(
+          textarea.value.length,
+          textarea.value.length
+        );
+      }, 10);
       this.stopPostingTypingStatus();
+    },
+
+    isFocused() {
+      if (!this.isFocused) {
+        this.stopPostingTypingStatus();
+      }
+    },
+    isConnected() {
+      this.resizeTextArea();
+    },
+    editingMessageID() {
+      this.getTextarea().focus();
+    },
+    windowWidthSize() {
+      this.resizeTextArea();
+    }
+  },
+  computed: {
+    isImmune(): boolean | number {
+      if (!this.serverID) return true;
+      if (!MeModule.user.id) return false;
+      if (ServersModule.isServerOwner(this.serverID, MeModule.user.id))
+        return true;
+      return ServerMembersModule.memberHasPermission(
+        MeModule.user.id,
+        this.serverID,
+        permissions.ADMIN.value
+      );
+    },
+
+    hasSendMessagePerm(): boolean | number {
+      if (this.currentTab !== "servers") return true;
+      if (!MeModule.user.id) return false;
+      if (!this.serverID) return false;
+
+      const isServerOwner = ServersModule.isServerOwner(
+        this.serverID,
+        MeModule.user.id
+      );
+      if (isServerOwner) return true;
+
+      const isAdmin = ServerMembersModule.isAdmin(
+        MeModule.user.id,
+        this.serverID
+      );
+      if (isAdmin) return true;
+      const hasRolePerm = ServerMembersModule.memberHasPermission(
+        MeModule.user.id,
+        this.serverID,
+        permissions.SEND_MESSAGES.value,
+        false
+      );
+      let hasChannelPerm = this.serverChannel?.permissions?.send_message;
+      if (hasChannelPerm === undefined) hasChannelPerm = true;
+      if (!hasChannelPerm) return false;
+      return hasRolePerm;
+    },
+    placeholderMessage(): any {
+      if (!this.isConnected) {
+        return this.$t("message-area.not-connected-server");
+      }
+      if (this.uploadFile) {
+        return this.$t("message-area.attach-message");
+      }
+      return this.$t("message-area.type-message");
+    },
+    isConnected(): boolean {
+      return MeModule.connected;
+    },
+    isFocused(): boolean {
+      return WindowProperties.isFocused;
+    },
+    windowWidthSize(): number {
+      return WindowProperties.resizeWidth;
+    },
+    uploadFile(): File | undefined {
+      return FileUploadModule.file.file;
+    },
+    channelID(): string {
+      return this.$route.params.channel_id;
+    },
+    serverChannel(): Channel {
+      return ChannelsModule.channels[this.channelID];
+    },
+    channelMessages(): Message[] {
+      return MessagesModule.channelMessages(this.channelID);
+    },
+    message: {
+      get(): string {
+        return MessageInputModule.message;
+      },
+      set(val: string) {
+        MessageInputModule.setMessage(val);
+      }
+    },
+    serverID(): string | undefined {
+      if (this.currentTab !== "servers") return undefined;
+      return this.$route.params.server_id;
+    },
+    currentTab(): string {
+      return this.$route.path.split("/")[2] || "";
+    },
+    editingMessageID(): string | undefined {
+      return this.editingMessage?.messageID;
+    },
+    editingMessage: {
+      get(): Message | null {
+        return MessageInputModule.editingMessage;
+      },
+      set(val: Message) {
+        MessageInputModule.SetEditingMessage(val);
+      }
+    },
+    isScrolledDown(): boolean {
+      return MessageLogStatesModule.isScrolledDown(this.channelID);
+    },
+    rateLimit(): number | undefined {
+      return this.serverChannel?.rateLimit;
     }
   }
-  @Watch("isConnected")
-  onConnected() {
-    this.resizeTextArea();
-  }
-  @Watch("editingMessageID")
-  onEditingMessage() {
-    this.textarea.focus();
-  }
-  @Watch("windowWidthSize")
-  onWidthResize() {
-    this.resizeTextArea();
-  }
-
-  get isImmune() {
-    if (!this.serverID) return true;
-    if (!MeModule.user.id) return false;
-    if (ServersModule.isServerOwner(this.serverID, MeModule.user.id))
-      return true;
-    return ServerMembersModule.memberHasPermission(
-      MeModule.user.id,
-      this.serverID,
-      permissions.ADMIN.value
-    );
-  }
-
-  get hasSendMessagePerm() {
-    if (this.currentTab !== "servers") return true;
-    if (!MeModule.user.id) return false;
-    if (!this.serverID) return false;
-
-    const isServerOwner = ServersModule.isServerOwner(
-      this.serverID,
-      MeModule.user.id
-    );
-    if (isServerOwner) return true;
-
-    const isAdmin = ServerMembersModule.isAdmin(
-      MeModule.user.id,
-      this.serverID
-    );
-    if (isAdmin) return true;
-    const hasRolePerm = ServerMembersModule.memberHasPermission(
-      MeModule.user.id,
-      this.serverID,
-      permissions.SEND_MESSAGES.value,
-      false
-    );
-    let hasChannelPerm = this.serverChannel?.permissions?.send_message;
-    if (hasChannelPerm === undefined) hasChannelPerm = true;
-    if (!hasChannelPerm) return false;
-    return hasRolePerm;
-  }
-  get placeholderMessage() {
-    if (!this.isConnected) {
-      return this.$t("message-area.not-connected-server");
-    }
-    if (this.showUploadBox) {
-      return this.$t("message-area.attach-message");
-    }
-    return this.$t("message-area.type-message");
-  }
-  get isConnected() {
-    return MeModule.connected;
-  }
-  get isFocused() {
-    return WindowProperties.isFocused;
-  }
-  get windowWidthSize() {
-    return WindowProperties.resizeWidth;
-  }
-  get showUploadBox() {
-    return FileUploadModule.file.file;
-  }
-  get channelID() {
-    return this.$route.params.channel_id;
-  }
-  get serverChannel() {
-    return ChannelsModule.channels[this.channelID];
-  }
-  get channelMessages() {
-    return MessagesModule.channelMessages(this.channelID);
-  }
-  get message() {
-    return MessageInputModule.message;
-  }
-  set message(val) {
-    MessageInputModule.setMessage(val);
-  }
-  get serverID() {
-    if (this.currentTab !== "servers") return undefined;
-    return this.$route.params.server_id;
-  }
-  get currentTab() {
-    return this.$route.path.split("/")[2] || "";
-  }
-  get editingMessageID() {
-    return this.editingMessage?.messageID;
-  }
-  get editingMessage() {
-    return MessageInputModule.editingMessage;
-  }
-  set editingMessage(val) {
-    MessageInputModule.SetEditingMessage(val);
-  }
-  get isScrolledDown() {
-    return MessageLogStatesModule.isScrolledDown(this.channelID);
-  }
-  get rateLimit() {
-    return this.serverChannel?.rateLimit;
-  }
-}
+});
 </script>
 
 <style lang="scss" scoped>

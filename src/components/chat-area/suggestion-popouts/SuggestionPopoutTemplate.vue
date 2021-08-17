@@ -24,7 +24,7 @@ export default Vue.extend({
       required: false
     },
     template: {
-      type: Object as PropType<any>,
+      type: Function,
       required: false
     }
   },

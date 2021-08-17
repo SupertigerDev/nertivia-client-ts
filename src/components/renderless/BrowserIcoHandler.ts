@@ -1,11 +1,11 @@
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { ServersModule } from "@/store/modules/servers";
-import Vue from 'vue';
+import Vue from "vue";
 export default Vue.extend({
-  name: 'BrowserIcoHandler',
+  name: "BrowserIcoHandler",
   render(h) {
-    return h('template')
+    return h("template");
   },
   computed: {
     serverNotificationCount(): any {
@@ -13,28 +13,32 @@ export default Vue.extend({
     },
     dmNotificationCount(): any {
       return NotificationsModule.allDMNotifications.length;
-    },
+    }
   },
   watch: {
-    'serverNotificationCount': {
-      handler: 'onNotification',
+    serverNotificationCount: {
+      handler: "onNotification"
     },
-    'dmNotificationCount': {
-      handler: 'onNotification',
-    },
+    dmNotificationCount: {
+      handler: "onNotification"
+    }
   },
   methods: {
     onNotification() {
-      const condition = this.serverNotificationCount || this.dmNotificationCount;
+      const condition =
+        this.serverNotificationCount || this.dmNotificationCount;
       this.setNotificationICO(Boolean(condition));
     },
     setNotificationICO(set: boolean) {
       const icoSelector = document.querySelector("link[rel='icon']");
       if (set) {
-        icoSelector?.setAttribute("href", "/img/icons/favicon-notification.ico");
+        icoSelector?.setAttribute(
+          "href",
+          "/img/icons/favicon-notification.ico"
+        );
         return;
       }
       icoSelector?.setAttribute("href", "/img/icons/favicon-32x32.png");
-    },
-  },
+    }
+  }
 });
