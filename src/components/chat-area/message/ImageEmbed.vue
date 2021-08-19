@@ -67,6 +67,7 @@ export default Vue.extend({
         id: "image-preview-popout",
         component: "image-preview-popout",
         data: {
+          unsafe_url: this.image.url,
           url: this.imageURL
         }
       });

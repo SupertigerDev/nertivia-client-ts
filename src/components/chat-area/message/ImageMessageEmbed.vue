@@ -73,7 +73,8 @@ export default Vue.extend({
         id: "image-preview-popout",
         component: "image-preview-popout",
         data: {
-          url: this.imageURL
+          url: this.imageURL,
+          unsafe_url: this.message.files?.[0].url
         }
       });
     }

@@ -55,6 +55,7 @@ export default Vue.extend({
         component: "image-preview-popout",
         data: {
           url: this.imageUrl,
+          unsafe_url: this.embed?.image?.url,
           dimensions: this.embed.image?.dimensions
         }
       });

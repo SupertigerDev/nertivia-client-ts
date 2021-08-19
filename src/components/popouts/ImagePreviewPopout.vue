@@ -27,18 +27,16 @@ export default Vue.extend({
   name: "ProfilePopout",
   components: { ButtonTemplate },
   props: {
-    data: {
-      type: Object as PropType<{
-        url: string;
-      }>,
-      required: false
-    }
+    data: Object as PropType<{
+      url: string;
+      unsafe_url: string;
+    }>
   },
   methods: {
     async downloadImage() {
       const a = document.createElement("a");
       a.href = await this.toDataURL(this.data.url);
-      a.download = "myImage.png";
+      a.download = this.basename(this.data.unsafe_url || this.data.url);
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -47,6 +45,9 @@ export default Vue.extend({
       const response = await fetch(url);
       const blob = await response.blob();
       return URL.createObjectURL(blob);
+    },
+    basename(path: string) {
+      return path.substring(path.lastIndexOf("/") + 1);
     },
     backgroundClick(event: any) {
       if (
