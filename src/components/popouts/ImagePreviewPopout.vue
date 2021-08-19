@@ -1,14 +1,31 @@
 <template>
   <div class="popout-container" @click="backgroundClick">
-    <!-- TODO: use image message embed technices to load image -->
-    <img :src="data.url" class="image animate-in" />
+    <div class="image-container">
+      <img :src="data.url" />
+    </div>
+
+    <!-- :style="{ backgroundImage: `url(${data.url})` }" -->
+    <div class="outer-options">
+      <div class="options">
+        <ButtonTemplate
+          icon="download"
+          title="Download Image"
+          @click="downloadImage"
+        />
+        <a :href="data.url" target="_blank" rel="noopener noreferrer">
+          <ButtonTemplate icon="launch" title="Open Image"
+        /></a>
+      </div>
+    </div>
   </div>
 </template>
 <script lang="ts">
 import { PopoutsModule } from "@/store/modules/popouts";
 import Vue, { PropType } from "vue";
+import ButtonTemplate from "@/components/CustomButton.vue";
 export default Vue.extend({
   name: "ProfilePopout",
+  components: { ButtonTemplate },
   props: {
     data: {
       type: Object as PropType<{
@@ -18,6 +35,19 @@ export default Vue.extend({
     }
   },
   methods: {
+    async downloadImage() {
+      const a = document.createElement("a");
+      a.href = await this.toDataURL(this.data.url);
+      a.download = "myImage.png";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    },
+    async toDataURL(url) {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      return URL.createObjectURL(blob);
+    },
     backgroundClick(event: any) {
       if (
         event.target.classList.contains("popout-container") ||
@@ -31,33 +61,52 @@ export default Vue.extend({
 </script>
 <style lang="scss" scoped>
 .popout-container {
-  display: grid;
-  place-items: center;
-  place-content: center;
+  display: flex;
+  flex-direction: column;
 
-  width: 100%;
   height: 100%;
+  width: 100%;
+  align-items: center;
+  align-content: center;
 
   box-sizing: border-box;
-
   background: rgb(12 12 14 / 0.658);
-
   z-index: 10;
   pointer-events: all;
 }
-
-.image {
-  width: auto;
-  height: auto;
-
-  max-width: min(90vw, 750px);
-  max-height: min(90vh, 750px);
-
-  border-radius: 4px;
-  overflow: hidden;
-  box-sizing: border-box;
-
-  user-select: none;
+a {
+  text-decoration: none;
+  display: flex;
+}
+.outer-options {
+  align-items: center;
+  align-content: center;
+  margin-bottom: auto;
+  padding-bottom: 5px;
+}
+.options {
+  display: flex;
+  height: 50px;
+  background: var(--card-color);
+  border: solid 1px rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+.image-container {
+  max-width: 80%;
+  max-height: calc(100% - 70px);
+  margin: auto;
+  margin-bottom: 10px;
+  img {
+    object-fit: contain;
+    display: block;
+    max-width: 100%;
+    width: 100%;
+    height: 100%;
+  }
+  // background-size: contain;
+  // background-position: center;
+  // background-repeat: no-repeat;
 }
 
 .animate-in {
@@ -74,6 +123,11 @@ export default Vue.extend({
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+@media (max-width: 950px) {
+  .image-container {
+    max-width: 100%;
   }
 }
 </style>
