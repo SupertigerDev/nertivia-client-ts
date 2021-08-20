@@ -50,12 +50,8 @@ export default Vue.extend({
       return path.substring(path.lastIndexOf("/") + 1);
     },
     backgroundClick(event: any) {
-      if (
-        event.target.classList.contains("popout-container") ||
-        event.target.classList.contains("animate-in")
-      ) {
-        PopoutsModule.ClosePopout("image-preview-popout");
-      }
+      if (event.target.closest(".options")) return;
+      PopoutsModule.ClosePopout("image-preview-popout");
     }
   }
 });
