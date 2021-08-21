@@ -57,6 +57,9 @@ export default Vue.extend({
       return this.imageURL?.endsWith(".gif");
     },
     imageURL(): any {
+      if (this.image.url.startsWith("https://media.nertivia.net"))
+        return this.image.url;
+
       return (
         process.env.VUE_APP_IMAGE_PROXY_URL + encodeURIComponent(this.image.url)
       );
