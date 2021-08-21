@@ -8,6 +8,7 @@
       <div class="inner-content" ref="content">
         <div class="gif" v-if="isGif">GIF</div>
         <img
+          @contextmenu="showContext"
           :src="pauseGifURL"
           :class="{ loaded }"
           :width="dimensions.width"

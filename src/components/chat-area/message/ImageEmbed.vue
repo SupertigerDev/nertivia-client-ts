@@ -10,6 +10,7 @@
     @click="onClick"
   >
     <img
+      @contextmenu="showContext"
       :src="pauseGifURL"
       :width="image.dimensions.width"
       :height="image.dimensions.height"
