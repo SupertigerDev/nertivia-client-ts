@@ -26,6 +26,14 @@ export default Vue.extend({
       required: false
     }
   },
+  data() {
+    return {
+      img: new Image()
+    };
+  },
+  beforeMount() {
+    this.img.src = this.data.imageUrl;
+  },
   computed: {
     items(): any {
       const items: any[] = [
@@ -72,8 +80,8 @@ export default Vue.extend({
     },
     getImageCanvas(img: any): HTMLCanvasElement {
       var canvas = document.createElement("canvas");
-      canvas.width = img.width;
-      canvas.height = img.height;
+      canvas.width = this.img.width;
+      canvas.height = this.img.height;
       const ctx = canvas.getContext("2d");
       ctx?.drawImage(img, 0, 0);
       return canvas;
