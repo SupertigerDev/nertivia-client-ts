@@ -68,6 +68,20 @@ export default Vue.extend({
     }
   },
   methods: {
+    showContext(event: any) {
+      if (!this.$isElectron) return;
+      event.preventDefault();
+      PopoutsModule.ShowPopout({
+        id: "context",
+        component: "ImageContextMenu",
+        key: this.imageURL + event.clientX + event.clientY,
+        data: {
+          x: event.clientX,
+          y: event.clientY,
+          imageUrl: this.imageURL
+        }
+      });
+    },
     onClick() {
       PopoutsModule.ShowPopout({
         id: "image-preview-popout",

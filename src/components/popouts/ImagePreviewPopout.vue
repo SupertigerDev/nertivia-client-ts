@@ -1,12 +1,7 @@
 <template>
   <div class="popout-container" @click="backgroundClick">
     <div class="image-container">
-      <img
-        ref="image"
-        crossorigin="anonymous"
-        :src="data.url"
-        @contextmenu="showContext"
-      />
+      <img ref="image" :src="data.url" @contextmenu="showContext" />
     </div>
 
     <!-- :style="{ backgroundImage: `url(${data.url})` }" -->
@@ -48,8 +43,7 @@ export default Vue.extend({
         data: {
           x: event.clientX,
           y: event.clientY,
-          imageUrl: this.data.url,
-          element: this.$refs.image
+          imageUrl: this.data.url
         }
       });
     },

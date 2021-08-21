@@ -21,7 +21,6 @@ export default Vue.extend({
         x: number;
         y: number;
         imageUrl: string;
-        element: HTMLElement;
       }>,
       required: false
     }
@@ -32,6 +31,7 @@ export default Vue.extend({
     };
   },
   beforeMount() {
+    this.img.crossOrigin = "Anonymous";
     this.img.src = this.data.imageUrl;
   },
   computed: {
@@ -44,7 +44,7 @@ export default Vue.extend({
         },
         {
           id: "copy_image",
-          name: "Copy Image",
+          name: "Copy Image (PNG)",
           icon: "developer_board"
         }
       ];
@@ -68,7 +68,7 @@ export default Vue.extend({
           this.$copyText(this.data.imageUrl);
           break;
         case "copy_image":
-          this.getImageCanvas(this.data.element).toBlob(blob =>
+          this.getImageCanvas(this.img).toBlob(blob =>
             (navigator.clipboard as any).write([
               new (window as any).ClipboardItem({ "image/png": blob })
             ])
@@ -80,8 +80,8 @@ export default Vue.extend({
     },
     getImageCanvas(img: any): HTMLCanvasElement {
       var canvas = document.createElement("canvas");
-      canvas.width = this.img.width;
-      canvas.height = this.img.height;
+      canvas.width = img.width;
+      canvas.height = img.height;
       const ctx = canvas.getContext("2d");
       ctx?.drawImage(img, 0, 0);
       return canvas;
