@@ -1,7 +1,12 @@
 <template>
   <div class="popout-container" @click="backgroundClick">
     <div class="image-container">
-      <img ref="image" :src="data.url" @contextmenu="showContext" />
+      <img
+        ref="image"
+        crossorigin="anonymous"
+        :src="data.url"
+        @contextmenu="showContext"
+      />
     </div>
 
     <!-- :style="{ backgroundImage: `url(${data.url})` }" -->
