@@ -52,6 +52,10 @@ const components = {
     import(
       /* webpackChunkName: "ServerContextMenu" */ "@/components/popouts/ChannelContextMenu.vue"
     ),
+  ImageContextMenu: () =>
+    import(
+      /* webpackChunkName: "ImageContextMenu" */ "@/components/popouts/ImageContextMenu.vue"
+    ),
   BanOrKickUserPopout: () =>
     import(
       /* webpackChunkName: "BanOrKickUserPopout" */ "@/components/popouts/BanOrKickUserPopout.vue"

@@ -1,7 +1,7 @@
 <template>
   <div class="popout-container" @click="backgroundClick">
     <div class="image-container">
-      <img :src="data.url" />
+      <img ref="image" :src="data.url" @contextmenu="showContext" />
     </div>
 
     <!-- :style="{ backgroundImage: `url(${data.url})` }" -->
@@ -33,6 +33,21 @@ export default Vue.extend({
     }>
   },
   methods: {
+    showContext(event: any) {
+      if (!this.$isElectron) return;
+      event.preventDefault();
+      PopoutsModule.ShowPopout({
+        id: "context",
+        component: "ImageContextMenu",
+        key: this.data.url + event.clientX + event.clientY,
+        data: {
+          x: event.clientX,
+          y: event.clientY,
+          imageUrl: this.data.url,
+          element: this.$refs.image
+        }
+      });
+    },
     async downloadImage() {
       const a = document.createElement("a");
       a.href = await this.toDataURL(this.data.url);
