@@ -28,6 +28,12 @@
     "stylesheet": "https://fonts.googleapis.com/css2?family=VT323&display=swap",
     "css": "'VT323', monospace"
   },
+  "poppins": {
+    "name": "Poppins",
+    "id": "poppins",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Poppins&display=swap",
+    "css": "'Poppins', sans-serif"
+  },
   "bree-serif": {
     "name": "Bree Serif",
     "id": "bree-serif",
