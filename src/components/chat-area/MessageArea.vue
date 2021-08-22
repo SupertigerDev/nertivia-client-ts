@@ -139,7 +139,8 @@ export default Vue.extend({
         const channelName = this.channel.name;
         TabsModule.setCurrentTab({
           name: `${serverName}#${channelName}`,
-          server_id: this.serverID
+          server_id: this.serverID,
+          channel_id: this.channelID
         });
       }
     },

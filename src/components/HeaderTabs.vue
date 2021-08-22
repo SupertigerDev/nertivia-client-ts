@@ -30,7 +30,7 @@ export default Vue.extend({
         return TabsModule.tabs;
       },
       set(tabs: any) {
-        TabsModule.initTabs(tabs);
+        TabsModule.updateTabs(tabs);
       }
     },
     currentTabIndex(): number {

@@ -2,6 +2,7 @@ import User from "@/interfaces/User";
 import router from "@/router";
 import { getChangelog } from "@/services/updateService";
 import { setBrowserTitle } from "@/utils/browserTitle";
+import { saveCache } from "@/utils/localCache";
 import Vue from "vue";
 import {
   Module,
@@ -22,6 +23,7 @@ export interface Tab {
   opened?: boolean;
   user_id?: string;
   server_id?: string;
+  channel_id?: string;
 }
 
 @Module({ dynamic: true, store, namespaced: true, name: "tabs" })
@@ -43,6 +45,17 @@ class Tabs extends VuexModule {
   public initTabs(payload: Tab[]) {
     this.INIT_TABS(payload);
   }
+  @Mutation
+
+  private UPDATE_TABS(payload: Tab[]) {
+    Vue.set(this, "tabs", payload);
+  }
+  
+  @Action
+  public updateTabs(payload: Tab[]) {
+    saveCache("tabs", payload)
+    this.UPDATE_TABS(payload);
+  }
 
   @Action
   public setCurrentTab(payload: Tab) {
@@ -55,6 +68,8 @@ class Tabs extends VuexModule {
     }
     this.SET_CURRENT_TAB(obj);
     this.openTab(obj);
+    saveCache("tabs", this.tabs)
+
   }
 
   @Mutation
@@ -77,6 +92,7 @@ class Tabs extends VuexModule {
       this.PUSH_TAB(payload);
     }
     this.setCurrentTab(payload);
+    saveCache("tabs", this.tabs)
   }
   @Action
   closeTabByPath(path: string) {
@@ -85,6 +101,7 @@ class Tabs extends VuexModule {
         router.push("/app");
       }
       this.REPLACE_TAB({ index: 0, tab: { ...this.tabs[0], opened: false } });
+      saveCache("tabs", this.tabs)
       return;
     }
     const index = this.tabs.findIndex(tab => tab.path === path);
@@ -93,6 +110,8 @@ class Tabs extends VuexModule {
       router.push(tabBefore.path);
     }
     this.CLOSE_TAB(index);
+    saveCache("tabs", this.tabs)
+
   }
   @Mutation
   private CLOSE_TAB(index: number) {

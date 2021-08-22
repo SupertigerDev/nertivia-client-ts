@@ -16,13 +16,15 @@
       :imageId="avatar"
       :seedId="seed"
     />
-    <div class="title">{{ title }}</div>
     <UserStatusTemplate
       class="status"
       v-if="user && !isSavedNotes"
       :id="user.id"
       :showOffline="true"
     />
+    <div class="outer-title" :class="{ showAlert }">
+      <div class="title">{{ title }}</div>
+    </div>
     <div class="close-button material-icons" @click.prevent="closeTab">
       close
     </div>
@@ -39,6 +41,8 @@ import { MeModule } from "@/store/modules/me";
 import UserStatusTemplate from "@/components/UserStatusTemplate.vue";
 import Server from "@/interfaces/Server";
 import User from "@/interfaces/User";
+import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
+import { NotificationsModule } from "@/store/modules/notifications";
 
 export default Vue.extend({
   components: { AvatarImage, UserStatusTemplate },
@@ -93,6 +97,21 @@ export default Vue.extend({
     },
     isSavedNotes(): boolean {
       return this.tab.user_id === MeModule.user.id;
+    },
+    serverNotificationExists(): any {
+      if (!this.server) return false;
+      if (!this.tab.channel_id) return false;
+      return LastSeenServerChannelsModule.serverChannelNotification(
+        this.tab.channel_id
+      );
+    },
+    dmNotificationExists(): any {
+      if (!this.user) return false;
+      if (!this.tab.user_id) return false;
+      return NotificationsModule.notificationByUserID(this.tab.user_id)?.count;
+    },
+    showAlert(): any {
+      return this.serverNotificationExists || this.dmNotificationExists;
     }
   }
 });
@@ -115,7 +134,7 @@ export default Vue.extend({
   color: white;
   .status {
     width: 10px;
-    margin-left: 5px;
+    margin-left: 0;
   }
 
   &:hover {
@@ -134,6 +153,25 @@ export default Vue.extend({
   }
 }
 
+.outer-title {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  align-items: center;
+  align-content: center;
+  height: 100%;
+
+  &.showAlert:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 4px;
+    height: 3px;
+    background: var(--alert-color);
+  }
+}
 .title {
   color: rgba(255, 255, 255, 0.6);
   white-space: nowrap;

@@ -1,6 +1,15 @@
 [
 	{
-		"version": "1.43.1stable",
+		"version": "1.43.2-stable",
+		"date": "22 August 2021",
+		"title": "Tab Improvements",
+		"new": [
+			"Tabs are now saved even after reloading the page.",
+			"See which tabs have new notifications."
+		]
+	},
+	{
+		"version": "1.43.1-stable",
 		"date": "22 August 2021",
 		"title": "Order Tabs",
 		"new": "You can now reorder tabs by dragging them."
