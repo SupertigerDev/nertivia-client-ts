@@ -1,26 +1,39 @@
 <template>
-  <div class="tabs header-tabs">
+  <Draggable
+    class="tabs header-tabs"
+    :animation="200"
+    :delay="$isMobile ? 400 : 0"
+    ghost-class="ghost"
+    direction="horizontal"
+    v-model="tabs"
+  >
     <Tab
       v-for="(tab, i) in tabs"
       :key="i"
       :tab="tab"
       :selected="currentTabIndex === i"
     />
-  </div>
+  </Draggable>
 </template>
 
 <script lang="ts">
 import Tab from "./HeaderTabTemplate.vue";
 import { TabsModule } from "@/store/modules/tabs";
+import Draggable from "vuedraggable";
 import Vue from "vue";
 export default Vue.extend({
   name: "HeaderTabs",
-  components: { Tab },
+  components: { Tab, Draggable },
   computed: {
-    tabs(): any {
-      return TabsModule.tabs;
+    tabs: {
+      get(): any {
+        return TabsModule.tabs;
+      },
+      set(tabs: any) {
+        TabsModule.initTabs(tabs);
+      }
     },
-    currentTabIndex(): any {
+    currentTabIndex(): number {
       return this.tabs.findIndex(tab => tab.path === this.$route.path);
     }
   }
@@ -28,6 +41,9 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+.ghost {
+  opacity: 0;
+}
 .tabs {
   display: flex;
   gap: 5px;

@@ -34,6 +34,16 @@ class Tabs extends VuexModule {
     this.currentTab = payload;
   }
 
+  @Mutation
+  private INIT_TABS(payload: Tab[]) {
+    Vue.set(this, "tabs", payload);
+  }
+  
+  @Action
+  public initTabs(payload: Tab[]) {
+    this.INIT_TABS(payload);
+  }
+
   @Action
   public setCurrentTab(payload: Tab) {
     const obj = { ...payload, path: router.currentRoute.path };
