@@ -145,7 +145,9 @@ export default Vue.extend({
     },
     async loadCache() {
       const tabs = await loadCache("tabs");
-      TabsModule.initTabs(tabs);
+      if (tabs) {
+        TabsModule.initTabs(tabs);
+      }
       this.loadPage = true;
       await loadAllCacheToState([
         {
