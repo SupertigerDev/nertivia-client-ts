@@ -6,21 +6,34 @@
         <div class="material-icons">info</div>
         Enable un-finished or experimental features.
       </div>
-      <div style="opacity: 0.6">No WIP Features available right now.</div>
-      <!-- <CheckBox
-        name="DoodlePad"
+      <!-- <div style="opacity: 0.6">No WIP Features available right now.</div> -->
+      <CheckBox
+        name="HTML Profile"
         class="check-box"
-        description="Draw and send!"
-        v-model="doodlepad"
-      /> -->
+        description="Add some HTML to your profile. "
+        v-model="htmlProfile"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import CheckBox from "@/components/CheckBox.vue";
+
 export default Vue.extend({
-  name: "WIPFeatures"
+  name: "WIPFeatures",
+  components: { CheckBox },
+  data() {
+    return {
+      htmlProfile: localStorage["htmlProfile_wip"] === "true"
+    };
+  },
+  watch: {
+    htmlProfile() {
+      localStorage["htmlProfile_wip"] = this.htmlProfile;
+    }
+  }
 });
 </script>
 

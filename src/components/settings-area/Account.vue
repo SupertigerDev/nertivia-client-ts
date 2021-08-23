@@ -49,28 +49,6 @@
         />
       </div>
 
-      <!-- <div class="outer-avatar">
-        <div class="avatar" @click="$refs.avatarInput.click()">
-          <div class="material-icons edit-button">edit</div>
-          <AvatarImage
-            :imageId="me.avatar"
-            :seedId="me.id"
-            :customUrl="newAvatar"
-            size="100px"
-          />
-          <input
-            ref="avatarInput"
-            style="display: none"
-            type="file"
-            @change="avatarChange"
-            accept=".jpeg, .jpg, .png, .gif"
-          />
-        </div>
-        <div class="details">
-          <div class="user-tag-detail">{{ me.username }}:{{ me.tag }}</div>
-        </div>
-      </div> -->
-
       <CustomInput
         title="Email"
         v-model="email"
@@ -137,6 +115,13 @@
         @click="update"
       />
     </div>
+    <div class="html-profile" v-if="wipEnabled">
+      <InformationTemplate
+        title="HTML Profile"
+        information="This allows you to add custom HTML near the top of your profile popout."
+      />
+      <CustomButton icon="code" name="Edit HTML" class="html-button" />
+    </div>
     <MoreProfile
       @update="moreProfileUpdate"
       v-if="aboutMe !== null"
@@ -182,7 +167,8 @@ export default Vue.extend({
       newAvatar: null as string | null,
       newBanner: null as string | null,
       requestSent: false,
-      errors: {} as any
+      errors: {} as any,
+      wipEnabled: localStorage["htmlProfile_wip"] === "true"
     };
   },
   computed: {
@@ -416,6 +402,13 @@ export default Vue.extend({
   cursor: pointer;
   &:hover {
     text-decoration: underline;
+  }
+}
+.html-profile {
+  margin-left: 15px;
+  .html-button {
+    align-self: flex-start;
+    margin-top: 10px;
   }
 }
 .avatar-banner {

@@ -19,13 +19,29 @@
       rel="noopener noreferrer"
       class="item donate"
     >
-      <img src="@/assets/kofi-logo.png" alt="" />
-      <div class="name">Support me on Ko-fi</div>
+      <div class="container">
+        <img src="@/assets/kofi-logo.png" alt="" />
+        <div class="name">Support me on Ko-fi</div>
+      </div>
+      <div class="description">
+        Get a badge on your profile to show your support.
+      </div>
     </a>
     <div class="item" @click="showMarkupGuide">
       <div class="material-icons">menu_book</div>
       <div class="name">Markup Guide</div>
     </div>
+    <a
+      href="https://github.com/Nertivia/issues"
+      style="text-decoration: none"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <div class="item">
+        <div class="material-icons">launch</div>
+        <div class="name">Report Bugs</div>
+      </div>
+    </a>
     <div class="item" @click="showChangelog">
       <div class="material-icons">description</div>
       <div class="name">Changelog</div>
@@ -137,9 +153,22 @@ export default Vue.extend({
   &.donate {
     background: var(--alert-color);
     text-decoration: none;
+    height: initial;
+    flex-direction: column;
+    align-items: initial;
     img {
       height: 30px;
       width: 30px;
+    }
+    .container {
+      display: flex;
+      align-items: center;
+    }
+    .description {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-left: 35px;
+      margin-top: -5px;
     }
   }
   &.selected {
