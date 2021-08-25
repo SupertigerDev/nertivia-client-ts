@@ -115,13 +115,7 @@
         @click="update"
       />
     </div>
-    <div class="html-profile" v-if="wipEnabled">
-      <InformationTemplate
-        title="HTML Profile"
-        information="This allows you to add custom HTML near the top of your profile popout."
-      />
-      <CustomButton icon="code" name="Edit HTML" class="html-button" />
-    </div>
+    <HtmlProfile />
     <MoreProfile
       @update="moreProfileUpdate"
       v-if="aboutMe !== null"
@@ -136,6 +130,7 @@ import CustomButton from "@/components/CustomButton.vue";
 import InformationTemplate from "@/components/InformationTemplate.vue";
 import AvatarImage from "@/components/AvatarImage.vue";
 import MoreProfile from "./MoreProfile.vue";
+import HtmlProfile from "./HtmlProfile.vue";
 import { MeModule } from "@/store/modules/me";
 import {
   fetchUser,
@@ -152,6 +147,7 @@ export default Vue.extend({
     CustomButton,
     AvatarImage,
     InformationTemplate,
+    HtmlProfile,
     MoreProfile
   },
   data() {
@@ -167,8 +163,7 @@ export default Vue.extend({
       newAvatar: null as string | null,
       newBanner: null as string | null,
       requestSent: false,
-      errors: {} as any,
-      wipEnabled: localStorage["htmlProfile_wip"] === "true"
+      errors: {} as any
     };
   },
   computed: {
@@ -402,13 +397,6 @@ export default Vue.extend({
   cursor: pointer;
   &:hover {
     text-decoration: underline;
-  }
-}
-.html-profile {
-  margin-left: 15px;
-  .html-button {
-    align-self: flex-start;
-    margin-top: 10px;
   }
 }
 .avatar-banner {

@@ -156,6 +156,7 @@ export default Vue.extend({
     height: initial;
     flex-direction: column;
     align-items: initial;
+    padding-bottom: 5px;
     img {
       height: 30px;
       width: 30px;
@@ -165,7 +166,7 @@ export default Vue.extend({
       align-items: center;
     }
     .description {
-      font-size: 14px;
+      font-size: 13px;
       opacity: 0.9;
       margin-left: 35px;
       margin-top: -5px;
