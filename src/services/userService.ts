@@ -84,6 +84,11 @@ export function deleteAccount(password: string): Promise<any> {
     .delete(`user/delete-account`, { json: { password } })
     .json();
 }
+export function editHtmlProfile(html: string): Promise<any> {
+  return wrapper()
+    .post(`user/html-profile`, { json: { html } })
+    .json();
+}
 
 export interface ReturnedUser {
   user: User & UserExtra;

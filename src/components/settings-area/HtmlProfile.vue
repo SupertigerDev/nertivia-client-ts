@@ -23,7 +23,7 @@
       v-if="showEditor"
       name="Save HTML Code"
       class="button"
-      @click="showEditor != showEditor"
+      @click="updateHtml"
     />
   </div>
 </template>
@@ -32,14 +32,23 @@ import Vue from "vue";
 import CustomButton from "@/components/CustomButton.vue";
 import CustomInput from "@/components/CustomInput.vue";
 import InformationTemplate from "@/components/InformationTemplate.vue";
+import { editHtmlProfile } from "@/services/userService";
 export default Vue.extend({
   components: { CustomButton, InformationTemplate, CustomInput },
   data() {
     return {
-      htmlCode: "Test",
+      htmlCode:
+        '<div class="profile">\nHTML Profile\n</div>\n\n<style>\n.profile{\ncolor: red;\n}\n</style>',
       wipEnabled: localStorage["htmlProfile_wip"] === "true",
       showEditor: false
     };
+  },
+  methods: {
+    updateHtml() {
+      editHtmlProfile(this.htmlCode).then(() => {
+        this.showEditor = false;
+      });
+    }
   }
 });
 </script>
