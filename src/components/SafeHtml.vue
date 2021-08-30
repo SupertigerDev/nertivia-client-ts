@@ -65,19 +65,16 @@ export default Vue.extend({
       if (jsonEl.tag === "a") {
         on.click = onUrlClick;
       }
-
       const el = h(jsonEl.tag, { attrs, on }, childrenEl);
       return el;
     }
-
-    console.log(this.$data.jsonHtml);
 
     return h(
       ShadowRoot,
       { attrs: { class: "json-html" } },
       Array.isArray(this.$data.jsonHtml)
         ? this.$data.jsonHtml?.map(json => generate(json))
-        : generate(this.$data.jsonHtml)
+        : [generate(this.$data.jsonHtml)]
     );
   }
 });
