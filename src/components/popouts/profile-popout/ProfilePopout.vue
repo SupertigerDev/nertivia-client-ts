@@ -153,7 +153,8 @@ import CommonFriends from "./CommonFriends.vue";
 import Badges from "./Badges.vue";
 import { PresencesModule } from "@/store/modules/presences";
 import userStatuses from "@/constants/userStatuses";
-import SafeHtml from "@/components/SafeHtml.vue";
+const SafeHtml = () =>
+  import(/* webpackChunkName: "SafeHtml" */ "@/components/SafeHtml.vue");
 import {
   blockUser,
   fetchUser,
