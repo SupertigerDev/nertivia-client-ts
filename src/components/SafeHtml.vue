@@ -70,10 +70,14 @@ export default Vue.extend({
       return el;
     }
 
-    return (
-      <ShadowRoot class="json-html">
-        {this.$data.jsonHtml?.map(json => generate(json))}
-      </ShadowRoot>
+    console.log(this.$data.jsonHtml);
+
+    return h(
+      ShadowRoot,
+      { attrs: { class: "json-html" } },
+      Array.isArray(this.$data.jsonHtml)
+        ? this.$data.jsonHtml?.map(json => generate(json))
+        : generate(this.$data.jsonHtml)
     );
   }
 });
