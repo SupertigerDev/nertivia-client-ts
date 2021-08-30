@@ -66,6 +66,10 @@ export default Vue.extend({
       if (attrs.style) {
         attrs.style = replaceImageUrl(attrs.style);
       }
+      if (attrs.src) {
+        attrs.src =
+          process.env.VUE_APP_IMAGE_PROXY_URL + encodeURIComponent(attrs.src);
+      }
       let on: any = {};
       if (jsonEl.tag === "a") {
         on.click = onUrlClick;
