@@ -3,7 +3,7 @@ import { jsonHtml } from "@/services/userService";
 import { unzipAlt } from "@/utils/zip";
 import Vue from "vue";
 import Markup from "./Markup";
-import { ShadowRoot } from "vue-shadow-dom";
+import "style-scoped";
 import { PopoutsModule } from "@/store/modules/popouts";
 
 export default Vue.extend({
@@ -32,6 +32,7 @@ export default Vue.extend({
           encodeURIComponent(url)}")`;
       });
     }
+
     const onUrlClick = (event: any) => {
       event.preventDefault();
       const target = event.target.closest("a");
@@ -56,6 +57,7 @@ export default Vue.extend({
         }
         return h(Markup, { props: { text: jsonEl } });
       }
+
       let childrenEl = jsonEl.content.map(json =>
         generate(json, jsonEl.tag === "style")
       );
@@ -68,12 +70,15 @@ export default Vue.extend({
       if (jsonEl.tag === "a") {
         on.click = onUrlClick;
       }
+      if (jsonEl.tag === "style") {
+        attrs.scoped = "";
+      }
       const el = h(jsonEl.tag, { attrs, on }, childrenEl);
       return el;
     }
 
     return h(
-      ShadowRoot,
+      "div",
       { attrs: { class: "json-html" } },
       Array.isArray(this.$data.jsonHtml)
         ? this.$data.jsonHtml?.map(json => generate(json))
@@ -84,6 +89,9 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+* {
+  color: red !important;
+}
 .json-html {
   margin: 3px;
   max-height: 100px;
