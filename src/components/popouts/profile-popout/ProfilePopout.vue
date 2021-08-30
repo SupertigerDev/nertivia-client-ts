@@ -76,6 +76,10 @@
         </div>
 
         <div class="other-details animate-in" v-if="returnedUser">
+          <SafeHtml
+            v-if="returnedUser.user.htmlProfile"
+            :zippedJsonHtml="returnedUser.user.htmlProfile"
+          />
           <Badges v-if="badgesArr.length" :badges="badgesArr" />
           <CommonServers
             v-if="!isMe && commonServers.length"
@@ -149,6 +153,7 @@ import CommonFriends from "./CommonFriends.vue";
 import Badges from "./Badges.vue";
 import { PresencesModule } from "@/store/modules/presences";
 import userStatuses from "@/constants/userStatuses";
+import SafeHtml from "@/components/SafeHtml.vue";
 import {
   blockUser,
   fetchUser,
@@ -180,7 +185,8 @@ export default Vue.extend({
     UserStatusTemplate,
     CommonServers,
     CommonFriends,
-    Badges
+    Badges,
+    SafeHtml
   },
   props: {
     data: {

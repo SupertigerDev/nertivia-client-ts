@@ -18,10 +18,10 @@
           :style="{ color: roleColor }"
           @contextmenu.prevent="showUserContext"
           >{{ message.creator.username }}</span
-        >&nbsp;
-        <span class="msg" :style="{ color: type.color }">{{
-          type.message
-        }}</span>
+        >
+        <span class="msg" :style="{ color: type.color }"
+          >&nbsp;{{ type.message }}</span
+        >
       </div>
       <div class="time">{{ time }}</div>
     </div>

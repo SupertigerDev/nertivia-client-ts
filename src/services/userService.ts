@@ -1,4 +1,5 @@
 import User from "@/interfaces/User";
+import { unzip, unzipAlt } from "@/utils/zip";
 import wrapper from "./wrapper";
 
 export interface UpdateUserRequest {
@@ -90,6 +91,16 @@ export function editHtmlProfile(html: string): Promise<any> {
     .json();
 }
 
+
+export function getHtmlProfile(): Promise<jsonHtml[]> {
+  return wrapper()
+    .get(`user/html-profile`)
+    .json().then((result: any) => {
+      const jsonString = unzipAlt(result);
+      return jsonString ? JSON.parse(jsonString) : null;
+    })
+}
+
 export interface ReturnedUser {
   user: User & UserExtra;
   commonServersArr: string[];
@@ -100,8 +111,13 @@ interface UserExtra {
   created: number;
   badges?: number;
   createdBy?: User;
+  htmlProfile?: jsonHtml
 }
-
+export interface jsonHtml {
+  tag: string
+  attributes: {[key: string]: string},
+  content: (jsonHtml | string)[]
+}
 export interface AboutMe {
   about_me: string;
   age: string;
