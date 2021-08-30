@@ -51,6 +51,9 @@ export default Vue.extend({
         if (style) {
           return replaceImageUrl(jsonEl);
         }
+        if (!jsonEl.trim()) {
+          return "";
+        }
         return h(Markup, { props: { text: jsonEl } });
       }
       let childrenEl = jsonEl.content.map(json =>
