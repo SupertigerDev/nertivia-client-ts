@@ -51,7 +51,9 @@ export default Vue.extend({
   },
   mounted() {
     getHtmlProfile()
-      .then(arr => {
+      .then(res => {
+        const arr = Array.isArray(res) ? res : [res];
+
         let finalString = "";
         for (let index = 0; index < arr.length; index++) {
           const json = arr[index];
