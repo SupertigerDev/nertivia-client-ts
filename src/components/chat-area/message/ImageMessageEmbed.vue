@@ -57,7 +57,6 @@ export default Vue.extend({
       const file = this.message.files?.[0];
       if (!file) return undefined;
       // nertivia cdn
-      if (file.url.startsWith("https://media.nertivia.net")) return file.url;
       if (file.url) return file.url;
       // google drive cdn
       return (
