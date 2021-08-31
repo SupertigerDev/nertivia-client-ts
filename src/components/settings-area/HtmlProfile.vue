@@ -19,13 +19,31 @@
       :textArea="true"
       :error="error"
     />
-    <CustomButton
-      icon="save"
-      v-if="showEditor"
-      name="Save HTML Code"
-      class="button"
-      @click="updateHtml"
-    />
+    <div class="buttons" v-if="showEditor">
+      <CustomButton
+        icon="save"
+        name="Save"
+        class="button"
+        @click="updateHtml"
+        :disabled="pendingRequest"
+      />
+      <CustomButton
+        icon="close"
+        name="Cancel"
+        class="button"
+        :warn="true"
+        @click="cancelButton"
+        :disabled="pendingRequest"
+      />
+      <CustomButton
+        icon="delete"
+        name="Delete"
+        class="button"
+        :alert="true"
+        :disabled="pendingRequest"
+        @click="deleteButton"
+      />
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -34,6 +52,7 @@ import CustomButton from "@/components/CustomButton.vue";
 import CustomInput from "@/components/CustomInput.vue";
 import InformationTemplate from "@/components/InformationTemplate.vue";
 import {
+  deleteHtmlProfile,
   editHtmlProfile,
   getHtmlProfile,
   jsonHtml
@@ -46,27 +65,50 @@ export default Vue.extend({
       wipEnabled: localStorage["htmlProfile_wip"] === "true",
       showEditor: false,
       error: null as null | string,
-      pendingRequest: false
+      pendingRequest: false,
+      defaultCode:
+        '<div class="profile">\nHTML Profile\n</div>\n\n<style>\n.profile{\ncolor: blue;\n}\n</style>'
     };
   },
   mounted() {
-    getHtmlProfile()
-      .then(res => {
-        const arr = Array.isArray(res) ? res : [res];
-
-        let finalString = "";
-        for (let index = 0; index < arr.length; index++) {
-          const json = arr[index];
-          finalString += this.jsonToHtml(json) + "\n\n";
-        }
-        this.htmlCode = finalString;
-      })
-      .catch(() => {
-        this.htmlCode =
-          '<div class="profile">\nHTML Profile\n</div>\n\n<style>\n.profile{\ncolor: blue;\n}\n</style>';
-      });
+    this.fetchCode();
   },
   methods: {
+    async fetchCode() {
+      this.pendingRequest = true;
+      await getHtmlProfile()
+        .then(res => {
+          const arr = Array.isArray(res) ? res : [res];
+
+          let finalString = "";
+          for (let index = 0; index < arr.length; index++) {
+            const json = arr[index];
+            finalString += this.jsonToHtml(json) + "\n\n";
+          }
+          this.htmlCode = finalString;
+        })
+        .catch(() => {
+          this.htmlCode = this.defaultCode;
+        })
+        .finally(() => {
+          this.pendingRequest = false;
+        });
+    },
+    async cancelButton() {
+      await this.fetchCode();
+      this.showEditor = false;
+    },
+    deleteButton() {
+      this.pendingRequest = true;
+      deleteHtmlProfile()
+        .then(() => {
+          this.showEditor = false;
+          this.htmlCode = this.defaultCode;
+        })
+        .finally(() => {
+          this.pendingRequest = false;
+        });
+    },
     jsonToHtml(json: jsonHtml | string) {
       if (typeof json === "string") {
         return json;
@@ -117,5 +159,8 @@ export default Vue.extend({
 .editor {
   margin-top: 10px;
   margin-bottom: -15px;
+}
+.buttons {
+  display: flex;
 }
 </style>

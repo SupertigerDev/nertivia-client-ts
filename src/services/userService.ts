@@ -100,6 +100,11 @@ export function getHtmlProfile(): Promise<jsonHtml[]> {
       return jsonString ? JSON.parse(jsonString) : null;
     })
 }
+export function deleteHtmlProfile(): Promise<any> {
+  return wrapper()
+    .delete(`user/html-profile`)
+    .json()
+}
 
 export interface ReturnedUser {
   user: User & UserExtra;

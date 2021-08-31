@@ -3,9 +3,9 @@
     class="button"
     type="submit"
     :class="{
-      alert: !disabled && alert,
-      warn: !disabled && warn,
-      valid: !disabled && valid,
+      alert: alert,
+      warn: warn,
+      valid: valid,
       disabled
     }"
     @click="$emit('click')"
@@ -131,5 +131,9 @@ export default Vue.extend({
 }
 .valid .icon {
   color: var(--success-color);
+}
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
 </style>
