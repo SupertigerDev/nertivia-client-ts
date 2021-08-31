@@ -47,7 +47,6 @@ export default Vue.extend({
       });
     };
 
-    console.log(this.$data.jsonHtml);
     function generate(jsonEl: jsonHtml | string, style?: boolean) {
       if (typeof jsonEl === "string") {
         if (style) {
