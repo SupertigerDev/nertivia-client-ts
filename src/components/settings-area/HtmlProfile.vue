@@ -1,5 +1,5 @@
 <template>
-  <div class="html-profile" v-if="wipEnabled">
+  <div class="html-profile">
     <InformationTemplate
       title="HTML Profile"
       information="Add custom HTML near the top of your profile popout."
@@ -62,7 +62,6 @@ export default Vue.extend({
   data() {
     return {
       htmlCode: "",
-      wipEnabled: localStorage["htmlProfile_wip"] === "true",
       showEditor: false,
       error: null as null | string,
       pendingRequest: false,

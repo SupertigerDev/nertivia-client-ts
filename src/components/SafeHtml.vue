@@ -93,9 +93,6 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-* {
-  color: red !important;
-}
 .json-html {
   margin: 3px;
   max-height: 100px;
