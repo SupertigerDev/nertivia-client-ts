@@ -1,9 +1,6 @@
 <template>
   <div class="header">
-    <div
-      class="open-drawer-button left-drawer material-icons"
-      @click="toggleLeftDrawer"
-    >
+    <div class="button left-drawer material-icons" @click="toggleLeftDrawer">
       menu
     </div>
     <Tabs />
@@ -21,9 +18,18 @@
     </div>
     <UserStatusTemplate class="status" v-if="DMUser" :id="DMUser.id" /> -->
     <div
-      class="open-drawer-button right-drawer material-icons"
+      v-if="isServerChannel"
+      @click="onCallClicked"
+      class="button call-button material-icons"
+      title="Call"
+    >
+      call
+    </div>
+    <div
+      class="button right-drawer-button material-icons"
       v-if="isServerChannel"
       @click="toggleRightDrawer"
+      title="Members list"
     >
       menu
     </div>
@@ -34,6 +40,7 @@
 import { ChannelsModule } from "@/store/modules/channels";
 import { DrawersModule } from "@/store/modules/drawers";
 import { PopoutsModule } from "@/store/modules/popouts";
+import {callModule} from "@/store/modules/call"
 import Tabs from "@/components/HeaderTabs.vue";
 import Vue from "vue";
 export default Vue.extend({
@@ -42,8 +49,8 @@ export default Vue.extend({
   props: {
     title: {
       type: String,
-      required: false
-    }
+      required: false,
+    },
   },
   computed: {
     isServerChannel(): any {
@@ -54,9 +61,17 @@ export default Vue.extend({
     },
     DMUser(): any {
       return this.DMChannel?.recipients?.[0];
+    },
+    channelId(): string {
+      return this.$route.params.channel_id;
     }
   },
   methods: {
+    onCallClicked() {
+      callModule.joinCall({
+        channelId: this.channelId
+      })
+    },
     toggleLeftDrawer() {
       DrawersModule.SetLeftDrawer(true);
     },
@@ -68,10 +83,10 @@ export default Vue.extend({
       PopoutsModule.ShowPopout({
         id: "profile",
         component: "profile-popout",
-        data: { id: this.DMUser.id }
+        data: { id: this.DMUser.id },
       });
-    }
-  }
+    },
+  },
 });
 </script>
 
@@ -94,14 +109,18 @@ export default Vue.extend({
     }
   }
 }
-.open-drawer-button {
+.button {
   opacity: 0.7;
   transition: 0.2s;
   cursor: pointer;
   display: none;
-  &.right-drawer {
-    margin-right: 5px;
+  &.call-button {
+    display: block;
     margin-left: auto;
+    margin-right: 10px;
+  }
+  &.right-drawer-button {
+    margin-right: 5px;
     display: block;
   }
   &:hover {

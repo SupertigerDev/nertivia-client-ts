@@ -1,45 +1,60 @@
 <template>
-  <router-link
-    :to="path"
-    class="channel channel-template"
-    @click.native="closeDrawer"
-    @mouseover.native="hover = true"
-    @mouseout.native="hover = false"
-    :class="{
-      selected: isChannelSelected,
-      hasNotification: notificationExists,
-      hasIcon: iconURL != null
-    }"
-    :style="channelStyle"
-    @contextmenu.prevent.native="showContext"
-  >
-    <div class="icon" aria-hidden="true"></div>
-    <div class="name">{{ channel.name }}</div>
-  </router-link>
+  <div class="outer-channel-template">
+    <router-link
+      :to="path"
+      class="channel channel-template"
+      @click.native="closeDrawer"
+      @mouseover.native="hover = true"
+      @mouseout.native="hover = false"
+      :class="{
+        selected: isChannelSelected,
+        hasNotification: notificationExists,
+        hasIcon: iconURL != null,
+      }"
+      :style="channelStyle"
+      @contextmenu.prevent.native="showContext"
+    >
+      <div class="icon" aria-hidden="true"></div>
+      <div class="name">{{ channel.name }}</div>
+    </router-link>
+    <div class="call-participants" v-if="callParticipants.length">
+      <CallTemplate
+        v-for="participant in callParticipants"
+        :key="participant.user.id"
+        :participant="participant"
+      />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import Channel from "@/interfaces/Channel";
+import { callModule, CallParticipant } from "@/store/modules/call";
 import { DrawersModule } from "@/store/modules/drawers";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { MutedChannelsModule } from "@/store/modules/mutedChannels";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { emojiURL } from "@/utils/emojiParser";
 import Vue, { PropType } from "vue";
+import CallTemplate from "./CallTemplate.vue";
 export default Vue.extend({
+  components: { CallTemplate },
   name: "ChannelTemplate",
   props: {
     channel: {
       type: Object as PropType<Channel>,
-      required: false
-    }
+      required: false,
+    },
   },
   data() {
     return {
-      hover: false
+      hover: false,
     };
   },
   computed: {
+    callParticipants(): CallParticipant[] {
+      return callModule.callParticipants(this.channel.channelID);
+    },
     path(): any {
       return `/app/servers/${this.channel.server_id}/${this.channel.channelID}`;
     },
@@ -63,14 +78,14 @@ export default Vue.extend({
       return emojiURL(isCustom ? customEmojiID : icon, {
         animated: this.hover,
         isCustom,
-        isGif
+        isGif,
       });
     },
     channelStyle(): any {
       return {
-        "--icon-url": this.iconURL && `url("${this.iconURL}")`
+        "--icon-url": this.iconURL && `url("${this.iconURL}")`,
       };
-    }
+    },
   },
   methods: {
     closeDrawer() {
@@ -85,11 +100,11 @@ export default Vue.extend({
           x: event.clientX,
           y: event.clientY,
           server_id: this.channel.server_id,
-          channelID: this.channel.channelID
-        }
+          channelID: this.channel.channelID,
+        },
       });
-    }
-  }
+    },
+  },
 });
 </script>
 
@@ -138,6 +153,9 @@ export default Vue.extend({
     background: rgb(255 255 255 / 0.1);
     border-color: var(--primary-color);
   }
+}
+.call-participants {
+  margin-top: 5px;
 }
 
 .icon {

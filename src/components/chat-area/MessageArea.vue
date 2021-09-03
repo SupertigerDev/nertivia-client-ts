@@ -5,6 +5,10 @@
       :title="DMChannel && DMChannel.recipients[0].username"
       v-else-if="DMChannel && DMChannel.recipients"
     />
+    <CallPreview
+      v-if="callParticipants.length"
+      :participants="callParticipants"
+    />
     <LoadingScreen v-if="!channelMessages" />
     <MessageLogs :key="channelID" v-else />
     <MessageBoxArea />
@@ -17,6 +21,7 @@ import { MessagesModule } from "@/store/modules/messages";
 import MessageLogs from "./MessageLogs.vue";
 import LoadingScreen from "@/components/LoadingScreen.vue";
 import MessageBoxArea from "./MessageBoxArea.vue";
+import CallPreview from "./call-preview/CallPreview.vue";
 import { ChannelsModule } from "@/store/modules/channels";
 import windowProperties from "@/utils/windowProperties";
 import { NotificationsModule } from "@/store/modules/notifications";
@@ -27,10 +32,20 @@ import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
 import { TabsModule } from "@/store/modules/tabs";
 import { ServersModule } from "@/store/modules/servers";
 import Vue from "vue";
+import { callModule, CallParticipant } from "@/store/modules/call";
 export default Vue.extend({
   name: "MessageArea",
-  components: { MessageLogs, MessageBoxArea, Header, LoadingScreen },
+  components: {
+    MessageLogs,
+    MessageBoxArea,
+    Header,
+    LoadingScreen,
+    CallPreview,
+  },
   computed: {
+    callParticipants(): CallParticipant[] {
+      return callModule.callParticipants(this.channelID);
+    },
     isFocused(): any {
       return windowProperties.isFocused;
     },
@@ -73,21 +88,21 @@ export default Vue.extend({
     },
     currentTab(): any {
       return this.$route.path.split("/")[2] || "";
-    }
+    },
   },
   watch: {
     isConnected: {
-      handler: "onConnected"
+      handler: "onConnected",
     },
     channelID: {
-      handler: "channalIDChanged"
+      handler: "channalIDChanged",
     },
     channel: {
-      handler: "channelChanged"
+      handler: "channelChanged",
     },
     isFocused: {
-      handler: "onFocusChange"
-    }
+      handler: "onFocusChange",
+    },
   },
   mounted() {
     this.dismissNotification();
@@ -103,7 +118,7 @@ export default Vue.extend({
         botCommandsModule.FetchAndSetBotCommands({ serverId: this.serverID });
       } else if (this.DMChannel?.recipients?.[0]?.bot) {
         botCommandsModule.FetchAndSetBotCommands({
-          botIDArr: [this.DMChannel.recipients[0].id]
+          botIDArr: [this.DMChannel.recipients[0].id],
         });
       }
     },
@@ -121,7 +136,7 @@ export default Vue.extend({
       if (!this.isFocused) return;
       if (!(this.hasServerNotification || this.hasDMNotification)) return;
       this.$socket.client.emit("notification:dismiss", {
-        channelID: this.channelID
+        channelID: this.channelID,
       });
     },
     setTitle() {
@@ -131,7 +146,7 @@ export default Vue.extend({
         const isSavedNotes = recipient.id === MeModule.user.id;
         TabsModule.setCurrentTab({
           name: isSavedNotes ? "Saved Notes" : "@" + recipient.username,
-          user_id: recipient.id
+          user_id: recipient.id,
         });
       }
       if (this.server && this.channel) {
@@ -140,7 +155,7 @@ export default Vue.extend({
         TabsModule.setCurrentTab({
           name: `${serverName}#${channelName}`,
           server_id: this.serverID,
-          channel_id: this.channelID
+          channel_id: this.channelID,
         });
       }
     },
@@ -156,8 +171,8 @@ export default Vue.extend({
     },
     onFocusChange() {
       this.dismissNotification();
-    }
-  }
+    },
+  },
 });
 </script>
 
