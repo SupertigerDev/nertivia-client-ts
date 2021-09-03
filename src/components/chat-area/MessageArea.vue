@@ -134,9 +134,9 @@ export default Vue.extend({
           user_id: recipient.id
         });
       }
-      if (this.server) {
-        const serverName = this.server.name;
-        const channelName = this.channel.name;
+      if (this.server && this.channel) {
+        const serverName = this.server?.name;
+        const channelName = this.channel?.name;
         TabsModule.setCurrentTab({
           name: `${serverName}#${channelName}`,
           server_id: this.serverID,
