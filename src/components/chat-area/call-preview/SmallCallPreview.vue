@@ -8,16 +8,6 @@
       :key="participant.user.id"
       :participant="participant"
     />
-    <CallTemplate
-      v-for="participant in participants"
-      :key="participant.user.id"
-      :participant="participant"
-    />
-    <CallTemplate
-      v-for="participant in participants"
-      :key="participant.user.id"
-      :participant="participant"
-    />
     <div class="expand-button material-icons" title="Expand">expand_more</div>
   </div>
 </template>

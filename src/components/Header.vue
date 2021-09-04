@@ -40,17 +40,18 @@
 import { ChannelsModule } from "@/store/modules/channels";
 import { DrawersModule } from "@/store/modules/drawers";
 import { PopoutsModule } from "@/store/modules/popouts";
-import {callModule} from "@/store/modules/call"
+import { callModule } from "@/store/modules/call";
 import Tabs from "@/components/HeaderTabs.vue";
 import Vue from "vue";
+import { joinCall } from "@/services/callService";
 export default Vue.extend({
   name: "MainApp",
   components: { Tabs },
   props: {
     title: {
       type: String,
-      required: false,
-    },
+      required: false
+    }
   },
   computed: {
     isServerChannel(): any {
@@ -70,7 +71,8 @@ export default Vue.extend({
     onCallClicked() {
       callModule.joinCall({
         channelId: this.channelId
-      })
+      });
+      joinCall(this.channelId);
     },
     toggleLeftDrawer() {
       DrawersModule.SetLeftDrawer(true);
@@ -83,10 +85,10 @@ export default Vue.extend({
       PopoutsModule.ShowPopout({
         id: "profile",
         component: "profile-popout",
-        data: { id: this.DMUser.id },
+        data: { id: this.DMUser.id }
       });
-    },
-  },
+    }
+  }
 });
 </script>
 

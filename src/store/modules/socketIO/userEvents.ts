@@ -6,9 +6,11 @@ import {
   USER_STATUS_CHANGE,
   GOOGLE_DRIVE_LINKED,
   USER_BLOCKED,
-  USER_UNBLOCKED
+  USER_UNBLOCKED,
+  USER_JOINED_CALL
 } from "@/socketEventConstants";
 import { ActionTree } from "vuex";
+import { callModule } from "../call";
 import { MeModule } from "../me";
 import { CustomStatusesModule } from "../memberCustomStatus";
 import { programActivitiesModule } from "../memberProgramActivity";
@@ -47,6 +49,10 @@ const actions: ActionTree<any, any> = {
   },
   [SELF_STATUS_CHANGE](context, data: { status: number }) {
     MeModule.UpdateUser({ status: data.status });
+  },
+  [USER_JOINED_CALL](context, data: { channelId: string, userId: string}) {
+    if (callModule.joinedChannelId && data.userId === MeModule.user.id) return;
+    callModule.addUser(data)
   },
   [CUSTOM_STATUS_CHANGE](
     context,

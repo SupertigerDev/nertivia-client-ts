@@ -8,6 +8,7 @@
       :key="participant.user.id"
       :participant="participant"
     />
+    <div class="expand-button material-icons" title="Expand">expand_more</div>
   </div>
 </template>
 
@@ -23,16 +24,27 @@ export default Vue.extend({
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .text {
   font-weight: bold;
+}
+.expand-button {
+  margin-left: auto;
+  font-size: 26px;
+  margin-right: 5px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: 0.2s;
+  &:hover {
+    opacity: 1;
+  }
 }
 .call-preview {
   display: flex;
   align-content: center;
   height: 30px;
   align-items: center;
-  background: rgb(44, 44, 44);
+  background: var(--side-header-bg-color);
 }
 .icon {
   font-size: 18px;
