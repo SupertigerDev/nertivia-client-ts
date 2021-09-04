@@ -9,7 +9,7 @@
       :class="{
         selected: isChannelSelected,
         hasNotification: notificationExists,
-        hasIcon: iconURL != null,
+        hasIcon: iconURL != null
       }"
       :style="channelStyle"
       @contextmenu.prevent.native="showContext"
@@ -18,6 +18,7 @@
       <div class="name">{{ channel.name }}</div>
     </router-link>
     <div class="call-participants" v-if="callParticipants.length">
+      <div class="text">In call:</div>
       <CallTemplate
         v-for="participant in callParticipants"
         :key="participant.user.id"
@@ -43,12 +44,12 @@ export default Vue.extend({
   props: {
     channel: {
       type: Object as PropType<Channel>,
-      required: false,
-    },
+      required: false
+    }
   },
   data() {
     return {
-      hover: false,
+      hover: false
     };
   },
   computed: {
@@ -78,14 +79,14 @@ export default Vue.extend({
       return emojiURL(isCustom ? customEmojiID : icon, {
         animated: this.hover,
         isCustom,
-        isGif,
+        isGif
       });
     },
     channelStyle(): any {
       return {
-        "--icon-url": this.iconURL && `url("${this.iconURL}")`,
+        "--icon-url": this.iconURL && `url("${this.iconURL}")`
       };
-    },
+    }
   },
   methods: {
     closeDrawer() {
@@ -100,11 +101,11 @@ export default Vue.extend({
           x: event.clientX,
           y: event.clientY,
           server_id: this.channel.server_id,
-          channelID: this.channel.channelID,
-        },
+          channelID: this.channel.channelID
+        }
       });
-    },
-  },
+    }
+  }
 });
 </script>
 
@@ -155,7 +156,11 @@ export default Vue.extend({
   }
 }
 .call-participants {
+  margin-left: 40px;
   margin-top: 5px;
+  .text {
+    font-weight: bold;
+  }
 }
 
 .icon {

@@ -1,6 +1,5 @@
 <template>
   <div class="call-template">
-    <div class="icon material-icons">call</div>
     <div class="username">{{ participant.user.username }}</div>
   </div>
 </template>
@@ -10,8 +9,8 @@ import { CallParticipant } from "@/store/modules/call";
 import Vue, { PropType } from "vue";
 export default Vue.extend({
   props: {
-    participant: Object as PropType<CallParticipant>,
-  },
+    participant: Object as PropType<CallParticipant>
+  }
 });
 </script>
 
@@ -19,13 +18,11 @@ export default Vue.extend({
 .call-template {
   display: flex;
   align-items: center;
-  padding-left: 5px;
   border-radius: 4px;
   height: 30px;
-  margin-right: 10px;
+  padding: 5px;
 }
-.icon {
-  font-size: 18px;
-  margin-right: 5px;
+.username {
+  opacity: 0.8;
 }
 </style>

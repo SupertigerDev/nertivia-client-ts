@@ -1,29 +1,20 @@
 <template>
   <div class="call-preview">
-    <CallTemplate
-      v-for="participant in participants"
-      :key="participant.user.id"
-      :participant="participant"
-    />
+    <SmallCallPreview :participants="participants" />
   </div>
 </template>
 
 <script lang="ts">
 import { CallParticipant } from "@/store/modules/call";
 import Vue, { PropType } from "vue";
-import CallTemplate from "./CallTemplate.vue";
+import SmallCallPreview from "./SmallCallPreview.vue";
+import ExpandedCallPreview from "./ExpandedCallPreview.vue";
 export default Vue.extend({
-  components: { CallTemplate },
+  components: { SmallCallPreview },
   props: {
-    participants: Array as PropType<CallParticipant[]>,
-  },
+    participants: Array as PropType<CallParticipant[]>
+  }
 });
 </script>
 
-<style scoped>
-.call-preview {
-  display: flex;
-  background: rgb(44, 44, 44);
-}
-
-</style>
+<style scoped></style>
