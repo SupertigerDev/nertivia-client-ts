@@ -18,17 +18,18 @@ export interface CallParticipant {
 }
 
 @Module({ dynamic: true, store, namespaced: true, name: "calls" })
-class Calls extends VuexModule {
+class VoiceChannels extends VuexModule {
   joinedChannelId: string | null = null;
-  // joinedChannelUsers[channelId][userId]
-  joinedChannelUsers: {[key: string]: {[key: string]: CallParticipant}} = {};
+  // voiceChannelUsers[channelId][userId]
+  voiceChannelUsers: {[key: string]: {[key: string]: CallParticipant}} = {};
+  
   get callParticipants() {
     return (channelId: string) => {
       const list: (CallParticipant & {user: User})[] = [];
       if (this.joinedChannelId === channelId) {
         list.push({user: MeModule.user as User})
       }
-      const channelCalls = this.joinedChannelUsers[channelId];
+      const channelCalls = this.voiceChannelUsers[channelId];
       if (!channelCalls) return list;
       for (const userId in channelCalls) {
         list.push({...channelCalls[userId], user: UsersModule.users[userId]}) 
@@ -38,32 +39,32 @@ class Calls extends VuexModule {
   }
 
   @Mutation
-  private JOIN_CALL(payload: {channelId: string}) {
+  private JOIN(payload: {channelId: string}) {
     this.joinedChannelId = payload.channelId;
   }
 
   @Action
-  public joinCall(payload: {channelId: string}) {
-    this.JOIN_CALL(payload);
+  public join(payload: {channelId: string}) {
+    this.JOIN(payload);
   }
 
   @Mutation
-  private INIT_CALLS(payload: {[key: string]: {[key: string]: CallParticipant}}) {
-    this.joinedChannelUsers = payload;
+  private INIT_VOICE_CHANNELS(payload: {[key: string]: {[key: string]: CallParticipant}}) {
+    this.voiceChannelUsers = payload;
   }
 
   @Action
-  public InitCalls(payload: {[key: string]: {[key: string]: CallParticipant}}) {
-    this.INIT_CALLS(payload);
+  public InitVoiceChannels(payload: {[key: string]: {[key: string]: CallParticipant}}) {
+    this.INIT_VOICE_CHANNELS(payload);
   }
   @Mutation
   private ADD_USER(payload: {userId: string, channelId: string}) {
-    const users = this.joinedChannelUsers[payload.channelId];
+    const users = this.voiceChannelUsers[payload.channelId];
     if (!users) {
-      Vue.set(this.joinedChannelUsers, payload.channelId, {[payload.userId]: {}})
+      Vue.set(this.voiceChannelUsers, payload.channelId, {[payload.userId]: {}})
       return;
     }
-    Vue.set(this.joinedChannelUsers[payload.channelId],payload.userId, {})
+    Vue.set(this.voiceChannelUsers[payload.channelId],payload.userId, {})
   }
 
   @Action
@@ -71,4 +72,4 @@ class Calls extends VuexModule {
     this.ADD_USER(payload);
   }
 }
-export const callModule = getModule(Calls);
+export const voiceChannelModule = getModule(VoiceChannels);

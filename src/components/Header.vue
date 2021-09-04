@@ -40,7 +40,7 @@
 import { ChannelsModule } from "@/store/modules/channels";
 import { DrawersModule } from "@/store/modules/drawers";
 import { PopoutsModule } from "@/store/modules/popouts";
-import { callModule } from "@/store/modules/call";
+import { voiceChannelModule } from "@/store/modules/voiceChannels";
 import Tabs from "@/components/HeaderTabs.vue";
 import Vue from "vue";
 import { joinCall } from "@/services/callService";
@@ -69,7 +69,7 @@ export default Vue.extend({
   },
   methods: {
     onCallClicked() {
-      callModule.joinCall({
+      voiceChannelModule.join({
         channelId: this.channelId
       });
       joinCall(this.channelId);

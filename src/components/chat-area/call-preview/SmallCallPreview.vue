@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { CallParticipant } from "@/store/modules/call";
+import { CallParticipant } from "@/store/modules/voiceChannels";
 import Vue, { PropType } from "vue";
 import CallTemplate from "./CallTemplate.vue";
 export default Vue.extend({

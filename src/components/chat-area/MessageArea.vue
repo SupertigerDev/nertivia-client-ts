@@ -32,7 +32,7 @@ import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
 import { TabsModule } from "@/store/modules/tabs";
 import { ServersModule } from "@/store/modules/servers";
 import Vue from "vue";
-import { callModule, CallParticipant } from "@/store/modules/call";
+import { voiceChannelModule, CallParticipant } from "@/store/modules/voiceChannels";
 export default Vue.extend({
   name: "MessageArea",
   components: {
@@ -44,7 +44,7 @@ export default Vue.extend({
   },
   computed: {
     callParticipants(): CallParticipant[] {
-      return callModule.callParticipants(this.channelID);
+      return voiceChannelModule.callParticipants(this.channelID);
     },
     isFocused(): any {
       return windowProperties.isFocused;

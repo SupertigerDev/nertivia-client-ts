@@ -28,7 +28,7 @@ import {
   RECONNECTING
 } from "@/socketEventConstants";
 import i18n from "@/i18n";
-import { callModule } from "../call";
+import { voiceChannelModule } from "../voiceChannels";
 
 const socket = (() => Vue.prototype.$socket.client) as typeof SocketIO;
 
@@ -280,7 +280,7 @@ const actions: ActionTree<any, any> = {
         }
       }
     }
-    callModule.InitCalls(calls);
+    voiceChannelModule.InitVoiceChannels(calls);
 
     // muted servers
     const mutedServersObj: any = {};

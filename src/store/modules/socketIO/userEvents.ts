@@ -10,7 +10,7 @@ import {
   USER_JOINED_CALL
 } from "@/socketEventConstants";
 import { ActionTree } from "vuex";
-import { callModule } from "../call";
+import { voiceChannelModule } from "../voiceChannels";
 import { MeModule } from "../me";
 import { CustomStatusesModule } from "../memberCustomStatus";
 import { programActivitiesModule } from "../memberProgramActivity";
@@ -51,8 +51,8 @@ const actions: ActionTree<any, any> = {
     MeModule.UpdateUser({ status: data.status });
   },
   [USER_JOINED_CALL](context, data: { channelId: string, userId: string}) {
-    if (callModule.joinedChannelId && data.userId === MeModule.user.id) return;
-    callModule.addUser(data)
+    if (voiceChannelModule.joinedChannelId && data.userId === MeModule.user.id) return;
+    voiceChannelModule.addUser(data)
   },
   [CUSTOM_STATUS_CHANGE](
     context,

@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { CallParticipant } from "@/store/modules/call";
+import { CallParticipant } from "@/store/modules/voiceChannels";
 import Vue, { PropType } from "vue";
 import SmallCallPreview from "./SmallCallPreview.vue";
 import ExpandedCallPreview from "./ExpandedCallPreview.vue";
