@@ -43,7 +43,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import { voiceChannelModule } from "@/store/modules/voiceChannels";
 import Tabs from "@/components/HeaderTabs.vue";
 import Vue from "vue";
-import { joinCall } from "@/services/callService";
+import { joinCall } from "@/services/voiceService";
 export default Vue.extend({
   name: "MainApp",
   components: { Tabs },
