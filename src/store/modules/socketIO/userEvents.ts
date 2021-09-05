@@ -7,8 +7,12 @@ import {
   GOOGLE_DRIVE_LINKED,
   USER_BLOCKED,
   USER_UNBLOCKED,
-  USER_JOINED_CALL
+  USER_JOINED_CALL,
+  USER_LEFT_CALL,
+  VOICE_RECEIVE_SIGNAL,
+  VOICE_RECEIVE_RETURN_SIGNAL
 } from "@/socketEventConstants";
+import Peer from 'simple-peer';
 import { ActionTree } from "vuex";
 import { voiceChannelModule } from "../voiceChannels";
 import { MeModule } from "../me";
@@ -16,6 +20,7 @@ import { CustomStatusesModule } from "../memberCustomStatus";
 import { programActivitiesModule } from "../memberProgramActivity";
 import { PresencesModule } from "../presences";
 import { UsersModule } from "../users";
+import { addPeer, createPeer } from "@/utils/peer";
 
 const actions: ActionTree<any, any> = {
   [USER_STATUS_CHANGE](
@@ -50,9 +55,32 @@ const actions: ActionTree<any, any> = {
   [SELF_STATUS_CHANGE](context, data: { status: number }) {
     MeModule.UpdateUser({ status: data.status });
   },
-  [USER_JOINED_CALL](context, data: { channelId: string, userId: string}) {
-    if (voiceChannelModule.joinedChannelId && data.userId === MeModule.user.id) return;
-    voiceChannelModule.addUser(data)
+  [USER_JOINED_CALL](context, data: { channelId: string, userId: string }) {
+    const channelData: any = data;
+    if (voiceChannelModule.joinedChannelId === data.channelId) {
+      if (data.userId === MeModule.user.id) return;
+      channelData.peer = createPeer(data.channelId, data.userId)
+    };
+
+    voiceChannelModule.addUser({ channelId: data.channelId, userId: data.userId, data: channelData })
+  },
+  [USER_LEFT_CALL](context, data: { channelId: string, userId: string }) {
+    if (voiceChannelModule.joinedChannelId === data.channelId && data.userId === MeModule.user.id) {
+      voiceChannelModule.leave();
+      return;
+    };
+    voiceChannelModule.removeUser(data)
+  },
+  [VOICE_RECEIVE_SIGNAL](context, data: { channelId: string, requesterId: string, signal: Peer.SignalData }) {
+    const peer = addPeer(data.channelId, data.requesterId, data.signal);
+    voiceChannelModule.update({
+      channelId: data.channelId,
+      userId: data.requesterId,
+      update: { peer }
+    })
+  },
+  [VOICE_RECEIVE_RETURN_SIGNAL](context, data: { channelId: string, requesterId: string, signal: Peer.SignalData }) {
+    voiceChannelModule.voiceChannelUsers[data.channelId]?.[data.requesterId]?.peer?.signal(data.signal);
   },
   [CUSTOM_STATUS_CHANGE](
     context,

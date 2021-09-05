@@ -67,6 +67,9 @@ export const SELF_CUSTOM_STATUS_CHANGE = eventBuilder(
 );
 // call events
 export const USER_JOINED_CALL = eventBuilder("user:joined_call");
+export const USER_LEFT_CALL = eventBuilder("user:left_call");
+export const VOICE_RECEIVE_SIGNAL = eventBuilder("voice:receive_signal");
+export const VOICE_RECEIVE_RETURN_SIGNAL = eventBuilder("voice:receive_return_signal");
 
 export const GOOGLE_DRIVE_LINKED = eventBuilder("googleDrive:linked");
 export const USER_STATUS_CHANGE = eventBuilder("user_status_change");

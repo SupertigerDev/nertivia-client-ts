@@ -25,6 +25,7 @@
     "pako": "^1.0.11",
     "register-service-worker": "^1.7.1",
     "seeded-color": "^1.0.2",
+    "simple-peer": "^9.11.0",
     "socket.io-client": "^4.1.2",
     "style-scoped": "^0.2.2",
     "text-field-edit": "^3.1.0",
@@ -45,6 +46,7 @@
   "devDependencies": {
     "@types/highlight.js": "^10.1.0",
     "@types/pako": "^1.0.1",
+    "@types/simple-peer": "^9.11.1",
     "@types/twemoji": "^12.1.1",
     "@typescript-eslint/eslint-plugin": "^4.27.0",
     "@typescript-eslint/parser": "^4.27.0",
