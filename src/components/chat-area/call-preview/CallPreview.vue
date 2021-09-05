@@ -1,20 +1,81 @@
 <template>
-  <div class="call-preview">
-    <SmallCallPreview :participants="participants" />
+  <div class="call-preview" :class="{ expand: expanded }">
+    <transition name="component-fade" mode="out-in">
+      <SmallCallPreview
+        v-if="expanded"
+        key="small"
+        :participants="participants"
+        @toggleExpand="toggleExpand"
+      />
+      <ExpandedCallPreview
+        v-if="!expanded"
+        key="big"
+        :participants="participants"
+        @toggleExpand="toggleExpand"
+      />
+    </transition>
   </div>
 </template>
 
 <script lang="ts">
-import { CallParticipant } from "@/store/modules/voiceChannels";
+import { CallParticipant, voiceChannelModule } from "@/store/modules/voiceChannels";
 import Vue, { PropType } from "vue";
 import SmallCallPreview from "./SmallCallPreview.vue";
 import ExpandedCallPreview from "./ExpandedCallPreview.vue";
 export default Vue.extend({
-  components: { SmallCallPreview },
+  components: { SmallCallPreview, ExpandedCallPreview },
   props: {
-    participants: Array as PropType<CallParticipant[]>
+    participants: Array as PropType<CallParticipant[]>,
+  },
+  data() {
+    return {
+      expanded: localStorage["call-preview-expanded"] === "true",
+    };
+  },
+  methods: {
+    setExpanded(state: boolean) {
+      localStorage["call-preview-expanded"] = state;
+      this.expanded = state;
+    },
+    toggleExpand() {
+      this.setExpanded(!this.expanded);
+    },
+  },
+  watch: {
+    joinedVoiceChannelId: {
+      handler(id) {
+        if (id) {
+          this.setExpanded(true);
+        }
+      },
+      immediate: true
+    }
+  },
+  computed: {
+    joinedVoiceChannelId(): string | null {
+      return voiceChannelModule.joinedChannelId;
+    }
   }
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.component-fade-enter-active,
+.component-fade-leave-active {
+  transition: opacity 0.4s ease;
+}
+.component-fade-enter,
+.component-fade-leave-to {
+  opacity: 0;
+}
+
+.call-preview {
+  transition: height 0.5s;
+  height: 30px;
+  flex-shrink: 0;
+  background: var(--side-header-bg-color);
+}
+.expand {
+  height: 250px;
+}
+</style>

@@ -5,11 +5,12 @@
 </template>
 
 <script lang="ts">
+import User from "@/interfaces/User";
 import { CallParticipant } from "@/store/modules/voiceChannels";
 import Vue, { PropType } from "vue";
 export default Vue.extend({
   props: {
-    participant: Object as PropType<CallParticipant>
+    participant: Object as PropType<CallParticipant & {user: User}>
   }
 });
 </script>
