@@ -75,13 +75,13 @@ class VoiceChannels extends VuexModule {
   public leave() {
     const voiceChannelUsers = this.voiceChannelUsers[this.joinedChannelId as string];
     if (voiceChannelUsers) {
-      Object.values(voiceChannelUsers).forEach(vc => {
+      for (const userId in voiceChannelUsers) {
+        const vc = voiceChannelUsers[userId];
         vc.peer?.end();
         vc.peer?.destroy()
-        vc.peer?.destroy();
-        this.update({ channelId: this.joinedChannelId as string, userId: MeModule.user.id as string, update: { peer: undefined } })
+        this.update({ channelId: this.joinedChannelId as string, userId, update: { peer: undefined } })
         console.log("destroyed")
-      })
+      }
     }
     this.LEAVE();
   }
@@ -181,6 +181,9 @@ class VoiceChannels extends VuexModule {
 
   @Action
   public addStream(payload: { stream: MediaStream; type: "audio" | "video" }) {
+    const oldStream =
+      payload.type === "audio" ? this.audioStream : this.videoStream;
+      oldStream?.getTracks().forEach(track => track.stop())
     // stream to all peers
     const voiceChannelPeers = Object.values(this.voiceChannelUsers[
       this.joinedChannelId || ""
@@ -189,8 +192,6 @@ class VoiceChannels extends VuexModule {
       this.UPDATE_LOCAL_STREAM(payload);
       return;
     };
-    const oldStream =
-      payload.type === "audio" ? this.audioStream : this.videoStream;
     voiceChannelPeers.forEach(p => {
       if (oldStream) {
         p.peer?.removeStream(oldStream);
