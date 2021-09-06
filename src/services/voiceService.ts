@@ -9,3 +9,8 @@ export function joinCall(channelID: string): Promise<any> {
     .post(`voice/channels/${channelID}`, { json: { socketId: socket().id } })
     .json();
 }
+export function leaveCall(): Promise<any> {
+  return wrapper()
+    .post(`voice/leave`)
+    .json();
+}

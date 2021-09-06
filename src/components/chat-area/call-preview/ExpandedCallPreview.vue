@@ -28,7 +28,13 @@
         >
           screen_share
         </div>
-        <div class="button material-icons alert" title="End Call">call_end</div>
+        <div
+          @click="leaveCall"
+          class="button material-icons alert"
+          title="End Call"
+        >
+          call_end
+        </div>
       </div>
     </div>
     <BigPreview :participant="participants[selecteduserIndex]" />
@@ -44,6 +50,7 @@ import {
 import Vue, { PropType } from "vue";
 import CallTemplate from "./ExpandedCallTemplate.vue";
 import BigPreview from "./BigPreview.vue";
+import { leaveCall } from "@/services/voiceService";
 export default Vue.extend({
   components: { CallTemplate, BigPreview },
   props: {
@@ -55,6 +62,9 @@ export default Vue.extend({
     };
   },
   methods: {
+    async leaveCall() {
+      await leaveCall();
+    },
     async shareScreen() {
       const mediaDevices = navigator.mediaDevices as any;
       const stream = await mediaDevices.getDisplayMedia({
