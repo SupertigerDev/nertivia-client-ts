@@ -6,6 +6,16 @@ import Vue from 'vue';
 const socket = (() => Vue.prototype.$socket.client) as typeof SocketIO;
 
 
+
+// const audioCtx = new AudioContext();
+// audioCtx.createMediaStreamDestination().stream
+
+// const blankStream = audioCtx.createMediaStreamDestination().stream
+
+// (navigator.mediaDevices as any).getDisplayMedia({video: true}).then((stream) => {
+//     blankStream = stream;
+// })
+// console.log(blankStream)
 // call
 export function createPeer(channelId: string, signalToUserId: string) {
     const peer = new Peer({
@@ -14,6 +24,14 @@ export function createPeer(channelId: string, signalToUserId: string) {
     })
     peer.on("signal", signal => {
         socket().emit("voice:send_signal", {channelId, signalToUserId, signal})
+    })
+    peer.on("stream", stream => {
+        console.log(stream)
+        voiceChannelModule.update({
+            channelId: channelId,
+            userId: signalToUserId,
+            update: {stream}
+        })
     })
     peer.on("connect", () => {
         voiceChannelModule.update({
@@ -30,10 +48,18 @@ export function createPeer(channelId: string, signalToUserId: string) {
 export function addPeer(channelId: string, signalToUserId: string, signal: Peer.SignalData) {
     const peer = new Peer({
         initiator: false,
-        trickle: true,
+        trickle: true
     })
     peer.on("signal", signal => {
         socket().emit("voice:send_return_signal", {signalToUserId, channelId, signal})
+    })
+    peer.on("stream", stream => {
+        console.log(stream)
+        voiceChannelModule.update({
+            channelId: channelId,
+            userId: signalToUserId,
+            update: {stream}
+        })
     })
     peer.on("connect", () => {
         voiceChannelModule.update({

@@ -72,6 +72,11 @@ const actions: ActionTree<any, any> = {
     voiceChannelModule.removeUser(data)
   },
   [VOICE_RECEIVE_SIGNAL](context, data: { channelId: string, requesterId: string, signal: Peer.SignalData }) {
+    const voiceChanel = voiceChannelModule.voiceChannelUsers[data.channelId]?.[data.requesterId];
+    if (voiceChanel?.peer) {
+      voiceChanel.peer.signal(data.signal)
+      return;
+    }
     const peer = addPeer(data.channelId, data.requesterId, data.signal);
     voiceChannelModule.update({
       channelId: data.channelId,

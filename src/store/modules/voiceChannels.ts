@@ -16,6 +16,7 @@ import Peer from 'simple-peer';
 export interface CallParticipant {
   peer?: Peer.Instance,
   connected?: boolean
+  stream?: any
 
 
 }

@@ -1,15 +1,8 @@
 <template>
   <div class="call-preview" :class="{ expand: expanded }">
-    <transition name="component-fade" mode="out-in">
-      <SmallCallPreview
-        v-if="expanded"
-        key="small"
-        :participants="participants"
-        @toggleExpand="toggleExpand"
-      />
-      <ExpandedCallPreview
-        v-if="!expanded"
-        key="big"
+    <transition name="component-fade" appear mode="out-in">
+      <component
+        :is="!expanded ? 'SmallCallPreview' : 'ExpandedCallPreview'"
         :participants="participants"
         @toggleExpand="toggleExpand"
       />
@@ -18,18 +11,21 @@
 </template>
 
 <script lang="ts">
-import { CallParticipant, voiceChannelModule } from "@/store/modules/voiceChannels";
+import {
+  CallParticipant,
+  voiceChannelModule
+} from "@/store/modules/voiceChannels";
 import Vue, { PropType } from "vue";
 import SmallCallPreview from "./SmallCallPreview.vue";
 import ExpandedCallPreview from "./ExpandedCallPreview.vue";
 export default Vue.extend({
   components: { SmallCallPreview, ExpandedCallPreview },
   props: {
-    participants: Array as PropType<CallParticipant[]>,
+    participants: Array as PropType<CallParticipant[]>
   },
   data() {
     return {
-      expanded: localStorage["call-preview-expanded"] === "true",
+      expanded: localStorage["call-preview-expanded"] === "true"
     };
   },
   methods: {
@@ -39,7 +35,7 @@ export default Vue.extend({
     },
     toggleExpand() {
       this.setExpanded(!this.expanded);
-    },
+    }
   },
   watch: {
     joinedVoiceChannelId: {

@@ -26,12 +26,18 @@ import CallTemplate from "./SmallCallTemplate.vue";
 export default Vue.extend({
   components: { CallTemplate },
   props: {
-    participants: Array as PropType<(CallParticipant & { user: User })[]>,
-  },
+    participants: Array as PropType<(CallParticipant & { user: User })[]>
+  }
 });
 </script>
 
 <style scoped lang="scss">
+.call-preview-small {
+  display: flex;
+  align-content: center;
+  height: 30px;
+  align-items: center;
+}
 .text {
   font-weight: bold;
 }
@@ -45,12 +51,6 @@ export default Vue.extend({
   &:hover {
     opacity: 1;
   }
-}
-.call-preview-small {
-  display: flex;
-  align-content: center;
-  height: 30px;
-  align-items: center;
 }
 .icon {
   font-size: 18px;
