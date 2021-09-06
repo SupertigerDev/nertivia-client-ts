@@ -171,7 +171,9 @@ class VoiceChannels extends VuexModule {
     const voiceChannelPeers = this.voiceChannelUsers[
       this.joinedChannelId || ""
     ];
-    if (!voiceChannelPeers) return;
+    if (!voiceChannelPeers) {
+      this.UPDATE_LOCAL_STREAM(payload);
+    };
     const oldStream =
       payload.type === "audio" ? this.audioStream : this.videoStream;
     Object.values(voiceChannelPeers).forEach(p => {
