@@ -1,4 +1,4 @@
-import { voiceChannelModule } from '@/store/modules/voiceChannels';
+import { CallParticipant, voiceChannelModule } from '@/store/modules/voiceChannels';
 import Peer from 'simple-peer';
 import SocketIO from "socket.io-client";
 import Vue from 'vue';
@@ -17,20 +17,26 @@ const socket = (() => Vue.prototype.$socket.client) as typeof SocketIO;
 // })
 // console.log(blankStream)
 // call
-export function createPeer(channelId: string, signalToUserId: string) {
+export function createPeer(channelId: string, signalToUserId: string, streams?: Array<MediaStream>) {
     const peer = new Peer({
         initiator: true,
         trickle: true,
+        streams
     })
     peer.on("signal", signal => {
         socket().emit("voice:send_signal", {channelId, signalToUserId, signal})
     })
     peer.on("stream", stream => {
-        console.log(stream)
+        const update: CallParticipant = {};
+        if (stream.getVideoTracks().length) {
+            update.videoStream = stream;
+        } else {
+            update.audioStream = stream;
+        }
         voiceChannelModule.update({
             channelId: channelId,
             userId: signalToUserId,
-            update: {stream}
+            update
         })
     })
     peer.on("connect", () => {
@@ -45,20 +51,26 @@ export function createPeer(channelId: string, signalToUserId: string) {
 }
 
 // accept
-export function addPeer(channelId: string, signalToUserId: string, signal: Peer.SignalData) {
+export function addPeer(channelId: string, signalToUserId: string, signal: Peer.SignalData, streams?: Array<MediaStream>) {
     const peer = new Peer({
         initiator: false,
-        trickle: true
+        trickle: true,
+        streams
     })
     peer.on("signal", signal => {
         socket().emit("voice:send_return_signal", {signalToUserId, channelId, signal})
     })
     peer.on("stream", stream => {
-        console.log(stream)
+        const update: CallParticipant = {};
+        if (stream.getVideoTracks().length) {
+            update.videoStream = stream;
+        } else {
+            update.audioStream = stream;
+        }
         voiceChannelModule.update({
             channelId: channelId,
             userId: signalToUserId,
-            update: {stream}
+            update
         })
     })
     peer.on("connect", () => {

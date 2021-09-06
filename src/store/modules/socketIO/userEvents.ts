@@ -59,7 +59,7 @@ const actions: ActionTree<any, any> = {
     const channelData: any = data;
     if (voiceChannelModule.joinedChannelId === data.channelId) {
       if (data.userId === MeModule.user.id) return;
-      channelData.peer = createPeer(data.channelId, data.userId)
+      channelData.peer = createPeer(data.channelId, data.userId, voiceChannelModule.myStreamsArray)
     };
 
     voiceChannelModule.addUser({ channelId: data.channelId, userId: data.userId, data: channelData })
@@ -77,7 +77,7 @@ const actions: ActionTree<any, any> = {
       voiceChanel.peer.signal(data.signal)
       return;
     }
-    const peer = addPeer(data.channelId, data.requesterId, data.signal);
+    const peer = addPeer(data.channelId, data.requesterId, data.signal, voiceChannelModule.myStreamsArray);
     voiceChannelModule.update({
       channelId: data.channelId,
       userId: data.requesterId,

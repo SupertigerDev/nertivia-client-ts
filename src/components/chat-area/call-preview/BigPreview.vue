@@ -1,47 +1,50 @@
 <template>
-  <div class="big-preview" :class="{ selected }">
-    <!-- <Avatar
+  <div class="big-preview">
+    <Avatar
+      v-if="!videoStream"
       :imageId="participant.user.avatar"
       :seedId="participant.user.id"
       size="80px"
-    /> -->
-    <!-- <video controls autoplay ref="video" height="200" width="200"></video> -->
-    <div ref="test"></div>
+    />
+    <video v-else class="video" ref="video" autoplay controls></video>
   </div>
 </template>
 
 <script lang="ts">
 import User from "@/interfaces/User";
-import { CallParticipant } from "@/store/modules/voiceChannels";
+import {
+  CallParticipant,
+  voiceChannelModule
+} from "@/store/modules/voiceChannels";
 import Vue, { PropType } from "vue";
 import Avatar from "@/components/AvatarImage.vue";
+import { MeModule } from "@/store/modules/me";
 export default Vue.extend({
-  // components: { Avatar },
+  components: { Avatar },
   props: {
-    selected: Boolean,
     participant: Object as PropType<CallParticipant & { user: User }>
   },
   watch: {
-    stream: {
+    videoStream: {
       immediate: true,
       handler(stream) {
-        const test = this.$refs.test as HTMLDivElement;
         if (!stream) return;
-        const video = document.createElement("video");
-
-        video.srcObject = stream;
-        video.autoplay = true;
-        video.height = 200;
-        video.width = 200;
-        test.append(video);
-        // const video = this.$refs.video as HTMLVideoElement;
-        // video.srcObject = stream;
+        this.$nextTick(() => {
+          const video = this.$refs.video as HTMLVideoElement;
+          video.srcObject = stream;
+        });
       }
     }
   },
   computed: {
-    stream(): any {
-      return this.participant.stream;
+    videoStream(): MediaStream | null | undefined {
+      if (MeModule.user.id === this.participant.user.id) {
+        const channelId = this.$route.params.channel_id;
+        const joinedChannel = voiceChannelModule.joinedChannelId;
+        if (joinedChannel !== channelId) return;
+        return voiceChannelModule.videoStream;
+      }
+      return this.participant.videoStream;
     }
   }
 });
@@ -49,7 +52,6 @@ export default Vue.extend({
 
 <style scoped lang="scss">
 .big-preview {
-  flex: 1;
   background: rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   margin: 5px;
@@ -58,5 +60,11 @@ export default Vue.extend({
   align-content: center;
   align-items: center;
   justify-content: center;
+  aspect-ratio: 16 / 9;
+}
+.video {
+  height: 100%;
+  width: 100%;
+  border-radius: 4px;
 }
 </style>

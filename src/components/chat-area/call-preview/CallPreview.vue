@@ -66,12 +66,13 @@ export default Vue.extend({
 }
 
 .call-preview {
-  transition: height 0.5s;
+  transition: height 0.5s, background 0.5s;
   height: 30px;
   flex-shrink: 0;
   background: var(--side-header-bg-color);
 }
 .expand {
-  height: 250px;
+  height: 350px;
+  background: var(--card-color);
 }
 </style>

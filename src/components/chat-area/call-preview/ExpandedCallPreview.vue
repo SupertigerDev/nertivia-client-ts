@@ -57,15 +57,11 @@ export default Vue.extend({
   methods: {
     async shareScreen() {
       const mediaDevices = navigator.mediaDevices as any;
-      const stream = await mediaDevices.getDisplayMedia({ video: true });
-      // stream to all peers
-      const joinedChannelId = voiceChannelModule.joinedChannelId;
-      const voiceChannelPeers =
-        voiceChannelModule.voiceChannelUsers[joinedChannelId || ""];
-      if (!voiceChannelPeers) return;
-      Object.values(voiceChannelPeers).forEach(p => {
-        p.peer?.addStream(stream);
+      const stream = await mediaDevices.getDisplayMedia({
+        video: true,
+        audio: true
       });
+      voiceChannelModule.addStream({ stream, type: "video" });
     }
   }
 });
@@ -75,18 +71,13 @@ export default Vue.extend({
 .call-preview-expanded {
   position: relative;
   display: flex;
-  height: 250px;
+  height: 350px;
 }
-.big-preview {
-  flex: 1;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-  margin: 5px;
-  margin-left: 0;
-}
+
 .left {
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 .actions {
   display: flex;
@@ -114,7 +105,6 @@ export default Vue.extend({
   gap: 5px;
   flex-direction: column;
   height: 100%;
-  width: 300px;
   margin: 5px;
 }
 .text {

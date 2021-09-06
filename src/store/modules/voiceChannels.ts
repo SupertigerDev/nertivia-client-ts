@@ -16,14 +16,15 @@ import Peer from 'simple-peer';
 export interface CallParticipant {
   peer?: Peer.Instance,
   connected?: boolean
-  stream?: any
-
-
+  videoStream?: MediaStream | null
+  audioStream?: MediaStream | null
 }
 
 @Module({ dynamic: true, store, namespaced: true, name: "calls" })
 class VoiceChannels extends VuexModule {
   joinedChannelId: string | null = null;
+  audioStream: MediaStream | null = null 
+  videoStream: MediaStream | null = null 
   // voiceChannelUsers[channelId][userId]
   voiceChannelUsers: {[key: string]: {[key: string]: CallParticipant}} = {};
   
@@ -40,6 +41,16 @@ class VoiceChannels extends VuexModule {
       }
       return list
     }
+  }
+  get myStreamsArray() {
+    const arr: Array<MediaStream> = [];
+    if (this.audioStream) {
+      arr.push(this.audioStream);
+    }
+    if (this.videoStream) {
+      arr.push(this.videoStream)
+    }
+    return arr;
   }
 
   @Mutation
@@ -110,6 +121,31 @@ class VoiceChannels extends VuexModule {
   @Action
   public update(payload: {channelId: string, userId: string, update: Partial<CallParticipant>}) {
     this.UPDATE(payload);
+  }
+
+  @Mutation
+  private UPDATE_LOCAL_STREAM(payload: {type: "audio" | "video", stream: MediaStream | null}) {
+    if (payload.type === "audio") {
+      this.audioStream = payload.stream
+    } else {
+      this.videoStream = payload.stream
+    }
+  }
+
+  @Action
+  public addStream(payload: {stream: MediaStream, type: "audio" | "video"}) {
+    // stream to all peers
+    const voiceChannelPeers =
+    this.voiceChannelUsers[this.joinedChannelId || ""];
+    if (!voiceChannelPeers) return;
+    const oldStream = payload.type === "audio" ? this.audioStream : this.videoStream;
+    Object.values(voiceChannelPeers).forEach(p => {
+      if (oldStream) {
+        p.peer?.removeStream(oldStream);
+      }
+      p.peer?.addStream(payload.stream);
+    });
+    this.UPDATE_LOCAL_STREAM(payload)
   }
 }
 export const voiceChannelModule = getModule(VoiceChannels);
