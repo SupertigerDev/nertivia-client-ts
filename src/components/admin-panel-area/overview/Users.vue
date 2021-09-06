@@ -51,7 +51,10 @@ export default Vue.extend({
       if (this.timeout) {
         clearTimeout(this.timeout);
       }
-      this.timeout = setTimeout(() => this.searchUser(event.target.value), 500);
+      this.timeout = window.setTimeout(
+        () => this.searchUser(event.target.value),
+        500
+      );
     },
     async fetchUsers() {
       this.users = [];

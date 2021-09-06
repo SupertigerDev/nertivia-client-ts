@@ -91,19 +91,19 @@ export function editHtmlProfile(html: string): Promise<any> {
     .json();
 }
 
-
 export function getHtmlProfile(): Promise<jsonHtml[]> {
   return wrapper()
     .get(`user/html-profile`)
-    .json().then((result: any) => {
+    .json()
+    .then((result: any) => {
       const jsonString = unzipAlt(result);
       return jsonString ? JSON.parse(jsonString) : null;
-    })
+    });
 }
 export function deleteHtmlProfile(): Promise<any> {
   return wrapper()
     .delete(`user/html-profile`)
-    .json()
+    .json();
 }
 
 export interface ReturnedUser {
@@ -116,12 +116,12 @@ interface UserExtra {
   created: number;
   badges?: number;
   createdBy?: User;
-  htmlProfile?: jsonHtml
+  htmlProfile?: jsonHtml;
 }
 export interface jsonHtml {
-  tag: string
-  attributes: {[key: string]: string},
-  content: (jsonHtml | string)[]
+  tag: string;
+  attributes: { [key: string]: string };
+  content: (jsonHtml | string)[];
 }
 export interface AboutMe {
   about_me: string;

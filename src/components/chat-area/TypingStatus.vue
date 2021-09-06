@@ -109,7 +109,7 @@ export default Vue.extend({
 
       this.$set(this.typingObj[data.channel_id], data.user.id, {
         username: data.user.username,
-        timer: setTimeout(
+        timer: window.setTimeout(
           () => this.timeout(data.channel_id, data.user.id),
           3500
         )

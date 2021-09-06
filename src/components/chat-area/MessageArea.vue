@@ -32,7 +32,10 @@ import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
 import { TabsModule } from "@/store/modules/tabs";
 import { ServersModule } from "@/store/modules/servers";
 import Vue from "vue";
-import { voiceChannelModule, CallParticipant } from "@/store/modules/voiceChannels";
+import {
+  voiceChannelModule,
+  CallParticipant
+} from "@/store/modules/voiceChannels";
 export default Vue.extend({
   name: "MessageArea",
   components: {
@@ -40,7 +43,7 @@ export default Vue.extend({
     MessageBoxArea,
     Header,
     LoadingScreen,
-    CallPreview,
+    CallPreview
   },
   computed: {
     callParticipants(): CallParticipant[] {
@@ -88,21 +91,21 @@ export default Vue.extend({
     },
     currentTab(): any {
       return this.$route.path.split("/")[2] || "";
-    },
+    }
   },
   watch: {
     isConnected: {
-      handler: "onConnected",
+      handler: "onConnected"
     },
     channelID: {
-      handler: "channalIDChanged",
+      handler: "channalIDChanged"
     },
     channel: {
-      handler: "channelChanged",
+      handler: "channelChanged"
     },
     isFocused: {
-      handler: "onFocusChange",
-    },
+      handler: "onFocusChange"
+    }
   },
   mounted() {
     this.dismissNotification();
@@ -118,7 +121,7 @@ export default Vue.extend({
         botCommandsModule.FetchAndSetBotCommands({ serverId: this.serverID });
       } else if (this.DMChannel?.recipients?.[0]?.bot) {
         botCommandsModule.FetchAndSetBotCommands({
-          botIDArr: [this.DMChannel.recipients[0].id],
+          botIDArr: [this.DMChannel.recipients[0].id]
         });
       }
     },
@@ -136,7 +139,7 @@ export default Vue.extend({
       if (!this.isFocused) return;
       if (!(this.hasServerNotification || this.hasDMNotification)) return;
       this.$socket.client.emit("notification:dismiss", {
-        channelID: this.channelID,
+        channelID: this.channelID
       });
     },
     setTitle() {
@@ -146,7 +149,7 @@ export default Vue.extend({
         const isSavedNotes = recipient.id === MeModule.user.id;
         TabsModule.setCurrentTab({
           name: isSavedNotes ? "Saved Notes" : "@" + recipient.username,
-          user_id: recipient.id,
+          user_id: recipient.id
         });
       }
       if (this.server && this.channel) {
@@ -155,7 +158,7 @@ export default Vue.extend({
         TabsModule.setCurrentTab({
           name: `${serverName}#${channelName}`,
           server_id: this.serverID,
-          channel_id: this.channelID,
+          channel_id: this.channelID
         });
       }
     },
@@ -171,8 +174,8 @@ export default Vue.extend({
     },
     onFocusChange() {
       this.dismissNotification();
-    },
-  },
+    }
+  }
 });
 </script>
 

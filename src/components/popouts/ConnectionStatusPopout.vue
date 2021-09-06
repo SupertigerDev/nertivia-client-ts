@@ -34,7 +34,7 @@ export default Vue.extend({
   },
   methods: {
     closePopout() {
-      setTimeout(() => {
+      window.setTimeout(() => {
         if (!this.isConnected) return;
         this.$emit("close");
       }, 3000);

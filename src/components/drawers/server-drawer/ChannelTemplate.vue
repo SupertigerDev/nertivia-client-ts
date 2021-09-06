@@ -30,7 +30,10 @@
 
 <script lang="ts">
 import Channel from "@/interfaces/Channel";
-import { voiceChannelModule, CallParticipant } from "@/store/modules/voiceChannels";
+import {
+  voiceChannelModule,
+  CallParticipant
+} from "@/store/modules/voiceChannels";
 import { DrawersModule } from "@/store/modules/drawers";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { MutedChannelsModule } from "@/store/modules/mutedChannels";

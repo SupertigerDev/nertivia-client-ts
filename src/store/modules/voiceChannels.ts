@@ -11,36 +11,36 @@ import store from "..";
 import { MeModule } from "./me";
 import { UsersModule } from "./users";
 
-import Peer from 'simple-peer';
+import Peer from "simple-peer";
 
 export interface CallParticipant {
-  peer?: Peer.Instance,
-  connected?: boolean
-  videoStream?: MediaStream | null
-  audioStream?: MediaStream | null
+  peer?: Peer.Instance;
+  connected?: boolean;
+  videoStream?: MediaStream | null;
+  audioStream?: MediaStream | null;
 }
 
 @Module({ dynamic: true, store, namespaced: true, name: "calls" })
 class VoiceChannels extends VuexModule {
   joinedChannelId: string | null = null;
-  audioStream: MediaStream | null = null 
-  videoStream: MediaStream | null = null 
+  audioStream: MediaStream | null = null;
+  videoStream: MediaStream | null = null;
   // voiceChannelUsers[channelId][userId]
-  voiceChannelUsers: {[key: string]: {[key: string]: CallParticipant}} = {};
-  
+  voiceChannelUsers: { [key: string]: { [key: string]: CallParticipant } } = {};
+
   get callParticipants() {
     return (channelId: string) => {
-      const list: (CallParticipant & {user: User})[] = [];
+      const list: (CallParticipant & { user: User })[] = [];
       if (this.joinedChannelId === channelId) {
-        list.push({user: MeModule.user as User})
+        list.push({ user: MeModule.user as User });
       }
       const channelCalls = this.voiceChannelUsers[channelId];
       if (!channelCalls) return list;
       for (const userId in channelCalls) {
-        list.push({...channelCalls[userId], user: UsersModule.users[userId]}) 
+        list.push({ ...channelCalls[userId], user: UsersModule.users[userId] });
       }
-      return list
-    }
+      return list;
+    };
   }
   get myStreamsArray() {
     const arr: Array<MediaStream> = [];
@@ -48,18 +48,18 @@ class VoiceChannels extends VuexModule {
       arr.push(this.audioStream);
     }
     if (this.videoStream) {
-      arr.push(this.videoStream)
+      arr.push(this.videoStream);
     }
     return arr;
   }
 
   @Mutation
-  private JOIN(payload: {channelId: string}) {
+  private JOIN(payload: { channelId: string }) {
     this.joinedChannelId = payload.channelId;
   }
 
   @Action
-  public join(payload: {channelId: string}) {
+  public join(payload: { channelId: string }) {
     this.JOIN(payload);
   }
   @Mutation
@@ -73,79 +73,114 @@ class VoiceChannels extends VuexModule {
   }
 
   @Mutation
-  private INIT_VOICE_CHANNELS(payload: {[key: string]: {[key: string]: CallParticipant}}) {
+  private INIT_VOICE_CHANNELS(payload: {
+    [key: string]: { [key: string]: CallParticipant };
+  }) {
     this.voiceChannelUsers = payload;
   }
 
   @Action
-  public InitVoiceChannels(payload: {[key: string]: {[key: string]: CallParticipant}}) {
+  public InitVoiceChannels(payload: {
+    [key: string]: { [key: string]: CallParticipant };
+  }) {
     this.INIT_VOICE_CHANNELS(payload);
   }
   @Mutation
-  private ADD_USER(payload: {userId: string, channelId: string, data: CallParticipant}) {
+  private ADD_USER(payload: {
+    userId: string;
+    channelId: string;
+    data: CallParticipant;
+  }) {
     const users = this.voiceChannelUsers[payload.channelId];
     if (!users) {
-      Vue.set(this.voiceChannelUsers, payload.channelId, {[payload.userId]: payload.data})
+      Vue.set(this.voiceChannelUsers, payload.channelId, {
+        [payload.userId]: payload.data
+      });
       return;
     }
-    Vue.set(this.voiceChannelUsers[payload.channelId],payload.userId, payload.data)
+    Vue.set(
+      this.voiceChannelUsers[payload.channelId],
+      payload.userId,
+      payload.data
+    );
   }
 
   @Action
-  public addUser(payload: {userId: string, channelId: string, data: CallParticipant}) {
+  public addUser(payload: {
+    userId: string;
+    channelId: string;
+    data: CallParticipant;
+  }) {
     this.ADD_USER(payload);
   }
   @Mutation
-  private REMOVE_USER(payload: {userId: string, channelId: string}) {
+  private REMOVE_USER(payload: { userId: string; channelId: string }) {
     const users = this.voiceChannelUsers[payload.channelId];
     if (!users) {
       return;
     }
-    Vue.delete(this.voiceChannelUsers[payload.channelId], payload.userId)
+    Vue.delete(this.voiceChannelUsers[payload.channelId], payload.userId);
   }
 
   @Action
-  public removeUser(payload: {userId: string, channelId: string}) {
-    this.voiceChannelUsers[payload.channelId]?.[payload.userId]?.peer?.destroy();
+  public removeUser(payload: { userId: string; channelId: string }) {
+    this.voiceChannelUsers[payload.channelId]?.[
+      payload.userId
+    ]?.peer?.destroy();
     this.REMOVE_USER(payload);
   }
 
   @Mutation
-  private UPDATE(payload: {channelId: string, userId: string, update: Partial<CallParticipant>}) {
+  private UPDATE(payload: {
+    channelId: string;
+    userId: string;
+    update: Partial<CallParticipant>;
+  }) {
     const old = this.voiceChannelUsers[payload.channelId]?.[payload.userId];
     if (!old) return;
-    Vue.set(this.voiceChannelUsers[payload.channelId], payload.userId, {...old, ...payload.update})
-
+    Vue.set(this.voiceChannelUsers[payload.channelId], payload.userId, {
+      ...old,
+      ...payload.update
+    });
   }
 
   @Action
-  public update(payload: {channelId: string, userId: string, update: Partial<CallParticipant>}) {
+  public update(payload: {
+    channelId: string;
+    userId: string;
+    update: Partial<CallParticipant>;
+  }) {
     this.UPDATE(payload);
   }
 
   @Mutation
-  private UPDATE_LOCAL_STREAM(payload: {type: "audio" | "video", stream: MediaStream | null}) {
+  private UPDATE_LOCAL_STREAM(payload: {
+    type: "audio" | "video";
+    stream: MediaStream | null;
+  }) {
     if (payload.type === "audio") {
-      this.audioStream = payload.stream
+      this.audioStream = payload.stream;
     } else {
-      this.videoStream = payload.stream
+      this.videoStream = payload.stream;
     }
   }
 
   @Action
-  public addStream(payload: {stream: MediaStream, type: "audio" | "video"}) {
+  public addStream(payload: { stream: MediaStream; type: "audio" | "video" }) {
     // stream to all peers
-    const voiceChannelPeers =
-    this.voiceChannelUsers[this.joinedChannelId || ""];
+    const voiceChannelPeers = this.voiceChannelUsers[
+      this.joinedChannelId || ""
+    ];
     if (!voiceChannelPeers) return;
-    const oldStream = payload.type === "audio" ? this.audioStream : this.videoStream;
+    const oldStream =
+      payload.type === "audio" ? this.audioStream : this.videoStream;
     Object.values(voiceChannelPeers).forEach(p => {
       if (oldStream) {
         p.peer?.removeStream(oldStream);
       }
       p.peer?.addStream(payload.stream);
     });
-    this.UPDATE_LOCAL_STREAM(payload)
+    this.UPDATE_LOCAL_STREAM(payload);
   }
 }
 export const voiceChannelModule = getModule(VoiceChannels);

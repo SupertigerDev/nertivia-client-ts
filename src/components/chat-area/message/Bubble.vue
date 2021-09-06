@@ -111,7 +111,7 @@ export default Vue.extend({
     }
   },
   mounted() {
-    setTimeout(() => {
+    window.setTimeout(() => {
       this.loadRoleColor = true;
     }, 10);
   },

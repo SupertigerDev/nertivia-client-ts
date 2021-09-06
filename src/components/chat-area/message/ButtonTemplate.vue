@@ -48,7 +48,7 @@ export default Vue.extend({
         this.button.id
       );
 
-      this.timeout = setTimeout(() => {
+      this.timeout = window.setTimeout(() => {
         this.posting = false;
       }, 20000);
     },

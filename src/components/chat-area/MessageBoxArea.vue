@@ -392,7 +392,7 @@ export default Vue.extend({
       }
       if (this.postTypingTimeout) return;
       postTypingStatus(this.channelID);
-      this.postTypingTimeout = setTimeout(() => {
+      this.postTypingTimeout = window.setTimeout(() => {
         this.postTypingTimeout = null;
         if (!this.message.trim().length) return;
         this.postTypingStatus();
@@ -404,7 +404,7 @@ export default Vue.extend({
       if (this.saveInputTimeout) {
         clearTimeout(this.saveInputTimeout);
       }
-      this.saveInputTimeout = setTimeout(() => {
+      this.saveInputTimeout = window.setTimeout(() => {
         cacheInput(this.channelID, this.message);
       }, 500);
       this.resizeTextArea();
@@ -419,7 +419,7 @@ export default Vue.extend({
       this.message = getInputCache(after) || "";
       const textarea = this.getTextarea();
 
-      setTimeout(() => {
+      window.setTimeout(() => {
         if (this.$isMobile) return;
         textarea.focus();
         textarea.setSelectionRange(

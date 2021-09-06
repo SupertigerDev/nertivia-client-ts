@@ -69,7 +69,9 @@ export const SELF_CUSTOM_STATUS_CHANGE = eventBuilder(
 export const USER_JOINED_CALL = eventBuilder("user:joined_call");
 export const USER_LEFT_CALL = eventBuilder("user:left_call");
 export const VOICE_RECEIVE_SIGNAL = eventBuilder("voice:receive_signal");
-export const VOICE_RECEIVE_RETURN_SIGNAL = eventBuilder("voice:receive_return_signal");
+export const VOICE_RECEIVE_RETURN_SIGNAL = eventBuilder(
+  "voice:receive_return_signal"
+);
 
 export const GOOGLE_DRIVE_LINKED = eventBuilder("googleDrive:linked");
 export const USER_STATUS_CHANGE = eventBuilder("user_status_change");
@@ -84,4 +86,3 @@ export const CUSTOM_EMOJI_UPLOADED = eventBuilder("customEmoji:uploaded");
 export const CUSTOM_EMOJI_REMOVE = eventBuilder("customEmoji:remove");
 // program activity events
 export const PROGRAM_ACTIVITY_CHANGED = eventBuilder("programActivity:changed");
-

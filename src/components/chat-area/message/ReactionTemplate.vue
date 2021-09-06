@@ -129,7 +129,7 @@ export default Vue.extend({
     isHovered() {
       this.timeout && clearTimeout(this.timeout);
       if (this.hover) {
-        this.timeout = setTimeout(() => this.getReactedUsers(), 500);
+        this.timeout = window.setTimeout(() => this.getReactedUsers(), 500);
       } else {
         PopoutsModule.ClosePopout("reacted-users-preview");
       }

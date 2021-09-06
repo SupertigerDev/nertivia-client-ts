@@ -46,7 +46,7 @@ interface SuccessEvent {
   customStatusArr: [string, string][];
   programActivityArr: ReturnedProgramActivity[];
   bannedUserIDs: string[];
-  callingChannelUserIds: {[key: string]: Array<string>}
+  callingChannelUserIds: { [key: string]: Array<string> };
 }
 interface Settings {
   server_position: string[];
@@ -269,15 +269,13 @@ const actions: ActionTree<any, any> = {
     }
 
     // current calls
-    const calls = {}
+    const calls = {};
     for (const channelId in data.callingChannelUserIds) {
       const userIds = data.callingChannelUserIds[channelId];
       calls[channelId] = {};
       for (let i = 0; i < userIds.length; i++) {
         const userId = userIds[i];
-        calls[channelId][userId] = {
-          
-        }
+        calls[channelId][userId] = {};
       }
     }
     voiceChannelModule.InitVoiceChannels(calls);
