@@ -8,15 +8,6 @@ import Vue from "vue";
 
 const socket = (() => Vue.prototype.$socket.client) as typeof SocketIO;
 
-// const audioCtx = new AudioContext();
-// audioCtx.createMediaStreamDestination().stream
-
-// const blankStream = audioCtx.createMediaStreamDestination().stream
-
-// (navigator.mediaDevices as any).getDisplayMedia({video: true}).then((stream) => {
-//     blankStream = stream;
-// })
-// console.log(blankStream)
 // call
 export function createPeer(
   channelId: string,
@@ -26,6 +17,7 @@ export function createPeer(
   const peer = new Peer({
     initiator: true,
     trickle: true,
+    config: { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]},
     streams
   });
   peer.on("signal", signal => {
@@ -50,6 +42,7 @@ export function addPeer(
   const peer = new Peer({
     initiator: false,
     trickle: true,
+    config: { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]},
     streams
   });
   peer.on("signal", signal => {
