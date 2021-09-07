@@ -43,7 +43,10 @@ export default Vue.extend({
         this.programActivityTimeout = null;
         return;
       }
-      this.programActivityTimeout = setTimeout(this.emitActivity, 180000); // 3 minutes
+      this.programActivityTimeout = window.setTimeout(
+        this.emitActivity,
+        180000
+      ); // 3 minutes
     },
     onActivityChange(_filename: string) {
       let filename: any = null;

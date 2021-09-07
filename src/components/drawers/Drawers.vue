@@ -263,7 +263,7 @@ export default Vue.extend({
       if (!this.isMobile) return;
       this.leftStyle.transition = "transform 0.2s";
 
-      setTimeout(() => {
+      window.setTimeout(() => {
         this.leftStyle.transition = "";
       }, 200);
 
@@ -277,7 +277,7 @@ export default Vue.extend({
       if (!this.isMobile) return;
       this.rightStyle.transition = "transform 0.2s";
 
-      setTimeout(() => {
+      window.setTimeout(() => {
         this.rightStyle.transition = "";
       }, 200);
 

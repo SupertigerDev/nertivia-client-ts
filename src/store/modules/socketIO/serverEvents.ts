@@ -30,6 +30,7 @@ import {
 import { PresencesModule } from "../presences";
 import { CustomStatusesModule } from "../memberCustomStatus";
 import { programActivitiesModule } from "../memberProgramActivity";
+import { voiceChannelModule } from "../voiceChannels";
 
 const socket = (() => Vue.prototype.$socket.client) as typeof SocketIO;
 
@@ -104,6 +105,7 @@ const actions: ActionTree<any, any> = {
   [SERVER_LEAVE](context, data: { server_id: string }) {
     ServersModule.DeleteServer(data.server_id);
     MessagesModule.DeleteServerMessages(data.server_id);
+    voiceChannelModule.deleteServerVoiceChannels(data.server_id)
     ChannelsModule.DeleteAllServerChannels(data.server_id);
     ServerRolesModule.DeleteAllServerRoles(data.server_id);
     ServerMembersModule.RemoveAllServerMembers(data.server_id);
@@ -118,7 +120,8 @@ const actions: ActionTree<any, any> = {
       serverMembers,
       memberPresences,
       memberCustomStatusArr,
-      programActivityArr
+      programActivityArr,
+      callingChannelUserIds
     }
   ) {
     const serverMembersObj: any = {};
@@ -126,6 +129,7 @@ const actions: ActionTree<any, any> = {
     const presenceObj: any = {};
     const customStatusObj: any = {};
     const activity: any = {};
+    const calls: any = {};
     for (let i = 0; i < serverMembers.length; i++) {
       const serverMember = serverMembers[i];
 
@@ -149,11 +153,20 @@ const actions: ActionTree<any, any> = {
       const { name, status, user_id } = programActivityArr[i];
       activity[user_id] = { name, status };
     }
+    for (const channelId in callingChannelUserIds) {
+      const userIds = callingChannelUserIds[channelId];
+      calls[channelId] = {};
+      for (let i = 0; i < userIds.length; i++) {
+        const userId = userIds[i];
+        calls[channelId][userId] = {};
+      }
+    }
     programActivitiesModule.AddActivities(activity);
     PresencesModule.AddPresences(presenceObj);
     CustomStatusesModule.AddCustomStatuses(customStatusObj);
     UsersModule.AddUsers(usersObj);
     ServerMembersModule.AddServerMembers(serverMembersObj);
+    voiceChannelModule.AddVoiceChannels(calls);
   },
   [SERVER_MEMBER_ADD](context, { serverMember, presence, custom_status }) {
     UsersModule.AddUser(serverMember.member);
@@ -168,6 +181,7 @@ const actions: ActionTree<any, any> = {
     ServerMembersModule.AddServerMember(filterServerMemberKeys(serverMember));
   },
   [SERVER_MEMBER_REMOVE](context, { id, server_id }) {
+    voiceChannelModule.removeServerUser({userId: id, serverId: server_id})
     ServerMembersModule.RemoveServerMember({ id, server_id });
   },
   [SERVER_ROLES](context, { roles, server_id }) {

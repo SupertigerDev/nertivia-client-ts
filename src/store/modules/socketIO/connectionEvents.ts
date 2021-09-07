@@ -28,6 +28,7 @@ import {
   RECONNECTING
 } from "@/socketEventConstants";
 import i18n from "@/i18n";
+import { voiceChannelModule } from "../voiceChannels";
 
 const socket = (() => Vue.prototype.$socket.client) as typeof SocketIO;
 
@@ -45,6 +46,7 @@ interface SuccessEvent {
   customStatusArr: [string, string][];
   programActivityArr: ReturnedProgramActivity[];
   bannedUserIDs: string[];
+  callingChannelUserIds: { [key: string]: Array<string> };
 }
 interface Settings {
   server_position: string[];
@@ -265,6 +267,18 @@ const actions: ActionTree<any, any> = {
       const notification = data.notifications[i];
       notifications[notification.channelID] = notification;
     }
+
+    // current calls
+    const calls = {};
+    for (const channelId in data.callingChannelUserIds) {
+      const userIds = data.callingChannelUserIds[channelId];
+      calls[channelId] = {};
+      for (let i = 0; i < userIds.length; i++) {
+        const userId = userIds[i];
+        calls[channelId][userId] = {};
+      }
+    }
+    voiceChannelModule.InitVoiceChannels(calls);
 
     // muted servers
     const mutedServersObj: any = {};

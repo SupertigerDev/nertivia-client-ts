@@ -1,7 +1,15 @@
 [
 	{
+		"version": "1.45.0-stable",
+		"date": "7 September 2021",
+		"title": "Calling BETA",
+		"new": "Added support for calling in any server channel.",
+		"body": "Calling Interface may have issues and may not be final. Screen share support only.",
+		"image_url": "/img/changelog/calls-1.45.0.png"	
+	},
+	{
 		"version": "1.44.0-stable",
-		"date": "2 Septemper 2021",
+		"date": "2 September 2021",
 		"title": "HTML Profile!",
 		"new": "Add some HTML and CSS to your profiles!",
 		"image_url": "/img/changelog/html-profile-1.44.0.png"	

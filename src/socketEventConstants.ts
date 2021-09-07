@@ -46,9 +46,9 @@ export const SERVER_POSITION = eventBuilder("self:server_position");
 export const SERVER_ADD_ROLE = eventBuilder("serverMember:add_role");
 export const SERVER_JOINED = eventBuilder("server:joined");
 export const SERVER_LEAVE = eventBuilder("server:leave");
+export const SERVER_MEMBER_REMOVE = eventBuilder("server:member_remove");
 export const SERVER_MEMBERS = eventBuilder("server:members");
 export const SERVER_MEMBER_ADD = eventBuilder("server:member_add");
-export const SERVER_MEMBER_REMOVE = eventBuilder("server:member_remove");
 export const SERVER_ROLES = eventBuilder("server:roles");
 export const SERVER_UPDATE_ROLES = eventBuilder("server:update_roles");
 export const SERVER_CREATE_ROLE = eventBuilder("server:create_role");
@@ -65,6 +65,14 @@ export const USER_UNBLOCKED = eventBuilder("user:unblock");
 export const SELF_CUSTOM_STATUS_CHANGE = eventBuilder(
   "multi_device_custom_status"
 );
+// call events
+export const USER_JOINED_CALL = eventBuilder("user:joined_call");
+export const USER_LEFT_CALL = eventBuilder("user:left_call");
+export const VOICE_RECEIVE_SIGNAL = eventBuilder("voice:receive_signal");
+export const VOICE_RECEIVE_RETURN_SIGNAL = eventBuilder(
+  "voice:receive_return_signal"
+);
+
 export const GOOGLE_DRIVE_LINKED = eventBuilder("googleDrive:linked");
 export const USER_STATUS_CHANGE = eventBuilder("user_status_change");
 export const CUSTOM_STATUS_CHANGE = eventBuilder("member:custom_status_change");

@@ -137,7 +137,7 @@ export default Vue.extend({
             this.$nextTick(() => {
               logs.scrollTop =
                 logs.scrollHeight - beforeHeight + beforeScrollTop;
-              setTimeout(() => {
+              window.setTimeout(() => {
                 this.isLoadingTopMore = false;
                 if (this.scrolledToEnd.isTop) {
                   this.loadMoreTop();
@@ -189,7 +189,7 @@ export default Vue.extend({
         this.$nextTick(() => {
           this.$nextTick(() => {
             logs.scrollTop = beforeScrollTop;
-            setTimeout(() => {
+            window.setTimeout(() => {
               this.isLoadingBottomMore = false;
               if (this.scrolledToEnd.isBottom) {
                 this.loadMoreBottom();
@@ -256,7 +256,7 @@ export default Vue.extend({
           // without this mess.
           this.$nextTick(() => {
             this.$nextTick(() => {
-              setTimeout(() => {
+              window.setTimeout(() => {
                 message = document.getElementById("message-" + messageID);
                 if (!message) return;
 
@@ -264,7 +264,7 @@ export default Vue.extend({
                   entries => {
                     const [entry] = entries;
                     if (entry.isIntersecting) {
-                      setTimeout(() => {
+                      window.setTimeout(() => {
                         intersectionObserver.disconnect();
                         this.moreTopToLoad = true;
                         this.moreBottomToLoad = true;
@@ -273,7 +273,7 @@ export default Vue.extend({
                   }
                 );
                 intersectionObserver.observe(message);
-                setTimeout(() => {
+                window.setTimeout(() => {
                   intersectionObserver.disconnect();
                 }, 2000);
 
@@ -295,7 +295,7 @@ export default Vue.extend({
     highlightMessage(message: HTMLElement) {
       if (message.classList.contains("highlight")) return;
       message.classList.add("highlight");
-      setTimeout(() => {
+      window.setTimeout(() => {
         message.classList.remove("highlight");
       }, 3000);
     }

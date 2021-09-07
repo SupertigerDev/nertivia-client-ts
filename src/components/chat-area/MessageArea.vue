@@ -5,6 +5,10 @@
       :title="DMChannel && DMChannel.recipients[0].username"
       v-else-if="DMChannel && DMChannel.recipients"
     />
+    <CallPreview
+      v-if="callParticipants.length"
+      :participants="callParticipants"
+    />
     <LoadingScreen v-if="!channelMessages" />
     <MessageLogs :key="channelID" v-else />
     <MessageBoxArea />
@@ -17,6 +21,7 @@ import { MessagesModule } from "@/store/modules/messages";
 import MessageLogs from "./MessageLogs.vue";
 import LoadingScreen from "@/components/LoadingScreen.vue";
 import MessageBoxArea from "./MessageBoxArea.vue";
+import CallPreview from "./call-preview/CallPreview.vue";
 import { ChannelsModule } from "@/store/modules/channels";
 import windowProperties from "@/utils/windowProperties";
 import { NotificationsModule } from "@/store/modules/notifications";
@@ -27,10 +32,23 @@ import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
 import { TabsModule } from "@/store/modules/tabs";
 import { ServersModule } from "@/store/modules/servers";
 import Vue from "vue";
+import {
+  voiceChannelModule,
+  CallParticipant
+} from "@/store/modules/voiceChannels";
 export default Vue.extend({
   name: "MessageArea",
-  components: { MessageLogs, MessageBoxArea, Header, LoadingScreen },
+  components: {
+    MessageLogs,
+    MessageBoxArea,
+    Header,
+    LoadingScreen,
+    CallPreview
+  },
   computed: {
+    callParticipants(): CallParticipant[] {
+      return voiceChannelModule.callParticipants(this.channelID);
+    },
     isFocused(): any {
       return windowProperties.isFocused;
     },

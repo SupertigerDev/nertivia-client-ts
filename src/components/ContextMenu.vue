@@ -132,7 +132,7 @@ export default Vue.extend({
     }
   },
   mounted() {
-    setTimeout(() => {
+    window.setTimeout(() => {
       this.mount = true;
     }, 10);
     this.height = this.$el.clientHeight;
@@ -157,7 +157,7 @@ export default Vue.extend({
     },
     itemHover(item: any, event: any) {
       this.currentHoveringItem = item;
-      setTimeout(() => {
+      window.setTimeout(() => {
         if (item !== this.currentHoveringItem) return;
         if (item.type === "seperator") return;
         this.$emit("itemHover", {

@@ -67,7 +67,7 @@ export default Vue.extend({
       const match = process.env.VUE_APP_MAIN_APP_URL + "app";
       if (link.startsWith(match)) {
         this.$router.push(
-          "/" + link.split(process.env.VUE_APP_MAIN_APP_URL)[1]
+          "/" + link.split(process.env.VUE_APP_MAIN_APP_URL as string)[1]
         );
         return true;
       }

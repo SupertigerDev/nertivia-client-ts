@@ -72,7 +72,7 @@ export default Vue.extend({
   },
   methods: {
     updateTempServerId() {
-      setTimeout(() => {
+      window.setTimeout(() => {
         this.tempServerId = this.serverId;
       }, 0);
     }

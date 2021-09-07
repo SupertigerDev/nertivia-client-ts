@@ -123,19 +123,19 @@ export default {
     if (!this.$isMobile) {
       this.$refs.search.focus();
     }
-    setTimeout(() => {
+    window.setTimeout(() => {
       const z = performance.now();
       this.allCustomEmojis = this.arrToRows(this.customEmojis);
       const o = performance.now();
       console.log("custom emojis took " + Math.round(o - z) + "ms to load.");
     });
-    setTimeout(() => {
+    window.setTimeout(() => {
       const z = performance.now();
       this.allRecentEmojis = this.arrToRows(this.allRecentEmojisArr());
       const o = performance.now();
       console.log("recent emojis took " + Math.round(o - z) + "ms to load.");
     });
-    setTimeout(() => {
+    window.setTimeout(() => {
       const z = performance.now();
       this.emojiWithGroup = this.emojisWithGroup();
       const o = performance.now();

@@ -1,9 +1,6 @@
 <template>
   <div class="header">
-    <div
-      class="open-drawer-button left-drawer material-icons"
-      @click="toggleLeftDrawer"
-    >
+    <div class="button left-drawer material-icons" @click="toggleLeftDrawer">
       menu
     </div>
     <Tabs />
@@ -21,9 +18,20 @@
     </div>
     <UserStatusTemplate class="status" v-if="DMUser" :id="DMUser.id" /> -->
     <div
-      class="open-drawer-button right-drawer material-icons"
+      class="call-button-outer"
+      v-if="isServerChannel"
+      @click="onCallClicked"
+      title="Call"
+    >
+      <div class="button call-button material-icons">
+        call
+      </div>
+    </div>
+    <div
+      class="button right-drawer-button material-icons"
       v-if="isServerChannel"
       @click="toggleRightDrawer"
+      title="Members list"
     >
       menu
     </div>
@@ -34,8 +42,10 @@
 import { ChannelsModule } from "@/store/modules/channels";
 import { DrawersModule } from "@/store/modules/drawers";
 import { PopoutsModule } from "@/store/modules/popouts";
+import { voiceChannelModule } from "@/store/modules/voiceChannels";
 import Tabs from "@/components/HeaderTabs.vue";
 import Vue from "vue";
+import { joinCall } from "@/services/voiceService";
 export default Vue.extend({
   name: "MainApp",
   components: { Tabs },
@@ -54,9 +64,32 @@ export default Vue.extend({
     },
     DMUser(): any {
       return this.DMChannel?.recipients?.[0];
+    },
+    channelId(): string {
+      return this.$route.params.channel_id;
     }
   },
   methods: {
+    onCallClicked() {
+      if (this.channelId === voiceChannelModule.joinedChannelId) return;
+      PopoutsModule.ShowPopout({
+        id: "call-ip-leak-warning",
+        component: "generic-popout",
+        data: {
+          callback: () => this.joinCall(),
+          title: "P2P Calling Notice",
+          description:
+            "Your IP address will be sent to participents of the call."
+        }
+      });
+    },
+    joinCall() {
+      voiceChannelModule.leave();
+      voiceChannelModule.join({
+        channelId: this.channelId
+      });
+      joinCall(this.channelId);
+    },
     toggleLeftDrawer() {
       DrawersModule.SetLeftDrawer(true);
     },
@@ -94,14 +127,38 @@ export default Vue.extend({
     }
   }
 }
-.open-drawer-button {
+.call-button-outer {
+  margin-left: auto;
+  position: relative;
+  cursor: pointer;
+  &:after {
+    content: "BETA";
+    position: absolute;
+    border-radius: 8px;
+    font-size: 8px;
+    top: -5px;
+    left: 6px;
+    padding: 3px;
+    background: var(--alert-color);
+  }
+  &:hover {
+    .button {
+      opacity: 1;
+    }
+  }
+}
+.button {
   opacity: 0.7;
   transition: 0.2s;
   cursor: pointer;
   display: none;
-  &.right-drawer {
+  &.call-button {
+    display: block;
+
+    margin-right: 10px;
+  }
+  &.right-drawer-button {
     margin-right: 5px;
-    margin-left: auto;
     display: block;
   }
   &:hover {
