@@ -17,7 +17,6 @@ export function createPeer(
   const peer = new Peer({
     initiator: true,
     trickle: true,
-    config: { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]},
     streams
   });
   peer.on("signal", signal => {
@@ -42,7 +41,6 @@ export function addPeer(
   const peer = new Peer({
     initiator: false,
     trickle: true,
-    config: { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]},
     streams
   });
   peer.on("signal", signal => {
