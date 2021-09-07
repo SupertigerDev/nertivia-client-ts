@@ -71,6 +71,7 @@ export default Vue.extend({
   },
   methods: {
     onCallClicked() {
+      if (this.channelId === voiceChannelModule.joinedChannelId) return;
       PopoutsModule.ShowPopout({
         id: "call-ip-leak-warning",
         component: "generic-popout",
@@ -83,6 +84,7 @@ export default Vue.extend({
       });
     },
     joinCall() {
+      voiceChannelModule.leave();
       voiceChannelModule.join({
         channelId: this.channelId
       });

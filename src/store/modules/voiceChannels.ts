@@ -141,6 +141,9 @@ class VoiceChannels extends VuexModule {
   }
   @Action
   public removeChannel(channelId: string) {
+    if (channelId === voiceChannelModule.joinedChannelId) {
+      this.leave();
+    }
     const voiceChannel = this.voiceChannelUsers[channelId];
     if (!voiceChannel) return;
     Object.values(voiceChannel).forEach(vc => {
