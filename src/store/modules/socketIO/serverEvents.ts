@@ -120,7 +120,8 @@ const actions: ActionTree<any, any> = {
       serverMembers,
       memberPresences,
       memberCustomStatusArr,
-      programActivityArr
+      programActivityArr,
+      callingChannelUserIds
     }
   ) {
     const serverMembersObj: any = {};
@@ -128,6 +129,7 @@ const actions: ActionTree<any, any> = {
     const presenceObj: any = {};
     const customStatusObj: any = {};
     const activity: any = {};
+    const calls: any = {};
     for (let i = 0; i < serverMembers.length; i++) {
       const serverMember = serverMembers[i];
 
@@ -151,11 +153,20 @@ const actions: ActionTree<any, any> = {
       const { name, status, user_id } = programActivityArr[i];
       activity[user_id] = { name, status };
     }
+    for (const channelId in callingChannelUserIds) {
+      const userIds = callingChannelUserIds[channelId];
+      calls[channelId] = {};
+      for (let i = 0; i < userIds.length; i++) {
+        const userId = userIds[i];
+        calls[channelId][userId] = {};
+      }
+    }
     programActivitiesModule.AddActivities(activity);
     PresencesModule.AddPresences(presenceObj);
     CustomStatusesModule.AddCustomStatuses(customStatusObj);
     UsersModule.AddUsers(usersObj);
     ServerMembersModule.AddServerMembers(serverMembersObj);
+    voiceChannelModule.AddVoiceChannels(calls);
   },
   [SERVER_MEMBER_ADD](context, { serverMember, presence, custom_status }) {
     UsersModule.AddUser(serverMember.member);

@@ -30,9 +30,18 @@
           screen_share
         </div>
         <div
+          @click="onCallClicked"
+          class="button material-icons valid"
+          title="Join Call"
+          v-if="!isInCall"
+        >
+          call
+        </div>
+        <div
           @click="leaveCall"
           class="button material-icons alert"
           title="End Call"
+          v-if="isInCall"
         >
           call_end
         </div>
@@ -51,7 +60,8 @@ import {
 import Vue, { PropType } from "vue";
 import CallTemplate from "./ExpandedCallTemplate.vue";
 import BigPreview from "./BigPreview.vue";
-import { leaveCall } from "@/services/voiceService";
+import { joinCall, leaveCall } from "@/services/voiceService";
+import { PopoutsModule } from "@/store/modules/popouts";
 export default Vue.extend({
   components: { CallTemplate, BigPreview },
   props: {
@@ -63,6 +73,26 @@ export default Vue.extend({
     };
   },
   methods: {
+    onCallClicked() {
+      PopoutsModule.ShowPopout({
+        id: "call-ip-leak-warning",
+        component: "generic-popout",
+        data: {
+          callback: () => this.joinCall(),
+          title: "P2P Calling Notice",
+          description:
+            "Your IP address will be sent to participents of the call."
+        }
+      });
+    },
+    joinCall() {
+      voiceChannelModule.leave();
+      voiceChannelModule.join({
+        channelId: this.channelId
+      });
+      joinCall(this.channelId);
+    },
+
     async leaveCall() {
       await leaveCall();
       this.$emit("toggleExpand");
@@ -79,6 +109,12 @@ export default Vue.extend({
   computed: {
     selectedParticipant(): (CallParticipant & { user: User }) | undefined {
       return this.participants.find(p => p.user.id === this.selecteduserId);
+    },
+    channelId(): string {
+      return this.$route.params.channel_id;
+    },
+    isInCall(): boolean {
+      return this.channelId === voiceChannelModule.joinedChannelId;
     }
   }
 });
@@ -112,6 +148,9 @@ export default Vue.extend({
   cursor: pointer;
   &.alert {
     color: var(--alert-color);
+  }
+  &.valid {
+    color: var(--success-color);
   }
   &:hover {
     opacity: 1;

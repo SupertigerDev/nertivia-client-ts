@@ -99,6 +99,20 @@ class VoiceChannels extends VuexModule {
   }) {
     this.INIT_VOICE_CHANNELS(payload);
   }
+
+  @Mutation
+  private ADD_VOICE_CHANNELS(payload: {
+    [key: string]: { [key: string]: CallParticipant };
+  }) {
+    Vue.set(this, "voiceChannelUsers", {...this.voiceChannelUsers, ...payload})
+  }
+
+  @Action
+  public AddVoiceChannels(payload: {
+    [key: string]: { [key: string]: CallParticipant };
+  }) {
+    this.ADD_VOICE_CHANNELS(payload);
+  }
   @Mutation
   private ADD_USER(payload: {
     userId: string;
