@@ -4,7 +4,7 @@
 		"date": "7 September 2021",
 		"title": "Calling BETA",
 		"new": "Added support for calling in any server channel.",
-		"body": "Screenshare support only.",
+		"body": "Calling Interface may have issues and may not be final. Screen share support only.",
 		"image_url": "/img/changelog/calls-1.45.0.png"	
 	},
 	{
