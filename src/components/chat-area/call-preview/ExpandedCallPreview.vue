@@ -81,7 +81,7 @@ export default Vue.extend({
           callback: () => this.joinCall(),
           title: "P2P Calling Notice",
           description:
-            "Your IP address will be sent to participants of the call."
+            "Because of the nature of P2P, your IP will be able to be seen by other participants on the call."
         }
       });
     },
