@@ -26,7 +26,7 @@
         {{ $t("settings.delete-account.what-wont-delete") }}:
       </div>
       <ul class="list">
-        <li>{{ $t("settings.delete-account.messages-sent") }}:</li>
+        <li>{{ $t("settings.delete-account.messages-sent") }}</li>
       </ul>
       <div class="title">{{ $t("settings.delete-account.requirements") }}:</div>
       <!-- TODO: i18n -->
