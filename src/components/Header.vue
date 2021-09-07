@@ -18,12 +18,14 @@
     </div>
     <UserStatusTemplate class="status" v-if="DMUser" :id="DMUser.id" /> -->
     <div
+      class="call-button-outer"
       v-if="isServerChannel"
       @click="onCallClicked"
-      class="button call-button material-icons"
       title="Call"
     >
-      call
+      <div class="button call-button material-icons">
+        call
+      </div>
     </div>
     <div
       class="button right-drawer-button material-icons"
@@ -123,6 +125,26 @@ export default Vue.extend({
     }
   }
 }
+.call-button-outer {
+  margin-left: auto;
+  position: relative;
+  cursor: pointer;
+  &:after {
+    content: "BETA";
+    position: absolute;
+    border-radius: 8px;
+    font-size: 8px;
+    top: -5px;
+    left: 6px;
+    padding: 3px;
+    background: var(--alert-color);
+  }
+  &:hover {
+    .button {
+      opacity: 1;
+    }
+  }
+}
 .button {
   opacity: 0.7;
   transition: 0.2s;
@@ -130,7 +152,7 @@ export default Vue.extend({
   display: none;
   &.call-button {
     display: block;
-    margin-left: auto;
+
     margin-right: 10px;
   }
   &.right-drawer-button {

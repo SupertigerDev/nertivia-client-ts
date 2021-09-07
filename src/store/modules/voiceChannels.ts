@@ -12,6 +12,7 @@ import { MeModule } from "./me";
 import { UsersModule } from "./users";
 
 import Peer from "simple-peer";
+import { ChannelsModule } from "./channels";
 
 export interface CallParticipant {
   peer?: Peer.Instance;
@@ -80,7 +81,6 @@ class VoiceChannels extends VuexModule {
         vc.peer?.end();
         vc.peer?.destroy()
         this.update({ channelId: this.joinedChannelId as string, userId, update: { peer: undefined } })
-        console.log("destroyed")
       }
     }
     this.LEAVE();
@@ -118,6 +118,36 @@ class VoiceChannels extends VuexModule {
       payload.data
     );
   }
+  @Action
+  public removeServerUser(payload: {userId: string, serverId: string}) {
+    const serverChannels = ChannelsModule.serverChannels(payload.serverId);
+    for (let i = 0; i < serverChannels.length; i++) {
+      const channel = serverChannels[i];
+      if (!this.voiceChannelUsers[channel.channelID]) continue;
+      this.removeUser({channelId: channel.channelID, userId: payload.userId})
+    }
+  }
+  @Action
+  public deleteServerVoiceChannels(serverId: string) {
+    const serverChannels = ChannelsModule.serverChannels(serverId);
+    for (let i = 0; i < serverChannels.length; i++) {
+      const channel = serverChannels[i];
+      this.removeChannel(channel.channelID)
+    }
+  }
+  @Mutation
+  private REMOVE_CHANNEL(channelId: string) {
+    Vue.delete(this.voiceChannelUsers, channelId);
+  }
+  @Action
+  public removeChannel(channelId: string) {
+    const voiceChannel = this.voiceChannelUsers[channelId];
+    if (!voiceChannel) return;
+    Object.values(voiceChannel).forEach(vc => {
+      vc.peer?.destroy();
+    })
+    this.REMOVE_CHANNEL(channelId)
+  }
 
   @Action
   public addUser(payload: {
@@ -135,6 +165,8 @@ class VoiceChannels extends VuexModule {
     }
     Vue.delete(this.voiceChannelUsers[payload.channelId], payload.userId);
   }
+
+
 
   @Action
   public removeUser(payload: { userId: string; channelId: string }) {

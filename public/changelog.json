@@ -1,5 +1,13 @@
 [
 	{
+		"version": "1.45.0-stable",
+		"date": "7 September 2021",
+		"title": "Calling BETA",
+		"new": "Added support for calling in any server channel.",
+		"body": "Screenshare support only.",
+		"image_url": "/img/changelog/calls-1.45.0.png"	
+	},
+	{
 		"version": "1.44.0-stable",
 		"date": "2 September 2021",
 		"title": "HTML Profile!",
