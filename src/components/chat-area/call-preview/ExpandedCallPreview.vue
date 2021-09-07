@@ -10,12 +10,13 @@
     <div class="left">
       <div class="participant-list">
         <CallTemplate
-          v-for="(participant, i) in participants"
-          @click.native="selecteduserIndex = i"
+          v-for="participant in participants"
+          @click.native="selecteduserId = participant.user.id"
           :key="participant.user.id"
           :participant="participant"
           :selected="
-            participants[selecteduserIndex].user.id === participant.user.id
+            selectedParticipant &&
+              selectedParticipant.user.id === participant.user.id
           "
         />
       </div>
@@ -37,7 +38,7 @@
         </div>
       </div>
     </div>
-    <BigPreview :participant="participants[selecteduserIndex]" />
+    <BigPreview v-if="selectedParticipant" :participant="selectedParticipant" />
   </div>
 </template>
 
@@ -58,12 +59,13 @@ export default Vue.extend({
   },
   data() {
     return {
-      selecteduserIndex: 0
+      selecteduserId: this.participants[0].user.id
     };
   },
   methods: {
     async leaveCall() {
       await leaveCall();
+      this.$emit("toggleExpand");
     },
     async shareScreen() {
       const mediaDevices = navigator.mediaDevices as any;
@@ -72,6 +74,11 @@ export default Vue.extend({
         audio: true
       });
       voiceChannelModule.addStream({ stream, type: "video" });
+    }
+  },
+  computed: {
+    selectedParticipant(): (CallParticipant & { user: User }) | undefined {
+      return this.participants.find(p => p.user.id === this.selecteduserId);
     }
   }
 });
@@ -122,6 +129,7 @@ export default Vue.extend({
 }
 .expand-button {
   position: absolute;
+  z-index: 111111;
   right: 10px;
   top: 12px;
   font-size: 26px;

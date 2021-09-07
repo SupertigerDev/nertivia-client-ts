@@ -184,7 +184,18 @@ class VoiceChannels extends VuexModule {
     const oldStream =
       payload.type === "audio" ? this.audioStream : this.videoStream;
       oldStream?.getTracks().forEach(track => track.stop())
-    // stream to all peers
+
+
+    const videoTracks = payload?.stream?.getVideoTracks();
+    if (videoTracks[0]) {
+      videoTracks[0].onended = () => {
+        voiceChannelPeers.forEach(p => {
+          p.peer?.removeStream(payload.stream);
+        });
+        videoTracks[0].onended = null;
+        this.UPDATE_LOCAL_STREAM({type: "video", stream: null})
+      }
+    }
     const voiceChannelPeers = Object.values(this.voiceChannelUsers[
       this.joinedChannelId || ""
     ] || {});
@@ -192,6 +203,7 @@ class VoiceChannels extends VuexModule {
       this.UPDATE_LOCAL_STREAM(payload);
       return;
     };
+    // stream to all peers
     voiceChannelPeers.forEach(p => {
       if (oldStream) {
         p.peer?.removeStream(oldStream);

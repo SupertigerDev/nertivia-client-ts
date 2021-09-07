@@ -10,7 +10,8 @@
             {{ data.description }}
           </div>
           <div class="buttons">
-            <CustomButton name="Got It" @click="buttonClicked" />
+            <CustomButton v-if="data.callback" name="Cancel" @click="close" />
+            <CustomButton name="Understood" @click="buttonClicked" />
           </div>
         </div>
       </div>
@@ -33,6 +34,7 @@ export default Vue.extend({
       type: Object as PropType<{
         title: string;
         description: string;
+        callback?: any;
       }>,
       required: false
     }
@@ -42,6 +44,7 @@ export default Vue.extend({
       PopoutsModule.ClosePopout(this.identity);
     },
     buttonClicked() {
+      this.data.callback?.();
       this.close();
     }
   }

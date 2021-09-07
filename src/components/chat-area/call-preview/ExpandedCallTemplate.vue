@@ -6,6 +6,9 @@
       size="25px"
     />
     <div class="username">{{ participant.user.username }}</div>
+    <div v-if="participant.videoStream" class="video-streaming material-icons">
+      tv
+    </div>
   </div>
 </template>
 
@@ -41,6 +44,10 @@ export default Vue.extend({
       opacity: 1;
     }
   }
+}
+.video-streaming {
+  margin-left: auto;
+  margin-right: 3px;
 }
 .username {
   opacity: 0.8;

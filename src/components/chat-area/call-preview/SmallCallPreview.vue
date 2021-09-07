@@ -9,6 +9,7 @@
       :participant="participant"
     />
     <div
+      v-if="allowExpand"
       class="expand-button material-icons"
       title="Expand"
       @click="$emit('toggleExpand')"
@@ -20,13 +21,23 @@
 
 <script lang="ts">
 import User from "@/interfaces/User";
-import { CallParticipant } from "@/store/modules/voiceChannels";
+import {
+  CallParticipant,
+  voiceChannelModule
+} from "@/store/modules/voiceChannels";
 import Vue, { PropType } from "vue";
 import CallTemplate from "./SmallCallTemplate.vue";
 export default Vue.extend({
   components: { CallTemplate },
   props: {
     participants: Array as PropType<(CallParticipant & { user: User })[]>
+  },
+  computed: {
+    allowExpand(): boolean {
+      return (
+        voiceChannelModule.joinedChannelId === this.$route.params.channel_id
+      );
+    }
   }
 });
 </script>

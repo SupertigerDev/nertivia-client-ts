@@ -32,25 +32,10 @@ export function createPeer(
     socket().emit("voice:send_signal", { channelId, signalToUserId, signal });
   });
   peer.on("stream", stream => {
-    const update: CallParticipant = {};
-    if (stream.getVideoTracks().length) {
-      update.videoStream = stream;
-    } else {
-      update.audioStream = stream;
-    }
-    voiceChannelModule.update({
-      channelId: channelId,
-      userId: signalToUserId,
-      update
-    });
+    onStream(stream, channelId, signalToUserId)
   });
   peer.on("connect", () => {
-    voiceChannelModule.update({
-      channelId: channelId,
-      userId: signalToUserId,
-      update: { connected: true }
-    });
-    console.log("connected");
+    onConnect(channelId, signalToUserId)
   });
   return peer;
 }
@@ -75,26 +60,35 @@ export function addPeer(
     });
   });
   peer.on("stream", stream => {
-    const update: CallParticipant = {};
-    if (stream.getVideoTracks().length) {
-      update.videoStream = stream;
-    } else {
-      update.audioStream = stream;
-    }
-    voiceChannelModule.update({
-      channelId: channelId,
-      userId: signalToUserId,
-      update
-    });
+    onStream(stream, channelId, signalToUserId)
   });
   peer.on("connect", () => {
-    voiceChannelModule.update({
-      channelId: channelId,
-      userId: signalToUserId,
-      update: { connected: true }
-    });
-    console.log("connected");
+    onConnect(channelId, signalToUserId)
   });
   peer.signal(signal);
   return peer;
+}
+
+
+function onConnect(channelId: string, userId: string) {
+  voiceChannelModule.update({
+    channelId,
+    userId,
+    update: { connected: true }
+  });
+  console.log("connected");
+}
+function onStream(stream: MediaStream, channelId: string, userId: string) {
+  const videoTracks = stream.getVideoTracks();
+  const streamType = videoTracks.length ? "videoStream" : "audioStream"
+
+  stream.onremovetrack = () => {
+    voiceChannelModule.update({channelId, userId, update: {[streamType]: null}})
+    stream.onremovetrack = null;
+  }
+  voiceChannelModule.update({
+    channelId,
+    userId,
+    update: {[streamType]: stream}
+  });
 }

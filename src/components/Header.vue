@@ -69,6 +69,18 @@ export default Vue.extend({
   },
   methods: {
     onCallClicked() {
+      PopoutsModule.ShowPopout({
+        id: "call-ip-leak-warning",
+        component: "generic-popout",
+        data: {
+          callback: () => this.joinCall(),
+          title: "P2P Calling Notice",
+          description:
+            "Your IP address will be sent to participents of the call."
+        }
+      });
+    },
+    joinCall() {
       voiceChannelModule.join({
         channelId: this.channelId
       });
