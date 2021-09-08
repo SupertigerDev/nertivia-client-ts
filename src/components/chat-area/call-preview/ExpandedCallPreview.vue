@@ -99,10 +99,15 @@ export default Vue.extend({
     },
     async shareScreen() {
       const mediaDevices = navigator.mediaDevices as any;
-      const stream = await mediaDevices.getDisplayMedia({
-        video: true,
-        audio: true
-      });
+      const stream = await mediaDevices
+        .getDisplayMedia({
+          video: true,
+          audio: true
+        })
+        .catch(() => {
+          console.log("Screenshare cancelled.");
+        });
+      if (!stream) return;
       voiceChannelModule.addStream({ stream, type: "video" });
     }
   },
