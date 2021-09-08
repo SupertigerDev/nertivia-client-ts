@@ -12,7 +12,7 @@
         {{ serverDetails.name }}
       </div>
       <ChannelTemplate
-        class="channel"
+        class="template"
         v-for="channel in notifications"
         :key="channel.channelID"
         :channel="channel"
@@ -79,7 +79,7 @@ export default Vue.extend({
   overflow: hidden;
   width: 100%;
 }
-.channel {
+.template {
   margin: 0;
 }
 </style>
