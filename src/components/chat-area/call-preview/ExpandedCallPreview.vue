@@ -26,6 +26,7 @@
           class="button material-icons"
           @click="shareScreen"
           title="Share Screen"
+          v-if="isInCall"
         >
           screen_share
         </div>
