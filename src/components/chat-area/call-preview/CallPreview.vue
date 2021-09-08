@@ -70,6 +70,7 @@ export default Vue.extend({
   height: 30px;
   flex-shrink: 0;
   background: var(--side-header-bg-color);
+  overflow: hidden;
 }
 .expand {
   height: 350px;
