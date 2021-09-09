@@ -35,8 +35,6 @@ const app = createApp(App)
   .use(router)
   .use(i18n);
 
-console.log(router.currentRoute.value.path);
-
 app.config.globalProperties.$isElectron = electronBridge?.isElectron || false;
 app.config.globalProperties.$lastUIBreakingVersion =
   process.env.VUE_APP_LAST_UI_BREAKING_VERSION;

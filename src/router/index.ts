@@ -1,7 +1,7 @@
 import Vue from "vue";
 import * as VueRouter from "vue-router";
-import VueSocketIo from "vue-socket.io-extended";
-import io from "socket.io-client";
+import VueSocketIOExt from "vue-socket.io-extended";
+import { io } from "socket.io-client";
 
 import store from "../store/index";
 
@@ -162,14 +162,11 @@ const router = VueRouter.createRouter({
           return;
         }
         Vue.use(
-          VueSocketIo,
+          VueSocketIOExt,
           io(process.env.VUE_APP_SOCKET_URL || "", {
             autoConnect: false,
             transports: ["websocket"]
-          }),
-          {
-            store
-          }
+          })
         );
         next();
       }
