@@ -180,6 +180,5 @@ const router = createRouter ({
   { path: "*", redirect: "/404" }
 ]})
 
-Vue.use(router);
 
 export default router;

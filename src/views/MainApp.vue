@@ -63,6 +63,7 @@ import { applyTheme } from "@/utils/CSSTheme";
 import Vue from "vue";
 import { TabsModule } from "@/store/modules/tabs";
 import { defineComponent } from "vue";
+import store from "@/store";
 export default defineComponent({
   name: "MainApp",
   components: {
@@ -114,17 +115,20 @@ export default defineComponent({
   },
   mounted() {
     // set store and connect socket.
-    this.$store.registerModule("socketIO", socketIOModule);
-    this.$socket.client.connect();
+    store.registerModule("socketIO", socketIOModule);
+    // $fix below
+    // this.$socket.client.connect();
     if (window.BroadcastChannel) {
       const channel = new BroadcastChannel("sw-messages");
       // hack to fix disconnects using service workers;
       channel.addEventListener("message", event => {
-        const client = this.$socket.client;
+        // $fix below
+        // const client = this.$socket.client;
         if (event.data !== "ping") return;
         if (useWindowProperties().isFocused) return;
-        if (!client.connected) return;
-        client.emit("p");
+        // $fix below
+        // if (!client.connected) return;
+        // client.emit("p");
       });
     }
   },
@@ -136,7 +140,7 @@ export default defineComponent({
     this.applyCSSTheme();
   },
   beforeDestroy() {
-    this.$store.unregisterModule("socketIO");
+    store.unregisterModule("socketIO");
   },
   methods: {
     applyCSSTheme() {

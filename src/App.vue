@@ -1,6 +1,5 @@
 <template>
   <div class="root">
-    <WindowControl v-if="$isElectron" />
     <router-view />
     <Popouts />
   </div>
@@ -24,33 +23,8 @@ import { clear } from "idb-keyval";
 import Vue from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
-  name: "App",
-  components: { WindowControl, Popouts },
   mounted() {
-    if (!localStorage["hauthid"]) {
-      clear();
-    }
-    // applyfont
-    applyFont(localStorage["font"] || Object.values(fonts)[0].id);
-    // set custom css colors
-    const customVars = getCustomCssVars();
-    for (let i = 0; i < Object.keys(customVars).length; i++) {
-      const key = Object.keys(customVars)[i];
-      const value = customVars[key];
-      changeCssVar(key, value, false);
-    }
-    setThemeColor();
-    this.setLocale();
-  },
-  methods: {
-    setLocale() {
-      const currentLocale = localStorage["locale"] || "en";
-      if (currentLocale === "en") return;
-      import(`@/locales/${currentLocale}.json`).then(messages => {
-        this.$i18n.setLocaleMessage(currentLocale, messages.default);
-        this.$i18n.locale = currentLocale;
-      });
-    }
+    this.t;
   }
 });
 </script>
