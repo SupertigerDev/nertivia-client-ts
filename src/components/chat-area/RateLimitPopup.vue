@@ -16,7 +16,8 @@ import { MeModule } from "@/store/modules/me";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { ServersModule } from "@/store/modules/servers";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "RateLimitPopup",
   data() {
     return {

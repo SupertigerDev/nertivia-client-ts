@@ -16,10 +16,11 @@
 
 <script lang="ts">
 import { seededColor } from "seeded-color";
-import WindowProperties from "@/utils/windowProperties";
+import { useWindowProperties } from "@/utils/windowProperties";
 import { highPriorityBadge } from "@/constants/badges";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "MainApp",
   props: {
     size: {
@@ -65,7 +66,7 @@ export default Vue.extend({
       return highPriorityBadge(this.badges);
     },
     isFocused(): any {
-      return WindowProperties.isFocused;
+      return useWindowProperties().isFocused;
     },
     isGif(): any {
       return this.imageId.endsWith(".gif");

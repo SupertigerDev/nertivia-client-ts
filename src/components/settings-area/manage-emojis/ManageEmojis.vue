@@ -58,7 +58,8 @@ function extname(path: string) {
   return path.substring(path.lastIndexOf("."), path.length);
 }
 
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ManageEmojis",
   components: { EmojiTemplate, CustomButton },
   computed: {

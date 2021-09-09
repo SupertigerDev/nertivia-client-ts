@@ -54,7 +54,7 @@ import { loadAllCacheToState, loadCache } from "@/utils/localCache";
 import { ChannelsModule } from "@/store/modules/channels";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
-import WindowProperties from "@/utils/windowProperties";
+import { useWindowProperties } from "@/utils/windowProperties";
 import { FriendsModule } from "@/store/modules/friends";
 
 import { LastSelectedServersModule } from "@/store/modules/lastSelectedServer";
@@ -62,7 +62,8 @@ import { AppUpdateModule } from "@/store/modules/appUpdate";
 import { applyTheme } from "@/utils/CSSTheme";
 import Vue from "vue";
 import { TabsModule } from "@/store/modules/tabs";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "MainApp",
   components: {
     Drawers,
@@ -121,7 +122,7 @@ export default Vue.extend({
       channel.addEventListener("message", event => {
         const client = this.$socket.client;
         if (event.data !== "ping") return;
-        if (WindowProperties.isFocused) return;
+        if (useWindowProperties().isFocused) return;
         if (!client.connected) return;
         client.emit("p");
       });

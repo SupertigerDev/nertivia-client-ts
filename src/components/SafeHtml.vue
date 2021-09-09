@@ -6,7 +6,8 @@ import Markup from "./Markup";
 import "style-scoped";
 import { PopoutsModule } from "@/store/modules/popouts";
 
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   props: {
     zippedJsonHtml: String
   },

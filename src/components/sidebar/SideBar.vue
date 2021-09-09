@@ -15,7 +15,8 @@
 import { PopoutsModule } from "@/store/modules/popouts";
 import Servers from "./Servers.vue";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "SideBar",
   components: { Servers },
   methods: {

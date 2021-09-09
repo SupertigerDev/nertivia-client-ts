@@ -139,7 +139,8 @@ import { bitwiseRemove, bitwiseContains, bitwiseAdd } from "@/utils/bitwise";
 import { permissions } from "@/constants/rolePermissions";
 import CheckBox from "@/components/CheckBox.vue";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "Account",
   components: {
     CustomInput,
@@ -151,7 +152,7 @@ export default Vue.extend({
   props: {
     bot: {
       type: Object as PropType<User>,
-      required: false
+      required: true
     },
     botToken: {
       type: String,
@@ -260,7 +261,7 @@ export default Vue.extend({
     update() {
       if (this.requestSent) return;
       this.requestSent = true;
-      this.$set(this, "errors", {});
+      this.errors = {};
       const data: any = {};
 
       this.changedItems.usernameChanged &&
@@ -294,7 +295,7 @@ export default Vue.extend({
               this.errors["other"] = error.msg;
               continue;
             }
-            this.$set(this.errors, error.param, error.msg);
+            this.errors[error.param] = error.msg;
           }
         })
         .finally(() => (this.requestSent = false));

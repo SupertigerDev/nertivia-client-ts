@@ -53,7 +53,8 @@ import Header from "@/components/Header.vue";
 import { TabsModule } from "@/store/modules/tabs";
 import settingPages from "@/utils/settingPages.json";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "SettingsArea",
   components: {
     Header,

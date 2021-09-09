@@ -19,7 +19,8 @@
 import adminPanelPages from "@/utils/adminPanelPages.json";
 import { DrawersModule } from "@/store/modules/drawers";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "AdminPanelDrawer",
   data() {
     return {

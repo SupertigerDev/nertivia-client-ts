@@ -89,7 +89,8 @@ import { deleteServerRole, updateServerRole } from "@/services/rolesService";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { ServersModule } from "@/store/modules/servers";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ManageRolesPage",
   components: { CustomInput, CustomButton, CheckBox },
   props: {

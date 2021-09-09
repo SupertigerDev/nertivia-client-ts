@@ -13,7 +13,8 @@ import CommandSuggestionTemplate from "./CommandSuggestionTemplate.vue";
 import { BotCommand } from "@/store/modules/botCommands";
 import User from "@/interfaces/User";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ChannelSuggestion",
   components: { SuggestionPopoutTemplate },
   props: {

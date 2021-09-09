@@ -22,11 +22,12 @@
 </template>
 
 <script lang="ts">
-import windowProperties from "@/utils/windowProperties";
+import { useWindowProperties } from "@/utils/windowProperties";
 import Message from "@/interfaces/Message";
 import { PopoutsModule } from "@/store/modules/popouts";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ImageMessageEmbed",
   props: {
     message: {
@@ -41,7 +42,7 @@ export default Vue.extend({
   },
   computed: {
     isWindowFocused(): any {
-      return windowProperties.isFocused;
+      return useWindowProperties().isFocused;
     },
     pauseGifURL(): any {
       let url = this.imageURL;

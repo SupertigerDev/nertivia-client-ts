@@ -45,7 +45,8 @@ const types = [
   { color: "#ff9914", message: i18n.t("messages.kicked") },
   { color: "#d92121", message: i18n.t("messages.banned") }
 ];
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ActionMessageTemplate",
   components: { AvatarImage, MessageSide },
   props: {

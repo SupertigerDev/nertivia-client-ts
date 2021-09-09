@@ -21,7 +21,8 @@ import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChan
 import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
 import { MessagesModule } from "@/store/modules/messages";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ScrollDownButton",
   computed: {
     hasNotification(): any {

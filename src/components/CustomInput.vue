@@ -61,7 +61,8 @@
 <script lang="ts">
 import Vue from "vue";
 
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "CustomInput",
   model: { prop: "value", event: "model" },
   data() {

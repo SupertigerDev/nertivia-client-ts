@@ -37,14 +37,20 @@
 <script lang="ts">
 import CustomButton from "@/components/CustomButton.vue";
 import CustomInput from "@/components/CustomInput.vue";
-import Vue, { PropType } from "vue";
-export default Vue.extend({
+import Vue, { defineComponent, PropType } from "vue";
+interface Item {
+  id: string;
+  status: boolean;
+  name: string;
+  filename: string;
+}
+export default defineComponent({
   name: "ProgramTemplate",
   components: { CustomButton, CustomInput },
   props: {
     item: {
-      type: Object as PropType<any>,
-      required: false
+      type: Object as PropType<Item>,
+      required: true
     }
   },
   data() {

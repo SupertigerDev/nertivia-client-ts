@@ -11,7 +11,8 @@ import Markup from "@/components/Markup";
 import { buttonClick } from "@/services/messagesService";
 import { PopoutsModule } from "@/store/modules/popouts";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "MessageSide",
   components: { Markup },
   props: {

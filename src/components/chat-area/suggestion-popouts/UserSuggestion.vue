@@ -12,7 +12,8 @@ import SuggestionPopoutTemplate from "./SuggestionPopoutTemplate.vue";
 import UserSuggestionTemplate from "./UserSuggestionTemplate.vue";
 import User from "@/interfaces/User";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "UserSuggestion",
   components: { SuggestionPopoutTemplate },
   props: {

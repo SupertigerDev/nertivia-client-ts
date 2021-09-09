@@ -15,7 +15,8 @@
 import { CallParticipant } from "@/store/modules/voiceChannels";
 import Avatar from "@/components/AvatarImage.vue";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   components: { Avatar },
   props: {
     participant: Object as PropType<CallParticipant>

@@ -61,7 +61,8 @@ import { ChannelsModule } from "@/store/modules/channels";
 import { PopoutsModule } from "@/store/modules/popouts";
 import CustomButton from "@/components/CustomButton.vue";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "FriendTemplate",
   components: { AvatarImage, CustomButton },
   props: {

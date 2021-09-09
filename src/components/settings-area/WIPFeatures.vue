@@ -21,7 +21,8 @@
 import Vue from "vue";
 import CheckBox from "@/components/CheckBox.vue";
 
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "WIPFeatures",
   // components: { CheckBox },
   data() {

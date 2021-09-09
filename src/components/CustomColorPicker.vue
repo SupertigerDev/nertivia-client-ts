@@ -13,7 +13,8 @@ import "@simonwep/pickr/dist/themes/classic.min.css";
 import Pickr from "@simonwep/pickr";
 import Vue from "vue";
 
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "CustomColorPicker",
   model: { prop: "color", event: "change" },
   props: {

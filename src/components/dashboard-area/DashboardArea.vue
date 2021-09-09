@@ -14,7 +14,8 @@ import NotificationCard from "./NotificationCard.vue";
 import ProfileCard from "./ProfileCard.vue";
 import { TabsModule } from "@/store/modules/tabs";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "DashboardArea",
   components: { NotificationCard, ProfileCard, Header },
   mounted() {

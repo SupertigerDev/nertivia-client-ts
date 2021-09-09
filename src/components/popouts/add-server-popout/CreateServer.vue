@@ -20,7 +20,8 @@ import CustomButton from "@/components/CustomButton.vue";
 import { createServer } from "@/services/serverService";
 import { PopoutsModule } from "@/store/modules/popouts";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "AddServer",
   components: { CustomInput, CustomButton },
   data() {

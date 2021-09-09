@@ -9,7 +9,8 @@ import { eventBus } from "@/utils/globalBus";
 import Vue from "vue";
 import Message from "@/interfaces/Message";
 
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   components: { AvatarImage, Markup },
   props: {
     quote: Object as () => Quote,

@@ -23,7 +23,8 @@
 import { PopoutsModule } from "@/store/modules/popouts";
 import Vue, { PropType } from "vue";
 import ButtonTemplate from "@/components/CustomButton.vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ProfilePopout",
   components: { ButtonTemplate },
   props: {

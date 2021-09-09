@@ -33,7 +33,8 @@ import CreateServer from "./CreateServer.vue";
 import JoinServer from "./JoinServer.vue";
 import TabLayout from "@/components/TabLayout.vue";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ProfilePopout",
   components: { TabLayout },
   computed: {

@@ -28,9 +28,10 @@
 <script lang="ts">
 // TODO: remove resizeKeepAspect
 import resizeKeepAspect from "@/utils/resizeKeepAspect";
-import windowProperties from "@/utils/windowProperties";
+import { useWindowProperties } from "@/utils/windowProperties";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "VideoPlayer",
   components: {},
   props: {
@@ -80,9 +81,10 @@ export default Vue.extend({
       return url;
     },
     windowSize(): any {
+      const { resizeWidth, resizeHeight } = useWindowProperties();
       return {
-        height: windowProperties.resizeHeight,
-        width: windowProperties.resizeWidth
+        height: resizeHeight,
+        width: resizeWidth
       };
     }
   },

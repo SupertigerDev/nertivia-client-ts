@@ -38,7 +38,8 @@ import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import { sendFriendRequest } from "@/services/relationshipService";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ProfilePopout",
   components: { CustomInput, CustomButton },
   data() {

@@ -67,7 +67,8 @@ import {
   applyDefaultValue
 } from "@/utils/customCssVars";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "InterfaceVariables",
   components: { RadioBox, CustomDropDown, CheckBox },
   data() {

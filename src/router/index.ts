@@ -1,9 +1,16 @@
 import Vue from "vue";
-import VueRouter, { RouteConfig } from "vue-router";
+import VueRouter, {createRouter} from "vue-router";
 import VueSocketIo from "vue-socket.io-extended";
 import io from "socket.io-client";
 
 import store from "../store/index";
+
+
+
+
+
+
+
 
 const ExploreArea = () =>
   import(
@@ -32,9 +39,11 @@ const ServerSettingsArea = () =>
 const PageNotFound = () =>
   import(/* webpackChunkName: "PageNotFound" */ "../views/PageNotFound.vue");
 
-Vue.use(VueRouter);
 
-const routes: Array<RouteConfig> = [
+
+const router = createRouter ({
+  history: VueRouter.createWebHashHistory(),
+  routes: [
   {
     path: "/",
     name: "Home",
@@ -169,12 +178,8 @@ const routes: Array<RouteConfig> = [
   },
   { path: "/404", component: PageNotFound },
   { path: "*", redirect: "/404" }
-];
+]})
 
-const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes
-});
+Vue.use(router);
 
 export default router;

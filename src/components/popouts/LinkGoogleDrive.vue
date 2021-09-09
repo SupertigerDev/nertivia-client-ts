@@ -37,7 +37,8 @@ import InformationTemplate from "@/components/InformationTemplate.vue";
 import { googleDriveLinkURL } from "@/services/authService";
 import { MeModule } from "@/store/modules/me";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ProfilePopout",
   components: { CustomButton, InformationTemplate },
   props: {

@@ -125,7 +125,8 @@ const components = {
       /* webpackChunkName: "ReactedUsersPreview" */ "@/components/popouts/ReactedUsersPreview.vue"
     )
 };
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "MainApp",
   components,
   computed: {

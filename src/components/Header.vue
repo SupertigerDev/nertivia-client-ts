@@ -46,7 +46,8 @@ import { voiceChannelModule } from "@/store/modules/voiceChannels";
 import Tabs from "@/components/HeaderTabs.vue";
 import Vue from "vue";
 import { joinCall } from "@/services/voiceService";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "MainApp",
   components: { Tabs },
   props: {

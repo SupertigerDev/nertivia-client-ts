@@ -44,7 +44,8 @@ import User from "@/interfaces/User";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { NotificationsModule } from "@/store/modules/notifications";
 
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   components: { AvatarImage, UserStatusTemplate },
   props: {
     selected: Boolean,

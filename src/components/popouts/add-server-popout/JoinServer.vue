@@ -19,7 +19,8 @@
 import EnterServerCode from "./EnterServerCode.vue";
 import ServerPreview from "./ServerPreview.vue";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "JoinServer",
   components: { EnterServerCode, ServerPreview },
   data() {

@@ -31,10 +31,11 @@
 </template>
 
 <script lang="ts">
-import windowProperties from "@/utils/windowProperties";
+import { useWindowProperties } from "@/utils/windowProperties";
 import { DrawersModule } from "@/store/modules/drawers";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "MainApp",
   data() {
     return {
@@ -61,7 +62,7 @@ export default Vue.extend({
       return DrawersModule.rightDrawer;
     },
     isMobile(): any {
-      return windowProperties.resizeWidth <= 950;
+      return useWindowProperties().resizeWidth <= 950;
     }
   },
   watch: {

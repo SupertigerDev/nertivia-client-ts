@@ -12,7 +12,8 @@ import GenericEmbed from "./GenericEmbed.vue";
 import ImageEmbed from "./ImageEmbed.vue";
 import YoutubeEmbed from "./YoutubeEmbed.vue";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "EmbedMessage",
   components: { GenericEmbed, ImageEmbed, YoutubeEmbed },
   props: {

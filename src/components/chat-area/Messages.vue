@@ -5,7 +5,8 @@ import ActionMessageTemplate from "./message/ActionMessageTemplate.vue";
 import Vue from "vue";
 import Message from "@/interfaces/Message";
 
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   functional: true,
   props: {
     channelID: String

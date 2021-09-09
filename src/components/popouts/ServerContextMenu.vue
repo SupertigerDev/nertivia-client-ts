@@ -17,7 +17,8 @@ import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { leaveServer } from "@/services/serverService";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ServerContextMenu",
   components: { ContextMenu },
   props: {

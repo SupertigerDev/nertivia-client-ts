@@ -31,7 +31,8 @@ import InformationTemplate from "@/components/InformationTemplate.vue";
 import AgreementMessage from "@/components/AgreementMessage.vue";
 import { AgreePolicy } from "@/services/authService";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ProfilePopout",
   components: { CustomButton, InformationTemplate, AgreementMessage },
   props: {

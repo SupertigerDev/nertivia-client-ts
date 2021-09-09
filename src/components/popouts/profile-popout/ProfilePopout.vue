@@ -178,7 +178,8 @@ import { ServersModule } from "@/store/modules/servers";
 import User from "@/interfaces/User";
 import { getBadges } from "@/constants/badges";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ProfilePopout",
   components: {
     AvatarImage,

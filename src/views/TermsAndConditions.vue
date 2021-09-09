@@ -123,7 +123,8 @@
 <script lang="ts">
 import Header from "@/components/home-page/Header.vue";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "Home",
   components: { Header }
 });

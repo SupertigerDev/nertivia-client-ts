@@ -50,7 +50,8 @@ import ServerTemplate from "./ExploreServerTemplate.vue";
 import CustomDropDown from "@/components/CustomDropDown.vue";
 import LoadingScreen from "@/components/LoadingScreen.vue";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ExploreArea",
   components: { ServerTemplate, CustomDropDown, LoadingScreen },
   data() {

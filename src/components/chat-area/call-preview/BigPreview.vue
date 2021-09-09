@@ -19,7 +19,8 @@ import {
 import Vue, { PropType } from "vue";
 import Avatar from "@/components/AvatarImage.vue";
 import { MeModule } from "@/store/modules/me";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   components: { Avatar },
   props: {
     participant: Object as PropType<CallParticipant & { user: User }>

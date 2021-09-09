@@ -65,7 +65,8 @@ interface Item {
   };
 }
 
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "CustomDropDown",
   components: { AvatarImage },
   props: {

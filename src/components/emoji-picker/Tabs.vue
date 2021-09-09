@@ -43,7 +43,8 @@ import { CustomEmojisModule } from "@/store/modules/customEmojis";
 import emojiParser from "@/utils/emojiParser";
 import { getRecentEmojis } from "@/utils/recentEmojiManager";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "Tabs",
   props: {
     pos: {

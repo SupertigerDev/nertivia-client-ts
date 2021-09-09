@@ -63,7 +63,8 @@ import CallTemplate from "./ExpandedCallTemplate.vue";
 import BigPreview from "./BigPreview.vue";
 import { joinCall, leaveCall } from "@/services/voiceService";
 import { PopoutsModule } from "@/store/modules/popouts";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   components: { CallTemplate, BigPreview },
   props: {
     participants: Array as PropType<(CallParticipant & { user: User })[]>

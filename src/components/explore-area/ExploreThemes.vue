@@ -41,7 +41,8 @@ import {
 import ThemeTemplate from "./ExploreThemeTemplate.vue";
 import LoadingScreen from "@/components/LoadingScreen.vue";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ExploreThemes",
   components: { ThemeTemplate, LoadingScreen },
   data() {
@@ -78,7 +79,7 @@ export default Vue.extend({
       if (newData.likes === undefined) return;
       newData.liked = true;
       newData.likes += 1;
-      this.$set(this.data, index, newData);
+      this.data[index] = newData;
     },
     unliked(index: number) {
       const newData = this.data?.[index];
@@ -86,7 +87,7 @@ export default Vue.extend({
       if (newData.likes === undefined) return;
       newData.liked = false;
       newData.likes -= 1;
-      this.$set(this.data, index, newData);
+      this.data[index] = newData;
     },
     async onFilterChange() {
       this.loadData();

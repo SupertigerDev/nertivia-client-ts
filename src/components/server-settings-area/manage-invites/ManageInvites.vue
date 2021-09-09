@@ -73,7 +73,8 @@ import CustomButton from "@/components/CustomButton.vue";
 import InviteTemplate from "./InviteTemplate.vue";
 import Invite from "@/interfaces/Invite";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ServerSettingsArea",
   components: { CustomInput, LoadingScreen, InviteTemplate, CustomButton },
   data() {

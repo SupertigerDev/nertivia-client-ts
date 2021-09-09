@@ -22,7 +22,8 @@ import User from "@/interfaces/User";
 import { MessageInputModule } from "@/store/modules/messageInput";
 import { insert } from "text-field-edit";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "MessageContextMenu",
   components: { ContextMenu },
   props: {

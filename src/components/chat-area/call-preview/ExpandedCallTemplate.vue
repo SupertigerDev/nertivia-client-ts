@@ -17,7 +17,8 @@ import User from "@/interfaces/User";
 import { CallParticipant } from "@/store/modules/voiceChannels";
 import Vue, { PropType } from "vue";
 import Avatar from "@/components/AvatarImage.vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   components: { Avatar },
   props: {
     selected: Boolean,

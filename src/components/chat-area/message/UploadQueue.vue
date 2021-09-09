@@ -16,7 +16,8 @@
 import UploadQueueItem from "./UploadQueueItem.vue";
 import { FileUploadModule } from "@/store/modules/fileUpload";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "UploadQueue",
   components: { UploadQueueItem },
   computed: {

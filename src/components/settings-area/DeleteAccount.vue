@@ -78,7 +78,8 @@ import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import { deleteAccount } from "@/services/userService";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "DeleteAccount",
   components: { CustomInput, CustomButton },
   data() {

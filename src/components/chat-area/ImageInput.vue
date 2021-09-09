@@ -28,7 +28,8 @@ import { MeModule } from "@/store/modules/me";
 import { PopoutsModule } from "@/store/modules/popouts";
 import WindowProperties from "@/utils/windowProperties";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "MainApp",
   components: { CheckBox, RadioBox },
   data() {

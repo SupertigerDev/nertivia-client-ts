@@ -33,7 +33,8 @@ import {
 } from "@/services/adminService";
 import UserTemplate from "./UserTemplate.vue";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "Users",
   components: { UserTemplate },
   data() {
@@ -72,7 +73,7 @@ export default Vue.extend({
       if (!this.users) return;
       const index = this.users?.findIndex(u => u.id === user.id);
       if (index < 0) return;
-      this.$set(this.users, index, user);
+      this.users[index] = user;
     }
   }
 });

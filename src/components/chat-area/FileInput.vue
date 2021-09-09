@@ -12,7 +12,8 @@
 import { FileUploadModule } from "@/store/modules/fileUpload";
 import fileSize from "filesize";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "MainApp",
   computed: {
     name(): any {

@@ -24,7 +24,8 @@
 import { fetchRecentActions, Action } from "@/services/adminService";
 import ActionTemplate from "./ActionTemplate.vue";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "Users",
   components: { ActionTemplate },
   data() {

@@ -19,7 +19,8 @@ import AvatarImage from "@/components/AvatarImage.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
 import User from "@/interfaces/User";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "CommonServers",
   components: { AvatarImage },
   props: {

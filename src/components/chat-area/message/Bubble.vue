@@ -45,7 +45,8 @@ import Markup from "@/components/Markup";
 import VideoPlayer from "./VideoPlayer.vue";
 import Invite from "@/interfaces/Invite";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "Bubble",
   components: {
     ImageMessageEmbed,

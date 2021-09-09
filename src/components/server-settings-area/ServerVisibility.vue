@@ -60,7 +60,8 @@ import {
   updateServer
 } from "@/services/exploreService";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ServerVisibility",
   components: { RadioBox, CustomInput, CustomButton },
   data() {

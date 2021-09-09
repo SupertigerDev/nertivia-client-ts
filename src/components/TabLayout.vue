@@ -8,7 +8,8 @@ interface Tab {
   events?: string[];
 }
 
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   data() {
     return {
       currentTab: 0

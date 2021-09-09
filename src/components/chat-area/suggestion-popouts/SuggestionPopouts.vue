@@ -45,7 +45,7 @@ import ChannelSuggestion from "./ChannelSuggestion.vue";
 import CommandSuggestion from "./CommandSuggestion.vue";
 import UserSuggestion from "./UserSuggestion.vue";
 import EmojiSuggestion from "./EmojiSuggestion.vue";
-import windowProperties from "@/utils/windowProperties";
+import { useWindowProperties } from "@/utils/windowProperties";
 import { MessageInputModule } from "@/store/modules/messageInput";
 import User from "@/interfaces/User";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
@@ -53,7 +53,8 @@ import { MeModule } from "@/store/modules/me";
 import emojiParser from "@/utils/emojiParser";
 import { BotCommand, botCommandsModule } from "@/store/modules/botCommands";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "SuggestionPopouts",
   components: {
     ChannelSuggestion,
@@ -191,11 +192,10 @@ export default Vue.extend({
       return this.$route.path.split("/")[2] || "";
     },
     show(): any {
-      if (!windowProperties.lastClickedElement) return true;
-      if (windowProperties.lastClickedElement.closest(".suggestion-popouts"))
-        return true;
-      if (windowProperties.lastClickedElement.closest(".input-box"))
-        return true;
+      const { lastClickedElement } = useWindowProperties();
+      if (!lastClickedElement) return true;
+      if (lastClickedElement.closest(".suggestion-popouts")) return true;
+      if (lastClickedElement.closest(".input-box")) return true;
 
       return false;
     },

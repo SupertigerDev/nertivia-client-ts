@@ -140,7 +140,8 @@ import {
 import { updateInstance } from "@/services/wrapper";
 import { PopoutsModule } from "@/store/modules/popouts";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "Account",
   components: {
     CustomInput,
@@ -343,7 +344,7 @@ export default Vue.extend({
               this.errors["other"] = error.msg;
               continue;
             }
-            this.$set(this.errors, error.param, error.msg);
+            this.errors[error.param] = error.message;
           }
           this.requestSent = false;
         });

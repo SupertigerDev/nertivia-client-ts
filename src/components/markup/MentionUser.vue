@@ -21,7 +21,8 @@ export interface MentionMemberProps {
   user: User;
 }
 
-export default Vue.extend<unknown, unknown, unknown, MentionMemberProps>({
+import { defineComponent } from "vue";
+export default defineComponent<unknown, unknown, unknown, MentionMemberProps>({
   components: { Mention, AvatarImage },
   props: {
     user: Object

@@ -3,7 +3,8 @@ import Vue from "vue";
 import hljs from "highlight.js";
 import "highlight.js/styles/night-owl.css";
 
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   functional: true,
   props: {
     lang: String,

@@ -60,7 +60,8 @@ import { changeCustomStatus, logout } from "@/services/userService";
 import Markup from "@/components/Markup";
 import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ProfileCard",
   components: { AvatarImage, Markup },
   props: {

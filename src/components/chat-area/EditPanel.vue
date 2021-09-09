@@ -15,7 +15,8 @@
 <script lang="ts">
 import { MessagesModule } from "@/store/modules/messages";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "EditPanel",
   props: {
     messageID: {

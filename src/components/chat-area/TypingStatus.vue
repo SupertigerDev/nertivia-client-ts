@@ -23,13 +23,14 @@ interface TypingData {
 interface TypingObj {
   [key: string]: {
     [key: string]: {
-      timer: number | null;
+      timer?: number | null;
       username: string;
     };
   };
 }
 
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "MainApp",
   data() {
     return {
@@ -100,29 +101,28 @@ export default Vue.extend({
         clearTimeout(isTyping.timer);
       }
       if (!this.typingObj[data.channel_id]) {
-        this.$set(this.typingObj, data.channel_id, {
+        this.typingObj[data.channel_id] = {
           [data.user.id]: {
             username: data.user.username
           }
-        });
+        };
       }
-
-      this.$set(this.typingObj[data.channel_id], data.user.id, {
+      this.typingObj[data.channel_id][data.user.id] = {
         username: data.user.username,
         timer: window.setTimeout(
           () => this.timeout(data.channel_id, data.user.id),
           3500
         )
-      });
+      };
     },
     timeout(channelID: string, id: string) {
-      this.$delete(this.typingObj[channelID], id);
+      delete this.typingObj[channelID][id];
     },
     onNewMessage(message: Message) {
       const objExists = this.typingObj[message.channelID]?.[message.creator.id];
       if (objExists) {
         objExists.timer && clearTimeout(objExists.timer);
-        this.$delete(this.typingObj[message.channelID], message.creator.id);
+        delete this.typingObj[message.channelID][message.creator.id];
       }
     },
     makeStrong(text: string) {

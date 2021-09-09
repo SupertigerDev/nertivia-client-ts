@@ -26,7 +26,8 @@ import Server from "@/interfaces/Server";
 import Notification from "@/interfaces/Notification";
 import { ChannelsModule } from "@/store/modules/channels";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "DashboardNotificationItem",
   components: { AvatarImage },
   props: {

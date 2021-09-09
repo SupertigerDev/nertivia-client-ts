@@ -63,7 +63,8 @@ import SideBar from "@/components/sidebar/SideBar.vue";
 import { ServersModule } from "@/store/modules/servers";
 import { PopoutsModule } from "@/store/modules/popouts";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "MainApp",
   components: {
     SideBar,

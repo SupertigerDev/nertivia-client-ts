@@ -28,7 +28,8 @@ import AdminActions from "./AdminActions.vue";
 import SelectedUserPage from "./SelectedUserPage.vue";
 
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   components: { Stats, Users, SelectedUserPage, AdminActions },
   data() {
     return {
@@ -46,14 +47,14 @@ export default Vue.extend({
       if (!this.selectedUser) return;
       const newUser = { ...this.selectedUser, banned: true };
       this.getUserComponent().updateUser(newUser);
-      this.$set(this, "selectedUser", newUser);
+      this.selectedUser = newUser;
       this.getAdminActionsComponent().fetchActions();
     },
     unsuspendUser({ removeIPBan }) {
       if (!this.selectedUser) return;
       const newUser = { ...this.selectedUser, banned: false };
       this.getUserComponent().updateUser(newUser);
-      this.$set(this, "selectedUser", newUser);
+      this.selectedUser = newUser;
       this.getAdminActionsComponent().fetchActions();
     }
   }

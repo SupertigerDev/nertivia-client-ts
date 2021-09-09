@@ -16,7 +16,8 @@
 <script lang="ts">
 import { GoogleDriveLink } from "@/services/authService";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "MainApp",
   data() {
     return {

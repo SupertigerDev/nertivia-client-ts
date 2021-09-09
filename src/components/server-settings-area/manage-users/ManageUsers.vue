@@ -26,7 +26,8 @@ import UsersList from "./UsersList.vue";
 import UserDetails from "./UserDetails.vue";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ServerSettingsArea",
   components: { CustomInput, UsersList, UserDetails },
   data() {

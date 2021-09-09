@@ -13,7 +13,8 @@ import TabLayout from "@/components/TabLayout.vue";
 import ColorScheme from "./GeneralInterface.vue";
 import CustomCSS from "./custom-css/CustomCSS.vue";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "Interface",
   components: { TabLayout },
   computed: {

@@ -12,7 +12,7 @@ export interface UpdateUserRequest {
   banner?: string;
 }
 
-export function reportError(error: Error, val: string): Promise<any> {
+export function reportError(error: any, val: string): Promise<any> {
   return wrapper()
     .post(`error_report`, {
       json: {

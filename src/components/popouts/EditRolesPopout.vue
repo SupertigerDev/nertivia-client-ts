@@ -44,7 +44,8 @@ import { addRole, removeRole } from "@/services/userService";
 import { ServersModule } from "@/store/modules/servers";
 import { MeModule } from "@/store/modules/me";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ProfilePopout",
   components: { AvatarImage },
   props: {

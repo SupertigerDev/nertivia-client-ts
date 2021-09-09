@@ -17,7 +17,7 @@ import Vue from "vue";
 import { MessagesModule } from "@/store/modules/messages";
 import Messages from "./Messages.vue";
 import UploadQueueComponent from "./message/UploadQueue.vue";
-import windowProperties from "@/utils/windowProperties";
+import { useWindowProperties } from "@/utils/windowProperties";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import FileDragDrop from "@/utils/FileDragDrop";
@@ -28,7 +28,8 @@ import { eventBus } from "@/utils/globalBus";
 import { fetchMessagesAround } from "@/services/messagesService";
 import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
 import Notification from "@/interfaces/Notification";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   components: { UploadQueueComponent, Messages },
   data() {
     return {
@@ -360,7 +361,7 @@ export default Vue.extend({
       return NotificationsModule.notificationByChannelID(this.channelID);
     },
     windowIsFocused(): boolean {
-      return windowProperties.isFocused;
+      return useWindowProperties().isFocused;
     },
     channelMessages(): Message[] | undefined {
       return MessagesModule.messages[this.channelID];
@@ -372,9 +373,10 @@ export default Vue.extend({
       return MessageLogStatesModule.isScrolledDown(this.channelID);
     },
     windowSize(): { height: number; width: number } {
+      const { resizeWidth, resizeHeight } = useWindowProperties();
       return {
-        height: windowProperties.resizeHeight,
-        width: windowProperties.resizeWidth
+        height: resizeHeight,
+        width: resizeWidth
       };
     },
     uploadQueue(): UploadQueue[] {

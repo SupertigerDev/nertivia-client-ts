@@ -56,7 +56,8 @@ import CustomInput from "@/components/CustomInput.vue";
 import CheckBox from "@/components/CheckBox.vue";
 import { suspendUser } from "@/services/adminService";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ProfilePopout",
   components: { AvatarImage, CustomButton, CustomInput, CheckBox },
   props: {

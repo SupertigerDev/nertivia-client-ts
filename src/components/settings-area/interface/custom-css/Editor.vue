@@ -53,13 +53,14 @@ import "codemirror/mode/css/css.js";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/ayu-mirage.css";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "Editor",
   components: { codemirror, CustomButton },
   props: {
     themeID: {
       type: String,
-      required: false
+      required: true
     }
   },
   data() {
@@ -123,7 +124,7 @@ export default Vue.extend({
         if (!this.theme) return;
         this.theme.css = this.css;
         this.theme.name = this.name;
-        this.$set(this.theme, "client_version", this.$lastUIBreakingVersion);
+        this.theme.client_version = this.$lastUIBreakingVersion;
       });
     },
     async apply() {
@@ -171,7 +172,7 @@ export default Vue.extend({
           this.name = data.name;
           this.theme.css = data.css;
           this.theme.name = data.name;
-          this.$set(this.theme, "client_version", this.$lastUIBreakingVersion);
+          this.theme.client_version = this.$lastUIBreakingVersion;
           this.apply();
           return;
         }

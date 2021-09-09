@@ -33,7 +33,8 @@ import DashboardNotificationServerItem from "@/components/dashboard-area/Dashboa
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { NotificationsModule } from "@/store/modules/notifications";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "DashboardArea",
   components: { DashboardNotificationItem, DashboardNotificationServerItem },
   computed: {

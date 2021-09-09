@@ -60,7 +60,8 @@ import Server from "@/interfaces/Server";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { bitwiseContains } from "@/utils/bitwise";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "InviteBot",
   components: {
     Header,

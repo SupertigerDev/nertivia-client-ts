@@ -30,7 +30,8 @@ import UserTemplate from "./UserTemplate.vue";
 import User from "@/interfaces/User";
 import { getBannedUsers } from "@/services/serverService";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ServerSettingsArea",
   components: { LoadingScreen, UserTemplate },
   data() {

@@ -21,7 +21,8 @@ import Vue from "vue";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const virtualList = require("vue-virtual-scroll-list");
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "RecentList",
   components: { FriendTemplate, virtualList },
   computed: {

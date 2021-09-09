@@ -54,7 +54,8 @@ import InformationTemplate from "@/components/InformationTemplate.vue";
 import { updateBot } from "@/services/botService";
 import User from "@/interfaces/User";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "Account",
   components: {
     CustomButton,
@@ -65,7 +66,7 @@ export default Vue.extend({
   props: {
     botCommands: {
       type: Array as PropType<any[]>,
-      required: false
+      required: true
     },
     botPrefix: {
       type: String,
@@ -95,11 +96,11 @@ export default Vue.extend({
   methods: {
     commandChange(index: number, data: any) {
       this.showSaveButton = true;
-      this.$set(this.localBotCommands, index, data);
+      this.localBotCommands[index] = data;
     },
     deleteCommand(index: number) {
       this.showSaveButton = true;
-      this.$delete(this.localBotCommands, index);
+      delete this.localBotCommands[index];
     },
     addButton() {
       this.showSaveButton = true;

@@ -2,7 +2,8 @@ import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChan
 import { NotificationsModule } from "@/store/modules/notifications";
 import electronBridge from "@/utils/electronBridge";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ElectronBadgeHandler",
   render(h) {
     return h("template");

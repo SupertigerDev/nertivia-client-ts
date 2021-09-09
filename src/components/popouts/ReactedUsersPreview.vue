@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import windowProperties from "@/utils/windowProperties";
+import { useWindowProperties } from "@/utils/windowProperties";
 import { PopoutsModule } from "@/store/modules/popouts";
 import AvatarImage from "@/components/AvatarImage.vue";
 
@@ -38,7 +38,8 @@ interface IProp {
   y: number;
 }
 
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ReactedUserPreview",
   components: { AvatarImage },
   props: {
@@ -104,9 +105,10 @@ export default Vue.extend({
       };
     },
     windowDiamentions(): any {
+      const { resizeHeight, resizeWidth } = useWindowProperties();
       return {
-        height: windowProperties.resizeHeight,
-        width: windowProperties.resizeWidth
+        height: resizeHeight,
+        width: resizeWidth
       };
     }
   },

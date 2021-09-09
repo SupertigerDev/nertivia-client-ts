@@ -56,7 +56,8 @@ interface ServerMember {
   roles: ServerRole[];
 }
 
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "MiniProfilePopout",
   components: { AvatarImage, UserStatusTemplate },
   props: {

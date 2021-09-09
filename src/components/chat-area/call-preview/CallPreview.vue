@@ -18,7 +18,8 @@ import {
 import Vue, { PropType } from "vue";
 import SmallCallPreview from "./SmallCallPreview.vue";
 import ExpandedCallPreview from "./ExpandedCallPreview.vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   components: { SmallCallPreview, ExpandedCallPreview },
   props: {
     participants: Array as PropType<CallParticipant[]>

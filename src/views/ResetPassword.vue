@@ -69,7 +69,8 @@ import CustomButton from "@/components/CustomButton.vue";
 
 import { resetPassword, resetPasswordRequest } from "@/services/authService";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "MainApp",
   components: { CustomInput, Captcha, CustomButton },
   data() {
@@ -151,10 +152,10 @@ export default Vue.extend({
           for (let i = 0; i < errors.length; i++) {
             const error = errors[i];
             if (error.param === "password") {
-              this.$set(this.errors, error.param, error.msg);
+              this.errors[error.param] = error.msg;
               continue;
             }
-            this.$set(this.errors, "other", error.msg);
+            this.errors.other = error.msg;
           }
         })
         .finally(() => (this.resetPasswordPostSent = false));

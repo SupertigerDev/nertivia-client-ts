@@ -89,7 +89,8 @@ import Server from "@/interfaces/Server";
 import { MeModule } from "@/store/modules/me";
 import { updateServer, UpdateServerRequest } from "@/services/serverService";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "General",
   components: { CustomInput, CustomDropDown, AvatarImage, CustomButton },
   data() {
@@ -198,7 +199,7 @@ export default Vue.extend({
               this.errors["other"] = error.msg;
               continue;
             }
-            this.$set(this.errors, error.param, error.msg);
+            this.errors[error.param] = error.msg;
           }
           this.requestSent = false;
         });

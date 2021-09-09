@@ -11,7 +11,8 @@ import Vue from "vue";
 import { ExtraServerMembers } from "@/interfaces/ServerMember";
 import ServerRole from "@/interfaces/ServerRole";
 
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   components: { UserTemplate, virtualList },
   props: {
     search: String

@@ -22,7 +22,8 @@ import Vue from "vue";
 const Editor = () => import(/* webpackChunkName: "Editor" */ "./Editor.vue");
 const PublishOptions = () =>
   import(/* webpackChunkName: "PublishOptions" */ "./PublishOptions.vue");
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "CustomCSS",
   components: { ThemeList, Editor, PublishOptions },
   data() {

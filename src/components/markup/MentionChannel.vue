@@ -12,7 +12,8 @@ export interface MentionChannelProps {
   channel: Channel;
 }
 
-export default Vue.extend<unknown, unknown, unknown, MentionChannelProps>({
+import { defineComponent } from "vue";
+export default defineComponent<unknown, unknown, unknown, MentionChannelProps>({
   components: { Mention },
   props: {
     channel: Object

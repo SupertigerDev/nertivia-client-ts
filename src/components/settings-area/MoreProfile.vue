@@ -63,7 +63,8 @@ import InformationTemplate from "@/components/InformationTemplate.vue";
 import { ageGroups, continents, countries, genders } from "@/utils/surveyItems";
 import { AboutMe, updateSurvay } from "@/services/userService";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "MoreProfile",
   components: {
     CustomInput,

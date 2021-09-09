@@ -75,7 +75,8 @@ import CustomButton from "@/components/CustomButton.vue";
 import { applyTheme, unapplyTheme } from "@/utils/CSSTheme";
 import { createTheme } from "@/services/themeService";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ExploreThemeTemplate",
   components: { CustomButton },
   props: {

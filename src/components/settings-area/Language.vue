@@ -43,7 +43,8 @@
 import languages from "@/locales/languages.json";
 import emojiParser from "@/utils/emojiParser";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "Language",
   data() {
     return {

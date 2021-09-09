@@ -95,7 +95,8 @@ import { MeModule } from "@/store/modules/me";
 import Channel from "@/interfaces/Channel";
 import twemoji from "twemoji";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ManageChannels",
   components: {
     CustomInput,

@@ -24,7 +24,8 @@ import Server from "@/interfaces/Server";
 import { changeServerPosition } from "@/services/serverService";
 import { LastSelectedServersModule } from "@/store/modules/lastSelectedServer";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "Servers",
   components: { ServerTemplate, Draggable },
   computed: {

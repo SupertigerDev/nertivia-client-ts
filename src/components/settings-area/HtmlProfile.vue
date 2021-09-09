@@ -57,7 +57,8 @@ import {
   getHtmlProfile,
   jsonHtml
 } from "@/services/userService";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   components: { CustomButton, InformationTemplate, CustomInput },
   data() {
     return {

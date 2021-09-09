@@ -65,7 +65,8 @@ interface Pages {
   };
 }
 
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "MainApp",
   data() {
     return {

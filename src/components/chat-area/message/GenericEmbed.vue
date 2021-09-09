@@ -20,7 +20,8 @@
 import { Embed } from "@/interfaces/Message";
 import { PopoutsModule } from "@/store/modules/popouts";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "GenericEmbed",
   props: {
     embed: {

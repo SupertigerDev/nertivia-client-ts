@@ -12,7 +12,8 @@ import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import { getServerInfoByCode } from "@/services/serverService";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "EnterServerCode",
   components: { CustomInput, CustomButton },
   data() {

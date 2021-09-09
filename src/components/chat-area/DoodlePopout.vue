@@ -91,7 +91,8 @@ import CustomColorPicker from "@/components/CustomColorPicker.vue";
 import { FileUploadModule } from "@/store/modules/fileUpload";
 import { set, get } from "idb-keyval";
 
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   components: { CustomButton, CustomColorPicker },
   data() {
     return {

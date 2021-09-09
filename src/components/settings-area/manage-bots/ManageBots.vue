@@ -46,7 +46,8 @@ import User from "@/interfaces/User";
 import { createBot, getBots } from "@/services/botService";
 import { PopoutsModule } from "@/store/modules/popouts";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ManageChannels",
   components: {
     CustomButton,
@@ -71,11 +72,11 @@ export default Vue.extend({
       if (!this.bots) return;
       const bot = this.bots[this.selectedBotIndex];
       if (!bot) return;
-      this.$set(this.bots, this.selectedBotIndex, { ...bot, ...data });
+      this.bots[this.selectedBotIndex] = { ...bot, ...data };
     },
     botDeleted() {
       if (!this.bots) return;
-      this.$delete(this.bots, this.selectedBotIndex);
+      delete this.bots[this.selectedBotIndex];
       this.selectedBotIndex = -1;
     },
     createBot() {

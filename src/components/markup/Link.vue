@@ -4,7 +4,8 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import Vue from "vue";
 
 // todo: Add warning
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   functional: true,
   props: {
     url: String,

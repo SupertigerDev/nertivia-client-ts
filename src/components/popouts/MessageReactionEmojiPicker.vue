@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import EmojiPicker from "@/components/emoji-picker/EmojiPicker.vue";
-import windowProperties from "@/utils/windowProperties";
+import { useWindowProperties } from "@/utils/windowProperties";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { addReaction } from "@/services/messagesService";
 import { MessagesModule } from "@/store/modules/messages";
@@ -27,7 +27,8 @@ interface IProp {
   y: number;
 }
 
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "MessageReactionEmojiPicker",
   components: { EmojiPicker },
   props: {
@@ -60,9 +61,10 @@ export default Vue.extend({
       };
     },
     windowDiamentions(): any {
+      const { resizeHeight, resizeWidth } = useWindowProperties();
       return {
-        height: windowProperties.resizeHeight,
-        width: windowProperties.resizeWidth
+        height: resizeHeight,
+        width: resizeWidth
       };
     }
   },

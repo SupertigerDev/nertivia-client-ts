@@ -82,13 +82,14 @@ import CustomInput from "@/components/CustomInput.vue";
 import { Theme } from "@/services/themeService";
 import InformationTemplate from "@/components/InformationTemplate.vue";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "PublishOptions",
   components: { CustomButton, CustomInput, InformationTemplate },
   props: {
     theme: {
       type: Object as PropType<Theme>,
-      required: false
+      required: true
     }
   },
   data() {
@@ -192,18 +193,18 @@ export default Vue.extend({
     handleError(json: any) {
       const { errors, message } = json;
       if (message) {
-        this.$set(this.errors, "other", message);
+        this.errors.other = message;
         return;
       }
       const allowedParams = ["description"];
       for (let i = 0; i < errors.length; i++) {
         const { param, msg } = errors[i];
         if (!allowedParams.includes(param)) {
-          this.$set(this.errors, "other", msg);
+          this.errors.other = msg;
 
           continue;
         }
-        this.$set(this.errors, param, msg);
+        this.errors[param] = msg;
       }
     }
   }

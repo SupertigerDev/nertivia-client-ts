@@ -8,7 +8,8 @@
 import { MeModule } from "@/store/modules/me";
 import { PopoutsModule } from "@/store/modules/popouts";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "MainApp",
   computed: {
     isConnected(): any {

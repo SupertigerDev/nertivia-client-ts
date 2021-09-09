@@ -22,7 +22,8 @@ import { applyFont } from "./utils/applyFont";
 import fonts from "@/utils/fonts.json";
 import { clear } from "idb-keyval";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "App",
   components: { WindowControl, Popouts },
   mounted() {

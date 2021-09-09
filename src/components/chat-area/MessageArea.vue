@@ -23,7 +23,7 @@ import LoadingScreen from "@/components/LoadingScreen.vue";
 import MessageBoxArea from "./MessageBoxArea.vue";
 import CallPreview from "./call-preview/CallPreview.vue";
 import { ChannelsModule } from "@/store/modules/channels";
-import windowProperties from "@/utils/windowProperties";
+import { useWindowProperties } from "@/utils/windowProperties";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { MeModule } from "@/store/modules/me";
@@ -36,7 +36,8 @@ import {
   voiceChannelModule,
   CallParticipant
 } from "@/store/modules/voiceChannels";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "MessageArea",
   components: {
     MessageLogs,
@@ -50,7 +51,7 @@ export default Vue.extend({
       return voiceChannelModule.callParticipants(this.channelID);
     },
     isFocused(): any {
-      return windowProperties.isFocused;
+      return useWindowProperties().isFocused;
     },
     hasServerNotification(): any {
       return LastSeenServerChannelsModule.serverChannelNotification(

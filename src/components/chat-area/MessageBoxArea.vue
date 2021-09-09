@@ -154,7 +154,8 @@ const DoodlePopout = () =>
     /* webpackChunkName: "DoodlePopout" */ "@/components/chat-area/DoodlePopout.vue"
   );
 
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   components: {
     FileUpload,
     TypingStatus,

@@ -69,7 +69,8 @@ import HTMLEmbed from "./HTMLEmbed.vue";
 import { UsersModule } from "@/store/modules/users";
 import Vue, { PropType } from "vue";
 import User from "@/interfaces/User";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "MessageLogs",
   components: {
     AvatarImage,

@@ -52,7 +52,8 @@ interface Server {
   default_channel_id: string;
 }
 
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "PreviewServer",
   components: { AvatarImage, CustomButton },
   props: {

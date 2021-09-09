@@ -93,7 +93,8 @@ import AgreementMessage from "@/components/AgreementMessage.vue";
 
 import { confirmEmail, postRegister } from "@/services/authService";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "MainApp",
   components: { CustomInput, Captcha, CustomButton, AgreementMessage },
   data() {

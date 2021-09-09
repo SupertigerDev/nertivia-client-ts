@@ -8,7 +8,8 @@ import { PopoutsModule } from "@/store/modules/popouts";
 interface Props {
   compressedJSON: string;
 }
-export default Vue.extend<Props>({
+import { defineComponent } from "vue";
+export default defineComponent<Props>({
   functional: true,
   render(h, { props }) {
     let obj: any = {};

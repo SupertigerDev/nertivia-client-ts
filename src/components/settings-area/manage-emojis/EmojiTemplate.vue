@@ -35,7 +35,8 @@ import { CustomEmojisModule } from "@/store/modules/customEmojis";
 import { PopoutsModule } from "@/store/modules/popouts";
 import emojiParser from "@/utils/emojiParser";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "EmojiTemplate",
   props: {
     emoji: {

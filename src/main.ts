@@ -13,7 +13,7 @@ import i18n from "./i18n";
 
 Vue.use(clipboard);
 
-declare module "vue/types/vue" {
+declare module "vue" {
   interface Vue {
     $isMobile: boolean;
     $version: string;

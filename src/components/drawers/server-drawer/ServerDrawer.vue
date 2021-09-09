@@ -43,7 +43,8 @@ import ChannelTemplate from "@/components/drawers/server-drawer/ChannelTemplate.
 import { PopoutsModule } from "@/store/modules/popouts";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "ServerDrawer",
   components: { ChannelTemplate },
   data() {

@@ -13,7 +13,8 @@
 import Message from "@/interfaces/Message";
 import ButtonTemplate from "./ButtonTemplate.vue";
 import Vue, { PropType } from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "MessageSide",
   components: { ButtonTemplate },
   props: {

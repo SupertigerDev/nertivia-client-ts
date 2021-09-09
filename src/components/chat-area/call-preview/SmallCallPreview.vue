@@ -27,7 +27,8 @@ import {
 } from "@/store/modules/voiceChannels";
 import Vue, { PropType } from "vue";
 import CallTemplate from "./SmallCallTemplate.vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   components: { CallTemplate },
   props: {
     participants: Array as PropType<(CallParticipant & { user: User })[]>

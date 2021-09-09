@@ -41,7 +41,8 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import { emojiURL } from "@/utils/emojiParser";
 import Vue, { PropType } from "vue";
 import CallTemplate from "./CallTemplate.vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   components: { CallTemplate },
   name: "ChannelTemplate",
   props: {

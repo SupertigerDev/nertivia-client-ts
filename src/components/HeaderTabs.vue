@@ -21,7 +21,8 @@ import Tab from "./HeaderTabTemplate.vue";
 import { TabsModule } from "@/store/modules/tabs";
 import Draggable from "vuedraggable";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "HeaderTabs",
   components: { Tab, Draggable },
   computed: {

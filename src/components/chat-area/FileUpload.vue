@@ -15,7 +15,8 @@ import fileSize from "filesize";
 import FileInput from "./FileInput.vue";
 import ImageInput from "./ImageInput.vue";
 import Vue from "vue";
-export default Vue.extend({
+import { defineComponent } from "vue";
+export default defineComponent({
   name: "MainApp",
   components: { FileInput, ImageInput },
   computed: {
