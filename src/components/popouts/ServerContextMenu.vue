@@ -28,7 +28,7 @@ export default defineComponent({
         y: number;
         server_id: string;
       }>,
-      required: false
+      required: true
     }
   },
   computed: {
@@ -134,7 +134,8 @@ export default defineComponent({
           this.leaveServer();
           break;
         case "copy_id":
-          this.$copyText(this.server.server_id);
+          // $fix below
+          //this.$copyText(this.server.server_id);
           break;
         case "mark_as_read":
           this.markAsRead();
@@ -146,9 +147,10 @@ export default defineComponent({
     markAsRead() {
       for (let i = 0; i < this.notifications.length; i++) {
         const { channelID } = this.notifications[i];
-        this.$socket.client.emit("notification:dismiss", {
-          channelID
-        });
+        // $fix below
+        // this.$socket.client.emit("notification:dismiss", {
+        //   channelID
+        // });
       }
     }
   }

@@ -3,7 +3,7 @@ import { ExtraServerMembers } from "@/interfaces/ServerMember";
 import ServerRole from "@/interfaces/ServerRole";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
-import WindowProperties from "@/utils/windowProperties";
+import { useWindowProperties } from "@/utils/windowProperties";
 import Vue from "vue";
 import ServerMemberTemplate from "./ServerMemberTemplate.vue";
 
@@ -135,10 +135,10 @@ export default defineComponent({
       return this.serverMembers.filter(sm => !sm.presence);
     },
     serverId(): string {
-      return this.$route.params.server_id;
+      return this.$route.params.server_id as string;
     },
     remain(): number {
-      return Math.round(WindowProperties.resizeHeight / 40);
+      return Math.round(useWindowProperties().resizeHeight / 40);
     }
   }
 });

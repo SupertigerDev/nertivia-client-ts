@@ -1,16 +1,9 @@
 import Vue from "vue";
-import VueRouter, {createRouter} from "vue-router";
+import VueRouter, { createRouter } from "vue-router";
 import VueSocketIo from "vue-socket.io-extended";
 import io from "socket.io-client";
 
 import store from "../store/index";
-
-
-
-
-
-
-
 
 const ExploreArea = () =>
   import(
@@ -39,146 +32,151 @@ const ServerSettingsArea = () =>
 const PageNotFound = () =>
   import(/* webpackChunkName: "PageNotFound" */ "../views/PageNotFound.vue");
 
-
-
-const router = createRouter ({
+const router = createRouter({
   history: VueRouter.createWebHashHistory(),
   routes: [
-  {
-    path: "/",
-    name: "Home",
-    component: () => import(/* webpackChunkName: "home" */ "../views/Home.vue")
-  },
-  {
-    path: "/privacy",
-    name: "Privacy",
-    component: () =>
-      import(/* webpackChunkName: "Privacy" */ "../views/Privacy.vue")
-  },
-  {
-    path: "/bots/:botid",
-    name: "Invite Bot",
-    component: () =>
-      import(/* webpackChunkName: "InviteBot" */ "../views/InviteBot.vue")
-  },
-  {
-    path: "/invites/:inviteid",
-    alias: ["/i/:inviteid"],
-    name: "Invite Server",
-    component: () =>
-      import(/* webpackChunkName: "InviteServer" */ "../views/InviteServer.vue")
-  },
-  {
-    path: "/terms-and-conditions",
-    name: "TermsAndConditions",
-    component: () =>
-      import(
-        /* webpackChunkName: "TermsAndConditions" */ "../views/TermsAndConditions.vue"
-      )
-  },
-  {
-    path: "/popout-css-editor",
-    name: "CSSEditor",
-    component: () =>
-      import(
-        /* webpackChunkName: "CSSEditor" */ "../components/settings-area/interface/custom-css/Editor.vue"
-      )
-  },
-  {
-    // TODO: change the path someday
-    path: "/GDrive_callback",
-    name: "GoogleDriveCallback",
-    component: () =>
-      import(
-        /* webpackChunkName: "GoogleDriveCallback" */ "../views/GoogleDriveCallback.vue"
-      )
-  },
-  {
-    path: "/login",
-    name: "Login",
-    component: () =>
-      import(/* webpackChunkName: "Login" */ "../views/Login.vue"),
-    beforeEnter(to, from, next) {
-      if (localStorage["hauthid"]) {
-        location.href = "/app";
-        return;
-      }
-      next();
-    }
-  },
-  {
-    path: "/reset-password",
-    name: "Reset Password",
-    component: () =>
-      import(
-        /* webpackChunkName: "ResetPassword" */ "../views/ResetPassword.vue"
-      ),
-    beforeEnter(to, from, next) {
-      if (localStorage["hauthid"]) {
-        location.href = "/app";
-        return;
-      }
-      next();
-    }
-  },
-  {
-    path: "/register",
-    name: "Register",
-    component: () =>
-      import(/* webpackChunkName: "Register" */ "../views/Register.vue"),
-    beforeEnter(to, from, next) {
-      if (localStorage["hauthid"]) {
-        location.href = "/app";
-        return;
-      }
-      next();
-    }
-  },
-  {
-    path: "/app",
-    children: [
-      {
-        path: "servers/:server_id/settings/:tab?/:id?",
-        component: ServerSettingsArea,
-        name: "server-settings"
-      },
-      {
-        path: "servers/:server_id/:channel_id",
-        component: MessageArea,
-        name: "message-area"
-      },
-      { path: "dms/:channel_id", component: MessageArea, name: "message-area" },
-      { path: "servers/", component: DashboardArea },
-      { path: "dms/", component: DashboardArea },
-      { path: "settings/:tab?", component: SettingsArea },
-      { path: "explore/:tab?", component: ExploreArea },
-      { path: "admin-panel/:tab?", component: AdminPanelArea },
-      { path: "/", component: DashboardArea }
-    ],
-    name: "App",
-    component: () =>
-      import(/* webpackChunkName: "main-app" */ "../views/MainApp.vue"),
-    beforeEnter(to, from, next) {
-      if (!localStorage["hauthid"]) {
-        location.href = "/login";
-        return;
-      }
-      Vue.use(
-        VueSocketIo,
-        io(process.env.VUE_APP_SOCKET_URL || "", {
-          autoConnect: false,
-          transports: ["websocket"]
-        }),
-        {
-          store
+    {
+      path: "/",
+      name: "Home",
+      component: () =>
+        import(/* webpackChunkName: "home" */ "../views/Home.vue")
+    },
+    {
+      path: "/privacy",
+      name: "Privacy",
+      component: () =>
+        import(/* webpackChunkName: "Privacy" */ "../views/Privacy.vue")
+    },
+    {
+      path: "/bots/:botid",
+      name: "Invite Bot",
+      component: () =>
+        import(/* webpackChunkName: "InviteBot" */ "../views/InviteBot.vue")
+    },
+    {
+      path: "/invites/:inviteid",
+      alias: ["/i/:inviteid"],
+      name: "Invite Server",
+      component: () =>
+        import(
+          /* webpackChunkName: "InviteServer" */ "../views/InviteServer.vue"
+        )
+    },
+    {
+      path: "/terms-and-conditions",
+      name: "TermsAndConditions",
+      component: () =>
+        import(
+          /* webpackChunkName: "TermsAndConditions" */ "../views/TermsAndConditions.vue"
+        )
+    },
+    {
+      path: "/popout-css-editor",
+      name: "CSSEditor",
+      component: () =>
+        import(
+          /* webpackChunkName: "CSSEditor" */ "../components/settings-area/interface/custom-css/Editor.vue"
+        )
+    },
+    {
+      // TODO: change the path someday
+      path: "/GDrive_callback",
+      name: "GoogleDriveCallback",
+      component: () =>
+        import(
+          /* webpackChunkName: "GoogleDriveCallback" */ "../views/GoogleDriveCallback.vue"
+        )
+    },
+    {
+      path: "/login",
+      name: "Login",
+      component: () =>
+        import(/* webpackChunkName: "Login" */ "../views/Login.vue"),
+      beforeEnter(to, from, next) {
+        if (localStorage["hauthid"]) {
+          location.href = "/app";
+          return;
         }
-      );
-      next();
-    }
-  },
-  { path: "/404", component: PageNotFound },
-  { path: "*", redirect: "/404" }
-]})
-
+        next();
+      }
+    },
+    {
+      path: "/reset-password",
+      name: "Reset Password",
+      component: () =>
+        import(
+          /* webpackChunkName: "ResetPassword" */ "../views/ResetPassword.vue"
+        ),
+      beforeEnter(to, from, next) {
+        if (localStorage["hauthid"]) {
+          location.href = "/app";
+          return;
+        }
+        next();
+      }
+    },
+    {
+      path: "/register",
+      name: "Register",
+      component: () =>
+        import(/* webpackChunkName: "Register" */ "../views/Register.vue"),
+      beforeEnter(to, from, next) {
+        if (localStorage["hauthid"]) {
+          location.href = "/app";
+          return;
+        }
+        next();
+      }
+    },
+    {
+      path: "/app",
+      children: [
+        {
+          path: "servers/:server_id/settings/:tab?/:id?",
+          component: ServerSettingsArea,
+          name: "server-settings"
+        },
+        {
+          path: "servers/:server_id/:channel_id",
+          component: MessageArea,
+          name: "message-area"
+        },
+        {
+          path: "dms/:channel_id",
+          component: MessageArea,
+          name: "message-area"
+        },
+        { path: "servers/", component: DashboardArea },
+        { path: "dms/", component: DashboardArea },
+        { path: "settings/:tab?", component: SettingsArea },
+        { path: "explore/:tab?", component: ExploreArea },
+        { path: "admin-panel/:tab?", component: AdminPanelArea },
+        { path: "/", component: DashboardArea }
+      ],
+      name: "App",
+      component: () =>
+        import(/* webpackChunkName: "main-app" */ "../views/MainApp.vue"),
+      beforeEnter(to, from, next) {
+        if (!localStorage["hauthid"]) {
+          location.href = "/login";
+          return;
+        }
+        Vue.use(
+          VueSocketIo,
+          io(process.env.VUE_APP_SOCKET_URL || "", {
+            autoConnect: false,
+            transports: ["websocket"]
+          }),
+          {
+            store
+          }
+        );
+        next();
+      }
+    },
+    { path: "/404", component: PageNotFound },
+    { path: "*", redirect: "/404" }
+  ]
+});
 
 export default router;

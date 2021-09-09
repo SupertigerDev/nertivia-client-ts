@@ -41,7 +41,7 @@ export default defineComponent({
   props: {
     user: {
       type: Object as PropType<User>,
-      required: false
+      required: true
     }
   },
   data() {

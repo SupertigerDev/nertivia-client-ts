@@ -35,7 +35,7 @@ export default defineComponent({
         message: Message & { grouped: boolean };
         element?: HTMLElement;
       }>,
-      required: false
+      required: true
     }
   },
   data() {
@@ -165,8 +165,10 @@ export default defineComponent({
           MessageInputModule.SetEditingMessage(this.message);
           break;
         case "copy_id":
-          if (this.message.messageID) this.$copyText(this.message.messageID);
-          break;
+          if (this.message.messageID)
+            // $fix below
+            //this.$copyText(this.message.messageID);
+            break;
         default:
           break;
       }
@@ -193,7 +195,8 @@ export default defineComponent({
     },
     copyMessage() {
       if (!this.message.message) return;
-      this.$copyText(this.message.message);
+      // $fix below
+      //this.$copyText(this.message.message);
     }
   }
 });

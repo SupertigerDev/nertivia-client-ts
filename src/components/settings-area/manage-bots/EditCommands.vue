@@ -74,7 +74,7 @@ export default defineComponent({
     },
     bot: {
       type: Object as PropType<User>,
-      required: false
+      required: true
     }
   },
   data() {

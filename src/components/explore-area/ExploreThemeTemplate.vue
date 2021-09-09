@@ -82,11 +82,11 @@ export default defineComponent({
   props: {
     data: {
       type: Object as PropType<PublicThemeResponse>,
-      required: false
+      required: true
     },
     appliedThemeID: {
       type: String,
-      required: false
+      required: true
     }
   },
   data() {

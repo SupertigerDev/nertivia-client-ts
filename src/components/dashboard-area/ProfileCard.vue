@@ -67,7 +67,7 @@ export default defineComponent({
   props: {
     identity: {
       type: String,
-      required: false
+      required: true
     },
     hideTitle: {
       type: Boolean,

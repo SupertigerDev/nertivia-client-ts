@@ -224,7 +224,8 @@ export default defineComponent({
       }
     },
     copyInvite() {
-      this.$copyText(this.inviteLink);
+      // $fix below
+      // this.$copyText(this.inviteLink);
       PopoutsModule.ShowPopout({
         id: "copy-bot-invite-url",
         component: "generic-popout",
@@ -235,7 +236,8 @@ export default defineComponent({
       });
     },
     copyToken() {
-      this.$copyText(this.botToken || "");
+      // $fix below
+      // this.$copyText(this.botToken || "");
       PopoutsModule.ShowPopout({
         id: "copy-token",
         component: "generic-popout",

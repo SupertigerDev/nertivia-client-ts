@@ -45,11 +45,11 @@ export default defineComponent({
   props: {
     data: {
       type: Object as PropType<IProp>,
-      required: false
+      required: true
     },
     identity: {
       type: String,
-      required: false
+      required: true
     }
   },
   data() {

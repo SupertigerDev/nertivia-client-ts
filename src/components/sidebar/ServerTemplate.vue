@@ -34,7 +34,7 @@ export default defineComponent({
   props: {
     server: {
       type: Object as PropType<Server>,
-      required: false
+      required: true
     }
   },
   data() {

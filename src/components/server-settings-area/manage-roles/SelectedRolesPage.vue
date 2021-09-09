@@ -96,7 +96,7 @@ export default defineComponent({
   props: {
     roleID: {
       type: String,
-      required: false
+      required: true
     }
   },
   data() {

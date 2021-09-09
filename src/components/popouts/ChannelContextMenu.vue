@@ -35,7 +35,7 @@ export default defineComponent({
         server_id: string;
         channelID: string;
       }>,
-      required: false
+      required: true
     }
   },
   computed: {
@@ -112,7 +112,8 @@ export default defineComponent({
     itemClick(item: any) {
       switch (item.id) {
         case "copy_id":
-          this.$copyText(this.data.channelID);
+          // $fix below
+          //this.$copyText(this.data.channelID);
           break;
         case "mark_as_read":
           this.markAsRead();
@@ -133,9 +134,10 @@ export default defineComponent({
       }
     },
     markAsRead() {
-      this.$socket.client.emit("notification:dismiss", {
-        channelID: this.data.channelID
-      });
+      // $fix below
+      // this.$socket.client.emit("notification:dismiss", {
+      //   channelID: this.data.channelID
+      // });
     }
   }
 });

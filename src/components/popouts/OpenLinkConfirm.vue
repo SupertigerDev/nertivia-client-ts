@@ -41,13 +41,13 @@ export default defineComponent({
   props: {
     identity: {
       type: String,
-      required: false
+      required: true
     },
     data: {
       type: Object as PropType<{
         url: string;
       }>,
-      required: false
+      required: true
     }
   },
   computed: {

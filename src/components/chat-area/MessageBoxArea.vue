@@ -128,7 +128,7 @@ import { MeModule } from "@/store/modules/me";
 import { MessagesModule } from "@/store/modules/messages";
 import { MessageInputModule } from "@/store/modules/messageInput";
 import Vue from "vue";
-import WindowProperties from "@/utils/windowProperties";
+import { useWindowProperties } from "@/utils/windowProperties";
 import { editMessage, postTypingStatus } from "@/services/messagesService";
 import Message from "@/interfaces/Message";
 import { PopoutsModule } from "@/store/modules/popouts";
@@ -291,7 +291,7 @@ export default defineComponent({
       if (this.uploadFile) {
         this.message = "";
         FileUploadModule.AddToQueue({
-          channelID: this.$route.params.channel_id,
+          channelID: this.$route.params.channel_id as string,
           message
         });
         return;
@@ -300,7 +300,7 @@ export default defineComponent({
         this.message = "";
         MessagesModule.SendMessage({
           message,
-          channelID: this.$route.params.channel_id
+          channelID: this.$route.params.channel_id as string
         });
       }
     },
@@ -499,16 +499,16 @@ export default defineComponent({
       return MeModule.connected;
     },
     isFocused(): boolean {
-      return WindowProperties.isFocused;
+      return useWindowProperties().isFocused;
     },
     windowWidthSize(): number {
-      return WindowProperties.resizeWidth;
+      return useWindowProperties().resizeWidth;
     },
     uploadFile(): File | undefined {
       return FileUploadModule.file.file;
     },
     channelID(): string {
-      return this.$route.params.channel_id;
+      return this.$route.params.channel_id as string;
     },
     serverChannel(): Channel {
       return ChannelsModule.channels[this.channelID];
@@ -526,7 +526,7 @@ export default defineComponent({
     },
     serverID(): string | undefined {
       if (this.currentTab !== "servers") return undefined;
-      return this.$route.params.server_id;
+      return this.$route.params.server_id as string;
     },
     currentTab(): string {
       return this.$route.path.split("/")[2] || "";

@@ -41,7 +41,7 @@ export default defineComponent({
   props: {
     emoji: {
       type: Object as PropType<CustomEmoji>,
-      required: false
+      required: true
     },
     defaultFocused: {
       type: Boolean,

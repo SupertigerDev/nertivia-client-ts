@@ -62,7 +62,7 @@ export default defineComponent({
         user: User;
         callback: any;
       }>,
-      required: false
+      required: true
     }
   },
   data() {

@@ -47,7 +47,7 @@ export default defineComponent({
   props: {
     theme: {
       type: Object as PropType<ThemePreview>,
-      required: false
+      required: true
     },
     showOptions: {
       type: Boolean,

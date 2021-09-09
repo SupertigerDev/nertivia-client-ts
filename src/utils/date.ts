@@ -85,11 +85,11 @@ export default (milliseconds: number, type?: Type) => {
   const messageDate = new Date(milliseconds);
 
   if (sameDay(now, messageDate)) {
-    friendlyDate = i18n.t("time.today-at", [
+    friendlyDate = i18n.global.t("time.today-at", [
       getFullTime(messageDate, type)
     ]) as string;
   } else if (yesterDay(messageDate)) {
-    friendlyDate = i18n.t("time.yesterday-at", [
+    friendlyDate = i18n.global.t("time.yesterday-at", [
       getFullTime(messageDate, type)
     ]) as string;
   } else {

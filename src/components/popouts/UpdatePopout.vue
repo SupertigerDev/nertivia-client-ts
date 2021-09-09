@@ -29,7 +29,7 @@ export default defineComponent({
   props: {
     identity: {
       type: String,
-      required: false
+      required: true
     }
   },
   methods: {

@@ -40,10 +40,10 @@ import Vue, { PropType } from "vue";
 
 const types = [
   {},
-  { color: "#29bf12", message: i18n.t("messages.joined") },
-  { color: "#968b8b", message: i18n.t("messages.left") },
-  { color: "#ff9914", message: i18n.t("messages.kicked") },
-  { color: "#d92121", message: i18n.t("messages.banned") }
+  { color: "#29bf12", message: i18n.global.t("messages.joined") },
+  { color: "#968b8b", message: i18n.global.t("messages.left") },
+  { color: "#ff9914", message: i18n.global.t("messages.kicked") },
+  { color: "#d92121", message: i18n.global.t("messages.banned") }
 ];
 import { defineComponent } from "vue";
 export default defineComponent({

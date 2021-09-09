@@ -12,7 +12,7 @@
 <script lang="ts">
 import ContextMenu from "@/components/ContextMenu.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
-import WindowProperties from "@/utils/windowProperties";
+import { useWindowProperties } from "@/utils/windowProperties";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { MeModule } from "@/store/modules/me";
 import { ServersModule } from "@/store/modules/servers";
@@ -33,7 +33,7 @@ export default defineComponent({
         parentContextWidth?: number;
         element: HTMLElement;
       }>,
-      required: false
+      required: true
     }
   },
   data() {
@@ -178,7 +178,7 @@ export default defineComponent({
       if (!this.data.x) return;
       const thisWidth = (this.$refs.context as any).width;
       const rightPos = this.data.x + thisWidth;
-      if (rightPos > WindowProperties.resizeWidth) {
+      if (rightPos > useWindowProperties().resizeWidth) {
         this.x = this.data.x - (thisWidth + this.data.parentContextWidth + 5);
       }
     }
@@ -189,13 +189,15 @@ export default defineComponent({
     },
     itemClick(item: any) {
       if (item.id === "copy_id") {
-        this.$copyText(this.data.id);
+        // $fix below
+        //this.$copyText(this.data.id);
         return;
       }
       if (item.id === "copy_user_tag") {
-        this.$copyText(
-          `${this.data.tempUser.username}:${this.data.tempUser.tag}`
-        );
+        // $fix below
+        //this.$copyText(
+        //`${this.data.tempUser.username}:${this.data.tempUser.tag}`
+        //);
         return;
       }
       if (item.id === "view_profile") {

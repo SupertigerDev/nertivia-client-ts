@@ -23,7 +23,7 @@ export default defineComponent({
         x: number;
         y: number;
       }>,
-      required: false
+      required: true
     }
   },
   computed: {

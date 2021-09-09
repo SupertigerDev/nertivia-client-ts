@@ -72,7 +72,7 @@ export default defineComponent({
   computed: {
     selectedTab(): any {
       const tab = this.$route.params.tab;
-      if (tab) {
+      if (typeof tab === "string") {
         return { ...settingPages[tab], id: tab };
       }
       return undefined;

@@ -59,7 +59,7 @@ export default defineComponent({
         messageID: string;
         channelID: string;
       }>,
-      required: false
+      required: true
     }
   },
   computed: {

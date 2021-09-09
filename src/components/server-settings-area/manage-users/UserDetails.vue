@@ -41,8 +41,8 @@ export default defineComponent({
   components: { CustomButton },
   props: {
     serverMember: {
-      type: Object as PropType<any>,
-      required: false
+      type: Object as any,
+      required: true
     }
   },
   computed: {

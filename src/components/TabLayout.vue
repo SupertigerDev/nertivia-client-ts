@@ -16,7 +16,10 @@ export default defineComponent({
     };
   },
   props: {
-    tabs: Array as PropType<Tab[]>
+    tabs: {
+      type: Array as PropType<Tab[]>,
+      required: true
+    }
   },
   render(h) {
     const Tab = ({ props }) => (

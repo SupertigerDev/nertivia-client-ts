@@ -45,7 +45,7 @@ import ServerRole from "@/interfaces/ServerRole";
 import userStatuses from "@/constants/userStatuses";
 import UserStatusTemplate from "@/components/UserStatusTemplate.vue";
 import { PresencesModule } from "@/store/modules/presences";
-import WindowProperties from "@/utils/windowProperties";
+import { useWindowProperties } from "@/utils/windowProperties";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
 import { fetchUser, ReturnedUser } from "@/services/userService";
@@ -63,7 +63,7 @@ export default defineComponent({
   props: {
     data: {
       type: Object as PropType<{ x: number; y: number; member: ServerMember }>,
-      required: false
+      required: true
     }
   },
   data() {
@@ -115,8 +115,8 @@ export default defineComponent({
     },
     windowDiamentions(): any {
       return {
-        height: WindowProperties.resizeHeight,
-        width: WindowProperties.resizeWidth
+        height: useWindowProperties().resizeHeight,
+        width: useWindowProperties().resizeWidth
       };
     }
   },

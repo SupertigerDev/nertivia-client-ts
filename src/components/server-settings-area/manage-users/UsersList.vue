@@ -126,7 +126,7 @@ export default defineComponent({
       return ServerRolesModule.sortedServerRolesArr(this.server_id);
     },
     server_id(): string {
-      return this.$route.params.server_id;
+      return this.$route.params.server_id as string;
     }
   }
 });

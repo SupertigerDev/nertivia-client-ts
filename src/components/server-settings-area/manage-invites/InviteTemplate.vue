@@ -53,7 +53,7 @@ export default defineComponent({
   props: {
     invite: {
       type: Object as PropType<Invite>,
-      required: false
+      required: true
     }
   },
   data() {
@@ -70,7 +70,8 @@ export default defineComponent({
       });
     },
     copyLink() {
-      this.$copyText(`${this.prefixURL}i/${this.invite.invite_code}`);
+      // $fix below
+      //this.$copyText(`${this.prefixURL}i/${this.invite.invite_code}`);
       alert(this.$t("generic.copied"));
     }
   }

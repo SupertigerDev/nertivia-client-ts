@@ -108,7 +108,7 @@ export default defineComponent({
   props: {
     channelID: {
       type: String,
-      required: false
+      required: true
     }
   },
   data() {

@@ -46,7 +46,7 @@ export default defineComponent({
   props: {
     id: {
       type: String,
-      required: false
+      required: true
     },
     showStatusOnly: {
       type: Boolean,

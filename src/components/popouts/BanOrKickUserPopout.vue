@@ -63,7 +63,7 @@ export default defineComponent({
         action: string;
         tempUser: User;
       }>,
-      required: false
+      required: true
     }
   },
   data() {

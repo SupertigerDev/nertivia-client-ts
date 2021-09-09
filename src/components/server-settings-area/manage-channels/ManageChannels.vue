@@ -108,7 +108,7 @@ export default defineComponent({
     }
   },
   mounted() {
-    const { id } = this.$route.params;
+    const { id } = this.$route.params as { [key: string]: string };
     this.selectedChannelID = id || null;
     id && this.$router.replace({ params: { id: null as any } });
   },

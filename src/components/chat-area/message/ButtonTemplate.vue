@@ -18,11 +18,11 @@ export default defineComponent({
   props: {
     button: {
       type: Object as PropType<Button>,
-      required: false
+      required: true
     },
     message: {
       type: Object as PropType<Message>,
-      required: false
+      required: true
     }
   },
   data() {
@@ -32,17 +32,19 @@ export default defineComponent({
     };
   },
   destroyed() {
-    this.$socket.client.off("message_button_click_callback", this.onCallback);
+    // $fix below
+    // this.$socket.client.off("message_button_click_callback", this.onCallback);
   },
   methods: {
     click() {
       if (this.posting) return;
       if (!this.message.messageID) return;
       this.posting = true;
-      this.$socket.client.once(
-        "message_button_click_callback",
-        this.onCallback
-      );
+      // $fix below
+      // this.$socket.client.once(
+      //   "message_button_click_callback",
+      //   this.onCallback
+      // );
       buttonClick(
         this.message.channelID,
         this.message.messageID,

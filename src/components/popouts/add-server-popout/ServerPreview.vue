@@ -59,7 +59,7 @@ export default defineComponent({
   props: {
     server: {
       type: Object as PropType<{ json: Server; code: string }>,
-      required: false
+      required: true
     }
   },
   data() {
@@ -88,17 +88,18 @@ export default defineComponent({
       if (this.requestSent) return;
       this.requestSent = true;
       this.error = null;
-      joinServerByCode(this.server.code, this.$socket.client.id)
-        .then(() => {
-          PopoutsModule.ClosePopout("add-server");
-          this.requestSent = false;
-        })
-        .catch(async err => {
-          this.requestSent = false;
-          if (!err.response) return (this.error = "Cannot connect to server.");
-          const result = await err.response.json();
-          this.error = result.message;
-        });
+      // $fix below
+      // joinServerByCode(this.server.code, this.$socket.client.id)
+      //   .then(() => {
+      //     PopoutsModule.ClosePopout("add-server");
+      //     this.requestSent = false;
+      //   })
+      //   .catch(async err => {
+      //     this.requestSent = false;
+      //     if (!err.response) return (this.error = "Cannot connect to server.");
+      //     const result = await err.response.json();
+      //     this.error = result.message;
+      //   });
     }
   }
 });

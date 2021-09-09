@@ -51,7 +51,7 @@ export default defineComponent({
   props: {
     data: {
       type: Object as PropType<{ id: string; serverID: string }>,
-      required: false
+      required: true
     }
   },
   computed: {

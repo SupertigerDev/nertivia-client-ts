@@ -85,7 +85,7 @@ export default defineComponent({
   props: {
     data: {
       type: Object as PropType<ServerResponse>,
-      required: false
+      required: true
     }
   },
   data() {
@@ -123,11 +123,12 @@ export default defineComponent({
     },
     joinClicked() {
       this.joining = true;
-      joinServerById(this.data.server.server_id, {
-        socketID: this.$socket.client.id
-      }).finally(() => {
-        this.joining = false;
-      });
+      // $fix below
+      // joinServerById(this.data.server.server_id, {
+      //   socketID: this.$socket.client.id
+      // }).finally(() => {
+      //   this.joining = false;
+      // });
     }
   }
 });

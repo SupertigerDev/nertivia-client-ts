@@ -28,10 +28,13 @@ export default defineComponent({
   name: "ProfilePopout",
   components: { ButtonTemplate },
   props: {
-    data: Object as PropType<{
-      url: string;
-      unsafe_url: string;
-    }>
+    data: {
+      type: Object as PropType<{
+        url: string;
+        unsafe_url: string;
+      }>,
+      required: true
+    }
   },
   methods: {
     showContext(event: any) {

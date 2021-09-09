@@ -1,5 +1,6 @@
 <template>
   <div class="root">
+    <WindowControl v-if="$isElectron" />
     <router-view />
     <Popouts />
   </div>
@@ -22,9 +23,35 @@ import fonts from "@/utils/fonts.json";
 import { clear } from "idb-keyval";
 import Vue from "vue";
 import { defineComponent } from "vue";
+import i18n from "./i18n";
 export default defineComponent({
+  name: "App",
+  components: { WindowControl, Popouts },
   mounted() {
-    this.t;
+    if (!localStorage["hauthid"]) {
+      clear();
+    }
+    // applyfont
+    applyFont(localStorage["font"] || Object.values(fonts)[0].id);
+    // set custom css colors
+    const customVars = getCustomCssVars();
+    for (let i = 0; i < Object.keys(customVars).length; i++) {
+      const key = Object.keys(customVars)[i];
+      const value = customVars[key];
+      changeCssVar(key, value, false);
+    }
+    setThemeColor();
+    this.setLocale();
+  },
+  methods: {
+    setLocale() {
+      const currentLocale = localStorage["locale"] || "en";
+      if (currentLocale === "en") return;
+      import(`@/locales/${currentLocale}.json`).then(messages => {
+        i18n.global.setLocaleMessage(currentLocale, messages.default);
+        i18n.global.locale = currentLocale;
+      });
+    }
   }
 });
 </script>

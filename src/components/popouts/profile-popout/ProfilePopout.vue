@@ -193,7 +193,7 @@ export default defineComponent({
   props: {
     data: {
       type: Object as PropType<{ id: string; fullProfile?: ReturnedUser }>,
-      required: false
+      required: true
     }
   },
   data() {

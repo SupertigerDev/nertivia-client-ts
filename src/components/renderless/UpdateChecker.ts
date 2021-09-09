@@ -1,6 +1,6 @@
 import { AppUpdateModule } from "@/store/modules/appUpdate";
 import { PopoutsModule } from "@/store/modules/popouts";
-import WindowProperties from "@/utils/windowProperties";
+import { useWindowProperties } from "@/utils/windowProperties";
 import Vue from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
@@ -17,7 +17,7 @@ export default defineComponent({
   },
   computed: {
     focused(): any {
-      return WindowProperties.isFocused;
+      return useWindowProperties().isFocused;
     }
   },
   watch: {

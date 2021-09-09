@@ -38,7 +38,7 @@ export default defineComponent({
   props: {
     identity: {
       type: String,
-      required: false
+      required: true
     }
   },
   methods: {
@@ -53,9 +53,10 @@ export default defineComponent({
       w?.focus();
     },
     agree() {
-      AgreePolicy().then(() => {
-        this.$socket.client.connect();
-        this.close();
+      // $fix below
+      // AgreePolicy().then(() => {
+      //   this.$socket.client.connect();
+      //   this.close();
       });
     }
   }

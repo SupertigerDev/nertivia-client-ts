@@ -23,7 +23,7 @@ export default defineComponent({
         y: number;
         imageUrl: string;
       }>,
-      required: false
+      required: true
     }
   },
   data() {
@@ -66,7 +66,8 @@ export default defineComponent({
     itemClick(item: any) {
       switch (item.id) {
         case "copy_url":
-          this.$copyText(this.data.imageUrl);
+          // $fix below
+          //this.$copyText(this.data.imageUrl);
           break;
         case "copy_image":
           this.getImageCanvas(this.img).toBlob(blob =>

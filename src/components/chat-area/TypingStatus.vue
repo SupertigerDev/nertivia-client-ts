@@ -77,11 +77,13 @@ export default defineComponent({
     }
   },
   mounted() {
-    this.$socket.client.on("typingStatus", this.onTyping);
+    // $fix below
+    // this.$socket.client.on("typingStatus", this.onTyping);
     eventBus.$on("newMessage", this.onNewMessage);
   },
   beforeDestroy() {
-    this.$socket.client.off("typingStatus", this.onTyping);
+    // $fix below
+    // this.$socket.client.off("typingStatus", this.onTyping);
     eventBus.$off("newMessage", this.onNewMessage);
   },
   methods: {

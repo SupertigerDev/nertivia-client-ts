@@ -66,7 +66,7 @@ export default defineComponent({
   props: {
     invite: {
       type: Object as PropType<any>,
-      required: false
+      required: true
     }
   },
   data() {
@@ -110,7 +110,8 @@ export default defineComponent({
       if (this.requestSent) return;
       this.requestSent = true;
       const code = this.invite[2];
-      joinServerByCode(code, this.$socket.client.id);
+      // $fix below
+      //joinServerByCode(code, this.$socket.client.id);
     }
   }
 });

@@ -105,12 +105,12 @@ const actions: ActionTree<any, any> = {
   [SERVER_LEAVE](context, data: { server_id: string }) {
     ServersModule.DeleteServer(data.server_id);
     MessagesModule.DeleteServerMessages(data.server_id);
-    voiceChannelModule.deleteServerVoiceChannels(data.server_id)
+    voiceChannelModule.deleteServerVoiceChannels(data.server_id);
     ChannelsModule.DeleteAllServerChannels(data.server_id);
     ServerRolesModule.DeleteAllServerRoles(data.server_id);
     ServerMembersModule.RemoveAllServerMembers(data.server_id);
 
-    if (router.currentRoute.params?.server_id === data.server_id) {
+    if (router.currentRoute.value.params?.server_id === data.server_id) {
       router.push("/app");
     }
   },
@@ -181,7 +181,7 @@ const actions: ActionTree<any, any> = {
     ServerMembersModule.AddServerMember(filterServerMemberKeys(serverMember));
   },
   [SERVER_MEMBER_REMOVE](context, { id, server_id }) {
-    voiceChannelModule.removeServerUser({userId: id, serverId: server_id})
+    voiceChannelModule.removeServerUser({ userId: id, serverId: server_id });
     ServerMembersModule.RemoveServerMember({ id, server_id });
   },
   [SERVER_ROLES](context, { roles, server_id }) {

@@ -35,10 +35,11 @@ export default defineComponent({
       if (!this.isConnected) return;
       this.programActivityTimeout && clearTimeout(this.programActivityTimeout);
       if (MeModule.user.status !== 0) {
-        this.$socket.client.emit(
-          "programActivity:set",
-          this.currentActiveProgram
-        );
+        // $fix below
+        // this.$socket.client.emit(
+        //   "programActivity:set",
+        //   this.currentActiveProgram
+        // );
       }
       if (!this.currentActiveProgram) {
         this.programActivityTimeout = null;

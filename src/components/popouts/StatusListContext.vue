@@ -23,7 +23,7 @@ export default defineComponent({
   props: {
     data: {
       type: Object as PropType<{ x?: number; y?: number }>,
-      required: false
+      required: true
     }
   },
   computed: {

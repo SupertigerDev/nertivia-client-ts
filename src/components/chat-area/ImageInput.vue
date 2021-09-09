@@ -26,7 +26,7 @@ import CheckBox from "@/components/CheckBox.vue";
 import RadioBox from "@/components/RadioBox.vue";
 import { MeModule } from "@/store/modules/me";
 import { PopoutsModule } from "@/store/modules/popouts";
-import WindowProperties from "@/utils/windowProperties";
+import { useWindowProperties } from "@/utils/windowProperties";
 import Vue from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
@@ -73,7 +73,7 @@ export default defineComponent({
     },
     parentWidth(): any {
       // this line is needed to make this getter reactive.
-      const windowWidth = WindowProperties.resizeWidth;
+      const windowWidth = useWindowProperties().resizeWidth;
 
       return this.messageLogsEl?.clientWidth || 0;
     }

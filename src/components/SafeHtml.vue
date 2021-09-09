@@ -9,7 +9,10 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import { defineComponent } from "vue";
 export default defineComponent({
   props: {
-    zippedJsonHtml: String
+    zippedJsonHtml: {
+      type: String,
+      required: true
+    }
   },
   data() {
     return {

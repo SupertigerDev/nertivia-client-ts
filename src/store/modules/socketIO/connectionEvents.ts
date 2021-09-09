@@ -134,7 +134,7 @@ const actions: ActionTree<any, any> = {
   [CONNECT]() {
     MeModule.SetConnectionDetails({
       connected: false,
-      message: i18n.t("connection.authenticating").toString()
+      message: i18n.global.t("connection.authenticating").toString()
     });
     socket().emit("authentication", {
       token: localStorage.getItem("hauthid")

@@ -20,7 +20,7 @@ export default defineComponent({
   props: {
     command: {
       type: Object as PropType<{ a: string; c: string; id: string }>,
-      required: false
+      required: true
     }
   },
   data() {

@@ -36,7 +36,7 @@ export default defineComponent({
   },
   computed: {
     page(): any {
-      const id = this.$route.params.tab;
+      const id = this.$route.params.tab as string;
       return { ...settingsPages[id], id };
     },
     serverID(): any {

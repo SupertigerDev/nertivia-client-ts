@@ -58,9 +58,9 @@ class Tabs extends VuexModule {
 
   @Action
   public setCurrentTab(payload: Tab) {
-    const obj = { ...payload, path: router.currentRoute.path };
+    const obj = { ...payload, path: router.currentRoute.value.path };
     setBrowserTitle(payload.name);
-    const tab = this.tabs.find(t => t.path === router.currentRoute.path);
+    const tab = this.tabs.find(t => t.path === router.currentRoute.value.path);
     if (tab) {
       this.SET_CURRENT_TAB(obj);
       return;
@@ -95,7 +95,7 @@ class Tabs extends VuexModule {
   @Action
   closeTabByPath(path: string) {
     if (this.tabs.length === 1) {
-      if (router.currentRoute.path !== "/app") {
+      if (router.currentRoute.value.path !== "/app") {
         router.push("/app");
       }
       this.REPLACE_TAB({ index: 0, tab: { ...this.tabs[0], opened: false } });
@@ -104,7 +104,7 @@ class Tabs extends VuexModule {
     }
     const index = this.tabs.findIndex(tab => tab.path === path);
     const tabBefore = this.tabs?.[index - 1] || this.tabs?.[index + 1];
-    if (tabBefore.path && tabBefore.path !== router.currentRoute.path) {
+    if (tabBefore.path && tabBefore.path !== router.currentRoute.value.path) {
       router.push(tabBefore.path);
     }
     this.CLOSE_TAB(index);

@@ -29,7 +29,7 @@ export default defineComponent({
   props: {
     identity: {
       type: String,
-      required: false
+      required: true
     },
     data: {
       type: Object as PropType<{
@@ -37,7 +37,7 @@ export default defineComponent({
         description: string;
         callback?: any;
       }>,
-      required: false
+      required: true
     }
   },
   methods: {
