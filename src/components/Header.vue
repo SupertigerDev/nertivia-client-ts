@@ -53,7 +53,7 @@ export default defineComponent({
   props: {
     title: {
       type: String,
-      required: false
+      required: true
     }
   },
   computed: {
@@ -61,13 +61,15 @@ export default defineComponent({
       return this.$route.params.server_id;
     },
     DMChannel(): any {
-      return ChannelsModule.getDMChannel(this.$route.params.channel_id);
+      return ChannelsModule.getDMChannel(
+        this.$route.params.channel_id as string
+      );
     },
     DMUser(): any {
       return this.DMChannel?.recipients?.[0];
     },
     channelId(): string {
-      return this.$route.params.channel_id;
+      return this.$route.params.channel_id as string;
     }
   },
   methods: {

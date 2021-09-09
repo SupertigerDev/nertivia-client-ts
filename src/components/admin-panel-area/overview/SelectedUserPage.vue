@@ -68,7 +68,7 @@ export default defineComponent({
   props: {
     user: {
       type: Object as PropType<ExpandedUser>,
-      required: false
+      required: true
     }
   },
   data() {

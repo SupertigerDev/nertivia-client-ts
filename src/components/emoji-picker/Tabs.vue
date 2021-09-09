@@ -49,7 +49,7 @@ export default defineComponent({
   props: {
     pos: {
       type: Object as PropType<{ x?: number; y?: number }>,
-      required: false
+      required: true
     }
   },
   data() {

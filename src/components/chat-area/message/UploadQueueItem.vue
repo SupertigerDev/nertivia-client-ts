@@ -39,7 +39,7 @@ export default defineComponent({
         progress: number;
         channelID: string;
       }>,
-      required: false
+      required: true
     }
   },
   computed: {

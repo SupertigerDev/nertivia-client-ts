@@ -57,7 +57,7 @@ export default defineComponent({
       // AgreePolicy().then(() => {
       //   this.$socket.client.connect();
       //   this.close();
-      });
+      // });
     }
   }
 });

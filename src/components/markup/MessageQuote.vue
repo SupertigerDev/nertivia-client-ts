@@ -13,9 +13,15 @@ import { defineComponent } from "vue";
 export default defineComponent({
   components: { AvatarImage, Markup },
   props: {
-    quote: Object as () => Quote,
+    quote: {
+      type: Object as () => Quote,
+      required: true
+    },
     user: Object as () => User,
-    nestedLevel: Number,
+    nestedLevel: {
+      type: Number,
+      required: true,
+    },
     message: Object as () => Message,
   },
   render(h) {
@@ -76,7 +82,7 @@ export default defineComponent({
     gotoMessage() {
       eventBus.$emit("scrollToMessage", this.quote.messageID);
     },
-    showProfile(event: PointerEvent) {
+    showProfile(event: MouseEvent) {
       if (this.user != null) {
         PopoutsModule.ShowPopout({
           id: "profile",
@@ -88,7 +94,7 @@ export default defineComponent({
               member: this.user,
               roles:
                 ServerMembersModule.memberRoles(
-                  this.$route.params.server_id,
+                  this.$route.params.server_id as string,
                   this.user.id
                 ) ?? [],
             },

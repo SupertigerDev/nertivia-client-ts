@@ -71,7 +71,7 @@ export default defineComponent({
     },
     hideTitle: {
       type: Boolean,
-      required: false
+      required: true
     }
   },
   data() {

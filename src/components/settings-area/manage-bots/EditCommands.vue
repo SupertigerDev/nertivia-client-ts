@@ -70,7 +70,7 @@ export default defineComponent({
     },
     botPrefix: {
       type: String,
-      required: false
+      required: true
     },
     bot: {
       type: Object as PropType<User>,

@@ -22,11 +22,11 @@ export default defineComponent({
   props: {
     items: {
       type: Array as PropType<any[]>,
-      required: false
+      required: true
     },
     template: {
       type: Function,
-      required: false
+      required: true
     }
   },
   data() {

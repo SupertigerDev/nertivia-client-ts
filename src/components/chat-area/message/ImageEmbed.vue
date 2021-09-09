@@ -33,8 +33,8 @@ export default defineComponent({
   name: "ImageMessageEmbed",
   props: {
     image: {
-      type: Object as PropType<any>,
-      required: false
+      type: Object as any,
+      required: true
     }
   },
   data() {

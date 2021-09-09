@@ -33,11 +33,11 @@ export default defineComponent({
   props: {
     channel: {
       type: Object as PropType<Channel & { server: Server }>,
-      required: false
+      required: true
     },
     dmNotification: {
       type: Object as PropType<Notification>,
-      required: false
+      required: true
     }
   },
   computed: {

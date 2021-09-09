@@ -26,7 +26,7 @@ export default defineComponent({
     },
     description: {
       type: String,
-      required: false
+      required: true
     },
     colored: {
       type: Boolean

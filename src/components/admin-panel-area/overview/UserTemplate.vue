@@ -27,11 +27,11 @@ export default defineComponent({
   props: {
     user: {
       type: Object as PropType<ExpandedUser>,
-      required: false
+      required: true
     },
     hover: {
       type: Boolean,
-      required: false
+      required: true
     }
   },
   computed: {

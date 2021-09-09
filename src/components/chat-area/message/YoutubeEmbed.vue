@@ -19,7 +19,7 @@ export default defineComponent({
   props: {
     embed: {
       type: Object as PropType<Embed>,
-      required: false
+      required: true
     }
   },
   computed: {

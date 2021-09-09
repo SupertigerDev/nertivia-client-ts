@@ -46,7 +46,7 @@ export default defineComponent({
         href={sanitizedUrl}
         target="_blank"
         rel="noopener noreferrer"
-        onclick={clicked}
+        onClick={clicked}
       >
         {props.text ?? sanitizedUrl}
       </a>

@@ -1,17 +1,12 @@
 <template>
   <div class="join-server">
     <transition :name="server ? 'slide-left' : 'slide-right'">
-      <EnterServerCode
-        v-if="!server"
-        key="EnterServerCode"
+      <component
+        :is="server ? 'ServerPreview' : 'EnterServerCode'"
         @success="server = $event"
-      />
-      <ServerPreview
-        v-if="server"
-        key="ServerPreview"
         :server="server"
         @back="server = null"
-      />
+      ></component>
     </transition>
   </div>
 </template>

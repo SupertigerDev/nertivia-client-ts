@@ -1,15 +1,12 @@
-import Vue, {createApp, reactive} from "vue";
+import Vue, { createApp, reactive } from "vue";
 // import throttle from "lodash/throttle";
-
-
-
 
 const data = reactive({
   resizeWidth: 0,
   resizeHeight: 0,
   isFocused: document.hasFocus(),
-  lastClickedElement: null
-})
+  lastClickedElement: null as HTMLElement | null
+});
 
 data.resizeWidth = window.innerWidth;
 data.resizeHeight = window.innerHeight;
@@ -26,7 +23,6 @@ window.addEventListener("blur", () => {
   data.isFocused = false;
 });
 
-
 function onResize() {
   data.resizeWidth = window.innerWidth;
   data.resizeHeight = window.innerHeight;
@@ -35,7 +31,6 @@ function onMouseDown(event: MouseEvent) {
   data.lastClickedElement = event.target as any;
 }
 
-
 export function useWindowProperties() {
-  return {...data};
+  return { ...data };
 }

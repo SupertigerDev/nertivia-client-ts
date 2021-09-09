@@ -65,19 +65,19 @@ export default defineComponent({
   props: {
     pos: {
       type: Object as PropType<{ x?: number; y?: number }>,
-      required: false
+      required: true
     },
     element: {
       type: HTMLElement,
-      required: false
+      required: true
     },
     items: {
       type: Array as PropType<ItemsProp[]>,
-      required: false
+      required: true
     },
     type: {
       type: String,
-      required: false
+      required: true
     }
   },
   data() {

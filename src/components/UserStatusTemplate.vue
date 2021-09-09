@@ -50,11 +50,11 @@ export default defineComponent({
     },
     showStatusOnly: {
       type: Boolean,
-      required: false
+      required: true
     },
     showOffline: {
       type: Boolean,
-      required: false
+      required: true
     }
   },
   computed: {

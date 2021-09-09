@@ -5,18 +5,17 @@
 <script lang="ts">
 import Channel from "@/interfaces/Channel";
 import { DrawersModule } from "@/store/modules/drawers";
-import Vue from "vue";
+import Vue, { PropType } from "vue";
 import Mention from "./Mention.vue";
 
-export interface MentionChannelProps {
-  channel: Channel;
-}
-
 import { defineComponent } from "vue";
-export default defineComponent<unknown, unknown, unknown, MentionChannelProps>({
+export default defineComponent({
   components: { Mention },
   props: {
-    channel: Object
+    channel: {
+      type: Object as PropType<Channel>,
+      required: true
+    }
   },
   computed: {
     display() {

@@ -49,7 +49,10 @@ export default defineComponent({
   components: { AvatarImage, UserStatusTemplate },
   props: {
     selected: Boolean,
-    tab: Object as PropType<Tab>
+    tab: {
+      type: Object as PropType<Tab>,
+      required: true
+    }
   },
   mounted() {
     this.getTabElement().addEventListener("auxclick", this.onMiddleClick);

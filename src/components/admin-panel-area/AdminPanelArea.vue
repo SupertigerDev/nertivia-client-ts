@@ -17,7 +17,7 @@ export default defineComponent({
   components: { Header, Overview },
   computed: {
     page(): any {
-      return explorePages[this.$route.params.tab];
+      return explorePages[this.$route.params.tab as string];
     }
   },
   watch: {

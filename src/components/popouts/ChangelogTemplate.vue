@@ -55,7 +55,7 @@ export default defineComponent({
   props: {
     log: {
       type: Object as PropType<Changelog>,
-      required: false
+      required: true
     }
   },
   computed: {

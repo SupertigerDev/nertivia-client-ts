@@ -39,7 +39,7 @@ export default defineComponent({
     return (
       <pre class="codeblock">
         {header(props.value, lang.name)}
-        <code domPropsInnerHTML={value}></code>
+        <code innerHTML={value}></code>
       </pre>
     );
   }

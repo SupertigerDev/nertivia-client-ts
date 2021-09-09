@@ -20,7 +20,7 @@ export default defineComponent({
   props: {
     action: {
       type: Object as PropType<Action>,
-      required: false
+      required: true
     }
   },
   computed: {

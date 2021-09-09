@@ -32,7 +32,7 @@ export default defineComponent({
   props: {
     selected: {
       type: Boolean,
-      required: false
+      required: true
     },
     item: {
       type: Object as PropType<{
@@ -40,7 +40,7 @@ export default defineComponent({
         bot: User;
         argsEnteredLength: number;
       }>,
-      required: false
+      required: true
     }
   },
   computed: {

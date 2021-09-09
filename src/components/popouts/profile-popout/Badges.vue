@@ -23,7 +23,7 @@ export default defineComponent({
   props: {
     badges: {
       type: Array as PropType<Badge[]>,
-      required: false
+      required: true
     }
   }
 });

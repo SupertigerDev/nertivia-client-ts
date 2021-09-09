@@ -14,11 +14,11 @@ export default defineComponent({
   props: {
     bullets: {
       type: Object as PropType<string[] | string>,
-      required: false
+      required: true
     },
     color: {
       type: String,
-      required: false
+      required: true
     }
   },
   computed: {

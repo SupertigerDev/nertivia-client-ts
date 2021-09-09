@@ -19,7 +19,7 @@ export default defineComponent({
   props: {
     users: {
       type: Array as PropType<User[]>,
-      required: false
+      required: true
     }
   },
   data() {

@@ -19,11 +19,11 @@ export default defineComponent({
   props: {
     item: {
       type: Object as PropType<Channel>,
-      required: false
+      required: true
     },
     selected: {
       type: Boolean,
-      required: false
+      required: true
     }
   },
   computed: {

@@ -39,13 +39,14 @@
     "vue-i18n": "^9.1.7",
     "vue-property-decorator": "^9.1.2",
     "vue-router": "^4.0.11",
-    "vue-socket.io-extended": "^4.2.0",
+    "vue-socket.io-extended": "^5.0.0-alpha.5",
     "vue-virtual-scroll-list": "^1.4.7",
     "vuedraggable": "^2.24.3",
-    "vuex": "^3.4.0",
+    "vuex": "^4.0.2",
     "vuex-module-decorators": "^1.0.1"
   },
   "devDependencies": {
+    "@intlify/vue-i18n-loader": "^3.0.0",
     "@types/highlight.js": "^10.1.0",
     "@types/pako": "^1.0.1",
     "@types/simple-peer": "^9.11.1",

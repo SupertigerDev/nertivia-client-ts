@@ -58,15 +58,15 @@ export default defineComponent({
   props: {
     message: {
       type: Object as PropType<Message>,
-      required: false
+      required: true
     },
     grouped: {
       type: Boolean,
-      required: false
+      required: true
     },
     invite: {
       type: Object as PropType<Invite>,
-      required: false
+      required: true
     }
   },
   data() {

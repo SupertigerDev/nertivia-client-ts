@@ -48,7 +48,7 @@ export default defineComponent({
   props: {
     channel: {
       type: Object as PropType<Channel>,
-      required: false
+      required: true
     }
   },
   data() {

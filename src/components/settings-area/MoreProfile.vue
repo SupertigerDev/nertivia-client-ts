@@ -75,7 +75,7 @@ export default defineComponent({
   props: {
     aboutMe: {
       type: Object as PropType<AboutMe>,
-      required: false
+      required: true
     }
   },
   data() {

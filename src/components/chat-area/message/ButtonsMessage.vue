@@ -20,7 +20,7 @@ export default defineComponent({
   props: {
     message: {
       type: Object as PropType<Message>,
-      required: false
+      required: true
     }
   },
   computed: {

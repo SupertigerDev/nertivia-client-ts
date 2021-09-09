@@ -26,7 +26,7 @@ export default defineComponent({
   props: {
     friends: {
       type: Array as PropType<User[]>,
-      required: false
+      required: true
     }
   },
   methods: {

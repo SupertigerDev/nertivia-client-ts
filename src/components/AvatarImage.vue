@@ -25,31 +25,31 @@ export default defineComponent({
   props: {
     size: {
       type: String,
-      required: false
+      required: true
     },
     imageId: {
       type: String,
-      required: false
+      required: true
     },
     seedId: {
       type: String,
-      required: false
+      required: true
     },
     willHaveClickEvent: {
       type: Boolean,
-      required: false
+      required: true
     },
     animateGif: {
       type: Boolean,
-      required: false
+      required: true
     },
     customUrl: {
       type: String,
-      required: false
+      required: true
     },
     badges: {
       type: Number,
-      required: false
+      required: true
     }
   },
   computed: {

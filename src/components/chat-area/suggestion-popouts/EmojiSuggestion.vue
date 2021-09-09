@@ -18,7 +18,7 @@ export default defineComponent({
   props: {
     emojis: {
       type: Array as PropType<any[]>,
-      required: false
+      required: true
     }
   },
   data() {

@@ -10,22 +10,21 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue, { PropType } from "vue";
 import User from "@/interfaces/User";
 import Mention from "./Mention.vue";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 
-export interface MentionMemberProps {
-  user: User;
-}
-
 import { defineComponent } from "vue";
-export default defineComponent<unknown, unknown, unknown, MentionMemberProps>({
+export default defineComponent({
   components: { Mention, AvatarImage },
   props: {
-    user: Object
+    user: {
+      type: Object as PropType<User>,
+      required: true
+    }
   },
   computed: {
     display() {
@@ -57,7 +56,7 @@ export default defineComponent<unknown, unknown, unknown, MentionMemberProps>({
             member: this.user,
             roles:
               ServerMembersModule.memberRoles(
-                this.$route.params.server_id,
+                this.$route.params.server_id as string,
                 this.user.id
               ) ?? []
           }

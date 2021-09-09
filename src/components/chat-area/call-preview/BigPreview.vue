@@ -23,7 +23,10 @@ import { defineComponent } from "vue";
 export default defineComponent({
   components: { Avatar },
   props: {
-    participant: Object as PropType<CallParticipant & { user: User }>
+    participant: {
+      type: Object as PropType<CallParticipant & { user: User }>,
+      required: true
+    }
   },
   watch: {
     videoStream: {

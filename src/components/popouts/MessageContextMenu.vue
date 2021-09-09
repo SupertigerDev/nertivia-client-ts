@@ -21,7 +21,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import User from "@/interfaces/User";
 import { MessageInputModule } from "@/store/modules/messageInput";
 import { insert } from "text-field-edit";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "MessageContextMenu",
@@ -165,10 +165,10 @@ export default defineComponent({
           MessageInputModule.SetEditingMessage(this.message);
           break;
         case "copy_id":
-          if (this.message.messageID)
-            // $fix below
-            //this.$copyText(this.message.messageID);
-            break;
+          // $fix below
+          // if (this.message.messageID)
+          //this.$copyText(this.message.messageID);
+          break;
         default:
           break;
       }

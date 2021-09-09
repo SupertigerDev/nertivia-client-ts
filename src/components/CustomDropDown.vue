@@ -72,15 +72,15 @@ export default defineComponent({
   props: {
     title: {
       type: String,
-      required: false
+      required: true
     },
     items: {
       type: Array as PropType<(Item | any)[]>,
-      required: false
+      required: true
     },
     error: {
       type: String,
-      required: false
+      required: true
     },
     defaultId: {
       type: [Number, String],
@@ -88,11 +88,11 @@ export default defineComponent({
     },
     validMessage: {
       type: String,
-      required: false
+      required: true
     },
     IdPath: {
       type: String,
-      required: false
+      required: true
     },
     defaultText: {
       type: String,

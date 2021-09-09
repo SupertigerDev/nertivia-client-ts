@@ -48,7 +48,7 @@ export default defineComponent({
           roles: ServerRole[];
         }
       >,
-      required: false
+      required: true
     }
   },
   data() {

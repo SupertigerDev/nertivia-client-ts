@@ -79,7 +79,7 @@ export default defineComponent({
       return NotificationsModule.allDMNotifications.length > 0;
     },
     savedNotesSelected(): any {
-      const channelID = this.$route.params.channel_id;
+      const channelID = this.$route.params.channel_id as string;
       if (!channelID) return false;
       const DMChannel = ChannelsModule.getDMChannel(channelID);
       const recipient = DMChannel?.recipients?.[0];

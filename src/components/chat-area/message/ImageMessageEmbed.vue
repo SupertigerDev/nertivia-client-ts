@@ -32,7 +32,7 @@ export default defineComponent({
   props: {
     message: {
       type: Object as PropType<Message & { grouped: boolean }>,
-      required: false
+      required: true
     }
   },
   data() {

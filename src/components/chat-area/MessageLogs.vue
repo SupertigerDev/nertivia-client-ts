@@ -368,7 +368,7 @@ export default defineComponent({
       return MessagesModule.messages[this.channelID];
     },
     channelID(): string {
-      return this.$route.params.channel_id;
+      return this.$route.params.channel_id as string;
     },
     isScrolledDown(): boolean {
       return MessageLogStatesModule.isScrolledDown(this.channelID);

@@ -37,7 +37,7 @@ export default defineComponent({
   props: {
     thumbnailURL: {
       type: String,
-      required: false
+      required: true
     },
     file: {
       type: Object as PropType<{
@@ -45,11 +45,11 @@ export default defineComponent({
         fileName: string;
         url: string;
       }>,
-      required: false
+      required: true
     },
     youtubeURL: {
       type: String,
-      required: false
+      required: true
     }
   },
   data() {

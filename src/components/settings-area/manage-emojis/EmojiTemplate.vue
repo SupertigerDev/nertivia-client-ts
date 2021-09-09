@@ -45,7 +45,7 @@ export default defineComponent({
     },
     defaultFocused: {
       type: Boolean,
-      required: false
+      required: true
     }
   },
   data() {

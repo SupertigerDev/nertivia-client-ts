@@ -65,7 +65,7 @@ export default defineComponent({
   components: { AvatarImage, CustomButton, LoadingScreen },
   props: {
     invite: {
-      type: Object as PropType<any>,
+      type: Object as any,
       required: true
     }
   },

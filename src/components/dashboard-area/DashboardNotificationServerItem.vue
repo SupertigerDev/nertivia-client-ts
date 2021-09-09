@@ -34,11 +34,11 @@ export default defineComponent({
   props: {
     notifications: {
       type: Object as PropType<Notification>,
-      required: false
+      required: true
     },
     serverID: {
       type: String,
-      required: false
+      required: true
     }
   },
   computed: {

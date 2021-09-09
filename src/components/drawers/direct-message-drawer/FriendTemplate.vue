@@ -56,11 +56,11 @@ export default defineComponent({
   props: {
     friend: {
       type: Object as PropType<{ recipient: User; status: number }>,
-      required: false
+      required: true
     },
     dmChannel: {
       type: Object as PropType<Channel & { recipients: User[] }>,
-      required: false
+      required: true
     }
   },
   data() {
@@ -78,7 +78,7 @@ export default defineComponent({
     },
     isFriendSelected(): any {
       const channel = ChannelsModule.getDMChannel(
-        this.$route.params.channel_id
+        this.$route.params.channel_id as string
       );
       if (!channel) return undefined;
       if (!channel.recipients) return undefined;

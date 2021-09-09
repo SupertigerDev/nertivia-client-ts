@@ -28,15 +28,15 @@ export default defineComponent({
   props: {
     reaction: {
       type: Object as PropType<Reaction>,
-      required: false
+      required: true
     },
     message: {
       type: Object as PropType<Message>,
-      required: false
+      required: true
     },
     animate: {
       type: Boolean,
-      required: false
+      required: true
     }
   },
   data() {

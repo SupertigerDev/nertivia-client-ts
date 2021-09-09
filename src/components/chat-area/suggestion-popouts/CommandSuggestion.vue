@@ -26,7 +26,7 @@ export default defineComponent({
           insert: boolean;
         }[]
       >,
-      required: false
+      required: true
     }
   },
   data() {

@@ -1,5 +1,5 @@
 import Vue from "vue";
-import VueRouter, { createRouter } from "vue-router";
+import * as VueRouter from "vue-router";
 import VueSocketIo from "vue-socket.io-extended";
 import io from "socket.io-client";
 
@@ -32,8 +32,8 @@ const ServerSettingsArea = () =>
 const PageNotFound = () =>
   import(/* webpackChunkName: "PageNotFound" */ "../views/PageNotFound.vue");
 
-const router = createRouter({
-  history: VueRouter.createWebHashHistory(),
+const router = VueRouter.createRouter({
+  history: VueRouter.createWebHistory(),
   routes: [
     {
       path: "/",
@@ -175,7 +175,7 @@ const router = createRouter({
       }
     },
     { path: "/404", component: PageNotFound },
-    { path: "*", redirect: "/404" }
+    { path: "/(.*)*", redirect: "/404" }
   ]
 });
 

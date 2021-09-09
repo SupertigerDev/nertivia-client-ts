@@ -68,11 +68,11 @@ export default defineComponent({
   props: {
     friend: {
       type: Object as PropType<{ recipient: User; status: number }>,
-      required: false
+      required: true
     },
     dmChannel: {
       type: Object as PropType<{ recipients: User[] }>,
-      required: false
+      required: true
     }
   },
   data() {

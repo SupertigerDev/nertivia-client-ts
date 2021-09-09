@@ -156,7 +156,7 @@ export default defineComponent({
     },
     botToken: {
       type: String,
-      required: false
+      required: true
     }
   },
   data() {

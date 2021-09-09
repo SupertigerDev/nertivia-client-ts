@@ -19,7 +19,7 @@ export default defineComponent({
   props: {
     channels: {
       type: Array as PropType<Channel[]>,
-      required: false
+      required: true
     }
   },
   data() {

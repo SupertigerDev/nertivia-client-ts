@@ -21,7 +21,7 @@ export default defineComponent({
   props: {
     messageID: {
       type: String,
-      required: false
+      required: true
     }
   },
   computed: {
@@ -32,9 +32,9 @@ export default defineComponent({
       return this.message?.files?.[0];
     },
     message(): any {
-      return MessagesModule.channelMessages(this.$route.params.channel_id).find(
-        m => m.messageID === this.messageID
-      );
+      return MessagesModule.channelMessages(
+        this.$route.params.channel_id as string
+      ).find(m => m.messageID === this.messageID);
     }
   },
   watch: {

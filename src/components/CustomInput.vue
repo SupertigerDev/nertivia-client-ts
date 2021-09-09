@@ -90,13 +90,13 @@ export default defineComponent({
     inputEvent(event: any) {
       this.$emit("model", event.target.value);
     },
-    onClick(event: { target: HTMLInputElement }) {
-      event.target.click();
+    onClick(event: MouseEvent) {
+      (event?.target as HTMLButtonElement).click();
     }
   },
   computed: {
     charCount(): number {
-      return this.value.length;
+      return (this.value as string).length;
     }
   }
 });

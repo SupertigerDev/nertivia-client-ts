@@ -35,35 +35,35 @@ export default defineComponent({
   props: {
     name: {
       type: String,
-      required: false
+      required: true
     },
     alert: {
       type: Boolean,
-      required: false
+      required: true
     },
     warn: {
       type: Boolean,
-      required: false
+      required: true
     },
     disabled: {
       type: Boolean,
-      required: false
+      required: true
     },
     valid: {
       type: Boolean,
-      required: false
+      required: true
     },
     icon: {
       type: String,
-      required: false
+      required: true
     },
     iconPos: {
       type: String,
-      required: false
+      required: true
     },
     iconSize: {
       type: String,
-      required: false
+      required: true
     }
   },
   data() {

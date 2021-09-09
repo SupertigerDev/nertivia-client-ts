@@ -13,12 +13,12 @@ export default defineComponent({
   name: "EmojiSuggestionTemplate",
   props: {
     item: {
-      type: Object as PropType<any>,
-      required: false
+      type: Object as any,
+      required: true
     },
     selected: {
       type: Boolean,
-      required: false
+      required: true
     }
   },
   computed: {

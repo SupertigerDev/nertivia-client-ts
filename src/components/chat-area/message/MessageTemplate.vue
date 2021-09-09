@@ -84,11 +84,11 @@ export default defineComponent({
   props: {
     message: {
       type: Object as PropType<Message>,
-      required: false
+      required: true
     },
     grouped: {
       type: Boolean,
-      required: false
+      required: true
     },
     hideContext: {
       type: Boolean,
@@ -99,16 +99,16 @@ export default defineComponent({
     return {
       contextPos: {} as { x?: number; y?: number },
       hover: false,
-      inviteLinkRegex: new RegExp(
-        `${process.env.VUE_APP_MAIN_APP_URL}(invites|i)/([\\S]+)`
-      ),
       viewBlockedMessage: false
     };
   },
   computed: {
     invite(): any {
+      const inviteLinkRegex = new RegExp(
+        `${process.env.VUE_APP_MAIN_APP_URL}(invites|i)/([\\S]+)`
+      );
       if (!this.message.message) return null;
-      return this.message.message.match(this.inviteLinkRegex);
+      return this.message.message.match(inviteLinkRegex);
     },
     creator(): User & UserExtra {
       return this.message.creator;

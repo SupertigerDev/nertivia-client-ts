@@ -8,6 +8,7 @@ import electronBridge from "./utils/electronBridge";
 import { messaging, messagingSupported } from "./utils/firebaseInstance";
 import { reportError } from "./services/userService";
 import { applyDefaultTheme } from "./utils/customCssVars";
+import store from "./store";
 
 declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
@@ -30,12 +31,18 @@ if (messagingSupported && process.env.VUE_APP_FCM_API_KEY) {
 }
 
 const app = createApp(App)
+  .use(store)
   .use(router)
   .use(i18n);
+
+console.log(router.currentRoute.value.path);
 
 app.config.globalProperties.$isElectron = electronBridge?.isElectron || false;
 app.config.globalProperties.$lastUIBreakingVersion =
   process.env.VUE_APP_LAST_UI_BREAKING_VERSION;
+
+app.config.globalProperties.$version = process.env.VUE_APP_VERSION;
+
 app.config.globalProperties.$isMobile = /iphone|ipod|android|ie|blackberry|fennec/.test(
   navigator.userAgent.toLowerCase()
 );
@@ -61,4 +68,4 @@ app.config.errorHandler = function(err) {
   });
 };
 
-app.mount("#App");
+app.mount("#app");

@@ -18,7 +18,7 @@ export default defineComponent({
   props: {
     prefix: {
       type: String,
-      required: false
+      required: true
     }
   }
 });

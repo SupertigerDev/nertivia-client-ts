@@ -67,7 +67,10 @@ import { defineComponent } from "vue";
 export default defineComponent({
   components: { CallTemplate, BigPreview },
   props: {
-    participants: Array as PropType<(CallParticipant & { user: User })[]>
+    participants: {
+      type: Array as PropType<(CallParticipant & { user: User })[]>,
+      required: true
+    }
   },
   data() {
     return {
@@ -118,7 +121,7 @@ export default defineComponent({
       return this.participants.find(p => p.user.id === this.selecteduserId);
     },
     channelId(): string {
-      return this.$route.params.channel_id;
+      return this.$route.params.channel_id as string;
     },
     isInCall(): boolean {
       return this.channelId === voiceChannelModule.joinedChannelId;

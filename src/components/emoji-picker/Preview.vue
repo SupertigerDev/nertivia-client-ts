@@ -20,8 +20,8 @@ export default defineComponent({
   name: "Preview",
   props: {
     hoveredEmoji: {
-      type: Object as PropType<any>,
-      required: false
+      type: Object as any,
+      required: true
     }
   },
   computed: {

@@ -1,5 +1,4 @@
-import Vue from "vue";
-import { CreateElement } from "vue";
+import Vue, { defineComponent } from "vue";
 
 import Message from "@/interfaces/Message";
 
@@ -24,7 +23,6 @@ import {
 } from "nertivia-markup";
 import "./Markup.scss";
 import emojiParser from "@/utils/emojiParser";
-import { VNode } from "vue/types/umd";
 
 interface MarkupProps {
   text: string;
@@ -35,7 +33,9 @@ interface MarkupProps {
   inline: boolean;
 }
 
-type RenderContext = Vue.RenderContext<MarkupProps> & {
+type CreateElement = any;
+type RenderContext =  {
+  props: MarkupProps
   textCount: number;
   emojiCount: number;
 };
@@ -242,7 +242,7 @@ function transformCustomEntity(
       break;
     }
     case "ruby": {
-      const output: VNode[] = [];
+      const output: JSX.Element[] = [];
       const matches = expr.matchAll(/(.+?)\((.*?)\)/g);
       for (const match of matches) {
         const text = match[1].trim();
@@ -281,7 +281,7 @@ function transformCustomEntity(
   return <span>{sliceText(ctx, entity.outerSpan)}</span>;
 }
 
-export default Vue.extend<MarkupProps>({
+export default defineComponent({
   functional: true,
   props: {
     text: String,
