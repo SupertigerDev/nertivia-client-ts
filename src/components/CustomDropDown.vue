@@ -69,6 +69,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "CustomDropDown",
   components: { AvatarImage },
+  emits: ["change"],
   props: {
     title: {
       type: String,

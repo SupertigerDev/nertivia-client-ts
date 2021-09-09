@@ -31,7 +31,7 @@
             v-for="(bot, i) in bots"
             :key="bot.id"
             :bot="bot"
-            @click.native="selectedBotIndex = i"
+            @click="selectedBotIndex = i"
           />
         </div>
       </div>

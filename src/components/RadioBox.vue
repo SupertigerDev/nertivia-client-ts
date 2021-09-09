@@ -19,6 +19,7 @@ import Vue, { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   model: { event: "change", prop: "selectedIndex" },
+  emits: ["change"],
   props: {
     items: Array as PropType<string[]>,
     selectedIndex: Number

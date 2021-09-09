@@ -9,7 +9,7 @@
       class="avatar"
       :willHaveClickEvent="true"
       :seedId="DMUser.id"
-      @click.native="showProfile"
+      @click="showProfile"
       :imageId="DMUser.avatar"
       size="30px"
     />

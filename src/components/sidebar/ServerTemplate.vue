@@ -7,9 +7,9 @@
       notification: serverNotificationArr.length,
       mentioned: mentionedNotificationExists
     }"
-    @contextmenu.prevent.native="showContext"
-    @mouseover.native="hover = true"
-    @mouseout.native="hover = false"
+    @contextmenu.prevent="showContext"
+    @mouseover="hover = true"
+    @mouseout="hover = false"
   >
     <AvatarImage
       size="50px"

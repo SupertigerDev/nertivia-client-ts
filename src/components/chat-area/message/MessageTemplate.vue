@@ -23,8 +23,8 @@
         :badges="creator.badges"
         size="40px"
         v-if="!grouped"
-        @click.native="showProfile"
-        @contextmenu.native.prevent="userContext"
+        @click="showProfile"
+        @contextmenu.prevent="userContext"
       />
       <!-- Used for grouped messages -->
       <div class="time" v-else>{{ friendlyTime }}</div>

@@ -5,7 +5,7 @@
     :class="{ selected, opened: tab.opened }"
     :to="tab.path"
     ref="tab"
-    @dblclick.native="openTab"
+    @dblclick="openTab"
   >
     <div class="icon material-icons" v-if="tab.icon || isSavedNotes">
       {{ isSavedNotes ? "book" : tab.icon }}

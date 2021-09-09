@@ -3,16 +3,16 @@
     <router-link
       :to="path"
       class="channel channel-template"
-      @click.native="closeDrawer"
-      @mouseover.native="hover = true"
-      @mouseout.native="hover = false"
+      @click="closeDrawer"
+      @mouseover="hover = true"
+      @mouseout="hover = false"
       :class="{
         selected: isChannelSelected,
         hasNotification: notificationExists,
         hasIcon: iconURL != null
       }"
       :style="channelStyle"
-      @contextmenu.prevent.native="showContext"
+      @contextmenu.prevent="showContext"
     >
       <div class="icon" aria-hidden="true"></div>
       <div class="name">{{ channel.name }}</div>

@@ -48,7 +48,7 @@
         :key="ipUser.id"
         :user="ipUser"
         :hover="true"
-        @click.native="viewProfile(ipUser.id)"
+        @click="viewProfile(ipUser.id)"
       />
     </div>
   </div>

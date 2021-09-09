@@ -16,6 +16,7 @@ import Vue from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "CustomColorPicker",
+  emits: ["change"],
   model: { prop: "color", event: "change" },
   props: {
     color: String,

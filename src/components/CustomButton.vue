@@ -31,6 +31,7 @@
 import Vue from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
+  emits: ["click"],
   name: "CustomInput",
   props: {
     name: {

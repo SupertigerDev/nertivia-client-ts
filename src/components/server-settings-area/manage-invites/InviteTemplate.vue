@@ -6,7 +6,7 @@
       :imageId="invite.creator.avatar"
       :willHaveClickEvent="true"
       size="50px"
-      @click.native="showProfile"
+      @click="showProfile"
     />
     <div class="details">
       <div>

@@ -17,7 +17,7 @@
       <UserTemplate
         v-for="user in users"
         :key="user.id"
-        @click.native="$emit('click', user)"
+        @click="$emit('click', user)"
         :user="user"
         :hover="true"
       />
@@ -36,6 +36,7 @@ import Vue from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Users",
+  emits: ["click"],
   components: { UserTemplate },
   data() {
     return {

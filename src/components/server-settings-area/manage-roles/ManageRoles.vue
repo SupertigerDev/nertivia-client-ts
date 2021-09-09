@@ -34,13 +34,13 @@
               v-for="role in allowedToMoveRoles"
               :key="role.id"
               :role="role"
-              @click.native="roleClicked(role)"
+              @click="roleClicked(role)"
             />
           </Draggable>
           <!-- Default role always stays at the bottom. -->
           <RoleTemplate
             :role="defaultRole"
-            @click.native="selectedRoleID = defaultRole.id"
+            @click="selectedRoleID = defaultRole.id"
           />
         </div>
       </div>

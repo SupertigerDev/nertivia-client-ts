@@ -16,6 +16,8 @@
 import Vue, { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
+  emits: ["change", "delete"],
+
   name: "CommandTemplate",
   props: {
     command: {

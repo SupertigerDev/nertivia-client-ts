@@ -7,8 +7,8 @@
         :key="i"
         :item="item"
         :selected="i === selectedIndex"
-        @mouseover.native="selectedIndex = i"
-        @click.native="enter"
+        @mouseover="selectedIndex = i"
+        @click="enter"
       />
     </div>
   </div>

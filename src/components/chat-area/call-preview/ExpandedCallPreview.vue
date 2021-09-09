@@ -11,7 +11,7 @@
       <div class="participant-list">
         <CallTemplate
           v-for="participant in participants"
-          @click.native="selecteduserId = participant.user.id"
+          @click="selecteduserId = participant.user.id"
           :key="participant.user.id"
           :participant="participant"
           :selected="

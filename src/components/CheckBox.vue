@@ -12,6 +12,7 @@
 import Vue from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
+  emits: ["change"],
   name: "CheckBox",
   model: {
     prop: "checked",

@@ -14,7 +14,7 @@
             size="80px"
             :imageId="user.avatar"
             :seedId="user.id"
-            @click.native="openFullProfile"
+            @click="openFullProfile"
             :willHaveClickEvent="true"
             :animateGif="true"
           />

@@ -11,6 +11,7 @@ import Vue from "vue";
 
 export default {
   props: ["inputElement"],
+  emits: ["click"],
   components: { VirtualList, EmojiTemplate, Tabs, Preview },
   data() {
     return {

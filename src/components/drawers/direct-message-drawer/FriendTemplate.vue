@@ -15,7 +15,7 @@
         size="30px"
         :willHaveClickEvent="true"
         :animateGif="hover"
-        @click.native="showProfile"
+        @click="showProfile"
       />
       <div class="details" v-if="user">
         <div class="username">{{ user.username }}</div>

@@ -6,7 +6,7 @@
       :imageId="user.avatar"
       :willHaveClickEvent="true"
       size="30px"
-      @click.native="showProfile"
+      @click="showProfile"
     />
     <div class="details">
       <span>{{ user.username }}</span>

@@ -46,6 +46,8 @@ import Vue, { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Tabs",
+  emits: ["click"],
+
   props: {
     pos: {
       type: Object as PropType<{ x?: number; y?: number }>,

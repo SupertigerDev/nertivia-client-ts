@@ -10,7 +10,7 @@
         v-if="user"
         :animateGif="true"
         :willHaveClickEvent="true"
-        @click.native="openContext = !openContext"
+        @click="openContext = !openContext"
         size="50px"
       />
       <HomeHeaderContext class="context" v-if="openContext" />

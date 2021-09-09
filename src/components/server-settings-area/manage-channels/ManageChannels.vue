@@ -49,7 +49,7 @@
               v-for="channel in channels"
               :key="channel.channelID"
               :channel="channel"
-              @click.native="selectedChannelID = channel.channelID"
+              @click="selectedChannelID = channel.channelID"
             />
           </Draggable>
         </div>

@@ -7,8 +7,8 @@
       :animateGif="false"
       :willHaveClickEvent="true"
       size="40px"
-      @click.native="showProfile"
-      @contextmenu.native.prevent="showUserContext"
+      @click="showProfile"
+      @contextmenu.prevent="showUserContext"
     />
     <div class="details">
       <div class="message">
