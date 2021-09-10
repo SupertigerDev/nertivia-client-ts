@@ -66,12 +66,14 @@ body {
 
 html,
 body,
+#app,
 .root {
   height: 100%;
   overflow: hidden;
 
   overscroll-behavior-x: none;
 }
+
 .root {
   display: flex;
   flex-direction: column;
