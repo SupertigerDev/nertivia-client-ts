@@ -22,22 +22,22 @@ export default defineComponent({
     }
   },
   render(h) {
-    const Tab = ({ props }) => (
+    const Tab = ({ index, name }: any) => (
       <div
-        key={props.index}
-        class={{ selected: props.index === this.currentTab, tab: true }}
+        key={index}
+        class={{ selected: index === this.currentTab, tab: true }}
         onClick={() => {
-          this.currentTab = props.index;
+          this.currentTab = index;
         }}
       >
-        {props.name}
+        {name}
       </div>
     );
 
     const Tabs = () => (
       <div class="tabs">
         {this.tabs.map((tab, i) => (
-          <Tab props={{ name: tab.name, index: i }} />
+          <Tab name={tab.name} index={i} />
         ))}
       </div>
     );
@@ -106,35 +106,35 @@ export default defineComponent({
 .tabs {
   display: flex;
   margin-left: 10px;
-  .tab {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-top: 5px;
-    margin-bottom: 0;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    cursor: pointer;
-    user-select: none;
-    height: 30px;
-    opacity: 0.6;
-    transition: 0.2s;
-    border: solid 1px rgba(255, 255, 255, 0);
+}
+.tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 5px;
+  margin-bottom: 0;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+  height: 30px;
+  opacity: 0.6;
+  transition: 0.2s;
+  border: solid 1px rgba(255, 255, 255, 0);
+  border-bottom: none;
+  &:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.05);
+  }
+  &.selected {
+    opacity: 1;
+    background: var(--card-color);
+    border: solid 1px rgba(255, 255, 255, 0.1);
     border-bottom: none;
-    &:hover {
-      opacity: 1;
-      background: rgba(255, 255, 255, 0.05);
-    }
-    &.selected {
-      opacity: 1;
-      background: var(--card-color);
-      border: solid 1px rgba(255, 255, 255, 0.1);
-      border-bottom: none;
-    }
   }
 }
 .tab-layout-container {

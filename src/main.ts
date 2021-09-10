@@ -1,4 +1,5 @@
 import { createApp } from "vue";
+import clickOutside from "./directives/clickOutside";
 
 import App from "./App.vue";
 
@@ -9,6 +10,8 @@ import { messaging, messagingSupported } from "./utils/firebaseInstance";
 import { reportError } from "./services/userService";
 import { applyDefaultTheme } from "./utils/customCssVars";
 import store from "./store";
+import { socket } from "./socket";
+import { Socket } from "socket.io-client";
 
 declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
@@ -17,6 +20,7 @@ declare module "@vue/runtime-core" {
     $lastUIBreakingVersion: string;
     $isElectron: string;
     $window: Window;
+    $socket: Socket;
   }
 }
 
@@ -35,6 +39,8 @@ const app = createApp(App)
   .use(router)
   .use(i18n);
 
+app.directive("click-outside", clickOutside);
+
 app.config.globalProperties.$isElectron = electronBridge?.isElectron || false;
 app.config.globalProperties.$lastUIBreakingVersion =
   process.env.VUE_APP_LAST_UI_BREAKING_VERSION;
@@ -45,6 +51,7 @@ app.config.globalProperties.$isMobile = /iphone|ipod|android|ie|blackberry|fenne
   navigator.userAgent.toLowerCase()
 );
 app.config.globalProperties.$window = window;
+app.config.globalProperties.$socket = socket;
 
 applyDefaultTheme(false);
 

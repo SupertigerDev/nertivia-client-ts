@@ -1,9 +1,5 @@
-import Vue from "vue";
+import { socket } from "@/socket";
 import * as VueRouter from "vue-router";
-import VueSocketIOExt from "vue-socket.io-extended";
-import { io } from "socket.io-client";
-
-import store from "../store/index";
 
 const ExploreArea = () =>
   import(
@@ -161,13 +157,7 @@ const router = VueRouter.createRouter({
           location.href = "/login";
           return;
         }
-        // Vue.use(
-        //   VueSocketIOExt,
-        //   io(process.env.VUE_APP_SOCKET_URL || "", {
-        //     autoConnect: false,
-        //     transports: ["websocket"]
-        //   })
-        // );
+        socket.connect();
         next();
       }
     },

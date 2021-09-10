@@ -1,88 +1,64 @@
-function toCamel(s: string) {
-  return s.replace(/([_][a-z])/gi, $1 => {
-    // return s.replace(/([-_][a-z])/ig, ($1) => {
-    return (
-      $1
-        .toUpperCase()
-        // .replace('-', '')
-        .replace("_", "")
-    );
-  });
-}
-
-function eventBuilder(name: string, prefix = "socket_") {
-  return prefix + toCamel(name);
-}
-
 // connection events
-export const CONNECT = eventBuilder("connect");
-export const DISCONNECT = eventBuilder("disconnect");
-export const RECONNECTING = eventBuilder("reconnecting");
-export const SUCCESS = eventBuilder("success");
-export const AUTH_ERROR = eventBuilder("auth_err");
+export const CONNECT = "connect";
+export const DISCONNECT = "disconnect";
+export const RECONNECTING = "reconnecting";
+export const SUCCESS = "success";
+export const AUTH_ERROR = "auth_err";
 // message events
-export const RECEIVE_MESSAGE = eventBuilder("receive_message");
-export const DELETE_MESSAGE = eventBuilder("delete_message");
-export const UPDATE_MESSAGE = eventBuilder("update_message");
+export const RECEIVE_MESSAGE = "receive_message";
+export const DELETE_MESSAGE = "delete_message";
+export const UPDATE_MESSAGE = "update_message";
 // message reaction events
-export const ADD_MESSAGE_REACTION = eventBuilder("message:add_reaction");
-export const UPDATE_MESSAGE_REACTION = eventBuilder("message:update_reaction");
+export const ADD_MESSAGE_REACTION = "message:add_reaction";
+export const UPDATE_MESSAGE_REACTION = "message:update_reaction";
 // notification events
-export const NOTIFICATION_DISMISS = eventBuilder("notification:dismiss");
+export const NOTIFICATION_DISMISS = "notification:dismiss";
 // channel events
-export const CHANNEL_CREATED = eventBuilder("channel:created");
-export const CHANNEL_REMOVED = eventBuilder("channel:remove");
-export const CHANNEL_UNMUTE = eventBuilder("channel:unmute");
-export const CHANNEL_MUTE = eventBuilder("channel:mute");
+export const CHANNEL_CREATED = "channel:created";
+export const CHANNEL_REMOVED = "channel:remove";
+export const CHANNEL_UNMUTE = "channel:unmute";
+export const CHANNEL_MUTE = "channel:mute";
 // server channel events
-export const SERVER_CHANNEL_CREATED = eventBuilder("server:add_channel");
-export const SERVER_CHANNEL_REMOVED = eventBuilder("server:remove_channel");
-export const SERVER_CHANNEL_UPDATE = eventBuilder("server:update_channel");
-export const SERVER_CHANNEL_POSITION_CHANGE = eventBuilder(
-  "server:channel_position"
-);
+export const SERVER_CHANNEL_CREATED = "server:add_channel";
+export const SERVER_CHANNEL_REMOVED = "server:remove_channel";
+export const SERVER_CHANNEL_UPDATE = "server:update_channel";
+export const SERVER_CHANNEL_POSITION_CHANGE = "server:channel_position";
 // server events
-export const SERVER_POSITION = eventBuilder("self:server_position");
-export const SERVER_ADD_ROLE = eventBuilder("serverMember:add_role");
-export const SERVER_JOINED = eventBuilder("server:joined");
-export const SERVER_LEAVE = eventBuilder("server:leave");
-export const SERVER_MEMBER_REMOVE = eventBuilder("server:member_remove");
-export const SERVER_MEMBERS = eventBuilder("server:members");
-export const SERVER_MEMBER_ADD = eventBuilder("server:member_add");
-export const SERVER_ROLES = eventBuilder("server:roles");
-export const SERVER_UPDATE_ROLES = eventBuilder("server:update_roles");
-export const SERVER_CREATE_ROLE = eventBuilder("server:create_role");
-export const SERVER_UPDATE_ROLE = eventBuilder("server:update_role");
-export const SERVER_REMOVE_ROLE = eventBuilder("server:delete_role");
-export const SERVER_MEMBER_REMOVE_ROLE = eventBuilder(
-  "serverMember:remove_role"
-);
-export const SERVER_MUTE = eventBuilder("server:mute");
+export const SERVER_POSITION = "self:server_position";
+export const SERVER_ADD_ROLE = "serverMember:add_role";
+export const SERVER_JOINED = "server:joined";
+export const SERVER_LEAVE = "server:leave";
+export const SERVER_MEMBER_REMOVE = "server:member_remove";
+export const SERVER_MEMBERS = "server:members";
+export const SERVER_MEMBER_ADD = "server:member_add";
+export const SERVER_ROLES = "server:roles";
+export const SERVER_UPDATE_ROLES = "server:update_roles";
+export const SERVER_CREATE_ROLE = "server:create_role";
+export const SERVER_UPDATE_ROLE = "server:update_role";
+export const SERVER_REMOVE_ROLE = "server:delete_role";
+export const SERVER_MEMBER_REMOVE_ROLE = "serverMember:remove_role";
+export const SERVER_MUTE = "server:mute";
 // user events
-export const SELF_STATUS_CHANGE = eventBuilder("multi_device_status");
-export const USER_BLOCKED = eventBuilder("user:block");
-export const USER_UNBLOCKED = eventBuilder("user:unblock");
-export const SELF_CUSTOM_STATUS_CHANGE = eventBuilder(
-  "multi_device_custom_status"
-);
+export const SELF_STATUS_CHANGE = "multi_device_status";
+export const USER_BLOCKED = "user:block";
+export const USER_UNBLOCKED = "user:unblock";
+export const SELF_CUSTOM_STATUS_CHANGE = "multi_device_custom_status";
 // call events
-export const USER_JOINED_CALL = eventBuilder("user:joined_call");
-export const USER_LEFT_CALL = eventBuilder("user:left_call");
-export const VOICE_RECEIVE_SIGNAL = eventBuilder("voice:receive_signal");
-export const VOICE_RECEIVE_RETURN_SIGNAL = eventBuilder(
-  "voice:receive_return_signal"
-);
+export const USER_JOINED_CALL = "user:joined_call";
+export const USER_LEFT_CALL = "user:left_call";
+export const VOICE_RECEIVE_SIGNAL = "voice:receive_signal";
+export const VOICE_RECEIVE_RETURN_SIGNAL = "voice:receive_return_signal";
 
-export const GOOGLE_DRIVE_LINKED = eventBuilder("googleDrive:linked");
-export const USER_STATUS_CHANGE = eventBuilder("user_status_change");
-export const CUSTOM_STATUS_CHANGE = eventBuilder("member:custom_status_change");
+export const GOOGLE_DRIVE_LINKED = "googleDrive:linked";
+export const USER_STATUS_CHANGE = "user_status_change";
+export const CUSTOM_STATUS_CHANGE = "member:custom_status_change";
 // relationship events
-export const RELATIONSHIP_ADD = eventBuilder("relationship_add");
-export const RELATIONSHIP_REMOVE = eventBuilder("relationship_remove");
-export const RELATIONSHIP_ACCEPT = eventBuilder("relationship_accept");
+export const RELATIONSHIP_ADD = "relationship_add";
+export const RELATIONSHIP_REMOVE = "relationship_remove";
+export const RELATIONSHIP_ACCEPT = "relationship_accept";
 // custom emoji events
-export const CUSTOM_EMOJI_RENAME = eventBuilder("customEmoji:rename");
-export const CUSTOM_EMOJI_UPLOADED = eventBuilder("customEmoji:uploaded");
-export const CUSTOM_EMOJI_REMOVE = eventBuilder("customEmoji:remove");
+export const CUSTOM_EMOJI_RENAME = "customEmoji:rename";
+export const CUSTOM_EMOJI_UPLOADED = "customEmoji:uploaded";
+export const CUSTOM_EMOJI_REMOVE = "customEmoji:remove";
 // program activity events
-export const PROGRAM_ACTIVITY_CHANGED = eventBuilder("programActivity:changed");
+export const PROGRAM_ACTIVITY_CHANGED = "programActivity:changed";
