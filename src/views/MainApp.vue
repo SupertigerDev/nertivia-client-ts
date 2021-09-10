@@ -196,8 +196,9 @@ export default defineComponent({
       ]);
     },
     saveLastSelected() {
+      const routeName = this.$route.name as string;
       AppUpdateModule.check();
-      if (this.$route.name !== "message-area") return;
+      if (!routeName?.endsWith("message-area")) return;
       if (this.currentTab === "servers") {
         LastSelectedServersModule.UpdateLastSelected({
           serverID: this.currentServerID,

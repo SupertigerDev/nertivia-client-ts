@@ -131,6 +131,7 @@ const router = VueRouter.createRouter({
     {
       path: "/app",
       children: [
+        { path: "", component: DashboardArea },
         {
           path: "servers/:server_id/settings/:tab?/:id?",
           component: ServerSettingsArea,
@@ -139,19 +140,18 @@ const router = VueRouter.createRouter({
         {
           path: "servers/:server_id/:channel_id",
           component: MessageArea,
-          name: "message-area"
+          name: "server-message-area"
         },
         {
           path: "dms/:channel_id",
           component: MessageArea,
-          name: "message-area"
+          name: "dm-message-area"
         },
         { path: "servers/", component: DashboardArea },
         { path: "dms/", component: DashboardArea },
         { path: "settings/:tab?", component: SettingsArea },
         { path: "explore/:tab?", component: ExploreArea },
-        { path: "admin-panel/:tab?", component: AdminPanelArea },
-        { path: "/", component: DashboardArea }
+        { path: "admin-panel/:tab?", component: AdminPanelArea }
       ],
       name: "App",
       component: () =>

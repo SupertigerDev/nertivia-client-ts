@@ -55,8 +55,7 @@ export default defineComponent({
   methods: {
     userUnbanned(index: number) {
       if (!this.bans) return;
-      // $fix below
-      //this.$delete(this.bans, index);
+      delete this.bans[index];
     }
   }
 });

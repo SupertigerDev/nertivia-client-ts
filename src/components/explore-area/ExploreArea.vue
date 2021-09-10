@@ -33,14 +33,14 @@ export default defineComponent({
     }
     TabsModule.setCurrentTab({
       icon: "explore",
-      name: "Explore " + this.page.name
+      name: "Explore " + this.page?.name
     });
   },
   methods: {
     onPageChanged() {
       TabsModule.setCurrentTab({
         icon: "explore",
-        name: "Explore " + this.page.name
+        name: "Explore " + this.page?.name
       });
     }
   }

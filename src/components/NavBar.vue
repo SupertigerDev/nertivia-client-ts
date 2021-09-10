@@ -164,7 +164,8 @@ export default defineComponent({
       return userStatuses[presence || 0];
     },
     pinned(): any {
-      return this.$route.name !== "message-area";
+      const routeName = this.$route.name as string;
+      return !routeName?.endsWith("message-area");
     },
     leftDrawerOpened(): any {
       return DrawersModule.leftDrawer;
