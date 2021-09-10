@@ -25,36 +25,36 @@ export default defineComponent({
   props: {
     size: {
       type: String,
-      required: true
+      required: false
     },
     imageId: {
       type: String,
-      required: true
+      required: false
     },
     seedId: {
       type: String,
-      required: true
+      required: false
     },
     willHaveClickEvent: {
       type: Boolean,
-      required: true
+      required: false
     },
     animateGif: {
       type: Boolean,
-      required: true
+      required: false
     },
     customUrl: {
       type: String,
-      required: true
+      required: false
     },
     badges: {
       type: Number,
-      required: true
+      required: false
     }
   },
   computed: {
     src(): any {
-      let url = process.env.VUE_APP_NERTIVIA_CDN + this.imageId;
+      let url = process.env.VUE_APP_NERTIVIA_CDN + (this.imageId as string);
       if (!this.isGif) return url;
       if (!this.animateGif || !this.isFocused) {
         url += "?type=webp";
@@ -69,7 +69,7 @@ export default defineComponent({
       return useWindowProperties().isFocused;
     },
     isGif(): any {
-      return this.imageId.endsWith(".gif");
+      return (this.imageId as string).endsWith(".gif");
     },
     bgColor(): any {
       if (this.imageId) return null;

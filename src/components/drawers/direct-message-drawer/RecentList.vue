@@ -1,14 +1,14 @@
 <template>
   <div class="friend-list">
-    <virtual-list :size="260" :remain="40" :variable="true">
-      <FriendTemplate
-        v-for="dmChannel in recentListArr"
-        :style="{ height: '44px' }"
-        :key="dmChannel.channelID"
-        :friend="dmChannel.sender"
-        :dmChannel="dmChannel"
-      />
-    </virtual-list>
+    <!-- <virtual-list :size="260" :remain="40" :variable="true"> -->
+    <FriendTemplate
+      v-for="dmChannel in recentListArr"
+      :style="{ height: '44px' }"
+      :key="dmChannel.channelID"
+      :friend="dmChannel.sender"
+      :dmChannel="dmChannel"
+    />
+    <!-- </virtual-list> -->
   </div>
 </template>
 

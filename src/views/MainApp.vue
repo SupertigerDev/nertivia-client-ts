@@ -6,20 +6,25 @@
     <UpdateChecker />
     <NavBar class="nav-bar" />
     <Drawers class="drawers">
-      <LeftDrawer slot="drawer-left" />
+      <template v-slot:drawer-left>
+        <LeftDrawer />
+        test
+      </template>
       <RightDrawer
-        slot="drawer-right"
+        v-slot:drawer-right
         v-if="currentTab === 'servers' && currentChannelID"
       />
-      <div class="content" slot="content">
-        <transition name="fade" appear>
-          <ConnectionStatus
-            v-if="showConnectionStatusPopout"
-            @close="showConnectionStatusPopout = false"
-          />
-        </transition>
-        <router-view v-if="loadPage" />
-      </div>
+      <template v-slot:content>
+        <div class="content">
+          <transition name="fade" appear>
+            <ConnectionStatus
+              v-if="showConnectionStatusPopout"
+              @close="showConnectionStatusPopout = false"
+            />
+          </transition>
+          <router-view v-if="loadPage" />
+        </div>
+      </template>
     </Drawers>
   </div>
 </template>
@@ -36,20 +41,6 @@ import ElectronBadgeHandler from "@/components/renderless/ElectronBadgeHandler";
 import ElectronActivityHandler from "@/components/renderless/ElectronActivityHandler";
 import UpdateChecker from "@/components/renderless/UpdateChecker";
 
-const Drawers = () =>
-  import(/* webpackChunkName: "Drawers" */ "@/components/drawers/Drawers.vue");
-const NavBar = () =>
-  import(/* webpackChunkName: "NavBar" */ "@/components/NavBar.vue");
-
-const LeftDrawer = () =>
-  import(
-    /* webpackChunkName: "LeftDrawer" */ "@/components/drawers/LeftDrawer.vue"
-  );
-const RightDrawer = () =>
-  import(
-    /* webpackChunkName: "RightDrawer" */ "@/components/drawers/RightDrawer.vue"
-  );
-
 import { loadAllCacheToState, loadCache } from "@/utils/localCache";
 import { ChannelsModule } from "@/store/modules/channels";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
@@ -60,10 +51,24 @@ import { FriendsModule } from "@/store/modules/friends";
 import { LastSelectedServersModule } from "@/store/modules/lastSelectedServer";
 import { AppUpdateModule } from "@/store/modules/appUpdate";
 import { applyTheme } from "@/utils/CSSTheme";
-import Vue from "vue";
+import Vue, { defineAsyncComponent } from "vue";
 import { TabsModule } from "@/store/modules/tabs";
 import { defineComponent } from "vue";
 import store from "@/store";
+
+const Drawers = defineAsyncComponent(() =>
+  import("@/components/drawers/Drawers.vue")
+);
+const NavBar = defineAsyncComponent(() => import("@/components/NavBar.vue"));
+
+const LeftDrawer = defineAsyncComponent(() =>
+  import("@/components/drawers/LeftDrawer.vue")
+);
+const RightDrawer = () =>
+  import(
+    /* webpackChunkName: "RightDrawer" */ "@/components/drawers/RightDrawer.vue"
+  );
+
 export default defineComponent({
   name: "MainApp",
   components: {

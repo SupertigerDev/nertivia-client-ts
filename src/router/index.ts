@@ -161,13 +161,13 @@ const router = VueRouter.createRouter({
           location.href = "/login";
           return;
         }
-        Vue.use(
-          VueSocketIOExt,
-          io(process.env.VUE_APP_SOCKET_URL || "", {
-            autoConnect: false,
-            transports: ["websocket"]
-          })
-        );
+        // Vue.use(
+        //   VueSocketIOExt,
+        //   io(process.env.VUE_APP_SOCKET_URL || "", {
+        //     autoConnect: false,
+        //     transports: ["websocket"]
+        //   })
+        // );
         next();
       }
     },
