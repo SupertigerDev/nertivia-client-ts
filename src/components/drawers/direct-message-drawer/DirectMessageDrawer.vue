@@ -6,7 +6,7 @@
         @click="changeTab(0)"
         :class="{
           selected: selectedTab === 0,
-          notification: friendRequestExists
+          notification: friendRequestExists,
         }"
       >
         <div class="material-icons">group</div>
@@ -17,7 +17,7 @@
         @click="changeTab(1)"
         :class="{
           selected: selectedTab === 1,
-          notification: dmNotificationExists
+          notification: dmNotificationExists,
         }"
       >
         <div class="material-icons">access_time</div>
@@ -44,33 +44,31 @@
 </template>
 
 <script lang="ts">
-const FriendList = () =>
-  import(
-    /* webpackChunkName: "FriendList" */ "@/components/drawers/direct-message-drawer/FriendList.vue"
-  );
-const RecentList = () =>
-  import(
-    /* webpackChunkName: "RecentList" */ "@/components/drawers/direct-message-drawer/RecentList.vue"
-  );
-
 import { ChannelsModule } from "@/store/modules/channels";
 import { FriendsModule, FriendStatus } from "@/store/modules/friends";
 import { MeModule } from "@/store/modules/me";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { PopoutsModule } from "@/store/modules/popouts";
-import Vue from "vue";
+import Vue, { defineAsyncComponent } from "vue";
 import { defineComponent } from "vue";
+const FriendList = defineAsyncComponent(() =>
+  import("@/components/drawers/direct-message-drawer/FriendList.vue")
+);
+const RecentList = defineAsyncComponent(() =>
+  import("@/components/drawers/direct-message-drawer/RecentList.vue")
+);
+
 export default defineComponent({
   name: "MainApp",
   components: { FriendList, RecentList },
   data() {
     return {
-      selectedTab: parseInt(localStorage.getItem("selectedDmTab") || "0")
+      selectedTab: parseInt(localStorage.getItem("selectedDmTab") || "0"),
     };
   },
   computed: {
     friendRequestExists(): any {
-      return this.friends.find(f => f.status === FriendStatus.PENDING);
+      return this.friends.find((f) => f.status === FriendStatus.PENDING);
     },
     friends(): any {
       return FriendsModule.friendsWithUser;
@@ -84,7 +82,7 @@ export default defineComponent({
       const DMChannel = ChannelsModule.getDMChannel(channelID);
       const recipient = DMChannel?.recipients?.[0];
       return recipient?.id === MeModule.user.id;
-    }
+    },
   },
   methods: {
     openSavedNotes() {
@@ -94,14 +92,14 @@ export default defineComponent({
     addFriendButton() {
       PopoutsModule.ShowPopout({
         component: "add-friend-popout",
-        id: "add-friend"
+        id: "add-friend",
       });
     },
     changeTab(index: number) {
       this.selectedTab = index;
       localStorage.setItem("selectedDmTab", index.toString());
-    }
-  }
+    },
+  },
 });
 </script>
 

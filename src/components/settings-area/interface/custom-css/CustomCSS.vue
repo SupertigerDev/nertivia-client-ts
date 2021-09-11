@@ -17,11 +17,12 @@
 <script lang="ts">
 import { Theme } from "@/services/themeService";
 import ThemeList from "./ThemeList.vue";
-import Vue from "vue";
+import Vue, { defineAsyncComponent } from "vue";
 
-const Editor = () => import(/* webpackChunkName: "Editor" */ "./Editor.vue");
-const PublishOptions = () =>
-  import(/* webpackChunkName: "PublishOptions" */ "./PublishOptions.vue");
+const Editor = defineAsyncComponent(() => import("./Editor.vue"));
+const PublishOptions = defineAsyncComponent(() =>
+  import("./PublishOptions.vue")
+);
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "CustomCSS",
@@ -29,9 +30,9 @@ export default defineComponent({
   data() {
     return {
       editID: null as null | string,
-      publishTheme: null as null | Theme
+      publishTheme: null as null | Theme,
     };
-  }
+  },
 });
 </script>
 

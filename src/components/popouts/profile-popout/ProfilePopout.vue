@@ -153,13 +153,12 @@ import CommonFriends from "./CommonFriends.vue";
 import Badges from "./Badges.vue";
 import { PresencesModule } from "@/store/modules/presences";
 import userStatuses from "@/constants/userStatuses";
-const SafeHtml = () =>
-  import(/* webpackChunkName: "SafeHtml" */ "@/components/SafeHtml.vue");
+
 import {
   blockUser,
   fetchUser,
   ReturnedUser,
-  UnblockUser
+  UnblockUser,
 } from "@/services/userService";
 import { UsersModule } from "@/store/modules/users";
 import friendlyDate from "@/utils/date";
@@ -168,7 +167,7 @@ import { FriendsModule } from "@/store/modules/friends";
 import {
   acceptRequest,
   deleteFriend,
-  sendFriendRequest
+  sendFriendRequest,
 } from "@/services/relationshipService";
 import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
 import { ChannelsModule } from "@/store/modules/channels";
@@ -177,8 +176,11 @@ import Server from "@/interfaces/Server";
 import { ServersModule } from "@/store/modules/servers";
 import User from "@/interfaces/User";
 import { getBadges } from "@/constants/badges";
-import Vue, { PropType } from "vue";
+import Vue, { defineAsyncComponent, PropType } from "vue";
 import { defineComponent } from "vue";
+const SafeHtml = defineAsyncComponent(() =>
+  import("@/components/SafeHtml.vue")
+);
 export default defineComponent({
   name: "ProfilePopout",
   components: {
@@ -188,17 +190,17 @@ export default defineComponent({
     CommonServers,
     CommonFriends,
     Badges,
-    SafeHtml
+    SafeHtml,
   },
   props: {
     data: {
       type: Object as PropType<{ id: string; fullProfile?: ReturnedUser }>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      returnedUser: null as ReturnedUser | null
+      returnedUser: null as ReturnedUser | null,
     };
   },
   computed: {
@@ -281,14 +283,14 @@ export default defineComponent({
         friends.push(friend.recipient);
       }
       return friends;
-    }
+    },
   },
   mounted() {
     this.returnedUser = this.data.fullProfile || null;
     if (this.returnedUser) {
       return;
     }
-    fetchUser(this.data.id).then(user => {
+    fetchUser(this.data.id).then((user) => {
       this.returnedUser = user;
     });
   },
@@ -326,10 +328,10 @@ export default defineComponent({
         id: "profile",
         component: "profile-popout",
         data: { id: this.returnedUser?.user.createdBy?.id },
-        key: this.returnedUser?.user.createdBy?.id
+        key: this.returnedUser?.user.createdBy?.id,
       });
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

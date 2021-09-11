@@ -127,7 +127,7 @@ import EditPanel from "./EditPanel.vue";
 import { MeModule } from "@/store/modules/me";
 import { MessagesModule } from "@/store/modules/messages";
 import { MessageInputModule } from "@/store/modules/messageInput";
-import Vue from "vue";
+import Vue, { defineAsyncComponent } from "vue";
 import { useWindowProperties } from "@/utils/windowProperties";
 import { editMessage, postTypingStatus } from "@/services/messagesService";
 import Message from "@/interfaces/Message";
@@ -140,19 +140,17 @@ import { ServersModule } from "@/store/modules/servers";
 import {
   cacheInput,
   deleteInputCache,
-  getInputCache
+  getInputCache,
 } from "@/utils/inputCache";
 import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
 import { TabsModule } from "@/store/modules/tabs";
 import Channel from "@/interfaces/Channel";
-const EmojiPicker = () =>
-  import(
-    /* webpackChunkName: "EmojiPicker" */ "@/components/emoji-picker/EmojiPicker.vue"
-  );
-const DoodlePopout = () =>
-  import(
-    /* webpackChunkName: "DoodlePopout" */ "@/components/chat-area/DoodlePopout.vue"
-  );
+const EmojiPicker = defineAsyncComponent(() =>
+  import("@/components/emoji-picker/EmojiPicker.vue")
+);
+const DoodlePopout = defineAsyncComponent(() =>
+  import("@/components/chat-area/DoodlePopout.vue")
+);
 
 import { defineComponent } from "vue";
 export default defineComponent({
@@ -165,14 +163,14 @@ export default defineComponent({
     SuggestionPopouts,
     ScrollDownButton,
     RateLimitPopup,
-    DoodlePopout
+    DoodlePopout,
   },
   data() {
     return {
       postTypingTimeout: null as number | null,
       saveInputTimeout: null as number | null,
       showEmojiPicker: false,
-      showDoodlePopout: false
+      showDoodlePopout: false,
     };
   },
   mounted() {
@@ -238,7 +236,7 @@ export default defineComponent({
         if (!this.channelMessages?.length) return;
         const reversedMessages = [...this.channelMessages].reverse();
         const message = reversedMessages.find(
-          m => m.creator.id === MeModule.user.id && !m.type && m.messageID
+          (m) => m.creator.id === MeModule.user.id && !m.type && m.messageID
         );
         if (!message) return;
         if (!message.messageID) return;
@@ -254,7 +252,7 @@ export default defineComponent({
     setEditMessage(messageID?: string, _message?: Required<Message>) {
       this.getTextarea().focus();
       const message =
-        _message || this.channelMessages.find(m => m.messageID === messageID);
+        _message || this.channelMessages.find((m) => m.messageID === messageID);
       if (!message) return;
       FileUploadModule.SetFile(undefined);
       this.editingMessage = message;
@@ -292,7 +290,7 @@ export default defineComponent({
         this.message = "";
         FileUploadModule.AddToQueue({
           channelID: this.$route.params.channel_id as string,
-          message
+          message,
         });
         return;
       } else {
@@ -300,7 +298,7 @@ export default defineComponent({
         this.message = "";
         MessagesModule.SendMessage({
           message,
-          channelID: this.$route.params.channel_id as string
+          channelID: this.$route.params.channel_id as string,
         });
       }
     },
@@ -313,7 +311,7 @@ export default defineComponent({
         PopoutsModule.ShowPopout({
           component: "delete-message-popout",
           data: { messageID: this.editingMessageID, channelID: this.channelID },
-          id: "delete-message"
+          id: "delete-message",
         });
         return;
       }
@@ -324,7 +322,7 @@ export default defineComponent({
       this.editingMessage = null;
 
       const findMessage = this.channelMessages.find(
-        e => e.messageID === messageID
+        (e) => e.messageID === messageID
       );
       if (message.trim() === findMessage?.message) return;
 
@@ -333,8 +331,8 @@ export default defineComponent({
         messageID,
         message: {
           message,
-          sending: 0
-        }
+          sending: 0,
+        },
       });
 
       editMessage(messageID, channelID, { message })
@@ -344,8 +342,8 @@ export default defineComponent({
             messageID,
             message: {
               sending: 1,
-              timeEdited: Date.now()
-            }
+              timeEdited: Date.now(),
+            },
           });
         })
         .catch(() => {
@@ -354,8 +352,8 @@ export default defineComponent({
             messageID,
             message: {
               sending: 2,
-              timeEdited: undefined
-            }
+              timeEdited: undefined,
+            },
           });
         });
     },
@@ -398,7 +396,7 @@ export default defineComponent({
         if (!this.message.trim().length) return;
         this.postTypingStatus();
       }, 2000);
-    }
+    },
   },
   watch: {
     message() {
@@ -444,7 +442,7 @@ export default defineComponent({
     },
     windowWidthSize() {
       this.resizeTextArea();
-    }
+    },
   },
   computed: {
     isImmune(): boolean | number {
@@ -522,7 +520,7 @@ export default defineComponent({
       },
       set(val: string) {
         MessageInputModule.setMessage(val);
-      }
+      },
     },
     serverID(): string | undefined {
       if (this.currentTab !== "servers") return undefined;
@@ -540,15 +538,15 @@ export default defineComponent({
       },
       set(val: Message) {
         MessageInputModule.SetEditingMessage(val);
-      }
+      },
     },
     isScrolledDown(): boolean {
       return MessageLogStatesModule.isScrolledDown(this.channelID);
     },
     rateLimit(): number | undefined {
       return this.serverChannel?.rateLimit;
-    }
-  }
+    },
+  },
 });
 </script>
 
