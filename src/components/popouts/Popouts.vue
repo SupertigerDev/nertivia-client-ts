@@ -97,7 +97,7 @@ const components = {
   ),
   ReactedUsersPreview: defineAsyncComponent(() =>
     import("@/components/popouts/ReactedUsersPreview.vue")
-  ),
+  )
 };
 export default defineComponent({
   name: "MainApp",
@@ -105,8 +105,8 @@ export default defineComponent({
   computed: {
     popups(): any {
       return PopoutsModule.popouts;
-    },
-  },
+    }
+  }
 });
 </script>
 

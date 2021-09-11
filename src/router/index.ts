@@ -19,40 +19,40 @@ const router = VueRouter.createRouter({
     {
       path: "/",
       name: "Home",
-      component: () => import("../views/Home.vue"),
+      component: () => import("../views/Home.vue")
     },
     {
       path: "/privacy",
       name: "Privacy",
-      component: () => import("../views/Privacy.vue"),
+      component: () => import("../views/Privacy.vue")
     },
     {
       path: "/bots/:botid",
       name: "Invite Bot",
-      component: () => import("../views/InviteBot.vue"),
+      component: () => import("../views/InviteBot.vue")
     },
     {
       path: "/invites/:inviteid",
       alias: ["/i/:inviteid"],
       name: "Invite Server",
-      component: () => import("../views/InviteServer.vue"),
+      component: () => import("../views/InviteServer.vue")
     },
     {
       path: "/terms-and-conditions",
       name: "TermsAndConditions",
-      component: () => import("../views/TermsAndConditions.vue"),
+      component: () => import("../views/TermsAndConditions.vue")
     },
     {
       path: "/popout-css-editor",
       name: "CSSEditor",
       component: () =>
-        import("../components/settings-area/interface/custom-css/Editor.vue"),
+        import("../components/settings-area/interface/custom-css/Editor.vue")
     },
     {
       // TODO: change the path someday
       path: "/GDrive_callback",
       name: "GoogleDriveCallback",
-      component: () => import("../views/GoogleDriveCallback.vue"),
+      component: () => import("../views/GoogleDriveCallback.vue")
     },
     {
       path: "/login",
@@ -64,7 +64,7 @@ const router = VueRouter.createRouter({
           return;
         }
         next();
-      },
+      }
     },
     {
       path: "/reset-password",
@@ -76,7 +76,7 @@ const router = VueRouter.createRouter({
           return;
         }
         next();
-      },
+      }
     },
     {
       path: "/register",
@@ -88,7 +88,7 @@ const router = VueRouter.createRouter({
           return;
         }
         next();
-      },
+      }
     },
     {
       path: "/app",
@@ -97,23 +97,23 @@ const router = VueRouter.createRouter({
         {
           path: "servers/:server_id/settings/:tab?/:id?",
           component: ServerSettingsArea,
-          name: "server-settings",
+          name: "server-settings"
         },
         {
           path: "servers/:server_id/:channel_id",
           component: MessageArea,
-          name: "server-message-area",
+          name: "server-message-area"
         },
         {
           path: "dms/:channel_id",
           component: MessageArea,
-          name: "dm-message-area",
+          name: "dm-message-area"
         },
         { path: "servers/", component: DashboardArea },
         { path: "dms/", component: DashboardArea },
         { path: "settings/:tab?", component: SettingsArea },
         { path: "explore/:tab?", component: ExploreArea },
-        { path: "admin-panel/:tab?", component: AdminPanelArea },
+        { path: "admin-panel/:tab?", component: AdminPanelArea }
       ],
       name: "App",
       component: () => import("../views/MainApp.vue"),
@@ -124,11 +124,11 @@ const router = VueRouter.createRouter({
         }
         socket.connect();
         next();
-      },
+      }
     },
     { path: "/404", component: PageNotFound },
-    { path: "/(.*)*", redirect: "/404" },
-  ],
+    { path: "/(.*)*", redirect: "/404" }
+  ]
 });
 
 export default router;

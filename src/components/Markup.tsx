@@ -34,8 +34,8 @@ interface MarkupProps {
 }
 
 type CreateElement = any;
-type RenderContext =  {
-  props: MarkupProps
+type RenderContext = {
+  props: MarkupProps;
   textCount: number;
   emojiCount: number;
 };

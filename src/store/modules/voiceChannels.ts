@@ -66,21 +66,29 @@ class VoiceChannels extends VuexModule {
   @Mutation
   private LEAVE() {
     this.joinedChannelId = null;
-    const tracks = (this.videoStream?.getTracks() || []).concat(this.audioStream?.getTracks() || []);
-    tracks.forEach(t => t.stop())
+    const tracks = (this.videoStream?.getTracks() || []).concat(
+      this.audioStream?.getTracks() || []
+    );
+    tracks.forEach(t => t.stop());
     this.videoStream = null;
     this.audioStream = null;
   }
 
   @Action
   public leave() {
-    const voiceChannelUsers = this.voiceChannelUsers[this.joinedChannelId as string];
+    const voiceChannelUsers = this.voiceChannelUsers[
+      this.joinedChannelId as string
+    ];
     if (voiceChannelUsers) {
       for (const userId in voiceChannelUsers) {
         const vc = voiceChannelUsers[userId];
         vc.peer?.end();
-        vc.peer?.destroy()
-        this.update({ channelId: this.joinedChannelId as string, userId, update: { peer: undefined } })
+        vc.peer?.destroy();
+        this.update({
+          channelId: this.joinedChannelId as string,
+          userId,
+          update: { peer: undefined }
+        });
       }
     }
     this.LEAVE();
@@ -104,7 +112,10 @@ class VoiceChannels extends VuexModule {
   private ADD_VOICE_CHANNELS(payload: {
     [key: string]: { [key: string]: CallParticipant };
   }) {
-    Vue.set(this, "voiceChannelUsers", {...this.voiceChannelUsers, ...payload})
+    Vue.set(this, "voiceChannelUsers", {
+      ...this.voiceChannelUsers,
+      ...payload
+    });
   }
 
   @Action
@@ -133,12 +144,12 @@ class VoiceChannels extends VuexModule {
     );
   }
   @Action
-  public removeServerUser(payload: {userId: string, serverId: string}) {
+  public removeServerUser(payload: { userId: string; serverId: string }) {
     const serverChannels = ChannelsModule.serverChannels(payload.serverId);
     for (let i = 0; i < serverChannels.length; i++) {
       const channel = serverChannels[i];
       if (!this.voiceChannelUsers[channel.channelID]) continue;
-      this.removeUser({channelId: channel.channelID, userId: payload.userId})
+      this.removeUser({ channelId: channel.channelID, userId: payload.userId });
     }
   }
   @Action
@@ -146,7 +157,7 @@ class VoiceChannels extends VuexModule {
     const serverChannels = ChannelsModule.serverChannels(serverId);
     for (let i = 0; i < serverChannels.length; i++) {
       const channel = serverChannels[i];
-      this.removeChannel(channel.channelID)
+      this.removeChannel(channel.channelID);
     }
   }
   @Mutation
@@ -162,8 +173,8 @@ class VoiceChannels extends VuexModule {
     if (!voiceChannel) return;
     Object.values(voiceChannel).forEach(vc => {
       vc.peer?.destroy();
-    })
-    this.REMOVE_CHANNEL(channelId)
+    });
+    this.REMOVE_CHANNEL(channelId);
   }
 
   @Action
@@ -182,8 +193,6 @@ class VoiceChannels extends VuexModule {
     }
     Vue.delete(this.voiceChannelUsers[payload.channelId], payload.userId);
   }
-
-
 
   @Action
   public removeUser(payload: { userId: string; channelId: string }) {
@@ -232,8 +241,7 @@ class VoiceChannels extends VuexModule {
   public addStream(payload: { stream: MediaStream; type: "audio" | "video" }) {
     const oldStream =
       payload.type === "audio" ? this.audioStream : this.videoStream;
-      oldStream?.getTracks().forEach(track => track.stop())
-
+    oldStream?.getTracks().forEach(track => track.stop());
 
     const videoTracks = payload?.stream?.getVideoTracks();
     if (videoTracks[0]) {
@@ -242,16 +250,16 @@ class VoiceChannels extends VuexModule {
           p.peer?.removeStream(payload.stream);
         });
         videoTracks[0].onended = null;
-        this.UPDATE_LOCAL_STREAM({type: "video", stream: null})
-      }
+        this.UPDATE_LOCAL_STREAM({ type: "video", stream: null });
+      };
     }
-    const voiceChannelPeers = Object.values(this.voiceChannelUsers[
-      this.joinedChannelId || ""
-    ] || {});
+    const voiceChannelPeers = Object.values(
+      this.voiceChannelUsers[this.joinedChannelId || ""] || {}
+    );
     if (!voiceChannelPeers.length) {
       this.UPDATE_LOCAL_STREAM(payload);
       return;
-    };
+    }
     // stream to all peers
     voiceChannelPeers.forEach(p => {
       if (oldStream) {

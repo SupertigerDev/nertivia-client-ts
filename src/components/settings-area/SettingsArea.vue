@@ -58,7 +58,7 @@ export default defineComponent({
     StartupOptions,
     ProgramActivity,
     Language,
-    WIPFeatures,
+    WIPFeatures
   },
   computed: {
     selectedTab(): any {
@@ -67,12 +67,12 @@ export default defineComponent({
         return { ...settingPages[tab], id: tab };
       }
       return undefined;
-    },
+    }
   },
   watch: {
     selectedTab: {
-      handler: "onPageChanged",
-    },
+      handler: "onPageChanged"
+    }
   },
   mounted() {
     if (!this.selectedTab) {
@@ -81,17 +81,17 @@ export default defineComponent({
     }
     TabsModule.setCurrentTab({
       icon: this.selectedTab.icon,
-      name: this.selectedTab.name + " Settings",
+      name: this.selectedTab.name + " Settings"
     });
   },
   methods: {
     onPageChanged() {
       TabsModule.setCurrentTab({
         icon: this.selectedTab.icon,
-        name: this.selectedTab.name + " Settings",
+        name: this.selectedTab.name + " Settings"
       });
-    },
-  },
+    }
+  }
 });
 </script>
 <style lang="scss" scoped>

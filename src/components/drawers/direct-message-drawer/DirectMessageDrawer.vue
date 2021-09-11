@@ -6,7 +6,7 @@
         @click="changeTab(0)"
         :class="{
           selected: selectedTab === 0,
-          notification: friendRequestExists,
+          notification: friendRequestExists
         }"
       >
         <div class="material-icons">group</div>
@@ -17,7 +17,7 @@
         @click="changeTab(1)"
         :class="{
           selected: selectedTab === 1,
-          notification: dmNotificationExists,
+          notification: dmNotificationExists
         }"
       >
         <div class="material-icons">access_time</div>
@@ -63,12 +63,12 @@ export default defineComponent({
   components: { FriendList, RecentList },
   data() {
     return {
-      selectedTab: parseInt(localStorage.getItem("selectedDmTab") || "0"),
+      selectedTab: parseInt(localStorage.getItem("selectedDmTab") || "0")
     };
   },
   computed: {
     friendRequestExists(): any {
-      return this.friends.find((f) => f.status === FriendStatus.PENDING);
+      return this.friends.find(f => f.status === FriendStatus.PENDING);
     },
     friends(): any {
       return FriendsModule.friendsWithUser;
@@ -82,7 +82,7 @@ export default defineComponent({
       const DMChannel = ChannelsModule.getDMChannel(channelID);
       const recipient = DMChannel?.recipients?.[0];
       return recipient?.id === MeModule.user.id;
-    },
+    }
   },
   methods: {
     openSavedNotes() {
@@ -92,14 +92,14 @@ export default defineComponent({
     addFriendButton() {
       PopoutsModule.ShowPopout({
         component: "add-friend-popout",
-        id: "add-friend",
+        id: "add-friend"
       });
     },
     changeTab(index: number) {
       this.selectedTab = index;
       localStorage.setItem("selectedDmTab", index.toString());
-    },
-  },
+    }
+  }
 });
 </script>
 

@@ -23,10 +23,10 @@ export function createPeer(
     socket().emit("voice:send_signal", { channelId, signalToUserId, signal });
   });
   peer.on("stream", stream => {
-    onStream(stream, channelId, signalToUserId)
+    onStream(stream, channelId, signalToUserId);
   });
   peer.on("connect", () => {
-    onConnect(channelId, signalToUserId)
+    onConnect(channelId, signalToUserId);
   });
   return peer;
 }
@@ -51,15 +51,14 @@ export function addPeer(
     });
   });
   peer.on("stream", stream => {
-    onStream(stream, channelId, signalToUserId)
+    onStream(stream, channelId, signalToUserId);
   });
   peer.on("connect", () => {
-    onConnect(channelId, signalToUserId)
+    onConnect(channelId, signalToUserId);
   });
   peer.signal(signal);
   return peer;
 }
-
 
 function onConnect(channelId: string, userId: string) {
   voiceChannelModule.update({
@@ -71,15 +70,19 @@ function onConnect(channelId: string, userId: string) {
 }
 function onStream(stream: MediaStream, channelId: string, userId: string) {
   const videoTracks = stream.getVideoTracks();
-  const streamType = videoTracks.length ? "videoStream" : "audioStream"
+  const streamType = videoTracks.length ? "videoStream" : "audioStream";
 
   stream.onremovetrack = () => {
-    voiceChannelModule.update({channelId, userId, update: {[streamType]: null}})
+    voiceChannelModule.update({
+      channelId,
+      userId,
+      update: { [streamType]: null }
+    });
     stream.onremovetrack = null;
-  }
+  };
   voiceChannelModule.update({
     channelId,
     userId,
-    update: {[streamType]: stream}
+    update: { [streamType]: stream }
   });
 }

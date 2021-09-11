@@ -8,7 +8,7 @@
         valid: validMessage,
         disabled,
         connectLeft,
-        connectRight,
+        connectRight
       }"
       @click="onClick"
     >
@@ -66,7 +66,7 @@ export default defineComponent({
   name: "CustomInput",
   data() {
     return {
-      focused: false,
+      focused: false
     };
   },
   props: {
@@ -83,7 +83,7 @@ export default defineComponent({
     prefixIcon: String,
     connectLeft: Boolean,
     connectRight: Boolean,
-    hideError: { default: false },
+    hideError: { default: false }
   },
   emits: ["update:modelValue"],
   methods: {
@@ -92,13 +92,13 @@ export default defineComponent({
     },
     onClick(event: MouseEvent) {
       (event?.target as HTMLButtonElement).click();
-    },
+    }
   },
   computed: {
     charCount(): number {
       return (this.modelValue as string).length;
-    },
-  },
+    }
+  }
 });
 </script>
 

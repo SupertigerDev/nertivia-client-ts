@@ -30,9 +30,9 @@ export default defineComponent({
   data() {
     return {
       editID: null as null | string,
-      publishTheme: null as null | Theme,
+      publishTheme: null as null | Theme
     };
-  },
+  }
 });
 </script>
 
