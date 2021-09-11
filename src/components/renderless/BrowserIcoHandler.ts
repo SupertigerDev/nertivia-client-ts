@@ -1,11 +1,11 @@
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { ServersModule } from "@/store/modules/servers";
-import Vue from "vue";
+import { h } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "BrowserIcoHandler",
-  render(h) {
+  render() {
     return h("template");
   },
   computed: {

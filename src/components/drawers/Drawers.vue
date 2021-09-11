@@ -83,7 +83,7 @@ export default defineComponent({
     window.addEventListener("touchend", this.onTouchEnd);
     window.addEventListener("scroll", this.onScroll, true);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     window.removeEventListener("touchstart", this.onTouchStart);
     window.removeEventListener("touchmove", this.onTouchMove);
     window.removeEventListener("touchend", this.onTouchEnd);

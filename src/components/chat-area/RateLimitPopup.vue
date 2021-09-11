@@ -56,7 +56,7 @@ export default defineComponent({
       handler: "onRateLimit"
     }
   },
-  beforeDestroy() {
+  beforeUnmount() {
     clearInterval(this.interval);
   },
   mounted() {

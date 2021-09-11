@@ -110,8 +110,9 @@
 </template>
 
 <script lang="ts">
-const AvatarImage = () =>
-  import(/* webpackChunkName: "AvatarImage" */ "@/components/AvatarImage.vue");
+const AvatarImage = defineAsyncComponent(() =>
+  import("@/components/AvatarImage.vue")
+);
 import userStatuses from "@/constants/userStatuses";
 import { AppUpdateModule } from "@/store/modules/appUpdate";
 import { DrawersModule } from "@/store/modules/drawers";
@@ -123,7 +124,7 @@ import { NotificationsModule } from "@/store/modules/notifications";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { PresencesModule } from "@/store/modules/presences";
 import { ReactiveLocalStorageModule } from "@/store/modules/reactiveLocalStorage";
-import Vue from "vue";
+import Vue, { defineAsyncComponent } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "NavBar",

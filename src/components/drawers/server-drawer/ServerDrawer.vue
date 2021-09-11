@@ -80,7 +80,7 @@ export default defineComponent({
   mounted() {
     window.addEventListener("keydown", this.onKeyDown);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     window.removeEventListener("keydown", this.onKeyDown);
   },
   methods: {

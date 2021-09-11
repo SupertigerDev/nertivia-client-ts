@@ -64,10 +64,9 @@ const NavBar = defineAsyncComponent(() => import("@/components/NavBar.vue"));
 const LeftDrawer = defineAsyncComponent(() =>
   import("@/components/drawers/LeftDrawer.vue")
 );
-const RightDrawer = () =>
-  import(
-    /* webpackChunkName: "RightDrawer" */ "@/components/drawers/RightDrawer.vue"
-  );
+const RightDrawer = defineAsyncComponent(() =>
+  import("@/components/drawers/RightDrawer.vue")
+);
 
 export default defineComponent({
   name: "MainApp",
@@ -144,7 +143,7 @@ export default defineComponent({
     this.loadCache();
     this.applyCSSTheme();
   },
-  beforeDestroy() {
+  beforeUnmount() {
     store.unregisterModule("socketIO");
   },
   methods: {

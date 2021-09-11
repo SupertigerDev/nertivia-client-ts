@@ -1,4 +1,5 @@
-import { createApp } from "vue";
+import Vue, { createApp } from "vue";
+
 import clickOutside from "./directives/clickOutside";
 
 import App from "./App.vue";
@@ -13,6 +14,12 @@ import store from "./store";
 import { socket } from "./socket";
 import { Socket } from "socket.io-client";
 
+Vue.configureCompat({
+  RENDER_FUNCTION: false,
+  COMPONENT_V_MODEL: false,
+  INSTANCE_ATTRS_CLASS_STYLE: false
+});
+
 declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
     $isMobile: boolean;
@@ -23,7 +30,6 @@ declare module "@vue/runtime-core" {
     $socket: Socket;
   }
 }
-
 if (!String.prototype.replaceAll) {
   (String.prototype as any).replaceAll = String.prototype.replace;
 }

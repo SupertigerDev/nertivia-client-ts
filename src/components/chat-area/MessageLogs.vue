@@ -5,10 +5,10 @@
     ref="logs"
     @scroll.passive="onScroll"
   >
-    <transition-group :name="messageTransition ? 'message' : ''" tag="div">
-      <Messages :channelID="channelID" class="message" />
-      <UploadQueueComponent v-if="uploadQueue.length" key="upload-queue" />
-    </transition-group>
+    <!-- <transition-group :name="messageTransition ? 'message' : ''" tag="div"> -->
+    <Messages key="messages" :channelID="channelID" class="message" />
+    <UploadQueueComponent v-if="uploadQueue.length" key="upload-queue" />
+    <!-- </transition-group> -->
   </div>
 </template>
 
@@ -70,7 +70,7 @@ export default defineComponent({
     this.dismissNotification();
     emitter.on("scrollToMessage", this.goToMessage);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     const isScrolledDown = MessageLogStatesModule.isScrolledDown(
       this.currentChannelID
     );
@@ -201,7 +201,7 @@ export default defineComponent({
       });
     },
 
-    onScroll(event: { target: Element }) {
+    onScroll(event: any) {
       this.scrollTop = event.target.scrollTop;
       // max distance to scroll to bottom when new messsages loaded
       const maxDistance = 22;

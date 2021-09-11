@@ -66,7 +66,7 @@ export default defineComponent({
     },
     invite: {
       type: Object as PropType<Invite>,
-      required: true
+      required: false
     }
   },
   data() {

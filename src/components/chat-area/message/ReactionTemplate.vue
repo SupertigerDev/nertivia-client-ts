@@ -70,7 +70,7 @@ export default defineComponent({
       handler: "isHovered"
     }
   },
-  beforeDestroy() {
+  beforeUnmount() {
     PopoutsModule.ClosePopout("reacted-users-preview");
   },
   methods: {

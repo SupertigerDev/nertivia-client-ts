@@ -48,7 +48,7 @@ export default defineComponent({
     document.addEventListener("keydown", this.keyDown);
     FileUploadModule.SetIsImage(this.isImage || false);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     document.removeEventListener("keydown", this.keyDown);
   },
   methods: {

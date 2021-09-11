@@ -7,10 +7,6 @@
 </template>
 
 <script lang="ts">
-const WindowControl = () =>
-  import(
-    /* webpackChunkName: "WindowControl" */ "@/components/electron/WindowControl.vue"
-  );
 import Popouts from "@/components/popouts/Popouts.vue";
 
 import {
@@ -21,9 +17,14 @@ import {
 import { applyFont } from "./utils/applyFont";
 import fonts from "@/utils/fonts.json";
 import { clear } from "idb-keyval";
-import Vue from "vue";
+import Vue, { defineAsyncComponent } from "vue";
 import { defineComponent } from "vue";
 import i18n from "./i18n";
+
+const WindowControl = defineAsyncComponent(() =>
+  import("@/components/electron/WindowControl.vue")
+);
+
 export default defineComponent({
   name: "App",
   components: { WindowControl, Popouts },

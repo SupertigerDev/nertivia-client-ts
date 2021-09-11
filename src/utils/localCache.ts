@@ -1,7 +1,7 @@
 import { set, get } from "idb-keyval";
 
 export function saveCache(name: string, data: any) {
-  set("cached_" + name, data);
+  set("cached_" + name, JSON.parse(JSON.stringify(data)));
 }
 export function loadCache(name: string) {
   return get("cached_" + name);

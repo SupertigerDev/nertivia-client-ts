@@ -81,7 +81,7 @@ export default defineComponent({
     // this.$socket.client.on("typingStatus", this.onTyping);
     emitter.on("newMessage", this.onNewMessage);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     // $fix below
     // this.$socket.client.off("typingStatus", this.onTyping);
     emitter.off("newMessage", this.onNewMessage);

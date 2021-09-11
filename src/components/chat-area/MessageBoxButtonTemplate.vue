@@ -16,7 +16,7 @@ export default defineComponent({
     },
     warn: {
       type: Boolean,
-      required: true
+      required: false
     }
   }
 });

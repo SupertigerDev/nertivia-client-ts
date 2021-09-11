@@ -6,12 +6,11 @@
       :delay="$isMobile ? 400 : 0"
       ghost-class="ghost"
       @end="onDragEnd"
+      item-key="server_id"
     >
-      <ServerTemplate
-        v-for="server in servers"
-        :key="server.server_id"
-        :server="server"
-      />
+      <template #item="{element}">
+        <ServerTemplate :server="element" />
+      </template>
     </Draggable>
   </div>
 </template>
@@ -45,7 +44,7 @@ export default defineComponent({
   mounted() {
     window.addEventListener("keydown", this.onKeyDown);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     window.removeEventListener("keydown", this.onKeyDown);
   },
   methods: {

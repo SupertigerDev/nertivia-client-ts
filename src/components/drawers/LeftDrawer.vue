@@ -31,32 +31,27 @@
 
 <script lang="ts">
 import _ from "lodash";
+import { defineAsyncComponent } from "vue";
 
-const ServerDrawer = () =>
-  import(
-    /* webpackChunkName: "ServerDrawer" */ "@/components/drawers/server-drawer/ServerDrawer.vue"
-  );
-const ServerSettingsDrawer = () =>
-  import(
-    /* webpackChunkName: "ServerSettingsDrawer" */ "@/components/drawers/server-drawer/ServerSettingsDrawer.vue"
-  );
+const ServerDrawer = defineAsyncComponent(() =>
+  import("@/components/drawers/server-drawer/ServerDrawer.vue")
+);
+const ServerSettingsDrawer = defineAsyncComponent(() =>
+  import("@/components/drawers/server-drawer/ServerSettingsDrawer.vue")
+);
 
-const SettingsDrawer = () =>
-  import(
-    /* webpackChunkName: "SettingsDrawer" */ "@/components/drawers/SettingsDrawer.vue"
-  );
-const DirectMessageDrawer = () =>
-  import(
-    /* webpackChunkName: "DirectMessageDrawer" */ "@/components/drawers/direct-message-drawer/DirectMessageDrawer.vue"
-  );
-const ExploreDrawer = () =>
-  import(
-    /* webpackChunkName: "ExploreDrawer" */ "@/components/drawers/ExploreDrawer.vue"
-  );
-const AdminPanelDrawer = () =>
-  import(
-    /* webpackChunkName: "AdminPanelDrawer" */ "@/components/drawers/AdminPanelDrawer.vue"
-  );
+const SettingsDrawer = defineAsyncComponent(() =>
+  import("@/components/drawers/SettingsDrawer.vue")
+);
+const DirectMessageDrawer = defineAsyncComponent(() =>
+  import("@/components/drawers/direct-message-drawer/DirectMessageDrawer.vue")
+);
+const ExploreDrawer = defineAsyncComponent(() =>
+  import("@/components/drawers/ExploreDrawer.vue")
+);
+const AdminPanelDrawer = defineAsyncComponent(() =>
+  import("@/components/drawers/AdminPanelDrawer.vue")
+);
 
 import SideBar from "@/components/sidebar/SideBar.vue";
 

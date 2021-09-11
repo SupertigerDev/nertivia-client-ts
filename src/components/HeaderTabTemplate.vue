@@ -57,7 +57,7 @@ export default defineComponent({
   mounted() {
     this.getTabElement().addEventListener("auxclick", this.onMiddleClick);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.getTabElement().removeEventListener("auxclick", this.onMiddleClick);
   },
   methods: {

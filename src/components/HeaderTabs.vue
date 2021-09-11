@@ -6,13 +6,11 @@
     ghost-class="ghost"
     direction="horizontal"
     v-model="tabs"
+    item-key="name"
   >
-    <Tab
-      v-for="(tab, i) in tabs"
-      :key="i"
-      :tab="tab"
-      :selected="currentTabIndex === i"
-    />
+    <template #item="{element, index}">
+      <Tab :tab="element" :selected="currentTabIndex === index" />
+    </template>
   </Draggable>
 </template>
 

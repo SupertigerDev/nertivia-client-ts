@@ -1,5 +1,5 @@
 <script lang="tsx">
-import Vue, { PropType } from "vue";
+import { PropType, h } from "vue";
 interface Tab {
   name: string;
   id: string;
@@ -21,7 +21,7 @@ export default defineComponent({
       required: true
     }
   },
-  render(h) {
+  render() {
     const Tab = ({ index, name }: any) => (
       <div
         key={index}

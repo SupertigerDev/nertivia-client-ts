@@ -1,7 +1,7 @@
 import { AppUpdateModule } from "@/store/modules/appUpdate";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { useWindowProperties } from "@/utils/windowProperties";
-import Vue from "vue";
+import { h } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "UpdateChecker",
@@ -12,7 +12,7 @@ export default defineComponent({
       checkAfter: 600000
     };
   },
-  render(h) {
+  render() {
     return h("template");
   },
   computed: {

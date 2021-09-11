@@ -132,7 +132,7 @@ export default defineComponent({
       return this.data.message;
     }
   },
-  beforeDestroy() {
+  beforeUnmount() {
     PopoutsModule.ClosePopout("hover-context");
   },
   methods: {

@@ -140,7 +140,7 @@ export default defineComponent({
 
     document.addEventListener("keydown", this.onKeyDown);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     if (!this.paint) return;
     if (!this.loaded) return;
     set("doodlepad", {

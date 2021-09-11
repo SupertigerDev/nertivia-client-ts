@@ -179,7 +179,7 @@ export default defineComponent({
     this.resizeTextArea();
     this.message = getInputCache(this.channelID) || "";
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.stopPostingTypingStatus();
   },
   methods: {

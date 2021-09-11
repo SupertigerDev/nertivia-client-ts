@@ -192,7 +192,7 @@ export default defineComponent({
     });
     this.pickr.on("hide", this.colorChanged);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.pickr?.off("hide", this.colorChanged);
     this.pickr?.destroyAndRemove();
   },
