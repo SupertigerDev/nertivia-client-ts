@@ -24,7 +24,7 @@ import FileDragDrop from "@/utils/FileDragDrop";
 import { FileUploadModule, UploadQueue } from "@/store/modules/fileUpload";
 import { PopoutsModule } from "@/store/modules/popouts";
 import Message from "@/interfaces/Message";
-import { eventBus } from "@/utils/globalBus";
+import { emitter } from "@/utils/globalBus";
 import { fetchMessagesAround } from "@/services/messagesService";
 import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
 import Notification from "@/interfaces/Notification";
@@ -68,7 +68,7 @@ export default defineComponent({
     this.fileDragDropHandler.onDrop(this.fileDrop);
     this.fileDragDropHandler.onDragOut(this.fileDragOut);
     this.dismissNotification();
-    eventBus.$on("scrollToMessage", this.goToMessage);
+    emitter.on("scrollToMessage", this.goToMessage);
   },
   beforeDestroy() {
     const isScrolledDown = MessageLogStatesModule.isScrolledDown(
@@ -81,7 +81,7 @@ export default defineComponent({
       }
     });
     this.fileDragDropHandler?.destroy();
-    eventBus.$off("scrollToMessage", this.goToMessage);
+    emitter.off("scrollToMessage", this.goToMessage);
   },
   methods: {
     fileDragEnter() {

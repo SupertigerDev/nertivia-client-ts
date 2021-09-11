@@ -5,7 +5,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import User from "@/interfaces/User";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import Markup from "@/components/Markup";
-import { eventBus } from "@/utils/globalBus";
+import { emitter } from "@/utils/globalBus";
 import Vue from "vue";
 import Message from "@/interfaces/Message";
 
@@ -80,7 +80,7 @@ export default defineComponent({
   },
   methods: {
     gotoMessage() {
-      eventBus.$emit("scrollToMessage", this.quote.messageID);
+      emitter.emit("scrollToMessage", this.quote.messageID);
     },
     showProfile(event: MouseEvent) {
       if (this.user != null) {

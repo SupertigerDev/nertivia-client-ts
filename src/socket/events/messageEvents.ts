@@ -8,7 +8,7 @@ import { MessagesModule } from "@/store/modules/messages";
 import { MutedChannelsModule } from "@/store/modules/mutedChannels";
 import { MutedServersModule } from "@/store/modules/mutedServers";
 import { NotificationsModule } from "@/store/modules/notifications";
-import { eventBus } from "@/utils/globalBus";
+import { emitter } from "@/utils/globalBus";
 import notificationSound from "@/utils/notificationSound";
 import { Socket } from "socket.io-client";
 
@@ -72,7 +72,7 @@ export const onMessage = (socket: Socket, data: { message: Message }) => {
   // message created by not me
   // server channel = mentioned
   if (!isMe) {
-    eventBus.$emit("newMessage", data.message);
+    emitter.emit("newMessage", data.message);
     const notification = NotificationsModule.notificationByChannelID(
       data.message.channelID
     );

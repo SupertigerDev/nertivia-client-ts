@@ -10,7 +10,7 @@
 <script lang="ts">
 import Message from "@/interfaces/Message";
 import { MeModule } from "@/store/modules/me";
-import { eventBus } from "@/utils/globalBus";
+import { emitter } from "@/utils/globalBus";
 import Vue from "vue";
 
 interface TypingData {
@@ -79,12 +79,12 @@ export default defineComponent({
   mounted() {
     // $fix below
     // this.$socket.client.on("typingStatus", this.onTyping);
-    eventBus.$on("newMessage", this.onNewMessage);
+    emitter.on("newMessage", this.onNewMessage);
   },
   beforeDestroy() {
     // $fix below
     // this.$socket.client.off("typingStatus", this.onTyping);
-    eventBus.$off("newMessage", this.onNewMessage);
+    emitter.off("newMessage", this.onNewMessage);
   },
   methods: {
     escapeHtml(unsafe: string) {
