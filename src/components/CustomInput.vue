@@ -3,12 +3,12 @@
     <fieldset
       class="content"
       :class="{
-        focused: focused || value.length,
+        focused: focused || modelValue?.length,
         error,
         valid: validMessage,
         disabled,
         connectLeft,
-        connectRight
+        connectRight,
       }"
       @click="onClick"
     >
@@ -31,7 +31,7 @@
           v-if="!textArea"
           :placeholder="placeholder"
           @input="inputEvent"
-          :value="value"
+          :value="modelValue"
         />
         <textarea
           v-if="textArea"
@@ -44,7 +44,7 @@
           ref="inputBox"
           :placeholder="placeholder"
           @input="inputEvent"
-          :value="value"
+          :value="modelValue"
         />
       </div>
     </fieldset>
@@ -64,10 +64,9 @@ import Vue from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "CustomInput",
-  model: { prop: "value", event: "model" },
   data() {
     return {
-      focused: false
+      focused: false,
     };
   },
   props: {
@@ -79,26 +78,27 @@ export default defineComponent({
     disabled: { default: false },
     textArea: { default: false },
     validMessage: String,
-    value: String,
+    modelValue: String,
     prefix: String,
     prefixIcon: String,
     connectLeft: Boolean,
     connectRight: Boolean,
-    hideError: { default: false }
+    hideError: { default: false },
   },
+  emits: ["update:modelValue"],
   methods: {
     inputEvent(event: any) {
-      this.$emit("model", event.target.value);
+      this.$emit("update:modelValue", event.target.value);
     },
     onClick(event: MouseEvent) {
       (event?.target as HTMLButtonElement).click();
-    }
+    },
   },
   computed: {
     charCount(): number {
-      return (this.value as string).length;
-    }
-  }
+      return (this.modelValue as string).length;
+    },
+  },
 });
 </script>
 

@@ -12,128 +12,101 @@
 
 <script lang="ts">
 import { PopoutsModule } from "@/store/modules/popouts";
-import Vue from "vue";
+
+import { defineComponent, defineAsyncComponent } from "vue";
 
 const components = {
-  ProfilePopout: () =>
-    import(
-      /* webpackChunkName: "ProfilePopout" */ "@/components/popouts/profile-popout/ProfilePopout.vue"
-    ),
-  MarkupGuide: () =>
-    import(
-      /* webpackChunkName: "MarkupGuide" */ "@/components/popouts/markup-guide/MarkupGuide.vue"
-    ),
-  EditRolesPopout: () =>
-    import(
-      /* webpackChunkName: "EditRolesPopout" */ "@/components/popouts/EditRolesPopout.vue"
-    ),
-  MiniProfilePopout: () =>
-    import(
-      /* webpackChunkName: "MiniProfilePopout" */ "@/components/popouts/MiniProfilePopout.vue"
-    ),
+  ProfilePopout: defineAsyncComponent(() =>
+    import("@/components/popouts/profile-popout/ProfilePopout.vue")
+  ),
+  MarkupGuide: defineAsyncComponent(() =>
+    import("@/components/popouts/markup-guide/MarkupGuide.vue")
+  ),
+  EditRolesPopout: defineAsyncComponent(() =>
+    import("@/components/popouts/EditRolesPopout.vue")
+  ),
+  MiniProfilePopout: defineAsyncComponent(() =>
+    import("@/components/popouts/MiniProfilePopout.vue")
+  ),
 
-  StatusListContext: () =>
-    import(
-      /* webpackChunkName: "StatusListContext" */ "@/components/popouts/StatusListContext.vue"
-    ),
-  MessageContextMenu: () =>
-    import(
-      /* webpackChunkName: "MessageContextMenu" */ "@/components/popouts/MessageContextMenu.vue"
-    ),
-  UserContextMenu: () =>
-    import(
-      /* webpackChunkName: "UserContextMenu" */ "@/components/popouts/UserContextMenu.vue"
-    ),
-  ServerContextMenu: () =>
-    import(
-      /* webpackChunkName: "ServerContextMenu" */ "@/components/popouts/ServerContextMenu.vue"
-    ),
-  ChannelContextMenu: () =>
-    import(
-      /* webpackChunkName: "ServerContextMenu" */ "@/components/popouts/ChannelContextMenu.vue"
-    ),
-  ImageContextMenu: () =>
-    import(
-      /* webpackChunkName: "ImageContextMenu" */ "@/components/popouts/ImageContextMenu.vue"
-    ),
-  BanOrKickUserPopout: () =>
-    import(
-      /* webpackChunkName: "BanOrKickUserPopout" */ "@/components/popouts/BanOrKickUserPopout.vue"
-    ),
-  DeleteMessagePopout: () =>
-    import(
-      /* webpackChunkName: "DeleteMessagePopout" */ "@/components/popouts/DeleteMessagePopout.vue"
-    ),
-  AddFriendPopout: () =>
-    import(
-      /* webpackChunkName: "AddFriendPopout" */ "@/components/popouts/AddFriendPopout.vue"
-    ),
-  AddServerPopout: () =>
-    import(
-      /* webpackChunkName: "AddServerPopout" */ "@/components/popouts/add-server-popout/AddServerPopout.vue"
-    ),
-  DragDropPopout: () =>
-    import(
-      /* webpackChunkName: "DragDropPopout" */ "@/components/popouts/DragDropPopout.vue"
-    ),
-  ImagePreviewPopout: () =>
-    import(
-      /* webpackChunkName: "ImagePreviewPopout" */ "@/components/popouts/ImagePreviewPopout.vue"
-    ),
-  GenericPopout: () =>
-    import(
-      /* webpackChunkName: "GenericPopout" */ "@/components/popouts/GenericPopout.vue"
-    ),
-  OpenLinkConfirm: () =>
-    import(
-      /* webpackChunkName: "OpenLinkConfirm" */ "@/components/popouts/OpenLinkConfirm.vue"
-    ),
-  UpdatePopout: () =>
-    import(
-      /* webpackChunkName: "UpdatePopout" */ "@/components/popouts/UpdatePopout.vue"
-    ),
-  ChangelogPopout: () =>
-    import(
-      /* webpackChunkName: "ChangelogPopout" */ "@/components/popouts/ChangelogPopout.vue"
-    ),
-  LinkGoogleDrive: () =>
-    import(
-      /* webpackChunkName: "LinkGoogleDrive" */ "@/components/popouts/LinkGoogleDrive.vue"
-    ),
-  ChangesToPolicies: () =>
-    import(
-      /* webpackChunkName: "ChangesToPolicies" */ "@/components/popouts/ChangesToPolicies.vue"
-    ),
-  FloatingProfileCard: () =>
-    import(
-      /* webpackChunkName: "FloatingProfileCard" */ "@/components/popouts/FloatingProfileCard.vue"
-    ),
-  AdminSuspendUser: () =>
-    import(
-      /* webpackChunkName: "AdminSuspendUser" */ "@/components/popouts/admin-popouts/SuspendUser.vue"
-    ),
-  AdminUnsuspendUser: () =>
-    import(
-      /* webpackChunkName: "AdminUnsuspendUser" */ "@/components/popouts/admin-popouts/UnsuspendUser.vue"
-    ),
-  MessageReactionEmojiPicker: () =>
-    import(
-      /* webpackChunkName: "MessageReactionEmojiPicker" */ "@/components/popouts/MessageReactionEmojiPicker.vue"
-    ),
-  ReactedUsersPreview: () =>
-    import(
-      /* webpackChunkName: "ReactedUsersPreview" */ "@/components/popouts/ReactedUsersPreview.vue"
-    )
+  StatusListContext: defineAsyncComponent(() =>
+    import("@/components/popouts/StatusListContext.vue")
+  ),
+  MessageContextMenu: defineAsyncComponent(() =>
+    import("@/components/popouts/MessageContextMenu.vue")
+  ),
+  UserContextMenu: defineAsyncComponent(() =>
+    import("@/components/popouts/UserContextMenu.vue")
+  ),
+  ServerContextMenu: defineAsyncComponent(() =>
+    import("@/components/popouts/ServerContextMenu.vue")
+  ),
+  ChannelContextMenu: defineAsyncComponent(() =>
+    import("@/components/popouts/ChannelContextMenu.vue")
+  ),
+  ImageContextMenu: defineAsyncComponent(() =>
+    import("@/components/popouts/ImageContextMenu.vue")
+  ),
+  BanOrKickUserPopout: defineAsyncComponent(() =>
+    import("@/components/popouts/BanOrKickUserPopout.vue")
+  ),
+  DeleteMessagePopout: defineAsyncComponent(() =>
+    import("@/components/popouts/DeleteMessagePopout.vue")
+  ),
+  AddFriendPopout: defineAsyncComponent(() =>
+    import("@/components/popouts/AddFriendPopout.vue")
+  ),
+  AddServerPopout: defineAsyncComponent(() =>
+    import("@/components/popouts/add-server-popout/AddServerPopout.vue")
+  ),
+  DragDropPopout: defineAsyncComponent(() =>
+    import("@/components/popouts/DragDropPopout.vue")
+  ),
+  ImagePreviewPopout: defineAsyncComponent(() =>
+    import("@/components/popouts/ImagePreviewPopout.vue")
+  ),
+  GenericPopout: defineAsyncComponent(() =>
+    import("@/components/popouts/GenericPopout.vue")
+  ),
+  OpenLinkConfirm: defineAsyncComponent(() =>
+    import("@/components/popouts/OpenLinkConfirm.vue")
+  ),
+  UpdatePopout: defineAsyncComponent(() =>
+    import("@/components/popouts/UpdatePopout.vue")
+  ),
+  ChangelogPopout: defineAsyncComponent(() =>
+    import("@/components/popouts/ChangelogPopout.vue")
+  ),
+  LinkGoogleDrive: defineAsyncComponent(() =>
+    import("@/components/popouts/LinkGoogleDrive.vue")
+  ),
+  ChangesToPolicies: defineAsyncComponent(() =>
+    import("@/components/popouts/ChangesToPolicies.vue")
+  ),
+  FloatingProfileCard: defineAsyncComponent(() =>
+    import("@/components/popouts/FloatingProfileCard.vue")
+  ),
+  AdminSuspendUser: defineAsyncComponent(() =>
+    import("@/components/popouts/admin-popouts/SuspendUser.vue")
+  ),
+  AdminUnsuspendUser: defineAsyncComponent(() =>
+    import("@/components/popouts/admin-popouts/UnsuspendUser.vue")
+  ),
+  MessageReactionEmojiPicker: defineAsyncComponent(() =>
+    import("@/components/popouts/MessageReactionEmojiPicker.vue")
+  ),
+  ReactedUsersPreview: defineAsyncComponent(() =>
+    import("@/components/popouts/ReactedUsersPreview.vue")
+  ),
 };
-import { defineComponent } from "vue";
 export default defineComponent({
   name: "MainApp",
   components,
   computed: {
     popups(): any {
       return PopoutsModule.popouts;
-    }
-  }
+    },
+  },
 });
 </script>
 

@@ -40,19 +40,19 @@ export default defineComponent({
     },
     alert: {
       type: Boolean,
-      required: true
+      required: false
     },
     warn: {
       type: Boolean,
-      required: true
+      required: false
     },
     disabled: {
       type: Boolean,
-      required: true
+      required: false
     },
     valid: {
       type: Boolean,
-      required: true
+      required: false
     },
     icon: {
       type: String,
@@ -60,11 +60,11 @@ export default defineComponent({
     },
     iconPos: {
       type: String,
-      required: true
+      required: false
     },
     iconSize: {
       type: String,
-      required: true
+      required: false
     }
   },
   data() {

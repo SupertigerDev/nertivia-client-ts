@@ -81,7 +81,7 @@ export default defineComponent({
     },
     error: {
       type: String,
-      required: true
+      required: false
     },
     defaultId: {
       type: [Number, String],
@@ -89,7 +89,7 @@ export default defineComponent({
     },
     validMessage: {
       type: String,
-      required: true
+      required: false
     },
     IdPath: {
       type: String,

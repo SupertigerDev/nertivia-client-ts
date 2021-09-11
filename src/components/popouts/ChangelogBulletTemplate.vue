@@ -13,7 +13,7 @@ export default defineComponent({
   name: "ChangelogBullets",
   props: {
     bullets: {
-      type: Object as PropType<string[] | string>,
+      type: [Array, String] as PropType<string[] | string>,
       required: true
     },
     color: {
