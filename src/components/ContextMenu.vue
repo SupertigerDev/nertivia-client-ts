@@ -69,7 +69,7 @@ export default defineComponent({
     },
     element: {
       type: HTMLElement,
-      required: true
+      required: false
     },
     items: {
       type: Array as PropType<ItemsProp[]>,
@@ -77,7 +77,7 @@ export default defineComponent({
     },
     type: {
       type: String,
-      required: true
+      required: false
     }
   },
   data() {
