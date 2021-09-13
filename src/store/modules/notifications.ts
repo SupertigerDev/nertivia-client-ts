@@ -69,7 +69,7 @@ class Notifications extends VuexModule {
     channelID: string;
     notification: Notification;
   }) {
-    Vue.set(this.notifications, payload.channelID, payload.notification);
+    this.notifications[payload.channelID] = payload.notification;
   }
   @Action
   public AddNotification(payload: {

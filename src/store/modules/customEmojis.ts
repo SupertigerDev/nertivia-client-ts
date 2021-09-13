@@ -37,7 +37,7 @@ class CustomEmojis extends VuexModule {
   private UPDATE_EMOJI(data: { emojiID: string; name: string }) {
     const index = this.customEmojis.findIndex(e => e.emojiID === data.emojiID);
     if (index < 0) return;
-    Vue.set(this.customEmojis[index], "name", data.name);
+    this.customEmojis[index].name = data.name;
   }
 
   @Action

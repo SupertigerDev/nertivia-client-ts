@@ -33,11 +33,12 @@ class Popouts extends VuexModule {
     data?: any;
     key?: string;
   }) {
-    Vue.set(this.popouts, payload.id, {
+    this.popouts[payload.id] = {
+      id: payload.id,
       component: payload.component,
       data: payload.data,
       key: payload.key
-    });
+    };
   }
 
   @Action

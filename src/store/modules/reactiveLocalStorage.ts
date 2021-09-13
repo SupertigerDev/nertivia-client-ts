@@ -45,7 +45,7 @@ class ReactiveLocalStorage extends VuexModule {
     key: K;
     value: Store[K];
   }) {
-    Vue.set(this.localStore, key, value);
+    this.localStore[key] = value;
   }
 }
 export const ReactiveLocalStorageModule = getModule(ReactiveLocalStorage);

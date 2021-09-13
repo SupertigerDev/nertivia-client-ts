@@ -112,10 +112,10 @@ class VoiceChannels extends VuexModule {
   private ADD_VOICE_CHANNELS(payload: {
     [key: string]: { [key: string]: CallParticipant };
   }) {
-    Vue.set(this, "voiceChannelUsers", {
+    this.voiceChannelUsers = {
       ...this.voiceChannelUsers,
       ...payload
-    });
+    };
   }
 
   @Action
@@ -132,16 +132,13 @@ class VoiceChannels extends VuexModule {
   }) {
     const users = this.voiceChannelUsers[payload.channelId];
     if (!users) {
-      Vue.set(this.voiceChannelUsers, payload.channelId, {
+      this.voiceChannelUsers[payload.channelId] = {
         [payload.userId]: payload.data
-      });
+      };
       return;
     }
-    Vue.set(
-      this.voiceChannelUsers[payload.channelId],
-      payload.userId,
-      payload.data
-    );
+
+    this.voiceChannelUsers[payload.channelId][payload.userId] = payload.data;
   }
   @Action
   public removeServerUser(payload: { userId: string; serverId: string }) {
@@ -210,10 +207,10 @@ class VoiceChannels extends VuexModule {
   }) {
     const old = this.voiceChannelUsers[payload.channelId]?.[payload.userId];
     if (!old) return;
-    Vue.set(this.voiceChannelUsers[payload.channelId], payload.userId, {
+    this.voiceChannelUsers[payload.channelId][payload.userId] = {
       ...old,
       ...payload.update
-    });
+    };
   }
 
   @Action

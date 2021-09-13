@@ -89,7 +89,7 @@ class LastSeenServerChannels extends VuexModule {
 
   @Mutation
   private SET_LAST_SEEN_CHANNEL(channelID: string) {
-    Vue.set(this.lastSeenServers, channelID, Date.now());
+    this.lastSeenServers[channelID] = Date.now();
   }
 
   @Action

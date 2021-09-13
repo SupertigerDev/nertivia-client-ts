@@ -99,7 +99,7 @@ class Channels extends VuexModule {
   }
   @Mutation
   private ADD_CHANNEL(payload: Channel) {
-    Vue.set(this.channels, payload.channelID, payload);
+    this.channels[payload.channelID] = payload;
   }
   @Action
   public AddChannel(payload: Channel) {
@@ -107,7 +107,7 @@ class Channels extends VuexModule {
   }
   @Mutation
   private ADD_CHANNELS(payload: ChannelObj) {
-    Vue.set(this, "channels", { ...this.channels, ...payload });
+    this.channels = { ...this.channels, ...payload };
   }
   @Action
   public AddChannels(payload: ChannelObj) {

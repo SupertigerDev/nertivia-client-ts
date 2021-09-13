@@ -47,10 +47,10 @@ class MutedServers extends VuexModule {
   @Mutation
   private SET_MUTED_SERVER(payload: { serverID: string; type: number }) {
     if (this.mutedServers[payload.serverID]) {
-      Vue.set(this.mutedServers[payload.serverID], "type", payload.type);
+      this.mutedServers[payload.serverID].type = payload.type;
       return;
     }
-    Vue.set(this.mutedServers, payload.serverID, { type: payload.type });
+    this.mutedServers[payload.serverID] = { type: payload.type };
   }
 
   @Action

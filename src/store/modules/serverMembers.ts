@@ -137,7 +137,7 @@ class ServerMembers extends VuexModule {
     id: string;
     member: ServerMember;
   }) {
-    Vue.set(this.serverMembers[payload.server_id], payload.id, payload.member);
+    this.serverMembers[payload.server_id][payload.id] = payload.member;
   }
   @Action
   public RemoveMemberRole(payload: {
@@ -189,7 +189,7 @@ class ServerMembers extends VuexModule {
   }
   @Mutation
   private ADD_SERVER_MEMBERS(payload: Servers) {
-    Vue.set(this, "serverMembers", { ...this.serverMembers, ...payload });
+    this.serverMembers = { ...this.serverMembers, ...payload };
   }
 
   @Action
@@ -199,12 +199,12 @@ class ServerMembers extends VuexModule {
   @Mutation
   private ADD_SERVER_MEMBER(payload: ServerMember) {
     if (this.serverMembers[payload.server_id]) {
-      Vue.set(this.serverMembers[payload.server_id], payload.id, payload);
+      this.serverMembers[payload.server_id][payload.id] = payload;
       return;
     }
-    Vue.set(this.serverMembers, payload.server_id, {
+    this.serverMembers[payload.server_id] = {
       [payload.id]: payload
-    });
+    };
   }
 
   @Action

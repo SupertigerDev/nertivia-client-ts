@@ -38,7 +38,7 @@ class Tabs extends VuexModule {
 
   @Mutation
   private INIT_TABS(payload: Tab[]) {
-    Vue.set(this, "tabs", payload);
+    this.tabs = payload;
   }
 
   @Action
@@ -47,7 +47,7 @@ class Tabs extends VuexModule {
   }
   @Mutation
   private UPDATE_TABS(payload: Tab[]) {
-    Vue.set(this, "tabs", payload);
+    this.tabs = payload;
   }
 
   @Action
@@ -76,7 +76,7 @@ class Tabs extends VuexModule {
   }
   @Mutation
   private REPLACE_TAB(payload: { tab: Tab; index: number }) {
-    Vue.set(this.tabs, payload.index, payload.tab);
+    this.tabs[payload.index] = payload.tab;
   }
   @Action
   openTab(payload: Tab) {

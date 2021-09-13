@@ -35,7 +35,7 @@ class Presences extends VuexModule {
   }
   @Mutation
   private UPDATE_PRESENCE(payload: { id: string; presence: number }) {
-    Vue.set(this.presences, payload.id, payload.presence);
+    this.presences[payload.id] = payload.presence;
   }
 
   @Action
@@ -49,7 +49,7 @@ class Presences extends VuexModule {
 
   @Mutation
   private ADD_PRESENCES(payload: PresencesObj | any) {
-    Vue.set(this, "presences", { ...this.presences, ...payload });
+    this.presences = { ...this.presences, ...payload };
   }
 
   @Action

@@ -47,13 +47,13 @@ class MessageLogStates extends VuexModule {
     state: Partial<MessageState>;
   }) {
     if (this.states[payload.channelID]) {
-      Vue.set(this.states, payload.channelID, {
+      this.states[payload.channelID] = {
         ...this.states[payload.channelID],
         ...payload.state
-      });
+      };
       return;
     }
-    Vue.set(this.states, payload.channelID, payload.state);
+    this.states[payload.channelID] = payload.state as MessageState;
   }
   @Action
   public UpdateState(payload: {

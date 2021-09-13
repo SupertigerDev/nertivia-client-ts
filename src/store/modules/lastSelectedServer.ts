@@ -25,7 +25,7 @@ class LastSelectedServers extends VuexModule {
     serverID: string;
     channelID: string;
   }) {
-    Vue.set(this.lastSelectedServers, payload.serverID, payload.channelID);
+    this.lastSelectedServers[payload.serverID] = payload.channelID;
   }
 
   @Action

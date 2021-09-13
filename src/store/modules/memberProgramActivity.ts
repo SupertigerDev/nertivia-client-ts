@@ -36,7 +36,7 @@ class ProgramActivities extends VuexModule {
     name: string;
     status: string;
   }) {
-    Vue.set(this.programActivity, payload.id, payload);
+    this.programActivity[payload.id] = payload;
   }
 
   @Action
@@ -58,7 +58,7 @@ class ProgramActivities extends VuexModule {
   }
   @Mutation
   private ADD_ACTIVITIES(payload: ProgramActivityObj | any) {
-    Vue.set(this, "programActivity", { ...this.programActivity, ...payload });
+    this.programActivity = { ...this.programActivity, ...payload };
   }
 
   @Action

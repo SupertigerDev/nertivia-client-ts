@@ -21,7 +21,7 @@ class Users extends VuexModule {
 
   @Mutation
   private ADD_USER(payload: User) {
-    Vue.set(this.users, payload.id, payload);
+    this.users[payload.id] = payload;
   }
 
   @Action
@@ -41,7 +41,7 @@ class Users extends VuexModule {
   }
   @Mutation
   private ADD_USERS(payload: UsersObj | any) {
-    Vue.set(this, "users", { ...this.users, ...payload });
+    this.users = { ...this.users, ...payload };
   }
 
   @Action
@@ -73,7 +73,7 @@ class Users extends VuexModule {
   private UNBLOCK_USER(id: string) {
     if (!this.blockedUserIDArr.includes(id)) return;
     const newBlockedArr = this.blockedUserIDArr.filter(id => id !== id);
-    Vue.set(this, "blockedUserIDArr", newBlockedArr);
+    this.blockedUserIDArr = newBlockedArr;
   }
   @Action
   public unblockUser(id: string) {

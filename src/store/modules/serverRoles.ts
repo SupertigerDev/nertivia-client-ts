@@ -11,7 +11,7 @@ import ServerRole from "@/interfaces/ServerRole";
 import Vue from "vue";
 import { bitwiseAdd } from "@/utils/bitwise";
 
-// ServerRoleObj[server_id] = serverRole[]
+// ServerRoleObj[server_id][role_id] = serverRole
 interface ServerRoleObj {
   [key: string]: {
     [key: string]: ServerRole;
@@ -74,7 +74,9 @@ class ServerRoles extends VuexModule {
   }
   @Mutation
   private ADD_SERVER_ROLES(payload: { roles: ServerRole; serverID: string }) {
-    Vue.set(this.serverRoles, payload.serverID, payload.roles);
+    // $fix below - im confused
+    console.log("confused");
+    // this.serverRoles[payload.serverID] = payload.roles;
   }
 
   @Action
@@ -84,10 +86,10 @@ class ServerRoles extends VuexModule {
   @Mutation
   private ADD_SERVER_ROLE(payload: ServerRole) {
     if (!this.serverRoles[payload.server_id]) {
-      Vue.set(this.serverRoles, payload.server_id, { [payload.id]: payload });
+      this.serverRoles[payload.server_id] = { [payload.id]: payload };
       return;
     }
-    Vue.set(this.serverRoles[payload.server_id], payload.id, payload);
+    this.serverRoles[payload.server_id][payload.id] = payload;
   }
 
   @Action
@@ -101,10 +103,10 @@ class ServerRoles extends VuexModule {
     if (!payload.id) return;
     const role = this.serverRoles?.[payload.server_id]?.[payload.id];
     if (!role) return;
-    Vue.set(this.serverRoles[payload.server_id], role.id, {
+    this.serverRoles[payload.server_id][role.id] = {
       ...role,
       ...payload
-    });
+    };
   }
 
   @Action

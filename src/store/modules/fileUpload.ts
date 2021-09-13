@@ -32,7 +32,7 @@ class FileUpload extends VuexModule {
 
   @Mutation
   private SET_FILE(payload: File | undefined) {
-    Vue.set(this.file, "file", payload);
+    this.file.file = payload;
   }
 
   @Action

@@ -48,10 +48,10 @@ class Friends extends VuexModule {
 
   @Mutation
   private ADD_FRIEND(payload: { id: string; status: number }) {
-    Vue.set(this.friends, payload.id, {
+    this.friends[payload.id] = {
       status: payload.status,
       id: payload.id
-    });
+    };
   }
 
   @Action

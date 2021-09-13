@@ -84,7 +84,7 @@ class Messages extends VuexModule {
     messages: Message[] | null;
     channelID: string;
   }) {
-    Vue.set(this.messages, payload.channelID, payload.messages);
+    this.messages[payload.channelID] = payload.messages as Message[];
   }
 
   @Action
@@ -255,7 +255,7 @@ class Messages extends VuexModule {
       clamped = this.messages[data.channelID].slice(0, -51);
     }
 
-    Vue.set(this.messages, data.channelID, clamped);
+    this.messages[data.channelID] = clamped;
   }
 
   @Action
@@ -320,11 +320,7 @@ class Messages extends VuexModule {
     index: number;
     channelID: string;
   }) {
-    Vue.set(
-      this.messages[payload.channelID],
-      payload.index,
-      payload.updateMessage
-    );
+    this.messages[payload.channelID][payload.index] = payload.updateMessage;
   }
 
   @Action
@@ -425,13 +421,13 @@ class Messages extends VuexModule {
     }
     if (payload.reactionIndex < 0 || !reactions[payload.reactionIndex]) {
       reactions.push(payload.reaction as any);
-      Vue.set(payload.message, "reactions", reactions);
+      payload.message["reactions"] = reactions;
     } else {
       if (!payload.message.reactions) return;
-      Vue.set(payload.message.reactions, payload.reactionIndex, {
+      payload.message.reactions[payload.reactionIndex] = {
         ...reactions[payload.reactionIndex],
         ...payload.reaction
-      });
+      };
     }
   }
   @Mutation
@@ -439,7 +435,7 @@ class Messages extends VuexModule {
     channelID: string;
     timestamp: number;
   }) {
-    Vue.set(this.lastMessageSent, payload.channelID, payload.timestamp);
+    this.lastMessageSent[payload.channelID] = payload.timestamp;
   }
   @Action
   public UpdateLastMessageSend(payload: {
