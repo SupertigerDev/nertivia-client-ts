@@ -1,14 +1,14 @@
 <template>
-  <pre class="codeblock"> 
+  <div class="codeblock">
     <div class="header">
-       <div class="language">{{langName || "Text"}}</div>
-        <div class="material-icons" @click="copy">
-          content_copy
-        </div>
+      <div class="language">{{ langName || "Text" }}</div>
+      <div class="material-icons" @click="copy">
+        content_copy
+      </div>
     </div>
     <code v-if="langName" :innerHTML="highlightedValue"></code>
-    <code v-else>{{value}}</code>
-  </pre>
+    <code v-else>{{ value }}</code>
+  </div>
 </template>
 
 <script lang="tsx">
