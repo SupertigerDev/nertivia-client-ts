@@ -27,15 +27,12 @@ export default defineComponent({
   render() {
     const AvatarBuilder = (creator: any) => {
       return h(AvatarImage, {
-        nativeOn: {
-          click: this.showProfile,
-        },
-        props: {
+          onClick: this.showProfile,
           seedId: creator.id,
           imageId: creator.avatar,
           willHaveClickEvent: true,
           size: "40px",
-        },
+
       });
     };
 
@@ -50,13 +47,11 @@ export default defineComponent({
     );
 
     const MarkupBuilder = this.quote.message && h(Markup, {
-      props: {
-        text: this.quote.message,
-        message: this.message,
-        largeEmoji: false,
-        nestedLevel: this.nestedLevel,
-        messageQuoteFormat: this.nestedLevel >= 2 ? "hidden" : "normal",
-      },
+      text: this.quote.message,
+      message: this.message,
+      largeEmoji: false,
+      nestedLevel: this.nestedLevel,
+      messageQuoteFormat: this.nestedLevel >= 2 ? "hidden" : "normal",
     });
 
     const ContentBuilder = (
