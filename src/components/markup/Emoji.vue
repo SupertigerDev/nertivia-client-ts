@@ -1,23 +1,25 @@
-<script lang="tsx">
-import emojiParser from "@/utils/emojiParser";
-import Vue from "vue";
+<template>
+  <img
+    class="emoji"
+    :draggable="false"
+    :title="emoji.annotation"
+    :alt="emoji.annotation"
+    :src="src"
+  />
+</template>
 
-export default {
-  functional: true,
+<script lang="ts">
+import emojiParser from "@/utils/emojiParser";
+import { defineComponent } from "vue";
+
+export default defineComponent({
   props: ["emoji"],
-  render(h, { props }) {
-    const { emoji } = props;
-    return (
-      <img
-        class="emoji"
-        draggable={false}
-        title={emoji.annotation}
-        alt={emoji.annotation}
-        src={emojiParser.twemojiPath(emoji.unicode)}
-      />
-    );
+  computed: {
+    src(): string {
+      return emojiParser.twemojiPath(this.emoji.unicode);
+    }
   }
-};
+});
 </script>
 
 <style scoped>

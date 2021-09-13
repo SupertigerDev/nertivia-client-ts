@@ -1,4 +1,13 @@
-<script lang="tsx">
+<template>
+  <img
+    class="emoji custom-emoji"
+    :title="emojiName"
+    :alt="emojiName"
+    :src="src"
+  />
+</template>
+
+<script lang="ts">
 import Vue from "vue";
 import { useWindowProperties } from "@/utils/windowProperties";
 const EMOJI_URL = process.env.VUE_APP_NERTIVIA_CDN + "emojis";
@@ -6,26 +15,17 @@ const EMOJI_URL = process.env.VUE_APP_NERTIVIA_CDN + "emojis";
 // todo: make CustomEmoji based on an Emoji class
 import { defineComponent } from "vue";
 export default defineComponent({
-  functional: true,
   props: {
     emojiID: String,
     emojiName: String,
     animated: Boolean
   },
-  render(h, { props }) {
-    return (
-      <img
-        class={{
-          emoji: true,
-          "custom-emoji": true
-        }}
-        title={props.emojiName}
-        alt={props.emojiName}
-        src={`${EMOJI_URL}/${props.emojiID}.${props.animated ? "gif" : "png"}${
-          !useWindowProperties().isFocused ? "?type=webp" : ""
-        }`}
-      />
-    );
+  computed: {
+    src(): string {
+      return `${EMOJI_URL}/${this.emojiID}.${this.animated ? "gif" : "png"}${
+        !useWindowProperties().isFocused ? "?type=webp" : ""
+      }`;
+    }
   }
 });
 </script>

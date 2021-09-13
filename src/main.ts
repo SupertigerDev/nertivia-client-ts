@@ -21,6 +21,7 @@ Vue.configureCompat({
   INSTANCE_ATTRS_CLASS_STYLE: false,
   GLOBAL_DELETE: false,
   GLOBAL_SET: false
+  // COMPONENT_FUNCTIONAL: false
   // INSTANCE_LISTENERS: false
   // WATCH_ARRAY: false
 });

@@ -1,47 +1,39 @@
+<template>
+  <pre class="codeblock"> 
+    <div class="header">
+       <div class="language">{{langName || "Text"}}</div>
+        <div class="material-icons" @click="copy">
+          content_copy
+        </div>
+    </div>
+    <code v-if="langName" :innerHTML="highlightedValue"></code>
+    <code v-else>{{value}}</code>
+  </pre>
+</template>
+
 <script lang="tsx">
-import Vue from "vue";
 import hljs from "highlight.js";
 import "highlight.js/styles/night-owl.css";
 
 import { defineComponent } from "vue";
 export default defineComponent({
-  functional: true,
   props: {
     lang: String,
     value: String
   },
-  render(h, { props }) {
-    const lang = hljs.getLanguage(props.lang);
-    const header = (code: string, lang?: string) => {
-      return (
-        <div class="header">
-          <div class="language">{lang || "Text"}</div>
-          <div
-            class="material-icons"
-            onClick={() => {
-              navigator.clipboard.writeText(code);
-            }}
-          >
-            content_copy
-          </div>
-        </div>
-      );
-    };
-    if (!lang) {
-      return (
-        <pre class="codeblock">
-          {header(props.value, props.lang)}
-          <code>{props.value}</code>
-        </pre>
-      );
+  methods: {
+    copy() {
+      navigator.clipboard.writeText(this.value);
     }
-    const value = hljs.highlight(props.lang, props.value, true).value;
-    return (
-      <pre class="codeblock">
-        {header(props.value, lang.name)}
-        <code innerHTML={value}></code>
-      </pre>
-    );
+  },
+  computed: {
+    langName(): string | undefined {
+      return hljs.getLanguage(this.lang as string)?.name;
+    },
+    highlightedValue(): string {
+      return hljs.highlight(this.lang as string, this.value as string, true)
+        ?.value;
+    }
   }
 });
 </script>

@@ -1,15 +1,13 @@
-<script lang="tsx">
-import Vue from "vue";
+<template>
+  <span class="mention">{{ text }}</span>
+</template>
+<script lang="ts">
 import { defineComponent } from "vue";
 export default defineComponent({
   props: {
     text: {
       type: String
     }
-  },
-  functional: true,
-  render(h, ctx) {
-    return <span class="mention">{ctx.props.text}</span>;
   }
 });
 </script>

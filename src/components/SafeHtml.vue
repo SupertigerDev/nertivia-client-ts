@@ -59,14 +59,14 @@ export default defineComponent({
         if (!jsonEl.trim()) {
           return "";
         }
-        return h(Markup, { props: { text: jsonEl } });
+        return h(Markup, { text: jsonEl });
       }
 
       let childrenEl =
         jsonEl.content?.map(json => generate(json, jsonEl.tag === "style")) ||
         [];
 
-      const attrs = { ...jsonEl.attributes };
+      const attrs: any = { ...jsonEl.attributes };
       if (attrs.style) {
         attrs.style = replaceImageUrl(attrs.style);
       }
@@ -74,20 +74,19 @@ export default defineComponent({
         attrs.src =
           process.env.VUE_APP_IMAGE_PROXY_URL + encodeURIComponent(attrs.src);
       }
-      let on: any = {};
       if (jsonEl.tag === "a") {
-        on.click = onUrlClick;
+        attrs.onClick = onUrlClick;
       }
       if (jsonEl.tag === "style") {
         attrs.scoped = "";
       }
-      const el = h(jsonEl.tag, { attrs, on }, childrenEl);
+      const el = h(jsonEl.tag, attrs, childrenEl);
       return el;
     }
 
     return h(
       "div",
-      { attrs: { class: "json-html" } },
+      { class: "json-html" },
       Array.isArray(this.$data.jsonHtml)
         ? this.$data.jsonHtml?.map(json => generate(json))
         : [generate(this.$data.jsonHtml)]

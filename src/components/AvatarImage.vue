@@ -21,6 +21,9 @@ import { highPriorityBadge } from "@/constants/badges";
 import Vue from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
+  compatConfig: {
+    INSTANCE_LISTENERS: false
+  },
   name: "MainApp",
   props: {
     size: {
