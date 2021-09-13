@@ -23,7 +23,7 @@ export default defineComponent({
   },
   methods: {
     copy() {
-      navigator.clipboard.writeText(this.value);
+      navigator.clipboard.writeText(this.value || "");
     }
   },
   computed: {
