@@ -1,4 +1,4 @@
-import Vue, { defineComponent } from "vue";
+import Vue, { h } from "vue";
 
 import Message from "@/interfaces/Message";
 
@@ -26,11 +26,11 @@ import emojiParser from "@/utils/emojiParser";
 
 interface MarkupProps {
   text: string;
-  largeEmoji: boolean;
+  largeEmoji?: boolean;
   message?: Message;
   nestedLevel?: number;
   messageQuoteFormat?: "normal" | "text" | "hidden";
-  inline: boolean;
+  inline?: boolean;
 }
 
 type CreateElement = any;
@@ -53,13 +53,12 @@ const replaceOldMentions = (text: string) =>
     .replaceAll(/<:([\w\d_-]+?):([\w\d_-]+?)>/g, "[custom_emoji:$2:$1]");
 
 const transformEntities = (
-  h: CreateElement,
   entity: Entity,
   ctx: RenderContext
-) => entity.entities.map(e => transformEntity(h, e, ctx));
+) => entity.entities.map(e => transformEntity(e, ctx));
 
 const sliceText = (
-  ctx: RenderContext,
+  ctx: any,
   span: Span,
   { countText = true } = {}
 ) => {
@@ -70,11 +69,11 @@ const sliceText = (
   return text;
 };
 
-function transformEntity(h: CreateElement, entity: Entity, ctx: RenderContext) {
+function transformEntity(entity: Entity, ctx: any) {
   switch (entity.type) {
     case "text": {
       if (entity.entities.length > 0) {
-        return <span>{transformEntities(h, entity, ctx)}</span>;
+        return <span>{transformEntities(entity, ctx)}</span>;
       } else {
         return <span>{sliceText(ctx, entity.innerSpan)}</span>;
       }
@@ -86,19 +85,19 @@ function transformEntity(h: CreateElement, entity: Entity, ctx: RenderContext) {
       // todo: style folding when there's no before/after for dom memory usage optimization
       // if(beforeSpan.start === beforeSpan.end && afterSpan.start === afterSpan.end) {}
       return (
-        <span class={entity.type}>{transformEntities(h, entity, ctx)}</span>
+        <span class={entity.type}>{transformEntities(entity, ctx)}</span>
       );
     }
     case "code": {
       return (
-        <code class={entity.type}>{transformEntities(h, entity, ctx)}</code>
+        <code class={entity.type}>{transformEntities(entity, ctx)}</code>
       );
     }
     case "codeblock": {
       if (!ctx.props.inline) {
         const lang = entity.params.lang;
         const value = sliceText(ctx, entity.innerSpan);
-        return h(CodeBlock, { props: { lang, value } });
+        return h(CodeBlock, {  lang, value });
       } else {
         // Inline codeblock I guess
         return (
@@ -107,17 +106,17 @@ function transformEntity(h: CreateElement, entity: Entity, ctx: RenderContext) {
       }
     }
     case "spoiler": {
-      return <Spoiler>{transformEntities(h, entity, ctx)}</Spoiler>;
+      return <Spoiler>{transformEntities(entity, ctx)}</Spoiler>;
     }
     case "blockquote": {
-      return <blockquote>{transformEntities(h, entity, ctx)}</blockquote>;
+      return <blockquote>{transformEntities(entity, ctx)}</blockquote>;
     }
     case "emoji_name": {
       const name = sliceText(ctx, entity.innerSpan, { countText: false });
       const emoji = emojiParser.findEmoji(name);
       if (emoji != null) {
         ctx.emojiCount += 1;
-        return h(Emoji, { props: { emoji } });
+        return h(Emoji, { emoji });
       } else {
         return sliceText(ctx, entity.outerSpan);
       }
@@ -125,23 +124,23 @@ function transformEntity(h: CreateElement, entity: Entity, ctx: RenderContext) {
     case "emoji": {
       const emoji = sliceText(ctx, entity.innerSpan, { countText: false });
       ctx.emojiCount += 1;
-      return h(Emoji, { props: { emoji: { unicode: emoji } } });
+      return h(Emoji, {  emoji: { unicode: emoji }  });
     }
     case "custom": {
-      return transformCustomEntity(h, entity, ctx);
+      return transformCustomEntity(entity, ctx);
     }
     case "link": {
       const url = sliceText(ctx, entity.innerSpan);
-      return h(Link, { props: { url } });
+      return h(Link, { url });
     }
     case "color": {
       const { color } = entity.params;
       const lastCount = ctx.textCount;
       let el;
       if (color.startsWith("#")) {
-        el = h("span", { style: { color } }, transformEntities(h, entity, ctx));
+        el = h("span", { style: { color } }, transformEntities(entity, ctx));
       } else {
-        el = transformEntities(h, entity, ctx);
+        el = transformEntities(entity, ctx);
       }
 
       if (lastCount !== ctx.textCount) {
@@ -159,9 +158,8 @@ function transformEntity(h: CreateElement, entity: Entity, ctx: RenderContext) {
 type CustomEntity = Entity & { type: "custom" };
 
 function transformCustomEntity(
-  h: CreateElement,
   entity: CustomEntity,
-  ctx: RenderContext
+  ctx: any
 ) {
   const type = entity.params.type;
   const expr = sliceText(ctx, entity.innerSpan, { countText: false });
@@ -175,9 +173,9 @@ function transformCustomEntity(
       if (user) {
         ctx.textCount += expr.length;
         return h(MentionUser, {
-          props: {
+       
             user: user
-          }
+          
         });
       }
       break;
@@ -186,7 +184,7 @@ function transformCustomEntity(
       const channel = ChannelsModule.channels[expr];
       if (channel && channel.server_id) {
         ctx.textCount += expr.length;
-        return h(MentionChannel, { props: { channel } });
+        return h(MentionChannel, {  channel });
       }
       break;
     }
@@ -208,12 +206,11 @@ function transformCustomEntity(
         if (quote && quoteFormat != "text") {
           ctx.textCount += expr.length;
           return h(MessageQuote, {
-            props: {
               quote,
               user: quote.creator,
               message: ctx.props.message,
               nestedLevel: (ctx.props.nestedLevel ?? 0) + 1
-            }
+            
           });
         }
       }
@@ -224,11 +221,11 @@ function transformCustomEntity(
       const [id, name] = expr.split(":");
       ctx.emojiCount += 1;
       return h(CustomEmoji, {
-        props: {
+
           animated: type.startsWith("animated"),
           emojiName: name,
           emojiID: id
-        }
+        
       });
     }
     case "link": {
@@ -236,7 +233,7 @@ function transformCustomEntity(
 
       if (url && text) {
         ctx.textCount += text.length;
-        return h(Link, { props: { url: url, text: text } });
+        return h(Link, {  url: url, text: text  });
       }
 
       break;
@@ -281,42 +278,47 @@ function transformCustomEntity(
   return <span>{sliceText(ctx, entity.outerSpan)}</span>;
 }
 
-export default defineComponent({
-  functional: true,
-  props: {
-    text: String,
-    message: Object,
-    largeEmoji: {
-      type: Boolean,
-      default: true
-    },
-    nestedLevel: Number,
-    messageQuoteFormat: String as () => MarkupProps["messageQuoteFormat"],
-    // If the markup should be rendered inline, so that the line-height height doesn't change.
-    // this disables some features and restyles some others.
-    inline: {
-      type: Boolean,
-      default: false
-    }
+
+const Component = (props: MarkupProps) => {
+  
+  const ctx = {props, emojiCount: 0, textCount: 0 }
+  ctx.props.text = replaceOldMentions(ctx.props.text);
+  const entity = addTextSpans(parseMarkup(ctx.props.text));
+  const output = transformEntity( entity, ctx);
+
+
+
+  return (
+    <span
+    class={{
+      "large-emoji":
+        !ctx.props?.inline &&
+        ctx.props?.largeEmoji &&
+        ctx.textCount === 0 &&
+        ctx.emojiCount <= 5,
+      inline: ctx.props?.inline
+    }}
+  >
+    {output}
+  </span>
+  )
+}
+
+Component.props = {
+  text: String,
+  message: Object,
+  largeEmoji: {
+    type: Boolean,
+    default: true
   },
-  render(h, renderContext) {
-    renderContext.props.text = replaceOldMentions(renderContext.props.text);
-    const ctx = { ...renderContext, emojiCount: 0, textCount: 0 };
-    const entity = addTextSpans(parseMarkup(ctx.props.text));
-    const output = transformEntity(h, entity, ctx);
-    return (
-      <span
-        class={{
-          "large-emoji":
-            !ctx.props.inline &&
-            ctx.props.largeEmoji &&
-            ctx.textCount === 0 &&
-            ctx.emojiCount <= 5,
-          inline: ctx.props.inline
-        }}
-      >
-        {output}
-      </span>
-    );
+  nestedLevel: Number,
+  messageQuoteFormat: String as () => MarkupProps["messageQuoteFormat"],
+  // If the markup should be rendered inline, so that the line-height height doesn't change.
+  // this disables some features and restyles some others.
+  inline: {
+    type: Boolean,
+    default: false
   }
-});
+}
+
+export default Component;
