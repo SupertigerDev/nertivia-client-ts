@@ -140,6 +140,7 @@ import { permissions } from "@/constants/rolePermissions";
 import CheckBox from "@/components/CheckBox.vue";
 import Vue, { PropType } from "vue";
 import { defineComponent } from "vue";
+import { toClipboard } from "@soerenmartius/vue3-clipboard";
 export default defineComponent({
   name: "Account",
   components: {
@@ -224,8 +225,7 @@ export default defineComponent({
       }
     },
     copyInvite() {
-      // $fix below
-      // this.$copyText(this.inviteLink);
+      toClipboard(this.inviteLink);
       PopoutsModule.ShowPopout({
         id: "copy-bot-invite-url",
         component: "generic-popout",
@@ -236,8 +236,7 @@ export default defineComponent({
       });
     },
     copyToken() {
-      // $fix below
-      // this.$copyText(this.botToken || "");
+      toClipboard(this.botToken || "");
       PopoutsModule.ShowPopout({
         id: "copy-token",
         component: "generic-popout",

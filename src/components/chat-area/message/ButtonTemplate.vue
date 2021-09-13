@@ -32,19 +32,15 @@ export default defineComponent({
     };
   },
   destroyed() {
-    // $fix below
-    // this.$socket.client.off("message_button_click_callback", this.onCallback);
+    this.$socket.off("message_button_click_callback", this.onCallback);
   },
   methods: {
     click() {
       if (this.posting) return;
       if (!this.message.messageID) return;
       this.posting = true;
-      // $fix below
-      // this.$socket.client.once(
-      //   "message_button_click_callback",
-      //   this.onCallback
-      // );
+
+      this.$socket.once("message_button_click_callback", this.onCallback);
       buttonClick(
         this.message.channelID,
         this.message.messageID,

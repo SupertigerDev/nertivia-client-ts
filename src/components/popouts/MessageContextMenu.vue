@@ -23,6 +23,7 @@ import { MessageInputModule } from "@/store/modules/messageInput";
 import { insert } from "text-field-edit";
 import { PropType } from "vue";
 import { defineComponent } from "vue";
+import { toClipboard } from "@soerenmartius/vue3-clipboard";
 export default defineComponent({
   name: "MessageContextMenu",
   components: { ContextMenu },
@@ -165,9 +166,9 @@ export default defineComponent({
           MessageInputModule.SetEditingMessage(this.message);
           break;
         case "copy_id":
-          // $fix below
-          // if (this.message.messageID)
-          //this.$copyText(this.message.messageID);
+          if (this.message.messageID) {
+            toClipboard(this.message.messageID);
+          }
           break;
         default:
           break;
@@ -195,8 +196,7 @@ export default defineComponent({
     },
     copyMessage() {
       if (!this.message.message) return;
-      // $fix below
-      //this.$copyText(this.message.message);
+      toClipboard(this.message.message);
     }
   }
 });

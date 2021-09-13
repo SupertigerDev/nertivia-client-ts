@@ -11,6 +11,7 @@
 <script lang="ts">
 import ContextMenu from "@/components/ContextMenu.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
+import { toClipboard } from "@soerenmartius/vue3-clipboard";
 import Vue, { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
@@ -66,8 +67,7 @@ export default defineComponent({
     itemClick(item: any) {
       switch (item.id) {
         case "copy_url":
-          // $fix below
-          //this.$copyText(this.data.imageUrl);
+          toClipboard(this.data.imageUrl);
           break;
         case "copy_image":
           this.getImageCanvas(this.img).toBlob(blob =>

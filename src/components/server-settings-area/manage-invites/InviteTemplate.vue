@@ -47,6 +47,7 @@ import AvatarImage from "@/components/AvatarImage.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
 import Vue, { PropType } from "vue";
 import { defineComponent } from "vue";
+import { toClipboard } from "@soerenmartius/vue3-clipboard";
 export default defineComponent({
   name: "InviteTemplate",
   components: { AvatarImage },
@@ -70,8 +71,7 @@ export default defineComponent({
       });
     },
     copyLink() {
-      // $fix below
-      //this.$copyText(`${this.prefixURL}i/${this.invite.invite_code}`);
+      toClipboard(`${this.prefixURL}i/${this.invite.invite_code}`);
       alert(this.$t("generic.copied"));
     }
   }

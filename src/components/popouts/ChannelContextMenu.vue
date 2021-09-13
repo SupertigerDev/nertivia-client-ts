@@ -24,6 +24,7 @@ import { MeModule } from "@/store/modules/me";
 import { permissions } from "@/constants/rolePermissions";
 import Vue, { PropType } from "vue";
 import { defineComponent } from "vue";
+import { toClipboard } from "@soerenmartius/vue3-clipboard";
 export default defineComponent({
   name: "ChannelContextMenu",
   components: { ContextMenu },
@@ -112,8 +113,7 @@ export default defineComponent({
     itemClick(item: any) {
       switch (item.id) {
         case "copy_id":
-          // $fix below
-          //this.$copyText(this.data.channelID);
+          toClipboard(this.data.channelID);
           break;
         case "mark_as_read":
           this.markAsRead();
@@ -134,10 +134,9 @@ export default defineComponent({
       }
     },
     markAsRead() {
-      // $fix below
-      // this.$socket.client.emit("notification:dismiss", {
-      //   channelID: this.data.channelID
-      // });
+      this.$socket.emit("notification:dismiss", {
+        channelID: this.data.channelID
+      });
     }
   }
 });

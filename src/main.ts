@@ -5,6 +5,7 @@ import clickOutside from "./directives/clickOutside";
 import App from "./App.vue";
 
 import router from "./router";
+import { VueClipboard } from "@soerenmartius/vue3-clipboard";
 import i18n from "./i18n";
 import electronBridge from "./utils/electronBridge";
 import { messaging, messagingSupported } from "./utils/firebaseInstance";

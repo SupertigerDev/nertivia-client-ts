@@ -110,8 +110,7 @@ export default defineComponent({
       if (this.requestSent) return;
       this.requestSent = true;
       const code = this.invite[2];
-      // $fix below
-      //joinServerByCode(code, this.$socket.client.id);
+      joinServerByCode(code, this.$socket.id);
     }
   }
 });

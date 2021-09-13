@@ -228,10 +228,9 @@ export default defineComponent({
     dismissNotification() {
       if (!this.windowIsFocused || !this.isScrolledDown) return;
       if (!(this.hasServerNotification || this.hasDMNotification)) return;
-      // $fix below
-      // this.$socket.client.emit("notification:dismiss", {
-      //   channelID: this.channelID
-      // });
+      this.$socket.emit("notification:dismiss", {
+        channelID: this.channelID
+      });
     },
     goToMessage(messageID: string) {
       let message = document.getElementById("message-" + messageID);

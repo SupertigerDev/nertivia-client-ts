@@ -139,10 +139,9 @@ export default defineComponent({
       if (!this.isConnected) return;
       if (!this.isFocused) return;
       if (!(this.hasServerNotification || this.hasDMNotification)) return;
-      // $fix below
-      //this.$socket.client.emit("notification:dismiss", {
-      //channelID: this.channelID
-      //});
+      this.$socket.emit("notification:dismiss", {
+        channelID: this.channelID
+      });
     },
     setTitle() {
       if (this.DMChannel) {

@@ -306,49 +306,48 @@ export default defineComponent({
         return;
       }
 
-      // $fix below
-      // updateUser(data, this.$socket.client.id)
-      //   .then(res => {
-      //     if (res.token) {
-      //       localStorage["hauthid"] = res.token;
-      //       delete res.token;
-      //       updateInstance();
-      //     }
-      //     MeModule.UpdateUser(res);
-      //     this.resetValues();
-      //     this.requestSent = false;
-      //   })
-      //   .catch(async err => {
-      //     if (!err.response) {
-      //       this.errors["other"] = this.$t(
-      //         "could-not-connect-to-server"
-      //       ).toString();
-      //       this.requestSent = false;
-      //       return;
-      //     }
-      //     const knownErrs = [
-      //       "username",
-      //       "tag",
-      //       "password",
-      //       "new_password",
-      //       "email"
-      //     ];
-      //     const { errors, message } = await err.response.json();
-      //     if (message) {
-      //       this.errors["other"] = message;
-      //       this.requestSent = false;
-      //       return;
-      //     }
-      //     for (let i = 0; i < errors.length; i++) {
-      //       const error = errors[i];
-      //       if (!knownErrs.includes(error.param)) {
-      //         this.errors["other"] = error.msg;
-      //         continue;
-      //       }
-      //       this.errors[error.param] = error.message;
-      //     }
-      //     this.requestSent = false;
-      //   });
+      updateUser(data, this.$socket.id)
+        .then(res => {
+          if (res.token) {
+            localStorage["hauthid"] = res.token;
+            delete res.token;
+            updateInstance();
+          }
+          MeModule.UpdateUser(res);
+          this.resetValues();
+          this.requestSent = false;
+        })
+        .catch(async err => {
+          if (!err.response) {
+            this.errors["other"] = this.$t(
+              "could-not-connect-to-server"
+            ).toString();
+            this.requestSent = false;
+            return;
+          }
+          const knownErrs = [
+            "username",
+            "tag",
+            "password",
+            "new_password",
+            "email"
+          ];
+          const { errors, message } = await err.response.json();
+          if (message) {
+            this.errors["other"] = message;
+            this.requestSent = false;
+            return;
+          }
+          for (let i = 0; i < errors.length; i++) {
+            const error = errors[i];
+            if (!knownErrs.includes(error.param)) {
+              this.errors["other"] = error.msg;
+              continue;
+            }
+            this.errors[error.param] = error.message;
+          }
+          this.requestSent = false;
+        });
     },
     onConnectionChange(connected: boolean) {
       if (connected) this.resetValues();

@@ -120,19 +120,16 @@ export default defineComponent({
   mounted() {
     // set store and connect socket.
     store.registerModule("socketIO", socketIOModule);
-    // $fix below
-    // this.$socket.client.connect();
+
+    this.$socket.connect();
     if (window.BroadcastChannel) {
       const channel = new BroadcastChannel("sw-messages");
       // hack to fix disconnects using service workers;
       channel.addEventListener("message", event => {
-        // $fix below
-        // const client = this.$socket.client;
         if (event.data !== "ping") return;
         if (useWindowProperties().isFocused) return;
-        // $fix below
-        // if (!client.connected) return;
-        // client.emit("p");
+        if (!this.$socket.connected) return;
+        this.$socket.emit("p");
       });
     }
   },

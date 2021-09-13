@@ -123,12 +123,11 @@ export default defineComponent({
     },
     joinClicked() {
       this.joining = true;
-      // $fix below
-      // joinServerById(this.data.server.server_id, {
-      //   socketID: this.$socket.client.id
-      // }).finally(() => {
-      //   this.joining = false;
-      // });
+      joinServerById(this.data.server.server_id, {
+        socketID: this.$socket.id
+      }).finally(() => {
+        this.joining = false;
+      });
     }
   }
 });

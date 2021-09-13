@@ -73,14 +73,18 @@ class ServerRoles extends VuexModule {
     this.INIT_SERVER_ROLES(payload);
   }
   @Mutation
-  private ADD_SERVER_ROLES(payload: { roles: ServerRole; serverID: string }) {
-    // $fix below - im confused
-    console.log("confused");
-    // this.serverRoles[payload.serverID] = payload.roles;
+  private ADD_SERVER_ROLES(payload: {
+    roles: { [key: string]: ServerRole };
+    serverID: string;
+  }) {
+    this.serverRoles[payload.serverID] = payload.roles;
   }
 
   @Action
-  public AddServerRoles(payload: { roles: ServerRole; serverID: string }) {
+  public AddServerRoles(payload: {
+    roles: { [key: string]: ServerRole };
+    serverID: string;
+  }) {
     this.ADD_SERVER_ROLES(payload);
   }
   @Mutation

@@ -20,6 +20,7 @@ import { permissions } from "@/constants/rolePermissions";
 import User from "@/interfaces/User";
 import Vue, { PropType } from "vue";
 import { defineComponent } from "vue";
+import { toClipboard } from "@soerenmartius/vue3-clipboard";
 export default defineComponent({
   name: "UserContextMenu",
   components: { ContextMenu },
@@ -189,15 +190,11 @@ export default defineComponent({
     },
     itemClick(item: any) {
       if (item.id === "copy_id") {
-        // $fix below
-        //this.$copyText(this.data.id);
+        toClipboard(this.data.id);
         return;
       }
       if (item.id === "copy_user_tag") {
-        // $fix below
-        //this.$copyText(
-        //`${this.data.tempUser.username}:${this.data.tempUser.tag}`
-        //);
+        toClipboard(`${this.data.tempUser.username}:${this.data.tempUser.tag}`);
         return;
       }
       if (item.id === "view_profile") {

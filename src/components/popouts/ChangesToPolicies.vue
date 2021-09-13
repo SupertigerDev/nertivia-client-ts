@@ -53,11 +53,10 @@ export default defineComponent({
       w?.focus();
     },
     agree() {
-      // $fix below
-      // AgreePolicy().then(() => {
-      //   this.$socket.client.connect();
-      //   this.close();
-      // });
+      AgreePolicy().then(() => {
+        this.$socket.connect();
+        this.close();
+      });
     }
   }
 });

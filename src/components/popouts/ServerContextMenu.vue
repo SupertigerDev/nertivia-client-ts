@@ -18,6 +18,7 @@ import { leaveServer } from "@/services/serverService";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import Vue, { PropType } from "vue";
 import { defineComponent } from "vue";
+import { toClipboard } from "@soerenmartius/vue3-clipboard";
 export default defineComponent({
   name: "ServerContextMenu",
   components: { ContextMenu },
@@ -134,8 +135,7 @@ export default defineComponent({
           this.leaveServer();
           break;
         case "copy_id":
-          // $fix below
-          //this.$copyText(this.server.server_id);
+          toClipboard(this.server.server_id);
           break;
         case "mark_as_read":
           this.markAsRead();
@@ -147,10 +147,9 @@ export default defineComponent({
     markAsRead() {
       for (let i = 0; i < this.notifications.length; i++) {
         const { channelID } = this.notifications[i];
-        // $fix below
-        // this.$socket.client.emit("notification:dismiss", {
-        //   channelID
-        // });
+        this.$socket.emit("notification:dismiss", {
+          channelID
+        });
       }
     }
   }

@@ -11,6 +11,7 @@
   "dependencies": {
     "@hcaptcha/vue-hcaptcha": "^0.3.0",
     "@simonwep/pickr": "^1.8.0",
+    "@soerenmartius/vue3-clipboard": "^0.1.2",
     "@vue/compat": "^3.2.11",
     "@vue/compiler-sfc": "^3.2.11",
     "base64-arraybuffer": "^0.1.4",
@@ -35,7 +36,6 @@
     "twemoji": "^13.0.1",
     "vue": "^3.2.11",
     "vue-class-component": "^7.2.3",
-    "vue-clipboard2": "^0.3.1",
     "vue-codemirror": "^4.0.6",
     "vue-i18n": "^9.1.7",
     "vue-property-decorator": "^9.1.2",
