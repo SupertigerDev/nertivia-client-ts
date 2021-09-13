@@ -1,10 +1,7 @@
 import wrapper from "./wrapper";
 import Message from "@/interfaces/Message";
-import Vue from "vue";
 import User from "@/interfaces/User";
-import SocketIO from "socket.io-client";
-
-const socket = (() => Vue.prototype.$socket.client) as typeof SocketIO;
+import { socket } from "@/socket";
 
 interface ResponseFetch {
   channelID: string;
@@ -107,7 +104,7 @@ export function postMessage(
 ): Promise<ResponsePost> {
   return wrapper()
     .post(`messages/channels/${channelID}`, {
-      json: { message, tempID, socketID: socket().id }
+      json: { message, tempID, socketID: socket.id }
     })
     .json();
 }

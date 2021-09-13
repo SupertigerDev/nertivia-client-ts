@@ -1,12 +1,6 @@
-import {
-  CallParticipant,
-  voiceChannelModule
-} from "@/store/modules/voiceChannels";
+import { socket } from "@/socket";
+import { voiceChannelModule } from "@/store/modules/voiceChannels";
 import Peer from "simple-peer";
-import SocketIO from "socket.io-client";
-import Vue from "vue";
-
-const socket = (() => Vue.prototype.$socket.client) as typeof SocketIO;
 
 // call
 export function createPeer(
@@ -20,7 +14,7 @@ export function createPeer(
     streams
   });
   peer.on("signal", signal => {
-    socket().emit("voice:send_signal", { channelId, signalToUserId, signal });
+    socket.emit("voice:send_signal", { channelId, signalToUserId, signal });
   });
   peer.on("stream", stream => {
     onStream(stream, channelId, signalToUserId);
@@ -44,7 +38,7 @@ export function addPeer(
     streams
   });
   peer.on("signal", signal => {
-    socket().emit("voice:send_return_signal", {
+    socket.emit("voice:send_return_signal", {
       signalToUserId,
       channelId,
       signal
