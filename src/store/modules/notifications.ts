@@ -56,7 +56,7 @@ class Notifications extends VuexModule {
   }
   @Mutation
   private DELETE_NOTIFICATION(channelID: string) {
-    Vue.delete(this.notifications, channelID);
+    delete this.notifications[channelID];
   }
 
   @Action

@@ -112,7 +112,7 @@ class Tabs extends VuexModule {
   }
   @Mutation
   private CLOSE_TAB(index: number) {
-    Vue.delete(this.tabs, index);
+    delete this.tabs[index];
   }
 }
 export const TabsModule = getModule(Tabs);

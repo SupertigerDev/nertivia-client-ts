@@ -351,7 +351,7 @@ class Messages extends VuexModule {
 
   @Mutation
   private DELETE_MESSAGE(payload: { channelID: string; index: number }) {
-    Vue.delete(this.messages[payload.channelID], payload.index);
+    delete this.messages[payload.channelID][payload.index];
   }
   @Action
   public DeleteMessage(payload: { channelID: string; messageID: string }) {
@@ -364,7 +364,7 @@ class Messages extends VuexModule {
 
   @Mutation
   private DELETE_CHANNEL_MESSAGES(channelID: string) {
-    Vue.delete(this.messages, channelID);
+    delete this.messages[channelID];
   }
   @Action
   public DeleteChannelMessages(channelID: string) {
@@ -419,7 +419,7 @@ class Messages extends VuexModule {
       if (reactions.length === 0) return;
       if (payload.reactionIndex < 0) return;
       if (payload.removeIfZero) {
-        Vue.delete(payload.message.reactions, payload.reactionIndex);
+        delete payload.message.reactions[payload.reactionIndex];
         return;
       }
     }

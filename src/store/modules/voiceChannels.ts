@@ -162,7 +162,7 @@ class VoiceChannels extends VuexModule {
   }
   @Mutation
   private REMOVE_CHANNEL(channelId: string) {
-    Vue.delete(this.voiceChannelUsers, channelId);
+    delete this.voiceChannelUsers[channelId];
   }
   @Action
   public removeChannel(channelId: string) {
@@ -191,7 +191,7 @@ class VoiceChannels extends VuexModule {
     if (!users) {
       return;
     }
-    Vue.delete(this.voiceChannelUsers[payload.channelId], payload.userId);
+    delete this.voiceChannelUsers[payload.channelId][payload.userId];
   }
 
   @Action

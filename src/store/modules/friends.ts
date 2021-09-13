@@ -60,7 +60,7 @@ class Friends extends VuexModule {
   }
   @Mutation
   private REMOVE_FRIEND(payload: { id: string }) {
-    Vue.delete(this.friends, payload.id);
+    delete this.friends[payload.id];
   }
 
   @Action

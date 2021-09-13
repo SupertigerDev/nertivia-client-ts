@@ -115,7 +115,7 @@ class Channels extends VuexModule {
   }
   @Mutation
   private REMOVE_CHANNEL(channelID: string) {
-    Vue.delete(this.channels, channelID);
+    delete this.channels[channelID];
   }
   @Action
   public RemoveChannel(channelID: string) {

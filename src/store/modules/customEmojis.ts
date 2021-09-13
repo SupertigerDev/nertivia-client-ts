@@ -26,7 +26,7 @@ class CustomEmojis extends VuexModule {
   private DELETE_EMOJI(emojiID: string) {
     const index = this.customEmojis.findIndex(e => e.emojiID === emojiID);
     if (index < 0) return;
-    Vue.delete(this.customEmojis, index);
+    delete this.customEmojis[index];
   }
 
   @Action

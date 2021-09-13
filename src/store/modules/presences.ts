@@ -31,7 +31,7 @@ class Presences extends VuexModule {
   }
   @Mutation
   private DELETE_PRESENCE(id: string) {
-    Vue.delete(this.presences, id);
+    delete this.presences[id];
   }
   @Mutation
   private UPDATE_PRESENCE(payload: { id: string; presence: number }) {

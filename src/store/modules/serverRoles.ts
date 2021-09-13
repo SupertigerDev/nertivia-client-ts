@@ -113,7 +113,7 @@ class ServerRoles extends VuexModule {
   }
   @Mutation
   private DELETE_SERVER_ROLE(payload: { server_id: string; role_id: string }) {
-    Vue.delete(this.serverRoles[payload.server_id], payload.role_id);
+    delete this.serverRoles[payload.server_id][payload.role_id];
   }
 
   @Action
@@ -123,7 +123,7 @@ class ServerRoles extends VuexModule {
 
   @Mutation
   private DELETE_ALL_SERVER_ROLES(serverID: string) {
-    Vue.delete(this.serverRoles, serverID);
+    delete this.serverRoles[serverID];
   }
 
   @Action

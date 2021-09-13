@@ -213,7 +213,7 @@ class ServerMembers extends VuexModule {
   }
   @Mutation
   private REMOVE_SERVER_MEMBER(payload: { server_id: string; id: string }) {
-    Vue.delete(this.serverMembers[payload.server_id], payload.id);
+    delete this.serverMembers[payload.server_id][payload.id];
   }
 
   @Action
@@ -223,7 +223,7 @@ class ServerMembers extends VuexModule {
 
   @Mutation
   private REMOVE_ALL_SERVER_MEMBERS(serverID: string) {
-    Vue.delete(this.serverMembers, serverID);
+    delete this.serverMembers[serverID];
   }
 
   @Action

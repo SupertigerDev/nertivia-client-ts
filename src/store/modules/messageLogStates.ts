@@ -64,7 +64,7 @@ class MessageLogStates extends VuexModule {
   }
   @Mutation
   private REMOVE_STATE(channelID: string) {
-    Vue.delete(this.states, channelID);
+    delete this.states[channelID];
   }
   @Action
   public RemoveState(channelID: string) {

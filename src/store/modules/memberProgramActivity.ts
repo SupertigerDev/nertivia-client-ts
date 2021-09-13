@@ -49,7 +49,7 @@ class ProgramActivities extends VuexModule {
   }
   @Mutation
   private REMOVE_PROGRAM_ACTIVITY(payload: { id: string }) {
-    Vue.delete(this.programActivity, payload.id);
+    delete this.programActivity[payload.id];
   }
 
   @Action

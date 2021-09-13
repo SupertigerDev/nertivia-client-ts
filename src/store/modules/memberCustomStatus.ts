@@ -37,7 +37,7 @@ class CustomStatuses extends VuexModule {
   }
   @Mutation
   private REMOVE_CUSTOM_STATUS(payload: { id: string }) {
-    Vue.delete(this.customStatus, payload.id);
+    delete this.customStatus[payload.id];
   }
 
   @Action

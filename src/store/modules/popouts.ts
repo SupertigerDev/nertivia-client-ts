@@ -57,7 +57,7 @@ class Popouts extends VuexModule {
 
   @Mutation
   private CLOSE_POPOUT(id: string) {
-    Vue.delete(this.popouts, id);
+    delete this.popouts[id];
   }
 
   @Action

@@ -71,7 +71,7 @@ class Servers extends VuexModule {
   }
   @Mutation
   private DELETE_SERVER(serverID: string) {
-    Vue.delete(this.servers, serverID);
+    delete this.servers[serverID];
   }
 
   @Action
