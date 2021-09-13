@@ -45,11 +45,11 @@ export default defineComponent({
         fileName: string;
         url: string;
       }>,
-      required: true
+      required: false
     },
     youtubeURL: {
       type: String,
-      required: true
+      required: false
     }
   },
   data() {
@@ -69,6 +69,7 @@ export default defineComponent({
       );
     },
     embedURL(): any {
+      if (!this.youtubeURL) return undefined;
       const regex = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*)(?:(\?t|&start)=(\d+))?.*/gim;
       const result = regex.exec(this.youtubeURL);
       if (!result) return undefined;

@@ -1,7 +1,7 @@
 <script lang="tsx">
 import { jsonHtml } from "@/services/userService";
 import { unzipAlt } from "@/utils/zip";
-import Vue from "vue";
+import Vue, { h } from "vue";
 import Markup from "./Markup";
 import "style-scoped";
 import { PopoutsModule } from "@/store/modules/popouts";
@@ -21,7 +21,7 @@ export default defineComponent({
       ) as jsonHtml[]
     };
   },
-  render(h) {
+  render() {
     function replaceImageUrl(val: string) {
       const regex = /url\((.*?)\)/gm;
       const regex2 = /url\((.*?)\)/m;

@@ -122,7 +122,6 @@ const router = VueRouter.createRouter({
           location.href = "/login";
           return;
         }
-        socket.connect();
         next();
       }
     },

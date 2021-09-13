@@ -10,7 +10,7 @@ export default {
     return (
       <img
         class="emoji"
-        draggable="false"
+        draggable={false}
         title={emoji.annotation}
         alt={emoji.annotation}
         src={emojiParser.twemojiPath(emoji.unicode)}

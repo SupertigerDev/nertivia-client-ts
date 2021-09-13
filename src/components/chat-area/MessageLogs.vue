@@ -223,6 +223,7 @@ export default defineComponent({
     scrollDown(ifScrolledDown = false) {
       if (ifScrolledDown && !this.isScrolledDown) return;
       const element = this.$refs.logs as Element;
+      if (!element) return;
       element.scrollTop = element.scrollHeight;
     },
     dismissNotification() {

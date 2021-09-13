@@ -6,7 +6,7 @@ import User from "@/interfaces/User";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import Markup from "@/components/Markup";
 import { emitter } from "@/utils/globalBus";
-import Vue from "vue";
+import Vue, { h } from "vue";
 import Message from "@/interfaces/Message";
 
 import { defineComponent } from "vue";
@@ -24,7 +24,7 @@ export default defineComponent({
     },
     message: Object as () => Message,
   },
-  render(h) {
+  render() {
     const AvatarBuilder = (creator: any) => {
       return h(AvatarImage, {
         nativeOn: {
