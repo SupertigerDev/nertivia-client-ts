@@ -1,3 +1,28 @@
+<template>
+  <div class="tab-layout">
+    <div class="tabs">
+      <div
+        v-for="(tab, i) in tabs"
+        :key="tab.id"
+        :class="{ selected: i === currentTabIndex }"
+        @click="currentTabIndex = i"
+        class="tab"
+      >
+        {{ tab.name }}
+      </div>
+    </div>
+    <div class="tab-layout-container">
+      <transition :name="currentTabIndex === 1 ? 'slide-left' : 'slide-right'">
+        <component
+          :is="currentTab.component"
+          v-on="events"
+          v-bind="currentTab.props"
+        ></component>
+      </transition>
+    </div>
+  </div>
+</template>
+
 <script lang="tsx">
 import { PropType, h } from "vue";
 interface Tab {
@@ -12,7 +37,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   data() {
     return {
-      currentTab: 0
+      currentTabIndex: 0
     };
   },
   props: {
@@ -21,57 +46,27 @@ export default defineComponent({
       required: true
     }
   },
-  render() {
-    const Tab = ({ index, name }: any) => (
-      <div
-        key={index}
-        class={{ selected: index === this.currentTab, tab: true }}
-        onClick={() => {
-          this.currentTab = index;
-        }}
-      >
-        {name}
-      </div>
-    );
+  methods: {
+    onEvent(data: any, name: string) {
+      this.$emit("event", {
+        eventName: name,
+        id: this.currentTab.id,
+        data
+      });
+    }
+  },
+  computed: {
+    currentTab(): Tab {
+      return this.tabs[this.currentTabIndex];
+    },
 
-    const Tabs = () => (
-      <div class="tabs">
-        {this.tabs.map((tab, i) => (
-          <Tab name={tab.name} index={i} />
-        ))}
-      </div>
-    );
-    const customEvents = () => {
-      const events = this.tabs[this.currentTab].events;
-      const eventObj: any = {};
-      if (!events) return eventObj;
-      for (let i = 0; i < events.length; i++) {
-        const event = events[i];
-        eventObj[event] = (data: any) => {
-          this.$emit("event", {
-            eventName: event,
-            id: this.tabs[this.currentTab].id,
-            data
-          });
-        };
-      }
-      return eventObj;
-    };
-    return (
-      <div class="tab-layout">
-        <Tabs />
-        <div class="tab-layout-container">
-          <transition
-            name={this.currentTab === 1 ? "slide-left" : "slide-right"}
-          >
-            {h(this.tabs[this.currentTab].component, {
-              props: this.tabs[this.currentTab].props,
-              on: customEvents()
-            })}
-          </transition>
-        </div>
-      </div>
-    );
+    events(): any {
+      const events: any = {};
+      this.currentTab.events?.forEach(v => {
+        events[v] = (data: any) => this.onEvent(data, v);
+      });
+      return events;
+    }
   }
 });
 </script>
