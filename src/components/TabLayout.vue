@@ -14,9 +14,9 @@
     <div class="tab-layout-container">
       <transition :name="currentTabIndex === 1 ? 'slide-left' : 'slide-right'">
         <component
+          v-bind="currentTab.props"
           :is="currentTab.component"
           v-on="events"
-          v-bind="currentTab.props"
         ></component>
       </transition>
     </div>
