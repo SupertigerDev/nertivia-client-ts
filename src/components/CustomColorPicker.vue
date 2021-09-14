@@ -1,7 +1,7 @@
 <template>
   <div class="custom-color-picker">
     <div class="details" @click="showPicker">
-      <div class="box" :style="{ background: color }" />
+      <div class="box" :style="{ background: modelValue }" />
       <div class="name">{{ name }}</div>
     </div>
     <div class="picker-input" ref="pickerInput"></div>
@@ -16,10 +16,9 @@ import Vue from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "CustomColorPicker",
-  emits: ["change"],
-  model: { prop: "color", event: "change" },
+  emits: ["change", "update:modelValue"],
   props: {
-    color: String,
+    modelValue: String,
     name: String,
     allowOpacity: {
       default: true
@@ -55,7 +54,7 @@ export default defineComponent({
   },
   methods: {
     showPicker(event: any) {
-      this.pickr?.setColor(this.color || "white");
+      this.pickr?.setColor(this.modelValue || "white");
       this.pickr?.show();
       this.popupShowing = true;
     },
@@ -65,6 +64,7 @@ export default defineComponent({
         .getColor()
         .toHEXA()
         .toString();
+      this.$emit("update:modelValue", hex);
       this.$emit("change", hex);
     }
   }

@@ -349,10 +349,7 @@ export default defineComponent({
       if (this.isLoadingTopMore) return false;
       return !this.isLoadingBottomMore;
     },
-    messageType(): any {
-      return (message: any): string =>
-        message.type === 0 ? "MessageTemplate" : "ActionMessageTemplate";
-    },
+
     hasServerNotification(): any {
       return LastSeenServerChannelsModule.serverChannelNotification(
         this.channelID

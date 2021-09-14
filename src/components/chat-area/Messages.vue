@@ -2,10 +2,10 @@
 import { MessagesModule } from "@/store/modules/messages";
 import MessageTemplate from "./message/MessageTemplate.vue";
 import ActionMessageTemplate from "./message/ActionMessageTemplate.vue";
-import Vue, { h } from "vue";
+import { h } from "vue";
 import Message from "@/interfaces/Message";
 
-const Messages = (props: { channelID: string }, context) => {
+const Messages = (props: { channelID: string }) => {
   const messages = MessagesModule.messages[props.channelID];
 
   const isMoreThanMinute = (before: Message, after: Message) => {

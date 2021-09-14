@@ -4,7 +4,7 @@
       class="radio-box"
       v-for="(item, i) in items"
       :key="i"
-      :class="{ checked: selectedIndex === i }"
+      :class="{ checked: modelValue === i }"
       @click="clicked(i)"
     >
       <div class="circle" />
@@ -18,14 +18,14 @@ import Vue, { PropType } from "vue";
 
 import { defineComponent } from "vue";
 export default defineComponent({
-  model: { event: "change", prop: "selectedIndex" },
-  emits: ["change"],
+  emits: ["change", "update:modelValue"],
   props: {
     items: Array as PropType<string[]>,
-    selectedIndex: Number
+    modelValue: Number
   },
   methods: {
     clicked(index: number) {
+      this.$emit("update:modelValue", index);
       this.$emit("change", index);
     }
   }

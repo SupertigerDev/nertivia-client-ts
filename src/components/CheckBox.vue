@@ -1,5 +1,9 @@
 <template>
-  <div class="check-box" :class="{ checked, colored }" @click="clicked">
+  <div
+    class="check-box"
+    :class="{ checked: modelValue, colored }"
+    @click="clicked"
+  >
     <div class="box"><span class="material-icons">check</span></div>
     <div class="details">
       <div class="name">{{ name }}</div>
@@ -12,14 +16,10 @@
 import Vue from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
-  emits: ["change"],
+  emits: ["update:modelValue", "change"],
   name: "CheckBox",
-  model: {
-    prop: "checked",
-    event: "change"
-  },
   props: {
-    checked: {
+    modelValue: {
       type: Boolean
     },
     name: {
@@ -27,7 +27,7 @@ export default defineComponent({
     },
     description: {
       type: String,
-      required: true
+      required: false
     },
     colored: {
       type: Boolean
@@ -35,7 +35,8 @@ export default defineComponent({
   },
   methods: {
     clicked() {
-      this.$emit("change", !this.checked);
+      this.$emit("update:modelValue", !this.modelValue);
+      this.$emit("change", !this.modelValue);
     }
   }
 });
