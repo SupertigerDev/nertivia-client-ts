@@ -23,10 +23,9 @@ Vue.configureCompat({
   GLOBAL_SET: false,
   INSTANCE_LISTENERS: false,
   ATTR_FALSE_VALUE: false,
-  ATTR_ENUMERATED_COERCION: false
+  ATTR_ENUMERATED_COERCION: false,
+  WATCH_ARRAY: false
   // COMPONENT_FUNCTIONAL: false
-  // INSTANCE_LISTENERS: false
-  // WATCH_ARRAY: false
 });
 
 declare module "@vue/runtime-core" {

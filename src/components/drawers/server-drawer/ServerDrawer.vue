@@ -227,7 +227,7 @@ export default defineComponent({
   transition: all 0.2s ease;
 }
 
-.slide-fade-enter {
+.slide-fade-enter-from {
   transform: translateY(10px);
   opacity: 0;
 }
@@ -236,7 +236,7 @@ export default defineComponent({
   transition: all 0.3s ease;
 }
 
-.zoom-fade-enter {
+.zoom-fade-enter-from {
   transform: scale(0.9);
   opacity: 0;
 }

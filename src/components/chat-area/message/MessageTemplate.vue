@@ -184,7 +184,7 @@ export default defineComponent({
   transition: 0.5s;
   transition-delay: 0.1s;
 }
-.embed-animation-enter,
+.embed-animation-enter-from,
 .embed-animation-leave-to {
   transform: translateY(-30px);
   opacity: 0;

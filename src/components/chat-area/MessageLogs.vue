@@ -303,12 +303,15 @@ export default defineComponent({
     }
   },
   watch: {
-    channelMessages() {
-      if (this.isScrolledDown) {
-        this.dismissNotification();
-        this.$nextTick(() => {
-          this.scrollDown();
-        });
+    channelMessages: {
+      deep: true,
+      handler() {
+        if (this.isScrolledDown) {
+          this.dismissNotification();
+          this.$nextTick(() => {
+            this.scrollDown();
+          });
+        }
       }
     },
     windowSize() {
@@ -316,10 +319,13 @@ export default defineComponent({
         this.scrollDown();
       }
     },
-    uploadQueue() {
-      this.$nextTick(() => {
-        this.scrollDown(true);
-      });
+    uploadQueue: {
+      deep: true,
+      handler() {
+        this.$nextTick(() => {
+          this.scrollDown(true);
+        });
+      }
     },
     isScrolledDown() {
       this.dismissNotification();
@@ -388,7 +394,7 @@ export default defineComponent({
 .message-enter-active {
   transition: all 0.5s;
 }
-.message-enter {
+.message-enter-from {
   opacity: 0;
   transform: translateX(-30px);
 }

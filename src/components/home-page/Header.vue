@@ -66,7 +66,7 @@ export default {
 .fall-down-fast-leave-active {
   transition: 0.2s;
 }
-.fall-down-fast-enter, .fall-down-fast-leave-to /* .fade-leave-active below version 2.1.8 */ {
+.fall-down-fast-enter-from, .fall-down-fast-leave-to /* .fade-leave-active below version 2.1.8 */ {
   transform: translateY(-20px);
   opacity: 0;
 }

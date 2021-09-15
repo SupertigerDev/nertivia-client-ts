@@ -36,6 +36,7 @@ export default defineComponent({
   },
   watch: {
     items: {
+      deep: true,
       handler: "onItemChange"
     }
   },

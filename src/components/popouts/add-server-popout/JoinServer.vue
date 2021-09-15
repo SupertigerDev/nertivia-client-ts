@@ -31,7 +31,7 @@ export default defineComponent({
 .slide-left-enter-active {
   transition: 0.3s;
 }
-.slide-left-enter {
+.slide-left-enter-from {
   transform: translate(100%, 0);
 }
 .slide-left-leave-to {
@@ -41,7 +41,7 @@ export default defineComponent({
 .slide-right-enter-active {
   transition: 0.3s;
 }
-.slide-right-enter {
+.slide-right-enter-from {
   transform: translate(-100%, 0);
 }
 .slide-right-leave-to {
