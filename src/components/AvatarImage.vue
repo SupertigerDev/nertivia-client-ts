@@ -18,7 +18,7 @@
 import { seededColor } from "seeded-color";
 import { useWindowProperties } from "@/utils/windowProperties";
 import { highPriorityBadge } from "@/constants/badges";
-import Vue from "vue";
+import Vue, { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   compatConfig: {
@@ -31,7 +31,7 @@ export default defineComponent({
       required: false
     },
     imageId: {
-      type: String,
+      type: String as PropType<string | null | undefined>,
       required: false
     },
     seedId: {
