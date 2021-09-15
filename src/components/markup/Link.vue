@@ -1,21 +1,25 @@
 <script lang="tsx">
 import router from "@/router";
 import { PopoutsModule } from "@/store/modules/popouts";
-import Vue from "vue";
 
-// todo: Add warning
-import { defineComponent } from "vue";
+import { defineComponent, computed } from "vue";
 export default defineComponent({
-  functional: true,
   props: {
-    url: String,
+    url: {
+      type: String,
+      required: true
+    },
     text: String
   },
-  render(h, { props }) {
-    let sanitizedUrl = props.url;
-    if (!props.url.startsWith("http")) {
-      sanitizedUrl = "https://" + props.url;
-    }
+  setup(props) {
+    let sanitizedUrl = computed(() => {
+      let url = props.url;
+      if (!props.url.startsWith("http")) {
+        url = url = "https://" + props.url;
+      }
+      return url;
+    });
+
     const pushRouter = (link: string) => {
       const match = process.env.VUE_APP_MAIN_APP_URL + "app";
       if (link.startsWith(match)) {
@@ -37,18 +41,19 @@ export default defineComponent({
         event.preventDefault();
         return;
       }
-      if (pushRouter(sanitizedUrl)) {
+      if (pushRouter(sanitizedUrl.value)) {
         event.preventDefault();
       }
     };
-    return (
+
+    return () => (
       <a
-        href={sanitizedUrl}
+        href={sanitizedUrl.value}
         target="_blank"
         rel="noopener noreferrer"
         onClick={clicked}
       >
-        {props.text ?? sanitizedUrl}
+        {props.text ?? sanitizedUrl.value}
       </a>
     );
   }

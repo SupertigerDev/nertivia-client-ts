@@ -5,7 +5,7 @@ export const RECONNECTING = "reconnecting";
 export const SUCCESS = "success";
 export const AUTH_ERROR = "auth_err";
 // message events
-export const RECEIVE_MESSAGE = "receive_message";
+export const RECEIVE_MESSAGE = "receiveMessage";
 export const DELETE_MESSAGE = "delete_message";
 export const UPDATE_MESSAGE = "update_message";
 // message reaction events

@@ -5,10 +5,15 @@
     ref="logs"
     @scroll.passive="onScroll"
   >
-    <!-- <transition-group :name="messageTransition ? 'message' : ''" tag="div"> -->
-    <Messages key="messages" :channelID="channelID" class="message" />
-    <UploadQueueComponent v-if="uploadQueue.length" key="upload-queue" />
-    <!-- </transition-group> -->
+    <Messages
+      :animateMessage="messageTransition"
+      key="messages"
+      :channelID="channelID"
+      class="message"
+    />
+    <transition name="upload-queue" tag="div">
+      <UploadQueueComponent v-if="uploadQueue.length" key="upload-queue" />
+    </transition>
   </div>
 </template>
 
@@ -391,10 +396,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.message-enter-active {
+.upload-queue-enter-active {
   transition: all 0.5s;
 }
-.message-enter-from {
+.upload-queue-enter-from {
   opacity: 0;
   transform: translateX(-30px);
 }
