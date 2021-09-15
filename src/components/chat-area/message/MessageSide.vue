@@ -28,7 +28,7 @@ export default defineComponent({
   name: "MessageSide",
   props: {
     message: {
-      type: Object as PropType<Message & { grouped: boolean }>,
+      type: Object as PropType<Message>,
       required: true
     }
   },
