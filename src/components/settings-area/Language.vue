@@ -18,17 +18,17 @@
         >
           <div class="flag" v-html="obj.flagImage"></div>
           <div class="details">
-            <div class="name">{{ obj.name }}</div>
+            <div class="name">{{ obj.name.source }}</div>
             <div class="translators">
               <span class="item-label"
                 >{{ $t("settings.language.translators") }}:</span
               >
               <div
                 class="translator"
-                v-for="(translators, i) in obj.translators"
+                v-for="(translator, i) in obj.translators"
                 :key="i"
               >
-                <span>{{ translators }}</span>
+                <span>{{ translator.source }}</span>
                 <span v-if="obj.translators.length !== i + 1">, </span>
               </div>
             </div>
@@ -54,12 +54,17 @@ export default defineComponent({
     };
   },
   computed: {
-    mappedLanguages(): any {
+    mappedLanguages(): {
+      id: any;
+      name: any;
+      flagImage: any;
+      translators: any[];
+    }[] {
       return Object.keys(languages).map(key => {
         return {
           ...languages[key],
           id: key,
-          flagImage: emojiParser.replaceEmojis(languages[key].unicode)
+          flagImage: emojiParser.replaceEmojis(languages[key].unicode.source)
         };
       });
     }

@@ -31,7 +31,7 @@ export default defineComponent({
     },
     hover: {
       type: Boolean,
-      required: true
+      required: false
     }
   },
   computed: {

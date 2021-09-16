@@ -56,7 +56,7 @@
       <CustomInput
         title="Invite Link"
         :disabled="true"
-        :value="inviteLink"
+        v-model="inviteLink"
         class="input"
         prefixIcon="link"
       />
@@ -65,7 +65,7 @@
         <CheckBox
           v-for="(perm, i) of perms"
           :key="i"
-          :checked="perm.hasPerm"
+          :modelValue="perm.hasPerm"
           :name="perm.name"
           @change="onPermToggle($event, perm)"
           :description="perm.info"
@@ -87,7 +87,7 @@
       </div>
       <CustomInput
         title="Token"
-        :value="botToken"
+        v-model="botToken"
         class="input"
         :disabled="true"
         v-if="showToken"

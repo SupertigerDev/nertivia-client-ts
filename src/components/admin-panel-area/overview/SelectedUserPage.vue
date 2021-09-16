@@ -15,7 +15,7 @@
           :prefixIcon="item.icon"
           :disabled="true"
           :title="item.name"
-          :value="item.value"
+          v-model="item.value"
         />
       </div>
     </div>
