@@ -1,66 +1,86 @@
+<template>
+  <div class="right-drawer">
+    <div class="header">
+      {{ $t("right-drawer.server-members", [serverMembers.length]) }}
+    </div>
+    <div class="members">
+      <RecycleScroller
+        style="height: 100%"
+        :items="list"
+        key-field="id"
+        :item-size="44"
+        v-slot="{ item }"
+      >
+        <div class="tab" v-if="item.name">
+          {{ item.name }} ({{ item.memberCount }})
+        </div>
+        <ServerMemberTemplate v-else :serverMember="item" />
+      </RecycleScroller>
+    </div>
+  </div>
+</template>
+
 <script lang="tsx">
 import { ExtraServerMembers } from "@/interfaces/ServerMember";
 import ServerRole from "@/interfaces/ServerRole";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
 import { useWindowProperties } from "@/utils/windowProperties";
-import Vue from "vue";
+import { RecycleScroller } from "vue-virtual-scroller";
+import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 import ServerMemberTemplate from "./ServerMemberTemplate.vue";
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const virtualList = require("vue-virtual-scroll-list");
 
 import { defineComponent } from "vue";
 export default defineComponent({
-  components: { ServerMemberTemplate, virtualList },
+  components: { ServerMemberTemplate, RecycleScroller },
   data() {
     return {
       tempServerId: ""
     };
   },
-  render() {
-    const renderMembers = (members: any) => {
-      return members.map((member: any) => {
-        return (
-          <server-member-template
-            key={member.id}
-            serverMember={member}
-            style={{ height: "40px" }}
-          />
-        );
-      });
-    };
-    return (
-      <div class="right-drawer">
-        <div class="header">
-          {this.$t("right-drawer.server-members", [this.serverMembers.length])}
-        </div>
-        <div class="members" key={this.tempServerId}>
-          {this.roleWithMembers.map(role => {
-            return [
-              <div class="tab" style={{ height: "25px" }}>
-                {role.role.name} ({role.members.length})
-              </div>,
-              renderMembers(role.members)
-            ];
-          })}
-          {this.onlineMembersWithNoRoles.length > 0 && (
-            <div class="tab" style={{ height: "25px" }}>
-              {this.defaultRole?.name ?? this.$t("presence.online")} (
-              {this.onlineMembersWithNoRoles.length})
-            </div>
-          )}
-          {renderMembers(this.onlineMembersWithNoRoles)}
-          {this.offlineMembers.length > 0 && (
-            <div class="tab" style={{ height: "25px" }}>
-              {this.$t("presence.offline")} ({this.offlineMembers.length})
-            </div>
-          )}
-          {renderMembers(this.offlineMembers)}
-        </div>
-      </div>
-    );
-  },
+  // render() {
+  //   const renderMembers = (members: any) => {
+  //     return members.map((member: any) => {
+  //       return (
+  //         <server-member-template
+  //           key={member.id}
+  //           serverMember={member}
+  //           style={{ height: "40px" }}
+  //         />
+  //       );
+  //     });
+  //   };
+  //   return (
+  //     <div class="right-drawer">
+  //       <div class="header">
+  //         {this.$t("right-drawer.server-members", [this.serverMembers.length])}
+  //       </div>
+  //       <div class="members" key={this.tempServerId}>
+  //         {this.roleWithMembers.map(role => {
+  //           return [
+  //             <div class="tab" style={{ height: "25px" }}>
+  //               {role.role.name} ({role.members.length})
+  //             </div>,
+  //             renderMembers(role.members)
+  //           ];
+  //         })}
+  //         {this.onlineMembersWithNoRoles.length > 0 && (
+  //           <div class="tab" style={{ height: "25px" }}>
+  //             {this.defaultRole?.name ?? this.$t("presence.online")} (
+  //             {this.onlineMembersWithNoRoles.length})
+  //           </div>
+  //         )}
+  //         {renderMembers(this.onlineMembersWithNoRoles)}
+  //         {this.offlineMembers.length > 0 && (
+  //           <div class="tab" style={{ height: "25px" }}>
+  //             {this.$t("presence.offline")} ({this.offlineMembers.length})
+  //           </div>
+  //         )}
+  //       </div>
+  //     </div>
+  //     {renderMembers(this.offlineMembers)}
+  //   );
+  // },
   mounted() {
     this.updateTempServerId();
   },
@@ -120,6 +140,34 @@ export default defineComponent({
         const roleExists = member.roles.find(r => r && !r.hideRole);
         return !roleExists;
       });
+    },
+    list(): any {
+      let list: any = [];
+      // online role members
+      for (let i = 0; i < this.roleWithMembers.length; i++) {
+        const { role, members } = this.roleWithMembers[i];
+        list.push({
+          id: role.id,
+          name: role.name,
+          memberCount: members.length
+        });
+        list = [...list, ...members];
+      }
+      // online members
+      list.push({
+        id: "online",
+        name: "Online",
+        memberCount: this.onlineMembersWithNoRoles.length
+      });
+      list = [...list, ...this.onlineMembersWithNoRoles];
+      // offline members
+      list.push({
+        id: "offline",
+        name: "Offline",
+        memberCount: this.offlineMembers.length
+      });
+      list = [...list, ...this.offlineMembers];
+      return list;
     },
     serverRoles(): ServerRole[] {
       return ServerRolesModule.sortedServerRolesArr(this.tempServerId);
