@@ -41,6 +41,7 @@
     "vue-property-decorator": "^9.1.2",
     "vue-router": "^4.0.11",
     "vue-virtual-scroll-list": "^1.4.7",
+    "vue-virtual-scroller": "^2.0.0-alpha.1",
     "vuedraggable": "^4.1.0",
     "vuex": "^4.0.2",
     "vuex-module-decorators": "^1.0.1"

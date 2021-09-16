@@ -1,30 +1,25 @@
 <template>
   <div class="friend-list">
-    <virtual-list :size="260" :remain="40" :variable="true">
-      <div class="tab" :style="{ height: '25px' }" v-if="friendRequests.length">
-        Requests
+    <RecycleScroller
+      style="height: 100%"
+      :items="list"
+      key-field="id"
+      v-slot="{ item }"
+    >
+      <div class="tab" :style="{ height: '25px' }" v-if="item.name">
+        {{ item.name }}
       </div>
-      <FriendRequestTemplate
-        v-for="friend in friendRequests"
-        :style="{ height: '79px' }"
-        :key="friend.recipient.id"
-        :friend="friend"
-      />
-      <div class="tab" :style="{ height: '25px' }">Online</div>
-      <FriendTemplate
-        v-for="friend in onlineFriends"
+      <Component
+        v-else
+        :is="
+          item.componentType === 'fr'
+            ? 'FriendRequestTemplate'
+            : 'FriendTemplate'
+        "
         :style="{ height: '44px' }"
-        :key="friend.recipient.id"
-        :friend="friend"
+        :friend="item"
       />
-      <div class="tab" :style="{ height: '25px' }">Offline</div>
-      <FriendTemplate
-        v-for="friend in offlineFriends"
-        :style="{ height: '44px' }"
-        :key="friend.recipient.id"
-        :friend="friend"
-      />
-    </virtual-list>
+    </RecycleScroller>
   </div>
 </template>
 
@@ -32,14 +27,13 @@
 import { FriendsModule } from "@/store/modules/friends";
 import FriendTemplate from "./FriendTemplate.vue";
 import FriendRequestTemplate from "./FriendRequestTemplate.vue";
-import Vue from "vue";
+import { RecycleScroller } from "vue-virtual-scroller";
+import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const virtualList = require("vue-virtual-scroll-list");
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "FriendList",
-  components: { FriendTemplate, FriendRequestTemplate, virtualList },
+  components: { FriendTemplate, FriendRequestTemplate, RecycleScroller },
   computed: {
     friends(): any {
       return FriendsModule.friendsWithUser;
@@ -52,6 +46,40 @@ export default defineComponent({
     },
     friendRequests(): any {
       return this.friends.filter(f => f.status <= 1);
+    },
+    list(): any {
+      let componentType = "";
+      return [
+        { id: "fr", name: "Requests", size: 25 },
+        ...this.friendRequests,
+        { id: "on", name: "Online", size: 25 },
+        ...this.onlineFriends,
+        { id: "off", name: "Offline", size: 25 },
+        ...this.offlineFriends
+      ].map(f => {
+        if (f.name) {
+          componentType = f.id;
+          if (f.id === "fr" && !this.friendRequests.length) {
+            f.size = 0;
+            return f;
+          }
+          if (f.id === "on" && !this.onlineFriends.length) {
+            f.size = 0;
+            return f;
+          }
+          if (f.id === "off" && !this.offlineFriends.length) {
+            f.size = 0;
+            return f;
+          }
+          return f;
+        }
+        f.size = 44;
+        f.componentType = componentType;
+        if (componentType === "fr") {
+          f.size = 79;
+        }
+        return f;
+      });
     }
   }
 });

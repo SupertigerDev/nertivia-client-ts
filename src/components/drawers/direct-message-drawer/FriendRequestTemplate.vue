@@ -72,7 +72,7 @@ export default defineComponent({
     },
     dmChannel: {
       type: Object as PropType<{ recipients: User[] }>,
-      required: true
+      required: false
     }
   },
   data() {
@@ -85,7 +85,7 @@ export default defineComponent({
       if (this.friend) {
         return this.friend.recipient || this.friend;
       } else {
-        return this.dmChannel.recipients[0];
+        return this.dmChannel?.recipients[0];
       }
     }
   },

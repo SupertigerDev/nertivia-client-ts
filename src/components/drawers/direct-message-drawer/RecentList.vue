@@ -1,14 +1,18 @@
 <template>
   <div class="friend-list">
-    <!-- <virtual-list :size="260" :remain="40" :variable="true"> -->
-    <FriendTemplate
-      v-for="dmChannel in recentListArr"
-      :style="{ height: '44px' }"
-      :key="dmChannel.channelID"
-      :friend="dmChannel.sender"
-      :dmChannel="dmChannel"
-    />
-    <!-- </virtual-list> -->
+    <RecycleScroller
+      style="height: 100%"
+      :items="recentListArr"
+      key-field="channelID"
+      :item-size="44"
+      v-slot="{ item }"
+    >
+      <FriendTemplate
+        :style="{ height: '44px' }"
+        :friend="item.sender"
+        :dmChannel="item"
+      />
+    </RecycleScroller>
   </div>
 </template>
 
@@ -17,14 +21,13 @@ import { ChannelsModule } from "@/store/modules/channels";
 import { MeModule } from "@/store/modules/me";
 import { NotificationsModule } from "@/store/modules/notifications";
 import FriendTemplate from "./FriendTemplate.vue";
-import Vue from "vue";
+import { RecycleScroller } from "vue-virtual-scroller";
+import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const virtualList = require("vue-virtual-scroll-list");
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "RecentList",
-  components: { FriendTemplate, virtualList },
+  components: { FriendTemplate, RecycleScroller },
   computed: {
     dmChannels(): any {
       return ChannelsModule.getDMChannels;
@@ -65,13 +68,5 @@ export default defineComponent({
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-}
-.tab {
-  display: flex;
-  align-items: center;
-  align-content: center;
-  margin-left: 6px;
-  height: 25px;
-  flex-shrink: 0;
 }
 </style>

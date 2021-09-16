@@ -8,12 +8,10 @@
     <Drawers class="drawers">
       <template v-slot:drawer-left>
         <LeftDrawer />
-        test
       </template>
-      <RightDrawer
-        v-slot:drawer-right
-        v-if="currentTab === 'servers' && currentChannelID"
-      />
+      <template v-slot:drawer-right>
+        <RightDrawer v-if="currentTab === 'servers' && currentChannelID" />
+      </template>
       <template v-slot:content>
         <div class="content">
           <transition name="fade" appear>

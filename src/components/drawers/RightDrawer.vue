@@ -36,34 +36,27 @@ export default defineComponent({
           {this.$t("right-drawer.server-members", [this.serverMembers.length])}
         </div>
         <div class="members" key={this.tempServerId}>
-          <virtual-list
-            size={260}
-            remain={this.remain}
-            variable={true}
-            key={this.remain}
-          >
-            {this.roleWithMembers.map(role => {
-              return [
-                <div class="tab" style={{ height: "25px" }}>
-                  {role.role.name} ({role.members.length})
-                </div>,
-                renderMembers(role.members)
-              ];
-            })}
-            {this.onlineMembersWithNoRoles.length > 0 && (
+          {this.roleWithMembers.map(role => {
+            return [
               <div class="tab" style={{ height: "25px" }}>
-                {this.defaultRole?.name ?? this.$t("presence.online")} (
-                {this.onlineMembersWithNoRoles.length})
-              </div>
-            )}
-            {renderMembers(this.onlineMembersWithNoRoles)}
-            {this.offlineMembers.length > 0 && (
-              <div class="tab" style={{ height: "25px" }}>
-                {this.$t("presence.offline")} ({this.offlineMembers.length})
-              </div>
-            )}
-            {renderMembers(this.offlineMembers)}
-          </virtual-list>
+                {role.role.name} ({role.members.length})
+              </div>,
+              renderMembers(role.members)
+            ];
+          })}
+          {this.onlineMembersWithNoRoles.length > 0 && (
+            <div class="tab" style={{ height: "25px" }}>
+              {this.defaultRole?.name ?? this.$t("presence.online")} (
+              {this.onlineMembersWithNoRoles.length})
+            </div>
+          )}
+          {renderMembers(this.onlineMembersWithNoRoles)}
+          {this.offlineMembers.length > 0 && (
+            <div class="tab" style={{ height: "25px" }}>
+              {this.$t("presence.offline")} ({this.offlineMembers.length})
+            </div>
+          )}
+          {renderMembers(this.offlineMembers)}
         </div>
       </div>
     );
