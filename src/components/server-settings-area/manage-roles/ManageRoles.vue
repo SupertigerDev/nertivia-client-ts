@@ -27,15 +27,13 @@
             filter=".disabled"
             ghost-class="ghost"
             :delay="$isMobile ? 400 : 0"
-            v-model="roles"
+            v-model="allowedToMoveRoles"
+            item-key="id"
             @end="onDragEnd"
           >
-            <RoleTemplate
-              v-for="role in allowedToMoveRoles"
-              :key="role.id"
-              :role="role"
-              @click="roleClicked(role)"
-            />
+            <template #item="{element}">
+              <RoleTemplate :role="element" @click="roleClicked(element)" />
+            </template>
           </Draggable>
           <!-- Default role always stays at the bottom. -->
           <RoleTemplate

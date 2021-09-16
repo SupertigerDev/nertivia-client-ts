@@ -55,7 +55,7 @@ interface ItemsProp {
   icon?: string;
   iconSize?: string;
   warn?: string;
-  disabled?: string;
+  disabled?: boolean;
   nestContext?: string;
 }
 

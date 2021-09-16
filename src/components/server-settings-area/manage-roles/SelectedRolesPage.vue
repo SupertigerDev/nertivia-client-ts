@@ -36,7 +36,7 @@
         v-for="perm in permissionsList"
         :key="perm.value"
         :colored="true"
-        :checked="perm.enabled"
+        :modelValue="perm.enabled"
         class="check-box"
         :class="{ disabled: !perm.canModify }"
         :name="perm.name"

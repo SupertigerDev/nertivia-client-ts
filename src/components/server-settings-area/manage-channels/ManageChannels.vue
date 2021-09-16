@@ -44,13 +44,15 @@
             ghost-class="ghost"
             v-model="channels"
             @end="onDragEnd"
+            item-key="channelID"
           >
-            <ChannelTemplate
-              v-for="channel in channels"
-              :key="channel.channelID"
-              :channel="channel"
-              @click="selectedChannelID = channel.channelID"
-            />
+            >
+            <template #item="{element}">
+              <ChannelTemplate
+                :channel="element"
+                @click="selectedChannelID = element.channelID"
+              />
+            </template>
           </Draggable>
         </div>
       </div>
