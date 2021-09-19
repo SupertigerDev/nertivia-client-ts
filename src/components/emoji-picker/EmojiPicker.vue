@@ -1,7 +1,7 @@
 <script lang="jsx">
 import EmojiTemplate from "./EmojiTemplate.vue";
 import Preview from "./Preview.vue";
-import VirtualList from "vue-virtual-scroll-list";
+// import VirtualList from "vue-virtual-scroll-list";
 import Tabs from "./Tabs.vue";
 import { addRecentEmoji, getRecentEmojis } from "@/utils/recentEmojiManager";
 import emojiParser from "@/utils/emojiParser";
@@ -12,7 +12,7 @@ import Vue from "vue";
 export default {
   props: ["inputElement"],
   emits: ["click"],
-  components: { VirtualList, EmojiTemplate, Tabs, Preview },
+  components: {  EmojiTemplate, Tabs, Preview },
   data() {
     return {
       emojiWithGroup: [],
@@ -97,14 +97,12 @@ export default {
 
     const emojisList = (
       <div class="emojis-list">
-        <VirtualList size={37} remain={11} ref="virtualList">
           {[
             !!showRecents && block("Recents", this.allRecentEmojis),
             !!showCustom && block("Custom Emojis", this.allCustomEmojis, true),
             !!showDefault && defaultEmojis,
             !!showSearch && block("Results", this.allSearchEmojis)
           ]}
-        </VirtualList>
       </div>
     );
 
