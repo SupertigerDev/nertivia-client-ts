@@ -37,17 +37,13 @@ import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { permissions } from "@/constants/rolePermissions";
 import Vue, { PropType } from "vue";
 import { defineComponent } from "vue";
+import { UsersModule } from "@/store/modules/users";
 export default defineComponent({
   name: "RightDrawer",
   components: { AvatarImage, UserStatusTemplate },
   props: {
     serverMember: {
-      type: Object as PropType<
-        ServerMember & {
-          member: User;
-          roles: ServerRole[];
-        }
-      >,
+      type: Object as PropType<ServerMember>,
       required: true
     }
   },
@@ -57,12 +53,18 @@ export default defineComponent({
     };
   },
   computed: {
+    roles(): any {
+      return ServerRolesModule.bulkRolesById(
+        this.serverMember.server_id,
+        this.serverMember.roleIdArr
+      );
+    },
     member(): any {
-      return this.serverMember.member;
+      return UsersModule.users[this.serverMember.id];
     },
     firstRoleColor(): any {
-      if (this.serverMember.roles[0]) {
-        return this.serverMember.roles[0].color;
+      if (this.roles[0]) {
+        return this.roles[0].color;
       }
       if (this.defaultRole && this.defaultRole.color) {
         return this.defaultRole.color;
@@ -106,6 +108,7 @@ export default defineComponent({
       if (prevPopout && prevPopout.data.member.id !== this.serverMember.id) {
         PopoutsModule.ClosePopout("profile");
       }
+
       PopoutsModule.ShowPopout({
         id: "profile",
         component: "MiniProfilePopout",
@@ -113,7 +116,11 @@ export default defineComponent({
         data: {
           x: rect.x,
           y: rect.y,
-          member: this.serverMember
+          member: {
+            ...this.serverMember,
+            member: this.member,
+            roles: this.roles
+          }
         }
       });
     }

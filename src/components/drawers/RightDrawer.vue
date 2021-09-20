@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { ExtraServerMembers } from "@/interfaces/ServerMember";
+import ServerMember, { ExtraServerMembers } from "@/interfaces/ServerMember";
 import ServerRole from "@/interfaces/ServerRole";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
@@ -10,6 +10,7 @@ import ServerMemberTemplate from "./ServerMemberTemplate.vue";
 import VirtualList from "@supertiger/vue-3-virtual-scroll-list";
 
 import { defineComponent } from "vue";
+import { PresencesModule } from "@/store/modules/presences";
 export default defineComponent({
   components: { ServerMemberTemplate, VirtualList },
   data() {
@@ -18,21 +19,54 @@ export default defineComponent({
     };
   },
   render() {
-    const renderMembers = (members: any) => {
-      return members.map((member: any) => {
-        return (
-          <server-member-template
-            key={member.id}
-            serverMember={member}
-            style={{ height: "40px" }}
-          />
-        );
+    const renderTab = (name: string, count: number) => {
+      return (
+        <div class="tab" style={{ height: "25px" }}>
+          {name} ({count})
+        </div>
+      );
+    };
+    const renderMember = (member: any) => {
+      return (
+        <server-member-template
+          key={member.id}
+          serverMember={member}
+          style={{ height: "40px" }}
+        />
+      );
+    };
+    const unConsumedUserIds: string[] = this.rawMembers.map(m => m.id);
+
+    const renderOnline = () => {
+      const onlineMembers = unConsumedUserIds.filter(id => {
+        return PresencesModule.getPresence(id);
       });
+      return [
+        renderTab("Online", onlineMembers.length),
+        onlineMembers.map((id, index) => {
+          unConsumedUserIds.splice(index, 1);
+          return renderMember(
+            ServerMembersModule.serverMembers[this.tempServerId][id]
+          );
+        })
+      ];
+    };
+    const renderOffline = () => {
+      const offlineMembers = unConsumedUserIds;
+      return [
+        renderTab("Offline", offlineMembers.length),
+        offlineMembers.map((id, index) => {
+          unConsumedUserIds.splice(index, 1);
+          return renderMember(
+            ServerMembersModule.serverMembers[this.tempServerId][id]
+          );
+        })
+      ];
     };
     return (
       <div class="right-drawer">
         <div class="header">
-          {this.$t("right-drawer.server-members", [this.serverMembers.length])}
+          {this.$t("right-drawer.server-members", [this.rawMembers.length])}
         </div>
         <div class="members" key={this.tempServerId}>
           <virtual-list
@@ -41,27 +75,31 @@ export default defineComponent({
             variable={true}
             key={this.remain}
           >
-            {this.roleWithMembers.map(role => {
-              return [
-                <div class="tab" style={{ height: "25px" }}>
-                  {role.role.name} ({role.members.length})
-                </div>,
-                renderMembers(role.members)
-              ];
-            })}
-            {this.onlineMembersWithNoRoles.length > 0 && (
-              <div class="tab" style={{ height: "25px" }}>
-                {this.defaultRole?.name ?? this.$t("presence.online")} (
-                {this.onlineMembersWithNoRoles.length})
-              </div>
-            )}
-            {renderMembers(this.onlineMembersWithNoRoles)}
-            {this.offlineMembers.length > 0 && (
-              <div class="tab" style={{ height: "25px" }}>
-                {this.$t("presence.offline")} ({this.offlineMembers.length})
-              </div>
-            )}
-            {renderMembers(this.offlineMembers)}
+            {...this.serverRoles
+              .filter(r => !r.hideRole)
+              .map(r => {
+                const members = this.rawMembers.filter(m => {
+                  if (!unConsumedUserIds.includes(m.id)) return false;
+                  if (!m.roleIdArr.includes(r.id)) return false;
+                  if (!PresencesModule.getPresence(m.id)) return false;
+                  const index = unConsumedUserIds.indexOf(m.id);
+                  unConsumedUserIds.splice(index, 1);
+                  return true;
+                });
+                return [
+                  members.length ? (
+                    renderTab(r.name, members.length)
+                  ) : (
+                    <template />
+                  ),
+
+                  members.map(member => {
+                    return renderMember(member);
+                  })
+                ];
+              })}
+            {...renderOnline()}
+            {...renderOffline()}
           </virtual-list>
         </div>
       </div>
@@ -83,6 +121,11 @@ export default defineComponent({
     }
   },
   computed: {
+    rawMembers(): ServerMember[] {
+      return Object.values(
+        ServerMembersModule.serverMembers[this.tempServerId || ""] || {}
+      );
+    },
     serverMembers(): ExtraServerMembers[] {
       // sort by alphabet
       return ServerMembersModule.filteredServerMembers(this.tempServerId).sort(
