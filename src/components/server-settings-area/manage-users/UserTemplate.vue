@@ -28,17 +28,13 @@ import ServerRole from "@/interfaces/ServerRole";
 import { PopoutsModule } from "@/store/modules/popouts";
 import Vue, { PropType } from "vue";
 import { defineComponent } from "vue";
+import { UsersModule } from "@/store/modules/users";
 export default defineComponent({
   name: "RightDrawer",
   components: { AvatarImage },
   props: {
     serverMember: {
-      type: Object as PropType<
-        ServerMember & {
-          member: User;
-          roles: ServerRole[];
-        }
-      >,
+      type: Object as PropType<ServerMember>,
       required: true
     }
   },
@@ -49,11 +45,17 @@ export default defineComponent({
   },
   computed: {
     member(): any {
-      return this.serverMember.member;
+      return UsersModule.users[this.serverMember.id];
+    },
+    roles(): any {
+      return ServerRolesModule.bulkRolesById(
+        this.serverMember.server_id,
+        this.serverMember.roleIdArr
+      );
     },
     firstRoleColor(): any {
-      if (this.serverMember.roles[0]) {
-        return this.serverMember.roles[0].color;
+      if (this.roles[0]) {
+        return this.roles[0].color;
       }
       if (this.defaultRole && this.defaultRole.color) {
         return this.defaultRole.color;

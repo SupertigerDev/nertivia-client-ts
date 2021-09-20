@@ -4,55 +4,79 @@ import { ServerRolesModule } from "@/store/modules/serverRoles";
 
 import UserTemplate from "./UserTemplate.vue";
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const virtualList = require("vue-virtual-scroll-list");
+import VirtualList from "@supertiger/vue-3-virtual-scroll-list";
 
-import Vue from "vue";
-import { ExtraServerMembers } from "@/interfaces/ServerMember";
+import ServerMember from "@/interfaces/ServerMember";
 import ServerRole from "@/interfaces/ServerRole";
 
 import { defineComponent } from "vue";
+import { UsersModule } from "@/store/modules/users";
 export default defineComponent({
-  components: { UserTemplate, virtualList },
+  components: { UserTemplate, VirtualList },
   props: {
     search: String
   },
   render() {
-    const renderMembers = (members: any) => {
-      return members.map((member: any) => {
-        return (
-          <user-template
-            serverMember={member}
-            id={`user-${member.member.id}`}
-            style={{ height: "40px" }}
-          />
-        );
-      });
+    const renderTab = (name: string, count: number) => {
+      return count ? (
+        <div class="tab" style={{ height: "25px" }}>
+          {name} ({count})
+        </div>
+      ) : (
+        <template />
+      );
+    };
+
+    const renderMember = (member: any) => {
+      return (
+        <user-template
+          serverMember={member}
+          id={`user-${member.id}`}
+          style={{ height: "40px" }}
+        />
+      );
+    };
+
+    const unConsumedUserIds: string[] = this.rawMembers.map(m => m.id);
+    const renderDefaults = () => {
+      return [
+        renderTab(this.defaultRole?.name || "Online", unConsumedUserIds.length),
+        unConsumedUserIds.map((id, index) => {
+          unConsumedUserIds.splice(index, 1);
+          return renderMember(
+            ServerMembersModule.serverMembers[this.server_id][id]
+          );
+        })
+      ];
     };
     return (
       <div class="right-drawer" onClick={this.onClick}>
-        <div class="members" key={this.server_id}>
+        <div class="members" key={this.server_id + this.search}>
           <virtual-list
             ref="virtualList"
             size={260}
             remain={40}
             variable={true}
           >
-            {this.roleWithMembers.map((role: any) => {
-              return [
-                <div class="tab" style={{ height: "25px" }}>
-                  {role.role.name} ({role.members.length})
-                </div>,
-                renderMembers(role.members)
-              ];
-            })}
-            {this.membersWithNoRoles.length > 0 && (
-              <div class="tab" style={{ height: "25px" }}>
-                {this.defaultRole?.name ? this.defaultRole?.name : "Offline"} (
-                {this.membersWithNoRoles.length})
-              </div>
-            )}
-            {renderMembers(this.membersWithNoRoles)}
+            {...this.serverRoles
+              .filter(r => !r.hideRole)
+              .map(r => {
+                const members = this.rawMembers.filter(m => {
+                  if (!unConsumedUserIds.includes(m.id)) return false;
+                  if (!m.roleIdArr.includes(r.id)) return false;
+                  const index = unConsumedUserIds.indexOf(m.id);
+                  unConsumedUserIds.splice(index, 1);
+                  return true;
+                });
+                return [
+                  renderTab(r.name, members.length),
+
+                  members.map(member => {
+                    return renderMember(member);
+                  })
+                ];
+              })}
+            {...renderDefaults()}
           </virtual-list>
         </div>
       </div>
@@ -66,61 +90,26 @@ export default defineComponent({
       this.$emit("userClick", id);
     }
   },
-  watch: {
-    search() {
-      (this.$refs.virtualList as any).forceRender();
-    }
-  },
   computed: {
-    serverMembers(): ExtraServerMembers[] {
-      // sort by alphabet and filter search
-      return ServerMembersModule.filteredServerMembers(this.server_id)
-        .filter(m =>
-          !this.search
-            ? true
-            : m.member.username
-                .toLowerCase()
-                .includes(this.search.toLowerCase())
-        )
+    rawMembers(): ServerMember[] {
+      return Object.values(
+        ServerMembersModule.serverMembers[this.server_id] || {}
+      )
+        .filter(m => {
+          if (!this.search) return true;
+          const username = UsersModule.users[m.id].username.toLowerCase();
+          return username.toLowerCase().includes(this.search.toLowerCase());
+        })
         .sort((a, b) => {
-          const usernameA = a.member.username.toLowerCase();
-          const usernameB = b.member.username.toLowerCase();
+          const usernameA = UsersModule.users[a.id].username.toLowerCase();
+          const usernameB = UsersModule.users[b.id].username.toLowerCase();
           if (usernameA < usernameB) return -1;
           if (usernameA > usernameB) return 1;
           return 0;
         });
     },
-    roleWithMembers(): { role: ServerRole; members: ExtraServerMembers[] }[] {
-      const roleWithMembers: any[] = [];
-      const consumedMemberIds: string[] = [];
-      if (!this.serverRoles) return [];
-      for (let i = 0; i < this.serverRoles.length; i++) {
-        const role = this.serverRoles[i];
-        const members = this.members.filter(member => {
-          if (consumedMemberIds.includes(member.id)) return false;
-          const findRole = member.roles.find(r => r && !r.hideRole);
-          if (!findRole) return false;
-          if (role.id !== findRole.id) return false;
-          consumedMemberIds.push(member.id);
-          return true;
-        });
-        if (!members.length) continue;
-        roleWithMembers.push({ role, members });
-      }
-      return roleWithMembers;
-    },
-    members(): ExtraServerMembers[] {
-      return this.serverMembers;
-    },
     defaultRole(): ServerRole | undefined {
       return ServerRolesModule.defaultServerRole(this.server_id);
-    },
-    membersWithNoRoles(): ExtraServerMembers[] {
-      return this.members.filter(member => {
-        if (!member.roles.length) return true;
-        const roleExists = member.roles.find(r => r && !r.hideRole);
-        return !roleExists;
-      });
     },
     serverRoles(): ServerRole[] {
       return ServerRolesModule.sortedServerRolesArr(this.server_id);
