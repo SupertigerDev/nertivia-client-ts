@@ -25,7 +25,7 @@
 import { useWindowProperties } from "@/utils/windowProperties";
 import Message from "@/interfaces/Message";
 import { PopoutsModule } from "@/store/modules/popouts";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ImageMessageEmbed",

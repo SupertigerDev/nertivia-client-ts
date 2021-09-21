@@ -138,7 +138,7 @@ import { bitwiseRemove, bitwiseContains, bitwiseAdd } from "@/utils/bitwise";
 
 import { permissions } from "@/constants/rolePermissions";
 import CheckBox from "@/components/CheckBox.vue";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 import { toClipboard } from "@soerenmartius/vue3-clipboard";
 export default defineComponent({

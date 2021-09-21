@@ -47,7 +47,7 @@
 <script lang="ts">
 import ChangelogBulletTemplate from "./ChangelogBulletTemplate.vue";
 import { Changelog } from "@/services/updateService";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ChangelogTemplate",

@@ -39,7 +39,7 @@ import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChan
 import { MutedChannelsModule } from "@/store/modules/mutedChannels";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { emojiURL } from "@/utils/emojiParser";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import CallTemplate from "./CallTemplate.vue";
 import { defineComponent } from "vue";
 export default defineComponent({

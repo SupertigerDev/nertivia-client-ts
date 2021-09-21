@@ -127,7 +127,7 @@ import EditPanel from "./EditPanel.vue";
 import { MeModule } from "@/store/modules/me";
 import { MessagesModule } from "@/store/modules/messages";
 import { MessageInputModule } from "@/store/modules/messageInput";
-import Vue, { defineAsyncComponent } from "vue";
+import { defineAsyncComponent } from "vue";
 import { useWindowProperties } from "@/utils/windowProperties";
 import { editMessage, postTypingStatus } from "@/services/messagesService";
 import Message from "@/interfaces/Message";

@@ -17,7 +17,7 @@ import {
 import { applyFont } from "./utils/applyFont";
 import fonts from "@/utils/fonts.json";
 import { clear } from "idb-keyval";
-import Vue, { defineAsyncComponent } from "vue";
+import { defineAsyncComponent } from "vue";
 import { defineComponent } from "vue";
 import i18n from "./i18n";
 

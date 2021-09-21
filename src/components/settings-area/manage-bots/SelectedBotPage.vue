@@ -44,7 +44,7 @@ import EditCommands from "./EditCommands.vue";
 import User from "@/interfaces/User";
 import { getBot } from "@/services/botService";
 import TabLayout from "@/components/TabLayout.vue";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ManageChannels",

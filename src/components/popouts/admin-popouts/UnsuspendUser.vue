@@ -49,7 +49,7 @@ import CustomButton from "@/components/CustomButton.vue";
 import CustomInput from "@/components/CustomInput.vue";
 import CheckBox from "@/components/CheckBox.vue";
 import { unsuspendUser } from "@/services/adminService";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ProfilePopout",

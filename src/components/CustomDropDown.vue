@@ -54,7 +54,7 @@
 
 <script lang="ts">
 import AvatarImage from "@/components/AvatarImage.vue";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 
 interface Item {
   name: string;

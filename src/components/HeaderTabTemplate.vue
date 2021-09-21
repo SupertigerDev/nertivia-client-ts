@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import { Tab, TabsModule } from "@/store/modules/tabs";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { UsersModule } from "@/store/modules/users";
 import { ServersModule } from "@/store/modules/servers";

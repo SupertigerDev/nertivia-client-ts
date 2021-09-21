@@ -37,7 +37,7 @@
 <script lang="ts">
 import CustomButton from "@/components/CustomButton.vue";
 import CustomInput from "@/components/CustomInput.vue";
-import Vue, { defineComponent, PropType } from "vue";
+import { defineComponent, PropType } from "vue";
 interface Item {
   id: string;
   status: boolean;

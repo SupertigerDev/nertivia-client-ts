@@ -44,7 +44,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import Markup from "@/components/Markup";
 import VideoPlayer from "./VideoPlayer.vue";
 import Invite from "@/interfaces/Invite";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Bubble",

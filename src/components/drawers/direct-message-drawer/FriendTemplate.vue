@@ -48,7 +48,7 @@ import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
 import { MessagesModule } from "@/store/modules/messages";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { PopoutsModule } from "@/store/modules/popouts";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "FriendTemplate",

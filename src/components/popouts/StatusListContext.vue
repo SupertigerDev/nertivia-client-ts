@@ -15,7 +15,7 @@ import ContextMenu from "@/components/ContextMenu.vue";
 import userStatuses from "@/constants/userStatuses";
 import { changeStatus } from "@/services/userService";
 import { PopoutsModule } from "@/store/modules/popouts";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ProfileCard",

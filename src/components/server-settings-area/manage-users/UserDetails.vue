@@ -34,7 +34,6 @@ import { ServerRolesModule } from "@/store/modules/serverRoles";
 import CustomButton from "@/components/CustomButton.vue";
 import { ServersModule } from "@/store/modules/servers";
 import { bitwiseAdd, bitwiseContains } from "@/utils/bitwise";
-import Vue, { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "UserDetails",

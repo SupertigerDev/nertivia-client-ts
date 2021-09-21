@@ -27,7 +27,7 @@ import User from "@/interfaces/User";
 import { getReactedUsers } from "@/services/messagesService";
 import { MessagesModule } from "@/store/modules/messages";
 import { MeModule } from "@/store/modules/me";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 
 interface IProp {
   messageID: string;

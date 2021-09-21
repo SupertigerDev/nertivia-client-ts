@@ -19,7 +19,7 @@
 import { ExpandedUser } from "@/services/adminService";
 import date from "@/utils/date";
 import AvatarImage from "@/components/AvatarImage.vue";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "UserTemplate",

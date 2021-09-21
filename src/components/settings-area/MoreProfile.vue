@@ -62,7 +62,7 @@ import CustomDropDown from "@/components/CustomDropDown.vue";
 import InformationTemplate from "@/components/InformationTemplate.vue";
 import { ageGroups, continents, countries, genders } from "@/utils/surveyItems";
 import { AboutMe, updateSurvay } from "@/services/userService";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "MoreProfile",

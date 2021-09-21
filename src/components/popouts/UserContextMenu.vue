@@ -18,7 +18,7 @@ import { MeModule } from "@/store/modules/me";
 import { ServersModule } from "@/store/modules/servers";
 import { permissions } from "@/constants/rolePermissions";
 import User from "@/interfaces/User";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 import { toClipboard } from "@soerenmartius/vue3-clipboard";
 export default defineComponent({

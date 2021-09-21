@@ -13,7 +13,7 @@
 <script lang="ts">
 import Message from "@/interfaces/Message";
 import ReactionTemplate from "./ReactionTemplate.vue";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Reactions",

@@ -26,7 +26,7 @@ import Server from "@/interfaces/Server";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { LastSelectedServersModule } from "@/store/modules/lastSelectedServer";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "MainApp",

@@ -5,7 +5,7 @@
 <script lang="ts">
 import Channel from "@/interfaces/Channel";
 import { DrawersModule } from "@/store/modules/drawers";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import Mention from "./Mention.vue";
 
 import { defineComponent } from "vue";

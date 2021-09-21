@@ -22,7 +22,7 @@ import {
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { MeModule } from "@/store/modules/me";
 import { permissions } from "@/constants/rolePermissions";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 import { toClipboard } from "@soerenmartius/vue3-clipboard";
 export default defineComponent({

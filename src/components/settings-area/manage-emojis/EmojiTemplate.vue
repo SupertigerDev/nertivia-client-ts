@@ -34,7 +34,7 @@ import { deleteEmoji, updateEmoji } from "@/services/emojiService";
 import { CustomEmojisModule } from "@/store/modules/customEmojis";
 import { PopoutsModule } from "@/store/modules/popouts";
 import emojiParser from "@/utils/emojiParser";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "EmojiTemplate",

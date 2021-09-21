@@ -11,7 +11,7 @@ import { Embed } from "@/interfaces/Message";
 import GenericEmbed from "./GenericEmbed.vue";
 import ImageEmbed from "./ImageEmbed.vue";
 import YoutubeEmbed from "./YoutubeEmbed.vue";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "EmbedMessage",

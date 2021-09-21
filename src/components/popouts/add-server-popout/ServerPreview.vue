@@ -42,7 +42,7 @@ import CustomButton from "@/components/CustomButton.vue";
 import { ServersModule } from "@/store/modules/servers";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { joinServerByCode } from "@/services/serverService";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 
 interface Server {
   avatar: string;

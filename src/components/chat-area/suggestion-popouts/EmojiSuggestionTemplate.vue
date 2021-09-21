@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import emojiParser from "@/utils/emojiParser";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "EmojiSuggestionTemplate",

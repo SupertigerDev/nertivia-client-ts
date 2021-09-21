@@ -74,7 +74,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import CustomButton from "@/components/CustomButton.vue";
 import { applyTheme, unapplyTheme } from "@/utils/CSSTheme";
 import { createTheme } from "@/services/themeService";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ExploreThemeTemplate",

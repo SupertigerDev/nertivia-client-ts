@@ -49,7 +49,7 @@ import { useWindowProperties } from "@/utils/windowProperties";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
 import { fetchUser, ReturnedUser } from "@/services/userService";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 
 interface ServerMember {
   member: User;

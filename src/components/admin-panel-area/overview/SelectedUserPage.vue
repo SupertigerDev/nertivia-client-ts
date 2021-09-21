@@ -60,7 +60,7 @@ import UserTemplate from "./UserTemplate.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import CustomInput from "@/components/CustomInput.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "SelectedUserPage",

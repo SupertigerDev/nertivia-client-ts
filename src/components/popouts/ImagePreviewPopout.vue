@@ -21,7 +21,7 @@
 </template>
 <script lang="ts">
 import { PopoutsModule } from "@/store/modules/popouts";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import ButtonTemplate from "@/components/CustomButton.vue";
 import { defineComponent } from "vue";
 export default defineComponent({

@@ -29,7 +29,7 @@
 // TODO: remove resizeKeepAspect
 import resizeKeepAspect from "@/utils/resizeKeepAspect";
 import { useWindowProperties } from "@/utils/windowProperties";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "VideoPlayer",

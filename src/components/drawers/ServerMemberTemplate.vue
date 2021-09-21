@@ -35,7 +35,7 @@ import ServerRole from "@/interfaces/ServerRole";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { permissions } from "@/constants/rolePermissions";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 import { UsersModule } from "@/store/modules/users";
 export default defineComponent({

@@ -45,7 +45,7 @@
 import Invite from "@/interfaces/Invite";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 import { toClipboard } from "@soerenmartius/vue3-clipboard";
 export default defineComponent({

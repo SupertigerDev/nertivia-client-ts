@@ -33,7 +33,7 @@
 <script lang="ts">
 import CustomButton from "@/components/CustomButton.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ProfilePopout",

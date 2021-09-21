@@ -25,7 +25,7 @@ import Channel from "@/interfaces/Channel";
 import Server from "@/interfaces/Server";
 import Notification from "@/interfaces/Notification";
 import { ChannelsModule } from "@/store/modules/channels";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "DashboardNotificationItem",

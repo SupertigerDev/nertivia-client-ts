@@ -7,7 +7,7 @@
 <script lang="ts">
 import User from "@/interfaces/User";
 import { CallParticipant } from "@/store/modules/voiceChannels";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   props: {

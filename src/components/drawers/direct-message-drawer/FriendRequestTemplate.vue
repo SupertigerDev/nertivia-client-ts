@@ -60,7 +60,7 @@ import { acceptRequest, deleteFriend } from "@/services/relationshipService";
 import { ChannelsModule } from "@/store/modules/channels";
 import { PopoutsModule } from "@/store/modules/popouts";
 import CustomButton from "@/components/CustomButton.vue";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "FriendTemplate",

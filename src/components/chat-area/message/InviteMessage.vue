@@ -58,7 +58,7 @@ import AvatarImage from "@/components/AvatarImage.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import LoadingScreen from "@/components/LoadingScreen.vue";
 import { ServersModule } from "@/store/modules/servers";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "InviteMessage",

@@ -1,4 +1,4 @@
-import Vue, { createApp, reactive } from "vue";
+import { reactive } from "vue";
 // import throttle from "lodash/throttle";
 
 const data = reactive({
@@ -11,6 +11,14 @@ const data = reactive({
 data.resizeWidth = window.innerWidth;
 data.resizeHeight = window.innerHeight;
 
+function onResize() {
+  data.resizeWidth = window.innerWidth;
+  data.resizeHeight = window.innerHeight;
+}
+function onMouseDown(event: MouseEvent) {
+  data.lastClickedElement = event.target as any;
+}
+
 window.addEventListener("mousedown", onMouseDown);
 window.addEventListener("resize", onResize);
 window.addEventListener("focusin", event => {
@@ -22,14 +30,6 @@ window.addEventListener("focus", () => {
 window.addEventListener("blur", () => {
   data.isFocused = false;
 });
-
-function onResize() {
-  data.resizeWidth = window.innerWidth;
-  data.resizeHeight = window.innerHeight;
-}
-function onMouseDown(event: MouseEvent) {
-  data.lastClickedElement = event.target as any;
-}
 
 export function useWindowProperties() {
   return { ...data };

@@ -25,7 +25,7 @@
 <script lang="ts">
 import User from "@/interfaces/User";
 import { BotCommand } from "@/store/modules/botCommands";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ChannelSuggestionTemplate",

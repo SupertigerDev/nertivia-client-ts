@@ -26,7 +26,7 @@ import ServerMember from "@/interfaces/ServerMember";
 import User from "@/interfaces/User";
 import ServerRole from "@/interfaces/ServerRole";
 import { PopoutsModule } from "@/store/modules/popouts";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 import { UsersModule } from "@/store/modules/users";
 export default defineComponent({

@@ -12,7 +12,7 @@
 import ContextMenu from "@/components/ContextMenu.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { logout } from "@/services/userService";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "HomeHeaderContext",

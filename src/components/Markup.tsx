@@ -1,4 +1,4 @@
-import Vue, { h } from "vue";
+import { h } from "vue";
 
 import Message from "@/interfaces/Message";
 
@@ -52,16 +52,10 @@ const replaceOldMentions = (text: string) =>
     )
     .replaceAll(/<:([\w\d_-]+?):([\w\d_-]+?)>/g, "[custom_emoji:$2:$1]");
 
-const transformEntities = (
-  entity: Entity,
-  ctx: RenderContext
-) => entity.entities.map(e => transformEntity(e, ctx));
+const transformEntities = (entity: Entity, ctx: RenderContext) =>
+  entity.entities.map(e => transformEntity(e, ctx));
 
-const sliceText = (
-  ctx: any,
-  span: Span,
-  { countText = true } = {}
-) => {
+const sliceText = (ctx: any, span: Span, { countText = true } = {}) => {
   const text = ctx.props.text.slice(span.start, span.end);
   if (countText && !/^\s+$/.test(text)) {
     ctx.textCount += text.length;
@@ -84,20 +78,16 @@ function transformEntity(entity: Entity, ctx: any) {
     case "strikethrough": {
       // todo: style folding when there's no before/after for dom memory usage optimization
       // if(beforeSpan.start === beforeSpan.end && afterSpan.start === afterSpan.end) {}
-      return (
-        <span class={entity.type}>{transformEntities(entity, ctx)}</span>
-      );
+      return <span class={entity.type}>{transformEntities(entity, ctx)}</span>;
     }
     case "code": {
-      return (
-        <code class={entity.type}>{transformEntities(entity, ctx)}</code>
-      );
+      return <code class={entity.type}>{transformEntities(entity, ctx)}</code>;
     }
     case "codeblock": {
       if (!ctx.props.inline) {
         const lang = entity.params.lang;
         const value = sliceText(ctx, entity.innerSpan);
-        return h(CodeBlock, {  lang, value });
+        return h(CodeBlock, { lang, value });
       } else {
         // Inline codeblock I guess
         return (
@@ -124,7 +114,7 @@ function transformEntity(entity: Entity, ctx: any) {
     case "emoji": {
       const emoji = sliceText(ctx, entity.innerSpan, { countText: false });
       ctx.emojiCount += 1;
-      return h(Emoji, {  emoji: { unicode: emoji }  });
+      return h(Emoji, { emoji: { unicode: emoji } });
     }
     case "custom": {
       return transformCustomEntity(entity, ctx);
@@ -157,10 +147,7 @@ function transformEntity(entity: Entity, ctx: any) {
 
 type CustomEntity = Entity & { type: "custom" };
 
-function transformCustomEntity(
-  entity: CustomEntity,
-  ctx: any
-) {
+function transformCustomEntity(entity: CustomEntity, ctx: any) {
   const type = entity.params.type;
   const expr = sliceText(ctx, entity.innerSpan, { countText: false });
   switch (type) {
@@ -173,9 +160,7 @@ function transformCustomEntity(
       if (user) {
         ctx.textCount += expr.length;
         return h(MentionUser, {
-       
-            user: user
-          
+          user: user
         });
       }
       break;
@@ -184,7 +169,7 @@ function transformCustomEntity(
       const channel = ChannelsModule.channels[expr];
       if (channel && channel.server_id) {
         ctx.textCount += expr.length;
-        return h(MentionChannel, {  channel });
+        return h(MentionChannel, { channel });
       }
       break;
     }
@@ -206,11 +191,10 @@ function transformCustomEntity(
         if (quote && quoteFormat != "text") {
           ctx.textCount += expr.length;
           return h(MessageQuote, {
-              quote,
-              user: quote.creator,
-              message: ctx.props.message,
-              nestedLevel: (ctx.props.nestedLevel ?? 0) + 1
-            
+            quote,
+            user: quote.creator,
+            message: ctx.props.message,
+            nestedLevel: (ctx.props.nestedLevel ?? 0) + 1
           });
         }
       }
@@ -221,11 +205,9 @@ function transformCustomEntity(
       const [id, name] = expr.split(":");
       ctx.emojiCount += 1;
       return h(CustomEmoji, {
-
-          animated: type.startsWith("animated"),
-          emojiName: name,
-          emojiID: id
-        
+        animated: type.startsWith("animated"),
+        emojiName: name,
+        emojiID: id
       });
     }
     case "link": {
@@ -233,7 +215,7 @@ function transformCustomEntity(
 
       if (url && text) {
         ctx.textCount += text.length;
-        return h(Link, {  url: url, text: text  });
+        return h(Link, { url: url, text: text });
       }
 
       break;
@@ -278,31 +260,27 @@ function transformCustomEntity(
   return <span>{sliceText(ctx, entity.outerSpan)}</span>;
 }
 
-
 const Component = (props: MarkupProps) => {
-  
-  const ctx = {props, emojiCount: 0, textCount: 0 }
+  const ctx = { props, emojiCount: 0, textCount: 0 };
   ctx.props.text = replaceOldMentions(ctx.props.text);
   const entity = addTextSpans(parseMarkup(ctx.props.text));
-  const output = transformEntity( entity, ctx);
-
-
+  const output = transformEntity(entity, ctx);
 
   return (
     <span
-    class={{
-      "large-emoji":
-        !ctx.props?.inline &&
-        ctx.props?.largeEmoji &&
-        ctx.textCount === 0 &&
-        ctx.emojiCount <= 5,
-      inline: ctx.props?.inline
-    }}
-  >
-    {output}
-  </span>
-  )
-}
+      class={{
+        "large-emoji":
+          !ctx.props?.inline &&
+          ctx.props?.largeEmoji &&
+          ctx.textCount === 0 &&
+          ctx.emojiCount <= 5,
+        inline: ctx.props?.inline
+      }}
+    >
+      {output}
+    </span>
+  );
+};
 
 Component.props = {
   text: String,
@@ -319,6 +297,6 @@ Component.props = {
     type: Boolean,
     default: false
   }
-}
+};
 
 export default Component;

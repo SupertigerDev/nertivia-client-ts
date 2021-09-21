@@ -124,7 +124,7 @@ import { NotificationsModule } from "@/store/modules/notifications";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { PresencesModule } from "@/store/modules/presences";
 import { ReactiveLocalStorageModule } from "@/store/modules/reactiveLocalStorage";
-import Vue, { defineAsyncComponent } from "vue";
+import { defineAsyncComponent } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "NavBar",

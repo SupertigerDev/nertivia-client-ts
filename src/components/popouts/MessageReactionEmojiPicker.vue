@@ -18,7 +18,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import { addReaction } from "@/services/messagesService";
 import { MessagesModule } from "@/store/modules/messages";
 import { Reaction } from "@/interfaces/Message";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 
 interface IProp {
   messageID: string;

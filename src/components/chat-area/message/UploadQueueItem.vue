@@ -27,7 +27,7 @@
 import { ChannelsModule } from "@/store/modules/channels";
 import { ServersModule } from "@/store/modules/servers";
 import fileSize from "filesize";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "UploadQueueItem",

@@ -6,7 +6,7 @@
 </template>
 <script lang="ts">
 import Channel from "@/interfaces/Channel";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "InviteTemplate",

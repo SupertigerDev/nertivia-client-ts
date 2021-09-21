@@ -77,7 +77,7 @@ import { ServersModule } from "@/store/modules/servers";
 import { PopoutsModule } from "@/store/modules/popouts";
 import CustomButton from "@/components/CustomButton.vue";
 import { joinServerById } from "@/services/serverService";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ExploreServerTemplate",

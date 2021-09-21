@@ -16,7 +16,7 @@ import { MeModule } from "@/store/modules/me";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { leaveServer } from "@/services/serverService";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 import { toClipboard } from "@soerenmartius/vue3-clipboard";
 export default defineComponent({

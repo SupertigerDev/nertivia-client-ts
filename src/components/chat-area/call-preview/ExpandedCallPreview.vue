@@ -58,7 +58,7 @@ import {
   CallParticipant,
   voiceChannelModule
 } from "@/store/modules/voiceChannels";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import CallTemplate from "./ExpandedCallTemplate.vue";
 import BigPreview from "./BigPreview.vue";
 import { joinCall, leaveCall } from "@/services/voiceService";

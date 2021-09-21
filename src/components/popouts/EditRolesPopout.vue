@@ -43,7 +43,7 @@ import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { addRole, removeRole } from "@/services/userService";
 import { ServersModule } from "@/store/modules/servers";
 import { MeModule } from "@/store/modules/me";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ProfilePopout",

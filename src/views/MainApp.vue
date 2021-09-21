@@ -49,7 +49,7 @@ import { FriendsModule } from "@/store/modules/friends";
 import { LastSelectedServersModule } from "@/store/modules/lastSelectedServer";
 import { AppUpdateModule } from "@/store/modules/appUpdate";
 import { applyTheme } from "@/utils/CSSTheme";
-import Vue, { defineAsyncComponent } from "vue";
+import { defineAsyncComponent } from "vue";
 import { TabsModule } from "@/store/modules/tabs";
 import { defineComponent } from "vue";
 import store from "@/store";

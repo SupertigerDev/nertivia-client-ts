@@ -17,7 +17,7 @@
 <script lang="ts">
 import { Theme } from "@/services/themeService";
 import ThemeList from "./ThemeList.vue";
-import Vue, { defineAsyncComponent } from "vue";
+import { defineAsyncComponent } from "vue";
 
 const Editor = defineAsyncComponent(() => import("./Editor.vue"));
 const PublishOptions = defineAsyncComponent(() =>

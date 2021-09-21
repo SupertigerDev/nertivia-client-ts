@@ -81,7 +81,7 @@ import CustomButton from "@/components/CustomButton.vue";
 import CustomInput from "@/components/CustomInput.vue";
 import { Theme } from "@/services/themeService";
 import InformationTemplate from "@/components/InformationTemplate.vue";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "PublishOptions",

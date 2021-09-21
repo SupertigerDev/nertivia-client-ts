@@ -45,7 +45,7 @@
 
 <script lang="ts">
 import { useWindowProperties } from "@/utils/windowProperties";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 
 interface ItemsProp {
   name?: string;

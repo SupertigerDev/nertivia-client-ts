@@ -12,7 +12,7 @@
 <script lang="ts">
 import Message from "@/interfaces/Message";
 import ButtonTemplate from "./ButtonTemplate.vue";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "MessageSide",

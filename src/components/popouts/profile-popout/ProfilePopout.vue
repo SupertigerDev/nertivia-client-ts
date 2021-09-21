@@ -176,7 +176,7 @@ import Server from "@/interfaces/Server";
 import { ServersModule } from "@/store/modules/servers";
 import User from "@/interfaces/User";
 import { getBadges } from "@/constants/badges";
-import Vue, { defineAsyncComponent, PropType } from "vue";
+import { defineAsyncComponent, PropType } from "vue";
 import { defineComponent } from "vue";
 const SafeHtml = defineAsyncComponent(() =>
   import("@/components/SafeHtml.vue")

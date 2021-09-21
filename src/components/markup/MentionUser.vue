@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import User from "@/interfaces/User";
 import Mention from "./Mention.vue";
 import AvatarImage from "@/components/AvatarImage.vue";

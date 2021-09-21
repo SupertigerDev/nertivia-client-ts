@@ -39,7 +39,7 @@
 import { ThemePreview } from "@/services/themeService";
 import CustomButton from "@/components/CustomButton.vue";
 import { applyTheme, unapplyTheme } from "@/utils/CSSTheme";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ThemeTemplate",

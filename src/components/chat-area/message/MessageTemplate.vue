@@ -67,7 +67,7 @@ import { time } from "@/utils/date";
 import { PopoutsModule } from "@/store/modules/popouts";
 import HTMLEmbed from "./HTMLEmbed.vue";
 import { UsersModule } from "@/store/modules/users";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import User from "@/interfaces/User";
 import { defineComponent } from "vue";
 export default defineComponent({

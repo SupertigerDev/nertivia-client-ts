@@ -49,7 +49,7 @@ import { FriendsModule, FriendStatus } from "@/store/modules/friends";
 import { MeModule } from "@/store/modules/me";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { PopoutsModule } from "@/store/modules/popouts";
-import Vue, { defineAsyncComponent } from "vue";
+import { defineAsyncComponent } from "vue";
 import { defineComponent } from "vue";
 const FriendList = defineAsyncComponent(() =>
   import("@/components/drawers/direct-message-drawer/FriendList.vue")

@@ -19,7 +19,7 @@
 <script lang="ts">
 import { Embed } from "@/interfaces/Message";
 import { PopoutsModule } from "@/store/modules/popouts";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "GenericEmbed",

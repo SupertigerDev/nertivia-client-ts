@@ -6,7 +6,7 @@ import User from "@/interfaces/User";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import Markup from "@/components/Markup";
 import { emitter } from "@/utils/globalBus";
-import Vue, { h } from "vue";
+import { h } from "vue";
 import Message from "@/interfaces/Message";
 
 import { defineComponent } from "vue";

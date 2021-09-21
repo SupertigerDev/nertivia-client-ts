@@ -16,7 +16,7 @@
 </template>
 <script lang="ts">
 import { Badge } from "@/constants/badges";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Badges",

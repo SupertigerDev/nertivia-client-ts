@@ -14,7 +14,7 @@
 <script lang="ts">
 import { CallParticipant } from "@/store/modules/voiceChannels";
 import Avatar from "@/components/AvatarImage.vue";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   components: { Avatar },

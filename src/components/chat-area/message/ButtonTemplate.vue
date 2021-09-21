@@ -10,7 +10,7 @@ import Message, { Button } from "@/interfaces/Message";
 import Markup from "@/components/Markup";
 import { buttonClick } from "@/services/messagesService";
 import { PopoutsModule } from "@/store/modules/popouts";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "MessageSide",

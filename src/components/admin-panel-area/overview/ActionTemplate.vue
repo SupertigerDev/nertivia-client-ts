@@ -12,7 +12,7 @@
 import date from "@/utils/date";
 import { Action } from "@/services/adminService";
 import CustomButton from "@/components/CustomButton.vue";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ActionTemplate",

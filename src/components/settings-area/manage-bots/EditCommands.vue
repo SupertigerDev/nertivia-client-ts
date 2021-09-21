@@ -53,7 +53,7 @@ import CustomButton from "@/components/CustomButton.vue";
 import InformationTemplate from "@/components/InformationTemplate.vue";
 import { updateBot } from "@/services/botService";
 import User from "@/interfaces/User";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Account",

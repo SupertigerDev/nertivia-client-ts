@@ -36,7 +36,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import MessageSide from "./MessageSide.vue";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import i18n from "@/i18n";
-import Vue, { PropType } from "vue";
+import { PropType } from "vue";
 
 const types = [
   {},
