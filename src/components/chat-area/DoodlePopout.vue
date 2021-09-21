@@ -143,11 +143,16 @@ export default defineComponent({
   beforeUnmount() {
     if (!this.paint) return;
     if (!this.loaded) return;
-    set("doodlepad", {
-      strokeHistory: this.paint?.strokeHistory,
-      strokeColor: this.strokeColor,
-      backgroundColor: this.backgroundColor
-    });
+    set(
+      "doodlepad",
+      JSON.parse(
+        JSON.stringify({
+          strokeHistory: this.paint?.strokeHistory,
+          strokeColor: this.strokeColor,
+          backgroundColor: this.backgroundColor
+        })
+      )
+    );
     document.removeEventListener("keydown", this.onKeyDown);
   },
   methods: {

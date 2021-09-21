@@ -7,7 +7,7 @@ import { addRecentEmoji, getRecentEmojis } from "@/utils/recentEmojiManager";
 import emojiParser from "@/utils/emojiParser";
 import { CustomEmojisModule } from "@/store/modules/customEmojis";
 import { insert } from "text-field-edit";
-import { defineComponent, h } from "vue";
+import { computed, defineComponent, h } from "vue";
 
 export default defineComponent({
   props: ["inputElement"],
@@ -40,10 +40,14 @@ export default defineComponent({
       />
     );
 
-    const category = name => <div class="category">{name}</div>;
+    const category = name => (
+      <div class="category" style={{ height: "37px" }}>
+        {name}
+      </div>
+    );
 
     const emojiRow = arr => (
-      <div class="emoji-row">
+      <div class="emoji-row" style={{ height: "37px" }}>
         <div class="wrapper">
           {arr.map(e =>
             h(EmojiTemplate, {
@@ -60,7 +64,7 @@ export default defineComponent({
     const mapEmojis = arr => arr.map(row => emojiRow(row));
 
     const block = (name, arr, addButton?) => {
-      const components = [category(name), mapEmojis(arr)];
+      const components = [category(name), ...mapEmojis(arr)];
       if (addButton && !this.customEmojis.length) {
         components.push(
           h(EmojiTemplate, {
@@ -77,34 +81,54 @@ export default defineComponent({
       this.emojiWithGroup.map((g: any, i) => {
         if (g.gname) {
           return (
-            <div class="category">
+            <div class="category" style={{ height: "37px" }}>
               <div class="name">{g.gname}</div>
             </div>
           );
         }
-        return <div key={g.gname + i.toString()}>{emojiRow(g || [])}</div>;
+        return (
+          <div key={g.gname + i.toString()} style={{ height: "37px" }}>
+            {emojiRow(g || [])}
+          </div>
+        );
       });
 
-    const showRecents = !this.search.trim() && this.allRecentEmojis.length;
-    const showCustom = !this.search.trim();
-    const showDefault = !this.search.trim();
-    const showSearch = this.search.trim();
+    const items = computed(() => {
+      const showRecents = !this.search.trim() && this.allRecentEmojis.length;
+      const showCustom = !this.search.trim();
+      const showDefault = !this.search.trim();
+      const showSearch = this.search.trim();
+      let items: any = [];
+
+      if (showRecents)
+        items = [...items, ...block("Recents", this.allRecentEmojis)];
+      if (showCustom)
+        items = [
+          ...items,
+          ...block("Custom Emojis", this.allCustomEmojis, true)
+        ];
+      if (showDefault) items = [...items, defaultEmojis()];
+      if (showSearch)
+        items = [...items, ...block("Results", this.allSearchEmojis)];
+      return items;
+    });
 
     const emojisList = (
       <div class="emojis-list">
-        <VirtualList size={37} remain={11} ref="virtualList">
-          {...[
-            !!showRecents && block("Recents", this.allRecentEmojis),
-            !!showCustom && block("Custom Emojis", this.allCustomEmojis, true),
-            !!showDefault && defaultEmojis(),
-            !!showSearch && block("Results", this.allSearchEmojis)
-          ]}
+        <VirtualList
+          key={this.customEmojis.length}
+          size={37}
+          remain={11}
+          variable={true}
+          ref="virtualList"
+        >
+          {...items.value}
         </VirtualList>
       </div>
     );
 
     return (
-      <div v-click-outside="backgroundClick" class="emoji-panel">
+      <div v-click-outside={e => this.backgroundClick(e)} class="emoji-panel">
         <div class="emoji-panel-inner">
           {h(Tabs as any, { onClick: this.tabClicked })}
           {input}
@@ -275,9 +299,11 @@ export default defineComponent({
     tabClicked(index) {
       const virtualList = this.$refs.virtualList as any;
       const ROW_SIZE = 37;
-      let recentRows = this.allRecentEmojis.length + 1;
-      let customEmojiRows = this.allCustomEmojis.length + 1;
-      if (!this.allCustomEmojis.length) customEmojiRows = 2;
+      let recentRows = this.allRecentEmojis.length;
+      let customEmojiRows = this.allCustomEmojis.length;
+      if (customEmojiRows) customEmojiRows++;
+      if (recentRows) recentRows++;
+
       if (index === "RECENTS") {
         virtualList.setScrollTop(0);
         return;
@@ -286,11 +312,12 @@ export default defineComponent({
         virtualList.setScrollTop(recentRows * ROW_SIZE);
         return;
       }
+
       const rowIndex = this.emojiWithGroup.findIndex(
         (r: any) => r.gname === index
       );
       virtualList.setScrollTop(
-        (recentRows + customEmojiRows + rowIndex) * ROW_SIZE - ROW_SIZE
+        (recentRows + customEmojiRows + rowIndex) * ROW_SIZE
       );
     },
     findGroupEmojiPos(unicode) {
@@ -328,6 +355,9 @@ export default defineComponent({
         ...filterCustomEmoji,
         ...filterEmoji
       ]);
+    },
+    customEmojis() {
+      this.allCustomEmojis = this.arrToRows(this.customEmojis);
     }
   },
   computed: {
