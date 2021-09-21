@@ -29,9 +29,9 @@
     </div>
     <div
       class="tool-tip"
-      :class="{ hidden: !this.tabShown }"
+      :class="{ hidden: !tabShown }"
       ref="toolTip"
-      :style="{ left: tabLeftPos }"
+      :style="{ left: tabLeftPos || 0 }"
     >
       Recents
     </div>
@@ -51,7 +51,7 @@ export default defineComponent({
   props: {
     pos: {
       type: Object as PropType<{ x?: number; y?: number }>,
-      required: true
+      required: false
     }
   },
   data() {
@@ -90,6 +90,10 @@ export default defineComponent({
       this.tabLeftPos = tabLeftPos - toolTipCenter + 17 + "px";
     },
     tabClicked(i: number | string) {
+      if (typeof i === "number") {
+        this.$emit("click", (emojiParser.allGroups as any)[i]);
+        return;
+      }
       this.$emit("click", i);
     },
     tabLeave() {

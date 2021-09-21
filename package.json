@@ -12,7 +12,7 @@
     "@hcaptcha/vue-hcaptcha": "^0.3.0",
     "@simonwep/pickr": "^1.8.0",
     "@soerenmartius/vue3-clipboard": "^0.1.2",
-    "@supertiger/vue-3-virtual-scroll-list": "^1.0.6",
+    "@supertiger/vue-3-virtual-scroll-list": "^1.0.8",
     "@vue/compat": "^3.2.11",
     "@vue/compiler-sfc": "^3.2.11",
     "base64-arraybuffer": "^0.1.4",

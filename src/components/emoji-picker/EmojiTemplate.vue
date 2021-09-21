@@ -21,16 +21,16 @@
 </template>
 
 <script lang="tsx">
-import Vue from "vue";
+import { defineComponent } from "vue";
 
-export default {
+export default defineComponent({
   props: ["emoji", "addEmojiButton"],
   data() {
     return {
       customEmojiUrl: process.env.VUE_APP_NERTIVIA_CDN + "emojis/"
     };
   }
-};
+});
 </script>
 
 <style lang="scss" scoped>

@@ -1,25 +1,25 @@
-<script lang="jsx">
+<script lang="tsx">
 import EmojiTemplate from "./EmojiTemplate.vue";
 import Preview from "./Preview.vue";
-// import VirtualList from "vue-virtual-scroll-list";
+import VirtualList from "@supertiger/vue-3-virtual-scroll-list";
 import Tabs from "./Tabs.vue";
 import { addRecentEmoji, getRecentEmojis } from "@/utils/recentEmojiManager";
 import emojiParser from "@/utils/emojiParser";
 import { CustomEmojisModule } from "@/store/modules/customEmojis";
 import { insert } from "text-field-edit";
-import Vue from "vue";
+import { defineComponent, h } from "vue";
 
-export default {
+export default defineComponent({
   props: ["inputElement"],
-  emits: ["click"],
-  components: {  EmojiTemplate, Tabs, Preview },
+  emits: ["click", "close"],
+  components: { EmojiTemplate, Tabs, Preview },
   data() {
     return {
       emojiWithGroup: [],
       allRecentEmojis: [],
       allCustomEmojis: [],
       allSearchEmojis: [],
-      hoveredEmoji: null,
+      hoveredEmoji: null as any,
       search: ""
     };
   },
@@ -33,11 +33,9 @@ export default {
         class="input"
         ref="search"
         placeholder="Search"
-        domProps={{ value: this.search }}
-        on={{
-          input: function(event) {
-            self.search = event.target.value;
-          }
+        value={this.search}
+        onInput={(event: any) => {
+          self.search = event?.target?.value;
         }}
       />
     );
@@ -47,48 +45,45 @@ export default {
     const emojiRow = arr => (
       <div class="emoji-row">
         <div class="wrapper">
-          {arr.map(e => (
-            <EmojiTemplate
-              key={e.id}
-              emoji={e}
-              nativeOn={{
-                click: () => this.emojiClick(e),
-                mouseover: () => this.onEmojiHover(e)
-              }}
-            />
-          ))}
+          {arr.map(e =>
+            h(EmojiTemplate, {
+              key: e.id,
+              emoji: e,
+              onClick: () => this.emojiClick(e),
+              onMouseover: () => this.onEmojiHover(e)
+            })
+          )}
         </div>
       </div>
     );
 
     const mapEmojis = arr => arr.map(row => emojiRow(row));
 
-    const block = (name, arr, addButton) => {
+    const block = (name, arr, addButton?) => {
       const components = [category(name), mapEmojis(arr)];
       if (addButton && !this.customEmojis.length) {
         components.push(
-          <EmojiTemplate
-            addEmojiButton={true}
-            nativeOn={{
-              click: () => this.emojiClick(null, true),
-              mouseover: () => this.onEmojiHover(null, true)
-            }}
-          />
+          h(EmojiTemplate, {
+            addEmojiButton: true,
+            onClick: () => this.emojiClick(null, true),
+            onMouseover: () => this.onEmojiHover(null, true)
+          })
         );
       }
       return components;
     };
 
-    const defaultEmojis = this.emojiWithGroup.map((g, i) => {
-      if (g.gname) {
-        return (
-          <div class="category">
-            <div class="name">{g.gname}</div>
-          </div>
-        );
-      }
-      return <div key={g.gname + i.toString()}>{emojiRow(g || [])}</div>;
-    });
+    const defaultEmojis = () =>
+      this.emojiWithGroup.map((g: any, i) => {
+        if (g.gname) {
+          return (
+            <div class="category">
+              <div class="name">{g.gname}</div>
+            </div>
+          );
+        }
+        return <div key={g.gname + i.toString()}>{emojiRow(g || [])}</div>;
+      });
 
     const showRecents = !this.search.trim() && this.allRecentEmojis.length;
     const showCustom = !this.search.trim();
@@ -97,19 +92,21 @@ export default {
 
     const emojisList = (
       <div class="emojis-list">
-          {[
+        <VirtualList size={37} remain={11} ref="virtualList">
+          {...[
             !!showRecents && block("Recents", this.allRecentEmojis),
             !!showCustom && block("Custom Emojis", this.allCustomEmojis, true),
-            !!showDefault && defaultEmojis,
+            !!showDefault && defaultEmojis(),
             !!showSearch && block("Results", this.allSearchEmojis)
           ]}
+        </VirtualList>
       </div>
     );
 
     return (
       <div v-click-outside="backgroundClick" class="emoji-panel">
         <div class="emoji-panel-inner">
-          <Tabs onClick={this.tabClicked} />
+          {h(Tabs as any, { onClick: this.tabClicked })}
           {input}
           {emojisList}
           <Preview hoveredEmoji={this.hoveredEmoji} />
@@ -120,7 +117,7 @@ export default {
 
   mounted() {
     if (!this.$isMobile) {
-      this.$refs.search.focus();
+      (this.$refs.search as any).focus();
     }
     window.setTimeout(() => {
       const z = performance.now();
@@ -139,7 +136,7 @@ export default {
       this.emojiWithGroup = this.emojisWithGroup();
       const o = performance.now();
       console.log("emojis took " + Math.round(o - z) + "ms to load.");
-      this.$refs.virtualList.forceRender();
+      (this.$refs.virtualList as any).forceRender();
     });
   },
 
@@ -150,7 +147,7 @@ export default {
     backgroundClick(event) {
       if (!event.target.closest(".emoji-button")) this.close();
     },
-    onEmojiHover(em, addButton) {
+    onEmojiHover(em, addButton?) {
       if (addButton) {
         this.hoveredEmoji = {
           annotation: "Add Custom Emojis!",
@@ -166,7 +163,7 @@ export default {
     emojisWithGroup() {
       const emojis = emojiParser.allEmojis;
       const groups = emojiParser.allGroups;
-      const emojisWithGroups = [];
+      const emojisWithGroups: any = [];
       const row = 10;
       let rowIndex = 0;
       let rowItemIndex = 0;
@@ -200,7 +197,7 @@ export default {
       return emojisWithGroups;
     },
     allRecentEmojisArr() {
-      const emojis = [];
+      const emojis: any = [];
       for (let index = 0; index < this.recentEmojis.length; index++) {
         const shortcode = this.recentEmojis[index];
 
@@ -242,7 +239,7 @@ export default {
     arrToRows(emojis) {
       const row = 10;
       let rowIndex = 0;
-      const newArr = [];
+      const newArr: any = [];
       for (let index = 0; index < emojis.length; index++) {
         const emoji = {
           ...emojis[index],
@@ -260,7 +257,7 @@ export default {
       }
       return newArr;
     },
-    emojiClick(emoji, addButton) {
+    emojiClick(emoji, addButton?) {
       if (addButton) {
         this.$router.push("/app/settings/manage-emojis");
         return;
@@ -276,23 +273,23 @@ export default {
       this.close();
     },
     tabClicked(index) {
+      const virtualList = this.$refs.virtualList as any;
       const ROW_SIZE = 37;
       let recentRows = this.allRecentEmojis.length + 1;
       let customEmojiRows = this.allCustomEmojis.length + 1;
-      if (!this.allRecentEmojis.length) recentRows = 0;
       if (!this.allCustomEmojis.length) customEmojiRows = 2;
       if (index === "RECENTS") {
-        this.$refs.virtualList.setScrollTop(0);
+        virtualList.setScrollTop(0);
         return;
       }
       if (index === "CUSTOM") {
-        this.$refs.virtualList.setScrollTop(recentRows * ROW_SIZE);
+        virtualList.setScrollTop(recentRows * ROW_SIZE);
         return;
       }
       const rowIndex = this.emojiWithGroup.findIndex(
-        r => r.find && r.find(e => e.group === index)
+        (r: any) => r.gname === index
       );
-      this.$refs.virtualList.setScrollTop(
+      virtualList.setScrollTop(
         (recentRows + customEmojiRows + rowIndex) * ROW_SIZE - ROW_SIZE
       );
     },
@@ -302,7 +299,7 @@ export default {
   },
   watch: {
     search(val) {
-      this.$refs.virtualList.forceRender();
+      (this.$refs.virtualList as any).forceRender();
       const trimmed = val.trim();
       if (!trimmed.length) {
         return;
@@ -334,14 +331,14 @@ export default {
     }
   },
   computed: {
-    recentEmojis() {
+    recentEmojis(): any {
       return getRecentEmojis();
     },
-    customEmojis() {
+    customEmojis(): any {
       return CustomEmojisModule.customEmojis;
     }
   }
-};
+});
 </script>
 
 <style scoped lang="scss">

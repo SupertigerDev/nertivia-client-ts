@@ -21,7 +21,7 @@ export default defineComponent({
   props: {
     hoveredEmoji: {
       type: Object as any,
-      required: true
+      required: false
     }
   },
   computed: {
