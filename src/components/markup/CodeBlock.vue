@@ -1,7 +1,7 @@
 <template>
   <div class="codeblock">
     <div class="header">
-      <div class="language">{{ langName || "Text" }}</div>
+      <div class="language">{{ langName || lang || "Text" }}</div>
       <div class="material-icons" @click="copy">
         content_copy
       </div>
@@ -30,9 +30,12 @@ export default defineComponent({
     langName(): string | undefined {
       return hljs.getLanguage(this.lang as string)?.name;
     },
+    // codeOrlanguageName: string, optionsOrCode: string | HighlightOptions, ignoreIllegals?: boolean | undefined, continuation?: Mode | undefined
     highlightedValue(): string {
-      return hljs.highlight(this.lang as string, this.value as string, true)
-        ?.value;
+      return hljs.highlight(this.value as string, {
+        ignoreIllegals: true,
+        language: this.lang as string
+      })?.value;
     }
   }
 });
