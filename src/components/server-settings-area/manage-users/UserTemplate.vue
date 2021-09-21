@@ -23,8 +23,6 @@
 import AvatarImage from "@/components/AvatarImage.vue";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
 import ServerMember from "@/interfaces/ServerMember";
-import User from "@/interfaces/User";
-import ServerRole from "@/interfaces/ServerRole";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { PropType } from "vue";
 import { defineComponent } from "vue";
