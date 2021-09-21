@@ -160,7 +160,7 @@ export default defineComponent({
     itemHover(item: any, event: any) {
       this.currentHoveringItem = item;
       window.setTimeout(() => {
-        if (item !== this.currentHoveringItem) return;
+        if (item.id !== this.currentHoveringItem?.id) return;
         if (item.type === "seperator") return;
         this.$emit("itemHover", {
           item,

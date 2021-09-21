@@ -9,7 +9,6 @@
       :animateMessage="messageTransition"
       key="messages"
       :channelID="channelID"
-      class="message"
     />
     <transition name="upload-queue" tag="div">
       <UploadQueueComponent v-if="uploadQueue.length" key="upload-queue" />
