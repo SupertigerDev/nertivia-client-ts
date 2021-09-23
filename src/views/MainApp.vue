@@ -28,7 +28,6 @@
 </template>
 
 <script lang="ts">
-import socketIOModule from "@/store/modules/socketIO/socketIOModule";
 import { ServersModule } from "@/store/modules/servers";
 import { UsersModule } from "@/store/modules/users";
 import { MeModule } from "@/store/modules/me";
@@ -116,9 +115,6 @@ export default defineComponent({
     }
   },
   mounted() {
-    // set store and connect socket.
-    store.registerModule("socketIO", socketIOModule);
-
     this.$socket.connect();
     if (window.BroadcastChannel) {
       const channel = new BroadcastChannel("sw-messages");

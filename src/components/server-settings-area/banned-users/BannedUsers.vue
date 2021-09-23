@@ -55,7 +55,7 @@ export default defineComponent({
   methods: {
     userUnbanned(index: number) {
       if (!this.bans) return;
-      delete this.bans[index];
+      this.bans.splice(index, 1);
     }
   }
 });

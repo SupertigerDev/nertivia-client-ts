@@ -28,7 +28,26 @@ import {
   SERVER_CREATE_ROLE,
   SERVER_UPDATE_ROLE,
   SERVER_REMOVE_ROLE,
-  SERVER_MUTE
+  SERVER_MUTE,
+  USER_STATUS_CHANGE,
+  SELF_STATUS_CHANGE,
+  USER_JOINED_CALL,
+  USER_LEFT_CALL,
+  VOICE_RECEIVE_SIGNAL,
+  VOICE_RECEIVE_RETURN_SIGNAL,
+  CUSTOM_STATUS_CHANGE,
+  SELF_CUSTOM_STATUS_CHANGE,
+  PROGRAM_ACTIVITY_CHANGED,
+  GOOGLE_DRIVE_LINKED,
+  USER_BLOCKED,
+  USER_UNBLOCKED,
+  RELATIONSHIP_ACCEPT,
+  RELATIONSHIP_REMOVE,
+  RELATIONSHIP_ADD,
+  CUSTOM_EMOJI_REMOVE,
+  CUSTOM_EMOJI_RENAME,
+  CUSTOM_EMOJI_UPLOADED,
+  UPDATE_MESSAGE_REACTION
 } from "@/socketEventConstants";
 import { io } from "socket.io-client";
 import * as connectionEvents from "./events/connectionEvents";
@@ -36,6 +55,10 @@ import * as messageEvents from "./events/messageEvents";
 import * as channelEvents from "./events/channelEvents";
 import * as notificationEvents from "./events/notificationEvents";
 import * as serverEvents from "./events/serverEvents";
+import * as userEvents from "./events/userEvents";
+import * as callEvents from "./events/callEvents";
+import * as relationshipEvents from "./events/relationshipEvents";
+import * as customEmojiEvents from "./events/customEmojiEvents";
 
 export const socket = io(process.env.VUE_APP_SOCKET_URL as string, {
   autoConnect: false,
@@ -52,6 +75,9 @@ socket.on(AUTH_ERROR, data => connectionEvents.onAuthError(socket, data));
 socket.on(RECEIVE_MESSAGE, data => messageEvents.onMessage(socket, data));
 socket.on(UPDATE_MESSAGE, data => messageEvents.onMessageUpdate(socket, data));
 socket.on(DELETE_MESSAGE, data => messageEvents.onMessageDelete(socket, data));
+socket.on(UPDATE_MESSAGE_REACTION, data =>
+  messageEvents.onReactionUpdate(socket, data)
+);
 
 // channel events
 socket.on(CHANNEL_CREATED, data => channelEvents.onChannelCreated(data));
@@ -95,3 +121,36 @@ socket.on(SERVER_REMOVE_ROLE, data => serverEvents.onRoleRemoved(data));
 socket.on(SERVER_MUTE, data => serverEvents.onMute(data));
 socket.on(SERVER_MEMBER_ADD, data => serverEvents.onMemberAdd(data));
 socket.on(SERVER_MEMBER_REMOVE, data => serverEvents.onMemberRemove(data));
+
+// user events
+socket.on(USER_STATUS_CHANGE, data => userEvents.onStatusChange(data));
+socket.on(SELF_STATUS_CHANGE, data => userEvents.onSelfStatusChange(data));
+socket.on(CUSTOM_STATUS_CHANGE, data => userEvents.onCustomStatusChange(data));
+socket.on(SELF_CUSTOM_STATUS_CHANGE, data =>
+  userEvents.onSelfCustomStatusChange(data)
+);
+socket.on(PROGRAM_ACTIVITY_CHANGED, data =>
+  userEvents.onProgramActivityChange(data)
+);
+socket.on(GOOGLE_DRIVE_LINKED, () => userEvents.onGoogleDriveLinked());
+socket.on(USER_BLOCKED, data => userEvents.onUserBlocked(data));
+socket.on(USER_UNBLOCKED, data => userEvents.onUserUnblocked(data));
+
+// call events
+socket.on(USER_JOINED_CALL, data => callEvents.onJoin(data));
+socket.on(USER_LEFT_CALL, data => callEvents.onLeave(data));
+socket.on(VOICE_RECEIVE_SIGNAL, data => callEvents.onReceiveSignal(data));
+socket.on(VOICE_RECEIVE_RETURN_SIGNAL, data =>
+  callEvents.onReceiveReturnSignal(data)
+);
+
+// relationship events
+socket.on(RELATIONSHIP_ACCEPT, data => relationshipEvents.onAccept(data));
+socket.on(RELATIONSHIP_REMOVE, data => relationshipEvents.onRemove(data));
+socket.on(RELATIONSHIP_ADD, data => relationshipEvents.onAdd(data));
+
+// customEmoji Events
+
+socket.on(CUSTOM_EMOJI_UPLOADED, data => customEmojiEvents.onUploaded(data));
+socket.on(CUSTOM_EMOJI_RENAME, data => customEmojiEvents.onRenamed(data));
+socket.on(CUSTOM_EMOJI_REMOVE, data => customEmojiEvents.onRemoved(data));

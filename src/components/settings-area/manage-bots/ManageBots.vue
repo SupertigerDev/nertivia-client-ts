@@ -76,7 +76,7 @@ export default defineComponent({
     },
     botDeleted() {
       if (!this.bots) return;
-      delete this.bots[this.selectedBotIndex];
+      this.bots.splice(this.selectedBotIndex, 1);
       this.selectedBotIndex = -1;
     },
     createBot() {

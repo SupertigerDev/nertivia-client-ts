@@ -100,7 +100,7 @@ export default defineComponent({
     },
     deleteCommand(index: number) {
       this.showSaveButton = true;
-      delete this.localBotCommands[index];
+      this.localBotCommands.splice(index, 1);
     },
     addButton() {
       this.showSaveButton = true;
