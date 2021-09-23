@@ -14,20 +14,6 @@ import store from "./store";
 import { socket } from "./socket";
 import { Socket } from "socket.io-client";
 
-Vue.configureCompat({
-  RENDER_FUNCTION: false,
-  COMPONENT_V_MODEL: false,
-  COMPONENT_ASYNC: false,
-  INSTANCE_ATTRS_CLASS_STYLE: false,
-  GLOBAL_DELETE: false,
-  GLOBAL_SET: false,
-  INSTANCE_LISTENERS: false,
-  ATTR_FALSE_VALUE: false,
-  ATTR_ENUMERATED_COERCION: false,
-  WATCH_ARRAY: false
-  // COMPONENT_FUNCTIONAL: false
-});
-
 declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
     $isMobile: boolean;
