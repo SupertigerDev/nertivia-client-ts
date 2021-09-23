@@ -29,7 +29,7 @@ import LoadingScreen from "@/components/LoadingScreen.vue";
 import UserTemplate from "./UserTemplate.vue";
 import User from "@/interfaces/User";
 import { getBannedUsers } from "@/services/serverService";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ServerSettingsArea",

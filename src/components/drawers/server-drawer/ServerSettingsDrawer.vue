@@ -22,7 +22,7 @@ import { ServersModule } from "@/store/modules/servers";
 import settingsPages from "@/utils/serverSettingsPages.json";
 import { DrawersModule } from "@/store/modules/drawers";
 import { permissions } from "@/constants/rolePermissions";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "MainApp",

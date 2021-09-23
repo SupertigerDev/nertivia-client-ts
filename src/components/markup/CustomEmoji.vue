@@ -8,7 +8,6 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
 import { useWindowProperties } from "@/utils/windowProperties";
 const EMOJI_URL = process.env.VUE_APP_NERTIVIA_CDN + "emojis";
 

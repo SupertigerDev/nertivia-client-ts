@@ -20,7 +20,7 @@ import { fetchMessages } from "@/services/messagesService";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
 import { MessagesModule } from "@/store/modules/messages";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ScrollDownButton",

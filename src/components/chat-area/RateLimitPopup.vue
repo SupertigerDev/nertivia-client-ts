@@ -15,7 +15,7 @@ import { ChannelsModule } from "@/store/modules/channels";
 import { MeModule } from "@/store/modules/me";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { ServersModule } from "@/store/modules/servers";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "RateLimitPopup",

@@ -23,7 +23,7 @@
 import { PopoutsModule } from "@/store/modules/popouts";
 import ChangelogTemplate from "./ChangelogTemplate.vue";
 import { Changelog, getChangelog } from "@/services/updateService";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ProfilePopout",

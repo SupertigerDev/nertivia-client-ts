@@ -13,7 +13,7 @@ import { getChannelByUserId } from "@/services/channelService";
 import ky from "ky";
 import { UsersModule } from "./users";
 import DmChannelWithUser from "@/interfaces/DmChannelWithUser";
-import Vue from "vue";
+
 import { ServersModule } from "./servers";
 import { MessagesModule } from "./messages";
 import { NotificationsModule } from "./notifications";

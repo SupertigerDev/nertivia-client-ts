@@ -47,7 +47,7 @@ import {
   getServerInfoByCode,
   joinServerByCode
 } from "@/services/serverService";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "InviteServer",

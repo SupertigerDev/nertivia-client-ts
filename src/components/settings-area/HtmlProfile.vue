@@ -47,7 +47,6 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue";
 import CustomButton from "@/components/CustomButton.vue";
 import CustomInput from "@/components/CustomInput.vue";
 import InformationTemplate from "@/components/InformationTemplate.vue";

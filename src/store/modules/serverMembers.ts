@@ -11,7 +11,7 @@ import ServerMember, { ExtraServerMembers } from "@/interfaces/ServerMember";
 import { UsersModule } from "./users";
 import { PresencesModule } from "./presences";
 import { ServerRolesModule } from "./serverRoles";
-import Vue from "vue";
+
 import _ from "lodash";
 import { permissions } from "@/constants/rolePermissions";
 import { bitwiseAdd, bitwiseContains } from "@/utils/bitwise";

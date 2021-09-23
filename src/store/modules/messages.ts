@@ -14,7 +14,7 @@ import {
 } from "@/services/messagesService";
 import ky from "ky";
 import Message, { Reaction } from "@/interfaces/Message";
-import Vue from "vue";
+
 import { MeModule } from "./me";
 import { ChannelsModule } from "./channels";
 import { MessageLogStatesModule } from "./messageLogStates";

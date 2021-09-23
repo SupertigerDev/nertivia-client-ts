@@ -72,7 +72,7 @@ import LoadingScreen from "@/components/LoadingScreen.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import InviteTemplate from "./InviteTemplate.vue";
 import Invite from "@/interfaces/Invite";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ServerSettingsArea",

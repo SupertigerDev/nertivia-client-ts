@@ -31,7 +31,7 @@ import { botCommandsModule } from "@/store/modules/botCommands";
 import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
 import { TabsModule } from "@/store/modules/tabs";
 import { ServersModule } from "@/store/modules/servers";
-import Vue from "vue";
+
 import {
   voiceChannelModule,
   CallParticipant

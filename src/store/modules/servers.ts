@@ -8,7 +8,6 @@ import {
 import store from "..";
 import Server from "@/interfaces/Server";
 import { saveCache } from "@/utils/localCache";
-import Vue from "vue";
 
 interface ServerObj {
   [key: string]: Server;

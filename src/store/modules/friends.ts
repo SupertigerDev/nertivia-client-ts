@@ -10,8 +10,6 @@ import User from "@/interfaces/User";
 import { saveCache } from "@/utils/localCache";
 import { PresencesModule } from "./presences";
 
-import Vue from "vue";
-
 export enum FriendStatus {
   REQUESTED = 0,
   PENDING = 1,

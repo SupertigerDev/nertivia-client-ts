@@ -27,7 +27,6 @@ import Users from "./Users.vue";
 import AdminActions from "./AdminActions.vue";
 import SelectedUserPage from "./SelectedUserPage.vue";
 
-import Vue from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   components: { Stats, Users, SelectedUserPage, AdminActions },

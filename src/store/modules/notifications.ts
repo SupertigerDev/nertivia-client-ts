@@ -1,5 +1,5 @@
 import Notification from "@/interfaces/Notification";
-import Vue from "vue";
+
 import {
   Module,
   VuexModule,

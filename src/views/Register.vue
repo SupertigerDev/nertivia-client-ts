@@ -92,7 +92,7 @@ import CustomButton from "@/components/CustomButton.vue";
 import AgreementMessage from "@/components/AgreementMessage.vue";
 
 import { confirmEmail, postRegister } from "@/services/authService";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "MainApp",

@@ -33,7 +33,7 @@
 <script lang="ts">
 import { useWindowProperties } from "@/utils/windowProperties";
 import { DrawersModule } from "@/store/modules/drawers";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "MainApp",

@@ -72,7 +72,7 @@ import {
   updateServerChannelPosition
 } from "@/services/channelService";
 import Channel from "@/interfaces/Channel";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ManageChannels",

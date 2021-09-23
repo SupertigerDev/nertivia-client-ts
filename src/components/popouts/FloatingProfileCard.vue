@@ -6,7 +6,7 @@
 <script lang="ts">
 import ProfileCard from "@/components/dashboard-area/ProfileCard.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "FloatingProfileCard",

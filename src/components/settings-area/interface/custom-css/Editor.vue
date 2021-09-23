@@ -52,7 +52,7 @@ const { codemirror } = require("vue-codemirror");
 import "codemirror/mode/css/css.js";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/ayu-mirage.css";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Editor",

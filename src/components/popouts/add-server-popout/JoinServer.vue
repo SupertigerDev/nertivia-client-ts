@@ -13,7 +13,7 @@
 <script lang="ts">
 import EnterServerCode from "./EnterServerCode.vue";
 import ServerPreview from "./ServerPreview.vue";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "JoinServer",

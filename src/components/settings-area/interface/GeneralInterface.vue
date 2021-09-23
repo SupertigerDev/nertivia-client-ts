@@ -66,7 +66,7 @@ import {
   applyDefaultTheme,
   applyDefaultValue
 } from "@/utils/customCssVars";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "InterfaceVariables",

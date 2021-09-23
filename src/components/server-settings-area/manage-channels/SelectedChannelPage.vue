@@ -94,7 +94,7 @@ import { ServersModule } from "@/store/modules/servers";
 import { MeModule } from "@/store/modules/me";
 import Channel from "@/interfaces/Channel";
 import twemoji from "twemoji";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ManageChannels",

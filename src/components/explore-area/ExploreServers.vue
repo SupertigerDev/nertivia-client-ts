@@ -49,7 +49,7 @@ import { ServerResponse, getServers } from "@/services/exploreService";
 import ServerTemplate from "./ExploreServerTemplate.vue";
 import CustomDropDown from "@/components/CustomDropDown.vue";
 import LoadingScreen from "@/components/LoadingScreen.vue";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ExploreArea",

@@ -1,15 +1,14 @@
 <script lang="tsx">
-import Vue, { h } from "vue";
+import { h } from "vue";
 import { unzipAlt } from "@/utils/zip";
-import { JsonInput, jsonToHtml } from "jsonhtmlfyer";
+import { JsonInput } from "jsonhtmlfyer";
 import Markup from "@/components/Markup";
 import { PopoutsModule } from "@/store/modules/popouts";
 
 interface Props {
   compressedJSON: string;
 }
-import { defineComponent } from "vue";
-export default function HTMLEmbed(props) {
+export default function HTMLEmbed(props: Props) {
   let obj: any = {};
   try {
     obj = JSON.parse(unzipAlt(props.compressedJSON) || "");

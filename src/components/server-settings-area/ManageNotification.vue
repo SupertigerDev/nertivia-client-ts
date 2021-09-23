@@ -25,7 +25,7 @@
 import RadioBox from "@/components/RadioBox.vue";
 import { MutedServersModule } from "@/store/modules/mutedServers";
 import { muteServer } from "@/services/serverService";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ServerSettingsArea",

@@ -32,7 +32,7 @@ import {
   searchUsers
 } from "@/services/adminService";
 import UserTemplate from "./UserTemplate.vue";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Users",

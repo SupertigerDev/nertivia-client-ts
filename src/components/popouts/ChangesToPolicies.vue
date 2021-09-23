@@ -30,7 +30,7 @@ import CustomButton from "@/components/CustomButton.vue";
 import InformationTemplate from "@/components/InformationTemplate.vue";
 import AgreementMessage from "@/components/AgreementMessage.vue";
 import { AgreePolicy } from "@/services/authService";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ProfilePopout",

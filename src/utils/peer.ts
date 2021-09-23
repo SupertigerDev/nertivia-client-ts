@@ -2,6 +2,33 @@ import { socket } from "@/socket";
 import { voiceChannelModule } from "@/store/modules/voiceChannels";
 import Peer from "simple-peer";
 
+function onConnect(channelId: string, userId: string) {
+  voiceChannelModule.update({
+    channelId,
+    userId,
+    update: { connected: true }
+  });
+  console.log("connected");
+}
+function onStream(stream: MediaStream, channelId: string, userId: string) {
+  const videoTracks = stream.getVideoTracks();
+  const streamType = videoTracks.length ? "videoStream" : "audioStream";
+
+  stream.onremovetrack = () => {
+    voiceChannelModule.update({
+      channelId,
+      userId,
+      update: { [streamType]: null }
+    });
+    stream.onremovetrack = null;
+  };
+  voiceChannelModule.update({
+    channelId,
+    userId,
+    update: { [streamType]: stream }
+  });
+}
+
 // call
 export function createPeer(
   channelId: string,
@@ -52,31 +79,4 @@ export function addPeer(
   });
   peer.signal(signal);
   return peer;
-}
-
-function onConnect(channelId: string, userId: string) {
-  voiceChannelModule.update({
-    channelId,
-    userId,
-    update: { connected: true }
-  });
-  console.log("connected");
-}
-function onStream(stream: MediaStream, channelId: string, userId: string) {
-  const videoTracks = stream.getVideoTracks();
-  const streamType = videoTracks.length ? "videoStream" : "audioStream";
-
-  stream.onremovetrack = () => {
-    voiceChannelModule.update({
-      channelId,
-      userId,
-      update: { [streamType]: null }
-    });
-    stream.onremovetrack = null;
-  };
-  voiceChannelModule.update({
-    channelId,
-    userId,
-    update: { [streamType]: stream }
-  });
 }

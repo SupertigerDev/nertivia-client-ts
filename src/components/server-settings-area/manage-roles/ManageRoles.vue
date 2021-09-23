@@ -56,7 +56,7 @@ import { ServerRolesModule } from "@/store/modules/serverRoles";
 import ServerRole from "@/interfaces/ServerRole";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { MeModule } from "@/store/modules/me";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ManageRoles",

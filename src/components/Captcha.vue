@@ -4,7 +4,7 @@
 
 <script lang="js">
 import hCaptcha from "@hcaptcha/vue-hcaptcha";
-import Vue from "vue";
+
 
 export default {
   components: { hCaptcha },

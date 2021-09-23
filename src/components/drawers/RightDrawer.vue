@@ -4,7 +4,7 @@ import ServerRole from "@/interfaces/ServerRole";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
 import { useWindowProperties } from "@/utils/windowProperties";
-import Vue from "vue";
+
 import ServerMemberTemplate from "./ServerMemberTemplate.vue";
 
 import VirtualList from "@supertiger/vue-3-virtual-scroll-list";

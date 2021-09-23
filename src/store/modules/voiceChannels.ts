@@ -1,5 +1,5 @@
 import User from "@/interfaces/User";
-import Vue from "vue";
+
 import {
   Module,
   VuexModule,

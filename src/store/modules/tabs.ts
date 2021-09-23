@@ -1,9 +1,7 @@
-import User from "@/interfaces/User";
 import router from "@/router";
-import { getChangelog } from "@/services/updateService";
 import { setBrowserTitle } from "@/utils/browserTitle";
 import { saveCache } from "@/utils/localCache";
-import Vue from "vue";
+
 import {
   Module,
   VuexModule,
@@ -12,9 +10,6 @@ import {
   getModule
 } from "vuex-module-decorators";
 import store from "..";
-
-const CHECK_AFTER = 600000; // 60 minutes
-const CURRENT_VERSION = process.env.VUE_APP_VERSION;
 
 export interface Tab {
   name: string;

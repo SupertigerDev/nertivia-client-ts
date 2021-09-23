@@ -28,7 +28,7 @@
 import CheckBox from "@/components/CheckBox.vue";
 import { messaging, messagingSupported } from "@/utils/firebaseInstance";
 import { registerFCM } from "@/services/userService";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "NotificationArea",

@@ -11,7 +11,6 @@
 <script lang="ts">
 import "@simonwep/pickr/dist/themes/classic.min.css";
 import Pickr from "@simonwep/pickr";
-import Vue from "vue";
 
 import { defineComponent } from "vue";
 export default defineComponent({

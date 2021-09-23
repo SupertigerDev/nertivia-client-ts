@@ -13,7 +13,7 @@ import Header from "@/components/Header.vue";
 import NotificationCard from "./NotificationCard.vue";
 import ProfileCard from "./ProfileCard.vue";
 import { TabsModule } from "@/store/modules/tabs";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "DashboardArea",

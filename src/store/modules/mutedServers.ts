@@ -6,7 +6,6 @@ import {
   getModule
 } from "vuex-module-decorators";
 import store from "..";
-import Vue from "vue";
 
 interface MutedServerObj {
   [key: string]: {

@@ -22,7 +22,7 @@ import Draggable from "vuedraggable";
 import Server from "@/interfaces/Server";
 import { changeServerPosition } from "@/services/serverService";
 import { LastSelectedServersModule } from "@/store/modules/lastSelectedServer";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Servers",

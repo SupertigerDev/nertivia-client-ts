@@ -84,7 +84,6 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
 import { PaintingContext } from "doodlepad";
 import CustomButton from "@/components/CustomButton.vue";
 import CustomColorPicker from "@/components/CustomColorPicker.vue";

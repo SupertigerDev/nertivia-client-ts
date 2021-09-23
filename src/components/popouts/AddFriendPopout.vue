@@ -37,7 +37,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import { sendFriendRequest } from "@/services/relationshipService";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ProfilePopout",

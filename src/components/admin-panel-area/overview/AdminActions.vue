@@ -23,7 +23,7 @@
 <script lang="ts">
 import { fetchRecentActions, Action } from "@/services/adminService";
 import ActionTemplate from "./ActionTemplate.vue";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Users",

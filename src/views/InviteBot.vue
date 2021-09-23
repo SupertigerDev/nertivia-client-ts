@@ -59,7 +59,7 @@ import { getBot, inviteBot } from "@/services/botService";
 import Server from "@/interfaces/Server";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { bitwiseContains } from "@/utils/bitwise";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "InviteBot",

@@ -38,7 +38,7 @@ import { CustomStatusesModule } from "@/store/modules/memberCustomStatus";
 import { programActivitiesModule } from "@/store/modules/memberProgramActivity";
 import { PresencesModule } from "@/store/modules/presences";
 import Markup from "@/components/Markup";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "UserStatusTemplate",

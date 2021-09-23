@@ -43,7 +43,7 @@
 import i18n from "@/i18n";
 import languages from "@/locales/languages.json";
 import emojiParser from "@/utils/emojiParser";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Language",

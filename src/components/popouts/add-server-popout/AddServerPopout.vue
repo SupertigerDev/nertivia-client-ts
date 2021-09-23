@@ -32,7 +32,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import CreateServer from "./CreateServer.vue";
 import JoinServer from "./JoinServer.vue";
 import TabLayout from "@/components/TabLayout.vue";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ProfilePopout",

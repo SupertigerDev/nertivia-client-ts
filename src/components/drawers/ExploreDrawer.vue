@@ -18,7 +18,7 @@
 <script lang="ts">
 import explorePages from "@/utils/explorePages.json";
 import { DrawersModule } from "@/store/modules/drawers";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "MainApp",

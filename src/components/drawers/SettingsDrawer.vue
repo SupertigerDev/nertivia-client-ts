@@ -54,7 +54,6 @@
 import settingPages from "@/utils/settingPages.json";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { DrawersModule } from "@/store/modules/drawers";
-import Vue from "vue";
 
 interface Pages {
   [key: string]: {

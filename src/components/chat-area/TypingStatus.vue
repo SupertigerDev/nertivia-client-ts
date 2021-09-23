@@ -11,7 +11,6 @@
 import Message from "@/interfaces/Message";
 import { MeModule } from "@/store/modules/me";
 import { emitter } from "@/utils/globalBus";
-import Vue from "vue";
 
 interface TypingData {
   channel_id: string;

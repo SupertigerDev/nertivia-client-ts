@@ -1,5 +1,5 @@
 import CustomEmoji from "@/interfaces/CustomEmoji";
-import Vue from "vue";
+
 import {
   Module,
   VuexModule,

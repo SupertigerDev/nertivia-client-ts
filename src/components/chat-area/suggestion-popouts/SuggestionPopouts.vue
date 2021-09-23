@@ -52,7 +52,7 @@ import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { MeModule } from "@/store/modules/me";
 import emojiParser from "@/utils/emojiParser";
 import { BotCommand, botCommandsModule } from "@/store/modules/botCommands";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "SuggestionPopouts",

@@ -139,7 +139,7 @@ import {
 } from "@/services/userService";
 import { updateInstance } from "@/services/wrapper";
 import { PopoutsModule } from "@/store/modules/popouts";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Account",

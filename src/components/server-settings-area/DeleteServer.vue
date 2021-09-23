@@ -35,7 +35,7 @@ import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import { ServersModule } from "@/store/modules/servers";
 import { deleteServer } from "@/services/serverService";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "General",

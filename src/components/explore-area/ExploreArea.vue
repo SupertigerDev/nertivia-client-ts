@@ -11,7 +11,7 @@ import ExploreServers from "./ExploreServers.vue";
 import ExploreThemes from "./ExploreThemes.vue";
 import explorePages from "@/utils/explorePages.json";
 import { TabsModule } from "@/store/modules/tabs";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ExploreArea",

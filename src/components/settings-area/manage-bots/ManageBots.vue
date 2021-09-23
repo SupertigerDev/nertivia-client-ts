@@ -45,7 +45,7 @@ import BotTemplate from "./BotTemplate.vue";
 import User from "@/interfaces/User";
 import { createBot, getBots } from "@/services/botService";
 import { PopoutsModule } from "@/store/modules/popouts";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ManageChannels",

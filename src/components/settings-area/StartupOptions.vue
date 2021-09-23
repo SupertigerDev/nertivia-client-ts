@@ -31,7 +31,7 @@
 import CheckBox from "@/components/CheckBox.vue";
 
 import electronBridge from "@/utils/electronBridge";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "StartupOptions",

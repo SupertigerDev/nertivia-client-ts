@@ -8,7 +8,7 @@ import {
 import store from "..";
 import { ChannelsModule } from "./channels";
 import { NotificationsModule } from "./notifications";
-import Vue from "vue";
+
 import { MeModule } from "./me";
 import { MutedChannelsModule } from "./mutedChannels";
 import { MutedServersModule } from "./mutedServers";

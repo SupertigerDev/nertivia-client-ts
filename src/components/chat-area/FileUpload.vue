@@ -14,7 +14,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import fileSize from "filesize";
 import FileInput from "./FileInput.vue";
 import ImageInput from "./ImageInput.vue";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "MainApp",

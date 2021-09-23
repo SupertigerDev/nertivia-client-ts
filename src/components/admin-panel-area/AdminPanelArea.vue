@@ -10,7 +10,7 @@ import Header from "@/components/Header.vue";
 import Overview from "./overview/Overview.vue";
 import explorePages from "@/utils/adminPanelPages.json";
 import { TabsModule } from "@/store/modules/tabs";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ExploreArea",

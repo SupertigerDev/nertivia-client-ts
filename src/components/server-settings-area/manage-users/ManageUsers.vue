@@ -25,7 +25,7 @@ import CustomInput from "@/components/CustomInput.vue";
 import UsersList from "./UsersList.vue";
 import UserDetails from "./UserDetails.vue";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ServerSettingsArea",

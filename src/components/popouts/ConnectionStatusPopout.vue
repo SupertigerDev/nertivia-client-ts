@@ -7,7 +7,7 @@
 <script lang="ts">
 import { MeModule } from "@/store/modules/me";
 import { PopoutsModule } from "@/store/modules/popouts";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "MainApp",

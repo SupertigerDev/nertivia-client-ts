@@ -1,4 +1,4 @@
-import Vue, { createApp } from "vue";
+import { createApp } from "vue";
 
 import clickOutside from "./directives/clickOutside";
 

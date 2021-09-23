@@ -11,7 +11,7 @@
 <script lang="ts">
 import { FileUploadModule } from "@/store/modules/fileUpload";
 import fileSize from "filesize";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "MainApp",

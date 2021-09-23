@@ -4,7 +4,6 @@ import {
   programListener,
   restartListener
 } from "@/utils/programActivity";
-import Vue from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ElectronActivityHandler",

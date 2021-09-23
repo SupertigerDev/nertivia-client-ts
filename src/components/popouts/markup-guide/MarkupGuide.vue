@@ -21,7 +21,7 @@
 import Markup from "@/components/Markup";
 
 import { PopoutsModule } from "@/store/modules/popouts";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "MarkupGuide",

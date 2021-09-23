@@ -6,7 +6,7 @@ import {
   getModule
 } from "vuex-module-decorators";
 import store from "..";
-import Vue from "vue";
+
 import { postFormDataMessage } from "@/services/messagesService";
 import { MessagesModule } from "./messages";
 import fileSize from "filesize";

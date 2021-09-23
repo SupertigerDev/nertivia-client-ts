@@ -122,7 +122,7 @@
 
 <script lang="ts">
 import Header from "@/components/home-page/Header.vue";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Home",

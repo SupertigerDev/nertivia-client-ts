@@ -44,7 +44,7 @@ import { DrawersModule } from "@/store/modules/drawers";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { voiceChannelModule } from "@/store/modules/voiceChannels";
 import Tabs from "@/components/HeaderTabs.vue";
-import Vue from "vue";
+
 import { joinCall } from "@/services/voiceService";
 import { defineComponent } from "vue";
 export default defineComponent({

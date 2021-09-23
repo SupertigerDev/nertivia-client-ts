@@ -17,7 +17,6 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
 import { MessagesModule } from "@/store/modules/messages";
 import Messages from "./Messages.vue";
 import UploadQueueComponent from "./message/UploadQueue.vue";

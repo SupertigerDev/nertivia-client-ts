@@ -68,7 +68,7 @@ import Captcha from "@/components/Captcha.vue";
 import CustomButton from "@/components/CustomButton.vue";
 
 import { resetPassword, resetPasswordRequest } from "@/services/authService";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "MainApp",

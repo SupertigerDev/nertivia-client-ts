@@ -18,7 +18,6 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
 import CheckBox from "@/components/CheckBox.vue";
 
 import { defineComponent } from "vue";

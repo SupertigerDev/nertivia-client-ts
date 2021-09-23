@@ -59,7 +59,7 @@ import {
   ServerResponse,
   updateServer
 } from "@/services/exploreService";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ServerVisibility",

@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import electronBridge from "@/utils/electronBridge";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "App",

@@ -1,11 +1,15 @@
 // store input area text when switching channels
 
-export function cacheInput(channelID: string, message?: string) {
-  if (!message?.trim()) {
-    deleteInputCache(channelID);
-    return;
-  }
-  addInputCache(channelID, message);
+function getAllInputCache(): { [key: string]: string } {
+  const jsonStr = localStorage["inputCache"];
+  if (!jsonStr) return {};
+  return JSON.parse(jsonStr);
+}
+
+function addInputCache(channelID: string, message: string) {
+  const cache = getAllInputCache();
+  cache[channelID] = message.substring(0, 5000);
+  localStorage["inputCache"] = JSON.stringify(cache);
 }
 
 export function getInputCache(channelID: string) {
@@ -17,15 +21,10 @@ export function deleteInputCache(channelID: string) {
   delete cache[channelID];
   localStorage["inputCache"] = JSON.stringify(cache);
 }
-
-function getAllInputCache(): { [key: string]: string } {
-  const jsonStr = localStorage["inputCache"];
-  if (!jsonStr) return {};
-  return JSON.parse(jsonStr);
-}
-
-function addInputCache(channelID: string, message: string) {
-  const cache = getAllInputCache();
-  cache[channelID] = message.substring(0, 5000);
-  localStorage["inputCache"] = JSON.stringify(cache);
+export function cacheInput(channelID: string, message?: string) {
+  if (!message?.trim()) {
+    deleteInputCache(channelID);
+    return;
+  }
+  addInputCache(channelID, message);
 }

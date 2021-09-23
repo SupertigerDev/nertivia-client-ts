@@ -48,7 +48,6 @@ import EmojiTemplate from "./EmojiTemplate.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
 import emojiParser from "@/utils/emojiParser";
 import { uploadEmoji } from "@/services/emojiService";
-import Vue from "vue";
 
 function basename(path: string) {
   return path.substring(path.lastIndexOf("/") + 1);

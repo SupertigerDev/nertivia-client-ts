@@ -18,7 +18,7 @@ import DeleteServer from "./DeleteServer.vue";
 import General from "./General.vue";
 import ServerVisibility from "./ServerVisibility.vue";
 import { TabsModule } from "@/store/modules/tabs";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ServerSettingsArea",

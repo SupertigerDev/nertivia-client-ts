@@ -27,7 +27,7 @@ import RadioBox from "@/components/RadioBox.vue";
 import { MeModule } from "@/store/modules/me";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { useWindowProperties } from "@/utils/windowProperties";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "MainApp",

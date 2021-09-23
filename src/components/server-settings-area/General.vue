@@ -88,7 +88,7 @@ import { ChannelsModule } from "@/store/modules/channels";
 import Server from "@/interfaces/Server";
 import { MeModule } from "@/store/modules/me";
 import { updateServer, UpdateServerRequest } from "@/services/serverService";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "General",

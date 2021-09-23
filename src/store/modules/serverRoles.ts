@@ -8,7 +8,7 @@ import {
 import store from "..";
 import { saveCache } from "@/utils/localCache";
 import ServerRole from "@/interfaces/ServerRole";
-import Vue from "vue";
+
 import { bitwiseAdd } from "@/utils/bitwise";
 
 // ServerRoleObj[server_id][role_id] = serverRole

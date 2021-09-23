@@ -77,7 +77,7 @@ import { ServersModule } from "@/store/modules/servers";
 import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import { deleteAccount } from "@/services/userService";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "DeleteAccount",

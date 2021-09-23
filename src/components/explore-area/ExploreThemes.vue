@@ -40,7 +40,7 @@ import {
 } from "@/services/exploreService";
 import ThemeTemplate from "./ExploreThemeTemplate.vue";
 import LoadingScreen from "@/components/LoadingScreen.vue";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ExploreThemes",

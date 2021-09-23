@@ -18,7 +18,7 @@
 <script lang="ts">
 import adminPanelPages from "@/utils/adminPanelPages.json";
 import { DrawersModule } from "@/store/modules/drawers";
-import Vue from "vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "AdminPanelDrawer",
