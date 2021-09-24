@@ -40,58 +40,6 @@ export default defineComponent({
         />
       );
     };
-    // let unConsumedUserIds: string[] = this.serverMembersArr.map(m => m.id);
-
-    // const renderRoles = () => {
-    //   console.log("test");
-    //   unConsumedUserIds = this.serverMembersArr.map(m => m.id);
-    //   return this.serverRoles
-    //     .filter(r => !r.hideRole)
-    //     .map(r => {
-    //       const members = unConsumedUserIds.filter(id => {
-    //         if (!unConsumedUserIds.includes(id)) return false;
-    //         if (!this.serverMembers[id].roleIdArr.includes(r.id)) return false;
-    //         if (!PresencesModule.getPresence(id)) return false;
-    //         const index = unConsumedUserIds.indexOf(id);
-    //         unConsumedUserIds.splice(index, 1);
-    //         return true;
-    //       });
-    //       return [
-    //         renderTab(r.name, members.length),
-
-    //         ...members.map(id => {
-    //           return renderMember(this.serverMembers[id]);
-    //         })
-    //       ];
-    //     });
-    // };
-
-    // const renderOnline = () => {
-    //   const onlineMembers = unConsumedUserIds.filter(id => {
-    //     return PresencesModule.getPresence(id);
-    //   });
-    //   return [
-    //     renderTab(this.defaultRole?.name || "Online", onlineMembers.length),
-    //     ...onlineMembers.map(id => {
-    //       const index = unConsumedUserIds.indexOf(id);
-    //       unConsumedUserIds.splice(index, 1);
-    //       return renderMember(
-    //         ServerMembersModule.serverMembers[this.tempServerId][id]
-    //       );
-    //     })
-    //   ];
-    // };
-    // const renderOffline = () => {
-    //   const offlineMembers = unConsumedUserIds;
-    //   return [
-    //     renderTab("Offline", offlineMembers.length),
-    //     ...offlineMembers.map(id => {
-    //       return renderMember(
-    //         ServerMembersModule.serverMembers[this.tempServerId][id]
-    //       );
-    //     })
-    //   ];
-    // };
     return (
       <div class="right-drawer">
         <div class="header">
