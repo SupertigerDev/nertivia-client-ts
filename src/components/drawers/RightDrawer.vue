@@ -8,12 +8,14 @@ import { useWindowProperties } from "@/utils/windowProperties";
 import ServerMemberTemplate from "./ServerMemberTemplate.vue";
 
 import VirtualList from "@supertiger/vue-3-virtual-scroll-list";
+import { RecycleScroller } from "vue-virtual-scroller";
+import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 
 import { defineComponent } from "vue";
 import { PresencesModule } from "@/store/modules/presences";
 import { UsersModule } from "@/store/modules/users";
 export default defineComponent({
-  components: { ServerMemberTemplate, VirtualList },
+  components: { ServerMemberTemplate, VirtualList, RecycleScroller },
   data() {
     return {
       tempServerId: ""
@@ -26,7 +28,7 @@ export default defineComponent({
           {name} ({count})
         </div>
       ) : (
-        <template />
+        undefined
       );
     };
     const renderMember = (member: any) => {
@@ -38,71 +40,78 @@ export default defineComponent({
         />
       );
     };
-    const unConsumedUserIds: string[] = this.rawMembers.map(m => m.id);
+    // let unConsumedUserIds: string[] = this.serverMembersArr.map(m => m.id);
 
-    const renderRoles = () => {
-      return this.serverRoles
-        .filter(r => !r.hideRole)
-        .map(r => {
-          const members = this.rawMembers.filter(m => {
-            if (!unConsumedUserIds.includes(m.id)) return false;
-            if (!m.roleIdArr.includes(r.id)) return false;
-            if (!PresencesModule.getPresence(m.id)) return false;
-            const index = unConsumedUserIds.indexOf(m.id);
-            unConsumedUserIds.splice(index, 1);
-            return true;
-          });
-          return [
-            renderTab(r.name, members.length),
+    // const renderRoles = () => {
+    //   console.log("test");
+    //   unConsumedUserIds = this.serverMembersArr.map(m => m.id);
+    //   return this.serverRoles
+    //     .filter(r => !r.hideRole)
+    //     .map(r => {
+    //       const members = unConsumedUserIds.filter(id => {
+    //         if (!unConsumedUserIds.includes(id)) return false;
+    //         if (!this.serverMembers[id].roleIdArr.includes(r.id)) return false;
+    //         if (!PresencesModule.getPresence(id)) return false;
+    //         const index = unConsumedUserIds.indexOf(id);
+    //         unConsumedUserIds.splice(index, 1);
+    //         return true;
+    //       });
+    //       return [
+    //         renderTab(r.name, members.length),
 
-            members.map(member => {
-              return renderMember(member);
-            })
-          ];
-        });
-    };
+    //         ...members.map(id => {
+    //           return renderMember(this.serverMembers[id]);
+    //         })
+    //       ];
+    //     });
+    // };
 
-    const renderOnline = () => {
-      const onlineMembers = unConsumedUserIds.filter(id => {
-        return PresencesModule.getPresence(id);
-      });
-      return [
-        renderTab(this.defaultRole?.name || "Online", onlineMembers.length),
-        onlineMembers.map((id, index) => {
-          unConsumedUserIds.splice(index, 1);
-          return renderMember(
-            ServerMembersModule.serverMembers[this.tempServerId][id]
-          );
-        })
-      ];
-    };
-    const renderOffline = () => {
-      const offlineMembers = unConsumedUserIds;
-      return [
-        renderTab("Offline", offlineMembers.length),
-        offlineMembers.map((id, index) => {
-          unConsumedUserIds.splice(index, 1);
-          return renderMember(
-            ServerMembersModule.serverMembers[this.tempServerId][id]
-          );
-        })
-      ];
-    };
+    // const renderOnline = () => {
+    //   const onlineMembers = unConsumedUserIds.filter(id => {
+    //     return PresencesModule.getPresence(id);
+    //   });
+    //   return [
+    //     renderTab(this.defaultRole?.name || "Online", onlineMembers.length),
+    //     ...onlineMembers.map(id => {
+    //       const index = unConsumedUserIds.indexOf(id);
+    //       unConsumedUserIds.splice(index, 1);
+    //       return renderMember(
+    //         ServerMembersModule.serverMembers[this.tempServerId][id]
+    //       );
+    //     })
+    //   ];
+    // };
+    // const renderOffline = () => {
+    //   const offlineMembers = unConsumedUserIds;
+    //   return [
+    //     renderTab("Offline", offlineMembers.length),
+    //     ...offlineMembers.map(id => {
+    //       return renderMember(
+    //         ServerMembersModule.serverMembers[this.tempServerId][id]
+    //       );
+    //     })
+    //   ];
+    // };
     return (
       <div class="right-drawer">
         <div class="header">
-          {this.$t("right-drawer.server-members", [this.rawMembers.length])}
+          {this.$t("right-drawer.server-members", [
+            this.serverMembersArr.length
+          ])}
         </div>
         <div class="members" key={this.tempServerId}>
           <virtual-list
+            ref="virtualList"
             size={260}
             remain={this.remain}
             variable={true}
             key={this.remain}
           >
-            {...renderRoles()}
-            {...renderOnline()}
-            {...renderOffline()}
+            {this.list?.map(item =>
+              item.title
+                ? renderTab(item.title, item.count)
+                : renderMember(this.serverMembers[item])
+            )}
           </virtual-list>
         </div>
       </div>
@@ -121,10 +130,16 @@ export default defineComponent({
   watch: {
     serverId() {
       this.updateTempServerId();
+    },
+    list: {
+      deep: true,
+      handler() {
+        (this.$refs.virtualList as any).forceRender();
+      }
     }
   },
   computed: {
-    rawMembers(): ServerMember[] {
+    serverMembersArr(): ServerMember[] {
       return Object.values(
         ServerMembersModule.serverMembers[this.tempServerId || ""] || {}
       ).sort((a, b) => {
@@ -134,6 +149,55 @@ export default defineComponent({
         if (usernameA > usernameB) return 1;
         return 0;
       });
+    },
+    serverMembers(): { [key: string]: ServerMember } {
+      return ServerMembersModule.serverMembers[this.tempServerId || ""];
+    },
+    list(): any[] {
+      const unConsumedMembers = this.serverMembersArr.map(sm => sm.id);
+      const roleMembers = this.serverRoles
+        .filter(r => !r.hideRole)
+        .map(role => {
+          const members = [...unConsumedMembers].filter(id => {
+            if (!unConsumedMembers.includes(id)) return false;
+            const member = this.serverMembers[id];
+            if (!member.roleIdArr.includes(role.id)) return false;
+            if (!PresencesModule.getPresence(id)) return false;
+            unConsumedMembers.splice(unConsumedMembers.indexOf(id), 1);
+            return true;
+          });
+          if (!members.length) return [];
+          return [
+            { title: role.name, id: role.id, size: 25, count: members.length },
+            ...members
+          ];
+        })
+        .flat();
+      const onlineMembers = [...unConsumedMembers].filter(id => {
+        if (!PresencesModule.getPresence(id)) return;
+        unConsumedMembers.splice(unConsumedMembers.indexOf(id), 1);
+        return true;
+      });
+      const offlineMembers = Object.values(unConsumedMembers);
+
+      const defaultRoleTitle = {
+        title: this.defaultRole?.name || "Online",
+        id: this.defaultRole?.id || "loading",
+        count: onlineMembers.length
+      };
+      const offlineTitle = {
+        title: "Offline",
+        id: "oof",
+        count: offlineMembers.length
+      };
+
+      return [
+        ...roleMembers,
+        defaultRoleTitle,
+        ...onlineMembers,
+        offlineTitle,
+        ...offlineMembers
+      ];
     },
     defaultRole(): ServerRole | undefined {
       return ServerRolesModule.defaultServerRole(this.tempServerId);
