@@ -28,7 +28,7 @@ import { BotCommand } from "@/store/modules/botCommands";
 import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
-  name: "ChannelSuggestionTemplate",
+  name: "CommandSuggestionTemplate",
   props: {
     selected: {
       type: Boolean,
