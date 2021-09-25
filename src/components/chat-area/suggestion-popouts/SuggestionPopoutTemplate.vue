@@ -25,7 +25,7 @@ export default defineComponent({
       required: true
     },
     template: {
-      type: Function,
+      type: Object,
       required: true
     }
   },

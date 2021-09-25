@@ -16,6 +16,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "ChannelSuggestion",
   components: { SuggestionPopoutTemplate },
+  emits: ["selected"],
   props: {
     channels: {
       type: Array as PropType<Channel[]>,

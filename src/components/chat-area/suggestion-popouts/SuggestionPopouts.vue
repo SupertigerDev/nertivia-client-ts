@@ -41,10 +41,12 @@
 
 <script lang="ts">
 import { ChannelsModule } from "@/store/modules/channels";
+
 import ChannelSuggestion from "./ChannelSuggestion.vue";
 import CommandSuggestion from "./CommandSuggestion.vue";
 import UserSuggestion from "./UserSuggestion.vue";
 import EmojiSuggestion from "./EmojiSuggestion.vue";
+
 import { useWindowProperties } from "@/utils/windowProperties";
 import { MessageInputModule } from "@/store/modules/messageInput";
 import User from "@/interfaces/User";

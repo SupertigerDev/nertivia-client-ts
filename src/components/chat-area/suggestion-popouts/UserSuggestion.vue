@@ -16,6 +16,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "UserSuggestion",
   components: { SuggestionPopoutTemplate },
+  emits: ["selected"],
   props: {
     users: {
       type: Array as PropType<User[]>,

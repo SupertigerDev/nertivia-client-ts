@@ -15,6 +15,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "Suggestion",
   components: { SuggestionPopoutTemplate },
+  emits: ["selected"],
   props: {
     emojis: {
       type: Array as PropType<any[]>,
