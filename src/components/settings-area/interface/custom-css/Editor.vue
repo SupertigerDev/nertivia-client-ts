@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/valid-v-model -->
 <template>
   <div class="editor" v-if="theme">
     <div class="menu-strip">
@@ -36,7 +37,11 @@
         icon="fullscreen"
       />
     </div>
-    <codemirror v-model="css" :options="cmOptions" @ready="onCodemirrorReady" />
+    <codemirror
+      v-model:value="css"
+      :options="cmOptions"
+      @ready="onCodemirrorReady"
+    />
   </div>
 </template>
 
@@ -47,8 +52,7 @@ import CustomButton from "@/components/CustomButton.vue";
 import "codemirror/addon/hint/show-hint.css";
 import "codemirror/addon/hint/show-hint.js";
 import "codemirror/addon/hint/css-hint";
-
-const { codemirror } = require("vue-codemirror");
+import Codemirror from "codemirror-editor-vue3";
 import "codemirror/mode/css/css.js";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/ayu-mirage.css";
@@ -56,7 +60,7 @@ import "codemirror/theme/ayu-mirage.css";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Editor",
-  components: { codemirror, CustomButton },
+  components: { Codemirror, CustomButton },
   props: {
     themeID: {
       type: String,
@@ -192,6 +196,7 @@ export default defineComponent({
   flex-direction: column;
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 .menu-strip {
   display: flex;
@@ -217,10 +222,14 @@ export default defineComponent({
 }
 </style>
 <style>
-.editor .vue-codemirror {
+.editor .codemirror-container {
   flex: 1;
+  overflow: hidden;
 }
-.editor .CodeMirror {
+.editor .codemirror-container {
+  height: 100%;
+}
+.editor .cm-s-ayu-mirage {
   height: 100%;
 }
 </style>
