@@ -86,7 +86,7 @@ export default defineComponent({
     },
     appliedThemeID: {
       type: String,
-      required: true
+      required: false
     }
   },
   data() {

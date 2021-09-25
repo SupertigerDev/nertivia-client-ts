@@ -9,7 +9,7 @@
     "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue|tsx?)\" --locales \"./src/locales/**/*.json\""
   },
   "dependencies": {
-    "@hcaptcha/vue-hcaptcha": "^0.3.0",
+    "@jdinabox/vue-3-hcaptcha": "^0.1.1",
     "@simonwep/pickr": "^1.8.0",
     "@soerenmartius/vue3-clipboard": "^0.1.2",
     "@supertiger/vue-3-virtual-scroll-list": "^1.0.8",

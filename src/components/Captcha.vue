@@ -2,11 +2,11 @@
   <h-captcha :sitekey="sitekey" theme="dark" ref="recaptcha" @verify="submit" />
 </template>
 
-<script lang="js">
-import hCaptcha from "@hcaptcha/vue-hcaptcha";
+<script lang="ts">
+import hCaptcha from "@jdinabox/vue-3-hcaptcha";
+import { defineComponent } from "@vue/runtime-core";
 
-
-export default {
+export default defineComponent({
   components: { hCaptcha },
   data() {
     return {
@@ -19,8 +19,8 @@ export default {
       this.$emit("verify", response);
     },
     resetRecaptcha() {
-      this.$refs.recaptcha.reset(); // Direct call reset method
+      (this.$refs.recaptcha as any).reset(); // Direct call reset method
     }
   }
-};
+});
 </script>

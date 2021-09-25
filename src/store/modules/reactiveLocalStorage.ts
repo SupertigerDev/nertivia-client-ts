@@ -31,7 +31,6 @@ class ReactiveLocalStorage extends VuexModule {
 
   @Action
   setStore<K extends keyof Store>({ key, value }: { key: K; value: Store[K] }) {
-    console.log(key, value, JSON.stringify(value));
     localStorage[key] = JSON.stringify(value);
     this.SET_STORE({ key, value });
   }
