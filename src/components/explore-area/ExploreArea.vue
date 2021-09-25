@@ -38,6 +38,7 @@ export default defineComponent({
   },
   methods: {
     onPageChanged() {
+      if (!this.page) return;
       TabsModule.setCurrentTab({
         icon: "explore",
         name: "Explore " + this.page?.name

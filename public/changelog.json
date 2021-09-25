@@ -1,5 +1,12 @@
 [
 	{
+		"version": "1.46.0-stable",
+		"date": "25 September 2021",
+		"title": "Vue 3",
+		"changes": "Migrated to Vue 3",
+		"body": "There may be some bugs hiding. Please report them if you find some c:"
+	},
+	{
 		"version": "1.45.0-stable",
 		"date": "7 September 2021",
 		"title": "Calling BETA",

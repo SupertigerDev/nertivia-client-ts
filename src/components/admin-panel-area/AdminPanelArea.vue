@@ -37,6 +37,7 @@ export default defineComponent({
   },
   methods: {
     onPageChanged() {
+      if (!this.page) return;
       TabsModule.setCurrentTab({
         icon: "security",
         name: "Admin Panel " + this.page.name

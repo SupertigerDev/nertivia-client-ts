@@ -86,9 +86,10 @@ export default defineComponent({
   },
   methods: {
     onPageChanged() {
+      if (!this.selectedTab) return;
       TabsModule.setCurrentTab({
-        icon: this.selectedTab.icon,
-        name: this.selectedTab.name + " Settings"
+        icon: this.selectedTab?.icon,
+        name: this.selectedTab?.name + " Settings"
       });
     }
   }

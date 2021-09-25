@@ -60,9 +60,11 @@ export default defineComponent({
   },
   methods: {
     onPageChanged() {
+      if (!this.page) return;
+
       TabsModule.setCurrentTab({
-        icon: this.page.icon,
-        name: this.page.name + " Settings"
+        icon: this.page?.icon,
+        name: this.page?.name + " Settings"
       });
     }
   }
