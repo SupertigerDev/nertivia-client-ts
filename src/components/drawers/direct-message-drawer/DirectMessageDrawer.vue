@@ -109,6 +109,7 @@ export default defineComponent({
   flex-direction: column;
   overflow: hidden;
   width: 250px;
+  height: 100%;
 }
 
 .buttons {

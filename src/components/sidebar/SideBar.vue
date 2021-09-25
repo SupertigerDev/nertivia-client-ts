@@ -35,6 +35,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   width: 70px;
+  flex-shrink: 0;
 }
 .add-server-button {
   height: 50px;
