@@ -4,7 +4,7 @@ import {
   programListener,
   restartListener
 } from "@/utils/programActivity";
-import { defineComponent } from "vue";
+import { defineComponent, h } from "vue";
 export default defineComponent({
   name: "ElectronActivityHandler",
   data() {
@@ -13,7 +13,7 @@ export default defineComponent({
       currentActiveProgram: null as { name: string; status: string } | null
     };
   },
-  render(h) {
+  render() {
     return h("template");
   },
   computed: {
