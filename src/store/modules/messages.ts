@@ -316,11 +316,14 @@ class Messages extends VuexModule {
   }
   @Mutation
   private UPDATE_MESSAGE(payload: {
-    updateMessage: Message;
+    updateMessage: Partial<Message>;
     index: number;
     channelID: string;
   }) {
-    this.messages[payload.channelID][payload.index] = payload.updateMessage;
+    Object.assign(
+      this.messages[payload.channelID][payload.index],
+      payload.updateMessage
+    );
   }
 
   @Action
@@ -340,7 +343,7 @@ class Messages extends VuexModule {
     if (findIndex <= -1) return;
     this.UPDATE_MESSAGE({
       index: findIndex,
-      updateMessage: { ...messages[findIndex], ...payload.message },
+      updateMessage: payload.message,
       channelID: payload.channelID
     });
   }
