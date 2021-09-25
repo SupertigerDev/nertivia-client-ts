@@ -37,46 +37,20 @@ export default defineComponent({
       );
     };
 
-    const unConsumedUserIds: string[] = this.rawMembers.map(m => m.id);
-    const renderDefaults = () => {
-      return [
-        renderTab(this.defaultRole?.name || "Online", unConsumedUserIds.length),
-        unConsumedUserIds.map((id, index) => {
-          unConsumedUserIds.splice(index, 1);
-          return renderMember(
-            ServerMembersModule.serverMembers[this.server_id][id]
-          );
-        })
-      ];
-    };
     return (
       <div class="right-drawer" onClick={this.onClick}>
-        <div class="members" key={this.server_id + this.search}>
+        <div class="members" key={this.serverId + this.search}>
           <virtual-list
             ref="virtualList"
             size={260}
             remain={40}
             variable={true}
           >
-            {...this.serverRoles
-              .filter(r => !r.hideRole)
-              .map(r => {
-                const members = this.rawMembers.filter(m => {
-                  if (!unConsumedUserIds.includes(m.id)) return false;
-                  if (!m.roleIdArr.includes(r.id)) return false;
-                  const index = unConsumedUserIds.indexOf(m.id);
-                  unConsumedUserIds.splice(index, 1);
-                  return true;
-                });
-                return [
-                  renderTab(r.name, members.length),
-
-                  members.map(member => {
-                    return renderMember(member);
-                  })
-                ];
-              })}
-            {...renderDefaults()}
+            {this.list?.map(item =>
+              item.title
+                ? renderTab(item.title, item.count)
+                : renderMember(this.serverMembers[item])
+            )}
           </virtual-list>
         </div>
       </div>
@@ -91,30 +65,64 @@ export default defineComponent({
     }
   },
   computed: {
-    rawMembers(): ServerMember[] {
+    serverMembersArr(): ServerMember[] {
       return Object.values(
-        ServerMembersModule.serverMembers[this.server_id] || {}
-      )
+        ServerMembersModule.serverMembers[this.serverId || ""] || {}
+      ).sort((a, b) => {
+        const usernameA = UsersModule.users[a.id].username.toLowerCase();
+        const usernameB = UsersModule.users[b.id].username.toLowerCase();
+        if (usernameA < usernameB) return -1;
+        if (usernameA > usernameB) return 1;
+        return 0;
+      });
+    },
+    serverMembers(): { [key: string]: ServerMember } {
+      return ServerMembersModule.serverMembers[this.serverId || ""];
+    },
+    list(): any[] {
+      const unConsumedMembers = this.serverMembersArr
+        .map(sm => sm.id)
         .filter(m => {
           if (!this.search) return true;
-          const username = UsersModule.users[m.id].username.toLowerCase();
+          const username = UsersModule.users[m].username.toLowerCase();
           return username.toLowerCase().includes(this.search.toLowerCase());
-        })
-        .sort((a, b) => {
-          const usernameA = UsersModule.users[a.id].username.toLowerCase();
-          const usernameB = UsersModule.users[b.id].username.toLowerCase();
-          if (usernameA < usernameB) return -1;
-          if (usernameA > usernameB) return 1;
-          return 0;
         });
+      const roleMembers = this.serverRoles
+        .filter(r => !r.hideRole)
+        .map(role => {
+          const members = [...unConsumedMembers].filter(id => {
+            if (!unConsumedMembers.includes(id)) return false;
+            const member = this.serverMembers[id];
+            if (!member.roleIdArr.includes(role.id)) return false;
+            unConsumedMembers.splice(unConsumedMembers.indexOf(id), 1);
+            return true;
+          });
+          if (!members.length) return [];
+          return [
+            { title: role.name, id: role.id, size: 25, count: members.length },
+            ...members
+          ];
+        })
+        .flat();
+
+      const allMembers = Object.values(unConsumedMembers);
+
+      const defaultRoleTitle = {
+        title: this.defaultRole?.name || "Online",
+        id: this.defaultRole?.id || "loading",
+        count: allMembers.length
+      };
+
+      return [...roleMembers, defaultRoleTitle, ...allMembers];
     },
     defaultRole(): ServerRole | undefined {
-      return ServerRolesModule.defaultServerRole(this.server_id);
+      return ServerRolesModule.defaultServerRole(this.serverId);
     },
     serverRoles(): ServerRole[] {
-      return ServerRolesModule.sortedServerRolesArr(this.server_id);
+      return ServerRolesModule.sortedServerRolesArr(this.serverId);
     },
-    server_id(): string {
+
+    serverId(): string {
       return this.$route.params.server_id as string;
     }
   }
