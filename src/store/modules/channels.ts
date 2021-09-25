@@ -163,10 +163,7 @@ class Channels extends VuexModule {
     channelID: string;
     update: Partial<Channel>;
   }) {
-    this.channels[payload.channelID] = {
-      ...this.channels[payload.channelID],
-      ...payload.update
-    };
+    Object.assign(this.channels[payload.channelID], payload.update);
   }
   @Action
   public updateChannel(payload: {
