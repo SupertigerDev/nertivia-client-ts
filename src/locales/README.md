@@ -6,5 +6,5 @@ You can also take a look at more tools to make translating easier [here](https:/
 ## How?
 1. Clone the en.json file and rename it accordingly.
 2. Translate all of the end values of each of the key.
-3. Open the languages.json file and add a new entry.
+3. Open the languages.ts file and add a new entry.
 4. Submit a PR.

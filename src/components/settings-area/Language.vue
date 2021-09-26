@@ -18,7 +18,7 @@
         >
           <div class="flag" v-html="obj.flagImage"></div>
           <div class="details">
-            <div class="name">{{ obj.name.source }}</div>
+            <div class="name">{{ obj.name }}</div>
             <div class="translators">
               <span class="item-label"
                 >{{ $t("settings.language.translators") }}:</span
@@ -28,7 +28,7 @@
                 v-for="(translator, i) in obj.translators"
                 :key="i"
               >
-                <span>{{ translator.source }}</span>
+                <span>{{ translator }}</span>
                 <span v-if="obj.translators.length !== i + 1">, </span>
               </div>
             </div>
@@ -41,7 +41,7 @@
 
 <script lang="ts">
 import i18n from "@/i18n";
-import languages from "@/locales/languages.json";
+import languages from "@/locales/languages";
 import emojiParser from "@/utils/emojiParser";
 
 import { defineComponent } from "vue";
@@ -64,7 +64,7 @@ export default defineComponent({
         return {
           ...languages[key],
           id: key,
-          flagImage: emojiParser.replaceEmojis(languages[key].unicode.source)
+          flagImage: emojiParser.replaceEmojis(languages[key].unicode)
         };
       });
     }
