@@ -11,7 +11,7 @@
 import SuggestionPopoutTemplate from "./SuggestionPopoutTemplate.vue";
 import ChannelSuggestionTemplate from "./ChannelSuggestionTemplate.vue";
 import Channel from "@/interfaces/Channel";
-import { PropType } from "vue";
+import { PropType, markRaw } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ChannelSuggestion",
@@ -25,7 +25,7 @@ export default defineComponent({
   },
   data() {
     return {
-      ChannelSuggestionTemplate: ChannelSuggestionTemplate
+      ChannelSuggestionTemplate: markRaw(ChannelSuggestionTemplate)
     };
   },
   methods: {

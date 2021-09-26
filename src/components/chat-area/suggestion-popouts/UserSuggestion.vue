@@ -12,7 +12,7 @@ import SuggestionPopoutTemplate from "./SuggestionPopoutTemplate.vue";
 import UserSuggestionTemplate from "./UserSuggestionTemplate.vue";
 import User from "@/interfaces/User";
 import { PropType } from "vue";
-import { defineComponent } from "vue";
+import { defineComponent, markRaw } from "vue";
 export default defineComponent({
   name: "UserSuggestion",
   components: { SuggestionPopoutTemplate },
@@ -25,7 +25,7 @@ export default defineComponent({
   },
   data() {
     return {
-      UserSuggestionTemplate: UserSuggestionTemplate
+      UserSuggestionTemplate: markRaw(UserSuggestionTemplate)
     };
   },
   methods: {

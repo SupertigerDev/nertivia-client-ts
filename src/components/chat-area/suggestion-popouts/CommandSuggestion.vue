@@ -13,7 +13,7 @@ import CommandSuggestionTemplate from "./CommandSuggestionTemplate.vue";
 import { BotCommand } from "@/store/modules/botCommands";
 import User from "@/interfaces/User";
 import { PropType } from "vue";
-import { defineComponent } from "vue";
+import { defineComponent, markRaw } from "vue";
 export default defineComponent({
   name: "ChannelSuggestion",
   components: { SuggestionPopoutTemplate },
@@ -32,7 +32,7 @@ export default defineComponent({
   },
   data() {
     return {
-      CommandSuggestionTemplate: CommandSuggestionTemplate
+      CommandSuggestionTemplate: markRaw(CommandSuggestionTemplate)
     };
   },
   methods: {

@@ -10,7 +10,7 @@
 <script lang="ts">
 import SuggestionPopoutTemplate from "./SuggestionPopoutTemplate.vue";
 import EmojiSuggestionTemplate from "./EmojiSuggestionTemplate.vue";
-import { PropType } from "vue";
+import { PropType, markRaw } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Suggestion",
@@ -24,7 +24,7 @@ export default defineComponent({
   },
   data() {
     return {
-      EmojiSuggestionTemplate: EmojiSuggestionTemplate
+      EmojiSuggestionTemplate: markRaw(EmojiSuggestionTemplate)
     };
   },
   methods: {
