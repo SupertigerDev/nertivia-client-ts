@@ -6,13 +6,13 @@
         <div class="material-icons">info</div>
         Enable un-finished or experimental features.
       </div>
-      <div style="opacity: 0.6">No WIP Features available right now.</div>
-      <!-- <CheckBox
-        name="HTML Profile"
+      <!-- <div style="opacity: 0.6">No WIP Features available right now.</div> -->
+      <CheckBox
+        name="Welcome Popout"
         class="check-box"
-        description="Add some HTML to your profile. "
-        v-model="htmlProfile"
-      /> -->
+        description="Show a welcome popout when you first create an account."
+        v-model="welcomePopout"
+      />
     </div>
   </div>
 </template>
@@ -23,15 +23,15 @@ import CheckBox from "@/components/CheckBox.vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "WIPFeatures",
-  // components: { CheckBox },
+  components: { CheckBox },
   data() {
     return {
-      htmlProfile: localStorage["htmlProfile_wip"] === "true"
+      welcomePopout: localStorage["welcomePopout_wip"] === "true"
     };
   },
   watch: {
-    htmlProfile() {
-      localStorage["htmlProfile_wip"] = this.htmlProfile;
+    welcomePopout() {
+      localStorage["welcomePopout_wip"] = this.welcomePopout;
     }
   }
 });

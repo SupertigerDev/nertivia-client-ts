@@ -52,6 +52,7 @@ import { defineAsyncComponent } from "vue";
 import { TabsModule } from "@/store/modules/tabs";
 import { defineComponent } from "vue";
 import store from "@/store";
+import { PopoutsModule } from "@/store/modules/popouts";
 
 const Drawers = defineAsyncComponent(() =>
   import("@/components/drawers/Drawers.vue")
@@ -83,7 +84,8 @@ export default defineComponent({
       showConnectionStatusPopout: true,
       currentActiveProgram: null as any | null,
       programActivityTimeout: null as any,
-      loadPage: false
+      loadPage: false,
+      showWelcomePopout: localStorage["welcomePopout_wip"] === "true"
     };
   },
   computed: {
@@ -115,6 +117,12 @@ export default defineComponent({
     }
   },
   mounted() {
+    this.showWelcomePopout &&
+      PopoutsModule.ShowPopout({
+        id: "welcome",
+        component: "Welcome",
+        data: {}
+      });
     this.$socket.connect();
     if (window.BroadcastChannel) {
       const channel = new BroadcastChannel("sw-messages");

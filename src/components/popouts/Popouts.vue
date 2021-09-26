@@ -97,6 +97,9 @@ const components = {
   ),
   ReactedUsersPreview: defineAsyncComponent(() =>
     import("@/components/popouts/ReactedUsersPreview.vue")
+  ),
+  Welcome: defineAsyncComponent(() =>
+    import("@/components/popouts/welcome-popout/Welcome.vue")
   )
 };
 export default defineComponent({
