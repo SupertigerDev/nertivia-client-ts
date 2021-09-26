@@ -6,11 +6,12 @@
           <div class="icon material-icons">dns</div>
           <div class="text">Welcome to Nertivia!</div>
         </div>
-        <div class="container" v-if="connected">
+        <LoadingScreen v-if="!connected"/>
+        <div class="container" v-show="connected">
           <SetProfile />
         </div>
         <div class="footer">
-          <Button :alert="true" name="Skip" @click="close" />
+          <Button :alert="true" name="Close" @click="close" />
           <div class="nav-buttons">
             <Button :alert="true" name="Back" />
             <Button name="Next" />
@@ -22,6 +23,7 @@
 </template>
 <script lang="ts">
 import { PopoutsModule } from "@/store/modules/popouts";
+import LoadingScreen from "@/components/LoadingScreen.vue";
 import SetProfile from "./SetProfile.vue";
 
 import Button from "@/components/CustomButton.vue";
@@ -29,7 +31,7 @@ import { defineComponent } from "vue";
 import { MeModule } from "@/store/modules/me";
 export default defineComponent({
   name: "Welcome",
-  components: { Button, SetProfile },
+  components: { Button, SetProfile, LoadingScreen },
   props: {
     identity: { required: true, type: String }
   },

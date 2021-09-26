@@ -41,13 +41,27 @@ export default defineComponent({
       tag: ""
     };
   },
-  mounted() {
-    this.username = this.currentUser.username || "";
-    this.tag = this.currentUser.tag || "";
+  methods: {
+    reset() {
+      this.username = this.currentUser.username || "";
+      this.tag = this.currentUser.tag || "";
+    },
+  },
+
+  watch: {
+    connected: {
+      immediate: true,
+      handler(){
+        this.reset();
+      }
+    }
   },
   computed: {
     currentUser() {
       return MeModule.user;
+    },
+    connected() {
+      return MeModule.connected
     }
   }
 });
