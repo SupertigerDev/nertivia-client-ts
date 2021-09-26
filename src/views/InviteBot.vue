@@ -12,7 +12,7 @@
           <CheckBox
             v-for="(perm, i) of perms"
             :key="i"
-            :checked="true"
+            :modelValue="true"
             :name="perm.name"
             :description="perm.info"
           />
