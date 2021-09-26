@@ -71,9 +71,18 @@ class LastSeenServerChannels extends VuexModule {
       if (MutedServersModule.shouldMuteServerNotification(server_id)) {
         return [];
       }
-      return this.allServerNotifications.filter(
-        (channel: any) => channel.server_id === server_id
-      );
+      const channels = ChannelsModule.serverChannels(server_id);
+      const res: (Channel & { mentioned?: boolean })[] = [];
+      for (let i = 0; i < channels.length; i++) {
+        const channel = channels[i];
+        const notificationExists = this.serverChannelNotification(
+          channel.channelID
+        );
+        if (notificationExists) {
+          res.push(notificationExists);
+        }
+      }
+      return res;
     };
   }
 
