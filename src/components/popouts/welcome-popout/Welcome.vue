@@ -1,20 +1,46 @@
 <template>
   <div class="popout-background">
-    <div class="add-server-popout">
+    <div class="welcome-popout">
       <div class="content animate-in">
         <div class="header">
-          <div class="icon material-icons">dns</div>
+          <img class="icon" src="@/assets/logo.svg" />
           <div class="text">Welcome to Nertivia!</div>
         </div>
-        <LoadingScreen v-if="!connected"/>
+        <LoadingScreen v-if="!connected" />
         <div class="container" v-show="connected">
-          <SetProfile />
+          <template v-for="(page, i) in pages" :key="page">
+            <component
+              v-show="currentPage === i"
+              v-if="i <= maxBeenToIndex"
+              @onAction="onAction"
+              :is="page"
+              :ref="page"
+            />
+          </template>
         </div>
         <div class="footer">
           <Button :alert="true" name="Close" @click="close" />
+          <div class="current-page">
+            {{ currentPage + 1 }}/{{ pages.length }}
+          </div>
           <div class="nav-buttons">
-            <Button :alert="true" name="Back" />
-            <Button name="Next" />
+            <Button
+              :alert="true"
+              name="Back"
+              :disabled="!currentPage || nextClicked"
+              @click="backClick"
+            />
+            <Button
+              name="Next"
+              @click="nextClick"
+              v-if="!nextClicked && currentPage !== pages.length - 1"
+            />
+            <Button
+              name="Finish"
+              @click="close"
+              v-if="currentPage === pages.length - 1"
+            />
+            <Button name="Saving..." disabled v-if="nextClicked" />
           </div>
         </div>
       </div>
@@ -33,22 +59,56 @@ export default defineComponent({
   name: "Welcome",
   components: { Button, SetProfile, LoadingScreen },
   props: {
-    identity: { required: true, type: String }
+    identity: { required: true, type: String },
+  },
+  data() {
+    return {
+      pages: ["SetProfile"],
+      maxBeenToIndex: 0,
+      currentPage: 0,
+      nextClicked: false,
+    };
   },
   computed: {
     connected() {
       return MeModule.connected;
-    }
+    },
+    currentPageName() {
+      return this.pages[this.currentPage];
+    },
+  },
+  watch: {
+    currentPage() {
+      if (this.currentPage > this.maxBeenToIndex) {
+        this.maxBeenToIndex = this.currentPage;
+      }
+    },
   },
   methods: {
     close() {
       PopoutsModule.ClosePopout(this.identity);
-    }
-  }
+    },
+    onAction(goNext: boolean) {
+      if (goNext) {
+        this.currentPage++;
+      }
+      this.nextClicked = false;
+    },
+    backClick() {
+      if (!this.currentPage) return;
+      this.currentPage--;
+    },
+    nextClick() {
+      if (this.nextClicked) return;
+      this.nextClicked = true;
+      const pageEl = this.$refs[this.currentPageName] as any;
+      pageEl?.onNext();
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>
-.add-server-popout {
+.welcome-popout {
   background: var(--popout-color);
   border-radius: 4px;
   overflow: hidden;
@@ -56,11 +116,18 @@ export default defineComponent({
   width: 100%;
   height: 500px;
 }
+
 .footer {
   display: flex;
+  .current-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    color: rgba(255, 255, 255, 0.7);
+  }
   .nav-buttons {
     display: flex;
-    margin-left: auto;
   }
 }
 .animate-in {
@@ -101,6 +168,10 @@ export default defineComponent({
   background: var(--main-header-bg-color);
   .text {
     margin-left: 4px;
+  }
+  .icon {
+    height: 30px;
+    width: 30px;
   }
 }
 .content {

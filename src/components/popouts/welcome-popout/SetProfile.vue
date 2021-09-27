@@ -1,11 +1,18 @@
 <template>
   <div class="set-profile">
-    <Avatar
-      :seed-id="currentUser.id || ''"
-      :image-id="currentUser.avatar"
-      size="120px"
-    />
-    <CustomButton icon="edit" name="Edit Avatar" />
+    <div class="profile">
+      <img v-if="bannerImageUrl" class="banner" :src="bannerImageUrl" />
+      <Avatar
+        :seed-id="currentUser.id || ''"
+        :image-id="currentUser.avatar"
+        size="120px"
+        class="avatar"
+      />
+    </div>
+    <div class="buttons">
+      <CustomButton icon="edit" name="Avatar" />
+      <CustomButton icon="edit" name="Banner" />
+    </div>
     <div class="user-tag">
       <CustomInput
         title="Username"
@@ -38,7 +45,8 @@ export default defineComponent({
   data() {
     return {
       username: "",
-      tag: ""
+      tag: "",
+      banner: null,
     };
   },
   methods: {
@@ -46,24 +54,32 @@ export default defineComponent({
       this.username = this.currentUser.username || "";
       this.tag = this.currentUser.tag || "";
     },
+    onNext() {
+      this.$emit("onAction", true);
+    },
   },
 
   watch: {
     connected: {
       immediate: true,
-      handler(){
+      handler() {
         this.reset();
-      }
-    }
+      },
+    },
   },
   computed: {
+    bannerImageUrl(): any {
+      if (this.banner) return this.banner;
+      if (!this.currentUser.banner) return null;
+      return process.env.VUE_APP_NERTIVIA_CDN + this.currentUser.banner;
+    },
     currentUser() {
       return MeModule.user;
     },
     connected() {
-      return MeModule.connected
-    }
-  }
+      return MeModule.connected;
+    },
+  },
 });
 </script>
 <style scoped lang="scss">
@@ -74,6 +90,38 @@ export default defineComponent({
   align-content: center;
   height: 100%;
   justify-content: center;
+}
+
+.profile {
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+  position: relative;
+  max-width: 400px;
+  width: 100%;
+  max-height: 160px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.banner {
+  position: absolute;
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+  opacity: 1;
+}
+.avatar {
+  border-radius: 50%;
+  z-index: 1111;
+  box-shadow: 0 0 8px 1px black;
+}
+
+.buttons {
+  display: flex;
+  margin-top: 20px;
 }
 .user-tag {
   display: flex;
@@ -88,5 +136,10 @@ export default defineComponent({
     width: 100px;
     flex-shrink: 0;
   }
+}
+</style>
+<style>
+.welcome-popout .avatar .image {
+  border: none;
 }
 </style>
