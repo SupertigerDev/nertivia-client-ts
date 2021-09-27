@@ -22,7 +22,7 @@ export default defineComponent({
   data() {
     return {
       timeLeft: "",
-      interval: null as any
+      interval: null as any,
     };
   },
   computed: {
@@ -49,12 +49,12 @@ export default defineComponent({
         this.serverID,
         permissions.ADMIN.value
       );
-    }
+    },
   },
   watch: {
     rateTimeLeft: {
-      handler: "onRateLimit"
-    }
+      handler: "onRateLimit",
+    },
   },
   beforeUnmount() {
     clearInterval(this.interval);
@@ -93,8 +93,8 @@ export default defineComponent({
       this.calculate();
       if (this.interval) return;
       this.interval = setInterval(this.calculate, 500);
-    }
-  }
+    },
+  },
 });
 </script>
 

@@ -14,19 +14,19 @@ export default defineComponent({
   props: {
     bullets: {
       type: [Array, String] as PropType<string[] | string>,
-      required: true
+      required: true,
     },
     color: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     list(): any {
       if (typeof this.bullets === "string") return [this.bullets];
       return this.bullets;
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

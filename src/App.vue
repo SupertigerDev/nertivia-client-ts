@@ -12,7 +12,7 @@ import Popouts from "@/components/popouts/Popouts.vue";
 import {
   getCustomCssVars,
   changeCssVar,
-  setThemeColor
+  setThemeColor,
 } from "@/utils/customCssVars";
 import { applyFont } from "./utils/applyFont";
 import fonts from "@/utils/fonts.json";
@@ -21,8 +21,8 @@ import { defineAsyncComponent } from "vue";
 import { defineComponent } from "vue";
 import i18n from "./i18n";
 
-const WindowControl = defineAsyncComponent(() =>
-  import("@/components/electron/WindowControl.vue")
+const WindowControl = defineAsyncComponent(
+  () => import("@/components/electron/WindowControl.vue")
 );
 
 export default defineComponent({
@@ -48,12 +48,12 @@ export default defineComponent({
     setLocale() {
       const currentLocale = localStorage["locale"] || "en";
       if (currentLocale === "en") return;
-      import(`@/locales/${currentLocale}.json`).then(messages => {
+      import(`@/locales/${currentLocale}.json`).then((messages) => {
         i18n.global.setLocaleMessage(currentLocale, messages.default);
         i18n.global.locale = currentLocale;
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

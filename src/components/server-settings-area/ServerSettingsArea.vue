@@ -32,7 +32,7 @@ export default defineComponent({
     General,
     DeleteServer,
     BannedUsers,
-    ServerVisibility
+    ServerVisibility,
   },
   computed: {
     page(): any {
@@ -41,12 +41,12 @@ export default defineComponent({
     },
     serverID(): any {
       return this.$route.params.server_id;
-    }
+    },
   },
   watch: {
     page: {
-      handler: "onPageChanged"
-    }
+      handler: "onPageChanged",
+    },
   },
   mounted() {
     if (!this.page.id) {
@@ -55,7 +55,7 @@ export default defineComponent({
     }
     TabsModule.setCurrentTab({
       icon: this.page.icon,
-      name: this.page.name + " Settings"
+      name: this.page.name + " Settings",
     });
   },
   methods: {
@@ -64,10 +64,10 @@ export default defineComponent({
 
       TabsModule.setCurrentTab({
         icon: this.page?.icon,
-        name: this.page?.name + " Settings"
+        name: this.page?.name + " Settings",
       });
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

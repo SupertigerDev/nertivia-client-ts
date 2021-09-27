@@ -14,7 +14,7 @@ export const onChannelCreated = (data: { channel: ChannelWithUser }) => {
   ChannelsModule.AddChannel({
     channelID: data.channel.channelID,
     lastMessaged: data.channel.lastMessaged,
-    recipients: data.channel.recipients?.map(u => u.id)
+    recipients: data.channel.recipients?.map((u) => u.id),
   });
 };
 
@@ -25,11 +25,11 @@ export const onServerChannelUpdate = (channel: Partial<Channel>) => {
   if (!channel.channelID) return;
   MessagesModule.UpdateLastMessageSend({
     channelID: channel.channelID,
-    timestamp: 0
+    timestamp: 0,
   });
   ChannelsModule.updateChannel({
     channelID: channel.channelID,
-    update: channel
+    update: channel,
   });
 };
 export const onServerChannelRemoved = (data: {
@@ -54,6 +54,6 @@ export const onServerChannelPositionChange = (data: {
 }) => {
   ServersModule.UpdateServer({
     server_id: data.serverID,
-    channel_position: data.channel_position
+    channel_position: data.channel_position,
   });
 };

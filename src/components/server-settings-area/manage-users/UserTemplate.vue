@@ -33,12 +33,12 @@ export default defineComponent({
   props: {
     serverMember: {
       type: Object as PropType<ServerMember>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      hover: false
+      hover: false,
     };
   },
   computed: {
@@ -62,7 +62,7 @@ export default defineComponent({
     },
     defaultRole(): any {
       return ServerRolesModule.defaultServerRole(this.serverMember.server_id);
-    }
+    },
   },
   methods: {
     rightClickEvent(event: MouseEvent) {
@@ -73,11 +73,11 @@ export default defineComponent({
         data: {
           x: event.clientX,
           y: event.clientY,
-          id: this.member.id
-        }
+          id: this.member.id,
+        },
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

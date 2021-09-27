@@ -26,8 +26,8 @@ export default defineComponent({
   props: {
     embed: {
       type: Object as PropType<Embed>,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     imageUrl(): any {
@@ -47,7 +47,7 @@ export default defineComponent({
         return url;
       }
       return `https://${url}`;
-    }
+    },
   },
   methods: {
     imageClick() {
@@ -57,8 +57,8 @@ export default defineComponent({
         data: {
           url: this.imageUrl,
           unsafe_url: this.embed?.image?.url,
-          dimensions: this.embed.image?.dimensions
-        }
+          dimensions: this.embed.image?.dimensions,
+        },
       });
     },
     urlClick(event) {
@@ -66,10 +66,10 @@ export default defineComponent({
       PopoutsModule.ShowPopout({
         id: "html-embed-url-sus",
         component: "OpenLinkConfirm",
-        data: { url: this.url }
+        data: { url: this.url },
       });
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

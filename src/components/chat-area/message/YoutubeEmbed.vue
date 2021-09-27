@@ -19,8 +19,8 @@ export default defineComponent({
   props: {
     embed: {
       type: Object as PropType<Embed>,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     imageURL(): any {
@@ -40,8 +40,8 @@ export default defineComponent({
         return url;
       }
       return `https://${url}`;
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

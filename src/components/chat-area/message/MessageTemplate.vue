@@ -79,27 +79,27 @@ export default defineComponent({
     EmbedMessage,
     HTMLEmbed,
     ButtonsMessage,
-    Reactions
+    Reactions,
   },
   props: {
     message: {
       type: Object as PropType<Message>,
-      required: true
+      required: true,
     },
     grouped: {
       type: Boolean,
-      required: true
+      required: true,
     },
     hideContext: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
       contextPos: {} as { x?: number; y?: number },
       hover: false,
-      viewBlockedMessage: false
+      viewBlockedMessage: false,
     };
   },
   computed: {
@@ -126,14 +126,14 @@ export default defineComponent({
         !this.viewBlockedMessage &&
         UsersModule.blockedUserIDArr.includes(this.message.creator.id)
       );
-    }
+    },
   },
   methods: {
     showProfile() {
       PopoutsModule.ShowPopout({
         id: "profile",
         component: "profile-popout",
-        data: { id: this.creator.id }
+        data: { id: this.creator.id },
       });
     },
     messageContext(event: MouseEvent & { target: HTMLElement }) {
@@ -154,8 +154,8 @@ export default defineComponent({
               y: event.pageY,
               message: this.message,
               tempUser: this.message.creator,
-              element: event.target
-            }
+              element: event.target,
+            },
           });
           break;
         }
@@ -170,11 +170,11 @@ export default defineComponent({
           x: event.clientX,
           y: event.clientY,
           tempUser: this.message.creator,
-          id: this.message.creator.id
-        }
+          id: this.message.creator.id,
+        },
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

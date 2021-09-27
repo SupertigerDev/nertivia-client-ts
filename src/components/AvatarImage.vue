@@ -25,32 +25,32 @@ export default defineComponent({
   props: {
     size: {
       type: String,
-      required: false
+      required: false,
     },
     imageId: {
       type: String as PropType<string | null | undefined>,
-      required: false
+      required: false,
     },
     seedId: {
       type: String,
-      required: false
+      required: false,
     },
     willHaveClickEvent: {
       type: Boolean,
-      required: false
+      required: false,
     },
     animateGif: {
       type: Boolean,
-      required: false
+      required: false,
     },
     customUrl: {
       type: String,
-      required: false
+      required: false,
     },
     badges: {
       type: Number,
-      required: false
-    }
+      required: false,
+    },
   },
   computed: {
     src(): any {
@@ -79,15 +79,15 @@ export default defineComponent({
     style(): any {
       const style: any = {
         width: this.size,
-        height: this.size
+        height: this.size,
       };
 
       if (this.highPriorityBadge) {
         style.borderColor = this.highPriorityBadge.color;
       }
       return style;
-    }
-  }
+    },
+  },
 });
 </script>
 

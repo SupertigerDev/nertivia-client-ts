@@ -50,14 +50,14 @@ export default defineComponent({
   props: {
     item: {
       type: Object as PropType<Item>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       newStatus: this.item.status,
       newName: this.item.name,
-      newFilename: this.item.filename
+      newFilename: this.item.filename,
     };
   },
   methods: {
@@ -66,10 +66,10 @@ export default defineComponent({
         status: this.newStatus,
         name: this.newName,
         filename: this.newFilename,
-        id: this.item.id
+        id: this.item.id,
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

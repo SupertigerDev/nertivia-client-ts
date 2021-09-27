@@ -64,8 +64,8 @@ export default defineComponent({
   props: {
     themeID: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -80,8 +80,8 @@ export default defineComponent({
         mode: "text/css",
         lineNumbers: true,
         theme: "ayu-mirage",
-        line: true
-      }
+        line: true,
+      },
     };
   },
   computed: {
@@ -92,7 +92,7 @@ export default defineComponent({
       if (this.name !== this.theme.name) return true;
       if (this.css !== this.theme.css) return true;
       return false;
-    }
+    },
   },
   async mounted() {
     const w = window as any;
@@ -123,7 +123,7 @@ export default defineComponent({
       return updateTheme(this.theme?.id, {
         css: this.css,
         name: this.name,
-        client_version: this.$lastUIBreakingVersion
+        client_version: this.$lastUIBreakingVersion,
       }).then(() => {
         if (!this.theme) return;
         this.theme.css = this.css;
@@ -168,7 +168,7 @@ export default defineComponent({
       this.popupWindow.onbeforeunload = () => {
         console.log("closed");
       };
-      this.popupWindow.addEventListener("message", event => {
+      this.popupWindow.addEventListener("message", (event) => {
         const data = event.data;
         if (data.action === "UpdateAndApply") {
           if (!this.theme) return;
@@ -185,8 +185,8 @@ export default defineComponent({
           return;
         }
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

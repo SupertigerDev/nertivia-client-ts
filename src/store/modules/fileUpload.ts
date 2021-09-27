@@ -3,7 +3,7 @@ import {
   VuexModule,
   Action,
   Mutation,
-  getModule
+  getModule,
 } from "vuex-module-decorators";
 import store from "..";
 
@@ -114,7 +114,7 @@ class FileUpload extends VuexModule {
       cdn: this.cdn,
       channelID: payload.channelID,
       file: this.file.file,
-      progress: 0
+      progress: 0,
     });
   }
 
@@ -156,9 +156,9 @@ class FileUpload extends VuexModule {
               username: "Beep Boop",
               id: "0",
               bot: true,
-              tag: "0000"
+              tag: "0000",
             },
-            quotes: []
+            quotes: [],
           });
           this.RemoveFromQueue({ index: 0 });
           this.RunQueue();

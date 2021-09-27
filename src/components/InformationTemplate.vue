@@ -16,13 +16,13 @@ export default defineComponent({
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
     information: {
       type: String,
-      required: false
-    }
-  }
+      required: false,
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

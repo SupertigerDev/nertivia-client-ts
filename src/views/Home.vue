@@ -66,10 +66,10 @@ export default defineComponent({
       PopoutsModule.ShowPopout({
         id: "changelog-popout",
         component: "ChangelogPopout",
-        data: {}
+        data: {},
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

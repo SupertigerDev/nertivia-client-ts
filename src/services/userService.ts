@@ -20,16 +20,14 @@ export function reportError(error: any, val: string): Promise<any> {
         name: error.name,
         stack: error.stack,
         user_message: val,
-        url: location.href
-      }
+        url: location.href,
+      },
     })
     .json();
 }
 
 export function getUser(): Promise<any> {
-  return wrapper()
-    .get(`user`)
-    .json();
+  return wrapper().get(`user`).json();
 }
 export function updateUser(
   data: UpdateUserRequest,
@@ -42,14 +40,14 @@ export function updateUser(
 export function changeStatus(status: number): Promise<any> {
   return wrapper()
     .post(`settings/status`, {
-      json: { status }
+      json: { status },
     })
     .json();
 }
 export function changeCustomStatus(CustomStatus: string): Promise<any> {
   return wrapper()
     .post(`settings/custom-status`, {
-      json: { custom_status: CustomStatus }
+      json: { custom_status: CustomStatus },
     })
     .json();
 }
@@ -57,7 +55,7 @@ export function changeCustomStatus(CustomStatus: string): Promise<any> {
 export function registerFCM(token: string): Promise<any> {
   return wrapper()
     .post(`devices`, {
-      json: { token }
+      json: { token },
     })
     .json();
 }
@@ -81,14 +79,10 @@ export function removeRole(
     .json();
 }
 export function deleteAccount(password: string): Promise<any> {
-  return wrapper()
-    .delete(`user/delete-account`, { json: { password } })
-    .json();
+  return wrapper().delete(`user/delete-account`, { json: { password } }).json();
 }
 export function editHtmlProfile(html: string): Promise<any> {
-  return wrapper()
-    .post(`user/html-profile`, { json: { html } })
-    .json();
+  return wrapper().post(`user/html-profile`, { json: { html } }).json();
 }
 
 export function getHtmlProfile(): Promise<jsonHtml[]> {
@@ -101,9 +95,7 @@ export function getHtmlProfile(): Promise<jsonHtml[]> {
     });
 }
 export function deleteHtmlProfile(): Promise<any> {
-  return wrapper()
-    .delete(`user/html-profile`)
-    .json();
+  return wrapper().delete(`user/html-profile`).json();
 }
 
 export interface ReturnedUser {
@@ -132,29 +124,19 @@ export interface AboutMe {
   name: string;
 }
 export function fetchUser(id: string): Promise<ReturnedUser> {
-  return wrapper()
-    .get(`user/${id}`)
-    .json();
+  return wrapper().get(`user/${id}`).json();
 }
 export function updateSurvay(data: AboutMe): Promise<any> {
-  return wrapper()
-    .put(`user/survey`, { json: data })
-    .json();
+  return wrapper().put(`user/survey`, { json: data }).json();
 }
 export function logout(): Promise<any> {
-  return wrapper()
-    .delete(`user/logout`)
-    .json();
+  return wrapper().delete(`user/logout`).json();
 }
 
 // move to relationshipService.ts
 export function blockUser(id: string): Promise<any> {
-  return wrapper()
-    .post(`user/block`, { json: { id } })
-    .json();
+  return wrapper().post(`user/block`, { json: { id } }).json();
 }
 export function UnblockUser(id: string): Promise<any> {
-  return wrapper()
-    .delete(`user/block`, { json: { id } })
-    .json();
+  return wrapper().delete(`user/block`, { json: { id } }).json();
 }

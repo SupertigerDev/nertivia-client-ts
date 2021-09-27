@@ -19,7 +19,7 @@ import {
   Entity,
   Span,
   addTextSpans,
-  UnreachableCaseError
+  UnreachableCaseError,
 } from "nertivia-markup";
 import "./Markup.scss";
 import emojiParser from "@/utils/emojiParser";
@@ -53,7 +53,7 @@ const replaceOldMentions = (text: string) =>
     .replaceAll(/<:([\w\d_-]+?):([\w\d_-]+?)>/g, "[custom_emoji:$2:$1]");
 
 const transformEntities = (entity: Entity, ctx: RenderContext) =>
-  entity.entities.map(e => transformEntity(e, ctx));
+  entity.entities.map((e) => transformEntity(e, ctx));
 
 const sliceText = (ctx: any, span: Span, { countText = true } = {}) => {
   const text = ctx.props.text.slice(span.start, span.end);
@@ -152,7 +152,7 @@ function transformCustomEntity(entity: CustomEntity, ctx: any) {
   const expr = sliceText(ctx, entity.innerSpan, { countText: false });
   switch (type) {
     case "@": {
-      let user = ctx.props.message?.mentions?.find(m => m.id === expr);
+      let user = ctx.props.message?.mentions?.find((m) => m.id === expr);
       if (!user) {
         user = UsersModule.users[expr];
       }
@@ -160,7 +160,7 @@ function transformCustomEntity(entity: CustomEntity, ctx: any) {
       if (user) {
         ctx.textCount += expr.length;
         return h(MentionUser, {
-          user: user
+          user: user,
         });
       }
       break;
@@ -187,14 +187,16 @@ function transformCustomEntity(entity: CustomEntity, ctx: any) {
             </span>
           );
         }
-        const quote = ctx.props.message?.quotes.find(q => q.messageID === expr);
+        const quote = ctx.props.message?.quotes.find(
+          (q) => q.messageID === expr
+        );
         if (quote && quoteFormat != "text") {
           ctx.textCount += expr.length;
           return h(MessageQuote, {
             quote,
             user: quote.creator,
             message: ctx.props.message,
-            nestedLevel: (ctx.props.nestedLevel ?? 0) + 1
+            nestedLevel: (ctx.props.nestedLevel ?? 0) + 1,
           });
         }
       }
@@ -207,11 +209,11 @@ function transformCustomEntity(entity: CustomEntity, ctx: any) {
       return h(CustomEmoji, {
         animated: type.startsWith("animated"),
         emojiName: name,
-        emojiID: id
+        emojiID: id,
       });
     }
     case "link": {
-      const [url, text] = expr.split("->").map(s => s.trim());
+      const [url, text] = expr.split("->").map((s) => s.trim());
 
       if (url && text) {
         ctx.textCount += text.length;
@@ -242,10 +244,7 @@ function transformCustomEntity(entity: CustomEntity, ctx: any) {
     // todo: maybe [^: text] but that might be better for superscript, who knows
     case "vertical": {
       if (!ctx.props.inline) {
-        const output = expr
-          .split("  ")
-          .join("\n")
-          .trim();
+        const output = expr.split("  ").join("\n").trim();
 
         if (output.length > 0) {
           return <div class="vertical">{output}</div>;
@@ -274,7 +273,7 @@ const Component = (props: MarkupProps) => {
           ctx.props?.largeEmoji &&
           ctx.textCount === 0 &&
           ctx.emojiCount <= 5,
-        inline: ctx.props?.inline
+        inline: ctx.props?.inline,
       }}
     >
       {output}
@@ -287,7 +286,7 @@ Component.props = {
   message: Object,
   largeEmoji: {
     type: Boolean,
-    default: true
+    default: true,
   },
   nestedLevel: Number,
   messageQuoteFormat: String as () => MarkupProps["messageQuoteFormat"],
@@ -295,8 +294,8 @@ Component.props = {
   // this disables some features and restyles some others.
   inline: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 };
 
 export default Component;

@@ -10,8 +10,8 @@ export default defineComponent({
   props: {
     spoiled: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return { isSpoiled: this.spoiled };
@@ -19,8 +19,8 @@ export default defineComponent({
   methods: {
     spoil() {
       this.isSpoiled = true;
-    }
-  }
+    },
+  },
 });
 </script>
 

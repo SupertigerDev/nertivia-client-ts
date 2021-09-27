@@ -59,14 +59,14 @@ export default defineComponent({
         if (p.admin && !isAdminOrCreator) return false;
         return true;
       });
-    }
+    },
   },
   methods: {
     changeTab(path: string) {
       DrawersModule.SetLeftDrawer(false);
       this.$router.push({ params: { tab: path } });
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

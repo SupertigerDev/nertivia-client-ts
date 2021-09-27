@@ -52,18 +52,18 @@ export default defineComponent({
   components: {
     CustomButton,
     SelectedBotPage,
-    BotTemplate
+    BotTemplate,
   },
   data() {
     return {
       showContext: false,
       selectedBotIndex: -1,
       createRequestSent: false,
-      bots: null as User[] | null
+      bots: null as User[] | null,
     };
   },
   mounted() {
-    getBots().then(bot => {
+    getBots().then((bot) => {
       this.bots = bot.reverse();
     });
   },
@@ -83,11 +83,11 @@ export default defineComponent({
       if (this.createRequestSent) return;
       this.createRequestSent = true;
       createBot()
-        .then(bot => {
+        .then((bot) => {
           this.bots?.unshift(bot);
           this.selectedBotIndex = 0;
         })
-        .catch(async err => {
+        .catch(async (err) => {
           PopoutsModule.ShowPopout({
             id: "error",
             component: "generic-popout",
@@ -95,13 +95,13 @@ export default defineComponent({
               title: "Error Creating Bot",
               description: !err.response
                 ? this.$t("could-not-connect-to-server")
-                : (await err.response.json()).message
-            }
+                : (await err.response.json()).message,
+            },
           });
         })
         .finally(() => (this.createRequestSent = false));
-    }
-  }
+    },
+  },
 });
 </script>
 

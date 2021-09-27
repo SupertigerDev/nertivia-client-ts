@@ -17,8 +17,8 @@ export default defineComponent({
   computed: {
     src(): string {
       return emojiParser.twemojiPath(this.emoji.unicode);
-    }
-  }
+    },
+  },
 });
 </script>
 

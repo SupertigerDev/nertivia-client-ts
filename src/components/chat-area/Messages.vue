@@ -21,9 +21,9 @@ export default defineComponent({
   props: {
     channelID: {
       type: String,
-      required: true
+      required: true,
     },
-    animateMessage: Boolean
+    animateMessage: Boolean,
   },
   setup(props) {
     const isMoreThanMinute = (before: Message, after: Message) => {
@@ -64,7 +64,7 @@ export default defineComponent({
     });
 
     return { messages };
-  }
+  },
 });
 </script>
 

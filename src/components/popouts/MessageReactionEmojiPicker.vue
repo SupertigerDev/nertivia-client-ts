@@ -34,12 +34,12 @@ export default defineComponent({
   props: {
     data: {
       type: Object as PropType<IProp>,
-      required: true
+      required: true,
     },
     identity: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     clampPos(): any {
@@ -57,16 +57,16 @@ export default defineComponent({
 
       return {
         top: clampedTop + "px",
-        left: clampedLeft + "px"
+        left: clampedLeft + "px",
       };
     },
     windowDiamentions(): any {
       const { resizeHeight, resizeWidth } = useWindowProperties();
       return {
         height: resizeHeight,
-        width: resizeWidth
+        width: resizeWidth,
       };
-    }
+    },
   },
   methods: {
     clickOutside(event: any) {
@@ -78,7 +78,7 @@ export default defineComponent({
 
       const reactions = MessagesModule.messageReactions({
         messageID: this.data.messageID,
-        channelID: this.data.channelID
+        channelID: this.data.channelID,
       });
 
       if (reactions && reactions?.length > 10) {
@@ -87,8 +87,8 @@ export default defineComponent({
           component: "generic-popout",
           data: {
             title: "Reaction Limit",
-            description: "Reaction limit reached for this message."
-          }
+            description: "Reaction limit reached for this message.",
+          },
         });
         return;
       }
@@ -97,7 +97,7 @@ export default defineComponent({
         messageID: this.data.messageID,
         channelID: this.data.channelID,
         emojiID: event.emojiID,
-        unicode: event.unicode
+        unicode: event.unicode,
       });
       if (oldReaction && oldReaction.reacted) return;
       if (!oldReaction) {
@@ -106,7 +106,7 @@ export default defineComponent({
           emojiID: event.emojiID,
           unicode: event.unicode,
           gif: event.gif,
-          reacted: false
+          reacted: false,
         };
       }
 
@@ -114,19 +114,19 @@ export default defineComponent({
         channelID: this.data.channelID,
         messageID: this.data.messageID,
         reaction: { ...oldReaction, count: oldReaction.count + 1 },
-        removeIfZero: false
+        removeIfZero: false,
       });
 
       addReaction(this.data.channelID, this.data.messageID, {
         emojiID: event.emojiID,
         gif: event.gif,
-        unicode: event.unicode
+        unicode: event.unicode,
       });
     },
     clamp(num: number, min: number, max: number) {
       return num <= min ? min : num >= max ? max : num;
-    }
-  }
+    },
+  },
 });
 </script>
 

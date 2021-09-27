@@ -26,8 +26,8 @@ export default defineComponent({
   props: {
     friends: {
       type: Array as PropType<User[]>,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     friendClicked(friend: User) {
@@ -35,10 +35,10 @@ export default defineComponent({
         id: "profile",
         component: "profile-popout",
         data: { id: friend.id },
-        key: friend.id
+        key: friend.id,
       });
-    }
-  }
+    },
+  },
 });
 </script>
 <style scoped lang="scss">

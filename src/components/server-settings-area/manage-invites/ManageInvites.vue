@@ -66,7 +66,7 @@ import {
   createCustomInvite,
   createInvite,
   deleteInvite,
-  getInvites
+  getInvites,
 } from "@/services/serverService";
 import LoadingScreen from "@/components/LoadingScreen.vue";
 import CustomButton from "@/components/CustomButton.vue";
@@ -85,7 +85,7 @@ export default defineComponent({
       invites: null as Invite[] | null,
       creating: false,
       error: null as string | null,
-      customUrlError: null as string | null
+      customUrlError: null as string | null,
     };
   },
   computed: {
@@ -96,7 +96,7 @@ export default defineComponent({
     },
     sortedInvites(): any {
       if (!this.invites) return null;
-      const sort = [...this.invites].reverse().sort(a => {
+      const sort = [...this.invites].reverse().sort((a) => {
         if (a?.custom) return -1;
         return 1;
       });
@@ -110,7 +110,7 @@ export default defineComponent({
     },
     serverID(): any {
       return this.$route.params.server_id;
-    }
+    },
   },
   mounted() {
     getInvites(this.serverID).then((arr: Invite[]) => {
@@ -130,7 +130,7 @@ export default defineComponent({
       this.creating = true;
       this.customUrlError = null;
       const customUrl = this.customUrlValue.trim();
-      const customInviteIndex = this.invites.findIndex(i => i.custom) || -1;
+      const customInviteIndex = this.invites.findIndex((i) => i.custom) || -1;
       if (!customUrl.length && this.invites[customInviteIndex]) {
         this.deleteInvite(this.invites[customInviteIndex]);
         return;
@@ -144,12 +144,12 @@ export default defineComponent({
               custom: true,
               creator: MeModule.user as any,
               invite_code: customUrl,
-              uses: 0
+              uses: 0,
             });
           }
           this.creating = false;
         })
-        .catch(async err => {
+        .catch(async (err) => {
           this.creating = false;
           if (!err.response) {
             return (this.customUrlError = this.$t(
@@ -170,11 +170,11 @@ export default defineComponent({
             creator: MeModule.user as any,
             invite_code: invite.invite_code,
             uses: 0,
-            custom: false
+            custom: false,
           });
           this.creating = false;
         })
-        .catch(async err => {
+        .catch(async (err) => {
           this.creating = false;
           if (!err.response) {
             this.error = this.$t("could-not-connect-to-server").toString();
@@ -188,14 +188,14 @@ export default defineComponent({
       deleteInvite(invite.invite_code).then(() => {
         if (!this.invites) return;
         this.invites = this.invites?.filter(
-          i => i.invite_code !== invite.invite_code
+          (i) => i.invite_code !== invite.invite_code
         );
         if (invite.custom) {
           this.customUrlValue = "";
         }
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

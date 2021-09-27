@@ -31,16 +31,16 @@ export default defineComponent({
   props: {
     identity: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      logs: null as Changelog[] | null
+      logs: null as Changelog[] | null,
     };
   },
   mounted() {
-    getChangelog().then(logs => {
+    getChangelog().then((logs) => {
       this.logs = logs;
     });
   },
@@ -54,8 +54,8 @@ export default defineComponent({
     },
     buttonClicked() {
       this.close();
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

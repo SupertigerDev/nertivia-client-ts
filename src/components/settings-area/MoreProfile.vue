@@ -70,13 +70,13 @@ export default defineComponent({
     CustomInput,
     CustomButton,
     InformationTemplate,
-    CustomDropDown
+    CustomDropDown,
   },
   props: {
     aboutMe: {
       type: Object as PropType<AboutMe>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -91,7 +91,7 @@ export default defineComponent({
       ageGroups: ageGroups,
       continents: continents,
       countries: countries,
-      saving: false
+      saving: false,
     };
   },
   computed: {
@@ -99,10 +99,10 @@ export default defineComponent({
       if (!this.continent || this.continent === "Rather not say") {
         return [];
       }
-      const continent = continents.find(c => c.name === this.continent);
+      const continent = continents.find((c) => c.name === this.continent);
       if (!continent) return [];
       return countries.filter(
-        c => c.code === continent.code || c.code === "no"
+        (c) => c.code === continent.code || c.code === "no"
       );
     },
     showSaveButton(): any {
@@ -113,7 +113,7 @@ export default defineComponent({
       if (this.country !== (this.aboutMe?.country || "")) return true;
       if (this.about_me !== (this.aboutMe?.about_me || "")) return true;
       return false;
-    }
+    },
   },
   methods: {
     save() {
@@ -126,13 +126,13 @@ export default defineComponent({
         continent: this.continent,
         country: this.country,
         gender: this.gender,
-        name: this.name
+        name: this.name,
       }).finally(() => {
         this.saving = false;
         this.$emit("update");
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

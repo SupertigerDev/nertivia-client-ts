@@ -7,9 +7,9 @@ export default defineComponent({
   props: {
     url: {
       type: String,
-      required: true
+      required: true,
     },
-    text: String
+    text: String,
   },
   setup(props) {
     let sanitizedUrl = computed(() => {
@@ -32,11 +32,11 @@ export default defineComponent({
     };
     const clicked = (event: any) => {
       const text = props.text ?? sanitizedUrl;
-      if (text !== sanitizedUrl) {
+      if (text !== sanitizedUrl.value) {
         PopoutsModule.ShowPopout({
           id: "html-embed-url-sus",
           component: "OpenLinkConfirm",
-          data: { url: sanitizedUrl }
+          data: { url: sanitizedUrl },
         });
         event.preventDefault();
         return;
@@ -56,6 +56,6 @@ export default defineComponent({
         {props.text ?? sanitizedUrl.value}
       </a>
     );
-  }
+  },
 });
 </script>

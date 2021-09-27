@@ -8,7 +8,7 @@
     v-model="tabs"
     item-key="name"
   >
-    <template #item="{element, index}">
+    <template #item="{ element, index }">
       <Tab :tab="element" :selected="currentTabIndex === index" />
     </template>
   </Draggable>
@@ -30,12 +30,12 @@ export default defineComponent({
       },
       set(tabs: any) {
         TabsModule.updateTabs(tabs);
-      }
+      },
     },
     currentTabIndex(): number {
-      return this.tabs.findIndex(tab => tab.path === this.$route.path);
-    }
-  }
+      return this.tabs.findIndex((tab) => tab.path === this.$route.path);
+    },
+  },
 });
 </script>
 

@@ -15,13 +15,13 @@
         v-if="showIconContext"
         :items="[
           { id: 'emoji', name: 'Emoji', icon: 'face' },
-          { id: 'default', name: 'Default', icon: 'circle', iconSize: '10px' }
+          { id: 'default', name: 'Default', icon: 'circle', iconSize: '10px' },
         ]"
         @itemClick="onEmojiContextClick"
         :pos="{ x: 0, y: 60 }"
       />
       <EmojiPicker
-        style="top: 60px;left:0px;height:500px;"
+        style="top: 60px; left: 0px; height: 500px"
         @click="emojiClicked"
         v-if="showEmojiPicker"
       />
@@ -87,7 +87,7 @@ import EmojiPicker from "@/components/emoji-picker/EmojiPicker.vue";
 import ContextMenu from "@/components/ContextMenu.vue";
 import {
   deleteServerChannel,
-  updateServerChannel
+  updateServerChannel,
 } from "@/services/channelService";
 import { ChannelsModule } from "@/store/modules/channels";
 import { ServersModule } from "@/store/modules/servers";
@@ -103,13 +103,13 @@ export default defineComponent({
     CustomButton,
     CheckBox,
     ContextMenu,
-    EmojiPicker
+    EmojiPicker,
   },
   props: {
     channelID: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -122,7 +122,7 @@ export default defineComponent({
       error: null as string | null,
       showIconContext: false,
       showEmojiPicker: false,
-      sendMessagePermission: false
+      sendMessagePermission: false,
     };
   },
   computed: {
@@ -156,12 +156,8 @@ export default defineComponent({
       return ServersModule.servers[this.channel?.server_id || ""];
     },
     showSaveButton(): any {
-      const {
-        channelName,
-        sendMessagePermission,
-        rateLimit,
-        channelIcon
-      } = this.changed;
+      const { channelName, sendMessagePermission, rateLimit, channelIcon } =
+        this.changed;
       return channelName || sendMessagePermission || rateLimit || channelIcon;
     },
     changed(): any {
@@ -181,15 +177,15 @@ export default defineComponent({
     },
     connected(): any {
       return MeModule.connected;
-    }
+    },
   },
   watch: {
     connected: {
-      handler: "isConnected"
+      handler: "isConnected",
     },
     channel: {
-      handler: "channelChange"
-    }
+      handler: "channelChange",
+    },
   },
   mounted() {
     this.reset();
@@ -266,16 +262,16 @@ export default defineComponent({
         name: this.channelName,
         permissions: { send_message: this.sendMessagePermission },
         rateLimit: parseInt(this.rateLimit as any),
-        icon: this.channelIcon || null
+        icon: this.channelIcon || null,
       })
-        .then(json => {
+        .then((json) => {
           ChannelsModule.updateChannel({
             channelID: json.channelID,
-            update: json
+            update: json,
           });
           this.reset();
         })
-        .catch(async err => {
+        .catch(async (err) => {
           if (!err.response) {
             return (this.error = this.$t(
               "could-not-connect-to-server"
@@ -290,8 +286,8 @@ export default defineComponent({
           }
         })
         .finally(() => (this.requestSent = false));
-    }
-  }
+    },
+  },
 });
 </script>
 

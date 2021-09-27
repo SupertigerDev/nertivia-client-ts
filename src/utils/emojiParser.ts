@@ -40,12 +40,12 @@ export const replaceShortcode = (message: string) => {
 
   const regex = /:([\w]+):/g;
 
-  return message.replace(regex, x => {
+  return message.replace(regex, (x) => {
     // const emoji = emojiExists(x.replace(/[::]+/g, ""));
     // if (emoji) return emoji.unicode;
 
     const customEmoji = customEmojis.find(
-      e => e.name === x.substr(1).slice(0, -1)
+      (e) => e.name === x.substr(1).slice(0, -1)
     );
     if (customEmoji) {
       if (customEmoji.gif) {
@@ -70,7 +70,7 @@ export const emojiToShortcode = (message: string) => {
 };
 
 export const replaceEmojis = (message: string) => {
-  return twemoji.parse(message, function(codepoint) {
+  return twemoji.parse(message, function (codepoint) {
     if (!codepoint) return message;
     return `${process.env.VUE_APP_TWEMOJI_LOCATION}${codepoint}.svg`;
   });
@@ -82,17 +82,17 @@ export const searchEmoji = (shortCode: string) => {
   return [
     ...matchSorter(customEmojis, shortCode, {
       keys: ["name"],
-      threshold: matchSorter.rankings.CONTAINS
+      threshold: matchSorter.rankings.CONTAINS,
     }),
     ...matchSorter(emojis, shortCode, {
       keys: ["shortcodes"],
-      threshold: matchSorter.rankings.CONTAINS
-    })
+      threshold: matchSorter.rankings.CONTAINS,
+    }),
   ];
 };
 
 export const findEmoji = (shortCode: string) => {
-  return emojis.find(emoji => emoji.shortcodes.includes(shortCode));
+  return emojis.find((emoji) => emoji.shortcodes.includes(shortCode));
 };
 
 export { emojis as ALL_EMOJIS, groups as ALL_EMOJI_GROUPS };
@@ -108,5 +108,5 @@ export default {
   twemojiPath,
   twemojiCodepoints,
   allEmojis: emojis,
-  allGroups: groups
+  allGroups: groups,
 };

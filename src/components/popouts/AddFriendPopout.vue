@@ -47,7 +47,7 @@ export default defineComponent({
       error: null as string | null,
       success: null as string | null,
       requestSent: false,
-      usernameAndTag: ""
+      usernameAndTag: "",
     };
   },
   methods: {
@@ -88,7 +88,7 @@ export default defineComponent({
           this.success = "Friend request send!";
           this.requestSent = false;
         })
-        .catch(async err => {
+        .catch(async (err) => {
           this.requestSent = false;
           const json = await err.response.json();
           if (json?.errors?.[0]) {
@@ -103,8 +103,8 @@ export default defineComponent({
       if (event.target.classList.contains("popout-background")) {
         this.close();
       }
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

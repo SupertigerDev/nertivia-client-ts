@@ -46,7 +46,7 @@ export default defineComponent({
       const highPriority = NotificationsModule.newDMNotifications;
       // filter self (saved notes)
       const filter = this.sortedChannels.filter(
-        c => c.recipients?.[0]?.id !== this.me.id
+        (c) => c.recipients?.[0]?.id !== this.me.id
       );
       // move channels with notifications to top.
       const sort = filter.sort((a, b) => {
@@ -57,8 +57,8 @@ export default defineComponent({
         return 0;
       });
       return [...highPriority, ...sort];
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

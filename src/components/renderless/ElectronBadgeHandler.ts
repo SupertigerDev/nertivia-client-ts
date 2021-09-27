@@ -16,15 +16,15 @@ export default defineComponent({
     },
     firstDmNotification(): any {
       return NotificationsModule.allDMNotifications?.reverse()?.[0];
-    }
+    },
   },
   watch: {
     firstServerNotification: {
-      handler: "onNotification"
+      handler: "onNotification",
     },
     firstDmNotification: {
-      handler: "onNotification"
-    }
+      handler: "onNotification",
+    },
   },
   mounted() {
     electronBridge?.send("notification_badge", 0);
@@ -39,6 +39,6 @@ export default defineComponent({
         return;
       }
       electronBridge?.send("notification_badge", 0);
-    }
-  }
+    },
+  },
 });

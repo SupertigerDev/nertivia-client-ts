@@ -16,16 +16,14 @@
             {{ selectedItem.note }}
           </div>
         </div>
-        <div class="material-icons icon">
-          keyboard_arrow_down
-        </div>
+        <div class="material-icons icon">keyboard_arrow_down</div>
       </div>
       <div class="dropdown" v-if="openDropDown" v-click-outside="clickOutside">
         <div class="dropdown-content">
           <div
             class="item"
             :class="{
-              selected: selectedId !== null && item[IdPath] === selectedId
+              selected: selectedId !== null && item[IdPath] === selectedId,
             }"
             @click="itemClick(item[IdPath])"
             v-for="(item, i) in items"
@@ -73,45 +71,45 @@ export default defineComponent({
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
     items: {
       type: Array as PropType<(Item | any)[]>,
-      required: true
+      required: true,
     },
     error: {
       type: String,
-      required: false
+      required: false,
     },
     defaultId: {
       type: [Number, String],
-      default: null
+      default: null,
     },
     validMessage: {
       type: String,
-      required: false
+      required: false,
     },
     IdPath: {
       type: String,
-      required: true
+      required: true,
     },
     defaultText: {
       type: String,
-      default: "Select Item"
-    }
+      default: "Select Item",
+    },
   },
   data() {
     return {
       focused: true,
       openDropDown: false,
-      selectedId: this.defaultId
+      selectedId: this.defaultId,
     };
   },
   computed: {
     selectedItem(): any {
       if (this.selectedId === null) return undefined;
-      return this.items.find(i => i[this.IdPath] === this.selectedId);
-    }
+      return this.items.find((i) => i[this.IdPath] === this.selectedId);
+    },
   },
   methods: {
     clickOutside() {
@@ -121,8 +119,8 @@ export default defineComponent({
       this.openDropDown = false;
       this.selectedId = id;
       this.$emit("change", id);
-    }
-  }
+    },
+  },
 });
 </script>
 

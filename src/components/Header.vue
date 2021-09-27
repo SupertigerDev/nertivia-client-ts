@@ -23,9 +23,7 @@
       @click="onCallClicked"
       title="Call"
     >
-      <div class="button call-button material-icons">
-        call
-      </div>
+      <div class="button call-button material-icons">call</div>
     </div>
     <div
       class="button right-drawer-button material-icons"
@@ -53,8 +51,8 @@ export default defineComponent({
   props: {
     title: {
       type: String,
-      required: false
-    }
+      required: false,
+    },
   },
   computed: {
     isServerChannel(): any {
@@ -70,7 +68,7 @@ export default defineComponent({
     },
     channelId(): string {
       return this.$route.params.channel_id as string;
-    }
+    },
   },
   methods: {
     onCallClicked() {
@@ -82,14 +80,14 @@ export default defineComponent({
           callback: () => this.joinCall(),
           title: "P2P Calling Notice",
           description:
-            "Because of the nature of P2P, your IP will be able to be seen by other participants on the call."
-        }
+            "Because of the nature of P2P, your IP will be able to be seen by other participants on the call.",
+        },
       });
     },
     joinCall() {
       voiceChannelModule.leave();
       voiceChannelModule.join({
-        channelId: this.channelId
+        channelId: this.channelId,
       });
       joinCall(this.channelId);
     },
@@ -104,10 +102,10 @@ export default defineComponent({
       PopoutsModule.ShowPopout({
         id: "profile",
         component: "profile-popout",
-        data: { id: this.DMUser.id }
+        data: { id: this.DMUser.id },
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

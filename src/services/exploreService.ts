@@ -16,14 +16,10 @@ export interface ServerResponse {
 export function getServers(
   param = "?verified=true"
 ): Promise<ServerResponse[]> {
-  return wrapper()
-    .get(`explore/servers${param}`)
-    .json();
+  return wrapper().get(`explore/servers${param}`).json();
 }
 export function getServer(server_id: string): Promise<ServerResponse> {
-  return wrapper()
-    .get(`explore/servers/${server_id}`)
-    .json();
+  return wrapper().get(`explore/servers/${server_id}`).json();
 }
 export function addServer(
   server_id: string,
@@ -42,9 +38,7 @@ export function updateServer(
     .text();
 }
 export function deleteServer(server_id: string): Promise<any> {
-  return wrapper()
-    .delete(`explore/servers/${server_id}`)
-    .text();
+  return wrapper().delete(`explore/servers/${server_id}`).text();
 }
 // themes
 export interface PublicTheme {
@@ -59,40 +53,30 @@ export interface PublicTheme {
 }
 
 export function getPublicTheme(themeID: string): Promise<any> {
-  return wrapper()
-    .get(`explore/themes/${themeID}`)
-    .json();
+  return wrapper().get(`explore/themes/${themeID}`).json();
 }
 export function addPublicTheme(themeID: string, data: any): Promise<any> {
-  return wrapper()
-    .post(`explore/themes/${themeID}`, { json: data })
-    .json();
+  return wrapper().post(`explore/themes/${themeID}`, { json: data }).json();
 }
 export function updatePublicTheme(themeID: string, data: any): Promise<any> {
-  return wrapper()
-    .patch(`explore/themes/${themeID}`, { json: data })
-    .json();
+  return wrapper().patch(`explore/themes/${themeID}`, { json: data }).json();
 }
 export async function applyPublicTheme(themeID: string): Promise<any> {
   return await wrapper()
     .get(`explore/themes/${themeID}/apply`)
     .json<Theme>()
-    .then(async theme => {
+    .then(async (theme) => {
       return {
         ...theme,
-        css: (await unzip(theme.css)) || theme.css
+        css: (await unzip(theme.css)) || theme.css,
       };
     });
 }
 export async function likeTheme(themeID: string): Promise<any> {
-  return await wrapper()
-    .post(`explore/themes/${themeID}/like`)
-    .json();
+  return await wrapper().post(`explore/themes/${themeID}/like`).json();
 }
 export async function unlikeTheme(themeID: string): Promise<any> {
-  return await wrapper()
-    .delete(`explore/themes/${themeID}/like`)
-    .json();
+  return await wrapper().delete(`explore/themes/${themeID}/like`).json();
 }
 
 export interface PublicThemeResponse {
@@ -124,7 +108,5 @@ export function getPublicThemes(
   }
   params = params.slice(0, -1);
 
-  return wrapper()
-    .get(`explore/themes${params}`)
-    .json();
+  return wrapper().get(`explore/themes${params}`).json();
 }

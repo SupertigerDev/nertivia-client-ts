@@ -64,7 +64,7 @@ import {
   getCustomCssVars,
   changeCssVar,
   applyDefaultTheme,
-  applyDefaultValue
+  applyDefaultValue,
 } from "@/utils/customCssVars";
 
 import { defineComponent } from "vue";
@@ -78,7 +78,7 @@ export default defineComponent({
       customVars: getCustomCssVars(),
       timeFormat: parseInt(localStorage["timeFormat"] || "0"),
       fonts: Object.values(fonts),
-      selectedFont: localStorage["font"] || Object.values(fonts)[0].id
+      selectedFont: localStorage["font"] || Object.values(fonts)[0].id,
     };
   },
   computed: {
@@ -89,23 +89,23 @@ export default defineComponent({
       set(value: boolean) {
         ReactiveLocalStorageModule.setStore({
           key: "showSettingsInNavigation",
-          value
+          value,
         });
-      }
+      },
     },
     cssVarList(): any {
       return getAllCssVars()
-        .filter(item => item.key.endsWith("color"))
-        .map(item => {
+        .filter((item) => item.key.endsWith("color"))
+        .map((item) => {
           const key = item.key.replace(/-/g, " ");
           return { ...item, name: key, custom: this.customVars[item.key] };
         });
-    }
+    },
   },
   watch: {
     timeFormat: {
-      handler: "onTimeFormatChagne"
-    }
+      handler: "onTimeFormatChagne",
+    },
   },
   mounted() {
     this.pickr = Pickr.create({
@@ -120,9 +120,9 @@ export default defineComponent({
           hex: true,
           rgba: true,
           input: true,
-          cancel: true
-        }
-      }
+          cancel: true,
+        },
+      },
     });
     this.pickr.on("hide", this.colorChanged);
   },
@@ -152,10 +152,7 @@ export default defineComponent({
     },
     colorChanged(event: any) {
       if (!this.lastClicked.key) return;
-      const hex = event
-        .getColor()
-        .toHEXA()
-        .toString();
+      const hex = event.getColor().toHEXA().toString();
       changeCssVar(this.lastClicked?.key, hex);
       this.customVars = getCustomCssVars();
     },
@@ -180,8 +177,8 @@ export default defineComponent({
         // changeCssVar("--my-chat-bubble-color", "#e87b21");
         // changeCssVar("--others-chat-bubble-color", "#433a50");
       }
-    }
-  }
+    },
+  },
 });
 </script>
 

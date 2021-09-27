@@ -2,27 +2,21 @@
   <div class="stats">
     <div class="items">
       <div class="box">
-        <div class="material-icons icon">
-          person
-        </div>
+        <div class="material-icons icon">person</div>
         <div class="details">
           <div class="title">Users</div>
           <div class="value">{{ userCount }}</div>
         </div>
       </div>
       <div class="box">
-        <div class="material-icons icon">
-          dns
-        </div>
+        <div class="material-icons icon">dns</div>
         <div class="details">
           <div class="title">Servers</div>
           <div class="value">{{ serverCount }}</div>
         </div>
       </div>
       <div class="box">
-        <div class="material-icons icon">
-          chat
-        </div>
+        <div class="material-icons icon">chat</div>
         <div class="details">
           <div class="title">Messages</div>
           <div class="value">{{ messageCount }}</div>
@@ -42,7 +36,7 @@ export default defineComponent({
     return {
       userCount: null as string | null,
       serverCount: null as string | null,
-      messageCount: null as string | null
+      messageCount: null as string | null,
     };
   },
   async mounted() {
@@ -50,7 +44,7 @@ export default defineComponent({
     this.userCount = stats.userCount.toLocaleString();
     this.serverCount = stats.serverCount.toLocaleString();
     this.messageCount = stats.messageCount.toLocaleString();
-  }
+  },
 });
 </script>
 

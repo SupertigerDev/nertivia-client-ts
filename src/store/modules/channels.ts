@@ -3,7 +3,7 @@ import {
   VuexModule,
   Action,
   Mutation,
-  getModule
+  getModule,
 } from "vuex-module-decorators";
 import store from "..";
 import { saveCache } from "@/utils/localCache";
@@ -36,7 +36,7 @@ class Channels extends VuexModule {
 
   get serverChannels() {
     return (id: string) =>
-      Object.values(this.channels).filter(c => {
+      Object.values(this.channels).filter((c) => {
         if (c.server_id) return c.server_id === id;
         else return false;
       });
@@ -73,19 +73,19 @@ class Channels extends VuexModule {
       const channel = this.channels[channelID];
       if (!channel) return;
       if (channel.server_id) return;
-      const recipients = channel.recipients?.map(id => UsersModule.users[id]);
+      const recipients = channel.recipients?.map((id) => UsersModule.users[id]);
       return { ...channel, recipients };
     };
   }
   get getDMChannels() {
     const filter = Object.values(this.channels).filter(
-      channel => channel.recipients?.length && !channel.server_id
+      (channel) => channel.recipients?.length && !channel.server_id
     );
-    const map = filter.map(channel => {
-      const recipients = channel.recipients?.map(id => UsersModule.users[id]);
+    const map = filter.map((channel) => {
+      const recipients = channel.recipients?.map((id) => UsersModule.users[id]);
       return { ...channel, recipients };
     });
-    return (map as unknown) as Required<DmChannelWithUser>[];
+    return map as unknown as Required<DmChannelWithUser>[];
   }
 
   @Mutation
@@ -134,21 +134,21 @@ class Channels extends VuexModule {
   @Action
   public LoadDmChannel(id: string) {
     const findChannel = Object.values(this.channels).find(
-      c => c.recipients && c.recipients.includes(id)
+      (c) => c.recipients && c.recipients.includes(id)
     );
     if (findChannel) {
       router.push(`/app/dms/${findChannel?.channelID}`);
       return;
     }
     getChannelByUserId(id)
-      .then(res => {
+      .then((res) => {
         for (let i = 0; i < res.channel.recipients.length; i++) {
           const user = res.channel.recipients[i];
           UsersModule.AddUser(user);
         }
         this.ADD_CHANNEL({
           channelID: res.channel.channelID,
-          recipients: res.channel.recipients.map(u => u.id)
+          recipients: res.channel.recipients.map((u) => u.id),
         });
         router.push(`/app/dms/${res.channel.channelID}`);
       })

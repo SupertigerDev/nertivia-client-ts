@@ -19,12 +19,12 @@ export default defineComponent({
   props: {
     item: {
       type: Object as PropType<Channel>,
-      required: true
+      required: true,
     },
     selected: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     iconURL(): any {
@@ -37,10 +37,10 @@ export default defineComponent({
     },
     channelStyle(): any {
       return {
-        "--icon-url": this.iconURL && `url("${this.iconURL}")`
+        "--icon-url": this.iconURL && `url("${this.iconURL}")`,
       };
-    }
-  }
+    },
+  },
 });
 </script>
 <style scoped lang="scss">

@@ -51,11 +51,11 @@ export const onMessage = (socket: Socket, data: { message: Message }) => {
   const isMe = data.message.creator.id === MeModule.user.id;
   ChannelsModule.updateChannel({
     channelID: data.message.channelID,
-    update: { lastMessaged: Date.now() }
+    update: { lastMessaged: Date.now() },
   });
   MessagesModule.AddChannelMessage({
     ...data.message,
-    type: data.message.type || 0
+    type: data.message.type || 0,
   });
 
   // update last seen if message created by me.
@@ -64,7 +64,7 @@ export const onMessage = (socket: Socket, data: { message: Message }) => {
     if (data.message.type === 0)
       MessagesModule.UpdateLastMessageSend({
         channelID: channel.channelID,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       });
   }
 
@@ -78,23 +78,23 @@ export const onMessage = (socket: Socket, data: { message: Message }) => {
     );
     const mentioned = !!(
       data.message.mentions &&
-      data.message.mentions.find(u => u.id === MeModule.user.id)
+      data.message.mentions.find((u) => u.id === MeModule.user.id)
     );
     // play notification sound.
     playNotificationSound({
       mentioned,
       channelID: data.message.channelID,
-      serverID: channel?.server_id
+      serverID: channel?.server_id,
     });
     if (channel && channel.server_id && !mentioned) return;
     if (notification) {
       const updateNotification: any = {
-        count: notification.count + 1
+        count: notification.count + 1,
       };
       if (mentioned) updateNotification.mentioned = true;
       NotificationsModule.UpdateNotification({
         channelID: data.message.channelID,
-        notification: updateNotification
+        notification: updateNotification,
       });
     } else {
       NotificationsModule.AddNotification({
@@ -104,8 +104,8 @@ export const onMessage = (socket: Socket, data: { message: Message }) => {
           count: 1,
           lastMessageID: data.message.messageID as any,
           sender: data.message.creator,
-          mentioned: mentioned
-        }
+          mentioned: mentioned,
+        },
       });
     }
   }
@@ -123,7 +123,7 @@ export const onMessageUpdate = (socket: Socket, data: Message) => {
   MessagesModule.UpdateMessage({
     channelID: data.channelID,
     messageID: data.messageID,
-    message: data
+    message: data,
   });
 };
 
@@ -147,6 +147,6 @@ export const onReactionUpdate = (socket: Socket, data: MessageReaction) => {
     channelID: data.channelID,
     messageID: data.messageID,
     reaction: data.reaction,
-    removeIfZero: true
+    removeIfZero: true,
   });
 };

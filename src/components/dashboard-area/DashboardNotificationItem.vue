@@ -33,12 +33,12 @@ export default defineComponent({
   props: {
     channel: {
       type: Object as PropType<Channel & { server: Server }>,
-      required: true
+      required: true,
     },
     dmNotification: {
       type: Object as PropType<Notification>,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     isServer(): any {
@@ -49,7 +49,7 @@ export default defineComponent({
         avatar: this.channel.server.avatar,
         seed: this.channel.server_id,
         channelName: this.channel.name,
-        serverName: this.channel.server.name
+        serverName: this.channel.server.name,
       };
     },
     details(): any {
@@ -59,10 +59,10 @@ export default defineComponent({
         return {
           avatar: this.dmNotification.sender.avatar,
           seed: this.dmNotification.sender.id,
-          name: this.dmNotification.sender.username
+          name: this.dmNotification.sender.username,
         };
       }
-    }
+    },
   },
   methods: {
     onClick() {
@@ -73,8 +73,8 @@ export default defineComponent({
         return;
       }
       ChannelsModule.LoadDmChannel(this.dmNotification.sender.id);
-    }
-  }
+    },
+  },
 });
 </script>
 

@@ -68,12 +68,12 @@ export default defineComponent({
   props: {
     user: {
       type: Object as PropType<ExpandedUser>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      IPUsers: [] as ExpandedUser[]
+      IPUsers: [] as ExpandedUser[],
     };
   },
   computed: {
@@ -82,49 +82,49 @@ export default defineComponent({
         {
           name: "Email",
           icon: "alternate_email",
-          value: this.user.email
+          value: this.user.email,
         },
         {
           name: "User ID",
           icon: "perm_identity",
-          value: this.user.id
+          value: this.user.id,
         },
         {
           name: "User IP",
           icon: "dns",
-          value: this.user.ip
-        }
+          value: this.user.ip,
+        },
       ];
     },
     bannerURL(): any {
       if (!this.user.banner) return null;
       return process.env.VUE_APP_NERTIVIA_CDN + this.user.banner;
-    }
+    },
   },
   async mounted() {
     this.IPUsers = await searchUsersByIP(this.user.id);
-    this.IPUsers = this.IPUsers.filter(u => u.id !== this.user.id);
+    this.IPUsers = this.IPUsers.filter((u) => u.id !== this.user.id);
   },
   methods: {
     openSuspendPopout() {
       PopoutsModule.ShowPopout({
         id: "admin-suspend-user-popout",
         component: "AdminSuspendUser",
-        data: { user: this.user, callback: this.suspendCallback }
+        data: { user: this.user, callback: this.suspendCallback },
       });
     },
     openUnsuspendPopout() {
       PopoutsModule.ShowPopout({
         id: "admin-unsuspend-user-popout",
         component: "AdminUnsuspendUser",
-        data: { user: this.user, callback: this.unsuspendCallback }
+        data: { user: this.user, callback: this.unsuspendCallback },
       });
     },
     viewProfile(id: string) {
       PopoutsModule.ShowPopout({
         id: "profile",
         component: "profile-popout",
-        data: { id }
+        data: { id },
       });
     },
     suspendCallback() {
@@ -132,8 +132,8 @@ export default defineComponent({
     },
     unsuspendCallback(removeIPBan: boolean) {
       this.$emit("unsuspend", { removeIPBan });
-    }
-  }
+    },
+  },
 });
 </script>
 

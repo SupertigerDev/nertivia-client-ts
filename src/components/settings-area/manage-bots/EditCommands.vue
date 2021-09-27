@@ -10,7 +10,7 @@
         placeholder="e.g: !"
         prefixIcon="code"
         v-model="localBotPrefix"
-        style="width: 100px;margin-top: 10px;"
+        style="width: 100px; margin-top: 10px"
       />
       <CustomButton
         icon="add"
@@ -61,37 +61,37 @@ export default defineComponent({
     CustomButton,
     CustomInput,
     InformationTemplate,
-    CommandTemplate
+    CommandTemplate,
   },
   props: {
     botCommands: {
       type: Array as PropType<any[]>,
-      required: true
+      required: true,
     },
     botPrefix: {
       type: String,
-      required: true
+      required: true,
     },
     bot: {
       type: Object as PropType<User>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       error: null as null | string,
       requestSent: false,
       localBotPrefix: this.botPrefix,
-      localBotCommands: this.botCommands.map(c => {
+      localBotCommands: this.botCommands.map((c) => {
         return { ...c, id: Math.random() };
       }),
-      showSaveButton: false
+      showSaveButton: false,
     };
   },
   watch: {
     localBotPrefix: {
-      handler: "onPrefixChange"
-    }
+      handler: "onPrefixChange",
+    },
   },
   methods: {
     commandChange(index: number, data: any) {
@@ -108,31 +108,31 @@ export default defineComponent({
       this.localBotCommands.unshift({
         c: "ban",
         a: "[@user][reason]//Ban A Member",
-        id: Math.random()
+        id: Math.random(),
       });
     },
     saveButton() {
       if (this.requestSent) return;
       this.requestSent = true;
       this.error = null;
-      const commands = this.localBotCommands.map(cmd => {
+      const commands = this.localBotCommands.map((cmd) => {
         return {
           c: cmd.c,
-          a: cmd.a
+          a: cmd.a,
         };
       });
       updateBot(this.bot.id, {
         botPrefix: this.localBotPrefix,
-        botCommands: commands
+        botCommands: commands,
       })
         .then(() => {
           this.showSaveButton = false;
           this.$emit("updated", {
             botPrefix: this.localBotPrefix,
-            botCommands: commands
+            botCommands: commands,
           });
         })
-        .catch(async err => {
+        .catch(async (err) => {
           if (!err.response) {
             this.error = this.$t("could-not-connect-to-server").toString();
             return;
@@ -150,8 +150,8 @@ export default defineComponent({
     },
     onPrefixChange() {
       this.showSaveButton = true;
-    }
-  }
+    },
+  },
 });
 </script>
 

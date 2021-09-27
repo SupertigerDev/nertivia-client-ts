@@ -15,7 +15,7 @@
       games
     </div>
     <div
-      class="status-name "
+      class="status-name"
       :class="{ game: gameStatus }"
       v-if="(gameStatus || customStatus) && !showStatusOnly"
     >
@@ -46,16 +46,16 @@ export default defineComponent({
   props: {
     id: {
       type: String,
-      required: true
+      required: true,
     },
     showStatusOnly: {
       type: Boolean,
-      required: false
+      required: false,
     },
     showOffline: {
       type: Boolean,
-      required: false
-    }
+      required: false,
+    },
   },
   computed: {
     presence(): any {
@@ -68,8 +68,8 @@ export default defineComponent({
     },
     gameStatus(): any {
       return programActivitiesModule.programActivity[this.id];
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

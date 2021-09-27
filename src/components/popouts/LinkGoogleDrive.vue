@@ -44,18 +44,18 @@ export default defineComponent({
   props: {
     identity: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     linked(): any {
       return MeModule.user.googleDriveLinked;
-    }
+    },
   },
   watch: {
     linked: {
-      handler: "onLinkedChange"
-    }
+      handler: "onLinkedChange",
+    },
   },
   methods: {
     close() {
@@ -73,8 +73,8 @@ export default defineComponent({
       if (linked) {
         this.close();
       }
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

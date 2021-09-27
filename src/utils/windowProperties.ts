@@ -5,7 +5,7 @@ const data = reactive({
   resizeWidth: 0,
   resizeHeight: 0,
   isFocused: document.hasFocus(),
-  lastClickedElement: null as HTMLElement | null
+  lastClickedElement: null as HTMLElement | null,
 });
 
 data.resizeWidth = window.innerWidth;
@@ -21,7 +21,7 @@ function onMouseDown(event: MouseEvent) {
 
 window.addEventListener("mousedown", onMouseDown);
 window.addEventListener("resize", onResize);
-window.addEventListener("focusin", event => {
+window.addEventListener("focusin", (event) => {
   data.lastClickedElement = event.target as any;
 });
 window.addEventListener("focus", () => {

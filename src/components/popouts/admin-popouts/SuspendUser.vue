@@ -68,21 +68,21 @@ export default defineComponent({
         user: User;
         callback: any;
       }>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       reason: "Violating the TOS.",
       password: "",
       requestSent: false,
-      error: null as string | null
+      error: null as string | null,
     };
   },
   computed: {
     user(): any {
       return this.data.user;
-    }
+    },
   },
   methods: {
     close() {
@@ -102,7 +102,7 @@ export default defineComponent({
           this.data.callback();
           this.close();
         })
-        .catch(async err => {
+        .catch(async (err) => {
           if (!err.response) {
             this.error = "Could not connect to server.";
             return;
@@ -111,8 +111,8 @@ export default defineComponent({
           this.error = message;
         })
         .finally(() => (this.requestSent = false));
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

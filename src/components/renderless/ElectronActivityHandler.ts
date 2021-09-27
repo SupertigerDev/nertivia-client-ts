@@ -2,7 +2,7 @@ import { MeModule } from "@/store/modules/me";
 import {
   findListeningProgram,
   programListener,
-  restartListener
+  restartListener,
 } from "@/utils/programActivity";
 import { defineComponent, h } from "vue";
 export default defineComponent({
@@ -10,7 +10,7 @@ export default defineComponent({
   data() {
     return {
       programActivityTimeout: null as number | null,
-      currentActiveProgram: null as { name: string; status: string } | null
+      currentActiveProgram: null as { name: string; status: string } | null,
     };
   },
   render() {
@@ -19,12 +19,12 @@ export default defineComponent({
   computed: {
     isConnected(): any {
       return MeModule.connected;
-    }
+    },
   },
   watch: {
     isConnected: {
-      handler: "onConnection"
-    }
+      handler: "onConnection",
+    },
   },
   beforeMount() {
     programListener(this.onActivityChange);
@@ -57,6 +57,6 @@ export default defineComponent({
     },
     onConnection() {
       restartListener();
-    }
-  }
+    },
+  },
 });

@@ -28,7 +28,7 @@ export default defineComponent({
     return {
       name: "",
       requestSent: false,
-      error: null as string | null
+      error: null as string | null,
     };
   },
   methods: {
@@ -48,7 +48,7 @@ export default defineComponent({
           );
           PopoutsModule.ClosePopout("add-server");
         })
-        .catch(async err => {
+        .catch(async (err) => {
           if (!err.response) {
             this.error = "Cannot connect to server.";
           } else {
@@ -56,8 +56,8 @@ export default defineComponent({
           }
           this.requestSent = false;
         });
-    }
-  }
+    },
+  },
 });
 </script>
 

@@ -29,7 +29,7 @@
 import {
   ExpandedUser,
   fetchRecentUsers,
-  searchUsers
+  searchUsers,
 } from "@/services/adminService";
 import UserTemplate from "./UserTemplate.vue";
 
@@ -42,7 +42,7 @@ export default defineComponent({
     return {
       users: null as ExpandedUser[] | null,
       searchInput: "",
-      timeout: null as number | null
+      timeout: null as number | null,
     };
   },
   mounted() {
@@ -72,11 +72,11 @@ export default defineComponent({
     },
     updateUser(user: ExpandedUser) {
       if (!this.users) return;
-      const index = this.users?.findIndex(u => u.id === user.id);
+      const index = this.users?.findIndex((u) => u.id === user.id);
       if (index < 0) return;
       this.users[index] = user;
-    }
-  }
+    },
+  },
 });
 </script>
 

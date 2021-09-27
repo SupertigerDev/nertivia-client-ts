@@ -7,7 +7,5 @@ export function joinCall(channelID: string): Promise<any> {
     .json();
 }
 export function leaveCall(): Promise<any> {
-  return wrapper()
-    .post(`voice/leave`)
-    .json();
+  return wrapper().post(`voice/leave`).json();
 }

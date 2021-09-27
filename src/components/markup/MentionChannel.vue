@@ -1,5 +1,5 @@
 <template>
-  <span @click="changeChannel"><Mention :text="display"/></span>
+  <span @click="changeChannel"><Mention :text="display" /></span>
 </template>
 
 <script lang="ts">
@@ -14,13 +14,13 @@ export default defineComponent({
   props: {
     channel: {
       type: Object as PropType<Channel>,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     display() {
       return `#${this.channel.name}`;
-    }
+    },
   },
   methods: {
     changeChannel() {
@@ -28,7 +28,7 @@ export default defineComponent({
       this.$router.push(
         `/app/servers/${this.channel.server_id}/${this.channel.channelID}`
       );
-    }
-  }
+    },
+  },
 });
 </script>

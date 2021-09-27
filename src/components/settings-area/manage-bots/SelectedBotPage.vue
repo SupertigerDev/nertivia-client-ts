@@ -49,19 +49,19 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "ManageChannels",
   components: {
-    TabLayout
+    TabLayout,
   },
   props: {
     bot: {
       type: Object as PropType<User>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       botToken: null as string | null,
       botPrefix: "",
-      botCommands: [] as any[]
+      botCommands: [] as any[],
     };
   },
   computed: {
@@ -72,7 +72,7 @@ export default defineComponent({
           name: this.$t("settings.manage-bots.edit-bot"),
           component: EditBot,
           props: { bot: this.bot, botToken: this.botToken },
-          events: ["tokenChanged", "updated", "deleted"]
+          events: ["tokenChanged", "updated", "deleted"],
         },
         {
           id: "edit_commands",
@@ -81,12 +81,12 @@ export default defineComponent({
           props: {
             bot: this.bot,
             botPrefix: this.botPrefix,
-            botCommands: this.botCommands
+            botCommands: this.botCommands,
           },
-          events: ["updated"]
-        }
+          events: ["updated"],
+        },
       ];
-    }
+    },
   },
   mounted() {
     getBot(this.bot.id, true).then((json: any) => {
@@ -117,8 +117,8 @@ export default defineComponent({
     botCommandsUpdate({ botCommands, botPrefix }) {
       this.botCommands = botCommands;
       this.botPrefix = botPrefix;
-    }
-  }
+    },
+  },
 });
 </script>
 

@@ -54,12 +54,12 @@ export default defineComponent({
   props: {
     invite: {
       type: Object as PropType<Invite>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      prefixURL: process.env.VUE_APP_MAIN_APP_URL
+      prefixURL: process.env.VUE_APP_MAIN_APP_URL,
     };
   },
   methods: {
@@ -67,14 +67,14 @@ export default defineComponent({
       PopoutsModule.ShowPopout({
         id: "profile",
         component: "profile-popout",
-        data: { id: this.invite.creator.id }
+        data: { id: this.invite.creator.id },
       });
     },
     copyLink() {
       toClipboard(`${this.prefixURL}i/${this.invite.invite_code}`);
       alert(this.$t("generic.copied"));
-    }
-  }
+    },
+  },
 });
 </script>
 

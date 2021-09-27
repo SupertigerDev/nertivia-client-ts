@@ -59,13 +59,13 @@ export default defineComponent({
   props: {
     server: {
       type: Object as PropType<{ json: Server; code: string }>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       requestSent: false,
-      error: null as string | null
+      error: null as string | null,
     };
   },
   computed: {
@@ -75,7 +75,7 @@ export default defineComponent({
     },
     isJoined(): any {
       return ServersModule.servers[this.server.json.server_id];
-    }
+    },
   },
   methods: {
     visitServer() {
@@ -93,14 +93,14 @@ export default defineComponent({
           PopoutsModule.ClosePopout("add-server");
           this.requestSent = false;
         })
-        .catch(async err => {
+        .catch(async (err) => {
           this.requestSent = false;
           if (!err.response) return (this.error = "Cannot connect to server.");
           const result = await err.response.json();
           this.error = result.message;
         });
-    }
-  }
+    },
+  },
 });
 </script>
 

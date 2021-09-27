@@ -28,5 +28,5 @@ export default {
     if (isBusy() || isNotificationDisabled()) return;
     const audio = new Audio((await newFriendSound()).default);
     audio.play();
-  }
+  },
 };

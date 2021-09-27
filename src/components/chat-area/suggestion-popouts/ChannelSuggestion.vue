@@ -20,12 +20,12 @@ export default defineComponent({
   props: {
     channels: {
       type: Array as PropType<Channel[]>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      ChannelSuggestionTemplate: markRaw(ChannelSuggestionTemplate)
+      ChannelSuggestionTemplate: markRaw(ChannelSuggestionTemplate),
     };
   },
   methods: {
@@ -40,8 +40,8 @@ export default defineComponent({
     },
     onSelected(channel: Channel) {
       this.$emit("selected", `#${channel.name}# `);
-    }
-  }
+    },
+  },
 });
 </script>
 <style scoped></style>

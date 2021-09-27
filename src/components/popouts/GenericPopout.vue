@@ -29,7 +29,7 @@ export default defineComponent({
   props: {
     identity: {
       type: String,
-      required: true
+      required: true,
     },
     data: {
       type: Object as PropType<{
@@ -37,8 +37,8 @@ export default defineComponent({
         description: string;
         callback?: any;
       }>,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     close() {
@@ -47,8 +47,8 @@ export default defineComponent({
     buttonClicked() {
       this.data.callback?.();
       this.close();
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

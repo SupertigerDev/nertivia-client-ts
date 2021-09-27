@@ -3,7 +3,7 @@ import {
   VuexModule,
   Action,
   Mutation,
-  getModule
+  getModule,
 } from "vuex-module-decorators";
 import store from "..";
 
@@ -48,7 +48,7 @@ class MessageLogStates extends VuexModule {
     if (this.states[payload.channelID]) {
       this.states[payload.channelID] = {
         ...this.states[payload.channelID],
-        ...payload.state
+        ...payload.state,
       };
       return;
     }

@@ -43,7 +43,7 @@ export default defineComponent({
       moreBottomToLoad: false,
       currentChannelID: "",
       scrollTop: 0,
-      scrollBottom: 0
+      scrollBottom: 0,
     };
   },
   created() {
@@ -55,8 +55,8 @@ export default defineComponent({
       MessageLogStatesModule.UpdateState({
         channelID: this.channelID,
         state: {
-          isScrolledDown: true
-        }
+          isScrolledDown: true,
+        },
       });
       this.scrollDown();
     } else {
@@ -80,8 +80,8 @@ export default defineComponent({
     MessageLogStatesModule.UpdateState({
       channelID: this.currentChannelID,
       state: {
-        scrollPosition: isScrolledDown ? undefined : this.scrollTop
-      }
+        scrollPosition: isScrolledDown ? undefined : this.scrollTop,
+      },
     });
     this.fileDragDropHandler?.destroy();
     emitter.off("scrollToMessage", this.goToMessage);
@@ -90,7 +90,7 @@ export default defineComponent({
     fileDragEnter() {
       PopoutsModule.ShowPopout({
         id: "file-drag",
-        component: "Drag-drop-popout"
+        component: "Drag-drop-popout",
       });
     },
     fileDragOut() {
@@ -109,7 +109,7 @@ export default defineComponent({
       this.isLoadingTopMore = true;
       this.moreBottomToLoad = true;
       MessagesModule.continueLoadMessages(this.channelID).then(
-        async messages => {
+        async (messages) => {
           if (!this.channelMessages) return;
           if (!messages) return;
           if (!messages.length) {
@@ -119,19 +119,19 @@ export default defineComponent({
           const clamped = await MessagesModule.ClampChannelMessages({
             channelID: this.channelID,
             reverseClamp: true,
-            checkScrolledBottom: false
+            checkScrolledBottom: false,
           });
           if (clamped) {
             MessageLogStatesModule.UpdateState({
               channelID: this.currentChannelID,
               state: {
-                bottomUnloaded: true
-              }
+                bottomUnloaded: true,
+              },
             });
           }
           MessagesModule.SetChannelMessages({
             channelID: this.channelID,
-            messages: [...messages.reverse(), ...this.channelMessages]
+            messages: [...messages.reverse(), ...this.channelMessages],
           });
 
           const beforeHeight = logs.scrollHeight;
@@ -160,7 +160,7 @@ export default defineComponent({
       if (this.isLoadingBottomMore) return;
       this.isLoadingBottomMore = true;
       this.moreTopToLoad = true;
-      MessagesModule.beforeLoadMessages(this.channelID).then(messages => {
+      MessagesModule.beforeLoadMessages(this.channelID).then((messages) => {
         let dontContinue = false;
         if (!this.channelMessages) dontContinue = true;
         if (!messages) dontContinue = true;
@@ -169,8 +169,8 @@ export default defineComponent({
           MessageLogStatesModule.UpdateState({
             channelID: this.currentChannelID,
             state: {
-              bottomUnloaded: false
-            }
+              bottomUnloaded: false,
+            },
           });
           this.moreBottomToLoad = false;
           !messages?.length && (dontContinue = true);
@@ -181,11 +181,11 @@ export default defineComponent({
         }
         MessagesModule.ClampChannelMessages({
           channelID: this.channelID,
-          checkScrolledBottom: false
+          checkScrolledBottom: false,
         });
         MessagesModule.SetChannelMessages({
           channelID: this.channelID,
-          messages: [...(this.channelMessages as any), ...messages]
+          messages: [...(this.channelMessages as any), ...messages],
         });
 
         const beforeScrollTop = logs.scrollTop;
@@ -218,8 +218,8 @@ export default defineComponent({
         MessageLogStatesModule.UpdateState({
           channelID: this.channelID,
           state: {
-            isScrolledDown: isBottom
-          }
+            isScrolledDown: isBottom,
+          },
         });
       }
     },
@@ -233,7 +233,7 @@ export default defineComponent({
       if (!this.windowIsFocused || !this.isScrolledDown) return;
       if (!(this.hasServerNotification || this.hasDMNotification)) return;
       this.$socket.emit("notification:dismiss", {
-        channelID: this.channelID
+        channelID: this.channelID,
       });
     },
     goToMessage(messageID: string) {
@@ -249,12 +249,12 @@ export default defineComponent({
           MessageLogStatesModule.UpdateState({
             channelID: this.currentChannelID,
             state: {
-              bottomUnloaded: true
-            }
+              bottomUnloaded: true,
+            },
           });
           MessagesModule.SetChannelMessages({
             channelID,
-            messages: messages.reverse()
+            messages: messages.reverse(),
           });
 
           // stinky solution but oh well. for some reason it always scrolls down
@@ -266,7 +266,7 @@ export default defineComponent({
                 if (!message) return;
 
                 const intersectionObserver = new IntersectionObserver(
-                  entries => {
+                  (entries) => {
                     const [entry] = entries;
                     if (entry.isIntersecting) {
                       window.setTimeout(() => {
@@ -294,7 +294,7 @@ export default defineComponent({
       message.scrollIntoView({
         behavior: "smooth",
         block: "center",
-        inline: "center"
+        inline: "center",
       });
     },
     highlightMessage(message: HTMLElement) {
@@ -303,7 +303,7 @@ export default defineComponent({
       window.setTimeout(() => {
         message.classList.remove("highlight");
       }, 3000);
-    }
+    },
   },
   watch: {
     channelMessages: {
@@ -315,7 +315,7 @@ export default defineComponent({
             this.scrollDown();
           });
         }
-      }
+      },
     },
     windowSize() {
       if (this.isScrolledDown) {
@@ -328,7 +328,7 @@ export default defineComponent({
         this.$nextTick(() => {
           this.scrollDown(true);
         });
-      }
+      },
     },
     isScrolledDown() {
       this.dismissNotification();
@@ -342,7 +342,7 @@ export default defineComponent({
       if (status.isBottom) {
         this.loadMoreBottom();
       }
-    }
+    },
   },
   computed: {
     // used for loading more.
@@ -383,13 +383,13 @@ export default defineComponent({
       const { resizeWidth, resizeHeight } = useWindowProperties();
       return {
         height: resizeHeight,
-        width: resizeWidth
+        width: resizeWidth,
       };
     },
     uploadQueue(): UploadQueue[] {
       return FileUploadModule.uploadQueue;
-    }
-  }
+    },
+  },
 });
 </script>
 

@@ -22,39 +22,39 @@ export default defineComponent({
   props: {
     command: {
       type: Object as PropType<{ a: string; c: string; id: string }>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       localCommand: this.command.c,
-      localAction: this.command.a
+      localAction: this.command.a,
     };
   },
   watch: {
     localCommand: {
-      handler: "commandChange"
+      handler: "commandChange",
     },
     localAction: {
-      handler: "actionChange"
-    }
+      handler: "actionChange",
+    },
   },
   methods: {
     commandChange() {
       this.$emit("change", {
         a: this.localAction,
         c: this.localCommand,
-        id: this.command.id
+        id: this.command.id,
       });
     },
     actionChange() {
       this.$emit("change", {
         a: this.localAction,
         c: this.localCommand,
-        id: this.command.id
+        id: this.command.id,
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

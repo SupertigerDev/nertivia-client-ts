@@ -22,13 +22,13 @@ export default defineComponent({
   props: {
     item: {
       type: Object as PropType<User>,
-      required: true
+      required: true,
     },
     selected: {
       type: Boolean,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 });
 </script>
 <style scoped lang="scss">

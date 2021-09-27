@@ -17,8 +17,8 @@ export default defineComponent({
   props: {
     message: {
       type: Object as PropType<Message & { grouped: boolean }>,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     file(): any {
@@ -26,8 +26,8 @@ export default defineComponent({
     },
     url(): any {
       return `${process.env.VUE_APP_FETCH_PREFIX}/files/${this.file?.fileID}/${this.file?.fileName}`;
-    }
-  }
+    },
+  },
 });
 </script>
 

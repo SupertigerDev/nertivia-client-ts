@@ -35,16 +35,12 @@ export function getAllCssVars() {
     .flat()
     .filter((cssRule: any) => cssRule.selectorText === ":root")
     .map((cssRule: any) =>
-      cssRule.cssText
-        .split("{")[1]
-        .split("}")[0]
-        .trim()
-        .split(";")
+      cssRule.cssText.split("{")[1].split("}")[0].trim().split(";")
     )
     .flat()
-    .filter(text => text !== "")
-    .map(text => text.split(":"))
-    .map(parts => ({ key: parts[0].trim(), value: parts[1].trim() }));
+    .filter((text) => text !== "")
+    .map((text) => text.split(":"))
+    .map((parts) => ({ key: parts[0].trim(), value: parts[1].trim() }));
   return variables;
 }
 

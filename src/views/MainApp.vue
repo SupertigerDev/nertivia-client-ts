@@ -54,16 +54,16 @@ import { defineComponent } from "vue";
 import store from "@/store";
 import { PopoutsModule } from "@/store/modules/popouts";
 
-const Drawers = defineAsyncComponent(() =>
-  import("@/components/drawers/Drawers.vue")
+const Drawers = defineAsyncComponent(
+  () => import("@/components/drawers/Drawers.vue")
 );
 const NavBar = defineAsyncComponent(() => import("@/components/NavBar.vue"));
 
-const LeftDrawer = defineAsyncComponent(() =>
-  import("@/components/drawers/LeftDrawer.vue")
+const LeftDrawer = defineAsyncComponent(
+  () => import("@/components/drawers/LeftDrawer.vue")
 );
-const RightDrawer = defineAsyncComponent(() =>
-  import("@/components/drawers/RightDrawer.vue")
+const RightDrawer = defineAsyncComponent(
+  () => import("@/components/drawers/RightDrawer.vue")
 );
 
 export default defineComponent({
@@ -77,7 +77,7 @@ export default defineComponent({
     BrowserTitleHandler,
     ElectronBadgeHandler,
     ElectronActivityHandler,
-    UpdateChecker
+    UpdateChecker,
   },
   data() {
     return {
@@ -85,7 +85,7 @@ export default defineComponent({
       currentActiveProgram: null as any | null,
       programActivityTimeout: null as any,
       loadPage: false,
-      showWelcomePopout: localStorage["welcomePopout_wip"] === "true"
+      showWelcomePopout: localStorage["welcomePopout_wip"] === "true",
     };
   },
   computed: {
@@ -100,34 +100,34 @@ export default defineComponent({
     },
     isConnected(): any {
       return MeModule.connected;
-    }
+    },
   },
   watch: {
     currentChannelID: {
-      handler: "saveLastSelected"
+      handler: "saveLastSelected",
     },
     currentServerID: {
-      handler: "saveLastSelected"
+      handler: "saveLastSelected",
     },
     currentTab: {
-      handler: "saveLastSelected"
+      handler: "saveLastSelected",
     },
     isConnected: {
-      handler: "showConnectionPopout"
-    }
+      handler: "showConnectionPopout",
+    },
   },
   mounted() {
     this.showWelcomePopout &&
       PopoutsModule.ShowPopout({
         id: "welcome",
         component: "Welcome",
-        data: {}
+        data: {},
       });
     this.$socket.connect();
     if (window.BroadcastChannel) {
       const channel = new BroadcastChannel("sw-messages");
       // hack to fix disconnects using service workers;
-      channel.addEventListener("message", event => {
+      channel.addEventListener("message", (event) => {
         if (event.data !== "ping") return;
         if (useWindowProperties().isFocused) return;
         if (!this.$socket.connected) return;
@@ -160,37 +160,37 @@ export default defineComponent({
       await loadAllCacheToState([
         {
           storage: "me",
-          state: MeModule.SetUser
+          state: MeModule.SetUser,
         },
         {
           storage: "serverPositions",
-          state: ServersModule.SetServerPositions
+          state: ServersModule.SetServerPositions,
         },
         {
           storage: "servers",
-          state: ServersModule.InitServers
+          state: ServersModule.InitServers,
         },
         {
           storage: "users",
-          state: UsersModule.InitUsers
+          state: UsersModule.InitUsers,
         },
         {
           storage: "channels",
-          state: ChannelsModule.InitChannels
+          state: ChannelsModule.InitChannels,
         },
 
         {
           storage: "friends",
-          state: FriendsModule.InitFriends
+          state: FriendsModule.InitFriends,
         },
         {
           storage: "serverRoles",
-          state: ServerRolesModule.InitServerRoles
+          state: ServerRolesModule.InitServerRoles,
         },
         {
           storage: "serverMembers",
-          state: ServerMembersModule.InitServerMembers
-        }
+          state: ServerMembersModule.InitServerMembers,
+        },
       ]);
     },
     saveLastSelected() {
@@ -200,7 +200,7 @@ export default defineComponent({
       if (this.currentTab === "servers") {
         LastSelectedServersModule.UpdateLastSelected({
           serverID: this.currentServerID,
-          channelID: this.currentChannelID
+          channelID: this.currentChannelID,
         });
         localStorage.setItem("lastSelectedServerID", this.currentServerID);
       } else if (this.currentTab === "dms" && this.currentChannelID) {
@@ -212,8 +212,8 @@ export default defineComponent({
       if (!this.isConnected) {
         this.showConnectionStatusPopout = true;
       }
-    }
-  }
+    },
+  },
 });
 </script>
 

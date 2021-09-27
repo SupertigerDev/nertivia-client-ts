@@ -34,12 +34,12 @@ export default defineComponent({
         parentContextWidth?: number;
         element: HTMLElement;
       }>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      x: null as number | null
+      x: null as number | null,
     };
   },
   computed: {
@@ -48,15 +48,15 @@ export default defineComponent({
         {
           id: "view_profile",
           name: this.$t("user-context.view-profile"),
-          icon: "person"
-        }
+          icon: "person",
+        },
       ];
 
       if (this.canManageRoles && this.userExistsInServer) {
         items.push({
           id: "edit_roles",
           name: this.$t("user-context.edit-roles"),
-          icon: "leaderboard"
+          icon: "leaderboard",
         });
       }
       if (this.hasBanPermission || this.hasKickPermission) {
@@ -67,7 +67,7 @@ export default defineComponent({
           id: "kick",
           name: this.$t("user-context.kick"),
           icon: "exit_to_app",
-          warn: true
+          warn: true,
         });
       }
       if (this.hasBanPermission) {
@@ -75,7 +75,7 @@ export default defineComponent({
           id: "ban",
           name: this.$t("user-context.ban"),
           icon: "block",
-          warn: true
+          warn: true,
         });
       }
       items.push({ type: "seperator" });
@@ -85,13 +85,13 @@ export default defineComponent({
         {
           id: "copy_user_tag",
           name: this.$t("user-context.copy-user-tag"),
-          icon: "developer_board"
+          icon: "developer_board",
         },
         {
           id: "copy_id",
           name: this.$t("copy-id-button"),
-          icon: "developer_board"
-        }
+          icon: "developer_board",
+        },
       ];
 
       return items;
@@ -99,7 +99,7 @@ export default defineComponent({
     pos(): any {
       return {
         x: this.x,
-        y: this.data.y
+        y: this.data.y,
       };
     },
     isServerOwner(): any {
@@ -170,7 +170,7 @@ export default defineComponent({
     userExistsInServer(): any {
       if (!this.serverID) return undefined;
       return ServerMembersModule.serverMembers[this.serverID][this.data.id];
-    }
+    },
   },
   mounted() {
     // move to right if cant fit with parent context.
@@ -201,14 +201,14 @@ export default defineComponent({
         PopoutsModule.ShowPopout({
           id: "profile",
           component: "profile-popout",
-          data: { id: this.data.id }
+          data: { id: this.data.id },
         });
       }
       if (item.id === "edit_roles") {
         PopoutsModule.ShowPopout({
           id: "edit-role",
           component: "edit-roles-popout",
-          data: { id: this.data.id, serverID: this.serverID }
+          data: { id: this.data.id, serverID: this.serverID },
         });
       }
       if (item.id === "kick" || item.id === "ban") {
@@ -219,12 +219,12 @@ export default defineComponent({
             id: this.data.id,
             serverID: this.serverID,
             tempUser: this.data.tempUser,
-            action: item.id.toUpperCase()
-          }
+            action: item.id.toUpperCase(),
+          },
         });
       }
-    }
-  }
+    },
+  },
 });
 </script>
 

@@ -20,12 +20,12 @@ export default defineComponent({
   props: {
     users: {
       type: Array as PropType<User[]>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      UserSuggestionTemplate: markRaw(UserSuggestionTemplate)
+      UserSuggestionTemplate: markRaw(UserSuggestionTemplate),
     };
   },
   methods: {
@@ -40,8 +40,8 @@ export default defineComponent({
     },
     onSelected(user: User) {
       this.$emit("selected", `@${user.username}:${user.tag} `);
-    }
-  }
+    },
+  },
 });
 </script>
 <style scoped></style>

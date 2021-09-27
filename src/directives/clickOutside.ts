@@ -1,6 +1,6 @@
 const directive: any = {
   beforeMount(el: any, binding: any, vnode: any) {
-    el.clickOutsideEvent = function(event) {
+    el.clickOutsideEvent = function (event) {
       if (!(el === event.target || el.contains(event.target))) {
         binding.value(event, el);
       }
@@ -9,6 +9,6 @@ const directive: any = {
   },
   unmounted(el: any) {
     document.body.removeEventListener("mousedown", el.clickOutsideEvent);
-  }
+  },
 };
 export default directive;

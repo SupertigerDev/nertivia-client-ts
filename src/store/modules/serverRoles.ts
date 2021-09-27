@@ -3,7 +3,7 @@ import {
   VuexModule,
   Action,
   Mutation,
-  getModule
+  getModule,
 } from "vuex-module-decorators";
 import store from "..";
 import { saveCache } from "@/utils/localCache";
@@ -26,7 +26,7 @@ class ServerRoles extends VuexModule {
     return (server_id: string, roleIdArr: string[]) => {
       const serverRoles = this.sortedServerRolesArr(server_id);
       if (!serverRoles) return [];
-      return serverRoles.filter(role => roleIdArr.includes(role.id));
+      return serverRoles.filter((role) => roleIdArr.includes(role.id));
     };
   }
 
@@ -47,7 +47,7 @@ class ServerRoles extends VuexModule {
       let perms = 0;
       if (!serverRoles) return 0;
       for (let i = 0; i < roleIdArr.length; i++) {
-        const role = serverRoles.find(r => r.id === roleIdArr[i]);
+        const role = serverRoles.find((r) => r.id === roleIdArr[i]);
         if (!role) continue;
         perms = bitwiseAdd(perms, role.permissions);
       }
@@ -58,7 +58,7 @@ class ServerRoles extends VuexModule {
   get defaultServerRole() {
     return (server_id: string) => {
       const serverRoles = Object.values(this.serverRoles?.[server_id] || {});
-      return serverRoles.find(role => role.default);
+      return serverRoles.find((role) => role.default);
     };
   }
 
@@ -109,7 +109,7 @@ class ServerRoles extends VuexModule {
     if (!role) return;
     this.serverRoles[payload.server_id][role.id] = {
       ...role,
-      ...payload
+      ...payload,
     };
   }
 

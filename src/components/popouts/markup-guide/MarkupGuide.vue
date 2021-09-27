@@ -26,7 +26,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "MarkupGuide",
   components: {
-    Markup
+    Markup,
   },
   computed: {
     guides(): any {
@@ -35,70 +35,70 @@ export default defineComponent({
           title: "Bold",
           example: "**Bold**",
           htmlExample:
-            "<span class='param'>**</span>Bold<span class='param'>**</span>"
+            "<span class='param'>**</span>Bold<span class='param'>**</span>",
         },
         {
           title: "Italics",
           example: "//Italics//",
           htmlExample:
-            "<span class='param'>//</span>Italics<span class='param'>//</span>"
+            "<span class='param'>//</span>Italics<span class='param'>//</span>",
         },
         {
           title: "Underline",
           example: "__Underline__",
           htmlExample:
-            "<span class='param'>__</span>Underline<span class='param'>__</span>"
+            "<span class='param'>__</span>Underline<span class='param'>__</span>",
         },
         {
           title: "Strikethrough",
           example: "~~Strikethrough~~",
           htmlExample:
-            "<span class='param'>~~</span>Strikethrough<span class='param'>~~</span>"
+            "<span class='param'>~~</span>Strikethrough<span class='param'>~~</span>",
         },
         {
           title: "Spoiler",
           example: "||Spoiler||",
           htmlExample:
-            "<span class='param'>||</span>Spoiler<span class='param'>||</span>"
+            "<span class='param'>||</span>Spoiler<span class='param'>||</span>",
         },
         {
           title: "Inline Code",
           example: "`Inline Code`",
           htmlExample:
-            "<span class='param'>`</span>Inline Code<span class='param'>`</span>"
+            "<span class='param'>`</span>Inline Code<span class='param'>`</span>",
         },
         {
           title: "Code Block",
           example: "```js\nconsole.log('Code Block');\n```",
           htmlExample:
-            "<span class='param'>```js</span>\nconsole.log('Code Block');\n<span class='param'>```</span>"
+            "<span class='param'>```js</span>\nconsole.log('Code Block');\n<span class='param'>```</span>",
         },
         {
           title: "Block Quote",
           example: "> Block Quote",
-          htmlExample: "<span class='param'>></span> Block Quote"
+          htmlExample: "<span class='param'>></span> Block Quote",
         },
 
         {
           title: "Named Links",
           example: "[link: example.com -> Link Text]",
           htmlExample:
-            "<span class='param'>[link: </span>example.com <span class='param'>-></span> Link Text<span class='param'>]</span>"
+            "<span class='param'>[link: </span>example.com <span class='param'>-></span> Link Text<span class='param'>]</span>",
         },
         {
           title: "Color",
           example: "[#3ee]Color [#reset]Normal",
           htmlExample:
-            "<span class='param'>[#3ee]</span>Color <span class='param'>[#reset]</span>Normal"
+            "<span class='param'>[#3ee]</span>Color <span class='param'>[#reset]</span>Normal",
         },
         {
           title: "Vertical Text",
           example: "[vertical::)]",
           htmlExample:
-            "<span class='param'>[vertical:</span>:)<span class='param'>]</span>"
-        }
+            "<span class='param'>[vertical:</span>:)<span class='param'>]</span>",
+        },
       ];
-    }
+    },
   },
   methods: {
     close() {
@@ -108,8 +108,8 @@ export default defineComponent({
       if (event.target.classList.contains("popout-background")) {
         this.close();
       }
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

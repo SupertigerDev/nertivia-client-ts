@@ -6,7 +6,7 @@
       alert: alert,
       warn: warn,
       valid: valid,
-      disabled
+      disabled,
     }"
     @click="$emit('click')"
   >
@@ -35,42 +35,42 @@ export default defineComponent({
   props: {
     name: {
       type: String,
-      required: false
+      required: false,
     },
     alert: {
       type: Boolean,
-      required: false
+      required: false,
     },
     warn: {
       type: Boolean,
-      required: false
+      required: false,
     },
     disabled: {
       type: Boolean,
-      required: false
+      required: false,
     },
     valid: {
       type: Boolean,
-      required: false
+      required: false,
     },
     icon: {
       type: String,
-      required: false
+      required: false,
     },
     iconPos: {
       type: String,
-      required: false
+      required: false,
     },
     iconSize: {
       type: String,
-      required: false
-    }
+      required: false,
+    },
   },
   data() {
     return {
-      focused: false
+      focused: false,
     };
-  }
+  },
 });
 </script>
 

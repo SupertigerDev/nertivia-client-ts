@@ -19,12 +19,12 @@ export default defineComponent({
   computed: {
     page(): any {
       return explorePages[this.$route.params.tab as string];
-    }
+    },
   },
   watch: {
     page: {
-      handler: "onPageChanged"
-    }
+      handler: "onPageChanged",
+    },
   },
   mounted() {
     if (!this.page) {
@@ -33,7 +33,7 @@ export default defineComponent({
     }
     TabsModule.setCurrentTab({
       icon: "explore",
-      name: "Explore " + this.page?.name
+      name: "Explore " + this.page?.name,
     });
   },
   methods: {
@@ -41,10 +41,10 @@ export default defineComponent({
       if (!this.page) return;
       TabsModule.setCurrentTab({
         icon: "explore",
-        name: "Explore " + this.page?.name
+        name: "Explore " + this.page?.name,
       });
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

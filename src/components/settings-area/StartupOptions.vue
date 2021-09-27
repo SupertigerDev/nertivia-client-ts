@@ -39,7 +39,7 @@ export default defineComponent({
   data() {
     return {
       autoLaunch: false,
-      launchMinimized: false
+      launchMinimized: false,
     };
   },
   async mounted() {
@@ -63,8 +63,8 @@ export default defineComponent({
     toggleLaunchMinimized(state: boolean) {
       this.launchMinimized = state;
       electronBridge?.invoke("set_store_value", "startup.minimized", state);
-    }
-  }
+    },
+  },
 });
 </script>
 

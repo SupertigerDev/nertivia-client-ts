@@ -20,15 +20,15 @@ export default defineComponent({
         return this.$t("connection.ready");
       }
       return MeModule.connectionMessage;
-    }
+    },
   },
   watch: {
     isConnected: {
-      handler: "closePopout"
+      handler: "closePopout",
     },
     connectionMessage: {
-      handler: "onConnectionMessage"
-    }
+      handler: "onConnectionMessage",
+    },
   },
   mounted() {
     this.closePopout();
@@ -44,11 +44,11 @@ export default defineComponent({
       if (message === "terms_not_agreed") {
         PopoutsModule.ShowPopout({
           id: "changes-policy-popout",
-          component: "ChangesToPolicies"
+          component: "ChangesToPolicies",
         });
       }
-    }
-  }
+    },
+  },
 });
 </script>
 

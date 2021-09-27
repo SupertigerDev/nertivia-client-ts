@@ -22,8 +22,8 @@ export default defineComponent({
   components: { Avatar },
   props: {
     selected: Boolean,
-    participant: Object as PropType<CallParticipant & { user: User }>
-  }
+    participant: Object as PropType<CallParticipant & { user: User }>,
+  },
 });
 </script>
 

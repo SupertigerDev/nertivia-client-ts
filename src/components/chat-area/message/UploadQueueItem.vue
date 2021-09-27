@@ -13,9 +13,7 @@
       <div class="progress" v-else-if="item.uploading && item.progress == 100">
         Processing...
       </div>
-      <div class="state" v-if="!item.uploading">
-        Pending...
-      </div>
+      <div class="state" v-if="!item.uploading">Pending...</div>
     </div>
     <div class="seperator">
       <div class="bar" :style="{ width: item.progress + '%' }" />
@@ -39,8 +37,8 @@ export default defineComponent({
         progress: number;
         channelID: string;
       }>,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     sizeLabel(): any {
@@ -61,8 +59,8 @@ export default defineComponent({
     },
     channel(): any {
       return ChannelsModule.channels[this.item.channelID];
-    }
-  }
+    },
+  },
 });
 </script>
 

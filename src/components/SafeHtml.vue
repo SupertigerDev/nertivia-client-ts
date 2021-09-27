@@ -15,14 +15,15 @@ const SafeHtml = (props: { zippedJsonHtml: string }) => {
     const regex = /url\((.*?)\)/gm;
     const regex2 = /url\((.*?)\)/m;
 
-    return val.replaceAll(regex, r => {
+    return val.replaceAll(regex, (r) => {
       let url = regex2.exec(r)?.[1];
       if (!url) return r;
       if (url.startsWith(`"`) || url.startsWith(`'`)) {
         url = url.slice(1, -1);
       }
-      return `url("${process.env.VUE_APP_IMAGE_PROXY_URL +
-        encodeURIComponent(url)}")`;
+      return `url("${
+        process.env.VUE_APP_IMAGE_PROXY_URL + encodeURIComponent(url)
+      }")`;
     });
   }
 
@@ -36,7 +37,7 @@ const SafeHtml = (props: { zippedJsonHtml: string }) => {
     PopoutsModule.ShowPopout({
       id: "html-embed-url-sus",
       component: "OpenLinkConfirm",
-      data: { url }
+      data: { url },
     });
   };
 
@@ -52,7 +53,8 @@ const SafeHtml = (props: { zippedJsonHtml: string }) => {
     }
 
     let childrenEl =
-      jsonEl.content?.map(json => generate(json, jsonEl.tag === "style")) || [];
+      jsonEl.content?.map((json) => generate(json, jsonEl.tag === "style")) ||
+      [];
 
     const attrs: any = { ...jsonEl.attributes };
     if (attrs.style) {
@@ -76,7 +78,7 @@ const SafeHtml = (props: { zippedJsonHtml: string }) => {
     "div",
     { class: "json-html" },
     Array.isArray(jsonHtml)
-      ? jsonHtml?.map(json => generate(json))
+      ? jsonHtml?.map((json) => generate(json))
       : [generate(jsonHtml)]
   );
 };

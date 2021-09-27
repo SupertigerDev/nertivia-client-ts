@@ -37,7 +37,7 @@ export default defineComponent({
     return {
       notificationSound: false,
       FCMSupported: messagingSupported,
-      pushNotification: JSON.parse(localStorage["pushNotification"] || "false")
+      pushNotification: JSON.parse(localStorage["pushNotification"] || "false"),
     };
   },
   mounted() {
@@ -63,7 +63,7 @@ export default defineComponent({
         localStorage["pushNotification"] = state;
         return;
       }
-      Notification.requestPermission(status => {
+      Notification.requestPermission((status) => {
         if (status !== "granted") {
           alert("Permission for notifications is blocked.");
           this.pushNotification = false;
@@ -79,11 +79,11 @@ export default defineComponent({
     registerFCMNotification() {
       messaging()
         .getToken()
-        .then(token => {
+        .then((token) => {
           registerFCM(token);
         });
-    }
-  }
+    },
+  },
 });
 </script>
 

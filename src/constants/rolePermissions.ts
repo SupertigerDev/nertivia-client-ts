@@ -10,7 +10,7 @@ export const permissions = {
     value: 1,
     get info() {
       return i18n.global.t("server-settings.permissions.admin.info");
-    }
+    },
   },
   SEND_MESSAGES: {
     get name() {
@@ -19,7 +19,7 @@ export const permissions = {
     value: 2,
     get info() {
       return i18n.global.t("server-settings.permissions.send-messages.info");
-    }
+    },
   },
   MANAGE_ROLES: {
     get name() {
@@ -28,7 +28,7 @@ export const permissions = {
     value: 4,
     get info() {
       return i18n.global.t("server-settings.permissions.manage-roles.info");
-    }
+    },
   },
   MANAGE_CHANNELS: {
     get name() {
@@ -37,7 +37,7 @@ export const permissions = {
     value: 8,
     get info() {
       return i18n.global.t("server-settings.permissions.manage-channels.info");
-    }
+    },
   },
   KICK_USER: {
     get name() {
@@ -46,7 +46,7 @@ export const permissions = {
     value: 16,
     get info() {
       return i18n.global.t("server-settings.permissions.kick-user.info");
-    }
+    },
   },
   BAN_USER: {
     get name() {
@@ -55,6 +55,6 @@ export const permissions = {
     value: 32,
     get info() {
       return i18n.global.t("server-settings.permissions.ban-user.info");
-    }
-  }
+    },
+  },
 };

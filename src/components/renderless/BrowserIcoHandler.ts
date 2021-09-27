@@ -14,15 +14,15 @@ export default defineComponent({
     },
     dmNotificationCount(): any {
       return NotificationsModule.allDMNotifications.length;
-    }
+    },
   },
   watch: {
     serverNotificationCount: {
-      handler: "onNotification"
+      handler: "onNotification",
     },
     dmNotificationCount: {
-      handler: "onNotification"
-    }
+      handler: "onNotification",
+    },
   },
   methods: {
     onNotification() {
@@ -40,6 +40,6 @@ export default defineComponent({
         return;
       }
       icoSelector?.setAttribute("href", "/img/icons/favicon-32x32.png");
-    }
-  }
+    },
+  },
 });

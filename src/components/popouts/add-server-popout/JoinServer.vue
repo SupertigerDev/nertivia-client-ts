@@ -20,9 +20,9 @@ export default defineComponent({
   components: { EnterServerCode, ServerPreview },
   data() {
     return {
-      server: null as any
+      server: null as any,
     };
-  }
+  },
 });
 </script>
 

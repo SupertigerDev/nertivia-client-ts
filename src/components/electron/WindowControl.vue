@@ -27,8 +27,8 @@ export default defineComponent({
     },
     close() {
       electronBridge?.send("window_action", "close");
-    }
-  }
+    },
+  },
 });
 </script>
 

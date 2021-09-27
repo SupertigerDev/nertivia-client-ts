@@ -32,12 +32,12 @@ export default defineComponent({
   props: {
     message: {
       type: Object as PropType<Message & { grouped: boolean }>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      loaded: false
+      loaded: false,
     };
   },
   computed: {
@@ -67,7 +67,7 @@ export default defineComponent({
     },
     dimensions(): any {
       return this.message.files?.[0]?.dimensions;
-    }
+    },
   },
   methods: {
     showContext(event: any) {
@@ -80,8 +80,8 @@ export default defineComponent({
         data: {
           x: event.clientX,
           y: event.clientY,
-          imageUrl: this.imageURL
-        }
+          imageUrl: this.imageURL,
+        },
       });
     },
     onClick() {
@@ -90,11 +90,11 @@ export default defineComponent({
         component: "image-preview-popout",
         data: {
           url: this.imageURL,
-          unsafe_url: this.message.files?.[0].url
-        }
+          unsafe_url: this.message.files?.[0].url,
+        },
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

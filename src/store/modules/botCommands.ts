@@ -3,7 +3,7 @@ import {
   VuexModule,
   Action,
   Mutation,
-  getModule
+  getModule,
 } from "vuex-module-decorators";
 import store from "..";
 import { getBotCommands } from "@/services/botService";
@@ -32,7 +32,7 @@ class BotCommands extends VuexModule {
     return (id: string) => {
       if (!this.serverBotCommands[id]) return [];
       return Object.values(this.serverBotCommands[id]).map(
-        b_id => this.botCommands[b_id]
+        (b_id) => this.botCommands[b_id]
       );
     };
   }
@@ -59,21 +59,21 @@ class BotCommands extends VuexModule {
     let botIDs = payload.botIDArr as any;
     if (payload.serverId) {
       botIDs = ServerMembersModule.getUsersFromServer(payload.serverId)
-        .filter(u => u.bot)
-        .map(b => b.id);
+        .filter((u) => u.bot)
+        .map((b) => b.id);
     }
-    getBotCommands(botIDs).then(arr => {
+    getBotCommands(botIDs).then((arr) => {
       for (let i = 0; i < arr.length; i++) {
         const item = arr[i];
         if (!item.botCommands) continue;
         this.SET_BOT_COMMANDS({
           id: item.id,
-          commands: item.botCommands
+          commands: item.botCommands,
         });
         if (payload.serverId) {
           this.SET_SERVER_BOT_COMMANDS({
             serverId: payload.serverId,
-            id: item.id
+            id: item.id,
           });
         }
       }

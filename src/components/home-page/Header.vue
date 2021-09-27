@@ -17,9 +17,7 @@
     </div>
     <div class="buttons" v-if="!token">
       <a href="/login" class="button">Log In</a>
-      <div class="button join" @click="registerButton">
-        Join Nertivia
-      </div>
+      <div class="button join" @click="registerButton">Join Nertivia</div>
     </div>
   </div>
 </template>
@@ -34,13 +32,13 @@ export default {
     return {
       token: localStorage["hauthid"],
       user: null,
-      openContext: false
+      openContext: false,
     };
   },
   methods: {
     registerButton() {
       this.$router.push("/register");
-    }
+    },
   },
   mounted() {
     if (!this.token) return;
@@ -48,7 +46,7 @@ export default {
       .then(({ user }) => {
         this.user = user;
       })
-      .catch(err => {
+      .catch((err) => {
         if (!err.response) {
           alert(this.$t("could-not-connect-to-server"));
           return;
@@ -56,7 +54,7 @@ export default {
         localStorage.clear();
         this.token = null;
       });
-  }
+  },
 };
 </script>
 

@@ -23,30 +23,30 @@ export default defineComponent({
         x: number;
         y: number;
       }>,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     items(): any {
       return [
         {
           name: "Open App",
-          icon: "open_in_browser"
+          icon: "open_in_browser",
         },
         { type: "seperator" },
         {
           name: "Log Out",
           warn: true,
-          icon: " exit_to_app"
-        }
+          icon: " exit_to_app",
+        },
       ];
     },
     pos(): any {
       return {
         x: this.data?.x,
-        y: this.data?.y
+        y: this.data?.y,
       };
-    }
+    },
   },
   methods: {
     close() {
@@ -66,8 +66,8 @@ export default defineComponent({
         default:
           break;
       }
-    }
-  }
+    },
+  },
 });
 </script>
 

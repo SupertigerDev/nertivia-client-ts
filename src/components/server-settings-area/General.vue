@@ -100,7 +100,7 @@ export default defineComponent({
       newAvatar: "",
       newBanner: "",
       errors: {} as any,
-      requestSent: false
+      requestSent: false,
     };
   },
   computed: {
@@ -126,7 +126,7 @@ export default defineComponent({
         bannerChanged,
         avatarChanged,
         nameChanged,
-        defaultChannelChanged
+        defaultChannelChanged,
       } = this.itemsChanged;
 
       return (
@@ -143,14 +143,14 @@ export default defineComponent({
         bannerChanged,
         avatarChanged,
         nameChanged,
-        defaultChannelChanged
+        defaultChannelChanged,
       };
-    }
+    },
   },
   watch: {
     isConnected: {
-      handler: "onConnectionChange"
-    }
+      handler: "onConnectionChange",
+    },
   },
   mounted() {
     this.resetValues();
@@ -180,7 +180,7 @@ export default defineComponent({
           this.resetValues();
           this.requestSent = false;
         })
-        .catch(async err => {
+        .catch(async (err) => {
           if (!err.response) {
             this.errors["other"] = this.$t("could-not-connect-to-server");
             this.requestSent = false;
@@ -209,7 +209,7 @@ export default defineComponent({
       event.target.value = "";
       if (!file) return;
       const reader = new FileReader();
-      reader.onloadend = event => {
+      reader.onloadend = (event) => {
         this.newBanner = (event.target?.result as any) || null;
       };
       reader.readAsDataURL(file);
@@ -219,15 +219,15 @@ export default defineComponent({
       event.target.value = "";
       if (!file) return;
       const reader = new FileReader();
-      reader.onloadend = event => {
+      reader.onloadend = (event) => {
         this.newAvatar = (event.target?.result as any) || null;
       };
       reader.readAsDataURL(file);
     },
     onConnectionChange(connected: boolean) {
       if (connected) this.resetValues();
-    }
-  }
+    },
+  },
 });
 </script>
 

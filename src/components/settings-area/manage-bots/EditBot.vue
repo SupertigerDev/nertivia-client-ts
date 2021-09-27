@@ -50,7 +50,7 @@
       />
 
       <InformationTemplate
-        style="margin-bottom:10px;opacity:0.7"
+        style="margin-bottom: 10px; opacity: 0.7"
         :title="$t('settings.manage-bots.create-invite-link')"
       />
       <CustomInput
@@ -61,7 +61,7 @@
         prefixIcon="link"
       />
       <!-- Perms  -->
-      <div class="perms-list" style="margin-bottom:10px">
+      <div class="perms-list" style="margin-bottom: 10px">
         <CheckBox
           v-for="(perm, i) of perms"
           :key="i"
@@ -75,11 +75,11 @@
         :name="$t('settings.manage-bots.copy-invite-url')"
         :filled="true"
         icon="developer_board"
-        style="align-self:flex-start;margin-left:-2px;"
+        style="align-self: flex-start; margin-left: -2px"
         @click="copyInvite"
       />
       <InformationTemplate
-        style="margin-bottom:10px;margin-top:10px;opacity:0.7"
+        style="margin-bottom: 10px; margin-top: 10px; opacity: 0.7"
         :title="$t('settings.manage-bots.manage-token')"
       />
       <div class="link" v-if="!showToken" @click="showToken = true">
@@ -87,7 +87,7 @@
       </div>
       <CustomInput
         title="Token"
-        v-model="botToken"
+        modelValue="botToken"
         class="input"
         :disabled="true"
         v-if="showToken"
@@ -108,7 +108,7 @@
         />
       </div>
       <InformationTemplate
-        style="margin-bottom:10px;margin-top:10px;opacity:0.7"
+        style="margin-bottom: 10px; margin-top: 10px; opacity: 0.7"
         :title="$t('settings.manage-bots.delete-bot')"
       />
       <CustomButton
@@ -120,7 +120,7 @@
         icon="delete"
         :alert="true"
         @click="deleteBot"
-        style="align-self:flex-start;"
+        style="align-self: flex-start"
       />
     </div>
   </div>
@@ -148,17 +148,17 @@ export default defineComponent({
     CustomButton,
     AvatarImage,
     InformationTemplate,
-    CheckBox
+    CheckBox,
   },
   props: {
     bot: {
       type: Object as PropType<User>,
-      required: true
+      required: true,
     },
     botToken: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -169,12 +169,12 @@ export default defineComponent({
       requestSent: false,
       errors: {} as any,
       deleteBotConfirm: false,
-      permissions: permissions.SEND_MESSAGES.value
+      permissions: permissions.SEND_MESSAGES.value,
     };
   },
   computed: {
     perms(): any {
-      return Object.values(permissions).map(p => {
+      return Object.values(permissions).map((p) => {
         return { ...p, hasPerm: !!bitwiseContains(this.permissions, p.value) };
       });
     },
@@ -198,9 +198,9 @@ export default defineComponent({
       return {
         usernameChanged,
         tagChanged,
-        avatarChanged
+        avatarChanged,
       };
-    }
+    },
   },
   mounted() {
     this.resetValues();
@@ -231,8 +231,8 @@ export default defineComponent({
         component: "generic-popout",
         data: {
           title: "Bot Invite Copied!",
-          description: "URL Coppied!"
-        }
+          description: "URL Coppied!",
+        },
       });
     },
     copyToken() {
@@ -242,8 +242,8 @@ export default defineComponent({
         component: "generic-popout",
         data: {
           title: "Don't Paste It In Chats!",
-          description: "Token Copied."
-        }
+          description: "Token Copied.",
+        },
       });
     },
     resetToken() {
@@ -254,8 +254,8 @@ export default defineComponent({
           component: "generic-popout",
           data: {
             title: "Token Changed",
-            description: "Token Changed. All connections have been kicked."
-          }
+            description: "Token Changed. All connections have been kicked.",
+          },
         });
       });
     },
@@ -271,13 +271,13 @@ export default defineComponent({
       this.changedItems.avatarChanged && (data.avatar = this.newAvatar || "");
 
       updateBot(this.bot.id, data)
-        .then(json => {
+        .then((json) => {
           this.$emit("updated", json);
           this.$nextTick(() => {
             this.resetValues();
           });
         })
-        .catch(async err => {
+        .catch(async (err) => {
           if (!err.response) {
             this.errors["other"] = this.$t(
               "could-not-connect-to-server"
@@ -311,12 +311,12 @@ export default defineComponent({
       event.target.value = "";
       if (!file) return;
       const reader = new FileReader();
-      reader.onloadend = event => {
+      reader.onloadend = (event) => {
         this.newAvatar = (event.target?.result as any) || null;
       };
       reader.readAsDataURL(file);
-    }
-  }
+    },
+  },
 });
 </script>
 

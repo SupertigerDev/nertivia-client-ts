@@ -71,7 +71,7 @@ import Header from "@/components/home-page/Header.vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Home",
-  components: { Header }
+  components: { Header },
 });
 </script>
 

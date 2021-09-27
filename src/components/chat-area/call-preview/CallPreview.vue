@@ -13,7 +13,7 @@
 <script lang="ts">
 import {
   CallParticipant,
-  voiceChannelModule
+  voiceChannelModule,
 } from "@/store/modules/voiceChannels";
 import { PropType } from "vue";
 import SmallCallPreview from "./SmallCallPreview.vue";
@@ -22,11 +22,11 @@ import { defineComponent } from "vue";
 export default defineComponent({
   components: { SmallCallPreview, ExpandedCallPreview },
   props: {
-    participants: Array as PropType<CallParticipant[]>
+    participants: Array as PropType<CallParticipant[]>,
   },
   data() {
     return {
-      expanded: localStorage["call-preview-expanded"] === "true"
+      expanded: localStorage["call-preview-expanded"] === "true",
     };
   },
   methods: {
@@ -36,7 +36,7 @@ export default defineComponent({
     },
     toggleExpand() {
       this.setExpanded(!this.expanded);
-    }
+    },
   },
   watch: {
     joinedVoiceChannelId: {
@@ -45,14 +45,14 @@ export default defineComponent({
           this.setExpanded(true);
         }
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   computed: {
     joinedVoiceChannelId(): string | null {
       return voiceChannelModule.joinedChannelId;
-    }
-  }
+    },
+  },
 });
 </script>
 

@@ -41,18 +41,18 @@ export default defineComponent({
   props: {
     user: {
       type: Object as PropType<User>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      requestSent: false
+      requestSent: false,
     };
   },
   computed: {
     serverID(): any {
       return this.$route.params.server_id;
-    }
+    },
   },
   methods: {
     unban() {
@@ -66,10 +66,10 @@ export default defineComponent({
       PopoutsModule.ShowPopout({
         id: "profile",
         component: "profile-popout",
-        data: { id: this.user.id }
+        data: { id: this.user.id },
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

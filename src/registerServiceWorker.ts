@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === "production") {
       // hack to fix socket io background disconnects
       if (window.BroadcastChannel) {
         const channel = new BroadcastChannel("sw-messages");
-        setInterval(function() {
+        setInterval(function () {
           channel.postMessage("ping");
         }, 25000);
       }
@@ -36,6 +36,6 @@ if (process.env.NODE_ENV === "production") {
     },
     error(error) {
       console.error("Error during service worker registration:", error);
-    }
+    },
   });
 }

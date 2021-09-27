@@ -3,7 +3,7 @@ import {
   VuexModule,
   Action,
   Mutation,
-  getModule
+  getModule,
 } from "vuex-module-decorators";
 import store from "..";
 
@@ -15,12 +15,12 @@ interface Store {
   dynamic: true,
   store,
   namespaced: true,
-  name: "reactiveLocalStorage"
+  name: "reactiveLocalStorage",
 })
 class ReactiveLocalStorage extends VuexModule {
   localStore: Store = {
     showSettingsInNavigation:
-      localStorage["showSettingsInNavigation"] === "true"
+      localStorage["showSettingsInNavigation"] === "true",
   };
 
   get getStore() {
@@ -38,7 +38,7 @@ class ReactiveLocalStorage extends VuexModule {
   @Mutation
   private SET_STORE<K extends keyof Store>({
     key,
-    value
+    value,
   }: {
     key: K;
     value: Store[K];

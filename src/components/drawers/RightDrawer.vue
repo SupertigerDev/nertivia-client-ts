@@ -18,7 +18,7 @@ export default defineComponent({
   components: { ServerMemberTemplate, VirtualList, RecycleScroller },
   data() {
     return {
-      tempServerId: ""
+      tempServerId: "",
     };
   },
   render() {
@@ -27,9 +27,7 @@ export default defineComponent({
         <div class="tab" style={{ height: "25px" }}>
           {name} ({count})
         </div>
-      ) : (
-        undefined
-      );
+      ) : undefined;
     };
     const renderMember = (member: any) => {
       return (
@@ -44,7 +42,7 @@ export default defineComponent({
       <div class="right-drawer">
         <div class="header">
           {this.$t("right-drawer.server-members", [
-            this.serverMembersArr.length
+            this.serverMembersArr.length,
           ])}
         </div>
         <div class="members" key={this.tempServerId}>
@@ -55,7 +53,7 @@ export default defineComponent({
             variable={true}
             key={this.remain}
           >
-            {this.list?.map(item =>
+            {this.list?.map((item) =>
               item.title
                 ? renderTab(item.title, item.count)
                 : renderMember(this.serverMembers[item])
@@ -73,7 +71,7 @@ export default defineComponent({
       window.setTimeout(() => {
         this.tempServerId = this.serverId;
       }, 100);
-    }
+    },
   },
   watch: {
     serverId() {
@@ -83,8 +81,8 @@ export default defineComponent({
       deep: true,
       handler() {
         (this.$refs.virtualList as any).forceRender();
-      }
-    }
+      },
+    },
   },
   computed: {
     serverMembersArr(): ServerMember[] {
@@ -102,11 +100,11 @@ export default defineComponent({
       return ServerMembersModule.serverMembers[this.tempServerId || ""];
     },
     list(): any[] {
-      const unConsumedMembers = this.serverMembersArr.map(sm => sm.id);
+      const unConsumedMembers = this.serverMembersArr.map((sm) => sm.id);
       const roleMembers = this.serverRoles
-        .filter(r => !r.hideRole)
-        .map(role => {
-          const members = [...unConsumedMembers].filter(id => {
+        .filter((r) => !r.hideRole)
+        .map((role) => {
+          const members = [...unConsumedMembers].filter((id) => {
             if (!unConsumedMembers.includes(id)) return false;
             const member = this.serverMembers[id];
             if (!member.roleIdArr.includes(role.id)) return false;
@@ -117,11 +115,11 @@ export default defineComponent({
           if (!members.length) return [];
           return [
             { title: role.name, id: role.id, size: 25, count: members.length },
-            ...members
+            ...members,
           ];
         })
         .flat();
-      const onlineMembers = [...unConsumedMembers].filter(id => {
+      const onlineMembers = [...unConsumedMembers].filter((id) => {
         if (!PresencesModule.getPresence(id)) return;
         unConsumedMembers.splice(unConsumedMembers.indexOf(id), 1);
         return true;
@@ -131,12 +129,12 @@ export default defineComponent({
       const defaultRoleTitle = {
         title: this.defaultRole?.name || "Online",
         id: this.defaultRole?.id || "loading",
-        count: onlineMembers.length
+        count: onlineMembers.length,
       };
       const offlineTitle = {
         title: "Offline",
         id: "oof",
-        count: offlineMembers.length
+        count: offlineMembers.length,
       };
 
       return [
@@ -144,7 +142,7 @@ export default defineComponent({
         defaultRoleTitle,
         ...onlineMembers,
         offlineTitle,
-        ...offlineMembers
+        ...offlineMembers,
       ];
     },
     defaultRole(): ServerRole | undefined {
@@ -159,8 +157,8 @@ export default defineComponent({
     },
     remain(): number {
       return Math.round(useWindowProperties().resizeHeight / 40);
-    }
-  }
+    },
+  },
 });
 </script>
 <style scoped>

@@ -24,20 +24,20 @@ export default defineComponent({
   name: "MainApp",
   data() {
     return {
-      pages: explorePages
+      pages: explorePages,
     };
   },
   computed: {
     currentTab(): any {
       return this.$route.params.tab;
-    }
+    },
   },
   methods: {
     changeTab(path: string) {
       DrawersModule.SetLeftDrawer(false);
       this.$router.push({ params: { tab: path } });
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

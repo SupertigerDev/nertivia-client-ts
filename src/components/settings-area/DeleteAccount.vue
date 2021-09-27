@@ -87,7 +87,7 @@ export default defineComponent({
       canDelete: null as boolean | null,
       error: null as string | null,
       deleting: false,
-      password: ""
+      password: "",
     };
   },
   computed: {
@@ -96,14 +96,14 @@ export default defineComponent({
     },
     me(): any {
       return MeModule.user;
-    }
+    },
   },
   mounted() {
     if (this.servers.length) {
       this.canDelete = false;
       return;
     }
-    getBots().then(res => {
+    getBots().then((res) => {
       if (res.length) return (this.canDelete = false);
       this.canDelete = true;
     });
@@ -117,7 +117,7 @@ export default defineComponent({
         .then(() => {
           location.href = "/";
         })
-        .catch(async err => {
+        .catch(async (err) => {
           if (!err.response) {
             this.error = this.$t("could-not-connect-to-server").toString();
             return;
@@ -128,8 +128,8 @@ export default defineComponent({
         .finally(() => {
           this.deleting = false;
         });
-    }
-  }
+    },
+  },
 });
 </script>
 

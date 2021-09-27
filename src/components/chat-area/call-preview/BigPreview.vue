@@ -14,7 +14,7 @@
 import User from "@/interfaces/User";
 import {
   CallParticipant,
-  voiceChannelModule
+  voiceChannelModule,
 } from "@/store/modules/voiceChannels";
 import { PropType } from "vue";
 import Avatar from "@/components/AvatarImage.vue";
@@ -25,8 +25,8 @@ export default defineComponent({
   props: {
     participant: {
       type: Object as PropType<CallParticipant & { user: User }>,
-      required: true
-    }
+      required: true,
+    },
   },
   watch: {
     videoStream: {
@@ -37,8 +37,8 @@ export default defineComponent({
           const video = this.$refs.video as HTMLVideoElement;
           video.srcObject = stream;
         });
-      }
-    }
+      },
+    },
   },
   computed: {
     videoStream(): MediaStream | null | undefined {
@@ -49,8 +49,8 @@ export default defineComponent({
         return voiceChannelModule.videoStream;
       }
       return this.participant.videoStream;
-    }
-  }
+    },
+  },
 });
 </script>
 

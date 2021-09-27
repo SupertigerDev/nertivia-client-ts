@@ -51,8 +51,8 @@ export default defineComponent({
     selected: Boolean,
     tab: {
       type: Object as PropType<Tab>,
-      required: true
-    }
+      required: true,
+    },
   },
   mounted() {
     this.getTabElement().addEventListener("auxclick", this.onMiddleClick);
@@ -76,7 +76,7 @@ export default defineComponent({
     closeTab() {
       if (!this.tab.path) return;
       TabsModule.closeTabByPath(this.tab.path);
-    }
+    },
   },
   computed: {
     seed(): string | undefined {
@@ -116,8 +116,8 @@ export default defineComponent({
     },
     showAlert(): any {
       return this.serverNotificationExists || this.dmNotificationExists;
-    }
-  }
+    },
+  },
 });
 </script>
 

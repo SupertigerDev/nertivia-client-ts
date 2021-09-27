@@ -3,13 +3,13 @@
     class="nav-bar"
     :class="{
       show: leftDrawerOpened || pinned,
-      'pin-bottom': pinned && !leftDrawerOpened
+      'pin-bottom': pinned && !leftDrawerOpened,
     }"
   >
     <div
       class="item"
       :class="{
-        selected: currentTab === ''
+        selected: currentTab === '',
       }"
       :title="$t('dashboard-tab.dashboard')"
       @click="changeTab('')"
@@ -21,7 +21,7 @@
     <div
       class="item"
       :class="{
-        selected: currentTab === 'explore'
+        selected: currentTab === 'explore',
       }"
       :title="$t('dashboard-tab.explore')"
       @click="changeTab('explore')"
@@ -34,7 +34,7 @@
       class="item"
       :class="{
         selected: currentTab === 'dms',
-        notification: dmNotificationExists || friendRequestExists
+        notification: dmNotificationExists || friendRequestExists,
       }"
       :title="$t('dashboard-tab.direct-messages')"
       @click="changeTab('dms')"
@@ -47,7 +47,7 @@
       :class="{
         selected: currentTab === 'servers',
         notification: serverNotificationExists,
-        mentioned: serverMentioned
+        mentioned: serverMentioned,
       }"
       :title="$t('dashboard-tab.servers')"
       @click="changeTab('servers')"
@@ -58,7 +58,7 @@
     <div
       class="item"
       :class="{
-        selected: currentTab === 'admin-panel'
+        selected: currentTab === 'admin-panel',
       }"
       v-if="isAdmin"
       title="Admin Panel"
@@ -98,7 +98,7 @@
       v-if="showSettings"
       class="item last"
       :class="{
-        selected: currentTab === 'settings'
+        selected: currentTab === 'settings',
       }"
       title="Settings"
       @click="changeTab('settings')"
@@ -110,8 +110,8 @@
 </template>
 
 <script lang="ts">
-const AvatarImage = defineAsyncComponent(() =>
-  import("@/components/AvatarImage.vue")
+const AvatarImage = defineAsyncComponent(
+  () => import("@/components/AvatarImage.vue")
 );
 import userStatuses from "@/constants/userStatuses";
 import { AppUpdateModule } from "@/store/modules/appUpdate";
@@ -144,7 +144,7 @@ export default defineComponent({
     },
     serverMentioned(): any {
       return LastSeenServerChannelsModule.allServerNotifications.find(
-        c => c.mentioned
+        (c) => c.mentioned
       );
     },
     serverNotificationExists(): any {
@@ -154,7 +154,7 @@ export default defineComponent({
       return NotificationsModule.allDMNotifications.length > 0;
     },
     friendRequestExists(): any {
-      return this.friends.find(f => f.status === FriendStatus.PENDING);
+      return this.friends.find((f) => f.status === FriendStatus.PENDING);
     },
     friends(): any {
       return FriendsModule.friendsWithUser;
@@ -176,7 +176,7 @@ export default defineComponent({
     },
     isProfileOpened(): any {
       return PopoutsModule.isOpened("floating-profile-card");
-    }
+    },
   },
   methods: {
     changeTab(name: string) {
@@ -199,7 +199,7 @@ export default defineComponent({
     updateAvailableClick() {
       PopoutsModule.ShowPopout({
         id: "update-popout",
-        component: "UpdatePopout"
+        component: "UpdatePopout",
       });
     },
     lastSelectedServerID(): string | null {
@@ -212,10 +212,10 @@ export default defineComponent({
       PopoutsModule.ShowPopout({
         id: "floating-profile-card",
         component: "FloatingProfileCard",
-        toggle: true
+        toggle: true,
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

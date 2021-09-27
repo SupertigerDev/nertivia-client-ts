@@ -37,7 +37,7 @@ export default defineComponent({
   props: {
     thumbnailURL: {
       type: String,
-      required: true
+      required: true,
     },
     file: {
       type: Object as PropType<{
@@ -45,16 +45,16 @@ export default defineComponent({
         fileName: string;
         url: string;
       }>,
-      required: false
+      required: false,
     },
     youtubeURL: {
       type: String,
-      required: false
-    }
+      required: false,
+    },
   },
   data() {
     return {
-      loadPlayer: false
+      loadPlayer: false,
     };
   },
   computed: {
@@ -70,7 +70,8 @@ export default defineComponent({
     },
     embedURL(): any {
       if (!this.youtubeURL) return undefined;
-      const regex = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*)(?:(\?t|&start)=(\d+))?.*/gim;
+      const regex =
+        /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*)(?:(\?t|&start)=(\d+))?.*/gim;
       const result = regex.exec(this.youtubeURL);
       if (!result) return undefined;
       const id = result[2];
@@ -85,14 +86,14 @@ export default defineComponent({
       const { resizeWidth, resizeHeight } = useWindowProperties();
       return {
         height: resizeHeight,
-        width: resizeWidth
+        width: resizeWidth,
       };
-    }
+    },
   },
   watch: {
     windowSize: {
-      handler: "setDimensions"
-    }
+      handler: "setDimensions",
+    },
   },
   mounted() {
     this.setDimensions();
@@ -105,8 +106,8 @@ export default defineComponent({
       if (!contentEl) return;
       if (!logsEl) return;
       resizeKeepAspect(contentEl, logsEl, 1920, 1080);
-    }
-  }
+    },
+  },
 });
 </script>
 

@@ -47,16 +47,16 @@ export default defineComponent({
   props: {
     theme: {
       type: Object as PropType<ThemePreview>,
-      required: true
+      required: true,
     },
     showOptions: {
       type: Boolean,
-      default: false
+      default: false,
     },
     applied: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   methods: {
     apply() {
@@ -66,8 +66,8 @@ export default defineComponent({
     unapply() {
       unapplyTheme();
       this.$emit("unapplied");
-    }
-  }
+    },
+  },
 });
 </script>
 

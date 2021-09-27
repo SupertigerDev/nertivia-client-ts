@@ -12,9 +12,7 @@ interface ResponsePost {
   messageCreated: Message;
 }
 export function fetchMessages(channelID: string): Promise<ResponseFetch> {
-  return wrapper()
-    .get(`messages/channels/${channelID}`)
-    .json();
+  return wrapper().get(`messages/channels/${channelID}`).json();
 }
 export function fetchMessagesContinue(
   channelID: string,
@@ -54,7 +52,7 @@ export function addReaction(
 ): Promise<any> {
   return wrapper()
     .post(`messages/${messageID}/channels/${channelID}/reactions`, {
-      json: reaction
+      json: reaction,
     })
     .json();
 }
@@ -73,7 +71,7 @@ export function getReactedUsers(
   }
   return wrapper()
     .get(`messages/${messageID}/channels/${channelID}/reactions/users`, {
-      searchParams
+      searchParams,
     })
     .json();
 }
@@ -84,7 +82,7 @@ export function removeReaction(
 ): Promise<any> {
   return wrapper()
     .delete(`messages/${messageID}/channels/${channelID}/reactions`, {
-      json: reaction
+      json: reaction,
     })
     .json();
 }
@@ -93,9 +91,7 @@ export function deleteMessage(
   channelID: string,
   messageID: string
 ): Promise<any> {
-  return wrapper()
-    .delete(`messages/${messageID}/channels/${channelID}`)
-    .json();
+  return wrapper().delete(`messages/${messageID}/channels/${channelID}`).json();
 }
 export function postMessage(
   message: string,
@@ -104,7 +100,7 @@ export function postMessage(
 ): Promise<ResponsePost> {
   return wrapper()
     .post(`messages/channels/${channelID}`, {
-      json: { message, tempID, socketID: socket.id }
+      json: { message, tempID, socketID: socket.id },
     })
     .json();
 }
@@ -116,7 +112,7 @@ export function editMessage(
 ): Promise<ResponsePost> {
   return wrapper()
     .patch(`messages/${messageID}/channels/${channelID}`, {
-      json: data
+      json: data,
     })
     .json();
 }
@@ -131,9 +127,7 @@ export function buttonClick(
 }
 
 export function postTypingStatus(channelID: string): Promise<ResponsePost> {
-  return wrapper()
-    .post(`messages/${channelID}/typing`)
-    .json();
+  return wrapper().post(`messages/${channelID}/typing`).json();
 }
 
 export function postFormDataMessage(
@@ -165,7 +159,7 @@ export function postFormDataMessage(
     localStorage.getItem("hauthid") || ""
   );
 
-  request.onreadystatechange = function() {
+  request.onreadystatechange = function () {
     if (request.readyState === 4) {
       if (request.status === 200) {
         callback(null, null, true);
@@ -174,7 +168,7 @@ export function postFormDataMessage(
       }
     }
   };
-  request.upload.onprogress = progressEvent => {
+  request.upload.onprogress = (progressEvent) => {
     const percentCompleted = Math.round(
       (progressEvent.loaded * 100) / progressEvent.total
     );

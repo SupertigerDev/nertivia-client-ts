@@ -46,7 +46,7 @@ export default defineComponent({
       startX: 0,
       startY: 0,
       touchStamp: 0,
-      pauseTouches: false
+      pauseTouches: false,
     };
   },
   computed: {
@@ -63,18 +63,18 @@ export default defineComponent({
     },
     isMobile(): any {
       return useWindowProperties().resizeWidth <= 950;
-    }
+    },
   },
   watch: {
     isMobile: {
-      handler: "onMobileChange"
+      handler: "onMobileChange",
     },
     leftOpened: {
-      handler: "onLeftChange"
+      handler: "onLeftChange",
     },
     rightOpened: {
-      handler: "onRightChange"
-    }
+      handler: "onRightChange",
+    },
   },
   mounted() {
     DrawersModule.SetRightDrawer(!this.isMobile);
@@ -287,8 +287,8 @@ export default defineComponent({
       } else {
         return (this.rightStyle.transform = "translateX(0px)");
       }
-    }
-  }
+    },
+  },
 });
 </script>
 

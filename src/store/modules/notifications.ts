@@ -5,7 +5,7 @@ import {
   VuexModule,
   Action,
   Mutation,
-  getModule
+  getModule,
 } from "vuex-module-decorators";
 import store from "..";
 import { ChannelsModule } from "./channels";
@@ -20,11 +20,11 @@ class Notifications extends VuexModule {
 
   get newDMNotifications() {
     return Object.values(this.notifications).filter(
-      n => !ChannelsModule.channels[n.channelID]
+      (n) => !ChannelsModule.channels[n.channelID]
     );
   }
   get allDMNotifications() {
-    return Object.values(this.notifications).filter(n => {
+    return Object.values(this.notifications).filter((n) => {
       const channel = ChannelsModule.channels[n.channelID];
       if (!channel) return true;
       if (channel.server_id) return false;
@@ -38,7 +38,7 @@ class Notifications extends VuexModule {
 
   get notificationByUserID() {
     return (id: string) =>
-      Object.values(this.notifications).find(n => {
+      Object.values(this.notifications).find((n) => {
         const channel = ChannelsModule.channels[n.channelID];
         if (channel && channel.server_id) return false;
         return n.sender.id === id;
@@ -78,7 +78,7 @@ class Notifications extends VuexModule {
   }) {
     this.ADD_NOTIFICATION({
       channelID: payload.channelID,
-      notification: payload.notification
+      notification: payload.notification,
     });
   }
   @Action
@@ -89,7 +89,7 @@ class Notifications extends VuexModule {
     const currentNotification = this.notifications[payload.channelID];
     this.ADD_NOTIFICATION({
       channelID: payload.channelID,
-      notification: { ...currentNotification, ...payload.notification }
+      notification: { ...currentNotification, ...payload.notification },
     });
   }
 }

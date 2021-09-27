@@ -63,18 +63,18 @@ export default defineComponent({
         action: string;
         tempUser: User;
       }>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      requestSent: false
+      requestSent: false,
     };
   },
   computed: {
     user(): any {
       return UsersModule.users[this.data.id] || this.data.tempUser || {};
-    }
+    },
   },
   methods: {
     close() {
@@ -96,8 +96,8 @@ export default defineComponent({
         .catch(() => {
           this.requestSent = false;
         });
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

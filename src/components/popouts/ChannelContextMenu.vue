@@ -17,7 +17,7 @@ import { ChannelsModule } from "@/store/modules/channels";
 import { MutedChannelsModule } from "@/store/modules/mutedChannels";
 import {
   muteServerChannel,
-  unmuteServerChannel
+  unmuteServerChannel,
 } from "@/services/channelService";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { MeModule } from "@/store/modules/me";
@@ -36,8 +36,8 @@ export default defineComponent({
         server_id: string;
         channelID: string;
       }>,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     items(): any {
@@ -46,7 +46,7 @@ export default defineComponent({
           id: "mark_as_read",
           name: this.$t("server-context.mark-as-read"),
           icon: "markunread_mailbox",
-          disabled: !this.notifications
+          disabled: !this.notifications,
         },
         {
           id: this.isMuted ? "unmute_channel" : "mute_channel",
@@ -54,14 +54,14 @@ export default defineComponent({
             ? this.$t("channel-context.unmute-channel")
             : this.$t("channel-context.mute-channel"),
           icon: this.isMuted ? "notifications" : "notifications_off",
-          warn: !this.isMuted
+          warn: !this.isMuted,
         },
         { type: "seperator" },
         {
           id: "copy_id",
           name: this.$t("copy-id-button"),
-          icon: "developer_board"
-        }
+          icon: "developer_board",
+        },
       ];
 
       if (this.isCreator || this.canManageChannels) {
@@ -69,7 +69,7 @@ export default defineComponent({
           id: "channel_settings",
           name: "Channel Settings",
           icon: "settings",
-          hidden: !this.notifications
+          hidden: !this.notifications,
         });
       }
 
@@ -78,7 +78,7 @@ export default defineComponent({
     pos(): any {
       return {
         x: this.data.x,
-        y: this.data.y
+        y: this.data.y,
       };
     },
     server(): any {
@@ -104,7 +104,7 @@ export default defineComponent({
     },
     isMuted(): any {
       return MutedChannelsModule.mutedChannels.includes(this.channel.channelID);
-    }
+    },
   },
   methods: {
     close() {
@@ -135,10 +135,10 @@ export default defineComponent({
     },
     markAsRead() {
       this.$socket.emit("notification:dismiss", {
-        channelID: this.data.channelID
+        channelID: this.data.channelID,
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

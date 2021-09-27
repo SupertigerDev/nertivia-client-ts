@@ -6,9 +6,9 @@ import { defineComponent } from "vue";
 export default defineComponent({
   props: {
     text: {
-      type: String
-    }
-  }
+      type: String,
+    },
+  },
 });
 </script>
 

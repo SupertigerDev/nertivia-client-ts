@@ -53,25 +53,25 @@ export default defineComponent({
     FileMessage,
     InviteMessage,
     Markup,
-    VideoPlayer
+    VideoPlayer,
   },
   props: {
     message: {
       type: Object as PropType<Message>,
-      required: true
+      required: true,
     },
     grouped: {
       type: Boolean,
-      required: true
+      required: true,
     },
     invite: {
       type: Object as PropType<Invite>,
-      required: false
-    }
+      required: false,
+    },
   },
   data() {
     return {
-      loadRoleColor: false
+      loadRoleColor: false,
     };
   },
   computed: {
@@ -109,7 +109,7 @@ export default defineComponent({
     },
     server_id(): any {
       return this.$route.params.server_id;
-    }
+    },
   },
   mounted() {
     window.setTimeout(() => {
@@ -121,7 +121,7 @@ export default defineComponent({
       PopoutsModule.ShowPopout({
         id: "profile",
         component: "profile-popout",
-        data: { id: this.creator.id }
+        data: { id: this.creator.id },
       });
     },
     userContext(event: MouseEvent) {
@@ -134,11 +134,11 @@ export default defineComponent({
           x: event.clientX,
           y: event.clientY,
           id: this.message.creator.id,
-          element: event.target
-        }
+          element: event.target,
+        },
       });
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

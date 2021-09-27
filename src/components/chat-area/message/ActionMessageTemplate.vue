@@ -43,7 +43,7 @@ const types = [
   { color: "#29bf12", message: i18n.global.t("messages.joined") },
   { color: "#968b8b", message: i18n.global.t("messages.left") },
   { color: "#ff9914", message: i18n.global.t("messages.kicked") },
-  { color: "#d92121", message: i18n.global.t("messages.banned") }
+  { color: "#d92121", message: i18n.global.t("messages.banned") },
 ];
 import { defineComponent } from "vue";
 export default defineComponent({
@@ -52,16 +52,16 @@ export default defineComponent({
   props: {
     message: {
       type: Object as PropType<Message & { grouped: boolean }>,
-      required: true
+      required: true,
     },
     hideContext: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
-      loadRoleColor: false
+      loadRoleColor: false,
     };
   },
   computed: {
@@ -85,7 +85,7 @@ export default defineComponent({
     },
     time(): any {
       return friendlyTime(this.message.created, localStorage["timeFormat"]);
-    }
+    },
   },
   mounted() {
     window.setTimeout(() => {
@@ -102,18 +102,18 @@ export default defineComponent({
           x: event.clientX,
           y: event.clientY,
           id: this.message.creator.id,
-          tempUser: this.message.creator
-        }
+          tempUser: this.message.creator,
+        },
       });
     },
     showProfile() {
       PopoutsModule.ShowPopout({
         id: "profile",
         component: "profile-popout",
-        data: { id: this.message.creator.id }
+        data: { id: this.message.creator.id },
       });
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

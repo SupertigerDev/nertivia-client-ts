@@ -2,9 +2,7 @@
   <div class="codeblock">
     <div class="header">
       <div class="language">{{ langName || lang || "Text" }}</div>
-      <div class="material-icons" @click="copy">
-        content_copy
-      </div>
+      <div class="material-icons" @click="copy">content_copy</div>
     </div>
     <code v-if="langName" :innerHTML="highlightedValue"></code>
     <code v-else>{{ value }}</code>
@@ -19,12 +17,12 @@ import { defineComponent } from "vue";
 export default defineComponent({
   props: {
     lang: String,
-    value: String
+    value: String,
   },
   methods: {
     copy() {
       navigator.clipboard.writeText(this.value || "");
-    }
+    },
   },
   computed: {
     langName(): string | undefined {
@@ -34,10 +32,10 @@ export default defineComponent({
     highlightedValue(): string {
       return hljs.highlight(this.value as string, {
         ignoreIllegals: true,
-        language: this.lang as string
+        language: this.lang as string,
       })?.value;
-    }
-  }
+    },
+  },
 });
 </script>
 

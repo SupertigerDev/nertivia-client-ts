@@ -3,7 +3,7 @@ import {
   VuexModule,
   Action,
   Mutation,
-  getModule
+  getModule,
 } from "vuex-module-decorators";
 import store from "..";
 import { saveCache } from "@/utils/localCache";
@@ -31,7 +31,7 @@ class Me extends VuexModule {
     banner: null,
     type: null,
     id: null,
-    status: 0
+    status: 0,
   };
   connected = false;
   connectionMessage: string | null = "Connecting...";

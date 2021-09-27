@@ -54,7 +54,7 @@ import {
   deleteHtmlProfile,
   editHtmlProfile,
   getHtmlProfile,
-  jsonHtml
+  jsonHtml,
 } from "@/services/userService";
 import { defineComponent } from "vue";
 export default defineComponent({
@@ -66,7 +66,7 @@ export default defineComponent({
       error: null as null | string,
       pendingRequest: false,
       defaultCode:
-        '<div class="profile">\nHTML Profile\n</div>\n\n<style>\n.profile{\ncolor: blue;\n}\n</style>'
+        '<div class="profile">\nHTML Profile\n</div>\n\n<style>\n.profile{\ncolor: blue;\n}\n</style>',
     };
   },
   mounted() {
@@ -76,7 +76,7 @@ export default defineComponent({
     async fetchCode() {
       this.pendingRequest = true;
       await getHtmlProfile()
-        .then(res => {
+        .then((res) => {
           const arr = Array.isArray(res) ? res : [res];
 
           let finalString = "";
@@ -118,7 +118,7 @@ export default defineComponent({
         attr += ` ${key}="${value}"`;
       }
       let html = `<${json.tag}${attr}>\n${json.content
-        .map(c => this.jsonToHtml(c))
+        .map((c) => this.jsonToHtml(c))
         .join("\n")}\n</${json.tag}>`;
       return html;
     },
@@ -130,7 +130,7 @@ export default defineComponent({
         .then(() => {
           this.showEditor = false;
         })
-        .catch(async err => {
+        .catch(async (err) => {
           if (!err.response) {
             this.error = "Could not connect to server.";
             return;
@@ -141,8 +141,8 @@ export default defineComponent({
         .finally(() => {
           this.pendingRequest = false;
         });
-    }
-  }
+    },
+  },
 });
 </script>
 

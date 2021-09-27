@@ -5,7 +5,7 @@
     :style="{
       '--width': image.dimensions.width + 'px',
       '--height': image.dimensions.height + 'px',
-      '--aspect': `${image.dimensions.width} / ${image.dimensions.height}`
+      '--aspect': `${image.dimensions.width} / ${image.dimensions.height}`,
     }"
     @click="onClick"
   >
@@ -34,13 +34,13 @@ export default defineComponent({
   props: {
     image: {
       type: Object as any,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       loaded: false,
-      failed: false
+      failed: false,
     };
   },
   computed: {
@@ -64,7 +64,7 @@ export default defineComponent({
       return (
         process.env.VUE_APP_IMAGE_PROXY_URL + encodeURIComponent(this.image.url)
       );
-    }
+    },
   },
   methods: {
     showContext(event: any) {
@@ -77,8 +77,8 @@ export default defineComponent({
         data: {
           x: event.clientX,
           y: event.clientY,
-          imageUrl: this.imageURL
-        }
+          imageUrl: this.imageURL,
+        },
       });
     },
     onClick() {
@@ -87,11 +87,11 @@ export default defineComponent({
         component: "image-preview-popout",
         data: {
           unsafe_url: this.image.url,
-          url: this.imageURL
-        }
+          url: this.imageURL,
+        },
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

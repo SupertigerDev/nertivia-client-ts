@@ -68,7 +68,7 @@ import {
   applyPublicTheme,
   likeTheme,
   PublicThemeResponse,
-  unlikeTheme
+  unlikeTheme,
 } from "@/services/exploreService";
 import { PopoutsModule } from "@/store/modules/popouts";
 import CustomButton from "@/components/CustomButton.vue";
@@ -82,33 +82,33 @@ export default defineComponent({
   props: {
     data: {
       type: Object as PropType<PublicThemeResponse>,
-      required: true
+      required: true,
     },
     appliedThemeID: {
       type: String,
-      required: false
-    }
+      required: false,
+    },
   },
   data() {
     return {
       hovering: false,
       cloning: false,
       tweCrown: process.env.VUE_APP_TWEMOJI_LOCATION + "1f451.svg",
-      likeRequest: false
+      likeRequest: false,
     };
   },
   computed: {
     screenshotURL(): any {
       if (!this.data.screenshot) return null;
       return process.env.VUE_APP_NERTIVIA_CDN + this.data.screenshot;
-    }
+    },
   },
   methods: {
     showCreatorProfile() {
       PopoutsModule.ShowPopout({
         id: "profile",
         component: "profile-popout",
-        data: { id: this.data.creator.id }
+        data: { id: this.data.creator.id },
       });
     },
     async applyTheme() {
@@ -149,12 +149,12 @@ export default defineComponent({
       createTheme({
         css,
         name,
-        client_version: this.$lastUIBreakingVersion
+        client_version: this.$lastUIBreakingVersion,
       }).finally(() => {
         this.cloning = false;
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

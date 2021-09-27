@@ -66,11 +66,11 @@ export enum Type {
   JOIN_MESSAGE,
   LEAVE_MESSAGE,
   KICK_MESSAGE,
-  BAN_MESSAGE
+  BAN_MESSAGE,
 }
 
 export enum Sending {
   SENDING,
   SENT,
-  FAILED
+  FAILED,
 }

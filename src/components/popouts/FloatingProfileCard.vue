@@ -14,16 +14,16 @@ export default defineComponent({
   props: {
     identity: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     clickOutsideUserArea(event: any) {
       if (event.target.closest(".item.me")) return;
       if (event.target.closest(".context")) return;
       PopoutsModule.ClosePopout(this.identity);
-    }
-  }
+    },
+  },
 });
 </script>
 

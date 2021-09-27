@@ -24,7 +24,7 @@
               class="role-color"
               :style="{
                 borderColor: role.color,
-                background: role.hasRole ? role.color || 'white' : ''
+                background: role.hasRole ? role.color || 'white' : '',
               }"
             />
             <div class="role-name">{{ role.name }}</div>
@@ -51,16 +51,16 @@ export default defineComponent({
   props: {
     data: {
       type: Object as PropType<{ id: string; serverID: string }>,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     serverRoles(): any {
       const serverID = this.data.serverID;
       const id = this.data.id;
       return ServerRolesModule.sortedServerRolesArr(this.data.serverID)
-        .filter(r => !r.default && r.deletable)
-        .map(role => {
+        .filter((r) => !r.default && r.deletable)
+        .map((role) => {
           const hasRole = ServerMembersModule.memberHasRole(
             serverID,
             id,
@@ -71,7 +71,7 @@ export default defineComponent({
           return {
             ...role,
             canModify,
-            hasRole
+            hasRole,
           };
         });
     },
@@ -91,7 +91,7 @@ export default defineComponent({
     },
     user(): any {
       return UsersModule.users[this.data.id] || {};
-    }
+    },
   },
   methods: {
     backgroundClick(event: any) {
@@ -103,8 +103,8 @@ export default defineComponent({
       if (!role.canModify) return;
       const func = role.hasRole ? removeRole : addRole;
       func(this.data.serverID, this.data.id, role.id);
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

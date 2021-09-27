@@ -11,13 +11,13 @@ export default defineComponent({
   props: {
     icon: {
       type: String,
-      required: true
+      required: true,
     },
     warn: {
       type: Boolean,
-      required: false
-    }
-  }
+      required: false,
+    },
+  },
 });
 </script>
 

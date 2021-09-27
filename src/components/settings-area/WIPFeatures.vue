@@ -26,14 +26,14 @@ export default defineComponent({
   components: { CheckBox },
   data() {
     return {
-      welcomePopout: localStorage["welcomePopout_wip"] === "true"
+      welcomePopout: localStorage["welcomePopout_wip"] === "true",
     };
   },
   watch: {
     welcomePopout() {
       localStorage["welcomePopout_wip"] = this.welcomePopout;
-    }
-  }
+    },
+  },
 });
 </script>
 

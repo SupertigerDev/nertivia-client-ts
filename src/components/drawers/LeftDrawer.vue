@@ -33,24 +33,25 @@
 import _ from "lodash";
 import { defineAsyncComponent } from "vue";
 
-const ServerDrawer = defineAsyncComponent(() =>
-  import("@/components/drawers/server-drawer/ServerDrawer.vue")
+const ServerDrawer = defineAsyncComponent(
+  () => import("@/components/drawers/server-drawer/ServerDrawer.vue")
 );
-const ServerSettingsDrawer = defineAsyncComponent(() =>
-  import("@/components/drawers/server-drawer/ServerSettingsDrawer.vue")
+const ServerSettingsDrawer = defineAsyncComponent(
+  () => import("@/components/drawers/server-drawer/ServerSettingsDrawer.vue")
 );
 
-const SettingsDrawer = defineAsyncComponent(() =>
-  import("@/components/drawers/SettingsDrawer.vue")
+const SettingsDrawer = defineAsyncComponent(
+  () => import("@/components/drawers/SettingsDrawer.vue")
 );
-const DirectMessageDrawer = defineAsyncComponent(() =>
-  import("@/components/drawers/direct-message-drawer/DirectMessageDrawer.vue")
+const DirectMessageDrawer = defineAsyncComponent(
+  () =>
+    import("@/components/drawers/direct-message-drawer/DirectMessageDrawer.vue")
 );
-const ExploreDrawer = defineAsyncComponent(() =>
-  import("@/components/drawers/ExploreDrawer.vue")
+const ExploreDrawer = defineAsyncComponent(
+  () => import("@/components/drawers/ExploreDrawer.vue")
 );
-const AdminPanelDrawer = defineAsyncComponent(() =>
-  import("@/components/drawers/AdminPanelDrawer.vue")
+const AdminPanelDrawer = defineAsyncComponent(
+  () => import("@/components/drawers/AdminPanelDrawer.vue")
 );
 
 import SideBar from "@/components/sidebar/SideBar.vue";
@@ -68,7 +69,7 @@ export default defineComponent({
     DirectMessageDrawer,
     ServerSettingsDrawer,
     ExploreDrawer,
-    AdminPanelDrawer
+    AdminPanelDrawer,
   },
   computed: {
     headerName(): any {
@@ -91,7 +92,7 @@ export default defineComponent({
     },
     selectedServer(): any {
       return ServersModule.servers[this.selectedServerID];
-    }
+    },
   },
   methods: {
     showServerContext(event: any) {
@@ -102,11 +103,11 @@ export default defineComponent({
         data: {
           x: event.clientX,
           y: event.clientY,
-          server_id: this.selectedServerID
-        }
+          server_id: this.selectedServerID,
+        },
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

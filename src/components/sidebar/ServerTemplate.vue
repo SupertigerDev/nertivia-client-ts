@@ -5,7 +5,7 @@
     :class="{
       selected: isServerSelected,
       notification: serverNotificationArr.length,
-      mentioned: mentionedNotificationExists
+      mentioned: mentionedNotificationExists,
     }"
     @contextmenu.prevent="showContext"
     @mouseover="hover = true"
@@ -34,12 +34,12 @@ export default defineComponent({
   props: {
     server: {
       type: Object as PropType<Server>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      hover: false
+      hover: false,
     };
   },
   computed: {
@@ -47,11 +47,12 @@ export default defineComponent({
       const serverChannelID = LastSelectedServersModule.lastServerChannelID(
         this.server.server_id || ""
       );
-      return `/app/servers/${this.server.server_id}/${serverChannelID ||
-        this.server.default_channel_id}`;
+      return `/app/servers/${this.server.server_id}/${
+        serverChannelID || this.server.default_channel_id
+      }`;
     },
     mentionedNotificationExists(): any {
-      return this.serverNotificationArr.find(c => c.mentioned);
+      return this.serverNotificationArr.find((c) => c.mentioned);
     },
     serverNotificationArr(): any {
       return LastSeenServerChannelsModule.serverNotifications(
@@ -60,7 +61,7 @@ export default defineComponent({
     },
     isServerSelected(): any {
       return this.$route.params.server_id === this.server.server_id;
-    }
+    },
   },
   methods: {
     showContext(event: MouseEvent) {
@@ -71,11 +72,11 @@ export default defineComponent({
         data: {
           x: event.clientX,
           y: event.clientY,
-          server_id: this.server.server_id
-        }
+          server_id: this.server.server_id,
+        },
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

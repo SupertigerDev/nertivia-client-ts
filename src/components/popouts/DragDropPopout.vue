@@ -11,7 +11,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 export default defineComponent({
-  name: "ProfilePopout"
+  name: "ProfilePopout",
 });
 </script>
 <style lang="scss" scoped>

@@ -23,18 +23,18 @@ export default defineComponent({
         {
           name: this.$t("settings.interface.general"),
           id: "color_scheme",
-          component: ColorScheme
+          component: ColorScheme,
         },
         {
           name: this.$t("settings.interface.custom-css"),
           id: "custom_css",
-          component: CustomCSS
-        }
+          component: CustomCSS,
+        },
       ];
 
       return tabs;
-    }
-  }
+    },
+  },
 });
 </script>
 

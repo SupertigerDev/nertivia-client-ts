@@ -23,7 +23,7 @@
 import User from "@/interfaces/User";
 import {
   CallParticipant,
-  voiceChannelModule
+  voiceChannelModule,
 } from "@/store/modules/voiceChannels";
 import { PropType } from "vue";
 import CallTemplate from "./SmallCallTemplate.vue";
@@ -31,15 +31,15 @@ import { defineComponent } from "vue";
 export default defineComponent({
   components: { CallTemplate },
   props: {
-    participants: Array as PropType<(CallParticipant & { user: User })[]>
+    participants: Array as PropType<(CallParticipant & { user: User })[]>,
   },
   computed: {
     allowExpand(): boolean {
       return (
         voiceChannelModule.joinedChannelId === this.$route.params.channel_id
       );
-    }
-  }
+    },
+  },
 });
 </script>
 

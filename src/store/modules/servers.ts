@@ -3,7 +3,7 @@ import {
   VuexModule,
   Action,
   Mutation,
-  getModule
+  getModule,
 } from "vuex-module-decorators";
 import store from "..";
 import Server from "@/interfaces/Server";
@@ -25,7 +25,7 @@ class Servers extends VuexModule {
     const sortServers: Server[] = [];
     for (let i = 0; i < this.serverPosition.length; i++) {
       const serverID = this.serverPosition[i];
-      const index = tempServers.findIndex(s => s.server_id === serverID);
+      const index = tempServers.findIndex((s) => s.server_id === serverID);
       if (index < 0) continue;
       sortServers.push(tempServers[index]);
       tempServers.splice(index, 1);

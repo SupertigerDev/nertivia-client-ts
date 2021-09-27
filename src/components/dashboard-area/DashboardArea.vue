@@ -20,7 +20,7 @@ export default defineComponent({
   components: { NotificationCard, ProfileCard, Header },
   mounted() {
     TabsModule.setCurrentTab({ name: "Dashboard", icon: "dashboard" });
-  }
+  },
 });
 </script>
 

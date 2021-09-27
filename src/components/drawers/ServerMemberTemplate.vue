@@ -44,12 +44,12 @@ export default defineComponent({
   props: {
     serverMember: {
       type: Object as PropType<ServerMember>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      hover: false
+      hover: false,
     };
   },
   computed: {
@@ -87,7 +87,7 @@ export default defineComponent({
         return ["admin", process.env.VUE_APP_TWEMOJI_LOCATION + "1f6e1.svg"];
       }
       return null;
-    }
+    },
   },
   methods: {
     rightClickEvent(event: MouseEvent) {
@@ -98,8 +98,8 @@ export default defineComponent({
         data: {
           x: event.clientX,
           y: event.clientY,
-          id: this.member.id
-        }
+          id: this.member.id,
+        },
       });
     },
     showProfile() {
@@ -119,12 +119,12 @@ export default defineComponent({
           member: {
             ...this.serverMember,
             member: this.member,
-            roles: this.roles
-          }
-        }
+            roles: this.roles,
+          },
+        },
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

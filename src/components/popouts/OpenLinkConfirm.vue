@@ -41,14 +41,14 @@ export default defineComponent({
   props: {
     identity: {
       type: String,
-      required: true
+      required: true,
     },
     data: {
       type: Object as PropType<{
         url: string;
       }>,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     url(): any {
@@ -56,7 +56,7 @@ export default defineComponent({
         return "https://" + this.data.url;
       }
       return this.data.url;
-    }
+    },
   },
   methods: {
     backgroundClick(event: any) {
@@ -85,8 +85,8 @@ export default defineComponent({
     },
     close() {
       PopoutsModule.ClosePopout(this.identity);
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

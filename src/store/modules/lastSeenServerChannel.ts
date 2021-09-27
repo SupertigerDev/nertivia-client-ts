@@ -3,7 +3,7 @@ import {
   VuexModule,
   Action,
   Mutation,
-  getModule
+  getModule,
 } from "vuex-module-decorators";
 import store from "..";
 import { ChannelsModule } from "./channels";
@@ -21,7 +21,7 @@ interface LastSeenObj {
   dynamic: true,
   store,
   namespaced: true,
-  name: "lastSeenServerChannels"
+  name: "lastSeenServerChannels",
 })
 class LastSeenServerChannels extends VuexModule {
   lastSeenServers: LastSeenObj = {};
@@ -54,12 +54,11 @@ class LastSeenServerChannels extends VuexModule {
       const lastSeenStamp = this.lastSeenServers[channel.channelID];
       if (!lastSeenStamp || lastSeenStamp < channel.lastMessaged) {
         // check if being mentioned
-        const notification = NotificationsModule.notificationByChannelID(
-          channelID
-        );
+        const notification =
+          NotificationsModule.notificationByChannelID(channelID);
         return {
           ...channel,
-          mentioned: notification && notification.mentioned
+          mentioned: notification && notification.mentioned,
         } as Channel & { mentioned?: boolean };
       }
       return undefined;

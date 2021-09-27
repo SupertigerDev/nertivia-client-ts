@@ -63,8 +63,8 @@ export default defineComponent({
         this.dmNotifications.length ||
         Object.keys(this.serverChannelNotifications).length
       );
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

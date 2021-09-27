@@ -7,7 +7,7 @@ export function postLogin(
 ): Promise<any> {
   return wrapper()
     .post(`user/login`, {
-      json: { email, password, token }
+      json: { email, password, token },
     })
     .json();
 }
@@ -19,7 +19,7 @@ export function postRegister(
 ): Promise<any> {
   return wrapper()
     .post(`user/register`, {
-      json: { username, email, password, token }
+      json: { username, email, password, token },
     })
     .json();
 }
@@ -29,7 +29,7 @@ export function resetPasswordRequest(
 ): Promise<any> {
   return wrapper()
     .post(`user/reset/request`, {
-      json: { email, token }
+      json: { email, token },
     })
     .json();
 }
@@ -40,21 +40,19 @@ export function resetPassword(
 ): Promise<any> {
   return wrapper()
     .post(`user/reset/code/${code}`, {
-      json: { id, password }
+      json: { id, password },
     })
     .json();
 }
 export function confirmEmail(email: string, code: string): Promise<any> {
   return wrapper()
     .post(`user/register/confirm`, {
-      json: { email, code }
+      json: { email, code },
     })
     .json();
 }
 export function googleDriveLinkURL(): Promise<any> {
-  return wrapper()
-    .get(`settings/drive/url`)
-    .json();
+  return wrapper().get(`settings/drive/url`).json();
 }
 export function GoogleDriveLink(code: string, token: string): Promise<any> {
   return wrapper()
@@ -62,7 +60,5 @@ export function GoogleDriveLink(code: string, token: string): Promise<any> {
     .json();
 }
 export function AgreePolicy(): Promise<any> {
-  return wrapper()
-    .post(`user/agreeingPolicies`)
-    .json();
+  return wrapper().post(`user/agreeingPolicies`).json();
 }

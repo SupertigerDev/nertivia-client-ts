@@ -41,8 +41,8 @@ export default defineComponent({
   props: {
     serverMember: {
       type: Object as any,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     permFriendlyNamesArr(): any {
@@ -50,11 +50,11 @@ export default defineComponent({
       // if its the creator of the server, always allow everything
       const creatorID = this.server?.creator?.id;
       const isServerCreator = creatorID === this.serverMember.id;
-      return permArr.map(p => {
+      return permArr.map((p) => {
         return {
           ...p,
           hasPerm:
-            bitwiseContains(this.totalPermissions, p.value) || isServerCreator
+            bitwiseContains(this.totalPermissions, p.value) || isServerCreator,
         };
       });
     },
@@ -78,8 +78,8 @@ export default defineComponent({
     },
     member(): any {
       return this.serverMember.member;
-    }
-  }
+    },
+  },
 });
 </script>
 

@@ -27,14 +27,14 @@ export const onMemberRoleAdded = (data: ServerMemberAddOrRemoveRole) => {
   ServerMembersModule.AddMemberRole({
     serverID: data.server_id,
     id: data.id,
-    roleID: data.role_id
+    roleID: data.role_id,
   });
 };
 export const onMemberRoleRemoved = (data: ServerMemberAddOrRemoveRole) => {
   ServerMembersModule.RemoveMemberRole({
     serverID: data.server_id,
     id: data.id,
-    roleID: data.role_id
+    roleID: data.role_id,
   });
 };
 export const onJoined = (socket: Socket, data: any) => {
@@ -48,7 +48,7 @@ export const onJoined = (socket: Socket, data: any) => {
     verified: data.verified,
     channel_position: data.channel_position,
     name: data.name,
-    server_id: data.server_id
+    server_id: data.server_id,
   });
 
   const channelObj: any = {};
@@ -61,7 +61,7 @@ export const onJoined = (socket: Socket, data: any) => {
       lastMessaged: channel.lastMessaged,
       permissions: channel.permissions,
       rateLimit: channel.rateLimit,
-      icon: channel.icon
+      icon: channel.icon,
     };
   }
   ChannelsModule.AddChannels(channelObj);
@@ -90,13 +90,13 @@ export const onRolesUpdate = ({ roles, server_id }) => {
   }
   ServerRolesModule.AddServerRoles({
     roles: serverRolesObj,
-    serverID: server_id
+    serverID: server_id,
   });
 };
-export const onRoleCreated = role => {
+export const onRoleCreated = (role) => {
   ServerRolesModule.AddServerRole(role);
 };
-export const onRoleUpdated = partialRole => {
+export const onRoleUpdated = (partialRole) => {
   ServerRolesModule.UpdateServerRole(partialRole);
 };
 export const onRoleRemoved = ({ role_id, server_id }) => {
@@ -105,7 +105,7 @@ export const onRoleRemoved = ({ role_id, server_id }) => {
 export const onMute = (data: { muted: number; server_id: string }) => {
   MutedServersModule.SetMutedServer({
     serverID: data.server_id,
-    type: data.muted
+    type: data.muted,
   });
 };
 
@@ -123,7 +123,7 @@ export const onRoles = ({ roles, server_id }) => {
   }
   ServerRolesModule.AddServerRoles({
     roles: serverRolesObj,
-    serverID: server_id
+    serverID: server_id,
   });
 };
 
@@ -132,18 +132,18 @@ function filterServerMemberKeys(serverMember: any) {
     type: serverMember.type,
     id: serverMember.member.id,
     server_id: serverMember.server_id,
-    roleIdArr: serverMember.roles || []
+    roleIdArr: serverMember.roles || [],
   };
 }
 export const onMemberAdd = ({ serverMember, presence, custom_status }) => {
   UsersModule.AddUser(serverMember.member);
   PresencesModule.UpdatePresence({
     id: serverMember.member.id,
-    presence: presence
+    presence: presence,
   });
   CustomStatusesModule.SetCustomStatus({
     id: serverMember.member.id,
-    custom_status: custom_status
+    custom_status: custom_status,
   });
   ServerMembersModule.AddServerMember(filterServerMemberKeys(serverMember));
 };
@@ -154,7 +154,7 @@ export const onMembers = ({
   memberPresences,
   memberCustomStatusArr,
   programActivityArr,
-  callingChannelUserIds
+  callingChannelUserIds,
 }) => {
   const serverMembersObj: any = {};
   const usersObj: any = {};
@@ -168,9 +168,8 @@ export const onMembers = ({
     if (!serverMembersObj[serverMember.server_id]) {
       serverMembersObj[serverMember.server_id] = {};
     }
-    serverMembersObj[serverMember.server_id][
-      serverMember.member.id
-    ] = filterServerMemberKeys(serverMember);
+    serverMembersObj[serverMember.server_id][serverMember.member.id] =
+      filterServerMemberKeys(serverMember);
     usersObj[serverMember.member.id] = serverMember.member;
   }
   for (let i = 0; i < memberPresences.length; i++) {

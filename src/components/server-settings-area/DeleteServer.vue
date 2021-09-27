@@ -44,7 +44,7 @@ export default defineComponent({
     return {
       nameInput: "",
       requestSent: false,
-      error: null as null | string
+      error: null as null | string,
     };
   },
   computed: {
@@ -53,7 +53,7 @@ export default defineComponent({
     },
     serverID(): any {
       return this.$route.params.server_id;
-    }
+    },
   },
   methods: {
     deleteButton() {
@@ -65,7 +65,7 @@ export default defineComponent({
       }
       this.requestSent = true;
       deleteServer(this.serverID)
-        .catch(async err => {
+        .catch(async (err) => {
           if (!err.response) {
             this.error = this.$t("could-not-connect-to-server").toString();
             return;
@@ -73,8 +73,8 @@ export default defineComponent({
           this.error = await err.response.json();
         })
         .finally(() => (this.requestSent = false));
-    }
-  }
+    },
+  },
 });
 </script>
 

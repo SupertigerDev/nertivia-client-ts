@@ -18,12 +18,12 @@ export default defineComponent({
   computed: {
     page(): any {
       return explorePages[this.$route.params.tab as string];
-    }
+    },
   },
   watch: {
     page: {
-      handler: "onPageChanged"
-    }
+      handler: "onPageChanged",
+    },
   },
   mounted() {
     if (!this.page) {
@@ -32,7 +32,7 @@ export default defineComponent({
     }
     TabsModule.setCurrentTab({
       icon: "security",
-      name: "Admin Panel " + this.page.name
+      name: "Admin Panel " + this.page.name,
     });
   },
   methods: {
@@ -40,10 +40,10 @@ export default defineComponent({
       if (!this.page) return;
       TabsModule.setCurrentTab({
         icon: "security",
-        name: "Admin Panel " + this.page.name
+        name: "Admin Panel " + this.page.name,
       });
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

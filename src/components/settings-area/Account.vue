@@ -135,7 +135,7 @@ import { MeModule } from "@/store/modules/me";
 import {
   fetchUser,
   updateUser,
-  UpdateUserRequest
+  UpdateUserRequest,
 } from "@/services/userService";
 import { updateInstance } from "@/services/wrapper";
 import { PopoutsModule } from "@/store/modules/popouts";
@@ -149,7 +149,7 @@ export default defineComponent({
     AvatarImage,
     InformationTemplate,
     HtmlProfile,
-    MoreProfile
+    MoreProfile,
   },
   data() {
     return {
@@ -164,7 +164,7 @@ export default defineComponent({
       newAvatar: null as string | null,
       newBanner: null as string | null,
       requestSent: false,
-      errors: {} as any
+      errors: {} as any,
     };
   },
   computed: {
@@ -180,12 +180,8 @@ export default defineComponent({
       return MeModule.connected;
     },
     showPassword(): any {
-      const {
-        emailChanged,
-        usernameChanged,
-        tagChanged,
-        newPasswordChanged
-      } = this.changedItems;
+      const { emailChanged, usernameChanged, tagChanged, newPasswordChanged } =
+        this.changedItems;
 
       const othersChanged =
         emailChanged || usernameChanged || tagChanged || newPasswordChanged;
@@ -199,7 +195,7 @@ export default defineComponent({
         tagChanged,
         newPasswordChanged,
         avatarChanged,
-        bannerChanged
+        bannerChanged,
       } = this.changedItems;
 
       return (
@@ -225,14 +221,14 @@ export default defineComponent({
         tagChanged,
         newPasswordChanged,
         avatarChanged,
-        bannerChanged
+        bannerChanged,
       };
-    }
+    },
   },
   watch: {
     isConnected: {
-      handler: "onConnectionChange"
-    }
+      handler: "onConnectionChange",
+    },
   },
   mounted() {
     this.resetValues();
@@ -241,7 +237,7 @@ export default defineComponent({
   methods: {
     moreProfileUpdate() {
       if (!MeModule.user.id) return;
-      fetchUser(MeModule.user.id).then(user => {
+      fetchUser(MeModule.user.id).then((user) => {
         this.aboutMe = user.user.about_me;
       });
     },
@@ -261,7 +257,7 @@ export default defineComponent({
       event.target.value = "";
       if (!file) return;
       const reader = new FileReader();
-      reader.onloadend = event => {
+      reader.onloadend = (event) => {
         this.newAvatar = (event.target?.result as any) || null;
       };
       reader.readAsDataURL(file);
@@ -271,7 +267,7 @@ export default defineComponent({
       event.target.value = "";
       if (!file) return;
       const reader = new FileReader();
-      reader.onloadend = event => {
+      reader.onloadend = (event) => {
         this.newBanner = (event.target?.result as any) || null;
       };
       reader.readAsDataURL(file);
@@ -279,7 +275,7 @@ export default defineComponent({
     relinkButton() {
       PopoutsModule.ShowPopout({
         id: "link-google-drive",
-        component: "LinkGoogleDrive"
+        component: "LinkGoogleDrive",
       });
     },
     update() {
@@ -307,7 +303,7 @@ export default defineComponent({
       }
 
       updateUser(data, this.$socket.id)
-        .then(res => {
+        .then((res) => {
           if (res.token) {
             localStorage["hauthid"] = res.token;
             delete res.token;
@@ -317,7 +313,7 @@ export default defineComponent({
           this.resetValues();
           this.requestSent = false;
         })
-        .catch(async err => {
+        .catch(async (err) => {
           if (!err.response) {
             this.errors["other"] = this.$t(
               "could-not-connect-to-server"
@@ -330,7 +326,7 @@ export default defineComponent({
             "tag",
             "password",
             "new_password",
-            "email"
+            "email",
           ];
           const { errors, message } = await err.response.json();
           if (message) {
@@ -351,8 +347,8 @@ export default defineComponent({
     },
     onConnectionChange(connected: boolean) {
       if (connected) this.resetValues();
-    }
-  }
+    },
+  },
 });
 </script>
 

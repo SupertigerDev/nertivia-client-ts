@@ -20,8 +20,8 @@ export default defineComponent({
   props: {
     action: {
       type: Object as PropType<Action>,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     friendlyDate(): any {
@@ -33,8 +33,9 @@ export default defineComponent({
           this.action.admin.username
         }</strong> suspended <strong>${
           this.action.user?.username
-        }</strong> for <strong>${this.action.reason ||
-          "Not specified."}</strong>`;
+        }</strong> for <strong>${
+          this.action.reason || "Not specified."
+        }</strong>`;
       }
       if (this.action.action === "UNSUSPEND_USER") {
         return `<strong>${this.action.admin.username}</strong> unsuspended <strong>${this.action.user?.username}</strong>`;
@@ -46,8 +47,8 @@ export default defineComponent({
         return `<strong>${this.action.admin.username}</strong> removed IP Ban <strong>${this.action.ip_ban}</strong>`;
       }
       return `Unknown action: ${this.action.action}`;
-    }
-  }
+    },
+  },
 });
 </script>
 

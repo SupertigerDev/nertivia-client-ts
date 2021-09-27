@@ -6,7 +6,7 @@ export const onUploaded = (data: {
   CustomEmojisModule.AddCustomEmoji({
     emojiID: data.emoji.emojiID,
     name: data.emoji.name,
-    gif: data.emoji.gif
+    gif: data.emoji.gif,
   });
 };
 export const onRenamed = (data: {
@@ -14,7 +14,7 @@ export const onRenamed = (data: {
 }) => {
   CustomEmojisModule.UpdateEmoji({
     emojiID: data.emoji.emojiID,
-    name: data.emoji.name
+    name: data.emoji.name,
   });
 };
 export const onRemoved = (data: { emoji: { emojiID: string } }) => {

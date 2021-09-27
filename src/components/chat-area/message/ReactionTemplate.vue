@@ -16,7 +16,7 @@ import Message, { Reaction } from "@/interfaces/Message";
 import {
   addReaction,
   getReactedUsers,
-  removeReaction
+  removeReaction,
 } from "@/services/messagesService";
 import { MessagesModule } from "@/store/modules/messages";
 import { PopoutsModule } from "@/store/modules/popouts";
@@ -28,22 +28,22 @@ export default defineComponent({
   props: {
     reaction: {
       type: Object as PropType<Reaction>,
-      required: true
+      required: true,
     },
     message: {
       type: Object as PropType<Message>,
-      required: true
+      required: true,
     },
     animate: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       hover: false,
       requestSent: false,
-      timeout: null as number | null
+      timeout: null as number | null,
     };
   },
   computed: {
@@ -56,19 +56,19 @@ export default defineComponent({
         image.src = emojiURL(emoji, {
           animated: this.animate,
           isGif: this.reaction.gif,
-          isCustom: this.reaction.emojiID != null
+          isCustom: this.reaction.emojiID != null,
         });
       } else {
         throw new Error(`AvatarImage is missing an icon to display`);
       }
 
       return image.outerHTML;
-    }
+    },
   },
   watch: {
     hover: {
-      handler: "isHovered"
-    }
+      handler: "isHovered",
+    },
   },
   beforeUnmount() {
     PopoutsModule.ClosePopout("reacted-users-preview");
@@ -85,8 +85,8 @@ export default defineComponent({
           unicode: this.reaction.unicode,
           emojiID: this.reaction.emojiID,
           x: rect.left,
-          y: rect.top + rect.height + 5
-        }
+          y: rect.top + rect.height + 5,
+        },
       });
     },
     reactionClicked() {
@@ -104,12 +104,12 @@ export default defineComponent({
         channelID: this.message.channelID,
         messageID: this.message.messageID,
         reaction: { ...this.reaction, count: this.reaction.count + 1 },
-        removeIfZero: false
+        removeIfZero: false,
       });
       addReaction(this.message.channelID, this.message.messageID, {
         emojiID: this.reaction.emojiID,
         gif: this.reaction.gif,
-        unicode: this.reaction.unicode
+        unicode: this.reaction.unicode,
       }).finally(() => (this.requestSent = false));
     },
     removeReaction() {
@@ -120,11 +120,11 @@ export default defineComponent({
         channelID: this.message.channelID,
         messageID: this.message.messageID,
         reaction: { ...this.reaction, count: this.reaction.count - 1 },
-        removeIfZero: false
+        removeIfZero: false,
       });
       removeReaction(this.message.channelID, this.message.messageID, {
         emojiID: this.reaction.emojiID,
-        unicode: this.reaction.unicode
+        unicode: this.reaction.unicode,
       }).finally(() => (this.requestSent = false));
     },
     isHovered() {
@@ -134,8 +134,8 @@ export default defineComponent({
       } else {
         PopoutsModule.ClosePopout("reacted-users-preview");
       }
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

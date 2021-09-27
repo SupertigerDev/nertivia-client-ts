@@ -9,7 +9,7 @@
       :class="{
         selected: isChannelSelected,
         hasNotification: notificationExists,
-        hasIcon: iconURL != null
+        hasIcon: iconURL != null,
       }"
       :style="channelStyle"
       @contextmenu.prevent="showContext"
@@ -32,7 +32,7 @@
 import Channel from "@/interfaces/Channel";
 import {
   voiceChannelModule,
-  CallParticipant
+  CallParticipant,
 } from "@/store/modules/voiceChannels";
 import { DrawersModule } from "@/store/modules/drawers";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
@@ -48,12 +48,12 @@ export default defineComponent({
   props: {
     channel: {
       type: Object as PropType<Channel>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      hover: false
+      hover: false,
     };
   },
   computed: {
@@ -83,14 +83,14 @@ export default defineComponent({
       return emojiURL(isCustom ? customEmojiID : icon, {
         animated: this.hover,
         isCustom,
-        isGif
+        isGif,
       });
     },
     channelStyle(): any {
       return {
-        "--icon-url": this.iconURL && `url("${this.iconURL}")`
+        "--icon-url": this.iconURL && `url("${this.iconURL}")`,
       };
-    }
+    },
   },
   methods: {
     closeDrawer() {
@@ -105,11 +105,11 @@ export default defineComponent({
           x: event.clientX,
           y: event.clientY,
           server_id: this.channel.server_id,
-          channelID: this.channel.channelID
-        }
+          channelID: this.channel.channelID,
+        },
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

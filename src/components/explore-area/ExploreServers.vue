@@ -61,14 +61,14 @@ export default defineComponent({
       data: null as ServerResponse[] | null,
       filters: [
         { name: "Verified Servers", param: "verified=true" },
-        { name: "All Servers", param: "" }
+        { name: "All Servers", param: "" },
       ],
       sorts: [
         { name: "Most Users", param: "" },
         { name: "Least Users", param: "most_users=false" },
         { name: "Alphabetical", param: "alphabetical=true" },
-        { name: "Date Added", param: "date_added=true" }
-      ]
+        { name: "Date Added", param: "date_added=true" },
+      ],
     };
   },
   computed: {
@@ -80,12 +80,12 @@ export default defineComponent({
         return `?${this.sortParam}`;
       }
       return `?${this.sortParam}&${this.filterParam}`;
-    }
+    },
   },
   watch: {
     buildParam: {
-      handler: "onFilterChange"
-    }
+      handler: "onFilterChange",
+    },
   },
   async mounted() {
     this.data = await getServers();
@@ -94,8 +94,8 @@ export default defineComponent({
     async onFilterChange() {
       this.data = null;
       this.data = await getServers(this.buildParam);
-    }
-  }
+    },
+  },
 });
 </script>
 

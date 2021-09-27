@@ -20,7 +20,7 @@ export default defineComponent({
       allCustomEmojis: [],
       allSearchEmojis: [],
       hoveredEmoji: null as any,
-      search: ""
+      search: "",
     };
   },
 
@@ -40,28 +40,28 @@ export default defineComponent({
       />
     );
 
-    const category = name => (
+    const category = (name) => (
       <div class="category" style={{ height: "37px" }}>
         {name}
       </div>
     );
 
-    const emojiRow = arr => (
+    const emojiRow = (arr) => (
       <div class="emoji-row" style={{ height: "37px" }}>
         <div class="wrapper">
-          {arr.map(e =>
+          {arr.map((e) =>
             h(EmojiTemplate, {
               key: e.id,
               emoji: e,
               onClick: () => this.emojiClick(e),
-              onMouseover: () => this.onEmojiHover(e)
+              onMouseover: () => this.onEmojiHover(e),
             })
           )}
         </div>
       </div>
     );
 
-    const mapEmojis = arr => arr.map(row => emojiRow(row));
+    const mapEmojis = (arr) => arr.map((row) => emojiRow(row));
 
     const block = (name, arr, addButton?) => {
       const components = [category(name), ...mapEmojis(arr)];
@@ -70,7 +70,7 @@ export default defineComponent({
           h(EmojiTemplate, {
             addEmojiButton: true,
             onClick: () => this.emojiClick(null, true),
-            onMouseover: () => this.onEmojiHover(null, true)
+            onMouseover: () => this.onEmojiHover(null, true),
           })
         );
       }
@@ -105,7 +105,7 @@ export default defineComponent({
       if (showCustom)
         items = [
           ...items,
-          ...block("Custom Emojis", this.allCustomEmojis, true)
+          ...block("Custom Emojis", this.allCustomEmojis, true),
         ];
       if (showDefault) items = [...items, defaultEmojis()];
       if (showSearch)
@@ -128,7 +128,7 @@ export default defineComponent({
     );
 
     return (
-      <div v-click-outside={e => this.backgroundClick(e)} class="emoji-panel">
+      <div v-click-outside={(e) => this.backgroundClick(e)} class="emoji-panel">
         <div class="emoji-panel-inner">
           {h(Tabs as any, { onClick: this.tabClicked })}
           {input}
@@ -175,13 +175,13 @@ export default defineComponent({
       if (addButton) {
         this.hoveredEmoji = {
           annotation: "Add Custom Emojis!",
-          addButton: true
+          addButton: true,
         };
         return;
       }
       this.hoveredEmoji = {
         ...em,
-        el: em.unicode && emojiParser.replaceEmojis(em.unicode)
+        el: em.unicode && emojiParser.replaceEmojis(em.unicode),
       };
     },
     emojisWithGroup() {
@@ -226,12 +226,12 @@ export default defineComponent({
         const shortcode = this.recentEmojis[index];
 
         const emoji = emojiParser.allEmojis.find(
-          e => e.shortcodes[0] === shortcode
+          (e) => e.shortcodes[0] === shortcode
         );
 
         if (!emoji) {
           const cusEmoji = this.customEmojis.find(
-            emoji => emoji.name === shortcode
+            (emoji) => emoji.name === shortcode
           );
           if (cusEmoji) {
             emojis.push(cusEmoji);
@@ -267,7 +267,7 @@ export default defineComponent({
       for (let index = 0; index < emojis.length; index++) {
         const emoji = {
           ...emojis[index],
-          id: index + Math.floor(Math.random() * 12202222222)
+          id: index + Math.floor(Math.random() * 12202222222),
         };
 
         if (index === 0) {
@@ -321,8 +321,8 @@ export default defineComponent({
       );
     },
     findGroupEmojiPos(unicode) {
-      return emojiParser.allEmojis.find(e => e.unicode === unicode)?.pos;
-    }
+      return emojiParser.allEmojis.find((e) => e.unicode === unicode)?.pos;
+    },
   },
   watch: {
     search(val) {
@@ -337,28 +337,22 @@ export default defineComponent({
         .replaceAll(":", "")
         .toLowerCase();
 
-      const filterCustomEmoji = this.customEmojis.filter(e => {
-        return e.name
-          .replaceAll("_", "")
-          .toLowerCase()
-          .includes(search);
+      const filterCustomEmoji = this.customEmojis.filter((e) => {
+        return e.name.replaceAll("_", "").toLowerCase().includes(search);
       });
 
-      const filterEmoji = emojiParser.allEmojis.filter(e => {
-        const name = e.shortcodes
-          .join("")
-          .replaceAll("_", "")
-          .toLowerCase();
+      const filterEmoji = emojiParser.allEmojis.filter((e) => {
+        const name = e.shortcodes.join("").replaceAll("_", "").toLowerCase();
         return name.includes(search);
       });
       this.allSearchEmojis = this.arrToRows([
         ...filterCustomEmoji,
-        ...filterEmoji
+        ...filterEmoji,
       ]);
     },
     customEmojis() {
       this.allCustomEmojis = this.arrToRows(this.customEmojis);
-    }
+    },
   },
   computed: {
     recentEmojis(): any {
@@ -366,8 +360,8 @@ export default defineComponent({
     },
     customEmojis(): any {
       return CustomEmojisModule.customEmojis;
-    }
-  }
+    },
+  },
 });
 </script>
 

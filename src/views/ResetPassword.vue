@@ -37,9 +37,7 @@
       </div>
       <!-- Change Password -->
       <div v-if="page === 3">
-        <div class="sub-title">
-          Create a new password.
-        </div>
+        <div class="sub-title">Create a new password.</div>
         <div class="other-error">{{ errors["other"] }}</div>
         <customInput
           class="input"
@@ -79,7 +77,7 @@ export default defineComponent({
       email: "",
       password: "",
       resetPasswordPostSent: false,
-      errors: {} as any
+      errors: {} as any,
     };
   },
   mounted() {
@@ -102,7 +100,7 @@ export default defineComponent({
           this.page = 2;
           return;
         })
-        .catch(err => {
+        .catch((err) => {
           this.page = 0;
           if (!err.response) {
             this.errors["other"] = "Unable to connect to server";
@@ -110,7 +108,7 @@ export default defineComponent({
           }
           return err.response.json();
         })
-        .then(res => {
+        .then((res) => {
           if (!res) return;
           if (res.code === "CONFIRM_EMAIL") {
             this.page = 2;
@@ -143,7 +141,7 @@ export default defineComponent({
         .then(() => {
           this.page = 4;
         })
-        .catch(async err => {
+        .catch(async (err) => {
           if (!err.response) {
             this.errors["other"] = "Unable to connect to server";
             return;
@@ -159,8 +157,8 @@ export default defineComponent({
           }
         })
         .finally(() => (this.resetPasswordPostSent = false));
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

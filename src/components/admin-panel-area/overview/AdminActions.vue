@@ -30,7 +30,7 @@ export default defineComponent({
   components: { ActionTemplate },
   data() {
     return {
-      actions: null as Action[] | null
+      actions: null as Action[] | null,
     };
   },
   mounted() {
@@ -40,8 +40,8 @@ export default defineComponent({
     async fetchActions() {
       this.actions = [];
       this.actions = await fetchRecentActions();
-    }
-  }
+    },
+  },
 });
 </script>
 

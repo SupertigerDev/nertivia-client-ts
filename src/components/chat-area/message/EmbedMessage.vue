@@ -19,14 +19,15 @@ export default defineComponent({
   props: {
     embed: {
       type: Object as PropType<Embed>,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     youtubeEmbed(): any {
       if (this.embed.site_name !== "YouTube") return false;
       if (this.embed.type !== "video.other") return false;
-      const regex = /((http(s)?:\/\/)?)(www\.)?((youtube\.com\/)|(youtu.be\/))[\S]+/gm;
+      const regex =
+        /((http(s)?:\/\/)?)(www\.)?((youtube\.com\/)|(youtu.be\/))[\S]+/gm;
       if (!this.embed.url.match(regex)) return false;
       return true;
     },
@@ -34,8 +35,8 @@ export default defineComponent({
       if (Object.keys(this.embed).length !== 1) return undefined;
       if (!this.embed.image) return undefined;
       return this.embed.image;
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

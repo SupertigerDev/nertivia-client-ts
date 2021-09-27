@@ -51,14 +51,14 @@ export default defineComponent({
   props: {
     pos: {
       type: Object as PropType<{ x?: number; y?: number }>,
-      required: false
-    }
+      required: false,
+    },
   },
   data() {
     return {
       categories: ["😀", "🐱", "🍎", "🏀", "🚗", "⌚️", "❤️", "🏁"],
       tabLeftPos: null as string | null,
-      tabShown: false
+      tabShown: false,
     };
   },
   computed: {
@@ -67,11 +67,11 @@ export default defineComponent({
     },
     customEmojis(): any {
       return CustomEmojisModule.customEmojis;
-    }
+    },
   },
   methods: {
     findGroupEmojiPos(unicode: string) {
-      return emojiParser.allEmojis.find(e => e.unicode === unicode)?.pos;
+      return emojiParser.allEmojis.find((e) => e.unicode === unicode)?.pos;
     },
     tabsHover(event: any, index: number) {
       const toolTip: any = this.$refs.toolTip;
@@ -98,8 +98,8 @@ export default defineComponent({
     },
     tabLeave() {
       this.tabShown = false;
-    }
-  }
+    },
+  },
 });
 </script>
 

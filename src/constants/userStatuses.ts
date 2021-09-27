@@ -5,5 +5,5 @@ export default [
   { name: i18n.global.t("presence.online"), color: "#91ff91" },
   { name: i18n.global.t("presence.away"), color: "#ff9461" },
   { name: i18n.global.t("presence.busy"), color: "#ff5656" },
-  { name: i18n.global.t("presence.looking-to-play"), color: "#d073ff" }
+  { name: i18n.global.t("presence.looking-to-play"), color: "#d073ff" },
 ];

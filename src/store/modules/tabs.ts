@@ -7,7 +7,7 @@ import {
   VuexModule,
   Action,
   Mutation,
-  getModule
+  getModule,
 } from "vuex-module-decorators";
 import store from "..";
 
@@ -55,7 +55,9 @@ class Tabs extends VuexModule {
   public setCurrentTab(payload: Tab) {
     const obj = { ...payload, path: router.currentRoute.value.path };
     setBrowserTitle(payload.name);
-    const tab = this.tabs.find(t => t.path === router.currentRoute.value.path);
+    const tab = this.tabs.find(
+      (t) => t.path === router.currentRoute.value.path
+    );
     if (tab) {
       this.SET_CURRENT_TAB(obj);
       return;
@@ -75,8 +77,10 @@ class Tabs extends VuexModule {
   }
   @Action
   openTab(payload: Tab) {
-    const existingTabIndex = this.tabs.findIndex(t => t.path === payload.path);
-    const existingUnopenedIndex = this.tabs.findIndex(t => !t.opened);
+    const existingTabIndex = this.tabs.findIndex(
+      (t) => t.path === payload.path
+    );
+    const existingUnopenedIndex = this.tabs.findIndex((t) => !t.opened);
     if (existingTabIndex >= 0) {
       this.REPLACE_TAB({ tab: payload, index: existingTabIndex });
     } else if (existingUnopenedIndex >= 0) {
@@ -97,7 +101,7 @@ class Tabs extends VuexModule {
       saveCache("tabs", this.tabs);
       return;
     }
-    const index = this.tabs.findIndex(tab => tab.path === path);
+    const index = this.tabs.findIndex((tab) => tab.path === path);
     const tabBefore = this.tabs?.[index - 1] || this.tabs?.[index + 1];
     if (tabBefore.path && tabBefore.path !== router.currentRoute.value.path) {
       router.push(tabBefore.path);

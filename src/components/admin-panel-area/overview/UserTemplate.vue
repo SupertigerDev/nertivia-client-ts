@@ -27,18 +27,18 @@ export default defineComponent({
   props: {
     user: {
       type: Object as PropType<ExpandedUser>,
-      required: true
+      required: true,
     },
     hover: {
       type: Boolean,
-      required: false
-    }
+      required: false,
+    },
   },
   computed: {
     friendlyCreated(): any {
       return date(this.user.created);
-    }
-  }
+    },
+  },
 });
 </script>
 

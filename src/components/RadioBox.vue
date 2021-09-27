@@ -21,14 +21,14 @@ export default defineComponent({
   emits: ["change", "update:modelValue"],
   props: {
     items: Array as PropType<string[]>,
-    modelValue: Number
+    modelValue: Number,
   },
   methods: {
     clicked(index: number) {
       this.$emit("update:modelValue", index);
       this.$emit("change", index);
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

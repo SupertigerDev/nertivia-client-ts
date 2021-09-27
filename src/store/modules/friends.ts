@@ -3,7 +3,7 @@ import {
   VuexModule,
   Action,
   Mutation,
-  getModule
+  getModule,
 } from "vuex-module-decorators";
 import store from "..";
 import User from "@/interfaces/User";
@@ -13,7 +13,7 @@ import { PresencesModule } from "./presences";
 export enum FriendStatus {
   REQUESTED = 0,
   PENDING = 1,
-  FRIENDS = 3
+  FRIENDS = 3,
 }
 
 interface FriendObj {
@@ -37,7 +37,7 @@ class Friends extends VuexModule {
   }
 
   get friendsWithUser() {
-    return Object.values(this.friends).map(friend => {
+    return Object.values(this.friends).map((friend) => {
       const user: User = this.context.rootState.users.users[friend.id];
       const presence = PresencesModule.getPresence(friend.id);
       return { recipient: user, ...friend, presence };
@@ -48,7 +48,7 @@ class Friends extends VuexModule {
   private ADD_FRIEND(payload: { id: string; status: number }) {
     this.friends[payload.id] = {
       status: payload.status,
-      id: payload.id
+      id: payload.id,
     };
   }
 

@@ -23,21 +23,21 @@ export default defineComponent({
   props: {
     data: {
       type: Object as PropType<{ x?: number; y?: number }>,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     pos(): any {
       return {
         x: this.data.x,
-        y: this.data.y
+        y: this.data.y,
       };
     },
     items(): any {
       const invis = { ...userStatuses[0], name: "Invisible" };
       const [, ...all] = userStatuses;
       return [...all, { type: "seperator" }, invis];
-    }
+    },
   },
   methods: {
     close() {
@@ -46,13 +46,13 @@ export default defineComponent({
     click(item: any) {
       let index = 0;
       if (item.name !== "Invisible") {
-        index = userStatuses.findIndex(s => s.name === item.name);
+        index = userStatuses.findIndex((s) => s.name === item.name);
       }
       if (index < 0) return;
       changeStatus(index);
       this.$emit("close");
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped></style>

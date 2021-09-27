@@ -23,13 +23,13 @@ export default defineComponent({
   props: {
     user: {
       type: Object as PropType<User>,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     display() {
       return `${this.user.username}`;
-    }
+    },
   },
   methods: {
     userContext(event: MouseEvent) {
@@ -41,8 +41,8 @@ export default defineComponent({
           tempUser: this.user,
           x: event.clientX,
           y: event.clientY,
-          id: this.user.id
-        }
+          id: this.user.id,
+        },
       });
     },
     showProfile(event: PointerEvent) {
@@ -58,12 +58,12 @@ export default defineComponent({
               ServerMembersModule.memberRoles(
                 this.$route.params.server_id as string,
                 this.user.id
-              ) ?? []
-          }
-        }
+              ) ?? [],
+          },
+        },
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

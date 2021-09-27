@@ -63,14 +63,14 @@ export default defineComponent({
   props: {
     data: {
       type: Object as PropType<{ x: number; y: number; member: ServerMember }>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       returnedUser: null as ReturnedUser | null,
       height: 0,
-      width: 0
+      width: 0,
     };
   },
   computed: {
@@ -110,25 +110,25 @@ export default defineComponent({
 
       return {
         top: clampedTop + "px",
-        left: clampedLeft + "px"
+        left: clampedLeft + "px",
       };
     },
     windowDiamentions(): any {
       return {
         height: useWindowProperties().resizeHeight,
-        width: useWindowProperties().resizeWidth
+        width: useWindowProperties().resizeWidth,
       };
-    }
+    },
   },
   watch: {
     user: {
-      handler: "onUserChange"
-    }
+      handler: "onUserChange",
+    },
   },
   mounted() {
     this.height = this.$el.clientHeight;
     this.width = this.$el.clientWidth;
-    fetchUser(this.user.id).then(user => {
+    fetchUser(this.user.id).then((user) => {
       this.returnedUser = user;
     });
   },
@@ -139,7 +139,7 @@ export default defineComponent({
     },
     onUserChange() {
       this.returnedUser = null;
-      fetchUser(this.user.id).then(user => {
+      fetchUser(this.user.id).then((user) => {
         this.returnedUser = user;
       });
     },
@@ -147,13 +147,13 @@ export default defineComponent({
       PopoutsModule.ShowPopout({
         id: "profile",
         component: "profile-popout",
-        data: { id: this.user?.id, fullProfile: this.returnedUser }
+        data: { id: this.user?.id, fullProfile: this.returnedUser },
       });
     },
     clamp(num: number, min: number, max: number) {
       return num <= min ? min : num >= max ? max : num;
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

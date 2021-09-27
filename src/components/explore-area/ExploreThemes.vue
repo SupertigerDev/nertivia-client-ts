@@ -36,7 +36,7 @@
 <script lang="ts">
 import {
   getPublicThemes,
-  PublicThemeResponse
+  PublicThemeResponse,
 } from "@/services/exploreService";
 import ThemeTemplate from "./ExploreThemeTemplate.vue";
 import LoadingScreen from "@/components/LoadingScreen.vue";
@@ -51,15 +51,15 @@ export default defineComponent({
       appliedThemeID: localStorage["themeID"] || null,
       filters: [
         { name: "Compatible", param: "compatible" },
-        { name: "All", param: undefined }
+        { name: "All", param: undefined },
       ],
-      selectedFilter: "compatible"
+      selectedFilter: "compatible",
     };
   },
   watch: {
     selectedFilter: {
-      handler: "onFilterChange"
-    }
+      handler: "onFilterChange",
+    },
   },
   async mounted() {
     this.loadData();
@@ -91,8 +91,8 @@ export default defineComponent({
     },
     async onFilterChange() {
       this.loadData();
-    }
-  }
+    },
+  },
 });
 </script>
 

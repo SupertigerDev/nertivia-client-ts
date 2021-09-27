@@ -57,7 +57,7 @@ import {
   deleteServer,
   getServer,
   ServerResponse,
-  updateServer
+  updateServer,
 } from "@/services/exploreService";
 
 import { defineComponent } from "vue";
@@ -70,7 +70,7 @@ export default defineComponent({
       visibility: null as number | null,
       response: null as ServerResponse | null,
       description: "",
-      updating: false
+      updating: false,
     };
   },
   computed: {
@@ -81,7 +81,7 @@ export default defineComponent({
     },
     serverID(): any {
       return this.$route.params.server_id;
-    }
+    },
   },
   mounted() {
     this.getDetails();
@@ -90,12 +90,12 @@ export default defineComponent({
     getDetails() {
       this.response = null;
       getServer(this.serverID)
-        .then(server => {
+        .then((server) => {
           this.visibility = 1;
           this.response = server;
           this.description = server.description || "";
         })
-        .catch(err => {
+        .catch((err) => {
           this.visibility = null;
           if (!err.response) return;
           this.visibility = 0;
@@ -110,7 +110,7 @@ export default defineComponent({
         .then(() => {
           this.getDetails();
         })
-        .catch(async err => {
+        .catch(async (err) => {
           if (!err.response) {
             this.error = this.$t("could-not-connect-to-server").toString();
             return;
@@ -131,7 +131,7 @@ export default defineComponent({
         .then(() => {
           this.getDetails();
         })
-        .catch(async err => {
+        .catch(async (err) => {
           if (!err.response) {
             this.error = this.$t("could-not-connect-to-server").toString();
             return;
@@ -151,7 +151,7 @@ export default defineComponent({
         .then(() => {
           this.getDetails();
         })
-        .catch(async err => {
+        .catch(async (err) => {
           if (!err.response) {
             this.error = this.$t("could-not-connect-to-server").toString();
             return;
@@ -162,8 +162,8 @@ export default defineComponent({
         .finally(() => {
           this.updating = false;
         });
-    }
-  }
+    },
+  },
 });
 </script>
 

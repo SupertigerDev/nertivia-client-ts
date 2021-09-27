@@ -43,10 +43,10 @@ export default defineComponent({
         { name: this.$t("add-server-popout.tabs.join"), component: JoinServer },
         {
           name: this.$t("add-server-popout.tabs.create"),
-          component: CreateServer
-        }
+          component: CreateServer,
+        },
       ];
-    }
+    },
   },
   methods: {
     close() {
@@ -56,8 +56,8 @@ export default defineComponent({
       if (event.target.classList.contains("popout-background")) {
         this.close();
       }
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

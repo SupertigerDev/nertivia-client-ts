@@ -33,13 +33,13 @@ export default defineComponent({
   data() {
     return {
       searchValue: "",
-      selectedServerMember: null as any
+      selectedServerMember: null as any,
     };
   },
   computed: {
     serverID(): any {
       return this.$route.params.server_id;
-    }
+    },
   },
   methods: {
     userClicked(id: string) {
@@ -47,8 +47,8 @@ export default defineComponent({
         this.serverID,
         id
       );
-    }
-  }
+    },
+  },
 });
 </script>
 

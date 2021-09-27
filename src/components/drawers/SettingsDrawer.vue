@@ -69,13 +69,13 @@ export default defineComponent({
   name: "MainApp",
   data() {
     return {
-      pages: (settingPages as any) as Pages
+      pages: settingPages as any as Pages,
     };
   },
   computed: {
     currentSettingTab(): any {
       return this.$route.params.tab;
-    }
+    },
   },
   methods: {
     changeTab(path: string) {
@@ -86,17 +86,17 @@ export default defineComponent({
     showMarkupGuide() {
       PopoutsModule.ShowPopout({
         id: "markup-guide",
-        component: "markup-guide"
+        component: "markup-guide",
       });
     },
     showChangelog() {
       PopoutsModule.ShowPopout({
         id: "changelog-popout",
         component: "ChangelogPopout",
-        data: {}
+        data: {},
       });
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

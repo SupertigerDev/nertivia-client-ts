@@ -29,8 +29,8 @@ export default defineComponent({
   props: {
     message: {
       type: Object as PropType<Message>,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     sendingStatus(): any {
@@ -41,12 +41,12 @@ export default defineComponent({
           icon: "edit",
           title:
             "Edited " +
-            friendlyDate(this.message.timeEdited, localStorage["timeFormat"])
+            friendlyDate(this.message.timeEdited, localStorage["timeFormat"]),
         };
       if (sending === 1) return { icon: "done", title: "Sent" };
       if (sending === 2) return { icon: "error_outline", title: "Not Sent" };
       return undefined;
-    }
+    },
   },
   methods: {
     messageContext(event: MouseEvent) {
@@ -60,8 +60,8 @@ export default defineComponent({
           y: event.pageY,
           message: this.message,
           tempUser: this.message.creator,
-          element: event.target
-        }
+          element: event.target,
+        },
       });
     },
     openReaction(event: MouseEvent) {
@@ -72,11 +72,11 @@ export default defineComponent({
           messageID: this.message.messageID,
           channelID: this.message.channelID,
           x: event.pageX,
-          y: event.pageY
-        }
+          y: event.pageY,
+        },
       });
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

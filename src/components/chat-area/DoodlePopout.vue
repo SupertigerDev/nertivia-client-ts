@@ -103,7 +103,7 @@ export default defineComponent({
       stablization: "0.50",
       erase: false,
       loaded: false,
-      clearCanavsConfirm: false
+      clearCanavsConfirm: false,
     };
   },
   mounted() {
@@ -121,7 +121,7 @@ export default defineComponent({
     this.paint.strokeSize = parseInt(this.strokeSize);
     this.paint.strokeSmoothing = parseFloat(this.stablization);
 
-    get("doodlepad").then(val => {
+    get("doodlepad").then((val) => {
       if (!val) {
         this.loaded = true;
         return;
@@ -148,7 +148,7 @@ export default defineComponent({
         JSON.stringify({
           strokeHistory: this.paint?.strokeHistory,
           strokeColor: this.strokeColor,
-          backgroundColor: this.backgroundColor
+          backgroundColor: this.backgroundColor,
         })
       )
     );
@@ -196,10 +196,10 @@ export default defineComponent({
     },
     onSendClick() {
       FileUploadModule.SetFile(undefined);
-      this.getCanvas().toBlob(blob => {
+      this.getCanvas().toBlob((blob) => {
         if (!blob) return;
         let file = new File([blob], "drawing.png", {
-          type: "image/png"
+          type: "image/png",
         });
         FileUploadModule.SetFile(file);
         this.close();
@@ -220,8 +220,8 @@ export default defineComponent({
     backgroundClick(event) {
       if (event.target.closest(".pcr-app")) return;
       if (!event.target.closest(".doodle-button")) this.close();
-    }
-  }
+    },
+  },
 });
 </script>
 

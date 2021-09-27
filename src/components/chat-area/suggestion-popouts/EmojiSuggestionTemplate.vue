@@ -14,12 +14,12 @@ export default defineComponent({
   props: {
     item: {
       type: Object as any,
-      required: true
+      required: true,
     },
     selected: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     image(): any {
@@ -36,8 +36,8 @@ export default defineComponent({
     },
     name(): any {
       return this.item.name || this.item.shortcodes[0];
-    }
-  }
+    },
+  },
 });
 </script>
 <style scoped lang="scss">

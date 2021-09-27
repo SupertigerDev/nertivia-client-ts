@@ -62,8 +62,8 @@ export default defineComponent({
         user: User;
         callback: any;
       }>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -71,13 +71,13 @@ export default defineComponent({
       password: "",
       requestSent: false,
       removeIPBan: true,
-      error: null as string | null
+      error: null as string | null,
     };
   },
   computed: {
     user(): any {
       return this.data.user;
-    }
+    },
   },
   methods: {
     close() {
@@ -97,7 +97,7 @@ export default defineComponent({
           this.data.callback({ removeIPBan: this.removeIPBan });
           this.close();
         })
-        .catch(async err => {
+        .catch(async (err) => {
           if (!err.response) {
             this.error = "Could not connect to server.";
             return;
@@ -106,8 +106,8 @@ export default defineComponent({
           this.error = message;
         })
         .finally(() => (this.requestSent = false));
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

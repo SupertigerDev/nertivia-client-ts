@@ -17,7 +17,7 @@ export const onJoin = (data: { channelId: string; userId: string }) => {
   voiceChannelModule.addUser({
     channelId: data.channelId,
     userId: data.userId,
-    data: channelData
+    data: channelData,
   });
 };
 export const onLeave = (data: { channelId: string; userId: string }) => {
@@ -50,7 +50,7 @@ export const onReceiveSignal = (data: {
   voiceChannelModule.update({
     channelId: data.channelId,
     userId: data.requesterId,
-    update: { peer }
+    update: { peer },
   });
 };
 export const onReceiveReturnSignal = (data: {

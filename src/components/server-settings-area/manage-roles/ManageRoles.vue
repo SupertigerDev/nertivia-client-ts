@@ -31,7 +31,7 @@
             item-key="id"
             @end="onDragEnd"
           >
-            <template #item="{element}">
+            <template #item="{ element }">
               <RoleTemplate :role="element" @click="roleClicked(element)" />
             </template>
           </Draggable>
@@ -64,12 +64,12 @@ export default defineComponent({
     CustomButton,
     RoleTemplate,
     Draggable,
-    SelectedRolesPage
+    SelectedRolesPage,
   },
   data() {
     return {
       selectedRoleID: null as string | null,
-      createRequestSent: false
+      createRequestSent: false,
     };
   },
   computed: {
@@ -85,10 +85,10 @@ export default defineComponent({
       );
     },
     allowedToMoveRoles(): any {
-      return this.roles.map(r => {
+      return this.roles.map((r) => {
         return {
           ...r,
-          canModify: this.isServerCreator || this.myHighestRoleOrder < r.order
+          canModify: this.isServerCreator || this.myHighestRoleOrder < r.order,
         };
       });
     },
@@ -101,7 +101,7 @@ export default defineComponent({
     roles: {
       get(): ServerRole[] {
         return ServerRolesModule.sortedServerRolesArr(this.serverID).filter(
-          r => !r.default
+          (r) => !r.default
         );
       },
       set(roles: ServerRole[]) {
@@ -117,16 +117,16 @@ export default defineComponent({
         this.defaultRole && (obj[this.defaultRole?.id] = this.defaultRole);
         ServerRolesModule.AddServerRoles({
           roles: obj,
-          serverID: this.serverID
+          serverID: this.serverID,
         });
-      }
+      },
     },
     defaultRole(): any {
       return ServerRolesModule.defaultServerRole(this.serverID);
     },
     serverID(): any {
       return this.$route.params.server_id;
-    }
+    },
   },
   methods: {
     onDragEnd(event: any) {
@@ -143,15 +143,15 @@ export default defineComponent({
       if (this.createRequestSent) return;
       this.createRequestSent = true;
       createServerRole(this.serverID)
-        .then(res => {
+        .then((res) => {
           ServerRolesModule.AddServerRole(res);
           this.selectedRoleID = res.id;
         })
         .finally(() => {
           this.createRequestSent = false;
         });
-    }
-  }
+    },
+  },
 });
 </script>
 

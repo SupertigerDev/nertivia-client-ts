@@ -45,18 +45,18 @@ export default defineComponent({
   props: {
     data: {
       type: Object as PropType<IProp>,
-      required: true
+      required: true,
     },
     identity: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       users: null as User[] | null,
       height: 0,
-      width: 0
+      width: 0,
     };
   },
   computed: {
@@ -69,7 +69,7 @@ export default defineComponent({
       if (!this.users) return false;
       if (!this.reaction) return false;
       return (
-        this.reaction.reacted && !this.users.find(u => u.id === this.me.id)
+        this.reaction.reacted && !this.users.find((u) => u.id === this.me.id)
       );
     },
     me(): any {
@@ -80,7 +80,7 @@ export default defineComponent({
         messageID: this.data.messageID,
         channelID: this.data.channelID,
         emojiID: this.data.emojiID,
-        unicode: this.data.unicode
+        unicode: this.data.unicode,
       });
     },
     clampPos(): any {
@@ -101,21 +101,21 @@ export default defineComponent({
 
       return {
         top: clampedTop + "px",
-        left: clampedLeft + "px"
+        left: clampedLeft + "px",
       };
     },
     windowDiamentions(): any {
       const { resizeHeight, resizeWidth } = useWindowProperties();
       return {
         height: resizeHeight,
-        width: resizeWidth
+        width: resizeWidth,
       };
-    }
+    },
   },
   watch: {
     reaction: {
-      handler: "onReactionChange"
-    }
+      handler: "onReactionChange",
+    },
   },
   mounted() {
     this.fetchReactions();
@@ -139,8 +139,8 @@ export default defineComponent({
     },
     onReactionChange() {
       this.fetchReactions();
-    }
-  }
+    },
+  },
 });
 </script>
 

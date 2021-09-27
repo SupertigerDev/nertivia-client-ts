@@ -36,12 +36,12 @@ export default defineComponent({
         message: Message & { grouped: boolean };
         element?: HTMLElement;
       }>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      lastItemHover: null
+      lastItemHover: null,
     };
   },
   computed: {
@@ -51,26 +51,26 @@ export default defineComponent({
           id: "user",
           name: this.$t("generic.user"),
           icon: "account_box",
-          nestContext: true
+          nestContext: true,
         },
         {
           id: "quote",
           name: this.$t("message-context.quote"),
-          icon: "format_quote"
-        }
+          icon: "format_quote",
+        },
       ];
       if (this.message.type === 0) {
         items.push({
           id: "copy",
           name: "Copy Message",
-          icon: "developer_board"
+          icon: "developer_board",
         });
       }
       if (this.messageCreatedByMe && this.message.type === 0) {
         items.push({
           id: "edit",
           name: this.$t("message-context.edit"),
-          icon: "edit"
+          icon: "edit",
         });
       }
       if (this.canDeleteMessage) {
@@ -80,7 +80,7 @@ export default defineComponent({
             id: "delete",
             name: this.$t("generic.delete"),
             icon: "delete",
-            warn: true
+            warn: true,
           }
         );
       }
@@ -89,7 +89,7 @@ export default defineComponent({
         {
           id: "copy_id",
           name: this.$t("copy-id-button"),
-          icon: "developer_board"
+          icon: "developer_board",
         }
       );
 
@@ -126,12 +126,12 @@ export default defineComponent({
     pos(): any {
       return {
         x: this.data.x,
-        y: this.data.y
+        y: this.data.y,
       };
     },
     message(): any {
       return this.data.message;
-    }
+    },
   },
   beforeUnmount() {
     PopoutsModule.ClosePopout("hover-context");
@@ -157,9 +157,9 @@ export default defineComponent({
             component: "delete-message-popout",
             data: {
               messageID: this.message.messageID,
-              channelID: this.message.channelID
+              channelID: this.message.channelID,
             },
-            id: "delete-message"
+            id: "delete-message",
           });
           break;
         case "edit":
@@ -187,8 +187,8 @@ export default defineComponent({
             parentContextWidth: (this.$refs.context as any).width,
             tempUser: this.data.tempUser,
             id: this.message.creator.id,
-            closeOnMouseLeave: true
-          }
+            closeOnMouseLeave: true,
+          },
         });
       } else {
         PopoutsModule.ClosePopout("hover-context");
@@ -197,8 +197,8 @@ export default defineComponent({
     copyMessage() {
       if (!this.message.message) return;
       toClipboard(this.message.message);
-    }
-  }
+    },
+  },
 });
 </script>
 

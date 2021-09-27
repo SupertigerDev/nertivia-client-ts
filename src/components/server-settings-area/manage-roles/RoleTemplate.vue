@@ -24,9 +24,9 @@ export default defineComponent({
   props: {
     role: {
       type: Object as PropType<ServerRole & { canModify: boolean }>,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 });
 </script>
 

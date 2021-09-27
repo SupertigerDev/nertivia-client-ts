@@ -21,18 +21,18 @@ export default defineComponent({
   props: {
     message: {
       type: Object as PropType<Message>,
-      required: true
+      required: true,
     },
     animate: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     buttons(): any {
       return this.message.buttons;
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

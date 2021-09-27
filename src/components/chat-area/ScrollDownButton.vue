@@ -32,7 +32,7 @@ export default defineComponent({
     },
     channelID(): any {
       return this.$route.params.channel_id;
-    }
+    },
   },
   methods: {
     ScrollDown() {
@@ -41,7 +41,7 @@ export default defineComponent({
       if (!MessageLogStatesModule.isBottomUnloaded(this.channelID)) {
         document.getElementById("messageLogs")?.scrollTo({
           behavior: "smooth",
-          top: messageLogs.scrollHeight
+          top: messageLogs.scrollHeight,
         });
         this.resetState();
         return;
@@ -51,16 +51,16 @@ export default defineComponent({
       //   messages: null
       // });
 
-      fetchMessages(this.channelID).then(json => {
+      fetchMessages(this.channelID).then((json) => {
         MessagesModule.SetChannelMessages({
           channelID: this.channelID,
-          messages: json.messages.reverse()
+          messages: json.messages.reverse(),
         });
         this.$nextTick(() => {
           this.$nextTick(() => {
             document.getElementById("messageLogs")?.scrollTo({
               behavior: "smooth",
-              top: messageLogs.scrollHeight
+              top: messageLogs.scrollHeight,
             });
             this.resetState();
           });
@@ -73,11 +73,11 @@ export default defineComponent({
         state: {
           isScrolledDown: true,
           bottomUnloaded: undefined,
-          scrollPosition: undefined
-        }
+          scrollPosition: undefined,
+        },
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

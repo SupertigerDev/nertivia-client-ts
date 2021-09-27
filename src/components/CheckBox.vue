@@ -19,25 +19,25 @@ export default defineComponent({
   name: "CheckBox",
   props: {
     modelValue: {
-      type: Boolean
+      type: Boolean,
     },
     name: {
-      type: String
+      type: String,
     },
     description: {
       type: String,
-      required: false
+      required: false,
     },
     colored: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   methods: {
     clicked() {
       this.$emit("update:modelValue", !this.modelValue);
       this.$emit("change", !this.modelValue);
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

@@ -27,12 +27,12 @@ export default defineComponent({
           insert: boolean;
         }[]
       >,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      CommandSuggestionTemplate: markRaw(CommandSuggestionTemplate)
+      CommandSuggestionTemplate: markRaw(CommandSuggestionTemplate),
     };
   },
   methods: {
@@ -48,8 +48,8 @@ export default defineComponent({
     onSelected(item: any) {
       if (!item.insert) return;
       this.$emit("selected", `${item.bot.botPrefix}${item.command.c} `, true);
-    }
-  }
+    },
+  },
 });
 </script>
 <style scoped></style>

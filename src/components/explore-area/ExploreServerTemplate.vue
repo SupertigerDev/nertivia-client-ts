@@ -85,14 +85,14 @@ export default defineComponent({
   props: {
     data: {
       type: Object as PropType<ServerResponse>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       joining: false,
       hovering: false,
-      tweCrown: process.env.VUE_APP_TWEMOJI_LOCATION + "1f451.svg"
+      tweCrown: process.env.VUE_APP_TWEMOJI_LOCATION + "1f451.svg",
     };
   },
   computed: {
@@ -106,14 +106,14 @@ export default defineComponent({
         this.data.server.banner +
         (!this.hovering ? "?type=webp" : "")
       );
-    }
+    },
   },
   methods: {
     showCreatorProfile() {
       PopoutsModule.ShowPopout({
         id: "profile",
         component: "profile-popout",
-        data: { id: this.data.creator.id }
+        data: { id: this.data.creator.id },
       });
     },
     visitClicked() {
@@ -124,12 +124,12 @@ export default defineComponent({
     joinClicked() {
       this.joining = true;
       joinServerById(this.data.server.server_id, {
-        socketID: this.$socket.id
+        socketID: this.$socket.id,
       }).finally(() => {
         this.joining = false;
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

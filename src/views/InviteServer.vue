@@ -45,7 +45,7 @@ import Server from "@/interfaces/Server";
 import { PopoutsModule } from "@/store/modules/popouts";
 import {
   getServerInfoByCode,
-  joinServerByCode
+  joinServerByCode,
 } from "@/services/serverService";
 
 import { defineComponent } from "vue";
@@ -55,20 +55,20 @@ export default defineComponent({
     Header,
     LoadingScreen,
     AvatarImage,
-    CustomButton
+    CustomButton,
   },
   data() {
     return {
       server: null as Server | null,
       error: false,
       loggedIn: localStorage["hauthid"] || false,
-      requestSent: false
+      requestSent: false,
     };
   },
   computed: {
     inviteID(): any {
       return this.$route.params.inviteid;
-    }
+    },
   },
   mounted() {
     getServerInfoByCode(this.inviteID)
@@ -85,7 +85,7 @@ export default defineComponent({
         .then(() => {
           location.href = `/app/servers/${this.server?.server_id}/${this.server?.default_channel_id}`;
         })
-        .catch(async err => {
+        .catch(async (err) => {
           PopoutsModule.ShowPopout({
             id: "error",
             component: "generic-popout",
@@ -93,16 +93,16 @@ export default defineComponent({
               title: "Error Joining Server",
               description: !err.response
                 ? this.$t("could-not-connect-to-server")
-                : (await err.response.json()).message
-            }
+                : (await err.response.json()).message,
+            },
           });
         })
         .finally(() => (this.requestSent = false));
     },
     loginButton() {
       this.$router.push("/login?redirect=" + encodeURIComponent(location.href));
-    }
-  }
+    },
+  },
 });
 </script>
 

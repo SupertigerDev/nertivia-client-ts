@@ -62,7 +62,7 @@ export default defineComponent({
     ChannelSuggestion,
     UserSuggestion,
     EmojiSuggestion,
-    CommandSuggestion
+    CommandSuggestion,
   },
   data() {
     return {
@@ -71,7 +71,7 @@ export default defineComponent({
       cursorPosition: 0,
       word: "",
       cursorLetter: "",
-      inputEl: null as null | any
+      inputEl: null as null | any,
     };
   },
   computed: {
@@ -84,12 +84,12 @@ export default defineComponent({
       if (this.cursorLetter.trim() == "" || this.word.endsWith("#")) return [];
       return (
         ChannelsModule.serverChannels(this.serverID)
-          .filter(c => {
+          .filter((c) => {
             const name = c.name?.toLowerCase().replace(/\s/g, "");
             return name?.includes(this.wordWithoutBeginning.toLowerCase());
           })
           // sort by first matching first letter
-          .sort(a => {
+          .sort((a) => {
             const firstLetter = a?.name?.[0].toLowerCase();
             if (this.wordWithoutBeginning[0].toLowerCase() === firstLetter) {
               return -1;
@@ -145,7 +145,7 @@ export default defineComponent({
             argsEnteredLength: args.slice(userCommandSplit.length).length,
             // true = autofill command
             // false = send message
-            insert: !this.value.startsWith(bot.botPrefix + command.c + " ")
+            insert: !this.value.startsWith(bot.botPrefix + command.c + " "),
           });
         }
       }
@@ -183,7 +183,7 @@ export default defineComponent({
         this.suggestChannels.length ||
         this.suggestMentions.length ||
         this.suggestEmojis.length ||
-        this.suggestCommands.filter(c => c.insert).length
+        this.suggestCommands.filter((c) => c.insert).length
       );
     },
     serverID(): any {
@@ -218,7 +218,7 @@ export default defineComponent({
     botWithPrefixes(): any {
       if (this.serverID) {
         return ServerMembersModule.getUsersFromServer(this.serverID).filter(
-          u => u.botPrefix
+          (u) => u.botPrefix
         );
       }
       if (!this.dmChannel?.recipients?.[0].botPrefix) return [];
@@ -230,16 +230,16 @@ export default defineComponent({
       },
       set(val: string) {
         MessageInputModule.setMessage(val);
-      }
-    }
+      },
+    },
   },
   watch: {
     channelID: {
-      handler: "onChannelChange"
+      handler: "onChannelChange",
     },
     message: {
-      handler: "onMessageChange"
-    }
+      handler: "onMessageChange",
+    },
   },
   methods: {
     onkeyUp(event?: any) {
@@ -304,12 +304,12 @@ export default defineComponent({
     searchMention(users: User[]) {
       return (
         users
-          .filter(u => {
+          .filter((u) => {
             const name = u.username.toLowerCase().replace(/\s/g, "");
             return name?.includes(this.wordWithoutBeginning.toLowerCase());
           })
           // sort by first matching first letter
-          .sort(a => {
+          .sort((a) => {
             const firstLetter = a.username[0].toLowerCase();
             if (this.wordWithoutBeginning[0]?.toLowerCase() === firstLetter) {
               return -1;
@@ -317,8 +317,8 @@ export default defineComponent({
             return 1;
           })
       );
-    }
-  }
+    },
+  },
 });
 </script>
 

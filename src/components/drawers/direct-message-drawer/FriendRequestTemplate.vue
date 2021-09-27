@@ -68,16 +68,16 @@ export default defineComponent({
   props: {
     friend: {
       type: Object as PropType<{ recipient: User; status: number }>,
-      required: true
+      required: true,
     },
     dmChannel: {
       type: Object as PropType<{ recipients: User[] }>,
-      required: false
-    }
+      required: false,
+    },
   },
   data() {
     return {
-      hover: false
+      hover: false,
     };
   },
   computed: {
@@ -87,7 +87,7 @@ export default defineComponent({
       } else {
         return this.dmChannel?.recipients[0];
       }
-    }
+    },
   },
   methods: {
     clickedEvent(event: any) {
@@ -102,7 +102,7 @@ export default defineComponent({
       PopoutsModule.ShowPopout({
         id: "profile",
         component: "profile-popout",
-        data: { id: this.user.id }
+        data: { id: this.user.id },
       });
     },
     cancelOrDecline() {
@@ -110,8 +110,8 @@ export default defineComponent({
     },
     acceptFriend() {
       acceptRequest(this.user.id);
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

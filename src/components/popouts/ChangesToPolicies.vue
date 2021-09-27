@@ -38,8 +38,8 @@ export default defineComponent({
   props: {
     identity: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     close() {
@@ -57,8 +57,8 @@ export default defineComponent({
         this.$socket.connect();
         this.close();
       });
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

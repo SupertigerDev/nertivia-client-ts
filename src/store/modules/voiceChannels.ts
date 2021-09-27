@@ -5,7 +5,7 @@ import {
   VuexModule,
   Action,
   Mutation,
-  getModule
+  getModule,
 } from "vuex-module-decorators";
 import store from "..";
 import { MeModule } from "./me";
@@ -69,16 +69,15 @@ class VoiceChannels extends VuexModule {
     const tracks = (this.videoStream?.getTracks() || []).concat(
       this.audioStream?.getTracks() || []
     );
-    tracks.forEach(t => t.stop());
+    tracks.forEach((t) => t.stop());
     this.videoStream = null;
     this.audioStream = null;
   }
 
   @Action
   public leave() {
-    const voiceChannelUsers = this.voiceChannelUsers[
-      this.joinedChannelId as string
-    ];
+    const voiceChannelUsers =
+      this.voiceChannelUsers[this.joinedChannelId as string];
     if (voiceChannelUsers) {
       for (const userId in voiceChannelUsers) {
         const vc = voiceChannelUsers[userId];
@@ -87,7 +86,7 @@ class VoiceChannels extends VuexModule {
         this.update({
           channelId: this.joinedChannelId as string,
           userId,
-          update: { peer: undefined }
+          update: { peer: undefined },
         });
       }
     }
@@ -114,7 +113,7 @@ class VoiceChannels extends VuexModule {
   }) {
     this.voiceChannelUsers = {
       ...this.voiceChannelUsers,
-      ...payload
+      ...payload,
     };
   }
 
@@ -133,7 +132,7 @@ class VoiceChannels extends VuexModule {
     const users = this.voiceChannelUsers[payload.channelId];
     if (!users) {
       this.voiceChannelUsers[payload.channelId] = {
-        [payload.userId]: payload.data
+        [payload.userId]: payload.data,
       };
       return;
     }
@@ -168,7 +167,7 @@ class VoiceChannels extends VuexModule {
     }
     const voiceChannel = this.voiceChannelUsers[channelId];
     if (!voiceChannel) return;
-    Object.values(voiceChannel).forEach(vc => {
+    Object.values(voiceChannel).forEach((vc) => {
       vc.peer?.destroy();
     });
     this.REMOVE_CHANNEL(channelId);
@@ -209,7 +208,7 @@ class VoiceChannels extends VuexModule {
     if (!old) return;
     this.voiceChannelUsers[payload.channelId][payload.userId] = {
       ...old,
-      ...payload.update
+      ...payload.update,
     };
   }
 
@@ -238,12 +237,12 @@ class VoiceChannels extends VuexModule {
   public addStream(payload: { stream: MediaStream; type: "audio" | "video" }) {
     const oldStream =
       payload.type === "audio" ? this.audioStream : this.videoStream;
-    oldStream?.getTracks().forEach(track => track.stop());
+    oldStream?.getTracks().forEach((track) => track.stop());
 
     const videoTracks = payload?.stream?.getVideoTracks();
     if (videoTracks[0]) {
       videoTracks[0].onended = () => {
-        voiceChannelPeers.forEach(p => {
+        voiceChannelPeers.forEach((p) => {
           p.peer?.removeStream(payload.stream);
         });
         videoTracks[0].onended = null;
@@ -258,7 +257,7 @@ class VoiceChannels extends VuexModule {
       return;
     }
     // stream to all peers
-    voiceChannelPeers.forEach(p => {
+    voiceChannelPeers.forEach((p) => {
       if (oldStream) {
         p.peer?.removeStream(oldStream);
       }

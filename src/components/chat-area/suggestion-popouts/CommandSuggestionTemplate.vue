@@ -1,9 +1,7 @@
 <template>
   <div class="command" :class="{ selected: isSelected }">
     <div class="top">
-      <div class="material-icons icon">
-        code
-      </div>
+      <div class="material-icons icon">code</div>
       <div class="name">{{ item.command.c }}</div>
       <div class="args">
         <div
@@ -32,7 +30,7 @@ export default defineComponent({
   props: {
     selected: {
       type: Boolean,
-      required: true
+      required: true,
     },
     item: {
       type: Object as PropType<{
@@ -40,8 +38,8 @@ export default defineComponent({
         bot: User;
         argsEnteredLength: number;
       }>,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     commandInfo(): any {
@@ -54,15 +52,15 @@ export default defineComponent({
       return argNames.map((v, i) => {
         return {
           name: v,
-          typed: this.item.argsEnteredLength - 1 >= i
+          typed: this.item.argsEnteredLength - 1 >= i,
         };
       });
     },
     isSelected(): any {
-      if (this.args.find(a => a.typed)) return false;
+      if (this.args.find((a) => a.typed)) return false;
       return this.selected;
-    }
-  }
+    },
+  },
 });
 </script>
 <style scoped lang="scss">

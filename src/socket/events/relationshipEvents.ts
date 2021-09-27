@@ -15,10 +15,10 @@ export const onAdd = (payload: { recipient: User; status: number }) => {
     tag: payload.recipient.tag,
     id: payload.recipient.id,
     username: payload.recipient.username,
-    avatar: payload.recipient.avatar
+    avatar: payload.recipient.avatar,
   });
   FriendsModule.AddFriend({
     status: payload.status,
-    id: payload.recipient.id
+    id: payload.recipient.id,
   });
 };

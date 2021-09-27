@@ -18,7 +18,7 @@ export const onStatusChange = (data: StatusChange) => {
   }
   PresencesModule.UpdatePresence({
     presence: data.status,
-    id: data.user_id
+    id: data.user_id,
   });
   if (data.connected) {
     if (!data.custom_status) {
@@ -27,7 +27,7 @@ export const onStatusChange = (data: StatusChange) => {
     }
     CustomStatusesModule.SetCustomStatus({
       custom_status: data.custom_status,
-      id: data.user_id
+      id: data.user_id,
     });
   }
 };
@@ -40,14 +40,14 @@ export const onCustomStatusChange = (data: {
 }) => {
   CustomStatusesModule.SetCustomStatus({
     custom_status: data.custom_status,
-    id: data.user_id
+    id: data.user_id,
   });
 };
 export const onSelfCustomStatusChange = (data: { custom_status: string }) => {
   if (!MeModule.user.id) return;
   CustomStatusesModule.SetCustomStatus({
     custom_status: data.custom_status,
-    id: MeModule.user.id
+    id: MeModule.user.id,
   });
 };
 export const onProgramActivityChange = (data: {
@@ -57,14 +57,14 @@ export const onProgramActivityChange = (data: {
 }) => {
   if (!data.name || !data.status) {
     programActivitiesModule.RemoveProgramActivity({
-      id: data.user_id
+      id: data.user_id,
     });
     return;
   }
   programActivitiesModule.SetProgramActivity({
     id: data.user_id,
     name: data.name,
-    status: data.status
+    status: data.status,
   });
 };
 export const onGoogleDriveLinked = () => {

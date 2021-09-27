@@ -10,7 +10,7 @@ export default defineComponent({
   components: { hCaptcha },
   data() {
     return {
-      sitekey: process.env.VUE_APP_CAPTCHA_SITE_KEY
+      sitekey: process.env.VUE_APP_CAPTCHA_SITE_KEY,
     };
   },
 
@@ -20,7 +20,7 @@ export default defineComponent({
     },
     resetRecaptcha() {
       (this.$refs.recaptcha as any).reset(); // Direct call reset method
-    }
-  }
+    },
+  },
 });
 </script>

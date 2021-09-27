@@ -24,12 +24,12 @@ export default defineComponent({
         y: number;
         imageUrl: string;
       }>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      img: new Image()
+      img: new Image(),
     };
   },
   beforeMount() {
@@ -42,13 +42,13 @@ export default defineComponent({
         {
           id: "copy_url",
           name: "Copy URL",
-          icon: "developer_board"
+          icon: "developer_board",
         },
         {
           id: "copy_image",
           name: "Copy Image (PNG)",
-          icon: "developer_board"
-        }
+          icon: "developer_board",
+        },
       ];
 
       return items;
@@ -56,9 +56,9 @@ export default defineComponent({
     pos(): any {
       return {
         x: this.data.x,
-        y: this.data.y
+        y: this.data.y,
       };
-    }
+    },
   },
   methods: {
     close() {
@@ -70,9 +70,9 @@ export default defineComponent({
           toClipboard(this.data.imageUrl);
           break;
         case "copy_image":
-          this.getImageCanvas(this.img).toBlob(blob =>
+          this.getImageCanvas(this.img).toBlob((blob) =>
             (navigator.clipboard as any).write([
-              new (window as any).ClipboardItem({ "image/png": blob })
+              new (window as any).ClipboardItem({ "image/png": blob }),
             ])
           );
           break;
@@ -87,8 +87,8 @@ export default defineComponent({
       const ctx = canvas.getContext("2d");
       ctx?.drawImage(img, 0, 0);
       return canvas;
-    }
-  }
+    },
+  },
 });
 </script>
 

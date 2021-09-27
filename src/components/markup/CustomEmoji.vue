@@ -17,15 +17,15 @@ export default defineComponent({
   props: {
     emojiID: String,
     emojiName: String,
-    animated: Boolean
+    animated: Boolean,
   },
   computed: {
     src(): string {
       return `${EMOJI_URL}/${this.emojiID}.${this.animated ? "gif" : "png"}${
         !useWindowProperties().isFocused ? "?type=webp" : ""
       }`;
-    }
-  }
+    },
+  },
 });
 </script>
 

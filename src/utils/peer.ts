@@ -6,7 +6,7 @@ function onConnect(channelId: string, userId: string) {
   voiceChannelModule.update({
     channelId,
     userId,
-    update: { connected: true }
+    update: { connected: true },
   });
   console.log("connected");
 }
@@ -18,14 +18,14 @@ function onStream(stream: MediaStream, channelId: string, userId: string) {
     voiceChannelModule.update({
       channelId,
       userId,
-      update: { [streamType]: null }
+      update: { [streamType]: null },
     });
     stream.onremovetrack = null;
   };
   voiceChannelModule.update({
     channelId,
     userId,
-    update: { [streamType]: stream }
+    update: { [streamType]: stream },
   });
 }
 
@@ -38,12 +38,12 @@ export function createPeer(
   const peer = new Peer({
     initiator: true,
     trickle: true,
-    streams
+    streams,
   });
-  peer.on("signal", signal => {
+  peer.on("signal", (signal) => {
     socket.emit("voice:send_signal", { channelId, signalToUserId, signal });
   });
-  peer.on("stream", stream => {
+  peer.on("stream", (stream) => {
     onStream(stream, channelId, signalToUserId);
   });
   peer.on("connect", () => {
@@ -62,16 +62,16 @@ export function addPeer(
   const peer = new Peer({
     initiator: false,
     trickle: true,
-    streams
+    streams,
   });
-  peer.on("signal", signal => {
+  peer.on("signal", (signal) => {
     socket.emit("voice:send_return_signal", {
       signalToUserId,
       channelId,
-      signal
+      signal,
     });
   });
-  peer.on("stream", stream => {
+  peer.on("stream", (stream) => {
     onStream(stream, channelId, signalToUserId);
   });
   peer.on("connect", () => {

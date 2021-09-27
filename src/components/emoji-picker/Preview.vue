@@ -21,8 +21,8 @@ export default defineComponent({
   props: {
     hoveredEmoji: {
       type: Object as any,
-      required: false
-    }
+      required: false,
+    },
   },
   computed: {
     shortCode(): any {
@@ -43,8 +43,8 @@ export default defineComponent({
         gif ? "gif" : "png"
       }`;
       return image.outerHTML;
-    }
-  }
+    },
+  },
 });
 </script>
 

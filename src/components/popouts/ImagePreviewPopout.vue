@@ -33,8 +33,8 @@ export default defineComponent({
         url: string;
         unsafe_url: string;
       }>,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     showContext(event: any) {
@@ -47,8 +47,8 @@ export default defineComponent({
         data: {
           x: event.clientX,
           y: event.clientY,
-          imageUrl: this.data.url
-        }
+          imageUrl: this.data.url,
+        },
       });
     },
     async downloadImage() {
@@ -70,8 +70,8 @@ export default defineComponent({
     backgroundClick(event: any) {
       if (event.target.closest(".options")) return;
       PopoutsModule.ClosePopout("image-preview-popout");
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

@@ -35,7 +35,7 @@ export default defineComponent({
   data() {
     return {
       messageLogsEl: null as HTMLElement | null,
-      width: "450px"
+      width: "450px",
     };
   },
   computed: {
@@ -61,7 +61,7 @@ export default defineComponent({
       },
       set(val: boolean) {
         FileUploadModule.SetCompress(val);
-      }
+      },
     },
     cdn: {
       get(): any {
@@ -69,25 +69,25 @@ export default defineComponent({
       },
       set(val: number) {
         FileUploadModule.SetCDN(val);
-      }
+      },
     },
     parentWidth(): any {
       // this line is needed to make this getter reactive.
       const windowWidth = useWindowProperties().resizeWidth;
 
       return this.messageLogsEl?.clientWidth || 0;
-    }
+    },
   },
   watch: {
     parentWidth: {
-      handler: "onParentWidthChange"
-    }
+      handler: "onParentWidthChange",
+    },
   },
   mounted() {
     // set image preview
     const reader = new FileReader();
     const image = this.$refs.image as any;
-    reader.onloadend = function() {
+    reader.onloadend = function () {
       image.style.backgroundImage = `url(${reader.result})`;
     };
     if (this.file) {
@@ -109,7 +109,7 @@ export default defineComponent({
         this.cdn = 1;
         PopoutsModule.ShowPopout({
           id: "link-google-drive",
-          component: "LinkGoogleDrive"
+          component: "LinkGoogleDrive",
         });
         return;
       }
@@ -124,8 +124,8 @@ export default defineComponent({
         return;
       }
       this.width = "450px";
-    }
-  }
+    },
+  },
 });
 </script>
 

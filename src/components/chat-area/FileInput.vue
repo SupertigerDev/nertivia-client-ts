@@ -27,8 +27,8 @@ export default defineComponent({
     },
     file(): any {
       return FileUploadModule.file.file;
-    }
-  }
+    },
+  },
 });
 </script>
 

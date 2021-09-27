@@ -4,7 +4,7 @@ import {
   VuexModule,
   Action,
   Mutation,
-  getModule
+  getModule,
 } from "vuex-module-decorators";
 import store from "..";
 
@@ -30,7 +30,7 @@ class AppUpdate extends VuexModule {
     if (this.updateAvailable) return;
     if (!options?.force && Date.now() - this.lastCheck <= CHECK_AFTER) return;
     this.UPDATE_LAST_CHECK();
-    getChangelog().then(log => {
+    getChangelog().then((log) => {
       const version = log[0].version;
       this.SET_UPADTE_AVAILABLE(CURRENT_VERSION !== version);
     });

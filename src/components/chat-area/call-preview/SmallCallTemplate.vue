@@ -11,8 +11,8 @@ import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   props: {
-    participant: Object as PropType<CallParticipant & { user: User }>
-  }
+    participant: Object as PropType<CallParticipant & { user: User }>,
+  },
 });
 </script>
 

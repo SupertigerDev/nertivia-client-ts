@@ -18,7 +18,7 @@
           :class="{
             seperator: item.type === 'seperator',
             item: !item.type,
-            warn: item.warn
+            warn: item.warn,
           }"
         >
           <div
@@ -65,20 +65,20 @@ export default defineComponent({
   props: {
     pos: {
       type: Object as PropType<{ x?: number; y?: number }>,
-      required: true
+      required: true,
     },
     element: {
       type: HTMLElement,
-      required: false
+      required: false,
     },
     items: {
       type: Array as PropType<ItemsProp[]>,
-      required: true
+      required: true,
     },
     type: {
       type: String,
-      required: false
-    }
+      required: false,
+    },
   },
   data() {
     return {
@@ -86,7 +86,7 @@ export default defineComponent({
       width: 0,
       mount: false,
       selection: window.getSelection(),
-      currentHoveringItem: null as any
+      currentHoveringItem: null as any,
     };
   },
   computed: {
@@ -98,12 +98,12 @@ export default defineComponent({
 
       if (!clickedElementSelected) return this.items;
       const seperator: ItemsProp = {
-        type: "seperator"
+        type: "seperator",
       };
       const copyItem: ItemsProp = {
         id: "_copy",
         name: "Copy",
-        icon: "content_copy"
+        icon: "content_copy",
       };
       return [copyItem, seperator, ...this.items];
     },
@@ -122,16 +122,16 @@ export default defineComponent({
 
       return {
         top: clampedTop + "px",
-        left: clampedLeft + "px"
+        left: clampedLeft + "px",
       };
     },
     windowDiamentions(): any {
       const { resizeHeight, resizeWidth } = useWindowProperties();
       return {
         height: resizeHeight,
-        width: resizeWidth
+        width: resizeWidth,
       };
-    }
+    },
   },
   mounted() {
     window.setTimeout(() => {
@@ -164,14 +164,14 @@ export default defineComponent({
         if (item.type === "seperator") return;
         this.$emit("itemHover", {
           item,
-          target: event.target.closest(".content")
+          target: event.target.closest(".content"),
         });
       }, 200);
     },
     clamp(num: number, min: number, max: number) {
       return num <= min ? min : num >= max ? max : num;
-    }
-  }
+    },
+  },
 });
 </script>
 

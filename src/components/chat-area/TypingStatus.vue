@@ -33,7 +33,7 @@ export default defineComponent({
   name: "MainApp",
   data() {
     return {
-      typingObj: {} as TypingObj
+      typingObj: {} as TypingObj,
     };
   },
   computed: {
@@ -46,22 +46,22 @@ export default defineComponent({
       switch (true) {
         case arr.length == 1:
           return this.$t("typing-status.is-typing", [
-            this.makeStrong(arr[0].username)
+            this.makeStrong(arr[0].username),
           ]);
         case arr.length == 2:
           return this.$t("typing-status.two-are-typing", [
             this.makeStrong(arr[0].username),
-            this.makeStrong(arr[1].username)
+            this.makeStrong(arr[1].username),
           ]);
         case arr.length == 3:
           return this.$t("typing-status.three-are-typing", [
             this.makeStrong(arr[0].username),
             this.makeStrong(arr[1].username),
-            this.makeStrong(arr[2].username)
+            this.makeStrong(arr[2].username),
           ]);
         case arr.length > 3:
           return this.$t("typing-status.more-than-three", [
-            this.makeStrong(arr.length.toString())
+            this.makeStrong(arr.length.toString()),
           ]);
         default:
           break;
@@ -73,7 +73,7 @@ export default defineComponent({
         this.typingObj[this.channelID] &&
         Object.values(this.typingObj[this.channelID]).length
       );
-    }
+    },
   },
   mounted() {
     this.$socket.on("typingStatus", this.onTyping);
@@ -102,8 +102,8 @@ export default defineComponent({
       if (!this.typingObj[data.channel_id]) {
         this.typingObj[data.channel_id] = {
           [data.user.id]: {
-            username: data.user.username
-          }
+            username: data.user.username,
+          },
         };
       }
       this.typingObj[data.channel_id][data.user.id] = {
@@ -111,7 +111,7 @@ export default defineComponent({
         timer: window.setTimeout(
           () => this.timeout(data.channel_id, data.user.id),
           3500
-        )
+        ),
       };
     },
     timeout(channelID: string, id: string) {
@@ -126,8 +126,8 @@ export default defineComponent({
     },
     makeStrong(text: string) {
       return `<strong>${text}</strong>`;
-    }
-  }
+    },
+  },
 });
 </script>
 

@@ -55,8 +55,8 @@ export default defineComponent({
   props: {
     log: {
       type: Object as PropType<Changelog>,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     changes(): any {
@@ -67,8 +67,8 @@ export default defineComponent({
     },
     newChanges(): any {
       return this.log?.new || [];
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

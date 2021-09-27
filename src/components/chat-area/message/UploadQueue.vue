@@ -23,8 +23,8 @@ export default defineComponent({
   computed: {
     queueItems(): any {
       return FileUploadModule.uploadQueue;
-    }
-  }
+    },
+  },
 });
 </script>
 

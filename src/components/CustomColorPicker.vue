@@ -20,13 +20,13 @@ export default defineComponent({
     modelValue: String,
     name: String,
     allowOpacity: {
-      default: true
-    }
+      default: true,
+    },
   },
   data() {
     return {
       pickr: null as null | Pickr,
-      popupShowing: false
+      popupShowing: false,
     };
   },
   mounted() {
@@ -41,9 +41,9 @@ export default defineComponent({
         interaction: {
           hex: true,
           input: true,
-          cancel: true
-        }
-      }
+          cancel: true,
+        },
+      },
     });
     this.pickr.on("hide", this.colorChanged);
   },
@@ -59,14 +59,11 @@ export default defineComponent({
     },
     colorChanged(event: any) {
       this.popupShowing = false;
-      const hex = event
-        .getColor()
-        .toHEXA()
-        .toString();
+      const hex = event.getColor().toHEXA().toString();
       this.$emit("update:modelValue", hex);
       this.$emit("change", hex);
-    }
-  }
+    },
+  },
 });
 </script>
 

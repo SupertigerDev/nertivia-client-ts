@@ -8,7 +8,7 @@
       @end="onDragEnd"
       item-key="server_id"
     >
-      <template #item="{element}">
+      <template #item="{ element }">
         <ServerTemplate :server="element" />
       </template>
     </Draggable>
@@ -33,13 +33,13 @@ export default defineComponent({
         return ServersModule.sortedServers;
       },
       set(servers: Server[]) {
-        const serverIDArr = servers.map(s => s.server_id);
+        const serverIDArr = servers.map((s) => s.server_id);
         ServersModule.SetServerPositions(serverIDArr);
-      }
+      },
     },
     currentServerID(): any {
       return this.$route.params.server_id;
-    }
+    },
   },
   mounted() {
     window.addEventListener("keydown", this.onKeyDown);
@@ -62,7 +62,7 @@ export default defineComponent({
     },
     gotoNextServer() {
       const index = this.servers.findIndex(
-        s => s.server_id === this.currentServerID
+        (s) => s.server_id === this.currentServerID
       );
       let gotoIndex = index;
       if (index === -1) return;
@@ -76,13 +76,14 @@ export default defineComponent({
         server.server_id || ""
       );
       this.$router.push(
-        `/app/servers/${server.server_id}/${serverChannelID ||
-          server.default_channel_id}`
+        `/app/servers/${server.server_id}/${
+          serverChannelID || server.default_channel_id
+        }`
       );
     },
     gotoPreviousServer() {
       const index = this.servers.findIndex(
-        s => s.server_id === this.currentServerID
+        (s) => s.server_id === this.currentServerID
       );
       let gotoIndex = index;
       if (index === -1) return;
@@ -96,15 +97,16 @@ export default defineComponent({
         server.server_id || ""
       );
       this.$router.push(
-        `/app/servers/${server.server_id}/${serverChannelID ||
-          server.default_channel_id}`
+        `/app/servers/${server.server_id}/${
+          serverChannelID || server.default_channel_id
+        }`
       );
     },
     onDragEnd() {
-      const serverIDArr = this.servers.map(s => s.server_id);
+      const serverIDArr = this.servers.map((s) => s.server_id);
       changeServerPosition(serverIDArr);
-    }
-  }
+    },
+  },
 });
 </script>
 

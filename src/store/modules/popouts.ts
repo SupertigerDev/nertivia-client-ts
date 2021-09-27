@@ -3,7 +3,7 @@ import {
   VuexModule,
   Action,
   Mutation,
-  getModule
+  getModule,
 } from "vuex-module-decorators";
 import store from "..";
 
@@ -36,7 +36,7 @@ class Popouts extends VuexModule {
       id: payload.id,
       component: payload.component,
       data: payload.data,
-      key: payload.key
+      key: payload.key,
     };
   }
 

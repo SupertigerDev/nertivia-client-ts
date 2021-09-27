@@ -16,7 +16,7 @@
           :participant="participant"
           :selected="
             selectedParticipant &&
-              selectedParticipant.user.id === participant.user.id
+            selectedParticipant.user.id === participant.user.id
           "
         />
       </div>
@@ -56,7 +56,7 @@
 import User from "@/interfaces/User";
 import {
   CallParticipant,
-  voiceChannelModule
+  voiceChannelModule,
 } from "@/store/modules/voiceChannels";
 import { PropType } from "vue";
 import CallTemplate from "./ExpandedCallTemplate.vue";
@@ -69,12 +69,12 @@ export default defineComponent({
   props: {
     participants: {
       type: Array as PropType<(CallParticipant & { user: User })[]>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      selecteduserId: this.participants[0].user.id
+      selecteduserId: this.participants[0].user.id,
     };
   },
   methods: {
@@ -86,14 +86,14 @@ export default defineComponent({
           callback: () => this.joinCall(),
           title: "P2P Calling Notice",
           description:
-            "Because of the nature of P2P, your IP will be able to be seen by other participants on the call."
-        }
+            "Because of the nature of P2P, your IP will be able to be seen by other participants on the call.",
+        },
       });
     },
     joinCall() {
       voiceChannelModule.leave();
       voiceChannelModule.join({
-        channelId: this.channelId
+        channelId: this.channelId,
       });
       joinCall(this.channelId);
     },
@@ -107,26 +107,26 @@ export default defineComponent({
       const stream = await mediaDevices
         .getDisplayMedia({
           video: true,
-          audio: true
+          audio: true,
         })
         .catch(() => {
           console.log("Screenshare cancelled.");
         });
       if (!stream) return;
       voiceChannelModule.addStream({ stream, type: "video" });
-    }
+    },
   },
   computed: {
     selectedParticipant(): (CallParticipant & { user: User }) | undefined {
-      return this.participants.find(p => p.user.id === this.selecteduserId);
+      return this.participants.find((p) => p.user.id === this.selecteduserId);
     },
     channelId(): string {
       return this.$route.params.channel_id as string;
     },
     isInCall(): boolean {
       return this.channelId === voiceChannelModule.joinedChannelId;
-    }
-  }
+    },
+  },
 });
 </script>
 

@@ -51,7 +51,7 @@ export default defineComponent({
     AvatarImage,
     MessageTemplate,
     ActionMessageTemplate,
-    CustomButton
+    CustomButton,
   },
   props: {
     data: {
@@ -59,13 +59,13 @@ export default defineComponent({
         messageID: string;
         channelID: string;
       }>,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     message(): any {
       return MessagesModule.channelMessages(this.data.channelID)?.find(
-        m => m.messageID === this.data.messageID
+        (m) => m.messageID === this.data.messageID
       );
     },
     messageType(): any {
@@ -76,12 +76,12 @@ export default defineComponent({
     user(): any {
       if (!this.message) return undefined;
       return this.message.creator;
-    }
+    },
   },
   watch: {
     message: {
-      handler: "onMessageChange"
-    }
+      handler: "onMessageChange",
+    },
   },
   methods: {
     close() {
@@ -102,8 +102,8 @@ export default defineComponent({
       if (!this.message) {
         this.close();
       }
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

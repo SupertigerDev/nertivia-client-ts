@@ -19,14 +19,14 @@ import { SuccessEvent } from "./ConnectionEvents.types";
 
 export const onConnect = (socket: Socket) => {
   socket.emit("authentication", {
-    token: localStorage.getItem("hauthid")
+    token: localStorage.getItem("hauthid"),
   });
 };
 
 export const onReconnecting = (socket: Socket) => {
   MeModule.SetConnectionDetails({
     connected: false,
-    message: "Reconnecting..."
+    message: "Reconnecting...",
   });
 };
 export const onSuccess = (socket: Socket, data: SuccessEvent) => {
@@ -41,7 +41,7 @@ export const onSuccess = (socket: Socket, data: SuccessEvent) => {
     type: data.user.type,
     badges: data.user.badges,
     status: data.user.status,
-    googleDriveLinked: data.settings.GDriveLinked
+    googleDriveLinked: data.settings.GDriveLinked,
   });
 
   // set friends
@@ -53,7 +53,7 @@ export const onSuccess = (socket: Socket, data: SuccessEvent) => {
     users[user.id] = user;
     friends[user.id] = {
       status: friend.status,
-      id: user.id
+      id: user.id,
     };
   }
 
@@ -72,7 +72,7 @@ export const onSuccess = (socket: Socket, data: SuccessEvent) => {
     channels[channel.channelID] = {
       channelID: channel.channelID,
       lastMessaged: channel.lastMessaged,
-      recipients: channel.recipients?.map(r => r.id)
+      recipients: channel.recipients?.map((r) => r.id),
     };
   }
   for (let i = 0; i < data.user.servers.length; i++) {
@@ -85,7 +85,7 @@ export const onSuccess = (socket: Socket, data: SuccessEvent) => {
       name: server.name,
       server_id: server.server_id,
       verified: server.verified,
-      channel_position: server.channel_position
+      channel_position: server.channel_position,
     };
     // server channels
     for (let x = 0; x < server.channels.length; x++) {
@@ -97,7 +97,7 @@ export const onSuccess = (socket: Socket, data: SuccessEvent) => {
         lastMessaged: channel.lastMessaged,
         permissions: channel.permissions,
         icon: channel.icon,
-        rateLimit: channel.rateLimit || 0
+        rateLimit: channel.rateLimit || 0,
       };
     }
   }
@@ -114,7 +114,7 @@ export const onSuccess = (socket: Socket, data: SuccessEvent) => {
       type: serverMember.type,
       id: serverMember.member.id,
       server_id: serverMember.server_id,
-      roleIdArr: serverMember.roles || []
+      roleIdArr: serverMember.roles || [],
     };
     users[serverMember.member.id] = serverMember.member;
   }
@@ -173,7 +173,7 @@ export const onSuccess = (socket: Socket, data: SuccessEvent) => {
     const programActivity = data.programActivityArr[i];
     programActivityObj[programActivity.user_id] = {
       status: programActivity.status,
-      name: programActivity.name
+      name: programActivity.name,
     };
   }
   UsersModule.InitBlockedUsers(data.bannedUserIDs);

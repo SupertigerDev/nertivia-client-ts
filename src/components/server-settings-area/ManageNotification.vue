@@ -13,7 +13,7 @@
         :items="[
           $t('server-settings.notifications.enable-notifications'),
           $t('server-settings.notifications.mute-sound'),
-          $t('server-settings.notifications.disable-notifications')
+          $t('server-settings.notifications.disable-notifications'),
         ]"
         @change="onRadioIndexChange"
         v-model="serverNotificationOption"
@@ -41,16 +41,16 @@ export default defineComponent({
       set(val: number) {
         MutedServersModule.SetMutedServer({
           serverID: this.serverID,
-          type: val
+          type: val,
         });
-      }
-    }
+      },
+    },
   },
   methods: {
     onRadioIndexChange(index: number) {
       muteServer(this.serverID, index);
-    }
-  }
+    },
+  },
 });
 </script>
 

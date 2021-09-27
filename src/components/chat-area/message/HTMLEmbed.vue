@@ -25,7 +25,7 @@ export default function HTMLEmbed(props: Props) {
     PopoutsModule.ShowPopout({
       id: "html-embed-url-sus",
       component: "OpenLinkConfirm",
-      data: { url }
+      data: { url },
     });
   };
 
@@ -34,7 +34,7 @@ export default function HTMLEmbed(props: Props) {
       json.tag,
       {
         style: json.styles,
-        ...json.attributes
+        ...json.attributes,
       },
       children
     );
@@ -78,16 +78,16 @@ export default function HTMLEmbed(props: Props) {
       children = [
         <div class="content">
           {h(Markup, {
-            text: json.content
+            text: json.content,
           })}
-        </div>
+        </div>,
       ];
     }
     return createEl(json, children);
   };
 
   return h("div", { class: "html-embed", on: { click: clickEvent } }, [
-    template(obj)
+    template(obj),
   ]);
 }
 </script>

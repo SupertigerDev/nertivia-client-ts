@@ -50,7 +50,7 @@ import electronBridge from "@/utils/electronBridge";
 import {
   addListeningProgram,
   getListeningProgram,
-  restartListener
+  restartListener,
 } from "@/utils/programActivity";
 
 import { defineComponent } from "vue";
@@ -60,13 +60,13 @@ export default defineComponent({
     CustomButton,
     CustomDropDown,
     InformationTemplate,
-    ProgramTemplate
+    ProgramTemplate,
   },
   data() {
     return {
       programs: [] as any,
       listeningPrograms: [] as any,
-      selectedID: null
+      selectedID: null,
     };
   },
   async mounted() {
@@ -77,18 +77,18 @@ export default defineComponent({
     getData() {
       electronBridge
         ?.invoke("get_running_programs", getListeningProgram())
-        .then(programs => {
-          this.programs = programs.map(p => {
+        .then((programs) => {
+          this.programs = programs.map((p) => {
             return {
               name: p.name,
               note: p.filename,
-              id: p.filename
+              id: p.filename,
             };
           });
           this.programs.unshift({
             name: "Custom",
             note: "Add Your Own",
-            id: "custom.exe"
+            id: "custom.exe",
           });
         });
       this.listeningPrograms = getListeningProgram();
@@ -96,31 +96,31 @@ export default defineComponent({
     },
     addProgram() {
       if (!this.selectedID) return;
-      const program = this.programs.find(p => p.id === this.selectedID);
+      const program = this.programs.find((p) => p.id === this.selectedID);
       this.selectedID = null;
       addListeningProgram({
         name: program.name,
         filename: program.id,
         status: "Playing",
-        id: Math.random().toString()
+        id: Math.random().toString(),
       });
       this.getData();
     },
     deleteClicked(id: string) {
       let programs = getListeningProgram();
-      programs = programs.filter(p => id !== p.id);
+      programs = programs.filter((p) => id !== p.id);
       localStorage["programActivity"] = JSON.stringify(programs);
       this.getData();
     },
     saveClicked(id: string, updatedItem) {
       const programs = getListeningProgram();
-      const index = programs.findIndex(p => id === p.id);
+      const index = programs.findIndex((p) => id === p.id);
       if (index === -1) return;
       programs[index] = updatedItem;
       localStorage["programActivity"] = JSON.stringify(programs);
       this.getData();
-    }
-  }
+    },
+  },
 });
 </script>
 

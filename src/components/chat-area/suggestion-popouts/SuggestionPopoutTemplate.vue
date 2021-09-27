@@ -22,23 +22,23 @@ export default defineComponent({
   props: {
     items: {
       type: Array as PropType<any[]>,
-      required: true
+      required: true,
     },
     template: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      selectedIndex: 0
+      selectedIndex: 0,
     };
   },
   watch: {
     items: {
       deep: true,
-      handler: "onItemChange"
-    }
+      handler: "onItemChange",
+    },
   },
   methods: {
     up() {
@@ -60,8 +60,8 @@ export default defineComponent({
     },
     onItemChange() {
       this.selectedIndex = 0;
-    }
-  }
+    },
+  },
 });
 </script>
 

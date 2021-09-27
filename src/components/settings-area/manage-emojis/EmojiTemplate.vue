@@ -41,19 +41,19 @@ export default defineComponent({
   props: {
     emoji: {
       type: Object as PropType<CustomEmoji>,
-      required: true
+      required: true,
     },
     defaultFocused: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       focused: this.defaultFocused || false,
       saving: false,
       deleting: false,
-      emojiName: this.emoji.name
+      emojiName: this.emoji.name,
     };
   },
   computed: {
@@ -67,12 +67,12 @@ export default defineComponent({
     },
     nameChanged(): any {
       return this.emojiName.trim() !== this.emoji.name;
-    }
+    },
   },
   watch: {
     emojiName: {
-      handler: "onInput"
-    }
+      handler: "onInput",
+    },
   },
   mounted() {
     if (this.focused) {
@@ -81,12 +81,12 @@ export default defineComponent({
   },
   methods: {
     saveButton() {
-      const emojiExists = emojiParser.allEmojis.filter(e =>
-        e.shortcodes.find(s => s === this.emojiName.toLowerCase())
+      const emojiExists = emojiParser.allEmojis.filter((e) =>
+        e.shortcodes.find((s) => s === this.emojiName.toLowerCase())
       );
       //check if emoji name is already used by custom emojis
       const customEmojiExists = CustomEmojisModule.customEmojis.filter(
-        e => e.name.toLowerCase() === this.emojiName.toLowerCase()
+        (e) => e.name.toLowerCase() === this.emojiName.toLowerCase()
       );
       if (emojiExists.length > 1 || customEmojiExists.length > 1) {
         PopoutsModule.ShowPopout({
@@ -94,8 +94,8 @@ export default defineComponent({
           component: "generic-popout",
           data: {
             title: "Oops!",
-            description: "Emoji with this name already exists."
-          }
+            description: "Emoji with this name already exists.",
+          },
         });
         return;
       }
@@ -106,13 +106,13 @@ export default defineComponent({
         .then(() => {
           CustomEmojisModule.UpdateEmoji({
             emojiID: this.emoji.emojiID,
-            name: this.emojiName
+            name: this.emojiName,
           });
           this.emojiName = this.emoji.name;
 
           this.saving = false;
         })
-        .catch(async res => {
+        .catch(async (res) => {
           let message;
           if (res.response) {
             message = (await res.response.json()).message;
@@ -124,8 +124,8 @@ export default defineComponent({
             component: "generic-popout",
             data: {
               title: "Oops!",
-              description: message
-            }
+              description: message,
+            },
           });
           this.saving = false;
         });
@@ -137,7 +137,7 @@ export default defineComponent({
         .then(() => {
           CustomEmojisModule.DeleteEmoji(this.emoji.emojiID);
         })
-        .catch(async res => {
+        .catch(async (res) => {
           let message;
           if (res.response) {
             message = (await res.response.json()).message;
@@ -149,8 +149,8 @@ export default defineComponent({
             component: "generic-popout",
             data: {
               title: "Oops!",
-              description: message
-            }
+              description: message,
+            },
           });
           this.deleting = false;
         });
@@ -162,8 +162,8 @@ export default defineComponent({
     },
     onInput(val: string) {
       this.emojiName = val.replace(/[^A-Z0-9]+/gi, "_").trim();
-    }
-  }
+    },
+  },
 });
 </script>
 

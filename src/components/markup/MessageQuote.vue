@@ -15,7 +15,7 @@ export default defineComponent({
   props: {
     quote: {
       type: Object as () => Quote,
-      required: true
+      required: true,
     },
     user: Object as () => User,
     nestedLevel: {
@@ -27,12 +27,11 @@ export default defineComponent({
   render() {
     const AvatarBuilder = (creator: any) => {
       return h(AvatarImage, {
-          onClick: this.showProfile,
-          seedId: creator.id,
-          imageId: creator.avatar,
-          willHaveClickEvent: true,
-          size: "40px",
-
+        onClick: this.showProfile,
+        seedId: creator.id,
+        imageId: creator.avatar,
+        willHaveClickEvent: true,
+        size: "40px",
       });
     };
 
@@ -46,13 +45,15 @@ export default defineComponent({
       </div>
     );
 
-    const MarkupBuilder = this.quote.message && h(Markup, {
-      text: this.quote.message,
-      message: this.message,
-      largeEmoji: false,
-      nestedLevel: this.nestedLevel,
-      messageQuoteFormat: this.nestedLevel >= 2 ? "hidden" : "normal",
-    });
+    const MarkupBuilder =
+      this.quote.message &&
+      h(Markup, {
+        text: this.quote.message,
+        message: this.message,
+        largeEmoji: false,
+        nestedLevel: this.nestedLevel,
+        messageQuoteFormat: this.nestedLevel >= 2 ? "hidden" : "normal",
+      });
 
     const ContentBuilder = (
       <div class="content">

@@ -31,8 +31,8 @@ export default defineComponent({
   props: {
     servers: {
       type: Array as PropType<Server[]>,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     serverClicked(server: Server) {
@@ -40,12 +40,13 @@ export default defineComponent({
         server.server_id || ""
       );
       this.$router.push(
-        `/app/servers/${server.server_id}/${serverChannelID ||
-          server.default_channel_id}`
+        `/app/servers/${server.server_id}/${
+          serverChannelID || server.default_channel_id
+        }`
       );
       PopoutsModule.ClosePopout("profile");
-    }
-  }
+    },
+  },
 });
 </script>
 <style scoped lang="scss">

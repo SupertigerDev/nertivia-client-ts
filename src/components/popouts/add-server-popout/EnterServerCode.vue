@@ -20,7 +20,7 @@ export default defineComponent({
     return {
       code: "",
       requestSent: false,
-      error: null as string | null
+      error: null as string | null,
     };
   },
   methods: {
@@ -37,10 +37,10 @@ export default defineComponent({
       }
 
       getServerInfoByCode(trimmedCode)
-        .then(json => {
+        .then((json) => {
           this.$emit("success", { json, code: trimmedCode });
         })
-        .catch(async err => {
+        .catch(async (err) => {
           if (!err.response) {
             this.error = "Cannot connect to server.";
           } else {
@@ -48,8 +48,8 @@ export default defineComponent({
           }
           this.requestSent = false;
         });
-    }
-  }
+    },
+  },
 });
 </script>
 

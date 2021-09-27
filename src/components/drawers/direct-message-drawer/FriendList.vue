@@ -39,13 +39,13 @@ export default defineComponent({
       return FriendsModule.friendsWithUser;
     },
     onlineFriends(): any {
-      return this.friends.filter(f => f.presence && f.status === 2);
+      return this.friends.filter((f) => f.presence && f.status === 2);
     },
     offlineFriends(): any {
-      return this.friends.filter(f => !f.presence && f.status === 2);
+      return this.friends.filter((f) => !f.presence && f.status === 2);
     },
     friendRequests(): any {
-      return this.friends.filter(f => f.status <= 1);
+      return this.friends.filter((f) => f.status <= 1);
     },
     list(): any {
       let componentType = "";
@@ -55,8 +55,8 @@ export default defineComponent({
         { id: "on", name: "Online", size: 25 },
         ...this.onlineFriends,
         { id: "off", name: "Offline", size: 25 },
-        ...this.offlineFriends
-      ].map(f => {
+        ...this.offlineFriends,
+      ].map((f) => {
         if (f.name) {
           componentType = f.id;
           if (f.id === "fr" && !this.friendRequests.length) {
@@ -80,8 +80,8 @@ export default defineComponent({
         }
         return f;
       });
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

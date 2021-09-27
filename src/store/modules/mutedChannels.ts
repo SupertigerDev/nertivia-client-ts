@@ -3,7 +3,7 @@ import {
   VuexModule,
   Action,
   Mutation,
-  getModule
+  getModule,
 } from "vuex-module-decorators";
 import store from "..";
 
@@ -31,7 +31,7 @@ class MutedChannels extends VuexModule {
   }
   @Mutation
   private REMOVE_MUTED_CHANNEL(payload: string) {
-    this.mutedChannels = this.mutedChannels.filter(id => id !== payload);
+    this.mutedChannels = this.mutedChannels.filter((id) => id !== payload);
   }
 
   @Action

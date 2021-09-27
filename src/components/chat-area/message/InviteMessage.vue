@@ -52,7 +52,7 @@
 <script lang="ts">
 import {
   getServerInfoByCode,
-  joinServerByCode
+  joinServerByCode,
 } from "@/services/serverService";
 import AvatarImage from "@/components/AvatarImage.vue";
 import CustomButton from "@/components/CustomButton.vue";
@@ -66,15 +66,15 @@ export default defineComponent({
   props: {
     invite: {
       type: Object as any,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       loading: true,
       requestSent: false,
       invalid: false,
-      result: null as any
+      result: null as any,
     };
   },
   computed: {
@@ -86,12 +86,12 @@ export default defineComponent({
     },
     isJoined(): any {
       return ServersModule.servers[this.result.server_id];
-    }
+    },
   },
   mounted() {
     const code = this.invite[2];
     getServerInfoByCode(code)
-      .then(res => {
+      .then((res) => {
         this.result = res;
         this.loading = false;
       })
@@ -111,8 +111,8 @@ export default defineComponent({
       this.requestSent = true;
       const code = this.invite[2];
       joinServerByCode(code, this.$socket.id);
-    }
-  }
+    },
+  },
 });
 </script>
 

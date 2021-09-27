@@ -3,7 +3,7 @@ import {
   VuexModule,
   Action,
   Mutation,
-  getModule
+  getModule,
 } from "vuex-module-decorators";
 import User from "@/interfaces/User";
 import store from "..";
@@ -71,7 +71,7 @@ class Users extends VuexModule {
   @Mutation
   private UNBLOCK_USER(id: string) {
     if (!this.blockedUserIDArr.includes(id)) return;
-    const newBlockedArr = this.blockedUserIDArr.filter(id => id !== id);
+    const newBlockedArr = this.blockedUserIDArr.filter((id) => id !== id);
     this.blockedUserIDArr = newBlockedArr;
   }
   @Action

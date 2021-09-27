@@ -37,23 +37,23 @@ import { defineComponent } from "vue";
 export default defineComponent({
   data() {
     return {
-      currentTabIndex: 0
+      currentTabIndex: 0,
     };
   },
   props: {
     tabs: {
       type: Array as PropType<Tab[]>,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     onEvent(data: any, name: string) {
       this.$emit("event", {
         eventName: name,
         id: this.currentTab.id,
-        data
+        data,
       });
-    }
+    },
   },
   computed: {
     currentTab(): Tab {
@@ -62,12 +62,12 @@ export default defineComponent({
 
     events(): any {
       const events: any = {};
-      this.currentTab.events?.forEach(v => {
+      this.currentTab.events?.forEach((v) => {
         events[v] = (data: any) => this.onEvent(data, v);
       });
       return events;
-    }
-  }
+    },
+  },
 });
 </script>
 

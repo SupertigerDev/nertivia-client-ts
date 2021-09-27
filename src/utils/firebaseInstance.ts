@@ -13,7 +13,7 @@ export function messaging(): firebaseApp.messaging.Messaging {
     projectId: process.env.VUE_APP_FCM_PROJECT_ID,
     storageBucket: process.env.VUE_APP_FCM_STORAGE_BUCKET,
     messagingSenderId: process.env.VUE_APP_FCM_SENDER_ID,
-    appId: process.env.VUE_APP_FCM_APP_ID
+    appId: process.env.VUE_APP_FCM_APP_ID,
   });
   _messaging = firebaseApp.messaging();
   return _messaging;

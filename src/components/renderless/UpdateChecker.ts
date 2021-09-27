@@ -9,7 +9,7 @@ export default defineComponent({
     return {
       lastUpdateChecked: Date.now(),
       updateAvailable: false,
-      checkAfter: 600000
+      checkAfter: 600000,
     };
   },
   render() {
@@ -18,12 +18,12 @@ export default defineComponent({
   computed: {
     focused(): any {
       return useWindowProperties().isFocused;
-    }
+    },
   },
   watch: {
     focused: {
-      handler: "onFocusChange"
-    }
+      handler: "onFocusChange",
+    },
   },
   mounted() {
     this.showChangelog();
@@ -39,11 +39,11 @@ export default defineComponent({
       localStorage["changelogSeenVersion"] = this.$version;
       PopoutsModule.ShowPopout({
         id: "changelog-popout",
-        component: "ChangelogPopout"
+        component: "ChangelogPopout",
       });
     },
     onFocusChange() {
       AppUpdateModule.check();
-    }
-  }
+    },
+  },
 });

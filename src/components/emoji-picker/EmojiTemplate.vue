@@ -14,7 +14,7 @@
       :style="{
         backgroundImage: `url(${customEmojiUrl + emoji.emojiID}.${
           emoji.gif ? 'gif' : 'png'
-        })`
+        })`,
       }"
     />
   </div>
@@ -27,9 +27,9 @@ export default defineComponent({
   props: ["emoji", "addEmojiButton"],
   data() {
     return {
-      customEmojiUrl: process.env.VUE_APP_NERTIVIA_CDN + "emojis/"
+      customEmojiUrl: process.env.VUE_APP_NERTIVIA_CDN + "emojis/",
     };
-  }
+  },
 });
 </script>
 

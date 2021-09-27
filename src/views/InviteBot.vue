@@ -69,7 +69,7 @@ export default defineComponent({
     LoadingScreen,
     AvatarImage,
     CustomButton,
-    CustomDropDown
+    CustomDropDown,
   },
   data() {
     return {
@@ -77,20 +77,20 @@ export default defineComponent({
       servers: null as Partial<Server>[] | null,
       loggedIn: false,
       selectedServerID: null as string | null,
-      requestSent: false
+      requestSent: false,
     };
   },
   computed: {
     mappedServers(): any {
       return (
-        this.servers?.map(server => {
+        this.servers?.map((server) => {
           return {
             name: server.name,
             server_id: server.server_id,
             avatar: {
               seedID: server.server_id,
-              imageID: server.avatar
-            }
+              imageID: server.avatar,
+            },
           };
         }) || []
       );
@@ -103,10 +103,10 @@ export default defineComponent({
       return parseInt(str || "0") || 0;
     },
     perms(): any {
-      return Object.values(permissions).filter(p =>
+      return Object.values(permissions).filter((p) =>
         bitwiseContains(this.permNumber, p.value)
       );
-    }
+    },
   },
   mounted() {
     getBot(this.botID, false, true).then((data: any) => {
@@ -132,7 +132,7 @@ export default defineComponent({
         .then(() => {
           location.href = "/app";
         })
-        .catch(async err => {
+        .catch(async (err) => {
           PopoutsModule.ShowPopout({
             id: "error",
             component: "generic-popout",
@@ -140,16 +140,16 @@ export default defineComponent({
               title: "Error Creating Bot",
               description: !err.response
                 ? this.$t("could-not-connect-to-server")
-                : (await err.response.json()).message
-            }
+                : (await err.response.json()).message,
+            },
           });
         })
         .finally(() => (this.requestSent = false));
     },
     loginButton() {
       this.$router.push("/login?redirect=" + encodeURIComponent(location.href));
-    }
-  }
+    },
+  },
 });
 </script>
 

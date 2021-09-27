@@ -3,7 +3,7 @@ import {
   getModule,
   Module,
   Mutation,
-  VuexModule
+  VuexModule,
 } from "vuex-module-decorators";
 import store from "..";
 import { saveCache } from "@/utils/localCache";
@@ -33,7 +33,7 @@ class ServerMembers extends VuexModule {
   get getUsersFromServer() {
     return (server_id: string) => {
       if (!this.serverMembers[server_id]) return [];
-      return Object.values(this.serverMembers[server_id]).map(sm => {
+      return Object.values(this.serverMembers[server_id]).map((sm) => {
         return UsersModule.users[sm.id];
       });
     };
@@ -53,7 +53,7 @@ class ServerMembers extends VuexModule {
   get filteredServerMembers() {
     return (server_id: string): ExtraServerMembers[] => {
       if (!this.serverMembers[server_id]) return [];
-      return Object.values(this.serverMembers[server_id]).map(sm => {
+      return Object.values(this.serverMembers[server_id]).map((sm) => {
         const user = UsersModule.users[sm.id];
         const roles = ServerRolesModule.bulkRolesById(server_id, sm.roleIdArr);
         const presence = PresencesModule.getPresence(sm.id);
@@ -85,7 +85,7 @@ class ServerMembers extends VuexModule {
     return (server_id: string, id: string) => {
       const roles = this.memberRoles(server_id, id);
       if (!roles) return undefined;
-      return Math.min(...roles.map(r => r.order));
+      return Math.min(...roles.map((r) => r.order));
     };
   }
 
@@ -147,12 +147,12 @@ class ServerMembers extends VuexModule {
   }) {
     const member = this.serverMembers[payload.serverID][payload.id];
     if (!member) return;
-    const newRoleIdArr = member.roleIdArr.filter(r => r !== payload.roleID);
+    const newRoleIdArr = member.roleIdArr.filter((r) => r !== payload.roleID);
 
     this.UPDATE_MEMBER_ROLES({
       id: payload.id,
       server_id: payload.serverID,
-      member: { ...member, roleIdArr: newRoleIdArr }
+      member: { ...member, roleIdArr: newRoleIdArr },
     });
   }
 
@@ -173,7 +173,7 @@ class ServerMembers extends VuexModule {
     this.UPDATE_MEMBER_ROLES({
       id: payload.id,
       server_id: payload.serverID,
-      member
+      member,
     });
   }
 
@@ -203,7 +203,7 @@ class ServerMembers extends VuexModule {
       return;
     }
     this.serverMembers[payload.server_id] = {
-      [payload.id]: payload
+      [payload.id]: payload,
     };
   }
 

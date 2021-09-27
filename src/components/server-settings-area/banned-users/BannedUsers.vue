@@ -36,7 +36,7 @@ export default defineComponent({
   components: { LoadingScreen, UserTemplate },
   data() {
     return {
-      bans: null as User[] | null
+      bans: null as User[] | null,
     };
   },
   computed: {
@@ -45,19 +45,19 @@ export default defineComponent({
     },
     serverID(): any {
       return this.$route.params.server_id;
-    }
+    },
   },
   mounted() {
-    getBannedUsers(this.serverID).then(data => {
-      this.bans = data.reverse().map(d => d.user);
+    getBannedUsers(this.serverID).then((data) => {
+      this.bans = data.reverse().map((d) => d.user);
     });
   },
   methods: {
     userUnbanned(index: number) {
       if (!this.bans) return;
       this.bans.splice(index, 1);
-    }
-  }
+    },
+  },
 });
 </script>
 

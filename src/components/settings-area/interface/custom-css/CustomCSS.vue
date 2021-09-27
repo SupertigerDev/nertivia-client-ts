@@ -20,8 +20,8 @@ import ThemeList from "./ThemeList.vue";
 import { defineAsyncComponent } from "vue";
 
 const Editor = defineAsyncComponent(() => import("./Editor.vue"));
-const PublishOptions = defineAsyncComponent(() =>
-  import("./PublishOptions.vue")
+const PublishOptions = defineAsyncComponent(
+  () => import("./PublishOptions.vue")
 );
 import { defineComponent } from "vue";
 export default defineComponent({
@@ -30,9 +30,9 @@ export default defineComponent({
   data() {
     return {
       editID: null as null | string,
-      publishTheme: null as null | Theme
+      publishTheme: null as null | Theme,
     };
-  }
+  },
 });
 </script>
 

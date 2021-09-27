@@ -21,7 +21,7 @@ export function findListeningProgram(filename: string): Program | null {
   const programsString = localStorage["programActivity"];
   if (!programsString) return null;
   const programsArr = JSON.parse(programsString);
-  return programsArr.find(p => p.filename === filename);
+  return programsArr.find((p) => p.filename === filename);
 }
 
 export function restartListener() {

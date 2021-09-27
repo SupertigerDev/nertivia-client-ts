@@ -34,18 +34,18 @@ export default defineComponent({
   props: {
     notifications: {
       type: Object as PropType<Notification>,
-      required: true
+      required: true,
     },
     serverID: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     serverDetails(): any {
       return ServersModule.servers[this.serverID];
-    }
-  }
+    },
+  },
 });
 </script>
 

@@ -29,15 +29,12 @@ if (!String.prototype.replaceAll) {
 }
 
 if (messagingSupported && process.env.VUE_APP_FCM_API_KEY) {
-  messaging().onMessage(payload => {
+  messaging().onMessage((payload) => {
     console.log("FCM Data: ", payload);
   });
 }
 
-const app = createApp(App)
-  .use(store)
-  .use(router)
-  .use(i18n);
+const app = createApp(App).use(store).use(router).use(i18n);
 
 app.directive("click-outside", clickOutside);
 
@@ -47,16 +44,17 @@ app.config.globalProperties.$lastUIBreakingVersion =
 
 app.config.globalProperties.$version = process.env.VUE_APP_VERSION;
 
-app.config.globalProperties.$isMobile = /iphone|ipod|android|ie|blackberry|fennec/.test(
-  navigator.userAgent.toLowerCase()
-);
+app.config.globalProperties.$isMobile =
+  /iphone|ipod|android|ie|blackberry|fennec/.test(
+    navigator.userAgent.toLowerCase()
+  );
 app.config.globalProperties.$window = window;
 app.config.globalProperties.$socket = socket;
 
 applyDefaultTheme(false);
 
 let cancelErrorReportingForever = false;
-app.config.errorHandler = function(err) {
+app.config.errorHandler = function (err) {
   console.error(err);
   // disable error prompt in dev.
   if ((window as any).webpackHotUpdate) return;

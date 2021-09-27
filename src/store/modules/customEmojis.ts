@@ -5,7 +5,7 @@ import {
   VuexModule,
   Action,
   Mutation,
-  getModule
+  getModule,
 } from "vuex-module-decorators";
 import store from "..";
 
@@ -24,7 +24,7 @@ class CustomEmojis extends VuexModule {
   }
   @Mutation
   private DELETE_EMOJI(emojiID: string) {
-    const index = this.customEmojis.findIndex(e => e.emojiID === emojiID);
+    const index = this.customEmojis.findIndex((e) => e.emojiID === emojiID);
     if (index < 0) return;
     this.customEmojis.splice(index);
   }
@@ -35,7 +35,9 @@ class CustomEmojis extends VuexModule {
   }
   @Mutation
   private UPDATE_EMOJI(data: { emojiID: string; name: string }) {
-    const index = this.customEmojis.findIndex(e => e.emojiID === data.emojiID);
+    const index = this.customEmojis.findIndex(
+      (e) => e.emojiID === data.emojiID
+    );
     if (index < 0) return;
     this.customEmojis[index].name = data.name;
   }

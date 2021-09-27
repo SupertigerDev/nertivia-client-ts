@@ -50,7 +50,7 @@ export default defineComponent({
   data() {
     return {
       languages: languages,
-      currentLang: localStorage["locale"] || "en"
+      currentLang: localStorage["locale"] || "en",
     };
   },
   computed: {
@@ -60,14 +60,14 @@ export default defineComponent({
       flagImage: any;
       translators: any[];
     }[] {
-      return Object.keys(languages).map(key => {
+      return Object.keys(languages).map((key) => {
         return {
           ...languages[key],
           id: key,
-          flagImage: emojiParser.replaceEmojis(languages[key].unicode)
+          flagImage: emojiParser.replaceEmojis(languages[key].unicode),
         };
       });
-    }
+    },
   },
   methods: {
     changeLanguage(id: string) {
@@ -77,12 +77,12 @@ export default defineComponent({
         this.$i18n.locale = "en";
         return;
       }
-      import(`@/locales/${id}.json`).then(messages => {
+      import(`@/locales/${id}.json`).then((messages) => {
         i18n.global.setLocaleMessage(id, messages.default);
         this.$i18n.locale = id;
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

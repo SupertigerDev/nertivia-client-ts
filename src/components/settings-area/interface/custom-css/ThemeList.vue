@@ -29,7 +29,7 @@ import {
   createTheme,
   deleteTheme,
   getThemes,
-  ThemePreview
+  ThemePreview,
 } from "@/services/themeService";
 import ThemeTemplate from "./ThemeTemplate.vue";
 import CustomButton from "@/components/CustomButton.vue";
@@ -43,11 +43,11 @@ export default defineComponent({
     return {
       themes: null as null | ThemePreview[],
       clickedID: null as null | string,
-      appliedThemeID: localStorage["themeID"] || (null as string | null)
+      appliedThemeID: localStorage["themeID"] || (null as string | null),
     };
   },
   mounted() {
-    getThemes().then(res => {
+    getThemes().then((res) => {
       this.themes = res;
     });
   },
@@ -56,8 +56,8 @@ export default defineComponent({
       createTheme({
         name: "Untitled",
         css: this.cssTemplate(),
-        client_version: this.$lastUIBreakingVersion
-      }).then(theme => {
+        client_version: this.$lastUIBreakingVersion,
+      }).then((theme) => {
         this.themes?.push(theme);
         this.$emit("edit", theme.id);
       });
@@ -65,7 +65,7 @@ export default defineComponent({
     deleteTheme(id: string) {
       deleteTheme(id).then(() => {
         unapplyTheme();
-        this.themes = this.themes?.filter(t => t.id !== id) || null;
+        this.themes = this.themes?.filter((t) => t.id !== id) || null;
       });
     },
     cssTemplate() {
@@ -80,8 +80,8 @@ body {
 .drawer-layout .drawer-container .container {
 	background: rgba(0,0,0,0.2) !important; 
 }`;
-    }
-  }
+    },
+  },
 });
 </script>
 

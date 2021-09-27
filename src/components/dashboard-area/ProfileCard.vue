@@ -67,17 +67,17 @@ export default defineComponent({
   props: {
     identity: {
       type: String,
-      required: false
+      required: false,
     },
     hideTitle: {
       type: Boolean,
-      required: false
-    }
+      required: false,
+    },
   },
   data() {
     return {
       editCustomStatus: false,
-      customStatusText: ""
+      customStatusText: "",
     };
   },
   computed: {
@@ -102,7 +102,7 @@ export default defineComponent({
       if (!this.connected) return this.connectionMessage;
       const name = userStatuses[this.me.status].name;
       return name === "Offline" ? "Invisible" : name;
-    }
+    },
   },
   methods: {
     settingsClicked() {
@@ -136,15 +136,15 @@ export default defineComponent({
       this.editCustomStatus = false;
     },
     changeStatus(status: string) {
-      changeCustomStatus(status).catch(async err => {
+      changeCustomStatus(status).catch(async (err) => {
         if (!err.response) {
           PopoutsModule.ShowPopout({
             id: "custom-status-update-error",
             component: "generic-popout",
             data: {
               title: "Oops!",
-              description: this.$t("could-not-connect-to-server")
-            }
+              description: this.$t("could-not-connect-to-server"),
+            },
           });
           return;
         }
@@ -154,8 +154,8 @@ export default defineComponent({
           component: "generic-popout",
           data: {
             title: "Oops!",
-            description: json
-          }
+            description: json,
+          },
         });
       });
     },
@@ -174,12 +174,12 @@ export default defineComponent({
         id: "context",
         data: {
           x: rect.left + rectWidth / 2 - contextWidth / 2,
-          y: rect.top + rect.height + 10
+          y: rect.top + rect.height + 10,
         },
-        component: "StatusListContext"
+        component: "StatusListContext",
       });
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

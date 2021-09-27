@@ -19,8 +19,8 @@ import { defineComponent } from "vue";
 export default defineComponent({
   components: { Avatar },
   props: {
-    participant: Object as PropType<CallParticipant>
-  }
+    participant: Object as PropType<CallParticipant>,
+  },
 });
 </script>
 

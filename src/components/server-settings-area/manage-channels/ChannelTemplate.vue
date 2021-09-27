@@ -13,9 +13,9 @@ export default defineComponent({
   props: {
     channel: {
       type: Object as PropType<Channel>,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 });
 </script>
 

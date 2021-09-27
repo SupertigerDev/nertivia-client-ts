@@ -26,14 +26,14 @@ export default defineComponent({
     },
     file(): any {
       return FileUploadModule.file.file;
-    }
+    },
   },
   mounted() {
     if (!this.isImage) {
       if (!MeModule.user.googleDriveLinked) {
         PopoutsModule.ShowPopout({
           id: "link-google-drive",
-          component: "LinkGoogleDrive"
+          component: "LinkGoogleDrive",
         });
         FileUploadModule.SetFile(undefined);
         return;
@@ -56,8 +56,8 @@ export default defineComponent({
       if (event.key === "Escape") {
         FileUploadModule.SetFile(undefined);
       }
-    }
-  }
+    },
+  },
 });
 </script>
 

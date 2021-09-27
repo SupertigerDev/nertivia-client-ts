@@ -29,8 +29,8 @@ export default defineComponent({
         y: number;
         server_id: string;
       }>,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     items(): any {
@@ -39,16 +39,16 @@ export default defineComponent({
           id: "mark_as_read",
           name: this.$t("server-context.mark-as-read"),
           icon: "markunread_mailbox",
-          disabled: !this.notifications.length
+          disabled: !this.notifications.length,
         },
-        { type: "seperator" }
+        { type: "seperator" },
       ];
 
       if (this.isServerOwner || this.isAdmin) {
         items.push({
           id: "server_settings",
           name: this.$t("server-context.server-settings"),
-          icon: "settings"
+          icon: "settings",
         });
       }
 
@@ -57,19 +57,19 @@ export default defineComponent({
         {
           id: "manage_invites",
           name: this.$t("server-settings.tab-names.manage-invites"),
-          icon: "settings"
+          icon: "settings",
         },
         {
           id: "manage_notification",
           name: this.$t("server-settings.tab-names.manage-notification"),
-          icon: "notifications"
+          icon: "notifications",
         },
         { type: "seperator" },
         {
           id: "copy_id",
           name: this.$t("copy-id-button"),
-          icon: "developer_board"
-        }
+          icon: "developer_board",
+        },
       ];
       if (!this.isServerOwner) {
         items.push({ type: "seperator" });
@@ -77,7 +77,7 @@ export default defineComponent({
           id: "leave_server",
           name: this.$t("server-context.leave-server"),
           warn: true,
-          icon: "exit_to_app"
+          icon: "exit_to_app",
         });
       }
 
@@ -86,7 +86,7 @@ export default defineComponent({
     pos(): any {
       return {
         x: this.data.x,
-        y: this.data.y
+        y: this.data.y,
       };
     },
     server(): any {
@@ -105,7 +105,7 @@ export default defineComponent({
         MeModule.user.id || undefined,
         this.server.server_id
       );
-    }
+    },
   },
   methods: {
     close() {
@@ -148,11 +148,11 @@ export default defineComponent({
       for (let i = 0; i < this.notifications.length; i++) {
         const { channelID } = this.notifications[i];
         this.$socket.emit("notification:dismiss", {
-          channelID
+          channelID,
         });
       }
-    }
-  }
+    },
+  },
 });
 </script>
 

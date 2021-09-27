@@ -23,9 +23,9 @@ export default defineComponent({
   props: {
     badges: {
       type: Array as PropType<Badge[]>,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 });
 </script>
 <style scoped lang="scss">

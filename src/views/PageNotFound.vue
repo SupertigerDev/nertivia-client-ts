@@ -20,7 +20,7 @@ import CustomButton from "@/components/CustomButton.vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "Home",
-  components: { Header, CustomButton }
+  components: { Header, CustomButton },
 });
 </script>
 

@@ -2,14 +2,10 @@ import User from "@/interfaces/User";
 import wrapper from "./wrapper";
 
 export function getBots(): Promise<User[]> {
-  return wrapper()
-    .get("bots")
-    .json();
+  return wrapper().get("bots").json();
 }
 export function createBot(): Promise<User> {
-  return wrapper()
-    .post("bots")
-    .json();
+  return wrapper().post("bots").json();
 }
 export function inviteBot(
   botID: string,
@@ -21,9 +17,7 @@ export function inviteBot(
     .json();
 }
 export function deleteBot(botID: string): Promise<any> {
-  return wrapper()
-    .delete(`bots/${botID}`)
-    .json();
+  return wrapper().delete(`bots/${botID}`).json();
 }
 
 export function getBot(
@@ -38,20 +32,14 @@ export function getBot(
   if (getServers) {
     searchParams.push(["myservers", getServers.toString()]);
   }
-  return wrapper()
-    .get(`bots/${botID}`, { searchParams })
-    .json();
+  return wrapper().get(`bots/${botID}`, { searchParams }).json();
 }
 export function updateBot(botID: string, data: any): Promise<any> {
   // idk why post... it should be patch. dumb fishie/pankeki/supertig-whatever.
-  return wrapper()
-    .post(`bots/${botID}`, { json: data })
-    .json();
+  return wrapper().post(`bots/${botID}`, { json: data }).json();
 }
 export function resetBotToken(botID: string): Promise<any> {
-  return wrapper()
-    .post(`bots/${botID}/reset-token`)
-    .json();
+  return wrapper().post(`bots/${botID}/reset-token`).json();
 }
 export function getBotCommands(botIDs: string[]): Promise<any> {
   let params = "";
@@ -63,7 +51,5 @@ export function getBotCommands(botIDs: string[]): Promise<any> {
     }
     params += `&${i}=${id}`;
   }
-  return wrapper()
-    .get("bots/commands", { searchParams: params })
-    .json();
+  return wrapper().get("bots/commands", { searchParams: params }).json();
 }

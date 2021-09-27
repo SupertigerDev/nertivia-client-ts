@@ -14,7 +14,7 @@ import { UsersModule } from "@/store/modules/users";
 export default defineComponent({
   components: { UserTemplate, VirtualList },
   props: {
-    search: String
+    search: String,
   },
   render() {
     const renderTab = (name: string, count: number) => {
@@ -46,7 +46,7 @@ export default defineComponent({
             remain={40}
             variable={true}
           >
-            {this.list?.map(item =>
+            {this.list?.map((item) =>
               item.title
                 ? renderTab(item.title, item.count)
                 : renderMember(this.serverMembers[item])
@@ -62,7 +62,7 @@ export default defineComponent({
       if (!element) return;
       const id = element.id.split("-")[1];
       this.$emit("userClick", id);
-    }
+    },
   },
   computed: {
     serverMembersArr(): ServerMember[] {
@@ -81,16 +81,16 @@ export default defineComponent({
     },
     list(): any[] {
       const unConsumedMembers = this.serverMembersArr
-        .map(sm => sm.id)
-        .filter(m => {
+        .map((sm) => sm.id)
+        .filter((m) => {
           if (!this.search) return true;
           const username = UsersModule.users[m].username.toLowerCase();
           return username.toLowerCase().includes(this.search.toLowerCase());
         });
       const roleMembers = this.serverRoles
-        .filter(r => !r.hideRole)
-        .map(role => {
-          const members = [...unConsumedMembers].filter(id => {
+        .filter((r) => !r.hideRole)
+        .map((role) => {
+          const members = [...unConsumedMembers].filter((id) => {
             if (!unConsumedMembers.includes(id)) return false;
             const member = this.serverMembers[id];
             if (!member.roleIdArr.includes(role.id)) return false;
@@ -100,7 +100,7 @@ export default defineComponent({
           if (!members.length) return [];
           return [
             { title: role.name, id: role.id, size: 25, count: members.length },
-            ...members
+            ...members,
           ];
         })
         .flat();
@@ -110,7 +110,7 @@ export default defineComponent({
       const defaultRoleTitle = {
         title: this.defaultRole?.name || "Online",
         id: this.defaultRole?.id || "loading",
-        count: allMembers.length
+        count: allMembers.length,
       };
 
       return [...roleMembers, defaultRoleTitle, ...allMembers];
@@ -124,8 +124,8 @@ export default defineComponent({
 
     serverId(): string {
       return this.$route.params.server_id as string;
-    }
-  }
+    },
+  },
 });
 </script>
 <style scoped>

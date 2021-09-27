@@ -72,29 +72,29 @@ export default defineComponent({
       email: "",
       password: "",
       confirmEmail: "",
-      errors: {} as any
+      errors: {} as any,
     };
   },
   watch: {
     confirmEmail: {
-      handler: "onEmailConfirmInput"
-    }
+      handler: "onEmailConfirmInput",
+    },
   },
   methods: {
     onEmailConfirmInput() {
       const value = this.confirmEmail.trim();
       if (value.length !== 10) return;
       confirmEmail(this.email, value)
-        .then(data => {
+        .then((data) => {
           localStorage.clear();
           localStorage["hauthid"] = data.token;
           this.redirect();
         })
-        .catch(err => {
+        .catch((err) => {
           if (!err.response) return;
           return err.response.json();
         })
-        .then(res => {
+        .then((res) => {
           if (!res)
             return (this.errors["other"] = "Unable to connect to server");
           if (!res.error) return;
@@ -114,7 +114,7 @@ export default defineComponent({
       const email = this.email;
       const password = this.password;
       postLogin(email, password, token)
-        .then(data => {
+        .then((data) => {
           if (data.action === "logged_in") {
             localStorage.clear();
             localStorage["hauthid"] = data.token;
@@ -122,7 +122,7 @@ export default defineComponent({
             return;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.page = 0;
           if (!err.response) {
             this.errors["other"] = "Unable to connect to server";
@@ -130,7 +130,7 @@ export default defineComponent({
           }
           return err.response.json();
         })
-        .then(res => {
+        .then((res) => {
           if (!res) return;
           if (res.code === "CONFIRM_EMAIL") {
             this.page = 2;
@@ -165,8 +165,8 @@ export default defineComponent({
         return;
       }
       location.href = url;
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

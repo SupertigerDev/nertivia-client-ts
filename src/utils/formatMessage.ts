@@ -6,18 +6,18 @@ import emojiParser from "./emojiParser";
 function replaceMentions(message: string) {
   const regex = /@([^@]+?(?=:)):([\w]*)/g;
 
-  return message.replace(regex, word => {
+  return message.replace(regex, (word) => {
     const [username, tag] = word.split(":");
     if (!username || !tag) return word;
     const member = Object.values(UsersModule.users).find(
-      m => "@" + m.username === username && m.tag === tag
+      (m) => "@" + m.username === username && m.tag === tag
     );
     if (!member) return word;
     return `<@${member.id}>`;
   });
 }
 function replaceChannelMentions(message: string, channels: Channel[]) {
-  const getChannel = (name: string) => channels.find(c => c.name === name);
+  const getChannel = (name: string) => channels.find((c) => c.name === name);
 
   const result: string[] = [];
   const reg = /#([^#]+?)#/g;
@@ -57,7 +57,7 @@ export function formatMessage(message: string, channels?: Channel[]) {
 
 // replace mention <@1234> with @test:owo1
 function revertMentions(message: string) {
-  return message.replace(/<@([\d]+)>/g, res => {
+  return message.replace(/<@([\d]+)>/g, (res) => {
     const id = res.slice(2, res.length - 1);
     const member = UsersModule.users[id];
     if (!member) return res;
@@ -66,7 +66,7 @@ function revertMentions(message: string) {
 }
 // replace channel <#1234> with #channel#
 function revertChannel(message: string) {
-  return message.replace(/<#([\d]+)>/g, res => {
+  return message.replace(/<#([\d]+)>/g, (res) => {
     const id = res.slice(2, res.length - 1);
     const channel = ChannelsModule.channels[id];
     if (!channel?.name) return res;

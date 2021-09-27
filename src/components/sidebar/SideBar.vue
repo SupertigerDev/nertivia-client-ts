@@ -23,10 +23,10 @@ export default defineComponent({
     addServerClicked() {
       PopoutsModule.ShowPopout({
         component: "add-server-popout",
-        id: "add-server"
+        id: "add-server",
       });
-    }
-  }
+    },
+  },
 });
 </script>
 

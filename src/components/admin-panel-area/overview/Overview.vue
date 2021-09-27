@@ -32,7 +32,7 @@ export default defineComponent({
   components: { Stats, Users, SelectedUserPage, AdminActions },
   data() {
     return {
-      selectedUser: null as ExpandedUser | null
+      selectedUser: null as ExpandedUser | null,
     };
   },
   methods: {
@@ -55,8 +55,8 @@ export default defineComponent({
       this.getUserComponent().updateUser(newUser);
       this.selectedUser = newUser;
       this.getAdminActionsComponent().fetchActions();
-    }
-  }
+    },
+  },
 });
 </script>
 

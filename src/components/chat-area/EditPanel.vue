@@ -21,8 +21,8 @@ export default defineComponent({
   props: {
     messageID: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     isImage(): any {
@@ -34,21 +34,21 @@ export default defineComponent({
     message(): any {
       return MessagesModule.channelMessages(
         this.$route.params.channel_id as string
-      ).find(m => m.messageID === this.messageID);
-    }
+      ).find((m) => m.messageID === this.messageID);
+    },
   },
   watch: {
     message: {
-      handler: "onMessageChange"
-    }
+      handler: "onMessageChange",
+    },
   },
   methods: {
     onMessageChange() {
       if (!this.message) {
         this.$emit("close");
       }
-    }
-  }
+    },
+  },
 });
 </script>
 

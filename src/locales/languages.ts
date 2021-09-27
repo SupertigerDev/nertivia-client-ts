@@ -2,46 +2,46 @@ export default {
   en: {
     name: "English / Default",
     unicode: "🇬🇧",
-    translators: ["Pancake", "Toby"]
+    translators: ["Pancake", "Toby"],
   },
   de: {
     name: "German / Deutsch",
     unicode: "🇩🇪",
-    translators: ["Toby"]
+    translators: ["Toby"],
   },
   pl: {
     name: "Polish / Polskie",
     unicode: "🇵🇱",
-    translators: ["Cookie Monster, Cyber"]
+    translators: ["Cookie Monster, Cyber"],
   },
   sv: {
     name: "Swedish / Svenska",
     unicode: "🇸🇪",
-    translators: ["Chris"]
+    translators: ["Chris"],
   },
   es: {
     name: "Spanish / Español",
     unicode: "🇪🇸",
-    translators: ["ribet", "Fat soldier", "Ar1l", "Ender"]
+    translators: ["ribet", "Fat soldier", "Ar1l", "Ender"],
   },
   owo: {
     name: "owo",
     unicode: "🐱",
-    translators: ["Ender", "Toby"]
+    translators: ["Ender", "Toby"],
   },
   fr: {
     name: "French / Français",
     unicode: "🇫🇷",
-    translators: ["Yrdael"]
+    translators: ["Yrdael"],
   },
   nl: {
     name: "Dutch / Nederlands",
     unicode: "🇳🇱",
-    translators: ["Stitch"]
+    translators: ["Stitch"],
   },
   tr: {
     name: "Turkish",
     unicode: "🇹🇷",
-    translators: ["ekto", "sicey9", "0xClique"]
-  }
+    translators: ["ekto", "sicey9", "0xClique"],
+  },
 };

@@ -34,7 +34,7 @@ import { ServersModule } from "@/store/modules/servers";
 
 import {
   voiceChannelModule,
-  CallParticipant
+  CallParticipant,
 } from "@/store/modules/voiceChannels";
 import { defineComponent } from "vue";
 export default defineComponent({
@@ -44,7 +44,7 @@ export default defineComponent({
     MessageBoxArea,
     Header,
     LoadingScreen,
-    CallPreview
+    CallPreview,
   },
   computed: {
     callParticipants(): CallParticipant[] {
@@ -92,21 +92,21 @@ export default defineComponent({
     },
     currentTab(): any {
       return this.$route.path.split("/")[2] || "";
-    }
+    },
   },
   watch: {
     isConnected: {
-      handler: "onConnected"
+      handler: "onConnected",
     },
     channelID: {
-      handler: "channalIDChanged"
+      handler: "channalIDChanged",
     },
     channel: {
-      handler: "channelChanged"
+      handler: "channelChanged",
     },
     isFocused: {
-      handler: "onFocusChange"
-    }
+      handler: "onFocusChange",
+    },
   },
   mounted() {
     this.dismissNotification();
@@ -122,7 +122,7 @@ export default defineComponent({
         botCommandsModule.FetchAndSetBotCommands({ serverId: this.serverID });
       } else if (this.DMChannel?.recipients?.[0]?.bot) {
         botCommandsModule.FetchAndSetBotCommands({
-          botIDArr: [this.DMChannel.recipients[0].id]
+          botIDArr: [this.DMChannel.recipients[0].id],
         });
       }
     },
@@ -140,7 +140,7 @@ export default defineComponent({
       if (!this.isFocused) return;
       if (!(this.hasServerNotification || this.hasDMNotification)) return;
       this.$socket.emit("notification:dismiss", {
-        channelID: this.channelID
+        channelID: this.channelID,
       });
     },
     setTitle() {
@@ -150,7 +150,7 @@ export default defineComponent({
         const isSavedNotes = recipient.id === MeModule.user.id;
         TabsModule.setCurrentTab({
           name: isSavedNotes ? "Saved Notes" : "@" + recipient.username,
-          user_id: recipient.id
+          user_id: recipient.id,
         });
       }
       if (this.server && this.channel) {
@@ -159,7 +159,7 @@ export default defineComponent({
         TabsModule.setCurrentTab({
           name: `${serverName}#${channelName}`,
           server_id: this.serverID,
-          channel_id: this.channelID
+          channel_id: this.channelID,
         });
       }
     },
@@ -175,8 +175,8 @@ export default defineComponent({
     },
     onFocusChange() {
       this.dismissNotification();
-    }
-  }
+    },
+  },
 });
 </script>
 

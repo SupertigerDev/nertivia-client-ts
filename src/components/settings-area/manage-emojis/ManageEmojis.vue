@@ -67,7 +67,7 @@ export default defineComponent({
     },
     count(): any {
       return this.emojiArr.length;
-    }
+    },
   },
   methods: {
     async addEmoji(event: any) {
@@ -110,10 +110,10 @@ export default defineComponent({
       const _this = this;
       return new Promise((res, rej) => {
         const reader = new FileReader();
-        reader.onload = function() {
+        reader.onload = function () {
           res(reader);
         };
-        reader.onerror = function(error) {
+        reader.onerror = function (error) {
           console.log("Error: ", error);
           _this.showError("Something went wrong. Try again later.");
           rej();
@@ -132,26 +132,26 @@ export default defineComponent({
         component: "generic-popout",
         data: {
           title: "Oops!",
-          description: message
-        }
+          description: message,
+        },
       });
     },
     uploadEmojiName(name: string) {
       name = name.substring(0, 30).replace(/[^A-Z0-9]+/gi, "_");
       //check if emoji name is already used by twemoji
-      const emojiExists = emojiParser.allEmojis.find(e =>
-        e.shortcodes.find(s => s === name.toLowerCase())
+      const emojiExists = emojiParser.allEmojis.find((e) =>
+        e.shortcodes.find((s) => s === name.toLowerCase())
       );
       //check if emoji name is already used by custom emojis
       const customEmojiExists = CustomEmojisModule.customEmojis.find(
-        e => e.name.toLowerCase() === name.toLowerCase()
+        (e) => e.name.toLowerCase() === name.toLowerCase()
       );
       if (emojiExists || customEmojiExists) {
         name = this.uploadEmojiName(`${name.substring(0, 28)}_1`);
       }
       return name;
-    }
-  }
+    },
+  },
 });
 </script>
 

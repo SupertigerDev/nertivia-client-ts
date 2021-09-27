@@ -75,7 +75,7 @@ import {
   addPublicTheme,
   getPublicTheme,
   PublicTheme,
-  updatePublicTheme
+  updatePublicTheme,
 } from "@/services/exploreService";
 import CustomButton from "@/components/CustomButton.vue";
 import CustomInput from "@/components/CustomInput.vue";
@@ -89,8 +89,8 @@ export default defineComponent({
   props: {
     theme: {
       type: Object as PropType<Theme>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -98,7 +98,7 @@ export default defineComponent({
       newImage: null as null | string,
       description: "",
       errors: {} as any,
-      requestSent: false
+      requestSent: false,
     };
   },
   computed: {
@@ -129,7 +129,7 @@ export default defineComponent({
       if (!this.publicTheme?.approved) return "Waiting For Approval";
       if (this.publicTheme?.approved) return "Published";
       return "Unknown";
-    }
+    },
   },
   async mounted() {
     this.publicTheme = await getPublicTheme(this.theme.id).catch(() => {
@@ -143,7 +143,7 @@ export default defineComponent({
       event.target.value = "";
       if (!file) return;
       const reader = new FileReader();
-      reader.onloadend = event => {
+      reader.onloadend = (event) => {
         this.newImage = (event.target?.result as any) || null;
       };
       reader.readAsDataURL(file);
@@ -158,10 +158,10 @@ export default defineComponent({
       }
       data.description = this.description;
       addPublicTheme(this.theme.id, data)
-        .then(json => {
+        .then((json) => {
           this.publicTheme = json;
         })
-        .catch(async err => {
+        .catch(async (err) => {
           const json = await err.response.json();
           this.handleError(json);
         })
@@ -179,10 +179,10 @@ export default defineComponent({
       }
       data.description = this.description;
       updatePublicTheme(this.theme.id, data)
-        .then(json => {
+        .then((json) => {
           this.publicTheme = json;
         })
-        .catch(async err => {
+        .catch(async (err) => {
           const json = await err.response.json();
           this.handleError(json);
         })
@@ -206,8 +206,8 @@ export default defineComponent({
         }
         this.errors[param] = msg;
       }
-    }
-  }
+    },
+  },
 });
 </script>
 

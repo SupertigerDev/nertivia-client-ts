@@ -16,91 +16,91 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import { defineComponent, defineAsyncComponent } from "vue";
 
 const components = {
-  ProfilePopout: defineAsyncComponent(() =>
-    import("@/components/popouts/profile-popout/ProfilePopout.vue")
+  ProfilePopout: defineAsyncComponent(
+    () => import("@/components/popouts/profile-popout/ProfilePopout.vue")
   ),
-  MarkupGuide: defineAsyncComponent(() =>
-    import("@/components/popouts/markup-guide/MarkupGuide.vue")
+  MarkupGuide: defineAsyncComponent(
+    () => import("@/components/popouts/markup-guide/MarkupGuide.vue")
   ),
-  EditRolesPopout: defineAsyncComponent(() =>
-    import("@/components/popouts/EditRolesPopout.vue")
+  EditRolesPopout: defineAsyncComponent(
+    () => import("@/components/popouts/EditRolesPopout.vue")
   ),
-  MiniProfilePopout: defineAsyncComponent(() =>
-    import("@/components/popouts/MiniProfilePopout.vue")
+  MiniProfilePopout: defineAsyncComponent(
+    () => import("@/components/popouts/MiniProfilePopout.vue")
   ),
 
-  StatusListContext: defineAsyncComponent(() =>
-    import("@/components/popouts/StatusListContext.vue")
+  StatusListContext: defineAsyncComponent(
+    () => import("@/components/popouts/StatusListContext.vue")
   ),
-  MessageContextMenu: defineAsyncComponent(() =>
-    import("@/components/popouts/MessageContextMenu.vue")
+  MessageContextMenu: defineAsyncComponent(
+    () => import("@/components/popouts/MessageContextMenu.vue")
   ),
-  UserContextMenu: defineAsyncComponent(() =>
-    import("@/components/popouts/UserContextMenu.vue")
+  UserContextMenu: defineAsyncComponent(
+    () => import("@/components/popouts/UserContextMenu.vue")
   ),
-  ServerContextMenu: defineAsyncComponent(() =>
-    import("@/components/popouts/ServerContextMenu.vue")
+  ServerContextMenu: defineAsyncComponent(
+    () => import("@/components/popouts/ServerContextMenu.vue")
   ),
-  ChannelContextMenu: defineAsyncComponent(() =>
-    import("@/components/popouts/ChannelContextMenu.vue")
+  ChannelContextMenu: defineAsyncComponent(
+    () => import("@/components/popouts/ChannelContextMenu.vue")
   ),
-  ImageContextMenu: defineAsyncComponent(() =>
-    import("@/components/popouts/ImageContextMenu.vue")
+  ImageContextMenu: defineAsyncComponent(
+    () => import("@/components/popouts/ImageContextMenu.vue")
   ),
-  BanOrKickUserPopout: defineAsyncComponent(() =>
-    import("@/components/popouts/BanOrKickUserPopout.vue")
+  BanOrKickUserPopout: defineAsyncComponent(
+    () => import("@/components/popouts/BanOrKickUserPopout.vue")
   ),
-  DeleteMessagePopout: defineAsyncComponent(() =>
-    import("@/components/popouts/DeleteMessagePopout.vue")
+  DeleteMessagePopout: defineAsyncComponent(
+    () => import("@/components/popouts/DeleteMessagePopout.vue")
   ),
-  AddFriendPopout: defineAsyncComponent(() =>
-    import("@/components/popouts/AddFriendPopout.vue")
+  AddFriendPopout: defineAsyncComponent(
+    () => import("@/components/popouts/AddFriendPopout.vue")
   ),
-  AddServerPopout: defineAsyncComponent(() =>
-    import("@/components/popouts/add-server-popout/AddServerPopout.vue")
+  AddServerPopout: defineAsyncComponent(
+    () => import("@/components/popouts/add-server-popout/AddServerPopout.vue")
   ),
-  DragDropPopout: defineAsyncComponent(() =>
-    import("@/components/popouts/DragDropPopout.vue")
+  DragDropPopout: defineAsyncComponent(
+    () => import("@/components/popouts/DragDropPopout.vue")
   ),
-  ImagePreviewPopout: defineAsyncComponent(() =>
-    import("@/components/popouts/ImagePreviewPopout.vue")
+  ImagePreviewPopout: defineAsyncComponent(
+    () => import("@/components/popouts/ImagePreviewPopout.vue")
   ),
-  GenericPopout: defineAsyncComponent(() =>
-    import("@/components/popouts/GenericPopout.vue")
+  GenericPopout: defineAsyncComponent(
+    () => import("@/components/popouts/GenericPopout.vue")
   ),
-  OpenLinkConfirm: defineAsyncComponent(() =>
-    import("@/components/popouts/OpenLinkConfirm.vue")
+  OpenLinkConfirm: defineAsyncComponent(
+    () => import("@/components/popouts/OpenLinkConfirm.vue")
   ),
-  UpdatePopout: defineAsyncComponent(() =>
-    import("@/components/popouts/UpdatePopout.vue")
+  UpdatePopout: defineAsyncComponent(
+    () => import("@/components/popouts/UpdatePopout.vue")
   ),
-  ChangelogPopout: defineAsyncComponent(() =>
-    import("@/components/popouts/ChangelogPopout.vue")
+  ChangelogPopout: defineAsyncComponent(
+    () => import("@/components/popouts/ChangelogPopout.vue")
   ),
-  LinkGoogleDrive: defineAsyncComponent(() =>
-    import("@/components/popouts/LinkGoogleDrive.vue")
+  LinkGoogleDrive: defineAsyncComponent(
+    () => import("@/components/popouts/LinkGoogleDrive.vue")
   ),
-  ChangesToPolicies: defineAsyncComponent(() =>
-    import("@/components/popouts/ChangesToPolicies.vue")
+  ChangesToPolicies: defineAsyncComponent(
+    () => import("@/components/popouts/ChangesToPolicies.vue")
   ),
-  FloatingProfileCard: defineAsyncComponent(() =>
-    import("@/components/popouts/FloatingProfileCard.vue")
+  FloatingProfileCard: defineAsyncComponent(
+    () => import("@/components/popouts/FloatingProfileCard.vue")
   ),
-  AdminSuspendUser: defineAsyncComponent(() =>
-    import("@/components/popouts/admin-popouts/SuspendUser.vue")
+  AdminSuspendUser: defineAsyncComponent(
+    () => import("@/components/popouts/admin-popouts/SuspendUser.vue")
   ),
-  AdminUnsuspendUser: defineAsyncComponent(() =>
-    import("@/components/popouts/admin-popouts/UnsuspendUser.vue")
+  AdminUnsuspendUser: defineAsyncComponent(
+    () => import("@/components/popouts/admin-popouts/UnsuspendUser.vue")
   ),
-  MessageReactionEmojiPicker: defineAsyncComponent(() =>
-    import("@/components/popouts/MessageReactionEmojiPicker.vue")
+  MessageReactionEmojiPicker: defineAsyncComponent(
+    () => import("@/components/popouts/MessageReactionEmojiPicker.vue")
   ),
-  ReactedUsersPreview: defineAsyncComponent(() =>
-    import("@/components/popouts/ReactedUsersPreview.vue")
+  ReactedUsersPreview: defineAsyncComponent(
+    () => import("@/components/popouts/ReactedUsersPreview.vue")
   ),
-  Welcome: defineAsyncComponent(() =>
-    import("@/components/popouts/welcome-popout/Welcome.vue")
-  )
+  Welcome: defineAsyncComponent(
+    () => import("@/components/popouts/welcome-popout/Welcome.vue")
+  ),
 };
 export default defineComponent({
   name: "MainApp",
@@ -108,8 +108,8 @@ export default defineComponent({
   computed: {
     popups(): any {
       return PopoutsModule.popouts;
-    }
-  }
+    },
+  },
 });
 </script>
 

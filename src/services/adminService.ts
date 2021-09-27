@@ -4,7 +4,7 @@ import wrapper from "./wrapper";
 export function deleteEmoji(emojiID: string): Promise<any> {
   return wrapper()
     .delete(`settings/emoji`, {
-      json: { emojiID }
+      json: { emojiID },
     })
     .json();
 }
@@ -15,9 +15,7 @@ export interface Stats {
   messageCount: number;
 }
 export function fetchStats(): Promise<Stats> {
-  return wrapper()
-    .get(`admin/stats`)
-    .json();
+  return wrapper().get(`admin/stats`).json();
 }
 export interface ExpandedUser {
   avatar: string | null;
@@ -32,16 +30,14 @@ export interface ExpandedUser {
   bot?: boolean;
 }
 export function fetchRecentUsers(): Promise<ExpandedUser[]> {
-  return wrapper()
-    .get(`admin/users/recent`)
-    .json();
+  return wrapper().get(`admin/users/recent`).json();
 }
 
 enum ActionType {
   SUSPEND_USER = "SUSPEND_USER",
   UNSUSPEND_USER = "UNSUSPEND_USER",
   BAN_IP = "BAN_IP",
-  UNBAN_IP = "UNBAN_IP"
+  UNBAN_IP = "UNBAN_IP",
 }
 export interface Action {
   action: ActionType;
@@ -53,9 +49,7 @@ export interface Action {
 }
 
 export function fetchRecentActions(): Promise<Action[]> {
-  return wrapper()
-    .get(`admin/actions/recent`)
-    .json();
+  return wrapper().get(`admin/actions/recent`).json();
 }
 export function searchUsers(value: string): Promise<ExpandedUser[]> {
   return wrapper()

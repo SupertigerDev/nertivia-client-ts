@@ -19,12 +19,12 @@ export default defineComponent({
   props: {
     emojis: {
       type: Array as PropType<any[]>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      EmojiSuggestionTemplate: markRaw(EmojiSuggestionTemplate)
+      EmojiSuggestionTemplate: markRaw(EmojiSuggestionTemplate),
     };
   },
   methods: {
@@ -43,8 +43,8 @@ export default defineComponent({
       } else {
         this.$emit("selected", `:${emoji.name}: `);
       }
-    }
-  }
+    },
+  },
 });
 </script>
 <style scoped></style>

@@ -26,13 +26,13 @@
           :items="[
             {
               name: $t('server-settings.manage-channels.text-channel'),
-              icon: 'textsms'
+              icon: 'textsms',
             },
             {
               name: $t('server-settings.manage-channels.html-channel'),
               icon: 'code',
-              disabled: true
-            }
+              disabled: true,
+            },
           ]"
           :pos="{ x: 15, y: 110 }"
           @itemClick="createChannel"
@@ -47,7 +47,7 @@
             item-key="channelID"
           >
             >
-            <template #item="{element}">
+            <template #item="{ element }">
               <ChannelTemplate
                 :channel="element"
                 @click="selectedChannelID = element.channelID"
@@ -69,7 +69,7 @@ import ContextMenu from "@/components/ContextMenu.vue";
 import SelectedChannelPage from "./SelectedChannelPage.vue";
 import {
   createServerChannel,
-  updateServerChannelPosition
+  updateServerChannelPosition,
 } from "@/services/channelService";
 import Channel from "@/interfaces/Channel";
 
@@ -81,13 +81,13 @@ export default defineComponent({
     ChannelTemplate,
     ContextMenu,
     SelectedChannelPage,
-    Draggable
+    Draggable,
   },
   data() {
     return {
       showContext: false,
       selectedChannelID: null as string | null,
-      createRequestSent: false
+      createRequestSent: false,
     };
   },
   computed: {
@@ -101,13 +101,13 @@ export default defineComponent({
       set(channels: Channel[]) {
         ServersModule.UpdateServer({
           server_id: this.serverID,
-          channel_position: channels.map(c => c.channelID)
+          channel_position: channels.map((c) => c.channelID),
         });
-      }
+      },
     },
     serverID(): any {
       return this.$route.params.server_id;
-    }
+    },
   },
   mounted() {
     const { id } = this.$route.params as { [key: string]: string };
@@ -120,7 +120,7 @@ export default defineComponent({
       this.showContext = false;
     },
     onDragEnd() {
-      const channelIDs = this.channels.map(s => s.channelID);
+      const channelIDs = this.channels.map((s) => s.channelID);
       updateServerChannelPosition(this.serverID, channelIDs);
     },
     createChannel() {
@@ -128,15 +128,15 @@ export default defineComponent({
       if (this.createRequestSent) return;
       this.createRequestSent = true;
       createServerChannel(this.serverID)
-        .then(json => {
+        .then((json) => {
           ChannelsModule.AddChannel(json.channel);
           this.selectedChannelID = json.channel.channelID;
         })
         .finally(() => {
           this.createRequestSent = false;
         });
-    }
-  }
+    },
+  },
 });
 </script>
 

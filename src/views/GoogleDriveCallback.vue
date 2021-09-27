@@ -22,7 +22,7 @@ export default defineComponent({
   data() {
     return {
       loading: true,
-      success: false
+      success: false,
     };
   },
   computed: {
@@ -31,7 +31,7 @@ export default defineComponent({
         return "Account successfully linked. You may close this tab.";
       }
       return "Something went wrong while linking to Google Drive. Try again later.";
-    }
+    },
   },
   mounted() {
     const url = new URL(location.href);
@@ -50,7 +50,7 @@ export default defineComponent({
         this.loading = false;
         this.success = false;
       });
-  }
+  },
 });
 </script>
 <style lang="scss" scoped>

@@ -18,20 +18,20 @@ export default defineComponent({
   props: {
     button: {
       type: Object as PropType<Button>,
-      required: true
+      required: true,
     },
     message: {
       type: Object as PropType<Message>,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       posting: false,
-      timeout: null as number | null
+      timeout: null as number | null,
     };
   },
-  destroyed() {
+  unmounted() {
     this.$socket.off("message_button_click_callback", this.onCallback);
   },
   methods: {
@@ -61,12 +61,12 @@ export default defineComponent({
           component: "generic-popout",
           data: {
             title: this.button.name,
-            description: data.message
-          }
+            description: data.message,
+          },
         });
       }
-    }
-  }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

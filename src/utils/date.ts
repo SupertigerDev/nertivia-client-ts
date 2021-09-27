@@ -2,7 +2,7 @@ import i18n from "@/i18n";
 
 enum Type {
   "24h" = "0",
-  "12h" = "1"
+  "12h" = "1",
 }
 
 function formatAmPm(date: Date) {
@@ -69,7 +69,7 @@ function getFullDateWithTime(date: Date, type?: Type) {
     "Sep",
     "Oct",
     "Nov",
-    "Dec"
+    "Dec",
   ];
   const dayName = days[date.getDay()];
   const monthName = months[date.getMonth()];
@@ -86,11 +86,11 @@ export default (milliseconds: number, type?: Type) => {
 
   if (sameDay(now, messageDate)) {
     friendlyDate = i18n.global.t("time.today-at", [
-      getFullTime(messageDate, type)
+      getFullTime(messageDate, type),
     ]) as string;
   } else if (yesterDay(messageDate)) {
     friendlyDate = i18n.global.t("time.yesterday-at", [
-      getFullTime(messageDate, type)
+      getFullTime(messageDate, type),
     ]) as string;
   } else {
     friendlyDate = getFullDateWithTime(messageDate, type);

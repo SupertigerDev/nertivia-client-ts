@@ -96,8 +96,8 @@ export default defineComponent({
   props: {
     roleID: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -109,7 +109,7 @@ export default defineComponent({
       name: "",
       permissions: 0,
       hideRole: false,
-      color: null as string | null | undefined
+      color: null as string | null | undefined,
     };
   },
   computed: {
@@ -117,7 +117,7 @@ export default defineComponent({
       return ServerRolesModule.serverRoles[this.serverID]?.[this.roleID];
     },
     permissionsList(): any {
-      return Object.values(permissions).map(p => {
+      return Object.values(permissions).map((p) => {
         const canModify =
           this.isServerCreator ||
           !!ServerMembersModule.memberHasPermission(
@@ -130,7 +130,7 @@ export default defineComponent({
         return {
           ...p,
           enabled: !!bitwiseContains(this.permissions || 0, p.value),
-          canModify
+          canModify,
         };
       });
     },
@@ -163,15 +163,15 @@ export default defineComponent({
     },
     showDeleteButton(): any {
       return !this.role?.default && this.role?.deletable;
-    }
+    },
   },
   watch: {
     connected: {
-      handler: "isConnected"
+      handler: "isConnected",
     },
     role: {
-      handler: "roleChange"
-    }
+      handler: "roleChange",
+    },
   },
   mounted() {
     this.reset();
@@ -186,9 +186,9 @@ export default defineComponent({
         interaction: {
           hex: true,
           input: true,
-          cancel: true
-        }
-      }
+          cancel: true,
+        },
+      },
     });
     this.pickr.on("hide", this.colorChanged);
   },
@@ -211,10 +211,7 @@ export default defineComponent({
       this.pickr?.show();
     },
     colorChanged(event: any) {
-      const hex = event
-        .getColor()
-        .toHEXA()
-        .toString();
+      const hex = event.getColor().toHEXA().toString();
       this.color = hex;
     },
     checkBoxChange(checked: boolean, perm: any) {
@@ -233,13 +230,13 @@ export default defineComponent({
         name: this.name,
         permissions: this.permissions,
         hideRole: this.hideRole,
-        color: this.color as string
+        color: this.color as string,
       })
-        .then(role => {
+        .then((role) => {
           ServerRolesModule.UpdateServerRole(role);
           this.reset();
         })
-        .catch(async err => {
+        .catch(async (err) => {
           if (!err.response) {
             this.error = this.$t("could-not-connect-to-server").toString();
             return;
@@ -262,7 +259,7 @@ export default defineComponent({
         .then(() => {
           ServerRolesModule.DeleteServerRole({
             server_id: this.serverID,
-            role_id: this.roleID
+            role_id: this.roleID,
           });
           this.$emit("close");
         })
@@ -280,8 +277,8 @@ export default defineComponent({
       if (!role) {
         this.$emit("close");
       }
-    }
-  }
+    },
+  },
 });
 </script>
 
