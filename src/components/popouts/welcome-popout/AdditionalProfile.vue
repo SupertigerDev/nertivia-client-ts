@@ -6,7 +6,12 @@
       :information="$t('settings.account.more-profile-notice')"
     />
     <div class="box" v-if="aboutMe !== null">
-      <CustomInput title="Name" v-model="name" prefixIcon="face" />
+      <CustomInput
+        :error="errors['name']"
+        title="Name"
+        v-model="name"
+        prefixIcon="face"
+      />
       <CustomDropDown
         title="Gender"
         :defaultId="gender"
@@ -40,6 +45,7 @@
       <CustomInput
         title="Other"
         placeholder="I have 10 pretty cats."
+        :error="errors['about_me']"
         v-model="about_me"
         :textArea="true"
         prefixIcon="info"
@@ -121,7 +127,7 @@ export default defineComponent({
       this.save();
     },
     save() {
-      this.errors = false;
+      this.errors = {};
       updateSurvay({
         about_me: this.about_me,
         age: this.age,
@@ -129,9 +135,18 @@ export default defineComponent({
         country: this.country,
         gender: this.gender,
         name: this.name,
-      }).finally(() => {
-        this.$emit("onAction", true);
-      });
+      })
+        .then(() => {
+          this.$emit("onAction", true);
+        })
+        .catch(async (err) => {
+          this.$emit("onAction", false);
+
+          const { errors } = await err.response.json();
+          errors.forEach((e) => {
+            this.errors[e.param] = e.msg;
+          });
+        });
     },
   },
 });

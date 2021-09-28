@@ -47,6 +47,7 @@ export default defineComponent({
       username: "",
       tag: "",
       banner: null,
+      errors: {} as any,
     };
   },
   methods: {
@@ -55,6 +56,8 @@ export default defineComponent({
       this.tag = this.currentUser.tag || "";
     },
     onNext() {
+      this.errors = {};
+
       this.$emit("onAction", true);
     },
   },
