@@ -13,6 +13,7 @@
               v-show="currentPage === i"
               v-if="i <= maxBeenToIndex"
               @onAction="onAction"
+              @close="close"
               :is="page"
               :ref="page"
             />
@@ -51,19 +52,21 @@
 import { PopoutsModule } from "@/store/modules/popouts";
 import LoadingScreen from "@/components/LoadingScreen.vue";
 import SetProfile from "./SetProfile.vue";
+import AdditionalProfile from "./AdditionalProfile.vue";
+import Thanks from "./Thanks.vue";
 
 import Button from "@/components/CustomButton.vue";
 import { defineComponent } from "vue";
 import { MeModule } from "@/store/modules/me";
 export default defineComponent({
   name: "Welcome",
-  components: { Button, SetProfile, LoadingScreen },
+  components: { Button, SetProfile, LoadingScreen, AdditionalProfile, Thanks },
   props: {
     identity: { required: true, type: String },
   },
   data() {
     return {
-      pages: ["SetProfile"],
+      pages: ["SetProfile", "AdditionalProfile", "Thanks"],
       maxBeenToIndex: 0,
       currentPage: 0,
       nextClicked: false,
@@ -191,7 +194,7 @@ export default defineComponent({
   margin-top: 0;
   background: rgba(255, 255, 255, 0.1);
   padding: 5px;
-  overflow: hidden;
+  overflow: auto;
   position: relative;
 }
 </style>
