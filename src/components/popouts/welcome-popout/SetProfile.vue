@@ -1,5 +1,10 @@
 <template>
   <div class="set-profile">
+    <InformationTemplate
+      class="info"
+      title="Edit Your Profile"
+      information="GIFs are allowed."
+    />
     <div class="profile">
       <img v-if="bannerImageUrl" class="banner" :src="bannerImageUrl" />
       <Avatar
@@ -7,11 +12,34 @@
         :image-id="currentUser.avatar"
         size="120px"
         class="avatar"
+        :customUrl="avatar"
       />
     </div>
     <div class="buttons">
-      <CustomButton icon="edit" name="Avatar" />
-      <CustomButton icon="edit" name="Banner" />
+      <CustomButton
+        icon="edit"
+        name="Avatar"
+        @click="$refs.avatarInput.click()"
+      />
+      <CustomButton
+        icon="edit"
+        name="Banner"
+        @click="$refs.bannerInput.click()"
+      />
+      <input
+        ref="bannerInput"
+        style="display: none"
+        type="file"
+        @change="bannerChange"
+        accept=".jpeg, .jpg, .png, .gif"
+      />
+      <input
+        ref="avatarInput"
+        style="display: none"
+        type="file"
+        @change="avatarChange"
+        accept=".jpeg, .jpg, .png, .gif"
+      />
     </div>
     <div class="user-tag">
       <CustomInput
@@ -38,15 +66,17 @@ import { defineComponent } from "vue";
 import CustomButton from "@/components/CustomButton.vue";
 import Avatar from "@/components/AvatarImage.vue";
 import CustomInput from "@/components/CustomInput.vue";
+import InformationTemplate from "@/components/InformationTemplate.vue";
 import { MeModule } from "@/store/modules/me";
 
 export default defineComponent({
-  components: { Avatar, CustomButton, CustomInput },
+  components: { Avatar, CustomButton, CustomInput, InformationTemplate },
   data() {
     return {
       username: "",
       tag: "",
       banner: null,
+      avatar: null,
       errors: {} as any,
     };
   },
@@ -60,6 +90,26 @@ export default defineComponent({
 
       this.$emit("onAction", true);
     },
+    avatarChange(event: any) {
+      const file: File = event.target.files[0];
+      event.target.value = "";
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onloadend = (event) => {
+        this.avatar = (event.target?.result as any) || null;
+      };
+      reader.readAsDataURL(file);
+    },
+    bannerChange(event: any) {
+      const file: File = event.target.files[0];
+      event.target.value = "";
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onloadend = (event) => {
+        this.banner = (event.target?.result as any) || null;
+      };
+      reader.readAsDataURL(file);
+    },
   },
 
   watch: {
@@ -71,6 +121,15 @@ export default defineComponent({
     },
   },
   computed: {
+    changedValues() {
+      let changed: any = {};
+      if (this.avatar) changed.avatar = this.avatar;
+      if (this.banner) changed.banner = this.banner;
+      if (this.username !== this.currentUser.username)
+        changed.username = this.username;
+      if (this.tag !== this.currentUser.tag) changed.tag = this.tag;
+      return changed;
+    },
     bannerImageUrl(): any {
       if (this.banner) return this.banner;
       if (!this.currentUser.banner) return null;
@@ -94,7 +153,9 @@ export default defineComponent({
   height: 100%;
   justify-content: center;
 }
-
+.info {
+  margin-bottom: 15px;
+}
 .profile {
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 4px;
