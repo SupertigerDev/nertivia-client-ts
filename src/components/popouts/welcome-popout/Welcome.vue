@@ -49,16 +49,20 @@
   </div>
 </template>
 <script lang="ts">
+import { defineComponent, defineAsyncComponent } from "vue";
 import { PopoutsModule } from "@/store/modules/popouts";
 import LoadingScreen from "@/components/LoadingScreen.vue";
 import Language from "@/components/settings-area/Language.vue";
-import SetProfile from "./SetProfile.vue";
-import AdditionalProfile from "./AdditionalProfile.vue";
-import ManageEmojis from "@/components/settings-area/manage-emojis/ManageEmojis.vue";
-import Thanks from "./Thanks.vue";
+const SetProfile = defineAsyncComponent(() => import("./SetProfile.vue"));
+const AdditionalProfile = defineAsyncComponent(
+  () => import("./AdditionalProfile.vue")
+);
+const ManageEmojis = defineAsyncComponent(
+  () => import("@/components/settings-area/manage-emojis/ManageEmojis.vue")
+);
+const Thanks = defineAsyncComponent(() => import("./Thanks.vue"));
 
 import Button from "@/components/CustomButton.vue";
-import { defineComponent } from "vue";
 import { MeModule } from "@/store/modules/me";
 export default defineComponent({
   name: "Welcome",
