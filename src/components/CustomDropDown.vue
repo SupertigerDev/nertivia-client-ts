@@ -1,6 +1,9 @@
 <template>
   <div class="input">
-    <fieldset class="content" :class="{ focused, error, valid: validMessage }">
+    <fieldset
+      class="content"
+      :class="{ focused: selectedItem, error, valid: validMessage }"
+    >
       <legend class="title">{{ title }}</legend>
       <div class="container" @click="openDropDown = !openDropDown">
         <div class="selected-preview">

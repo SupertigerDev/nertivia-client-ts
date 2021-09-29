@@ -45,6 +45,7 @@
       <CustomInput
         title="Username"
         v-model="username"
+        :error="errors['username'] || errors['tag']"
         class="username"
         prefixIcon="account_box"
         :connectRight="true"
@@ -52,11 +53,13 @@
       <CustomInput
         class="tag"
         title="Tag"
+        :error="errors['tag'] ? ' ' : undefined"
         v-model="tag"
         prefixIcon="local_offer"
         :connectLeft="true"
       />
     </div>
+    <div class="other-error" v-if="errors['other']">{{ errors["other"] }}</div>
   </div>
 </template>
 
@@ -68,6 +71,7 @@ import Avatar from "@/components/AvatarImage.vue";
 import CustomInput from "@/components/CustomInput.vue";
 import InformationTemplate from "@/components/InformationTemplate.vue";
 import { MeModule } from "@/store/modules/me";
+import { updateUser } from "@/services/userService";
 
 export default defineComponent({
   components: { Avatar, CustomButton, CustomInput, InformationTemplate },
@@ -84,11 +88,45 @@ export default defineComponent({
     reset() {
       this.username = this.currentUser.username || "";
       this.tag = this.currentUser.tag || "";
+      this.avatar = null;
+      this.banner = null;
     },
     onNext() {
+      if (!Object.values(this.changedValues).length) {
+        this.$emit("onAction", true);
+        return;
+      }
       this.errors = {};
-
-      this.$emit("onAction", true);
+      this.save();
+    },
+    save() {
+      updateUser(this.changedValues, this.$socket.id)
+        .then((res) => {
+          MeModule.UpdateUser(res);
+          this.reset();
+          this.$emit("onAction", true);
+        })
+        .catch(async (err) => {
+          this.$emit("onAction", false);
+          if (!err.response) {
+            this.errors["other"] = this.$t("could-not-connect-to-server");
+            return;
+          }
+          const { errors, message } = await err.response.json();
+          if (message) {
+            this.errors["other"] = message;
+            return;
+          }
+          const knownErrs = ["username", "tag"];
+          for (let i = 0; i < errors.length; i++) {
+            const error = errors[i];
+            if (!knownErrs.includes(error.param)) {
+              this.errors["other"] = error.msg;
+              continue;
+            }
+            this.errors[error.param] = error.msg;
+          }
+        });
     },
     avatarChange(event: any) {
       const file: File = event.target.files[0];
@@ -167,6 +205,10 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.other-error {
+  color: var(--alert-color);
+  margin-top: -5px;
 }
 .banner {
   position: absolute;

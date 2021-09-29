@@ -340,7 +340,7 @@ export default defineComponent({
               this.errors["other"] = error.msg;
               continue;
             }
-            this.errors[error.param] = error.message;
+            this.errors[error.param] = error.msg;
           }
           this.requestSent = false;
         });
