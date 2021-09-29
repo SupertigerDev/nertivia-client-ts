@@ -219,11 +219,6 @@ export default defineComponent({
   border-radius: 4px;
   opacity: 1;
 }
-.avatar {
-  border-radius: 50%;
-  z-index: 1111;
-  box-shadow: 0 0 8px 1px black;
-}
 
 .buttons {
   display: flex;
@@ -242,10 +237,5 @@ export default defineComponent({
     width: 100px;
     flex-shrink: 0;
   }
-}
-</style>
-<style>
-.welcome-popout .avatar .image {
-  border: none;
 }
 </style>
