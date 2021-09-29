@@ -197,4 +197,12 @@ export default defineComponent({
   overflow: auto;
   position: relative;
 }
+@media (max-width: 500px) {
+  .welcome-popout {
+    height: 100%;
+    .container > div {
+      justify-content: initial;
+    }
+  }
+}
 </style>

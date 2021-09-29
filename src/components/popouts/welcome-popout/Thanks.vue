@@ -69,6 +69,8 @@ export default defineComponent({
   align-items: center;
   align-content: center;
   height: 100%;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 .info {
   margin-top: 15px;
