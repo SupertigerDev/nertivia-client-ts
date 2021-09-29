@@ -70,6 +70,10 @@ export default defineComponent({
     },
   },
   methods: {
+    // used for Welcome.vue popout.
+    onNext() {
+      this.$emit("onAction", true);
+    },
     async addEmoji(event: any) {
       const files: File[] = [...event.target.files];
       event.target.value = "";

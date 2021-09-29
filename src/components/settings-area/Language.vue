@@ -70,6 +70,10 @@ export default defineComponent({
     },
   },
   methods: {
+    // used for Welcome.vue popout.
+    onNext() {
+      this.$emit("onAction", true);
+    },
     changeLanguage(id: string) {
       this.currentLang = id;
       localStorage.setItem("locale", id);

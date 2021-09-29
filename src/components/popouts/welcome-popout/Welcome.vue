@@ -51,8 +51,10 @@
 <script lang="ts">
 import { PopoutsModule } from "@/store/modules/popouts";
 import LoadingScreen from "@/components/LoadingScreen.vue";
+import Language from "@/components/settings-area/Language.vue";
 import SetProfile from "./SetProfile.vue";
 import AdditionalProfile from "./AdditionalProfile.vue";
+import ManageEmojis from "@/components/settings-area/manage-emojis/ManageEmojis.vue";
 import Thanks from "./Thanks.vue";
 
 import Button from "@/components/CustomButton.vue";
@@ -60,13 +62,27 @@ import { defineComponent } from "vue";
 import { MeModule } from "@/store/modules/me";
 export default defineComponent({
   name: "Welcome",
-  components: { Button, SetProfile, LoadingScreen, AdditionalProfile, Thanks },
+  components: {
+    Button,
+    SetProfile,
+    LoadingScreen,
+    AdditionalProfile,
+    Thanks,
+    ManageEmojis,
+    Language,
+  },
   props: {
     identity: { required: true, type: String },
   },
   data() {
     return {
-      pages: ["SetProfile", "AdditionalProfile", "Thanks"],
+      pages: [
+        "Language",
+        "SetProfile",
+        "AdditionalProfile",
+        "ManageEmojis",
+        "Thanks",
+      ],
       maxBeenToIndex: 0,
       currentPage: 0,
       nextClicked: false,
@@ -204,5 +220,10 @@ export default defineComponent({
       justify-content: initial;
     }
   }
+}
+</style>
+<style>
+.welcome-popout .manage-emojis {
+  background: initial;
 }
 </style>
