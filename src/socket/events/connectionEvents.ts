@@ -23,7 +23,7 @@ export const onConnect = (socket: Socket) => {
   });
 };
 
-export const onReconnecting = (socket: Socket) => {
+export const onReconnectAttempt = (socket: Socket) => {
   MeModule.SetConnectionDetails({
     connected: false,
     message: "Reconnecting...",

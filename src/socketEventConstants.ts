@@ -1,7 +1,7 @@
 // connection events
 export const CONNECT = "connect";
 export const DISCONNECT = "disconnect";
-export const RECONNECTING = "reconnecting";
+export const RECONNECT_ATTEMPT = "reconnect_attempt";
 export const SUCCESS = "success";
 export const AUTH_ERROR = "auth_err";
 // message events

@@ -8,7 +8,6 @@ import {
   DELETE_MESSAGE,
   NOTIFICATION_DISMISS,
   RECEIVE_MESSAGE,
-  RECONNECTING,
   SERVER_MEMBER_ADD_ROLE,
   SERVER_CHANNEL_CREATED,
   SERVER_CHANNEL_POSITION_CHANGE,
@@ -48,6 +47,7 @@ import {
   CUSTOM_EMOJI_RENAME,
   CUSTOM_EMOJI_UPLOADED,
   UPDATE_MESSAGE_REACTION,
+  RECONNECT_ATTEMPT,
 } from "@/socketEventConstants";
 import { io } from "socket.io-client";
 import * as connectionEvents from "./events/connectionEvents";
@@ -67,7 +67,9 @@ export const socket = io(process.env.VUE_APP_SOCKET_URL as string, {
 
 // connection events
 socket.on(CONNECT, () => connectionEvents.onConnect(socket));
-socket.on(RECONNECTING, () => connectionEvents.onReconnecting(socket));
+socket.io.on(RECONNECT_ATTEMPT, () =>
+  connectionEvents.onReconnectAttempt(socket)
+);
 socket.on(SUCCESS, (data) => connectionEvents.onSuccess(socket, data));
 socket.on(AUTH_ERROR, (data) => connectionEvents.onAuthError(socket, data));
 
