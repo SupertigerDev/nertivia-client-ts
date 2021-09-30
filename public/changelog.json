@@ -1,5 +1,12 @@
 [
 	{
+		"version": "1.47.0-stable",
+		"date": "30 September 2021",
+		"title": "Welcome Popout",
+		"new": "Added a welcome popout for newly registered users.",
+		"image_url": "/img/changelog/welcome-popout-1.47.0.png"	
+	},
+	{
 		"version": "1.46.0-stable",
 		"date": "25 September 2021",
 		"title": "Vue 3",

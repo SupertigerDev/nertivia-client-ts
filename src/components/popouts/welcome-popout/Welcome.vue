@@ -64,6 +64,7 @@ const Thanks = defineAsyncComponent(() => import("./Thanks.vue"));
 
 import Button from "@/components/CustomButton.vue";
 import { MeModule } from "@/store/modules/me";
+import { welcomeDone } from "@/services/userService";
 export default defineComponent({
   name: "Welcome",
   components: {
@@ -109,6 +110,7 @@ export default defineComponent({
   },
   methods: {
     close() {
+      welcomeDone();
       PopoutsModule.ClosePopout(this.identity);
     },
     onAction(goNext: boolean) {

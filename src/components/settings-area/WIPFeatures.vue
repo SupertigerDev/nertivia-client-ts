@@ -6,13 +6,13 @@
         <div class="material-icons">info</div>
         Enable un-finished or experimental features.
       </div>
-      <!-- <div style="opacity: 0.6">No WIP Features available right now.</div> -->
-      <CheckBox
+      <div style="opacity: 0.6">No WIP Features available right now.</div>
+      <!-- <CheckBox
         name="Welcome Popout"
         class="check-box"
         description="Show a welcome popout when you first create an account."
         v-model="welcomePopout"
-      />
+      /> -->
     </div>
   </div>
 </template>
@@ -23,7 +23,7 @@ import CheckBox from "@/components/CheckBox.vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "WIPFeatures",
-  components: { CheckBox },
+  // components: { CheckBox },
   data() {
     return {
       welcomePopout: localStorage["welcomePopout_wip"] === "true",

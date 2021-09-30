@@ -26,6 +26,9 @@ export function reportError(error: any, val: string): Promise<any> {
     .json();
 }
 
+export function welcomeDone(): Promise<any> {
+  return wrapper().post(`user/welcome-done`);
+}
 export function getUser(): Promise<any> {
   return wrapper().get(`user`).json();
 }

@@ -8,6 +8,7 @@ import { programActivitiesModule } from "@/store/modules/memberProgramActivity";
 import { MutedChannelsModule } from "@/store/modules/mutedChannels";
 import { MutedServersModule } from "@/store/modules/mutedServers";
 import { NotificationsModule } from "@/store/modules/notifications";
+import { PopoutsModule } from "@/store/modules/popouts";
 import { PresencesModule } from "@/store/modules/presences";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import { ServerRolesModule } from "@/store/modules/serverRoles";
@@ -192,6 +193,14 @@ export const onSuccess = (socket: Socket, data: SuccessEvent) => {
   NotificationsModule.InitNotifications(notifications);
   ChannelsModule.InitChannels(channels);
   CustomEmojisModule.InitCustomEmojis(data.settings.customEmojis);
+
+  if (data.user.show_welcome) {
+    PopoutsModule.ShowPopout({
+      id: "welcome",
+      component: "Welcome",
+      data: {},
+    });
+  }
 };
 
 export const onAuthError = (socket: Socket, reason: string) => {

@@ -85,7 +85,6 @@ export default defineComponent({
       currentActiveProgram: null as any | null,
       programActivityTimeout: null as any,
       loadPage: false,
-      showWelcomePopout: localStorage["welcomePopout_wip"] === "true",
     };
   },
   computed: {
@@ -117,12 +116,6 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.showWelcomePopout &&
-      PopoutsModule.ShowPopout({
-        id: "welcome",
-        component: "Welcome",
-        data: {},
-      });
     this.$socket.connect();
     if (window.BroadcastChannel) {
       const channel = new BroadcastChannel("sw-messages");

@@ -107,6 +107,7 @@
             : $t("settings.account.link-google-drive")
         }}
       </div>
+      <div class="link" @click="showWelcomePopout">Show Welcome Popout</div>
       <CustomButton
         :filled="true"
         :name="!requestSent ? $t('save-changes') : $t('saving')"
@@ -235,6 +236,13 @@ export default defineComponent({
     this.moreProfileUpdate();
   },
   methods: {
+    showWelcomePopout() {
+      PopoutsModule.ShowPopout({
+        id: "welcome",
+        component: "Welcome",
+        data: {},
+      });
+    },
     moreProfileUpdate() {
       if (!MeModule.user.id) return;
       fetchUser(MeModule.user.id).then((user) => {

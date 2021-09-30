@@ -61,6 +61,7 @@ interface MeUser {
   custom_status?: string;
   status: number;
   badges?: number;
+  show_welcome?: boolean;
 }
 interface Friend {
   status: number;
