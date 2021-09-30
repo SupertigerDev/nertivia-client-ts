@@ -53,6 +53,7 @@ export default defineComponent({
   border-radius: 50%;
   margin-right: 5px;
   align-self: end;
-  margin-top: 4px;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 </style>

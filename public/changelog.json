@@ -3,7 +3,7 @@
 		"version": "1.47.0-stable",
 		"date": "30 September 2021",
 		"title": "Welcome Popout",
-		"new": "Added a welcome popout for newly registered users.",
+		"new": "Added a welcome popout for newly registered users. This can also be re-shown in settings > account.",
 		"image_url": "/img/changelog/welcome-popout-1.47.0.png"	
 	},
 	{
