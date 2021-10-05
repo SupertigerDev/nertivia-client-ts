@@ -16,10 +16,14 @@ import { CallParticipant } from "@/store/modules/voiceChannels";
 import Avatar from "@/components/AvatarImage.vue";
 import { PropType } from "vue";
 import { defineComponent } from "vue";
+import User from "@/interfaces/User";
 export default defineComponent({
   components: { Avatar },
   props: {
-    participant: Object as PropType<CallParticipant>,
+    participant: {
+      type: Object as PropType<CallParticipant & { user: User }>,
+      required: true,
+    },
   },
 });
 </script>

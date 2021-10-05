@@ -162,7 +162,7 @@ class VoiceChannels extends VuexModule {
   }
   @Action
   public removeChannel(channelId: string) {
-    if (channelId === voiceChannelModule.joinedChannelId) {
+    if (channelId === this.joinedChannelId) {
       this.leave();
     }
     const voiceChannel = this.voiceChannelUsers[channelId];
@@ -240,8 +240,12 @@ class VoiceChannels extends VuexModule {
     oldStream?.getTracks().forEach((track) => track.stop());
 
     const videoTracks = payload?.stream?.getVideoTracks();
+
     if (videoTracks[0]) {
       videoTracks[0].onended = () => {
+        const voiceChannelPeers = Object.values(
+          this.voiceChannelUsers[this.joinedChannelId || ""] || {}
+        );
         voiceChannelPeers.forEach((p) => {
           p.peer?.removeStream(payload.stream);
         });
@@ -249,6 +253,7 @@ class VoiceChannels extends VuexModule {
         this.UPDATE_LOCAL_STREAM({ type: "video", stream: null });
       };
     }
+
     const voiceChannelPeers = Object.values(
       this.voiceChannelUsers[this.joinedChannelId || ""] || {}
     );
@@ -264,6 +269,23 @@ class VoiceChannels extends VuexModule {
       p.peer?.addStream(payload.stream);
     });
     this.UPDATE_LOCAL_STREAM(payload);
+  }
+  @Action
+  public removeAudioStream() {
+    if (!this.audioStream) return;
+    const voiceChannelPeers = Object.values(
+      this.voiceChannelUsers[this.joinedChannelId || ""] || {}
+    );
+    this.audioStream.getTracks().forEach((track) => track.stop());
+    voiceChannelPeers.forEach((p) => {
+      if (!this.audioStream) return;
+      p.peer?.removeStream(this.audioStream);
+    });
+    this.REMOVE_AUDIO_STREAM();
+  }
+  @Mutation
+  private REMOVE_AUDIO_STREAM() {
+    this.audioStream = null;
   }
 }
 export const voiceChannelModule = getModule(VoiceChannels);

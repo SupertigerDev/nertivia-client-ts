@@ -43,7 +43,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import { voiceChannelModule } from "@/store/modules/voiceChannels";
 import Tabs from "@/components/HeaderTabs.vue";
 
-import { joinCall } from "@/services/voiceService";
+import { joinCall, leaveCall } from "@/services/voiceService";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "MainApp",
@@ -84,8 +84,9 @@ export default defineComponent({
         },
       });
     },
-    joinCall() {
-      voiceChannelModule.leave();
+    async joinCall() {
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      await leaveCall().catch(() => {});
       voiceChannelModule.join({
         channelId: this.channelId,
       });

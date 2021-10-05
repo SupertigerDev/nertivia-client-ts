@@ -32,6 +32,9 @@ const DeleteAccount = defineAsyncComponent(
 const StartupOptions = defineAsyncComponent(
   () => import("@/components/settings-area/StartupOptions.vue")
 );
+const CallOptions = defineAsyncComponent(
+  () => import("@/components/settings-area/CallOptions.vue")
+);
 const ProgramActivity = defineAsyncComponent(
   () =>
     import("@/components/settings-area/program-activity/ProgramActivity.vue")
@@ -60,6 +63,7 @@ export default defineComponent({
     ProgramActivity,
     Language,
     WIPFeatures,
+    CallOptions,
   },
   computed: {
     selectedTab(): any {

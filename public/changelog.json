@@ -1,11 +1,19 @@
 [
 	{
+		"version": "1.48.0-stable",
+		"date": "5th October 2021",
+		"title": "Talk With Your Voice",
+		"new": "You can now talk with your voice. NOTE: Mic is always muted by default when joining the call.",
+		"fixes": "Fixed a bug that prevented you from joining another call while already being in a call."
+	},
+	{
 		"version": "1.47.0-stable",
 		"date": "30 September 2021",
 		"title": "Welcome Popout",
 		"new": "Added a welcome popout for newly registered users. This can also be re-shown in settings > account.",
 		"image_url": "/img/changelog/welcome-popout-1.47.0.png"	
 	},
+
 	{
 		"version": "1.46.0-stable",
 		"date": "25 September 2021",

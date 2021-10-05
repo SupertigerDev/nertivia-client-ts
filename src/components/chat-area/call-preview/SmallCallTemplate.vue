@@ -11,7 +11,10 @@ import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   props: {
-    participant: Object as PropType<CallParticipant & { user: User }>,
+    participant: {
+      type: Object as PropType<CallParticipant & { user: User }>,
+      required: true,
+    },
   },
 });
 </script>

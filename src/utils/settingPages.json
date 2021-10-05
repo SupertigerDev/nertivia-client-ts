@@ -19,6 +19,11 @@
     "icon": "launch",
     "component": "StartupOptions"
   },
+  "call-options": {
+    "name": "Call Options",
+    "icon": "call",
+    "component": "CallOptions"
+  },
   "program-activity": {
     "name": "Program Activity",
     "icon": "widgets",

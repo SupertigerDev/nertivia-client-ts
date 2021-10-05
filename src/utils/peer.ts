@@ -8,7 +8,6 @@ function onConnect(channelId: string, userId: string) {
     userId,
     update: { connected: true },
   });
-  console.log("connected");
 }
 function onStream(stream: MediaStream, channelId: string, userId: string) {
   const videoTracks = stream.getVideoTracks();
@@ -22,6 +21,10 @@ function onStream(stream: MediaStream, channelId: string, userId: string) {
     });
     stream.onremovetrack = null;
   };
+  const test = new Audio();
+
+  test.srcObject = stream;
+  test.play();
   voiceChannelModule.update({
     channelId,
     userId,

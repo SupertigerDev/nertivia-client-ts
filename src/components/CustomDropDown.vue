@@ -14,7 +14,7 @@
             :imageId="selectedItem.avatar.imageID"
             size="20px"
           />
-          {{ selectedItem ? selectedItem.name : defaultText }}
+          {{ selectedItem ? selectedItem[namePath] : defaultText }}
           <div class="note" v-if="selectedItem">
             {{ selectedItem.note }}
           </div>
@@ -39,7 +39,7 @@
               :imageId="item.avatar.imageID"
               size="20px"
             />
-            {{ item.name }}
+            {{ item[namePath] }}
             <div class="note" v-if="item.note">{{ item.note }}</div>
           </div>
         </div>
@@ -87,6 +87,10 @@ export default defineComponent({
     defaultId: {
       type: [Number, String],
       default: null,
+    },
+    namePath: {
+      type: String,
+      default: "name",
     },
     validMessage: {
       type: String,

@@ -21,7 +21,21 @@
         />
       </div>
       <div class="actions">
-        <div class="button material-icons" title="Voice Settings">settings</div>
+        <div
+          class="button material-icons"
+          :class="{ alert: !emittingVoice }"
+          @click="toggleMic"
+          title="Mute/Unmute Mic"
+        >
+          {{ emittingVoice ? "mic" : "mic_off" }}
+        </div>
+        <div
+          class="button material-icons"
+          title="Call Settings"
+          @click="settingsClicked"
+        >
+          settings
+        </div>
         <div
           class="button material-icons"
           @click="shareScreen"
@@ -64,6 +78,7 @@ import BigPreview from "./BigPreview.vue";
 import { joinCall, leaveCall } from "@/services/voiceService";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { defineComponent } from "vue";
+import router from "@/router";
 export default defineComponent({
   components: { CallTemplate, BigPreview },
   props: {
@@ -78,6 +93,25 @@ export default defineComponent({
     };
   },
   methods: {
+    toggleMic() {
+      if (this.emittingVoice) {
+        voiceChannelModule.removeAudioStream();
+        return;
+      }
+      const constaints: any = { audio: true };
+
+      if (localStorage["inputDeviceId"]) {
+        constaints.deviceId = {
+          exact: localStorage["inputDeviceId"],
+        };
+      }
+      navigator.mediaDevices.getUserMedia(constaints).then((stream) => {
+        voiceChannelModule.addStream({ type: "audio", stream });
+      });
+    },
+    settingsClicked() {
+      router.push("/app/settings/call-options");
+    },
     onCallClicked() {
       PopoutsModule.ShowPopout({
         id: "call-ip-leak-warning",
@@ -90,8 +124,8 @@ export default defineComponent({
         },
       });
     },
-    joinCall() {
-      voiceChannelModule.leave();
+    async joinCall() {
+      await leaveCall();
       voiceChannelModule.join({
         channelId: this.channelId,
       });
@@ -117,6 +151,9 @@ export default defineComponent({
     },
   },
   computed: {
+    emittingVoice() {
+      return voiceChannelModule.audioStream;
+    },
     selectedParticipant(): (CallParticipant & { user: User }) | undefined {
       return this.participants.find((p) => p.user.id === this.selecteduserId);
     },
@@ -148,6 +185,7 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   margin-block: 5px;
+  user-select: none;
 }
 .button {
   opacity: 0.8;
