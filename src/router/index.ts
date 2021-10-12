@@ -67,6 +67,11 @@ const router = VueRouter.createRouter({
       },
     },
     {
+      path: "/captcha",
+      name: "Captcha",
+      component: () => import("../views/CaptchaPage.vue"),
+    },
+    {
       path: "/reset-password",
       name: "Reset Password",
       component: () => import("../views/ResetPassword.vue"),
