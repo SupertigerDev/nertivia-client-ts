@@ -10,8 +10,18 @@
             {{ data.description }}
           </div>
           <div class="buttons">
-            <CustomButton v-if="data.callback" name="Cancel" @click="close" />
-            <CustomButton name="Understood" @click="buttonClicked" />
+            <CustomButton
+              icon="clear"
+              v-if="data.callback"
+              name="Cancel"
+              :alert="true"
+              @click="close"
+            />
+            <CustomButton
+              icon="done"
+              name="Understood"
+              @click="buttonClicked"
+            />
           </div>
         </div>
       </div>
