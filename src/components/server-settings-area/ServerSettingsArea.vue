@@ -14,6 +14,7 @@ import ManageChannels from "./manage-channels/ManageChannels.vue";
 import ManageRoles from "./manage-roles/ManageRoles.vue";
 import ManageUsers from "./manage-users/ManageUsers.vue";
 import BannedUsers from "./banned-users/BannedUsers.vue";
+import ManageWebhooks from "./webhooks/ManageWebhooks.vue";
 import DeleteServer from "./DeleteServer.vue";
 import General from "./General.vue";
 import ServerVisibility from "./ServerVisibility.vue";
@@ -32,6 +33,7 @@ export default defineComponent({
     General,
     DeleteServer,
     BannedUsers,
+    ManageWebhooks,
     ServerVisibility,
   },
   computed: {

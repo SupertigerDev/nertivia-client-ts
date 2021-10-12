@@ -56,6 +56,14 @@
     "admin": true,
     "component": "ManageUsers"
   },
+  "manage-webhooks":{
+    "name": "Manage Webhooks",
+    "id": "manage-webhooks",
+    "permission": "MANAGE-WEBHOOKS",
+    "icon": "storage",
+    "admin": true,
+    "component": "ManageWebhooks"
+  },
   "delete-server": {
     "name": "Delete Server",
     "id": "delete-server",

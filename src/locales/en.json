@@ -161,6 +161,7 @@
     "tab-names": {
       "general": "General",
       "manage-channels": "Manage Channels",
+      "manage-webhooks": "Manage Webhooks",
       "manage-roles": "Manage Roles",
       "manage-invites": "Manage Invites",
       "server-visibility": "Server Visibility",
