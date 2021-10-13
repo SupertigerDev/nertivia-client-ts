@@ -60,7 +60,7 @@
     "name": "Manage Webhooks",
     "id": "manage-webhooks",
     "permission": "MANAGE-WEBHOOKS",
-    "icon": "storage",
+    "icon": "hub",
     "admin": true,
     "component": "ManageWebhooks"
   },

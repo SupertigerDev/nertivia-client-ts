@@ -1,42 +1,66 @@
 <template>
   <div class="container">
     <div class="inner-container">
-      <div class="description">
-        <div class="material-icons">info</div>
-        {{ $t("server-settings.tab-names.manage-webhooks") }}
-      </div>
+      <InformationTemplate
+        class="information"
+        :title="$t('server-settings.tab-names.manage-webhooks')"
+      />
 
       <div class="box">
-        <CustomButton class="create-button" name="Create Webhook" icon="add" />
+        <CustomButton
+          class="create-button"
+          @click="create"
+          name="Create Webhook"
+          icon="add"
+        />
+        <div class="list">
+          <WebhookTemplate
+            v-for="webhook in webhooks"
+            :key="webhook.id"
+            :webhook="webhook"
+          />
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
 import { ServersModule } from "@/store/modules/servers";
+import InformationTemplate from "@/components/InformationTemplate.vue";
 
 import LoadingScreen from "@/components/LoadingScreen.vue";
 import CustomButton from "@/components/CustomButton.vue";
+import { createWebhook } from "@/services/webhookService";
 
+import WebhookTemplate from "./WebhookTemplate.vue";
 import { defineComponent } from "vue";
+import Webhook from "@/interfaces/Webhook";
 export default defineComponent({
   name: "ManageWebhooks",
-  components: { CustomButton },
+  components: { InformationTemplate, CustomButton, WebhookTemplate },
   data() {
-    return {};
+    return {
+      webhooks: [] as Webhook[],
+    };
   },
   computed: {
     server(): any {
-      return ServersModule.servers[this.serverID];
+      return ServersModule.servers[this.serverId];
     },
-    serverID(): any {
+    serverId(): any {
       return this.$route.params.server_id;
     },
   },
   mounted() {
     //
   },
-  methods: {},
+  methods: {
+    create() {
+      createWebhook(this.serverId).then((res) => {
+        this.webhooks.unshift(res);
+      });
+    },
+  },
 });
 </script>
 
@@ -54,15 +78,9 @@ export default defineComponent({
   flex-direction: column;
   overflow: hidden;
 }
-.description {
-  display: flex;
-  align-items: center;
-  align-content: center;
+.information {
   margin-left: 10px;
   margin-top: 10px;
-  .material-icons {
-    margin-right: 5px;
-  }
 }
 .create-button {
   align-self: flex-start;
