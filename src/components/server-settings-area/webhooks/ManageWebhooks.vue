@@ -30,11 +30,14 @@ import InformationTemplate from "@/components/InformationTemplate.vue";
 
 import LoadingScreen from "@/components/LoadingScreen.vue";
 import CustomButton from "@/components/CustomButton.vue";
-import { createWebhook } from "@/services/webhookService";
+import { createWebhook, getWebooks } from "@/services/webhookService";
 
 import WebhookTemplate from "./WebhookTemplate.vue";
 import { defineComponent } from "vue";
 import Webhook from "@/interfaces/Webhook";
+import { ChannelsModule } from "@/store/modules/channels";
+import { MeModule } from "@/store/modules/me";
+import Server from "@/interfaces/Server";
 export default defineComponent({
   name: "ManageWebhooks",
   components: { InformationTemplate, CustomButton, WebhookTemplate },
@@ -44,20 +47,26 @@ export default defineComponent({
     };
   },
   computed: {
-    server(): any {
+    server(): Server {
       return ServersModule.servers[this.serverId];
     },
     serverId(): any {
       return this.$route.params.server_id;
     },
   },
-  mounted() {
-    //
+  async mounted() {
+    this.webhooks = await getWebooks(this.serverId);
   },
   methods: {
     create() {
       createWebhook(this.serverId).then((res) => {
-        this.webhooks.unshift(res);
+        const webhook = {
+          id: res.id,
+          name: res.name,
+          channel: ChannelsModule.channels[this.server.default_channel_id],
+          creator: MeModule.user,
+        };
+        this.webhooks.unshift(webhook as any);
       });
     },
   },
