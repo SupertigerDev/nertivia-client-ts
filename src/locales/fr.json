@@ -1,6 +1,7 @@
 {
   "save-changes": "Appliquer",
   "saving": "En cours...",
+  "back": "Retour",
   "are-you-sure": "Êtes-vous certain ? ",
   "copy-id-button": "Copier l'ID",
   "time": {
@@ -27,11 +28,8 @@
     "copy-user-tag": "Copier Pseudo:Tag"
   },
   "message-context": {
-    "user": "Utilisateur",
     "quote": "Citer",
     "edit": "Éditer",
-    "copy": "Copier",
-    "delete": "Supprimer"
   },
   "server-context": {
     "mark-as-read": "Marquer comme lu",
@@ -47,6 +45,7 @@
       "account": "Compte",
       "notification": "Notifications",
       "manage-emojis": "Gestion des émojis",
+      "call-options": "Options d'appels",
       "startup-options": "Options de démarrage",
       "program-activity": "Activité logicielle",
       "manage-bots": "Gestion des Bots",
@@ -54,6 +53,7 @@
       "language": "Langage",
       "delete-account": "Supprimer le compte",
       "changelog": "Historique des changements"
+      "wip-features": "Fonctions WIP"
     },
     "account": {
       "title": "Éditer le profil",
@@ -113,8 +113,51 @@
       "details": "Il est possible que vous deviez relancer Nertivia afin d'appliquer les changements. Contribuer en envoyant une PR sur Github.",
       "translators": "Traducteurs"
     }
+    "interface": {
+      "description": "Changer l'apparence de Nertivia.",
+      "colors": "Couleurs",
+      "time-format": "Agencement date et heure",
+      "default-theme": "Thème par défaut",
+      "amoled-dark": "AMOLED Dark",
+      "halloween-2020": "Halloween 2020",
+      "predefined-themes": "Thèmes prédéfinis",
+      "custom-css": "CSS personalisé",
+      "general": "Général",
+      "navigation-bar": "Barre de navigation"
+    },
+    "wip-features": {
+      "title": "Activer les fonctions expérimentales ou inachevées",
+      "none-available": "Aucune fonction WIP n'est disponible pour l'instant."
+    }
   },
   "server-settings": {
+    "permissions": {
+      "permissions": "Permissions",
+      "admin": {
+        "name": "Admin",
+        "info": "Activer toutes permissions"
+      },
+      "send-messages": {
+        "name": "Envoyer des messages",
+        "info": "Envoyer des messages dans les canaux du serveur"
+      },
+      "manage-roles": {
+        "name": "Gérer les rôles",
+        "info": "Mettre à jour ou supprimer les rôles"
+      },
+      "manage-channels": {
+        "name": "Gérer les canaux",
+        "info": "Mettre à jour ou supprimer les canaux"
+      },
+      "kick-user": {
+        "name": "Virer",
+        "info": "Dégager un utilisateur"
+      },
+      "ban-user": {
+        "name": "Bannir",
+        "info": "Dégager un utilisateur et l'empêcher de revenir"
+      }
+    },
     "tab-names": {
       "general": "Général",
       "manage-channels": "Gérer les canaux",
@@ -125,68 +168,133 @@
       "banned-users": "Utilisateurs bannis",
       "manage-users": "Gérer les utilisateurs",
       "delete-server": "Supprimer le serveur"
+    },
+    "manage-roles": {
+      "manage-your-roles": "Gérer vos rôles.",
+      "default-role": "Rôle par défaut",
+      "bot-role": "Rôle du bot",
+      "create-role": "Créer un nouveau rôle",
+      "notice-bot": "Ce rôle ne peut être supprimé/assigné à un autre membre car il a été créé par un bot. Supprimez le bot afin de supprimer ce rôle.",
+      "notice-default": "Ce rôle ne peut être supprimé ou réassigné puisque c'est le rôle par défaut appliqué à tous les membres.",
+      "pick-role-color": "Choisissez la couleur du rôle",
+      "role-name": "Nom du rôle",
+      "settings": "Paramètres",
+      "delete-role": "Supprimer le rôle",
+      "deleting-role": "Suppression du rôle...",
+      "hide-role": "Cacher le rôle"
+    },
+    "general": {
+      "general-server-settings": "General Server Settings"
+    },
+    "manage-channels": {
+      "manage-your-channels": "Gérez vos canaux.",
+      "delete-channel": "Supprimer le canal",
+      "deleting-channel": "Suppression du canal...",
+      "channel-name": "Nom du canal",
+      "default-channel-notice": "C'est le canal par défaut. Vous pouvez changer le canal par défaut dans la page générale. Les canaux par défaut ne peuvent être supprimés.",
+      "create-new-channel": "créer un nouveau canal",
+      "permission": {
+        "send-message": "Envoyer des messages"
+      },
+      "rate-limit-seconds": "Limite de spam (secondes)",
+      "text-channel": "Canal texte",
+      "html-channel": "Canal HTML (WIP)"
+    },
+    "banned-users": {
+      "notice": "Révoquer le ban des membres d'ici",
+      "unbanning": "Révocation...",
+      "unban": "Révoquer le ban"
+    },
+    "manage-invites": {
+      "notice": "Seul les admins sont capables de voir les invitations de chacun.",
+      "create-invites": "Créer une invitation",
+      "custom-invite": "Invitation personalisée",
+      "save-custom-link": "Sauvegarder le lien personalisé",
+      "create-invite": "Créer une invitation",
+      "link": "Lien",
+      "creator": "Créateur",
+      "uses": "Utilisations"
+    },
+    "manage-users": {
+      "search-user": "Chercher un utilisateur"
+    },
+    "delete-server": {
+      "type-server-name-to-confirm": "Entrer le nom du serveur pour confirmer",
+      "deleting": "Suppression..."
+    },
+    "notifications": {
+      "description": "Changer les paramètres de notification.",
+      "notice": "Ces paramètres s'appliqueront à vous uniquement sans affecter les autres utilisateurs.",
+      "enable-notifications": "Activer les notifications",
+      "mute-sound": "Sans le son",
+      "disable-notifications": "Désactiver les notifications"
     }
   },
   "typing-status": {
     "is-typing": "{0} est en train d'écrire...",
     "two-are-typing": "{0} et {1} sont en train d'écrire...",
     "three-are-typing": "{0}, {1} et {2} sont en train d'écrire...",
-    "more-than-three": "{0} personnes sont en train d'écrire..."
+    "more-than-three": "{0} membres sont en train d'écrire..."
   },
   "dm-tab": {
-    "friends": "Amis",
+    "friends": "Contact",
     "recents": "Récents",
     "saved-notes": "Notes enregistrées",
-    "add-friend": "Ajouter un ami"
+    "add-friend": "Ajouter un contact"
   },
   "dashboard-tab": {
     "profile": "Profil",
     "notifications": "Notifications",
-    "click-to-add-custom-status": "Cliquez pour personnaliser votre statut"
+    "click-to-add-custom-status": "Cliquez afin de changer de statut",
+    "caught-up": "Que c'est calme !",
+    "direct-messages": "Messages directs",
+    "servers": "Serveurs",
+    "explore": "Explorer",
+    "dashboard": "Tableau de bord"
   },
   "add-friend-popout": {
-    "notice": "Ajoutez un contact en inscrivant leur pseudo et leur tag.",
+    "notice": "Ajoutez un contact en inscrivant son pseudo et son tag.",
     "adding": "Ajout..."
   },
   "add-server-popout": {
     "title": "Ajouter un serveur",
-    "join-server-notice": "Rejoindre un serveur en indiquant le code d'invitation.",
-    "create-server-notice": "Créez votre propre serveur. Commencez par lui donner un nom.",
+    "join-server-notice": "Rejoindre un serveur en insérant un lien d'invitation.",
+    "create-server-notice": "Créez votre propre serveur. Commencez par le nommer.",
     "tabs": {
-      "join": "Rejoindre",
+      "join": "Entrer",
       "create": "Créer"
     }
   },
   "presence": {
-    "offline": "Déconnecté",
-    "online": "Connecté",
+    "offline": "Hors ligne",
+    "online": "En ligne",
     "away": "Absent",
     "busy": "Occupé",
     "looking-to-play": "Souhaite jouer"
   },
   "right-drawer": {
     "server-members": "Membres ({0})",
-    "server-offline-members": "Déconnectés ({0})"
+    "server-offline-members": "Hors ligne ({0})"
   },
   "profile-popout": {
-    "common-friends": "Amis en commun",
+    "common-friends": "Contacts en commun",
     "badges": "Badges",
     "joined-at": "Inscrit le",
     "suspended": "Suspendu",
     "remove-friend": "Retirer le contact",
     "accept-request": "Accepter la requête",
     "cancel-request": "Annuler la requête",
-    "add-friend": "Ajouter un ami",
+    "add-friend": "Ajouter un contact",
     "send-message": "Envoyer un message",
     "common-servers": "Serveurs en commun"
   },
   "connection": {
-    "loading": "En cours...",
+    "loading": "Chargement...",
     "ready": "Prêt !",
     "authenticating": "Authentification..."
   },
   "navbar": {
-    "update": "mise à jour",
+    "update": "Mise à jour",
     "update-available": "Mise à jour disponible"
   },
   "generic": {
@@ -197,11 +305,11 @@
   },
   "messages": {
     "left": "a quitté le serveur",
-    "kicked": "a été viré",
-    "banned": "a été banni",
+    "kicked": "a été viré(e)",
+    "banned": "a été banni(e)",
     "joined": "a rejoint le serveur !"
   },
-  "could-not-connect-to-server": "N'a pas pu se connecter au serveur.",
+  "could-not-connect-to-server": "Connexion au serveur échouée.",
   "chat-area": {
     "rate-limit-mode": "Mode anti spam"
   }
