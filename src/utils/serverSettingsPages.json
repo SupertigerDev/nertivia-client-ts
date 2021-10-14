@@ -59,7 +59,7 @@
   "manage-webhooks":{
     "name": "Manage Webhooks",
     "id": "manage-webhooks",
-    "permission": "MANAGE-WEBHOOKS",
+    "permission": "MANAGE_WEBHOOKS",
     "icon": "hub",
     "admin": true,
     "component": "ManageWebhooks"

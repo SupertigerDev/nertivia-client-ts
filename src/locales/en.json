@@ -156,6 +156,10 @@
       "ban-user": {
         "name": "Ban",
         "info": "Kick & restrict a user from joining"
+      },
+      "manage-webhooks": {
+        "name": "Manage Webhooks",
+        "info": "Create, remove or edit webhooks."
       }
     },
     "tab-names": {

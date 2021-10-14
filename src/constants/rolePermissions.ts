@@ -57,4 +57,13 @@ export const permissions = {
       return i18n.global.t("server-settings.permissions.ban-user.info");
     },
   },
+  MANAGE_WEBHOOKS: {
+    get name() {
+      return i18n.global.t("server-settings.permissions.manage-webhooks.name");
+    },
+    value: 64,
+    get info() {
+      return i18n.global.t("server-settings.permissions.manage-webhooks.info");
+    },
+  },
 };

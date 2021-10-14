@@ -3,7 +3,7 @@
     <fieldset
       class="content"
       :class="{
-        focused: focused || modelValue?.length,
+        focused,
         error,
         valid: validMessage,
         disabled,
@@ -110,8 +110,12 @@ export default defineComponent({
   overflow: hidden;
   cursor: text;
   transition: 0.2s;
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
   &.focused {
     border: solid 2px var(--primary-color);
+    background: rgba(255, 255, 255, 0.05);
   }
   &.error {
     border: solid 2px var(--alert-color);

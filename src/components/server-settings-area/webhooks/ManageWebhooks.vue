@@ -18,6 +18,8 @@
             v-for="webhook in webhooks"
             :key="webhook.id"
             :webhook="webhook"
+            @delete="onDelete(webhook.id)"
+            @update="onUpdate"
           />
         </div>
       </div>
@@ -58,6 +60,15 @@ export default defineComponent({
     this.webhooks = await getWebooks(this.serverId);
   },
   methods: {
+    onDelete(id: string) {
+      this.webhooks = this.webhooks.filter((webhook) => webhook.id !== id);
+    },
+    onUpdate(updatedWebhook: Partial<Webhook>) {
+      let webhook = this.webhooks.find(
+        (webhook) => webhook.id === updatedWebhook.id
+      );
+      Object.assign(webhook, updatedWebhook);
+    },
     create() {
       createWebhook(this.serverId).then((res) => {
         const webhook = {
@@ -102,5 +113,11 @@ export default defineComponent({
   flex-direction: column;
   overflow: hidden;
   height: 100%;
+}
+.list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: auto;
 }
 </style>

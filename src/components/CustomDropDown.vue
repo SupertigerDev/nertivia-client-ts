@@ -2,7 +2,13 @@
   <div class="input">
     <fieldset
       class="content"
-      :class="{ focused: selectedItem, error, valid: validMessage }"
+      :class="{
+        focused: openDropDown,
+        error,
+        valid: validMessage,
+        connectLeft,
+        connectRight,
+      }"
     >
       <legend class="title">{{ title }}</legend>
       <div class="container" @click="openDropDown = !openDropDown">
@@ -104,6 +110,8 @@ export default defineComponent({
       type: String,
       default: "Select Item",
     },
+    connectLeft: Boolean,
+    connectRight: Boolean,
   },
   data() {
     return {
@@ -141,6 +149,8 @@ export default defineComponent({
   border: solid 2px rgba(255, 255, 255, 0.2);
   transition: 0.2s;
   position: relative;
+  padding-top: 3px;
+  padding-bottom: 6.6px;
 
   &:hover {
     background: rgba(255, 255, 255, 0.05);
@@ -157,6 +167,16 @@ export default defineComponent({
   }
   &.valid {
     border: solid 2px var(--success-color);
+  }
+  &.connectLeft {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-left: -1px;
+  }
+  &.connectRight {
+    margin-right: -1px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
   }
 }
 .title {
