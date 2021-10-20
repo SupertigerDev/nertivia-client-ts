@@ -142,7 +142,8 @@
   "dashboard-tab": {
     "profile": "Profil",
     "notifications": "Notifications",
-    "click-to-add-custom-status": "Cliquez pour personnaliser votre statut"
+    "click-to-add-custom-status": "Cliquez pour personnaliser votre statut",
+    "dashboard": "Accueil"
   },
   "add-friend-popout": {
     "notice": "Ajoutez un contact en inscrivant leur pseudo et leur tag.",
