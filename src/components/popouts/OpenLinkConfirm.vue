@@ -171,6 +171,8 @@ export default defineComponent({
   color: var(--link-color);
   margin-top: 5px;
   margin-bottom: 5px;
+  margin-right: 10px;
+  margin-left: 10px;
   overflow: auto;
   max-height: 200px;
 }
