@@ -29,7 +29,7 @@
   },
   "message-context": {
     "quote": "Citer",
-    "edit": "Éditer",
+    "edit": "Éditer"
   },
   "server-context": {
     "mark-as-read": "Marquer comme lu",
@@ -52,7 +52,7 @@
       "interface": "Interface",
       "language": "Langage",
       "delete-account": "Supprimer le compte",
-      "changelog": "Historique des changements"
+      "changelog": "Historique des changements",
       "wip-features": "Fonctions WIP"
     },
     "account": {
@@ -112,7 +112,7 @@
     "language": {
       "details": "Il est possible que vous deviez relancer Nertivia afin d'appliquer les changements. Contribuer en envoyant une PR sur Github.",
       "translators": "Traducteurs"
-    }
+    },
     "interface": {
       "description": "Changer l'apparence de Nertivia.",
       "colors": "Couleurs",
@@ -245,17 +245,13 @@
   "dashboard-tab": {
     "profile": "Profil",
     "notifications": "Notifications",
-<<<<<<< HEAD
-    "click-to-add-custom-status": "Cliquez pour personnaliser votre statut",
-    "dashboard": "Accueil"
-=======
+
     "click-to-add-custom-status": "Cliquez afin de changer de statut",
     "caught-up": "Que c'est calme !",
     "direct-messages": "Messages directs",
     "servers": "Serveurs",
     "explore": "Explorer",
-    "dashboard": "Tableau de bord"
->>>>>>> 3741875a0c935bd14af4ea50f7681fb3c74a2572
+    "dashboard": "Accueil"
   },
   "add-friend-popout": {
     "notice": "Ajoutez un contact en inscrivant son pseudo et son tag.",
