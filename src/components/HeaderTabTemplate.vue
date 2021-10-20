@@ -6,6 +6,7 @@
     :to="tab.path"
     ref="tab"
     @dblclick="openTab"
+    @contextmenu="onRightClick"
   >
     <div class="icon material-icons" v-if="tab.icon || isSavedNotes">
       {{ isSavedNotes ? "book" : tab.icon }}
@@ -45,6 +46,7 @@ import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChan
 import { NotificationsModule } from "@/store/modules/notifications";
 
 import { defineComponent } from "vue";
+import { PopoutsModule } from "@/store/modules/popouts";
 export default defineComponent({
   components: { AvatarImage, UserStatusTemplate },
   props: {
@@ -61,6 +63,19 @@ export default defineComponent({
     this.getTabElement().removeEventListener("auxclick", this.onMiddleClick);
   },
   methods: {
+    onRightClick(event: MouseEvent) {
+      event.preventDefault();
+      PopoutsModule.ShowPopout({
+        id: "context",
+        component: "TabContextMenu",
+        key: this.tab.name + event.clientX + event.clientY,
+        data: {
+          x: event.clientX,
+          y: event.clientY,
+          tab: this.tab,
+        },
+      });
+    },
     getTabElement() {
       return (this.$refs?.tab as any).$el as HTMLElement;
     },

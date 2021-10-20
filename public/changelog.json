@@ -1,5 +1,12 @@
 [
 	{
+		"version": "1.48.1-stable",
+		"date": "20 October 2021",
+		"title": "Tabs Context Menu",
+		"new": "Added context menu to tabs",
+		"image_url": "/img/changelog/tab-header-context-menu-1.48.1.png"	
+	},
+	{
 		"version": "1.48.0-stable",
 		"date": "5th October 2021",
 		"title": "Talk With Your Voice",

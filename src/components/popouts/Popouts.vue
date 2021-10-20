@@ -41,6 +41,9 @@ const components = {
   ServerContextMenu: defineAsyncComponent(
     () => import("@/components/popouts/ServerContextMenu.vue")
   ),
+  TabContextMenu: defineAsyncComponent(
+    () => import("@/components/popouts/TabContextMenu.vue")
+  ),
   ChannelContextMenu: defineAsyncComponent(
     () => import("@/components/popouts/ChannelContextMenu.vue")
   ),
