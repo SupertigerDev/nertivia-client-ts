@@ -32,7 +32,6 @@ export default defineComponent({
     };
     const clicked = (event: any) => {
       const text = props.text || sanitizedUrl.value;
-      console.log(text);
 
       if (text !== sanitizedUrl.value) {
         PopoutsModule.ShowPopout({
