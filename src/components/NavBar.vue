@@ -15,7 +15,7 @@
       @click="changeTab('')"
     >
       <div class="icon material-icons">dashboard</div>
-      <div class="title">Dashboard</div>
+      <div class="title">{{ $t("dashboard-tab.dashboard") }}</div>
     </div>
 
     <div
@@ -27,7 +27,7 @@
       @click="changeTab('explore')"
     >
       <div class="icon material-icons">explore</div>
-      <div class="title">Explore</div>
+      <div class="title">{{ $t("dashboard-tab.explore") }}</div>
     </div>
 
     <div
@@ -40,7 +40,7 @@
       @click="changeTab('dms')"
     >
       <div class="icon material-icons">forum</div>
-      <div class="title">DMs</div>
+      <div class="title">{{ $t("dashboard-tab.direct-messages") }}</div>
     </div>
     <div
       class="item"
@@ -53,7 +53,7 @@
       @click="changeTab('servers')"
     >
       <div class="icon material-icons">dns</div>
-      <div class="title">Servers</div>
+      <div class="title">{{ $t("dashboard-tab.servers") }}</div>
     </div>
     <div
       class="item"
