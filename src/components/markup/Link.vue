@@ -31,7 +31,9 @@ export default defineComponent({
       return false;
     };
     const clicked = (event: any) => {
-      const text = props.text ?? sanitizedUrl;
+      const text = props.text || sanitizedUrl.value;
+      console.log(text);
+
       if (text !== sanitizedUrl.value) {
         PopoutsModule.ShowPopout({
           id: "html-embed-url-sus",
