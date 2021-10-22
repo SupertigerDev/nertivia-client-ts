@@ -38,7 +38,7 @@ export default defineComponent({
         },
         {
           id: "close_other_tab",
-          name: "Close other tab",
+          name: "Close other tabs",
           icon: "clear_all",
         },
         {
