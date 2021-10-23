@@ -6,6 +6,7 @@ import { MessagesModule } from "@/store/modules/messages";
 import { NotificationsModule } from "@/store/modules/notifications";
 import { MutedChannelsModule } from "@/store/modules/mutedChannels";
 import { ServersModule } from "@/store/modules/servers";
+import { voiceChannelModule } from "@/store/modules/voiceChannels";
 
 export const onChannelCreated = (data: { channel: ChannelWithUser }) => {
   if (data.channel.recipients) {
@@ -36,6 +37,10 @@ export const onServerChannelRemoved = (data: {
   channelID: string;
   server_id: string;
 }) => {
+  const joinedVoiceChanneId = voiceChannelModule.joinedChannelId;
+  if (joinedVoiceChanneId === data.channelID) {
+    voiceChannelModule.leave();
+  }
   NotificationsModule.DeleteNotification(data.channelID);
   ChannelsModule.RemoveChannel(data.channelID);
 };
