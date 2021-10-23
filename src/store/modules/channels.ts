@@ -17,6 +17,7 @@ import DmChannelWithUser from "@/interfaces/DmChannelWithUser";
 import { ServersModule } from "./servers";
 import { MessagesModule } from "./messages";
 import { NotificationsModule } from "./notifications";
+import { TabsModule } from "./tabs";
 
 interface ChannelObj {
   [key: string]: Channel;
@@ -119,6 +120,13 @@ class Channels extends VuexModule {
   }
   @Action
   public RemoveChannel(channelID: string) {
+    TabsModule.tabs.forEach((tab, index) => {
+      setTimeout(() => {
+        if (channelID === tab.channel_id && tab.path) {
+          TabsModule.closeTabByPath(tab.path);
+        }
+      }, index * 100);
+    });
     this.REMOVE_CHANNEL(channelID);
   }
   @Action
