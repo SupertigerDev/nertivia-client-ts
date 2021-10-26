@@ -67,6 +67,7 @@ export default defineComponent({
           break;
         }
         case "close_other_tab": {
+          TabsModule.setCurrentTab(this.data.tab);
           [...TabsModule.tabs].forEach((tab, index) => {
             setTimeout(() => {
               if (tab === this.data.tab) {
