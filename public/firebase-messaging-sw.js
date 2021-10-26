@@ -10,7 +10,7 @@ firebase.initializeApp({
   projectId: process.env.projectId,
   storageBucket: process.env.storageBucket,
   messagingSenderId: process.env.messagingSenderId,
-  appId: process.env.appId
+  appId: process.env.appId,
 });
 const nertiviaCDN = process.env.nertiviaCDN;
 
@@ -25,7 +25,7 @@ function titleBuilder(server_name, channel_name, username) {
 
 console.log("FCM Active");
 
-self.addEventListener("notificationclick", function(event) {
+self.addEventListener("notificationclick", function (event) {
   console.log("SW: Clicked notification", event);
 
   const { channel_id, server_id } = event.notification.data;
@@ -39,7 +39,7 @@ self.addEventListener("notificationclick", function(event) {
   self.clients.openWindow(`/app/dms/${channel_id}`);
 });
 
-messaging.setBackgroundMessageHandler(async payload => {
+messaging.setBackgroundMessageHandler(async (payload) => {
   const {
     avatar,
     channel_id,
@@ -48,7 +48,7 @@ messaging.setBackgroundMessageHandler(async payload => {
     username,
     channel_name,
     server_id,
-    server_name
+    server_name,
   } = payload.data;
 
   const tag = `${channel_id}`;
@@ -63,13 +63,13 @@ messaging.setBackgroundMessageHandler(async payload => {
       body: `${messages.join("\n")}\n${body}`,
       tag,
       icon: nertiviaCDN + avatar + "?type=webp",
-      data: { channel_id, server_id }
+      data: { channel_id, server_id },
     });
   }
   return self.registration.showNotification(title, {
     body,
     tag,
     icon: nertiviaCDN + avatar + "?type=webp",
-    data: { channel_id, server_id }
+    data: { channel_id, server_id },
   });
 });
