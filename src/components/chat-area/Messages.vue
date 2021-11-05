@@ -37,7 +37,9 @@ export default defineComponent({
 
     const messageComponent = (grouped: boolean, message: Message) => {
       const Component =
-        message.type === 0 ? MessageTemplate : ActionMessageTemplate;
+        message.type === 0 || !message.type
+          ? MessageTemplate
+          : ActionMessageTemplate;
       return { Component, message, grouped };
     };
 
