@@ -53,6 +53,9 @@ const components = {
   BanOrKickUserPopout: defineAsyncComponent(
     () => import("@/components/popouts/BanOrKickUserPopout.vue")
   ),
+  LeaveServerConfirmPopout: defineAsyncComponent(
+    () => import("@/components/popouts/LeaveServerConfirmPopout.vue")
+  ),
   DeleteMessagePopout: defineAsyncComponent(
     () => import("@/components/popouts/DeleteMessagePopout.vue")
   ),

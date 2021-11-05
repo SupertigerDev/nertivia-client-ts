@@ -111,9 +111,6 @@ export default defineComponent({
     close() {
       PopoutsModule.ClosePopout("context");
     },
-    async leaveServer() {
-      leaveServer(this.server.server_id);
-    },
     itemClick(item: any) {
       switch (item.id) {
         case "server_settings":
@@ -132,7 +129,13 @@ export default defineComponent({
           );
           break;
         case "leave_server":
-          this.leaveServer();
+          PopoutsModule.ShowPopout({
+            id: "leave-server",
+            component: "LeaveServerConfirmPopout",
+            data: {
+              serverId: this.data.server_id,
+            },
+          });
           break;
         case "copy_id":
           toClipboard(this.server.server_id);
