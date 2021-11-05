@@ -129,6 +129,16 @@ export default defineComponent({
   border-radius: 4px;
   transition: 0.2s;
   overflow: hidden;
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 4px;
+    transition: 0.1s;
+    border-radius: 4px;
+  }
   .alert-circle {
     height: 7px;
     width: 7px;
@@ -140,6 +150,9 @@ export default defineComponent({
   .name {
     margin-left: 4px;
   }
+  .material-icons {
+    margin-left: 5px;
+  }
   .version {
     opacity: 0.6;
     font-size: 14px;
@@ -149,6 +162,10 @@ export default defineComponent({
   &:hover {
     background-color: rgba(255, 255, 255, 0.1);
     opacity: 1;
+    &:before {
+      background: var(--primary-color);
+      opacity: 0.4;
+    }
   }
   &.donate {
     background: var(--alert-color);
@@ -157,6 +174,9 @@ export default defineComponent({
     flex-direction: column;
     align-items: initial;
     padding-bottom: 5px;
+    &:before {
+      width: 0;
+    }
     img {
       height: 30px;
       width: 30px;
@@ -175,13 +195,8 @@ export default defineComponent({
   &.selected {
     background: rgba(255, 255, 255, 0.1);
     &:before {
-      content: "";
-      position: absolute;
       background: var(--primary-color);
-      left: 0;
-      top: 0;
-      width: 3px;
-      bottom: 0;
+      opacity: 1;
     }
     opacity: 1;
   }

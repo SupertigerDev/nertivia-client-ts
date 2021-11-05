@@ -142,12 +142,18 @@ export default defineComponent({
     content: "";
     position: absolute;
     left: 0;
-    top: 0;
-    width: 3px;
-    bottom: 0;
+    top: 10px;
+    bottom: 10px;
+    width: 4px;
+    transition: 0.1s;
+    border-radius: 4px;
   }
   &:hover {
     background: rgba(255, 255, 255, 0.1);
+    &:before {
+      background: var(--primary-color);
+      opacity: 0.4;
+    }
     .icon {
       opacity: 0.6;
       &:hover {
@@ -155,10 +161,12 @@ export default defineComponent({
       }
     }
   }
+
   &.selected {
     background: rgba(255, 255, 255, 0.1);
     &:before {
       background: var(--primary-color);
+      opacity: 1;
     }
     .icon {
       opacity: 0.6;

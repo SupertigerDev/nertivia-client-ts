@@ -10,12 +10,14 @@
         selected: isChannelSelected,
         hasNotification: notificationExists,
         hasIcon: iconURL != null,
+        isMuted,
       }"
       :style="channelStyle"
       @contextmenu.prevent="showContext"
     >
       <div class="icon" aria-hidden="true"></div>
       <div class="name">{{ channel.name }}</div>
+      <div class="muted material-icons" v-if="isMuted">notifications_off</div>
     </router-link>
     <div class="call-participants" v-if="callParticipants.length">
       <div class="text">In call:</div>
@@ -129,7 +131,6 @@ export default defineComponent({
   margin-inline: 0.5rem;
   padding-inline: 0.5rem 0.5rem;
 
-  border-inline-start: 3px solid transparent;
   border-radius: 3px;
 
   color: rgb(255 255 255 / 0.7);
@@ -138,25 +139,47 @@ export default defineComponent({
   user-select: none;
   white-space: nowrap;
   overflow: hidden;
+  &.isMuted {
+    grid-template-columns: 1rem 1fr 1rem;
+  }
+  .muted {
+    opacity: 0.4;
+    font-size: 18px;
+  }
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 5px;
+    bottom: 5px;
+    width: 4px;
+    transition: 0.1s;
+    border-radius: 4px;
+  }
 
   &:hover {
     background: rgb(255 255 255 / 0.1);
+    &:before {
+      background: var(--primary-color);
+      opacity: 0.4;
+    }
   }
 
   &.selected,
   &.hasNotification {
-    border-start-start-radius: 0px;
-    border-end-start-radius: 0px;
-  }
-
-  &.hasNotification {
-    border-color: var(--alert-color);
+    &:before {
+      background: var(--alert-color);
+      opacity: 1;
+    }
   }
 
   &.selected {
     color: white;
     background: rgb(255 255 255 / 0.1);
-    border-color: var(--primary-color);
+    &:before {
+      background: var(--primary-color);
+      opacity: 1;
+    }
   }
 }
 .call-participants {

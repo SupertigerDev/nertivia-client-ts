@@ -88,24 +88,37 @@ export default defineComponent({
   opacity: 0.8;
   border-radius: 4px;
   transition: 0.2s;
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 4px;
+    transition: 0.1s;
+    border-radius: 4px;
+  }
+
   .name {
     margin-left: 4px;
   }
+  .material-icons {
+    margin-left: 5px;
+  }
   &:hover {
     background-color: rgba(255, 255, 255, 0.1);
+    &:before {
+      background: var(--primary-color);
+      opacity: 0.4;
+    }
     opacity: 1;
   }
   &.selected {
     background: rgba(255, 255, 255, 0.1);
     opacity: 1;
     &:before {
-      content: "";
-      position: absolute;
       background: var(--primary-color);
-      left: 0;
-      top: 0;
-      width: 3px;
-      bottom: 0;
+      opacity: 1;
     }
   }
 }
