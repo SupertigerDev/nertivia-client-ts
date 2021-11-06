@@ -23,9 +23,10 @@
               {{ server.name }}?
             </span>
             <div class="buttons">
-              <CustomButton :name="$t('back')" @click="close" />
+              <CustomButton :name="$t('back')" @click="close" icon="clear" />
               <!-- TODO: i18n -->
               <CustomButton
+                icon="exit_to_app"
                 @click="buttonClicked"
                 :name="requestSent ? 'Leaving...' : 'Leave'"
                 :alert="true"
