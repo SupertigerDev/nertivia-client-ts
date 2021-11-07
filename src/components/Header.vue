@@ -4,19 +4,6 @@
       menu
     </div>
     <Tabs />
-    <!-- <AvatarImage
-      v-if="DMUser"
-      class="avatar"
-      :willHaveClickEvent="true"
-      :seedId="DMUser.id"
-      @click="showProfile"
-      :imageId="DMUser.avatar"
-      size="30px"
-    />
-    <div class="name" :class="{ clickable: DMChannel }" @click="showProfile">
-      {{ title }}
-    </div>
-    <UserStatusTemplate class="status" v-if="DMUser" :id="DMUser.id" /> -->
     <div
       class="call-button-outer"
       v-if="isServerChannel"

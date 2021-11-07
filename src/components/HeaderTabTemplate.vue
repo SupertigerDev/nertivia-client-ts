@@ -142,7 +142,7 @@ export default defineComponent({
   align-items: center;
   padding-left: 5px;
   padding-right: 5px;
-  height: 26px;
+  height: 30px;
   background: rgba(0, 0, 0, 0.4);
   border-radius: 4px;
   flex-shrink: 0;
@@ -162,7 +162,7 @@ export default defineComponent({
     }
   }
   &.selected {
-    background: rgba(0, 0, 0, 0.6);
+    background: rgb(0, 0, 0, 0.3);
     .title {
       color: white;
     }

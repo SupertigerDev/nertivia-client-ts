@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.48.2-stable",
+		"date": "07 November 2021",
+		"title": "Header Color Change",
+		"new": ["Made changes to header colors", "New tabs will now scroll in to view."]
+	},
+	{
 		"version": "1.48.1-stable",
 		"date": "20 October 2021",
 		"title": "Tabs Context Menu",

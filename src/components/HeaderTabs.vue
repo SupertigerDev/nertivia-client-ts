@@ -5,6 +5,7 @@
     :delay="$isMobile ? 400 : 0"
     ghost-class="ghost"
     direction="horizontal"
+    ref="scroller"
     v-model="tabs"
     item-key="name"
   >
@@ -23,6 +24,30 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "HeaderTabs",
   components: { Tab, Draggable },
+  mounted() {
+    setTimeout(() => {
+      this.scrollToTab();
+    }, 1000);
+  },
+  methods: {
+    scrollToTab() {
+      const scroller = (this.$refs.scroller as any)?.$el as HTMLElement;
+      if (!scroller) return;
+      const index = this.currentTabIndex;
+      if (index < 0) return;
+      this.$nextTick(() => {
+        scroller.children[index].scrollIntoView();
+      })
+    },
+  },
+  watch: {
+    currentTabIndex: {
+      immediate: true,
+      handler() {
+        this.scrollToTab();
+      },
+    },
+  },
   computed: {
     tabs: {
       get(): any {
@@ -55,46 +80,6 @@ export default defineComponent({
   &::-webkit-scrollbar {
     width: 3px;
     height: 3px;
-  }
-}
-.tab {
-  display: flex;
-  align-items: center;
-  padding: 5px;
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 4px;
-  flex-shrink: 0;
-  align-self: center;
-  cursor: pointer;
-  max-width: 200px;
-  .title {
-    color: rgba(255, 255, 255, 0.6);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .material-icons {
-    font-size: 14px;
-    margin-left: 3px;
-    padding: 5px;
-    opacity: 0;
-    border-radius: 4px;
-    &:hover {
-      background: rgba(255, 255, 255, 0.3);
-    }
-  }
-  &:hover {
-    .material-icons {
-      opacity: 1;
-    }
-  }
-  &.selected {
-    .title {
-      color: white;
-    }
-    .material-icons {
-      opacity: 1;
-    }
   }
 }
 </style>
