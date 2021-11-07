@@ -5,8 +5,8 @@
       <div class="title">Nertivia</div>
     </div>
     <div class="buttons">
-      <div class="button material-icons" @click="minimize">minimize</div>
-      <div class="button material-icons" @click="maximize">stop</div>
+      <div class="button" @click="minimize"><div class="minimize" /></div>
+      <div class="button" @click="maximize"><div class="maximize" /></div>
       <div class="button material-icons warn" @click="close">close</div>
     </div>
   </div>
@@ -62,28 +62,45 @@ export default defineComponent({
   display: flex;
   overflow: hidden;
   align-self: center;
-  margin-right: 2px;
+  margin-right: 4px;
+  margin-top: 2px;
 }
 .button {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
-  width: 50px;
-  height: 27px;
+  width: 35px;
+  height: 23px;
   margin-left: 2px;
   border-radius: 4px;
   transition: 0.2s;
   user-select: none;
   margin-bottom: 1px;
-  background: rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.7);
   &:hover {
+    .maximize {
+      border: solid 2px white;
+    }
+    .minimize {
+      background: white;
+    }
     color: white;
     background: var(--primary-color);
     &.warn {
       background: var(--alert-color);
     }
+  }
+  .maximize {
+    height: 8px;
+    width: 8px;
+    border: solid 2px rgba(255, 255, 255, 0.7);
+    border-radius: 2px;
+  }
+  .minimize {
+    height: 2px;
+    width: 10px;
+    background: rgba(255, 255, 255, 0.7);
   }
 }
 .logo {
