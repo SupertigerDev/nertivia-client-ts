@@ -11,6 +11,7 @@
     <div class="icons">
       <div v-if="sharingScreen" class="material-icons">tv</div>
       <div class="material-icons" v-if="streamingAudio">mic</div>
+      <div class="material-icons alert" v-if="!streamingAudio">mic_off</div>
     </div>
   </div>
 </template>
@@ -50,7 +51,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .call-template {
   display: flex;
   align-items: center;
@@ -63,6 +64,9 @@ export default defineComponent({
   display: flex;
   margin-left: auto;
   margin-right: 3px;
+  .alert {
+    color: var(--alert-color);
+  }
 }
 .username {
   opacity: 0.7;
