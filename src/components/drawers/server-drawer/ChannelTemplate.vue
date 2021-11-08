@@ -121,6 +121,7 @@ export default defineComponent({
   grid-template-columns: 1rem 1fr;
   grid-template-rows: min-content;
   gap: 0.25rem;
+  position: relative;
 
   align-content: center;
 
