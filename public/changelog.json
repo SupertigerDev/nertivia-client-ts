@@ -1,6 +1,6 @@
 [
 	{
-		"version": "1.49.1-stable",
+		"version": "1.49.0-stable",
 		"date": "08 November 2021",
 		"title": "Bug Fix & Call Improvements",
 		"fixes": "Fixed a firefox bug related to selected server channels.",
