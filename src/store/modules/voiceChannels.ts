@@ -234,6 +234,19 @@ class VoiceChannels extends VuexModule {
   }
 
   @Action
+  public removeVideoStream() {
+    const videoStream = this.videoStream;
+    if (!videoStream) return;
+    const voiceChannelPeers = Object.values(
+      this.voiceChannelUsers[this.joinedChannelId || ""] || {}
+    );
+    videoStream.getTracks().forEach((track) => track.stop());
+    voiceChannelPeers.forEach((p) => {
+      p.peer?.removeStream(videoStream);
+    });
+    this.UPDATE_LOCAL_STREAM({ type: "video", stream: null });
+  }
+  @Action
   public addStream(payload: { stream: MediaStream; type: "audio" | "video" }) {
     const oldStream =
       payload.type === "audio" ? this.audioStream : this.videoStream;
@@ -287,5 +300,23 @@ class VoiceChannels extends VuexModule {
   private REMOVE_AUDIO_STREAM() {
     this.audioStream = null;
   }
+  @Action
+  public toggleMic() {
+    if (this.audioStream) {
+      this.removeAudioStream();
+      return;
+    }
+    const constaints: any = { audio: true };
+
+    if (localStorage["inputDeviceId"]) {
+      constaints.deviceId = {
+        exact: localStorage["inputDeviceId"],
+      };
+    }
+    navigator.mediaDevices.getUserMedia(constaints).then((stream) => {
+      this.addStream({ type: "audio", stream });
+    });
+  }
 }
+
 export const voiceChannelModule = getModule(VoiceChannels);

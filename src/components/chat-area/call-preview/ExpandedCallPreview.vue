@@ -94,20 +94,7 @@ export default defineComponent({
   },
   methods: {
     toggleMic() {
-      if (this.emittingVoice) {
-        voiceChannelModule.removeAudioStream();
-        return;
-      }
-      const constaints: any = { audio: true };
-
-      if (localStorage["inputDeviceId"]) {
-        constaints.deviceId = {
-          exact: localStorage["inputDeviceId"],
-        };
-      }
-      navigator.mediaDevices.getUserMedia(constaints).then((stream) => {
-        voiceChannelModule.addStream({ type: "audio", stream });
-      });
+      voiceChannelModule.toggleMic();
     },
     settingsClicked() {
       router.push("/app/settings/call-options");

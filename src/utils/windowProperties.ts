@@ -6,14 +6,17 @@ const data = reactive({
   resizeHeight: 0,
   isFocused: document.hasFocus(),
   lastClickedElement: null as HTMLElement | null,
+  isMobileWidth: false,
 });
 
 data.resizeWidth = window.innerWidth;
 data.resizeHeight = window.innerHeight;
+data.isMobileWidth = window.innerWidth <= 950;
 
 function onResize() {
   data.resizeWidth = window.innerWidth;
   data.resizeHeight = window.innerHeight;
+  data.isMobileWidth = window.innerWidth <= 950;
 }
 function onMouseDown(event: MouseEvent) {
   data.lastClickedElement = event.target as any;

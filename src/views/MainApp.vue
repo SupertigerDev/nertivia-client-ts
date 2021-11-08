@@ -21,6 +21,7 @@
             />
           </transition>
           <router-view v-if="loadPage" />
+          <MobileInCallFooter v-if="isMobileWidth && isInCall" />
         </div>
       </template>
     </Drawers>
@@ -53,6 +54,7 @@ import { TabsModule } from "@/store/modules/tabs";
 import { defineComponent } from "vue";
 import store from "@/store";
 import { PopoutsModule } from "@/store/modules/popouts";
+import { voiceChannelModule } from "@/store/modules/voiceChannels";
 
 const Drawers = defineAsyncComponent(
   () => import("@/components/drawers/Drawers.vue")
@@ -64,6 +66,9 @@ const LeftDrawer = defineAsyncComponent(
 );
 const RightDrawer = defineAsyncComponent(
   () => import("@/components/drawers/RightDrawer.vue")
+);
+const MobileInCallFooter = defineAsyncComponent(
+  () => import("@/components/MobileInCallFooter.vue")
 );
 
 export default defineComponent({
@@ -78,6 +83,7 @@ export default defineComponent({
     ElectronBadgeHandler,
     ElectronActivityHandler,
     UpdateChecker,
+    MobileInCallFooter
   },
   data() {
     return {
@@ -100,6 +106,12 @@ export default defineComponent({
     isConnected(): any {
       return MeModule.connected;
     },
+    isMobileWidth() {
+      return useWindowProperties().isMobileWidth;
+    },
+    isInCall() {
+      return voiceChannelModule.joinedChannelId;
+    }
   },
   watch: {
     currentChannelID: {

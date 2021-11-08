@@ -36,7 +36,7 @@ export default defineComponent({
   color: rgba(255, 255, 255, 0.7);
   font-size: 14px;
   flex-shrink: 0;
-  margin-left: 20px;
+  margin-left: 5px;
 }
 .bullet {
   display: flex;
