@@ -78,6 +78,7 @@
     </div>
 
     <div class="gap" />
+    <NavBarInCall v-if="isInCall && !isMobileWidth" />
     <div
       class="item me"
       :class="{ selected: isProfileOpened }"
@@ -85,12 +86,7 @@
       @click="showCardPopup"
     >
       <div class="status-dot" :style="{ backgroundColor: presence.color }" />
-      <AvatarImage
-        class="avatar"
-        size="25px"
-        :image-id="me.avatar"
-        :seed-id="me.id"
-      />
+      <AvatarImage class="avatar" size="25px" :image-id="me.avatar" :seed-id="me.id" />
       <div class="title">{{ me.username }}</div>
     </div>
 
@@ -110,9 +106,6 @@
 </template>
 
 <script lang="ts">
-const AvatarImage = defineAsyncComponent(
-  () => import("@/components/AvatarImage.vue")
-);
 import userStatuses from "@/constants/userStatuses";
 import { AppUpdateModule } from "@/store/modules/appUpdate";
 import { DrawersModule } from "@/store/modules/drawers";
@@ -124,12 +117,25 @@ import { NotificationsModule } from "@/store/modules/notifications";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { PresencesModule } from "@/store/modules/presences";
 import { ReactiveLocalStorageModule } from "@/store/modules/reactiveLocalStorage";
-import { defineAsyncComponent } from "vue";
-import { defineComponent } from "vue";
+import { voiceChannelModule } from "@/store/modules/voiceChannels";
+import { useWindowProperties } from "@/utils/windowProperties";
+import { defineComponent, defineAsyncComponent } from "vue";
+const AvatarImage = defineAsyncComponent(
+  () => import("@/components/AvatarImage.vue")
+);
+const NavBarInCall = defineAsyncComponent(
+  () => import("@/components/NavBarInCall.vue")
+);
 export default defineComponent({
   name: "NavBar",
-  components: { AvatarImage },
+  components: { AvatarImage, NavBarInCall },
   computed: {
+    isInCall() {
+      return voiceChannelModule.joinedChannelId;
+    },
+    isMobileWidth() {
+      return useWindowProperties().isMobileWidth;
+    },
     showSettings(): any {
       return ReactiveLocalStorageModule.getStore("showSettingsInNavigation");
     },

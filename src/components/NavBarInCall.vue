@@ -1,7 +1,13 @@
 <template>
-  <div class="mobile-in-call">
-    <div class="icon material-icons">call</div>
-    <MentionChannel :channel="channel" />
+  <div class="in-call">
+    <div class="avatar" @click="goToChannel">
+      <AvatarImage
+        size="40px"
+        :imageId="server.avatar"
+        :seedId="server.server_id"
+      />
+      <div class="material-icons call-icon">call</div>
+    </div>
     <div class="icons">
       <div
         v-if="sharingScreen"
@@ -24,17 +30,24 @@
     </div>
   </div>
 </template>
+
 <script lang="ts">
+import router from "@/router";
 import { ChannelsModule } from "@/store/modules/channels";
-import MentionChannel from "@/components/markup/MentionChannel.vue";
+import { ServersModule } from "@/store/modules/servers";
 import { voiceChannelModule } from "@/store/modules/voiceChannels";
-import { computed, defineComponent } from "vue";
+import { defineComponent, computed } from "vue";
+import AvatarImage from "./AvatarImage.vue";
 export default defineComponent({
-  components: { MentionChannel },
+  components: { AvatarImage },
   setup() {
     const channel = computed(() => {
       const channelId = voiceChannelModule.joinedChannelId as string;
       return ChannelsModule.channels[channelId];
+    });
+    const server = computed(() => {
+      const serverId = channel.value.server_id as string;
+      return ServersModule.servers[serverId];
     });
 
     const sharingScreen = computed(() => voiceChannelModule.videoStream);
@@ -43,37 +56,50 @@ export default defineComponent({
     const toggleMic = () => voiceChannelModule.toggleMic();
     const turnOffScreenshare = () => voiceChannelModule.removeVideoStream();
     const endCall = () => voiceChannelModule.leave();
+    const goToChannel = () =>
+      router.push(
+        `/app/servers/${channel.value.server_id}/${channel.value.channelID}`
+      );
 
     return {
-      channel,
+      server,
       sharingScreen,
       streamingAudio,
       toggleMic,
       turnOffScreenshare,
-      endCall
+      endCall,
+      goToChannel,
     };
   },
 });
 </script>
+
 <style lang="scss" scoped>
-.mobile-in-call {
+.in-call {
   display: flex;
-  height: 40px;
-  align-items: center;
-  flex-shrink: 0;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
 }
-.icon {
-  margin-left: 5px;
-  margin-right: 5px;
-  color: var(--success-color);
+.avatar {
+  padding: 1px;
+  position: relative;
+  cursor: pointer;
+  .call-icon {
+    position: absolute;
+    top: 25px;
+    color: var(--success-color);
+  }
 }
 .icons {
   display: flex;
-  margin-left: auto;
-  margin-right: 3px;
+  margin-top: 10px;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
   flex-shrink: 0;
   div {
-    width: 30px;
+    height: 40px;
     cursor: pointer;
     user-select: none;
   }

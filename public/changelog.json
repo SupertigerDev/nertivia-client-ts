@@ -1,11 +1,11 @@
 [
 	{
-		"version": "1.49.0-stable",
+		"version": "1.49.1-stable",
 		"date": "08 November 2021",
 		"title": "Bug Fix & Call Improvements",
 		"fixes": "Fixed a firefox bug related to selected server channels.",
 		"new": [
-			"Added in call footer for mobile so it's easier to know if you're still in a call.",
+			"Added in call footer for mobile and navbar for desktop so it's easier to know if you're still in a call.",
 			"Added screenshare and mute icons to channel template.",
 			"Added Mute icon when call is muted."
 		],
