@@ -9,6 +9,7 @@
         :inputElement="$refs.textarea"
         @close="showEmojiPicker = false"
       />
+      <GifPicker v-if="showGifPicker" @close="showGifPicker = false" />
       <DoodlePopout v-if="showDoodlePopout" @close="showDoodlePopout = false" />
       <ScrollDownButton v-if="!isScrolledDown" />
     </div>
@@ -64,6 +65,11 @@
         v-if="!editingMessageID"
         @click="showDoodlePopout = !showDoodlePopout"
         icon="draw"
+      />
+      <ButtonTemplate
+        class="button gif-button"
+        icon="gif"
+        @click="showGifPicker = !showGifPicker"
       />
       <ButtonTemplate
         class="button emoji-button"
@@ -148,6 +154,9 @@ import Channel from "@/interfaces/Channel";
 const EmojiPicker = defineAsyncComponent(
   () => import("@/components/emoji-picker/EmojiPicker.vue")
 );
+const GifPicker = defineAsyncComponent(
+  () => import("@/components/gif-picker/GifPicker.vue")
+);
 const DoodlePopout = defineAsyncComponent(
   () => import("@/components/chat-area/DoodlePopout.vue")
 );
@@ -164,12 +173,14 @@ export default defineComponent({
     ScrollDownButton,
     RateLimitPopup,
     DoodlePopout,
+    GifPicker,
   },
   data() {
     return {
       postTypingTimeout: null as number | null,
       saveInputTimeout: null as number | null,
       showEmojiPicker: false,
+      showGifPicker: false,
       showDoodlePopout: false,
     };
   },
