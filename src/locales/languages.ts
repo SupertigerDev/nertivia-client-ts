@@ -44,4 +44,9 @@ export default {
     unicode: "🇹🇷",
     translators: ["ekto", "sicey9", "0xClique"],
   },
+  hu: {
+    name: "Hungarian /Magyar",
+    unicode: "🇭🇺",
+    translators: ["Andrew"],
+  },
 };
