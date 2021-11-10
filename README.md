@@ -11,7 +11,7 @@ Check out nertivia at https://nertivia.net
 1. Fork this repo.
 2. Clone the forked github repo
 3. run `npm i` inside the folder.
-4. Rename `server.env` to just `.env`
+4. Rename `example.env` to `.env`
 5. Run the server by `npm run serve`
 6. Navigate to http://local.nertivia.net and start your development
 7. Submit a PR :)
