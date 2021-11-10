@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.49.1-stable",
+		"date": "10 November 2021",
+		"title": "New Notification Setting!",
+		"new": "New option has been added which allows you to get notification sounds only for mentions or direct messages. (Thanks to Laika)"
+	},
+	{
 		"version": "1.49.0-stable",
 		"date": "08 November 2021",
 		"title": "Bug Fix & Call Improvements",
