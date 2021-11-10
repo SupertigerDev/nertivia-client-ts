@@ -67,6 +67,8 @@
       "title": "Change your notification settings.",
       "notification-sound": "Notification Sound",
       "notification-sound-details": "Makes a cool sound to get your attention",
+      "notification-mentions-only": "Mentions/Direct Messages Only",
+      "notification-mentions-only-details": "Makes it so only mentions and direct messages will make sound and be pushed.",
       "push-notification": "Push Notification",
       "push-notification-details": "Get push notifications even when the app is closed."
     },

@@ -17,6 +17,11 @@ export default defineComponent({
     firstDmNotification(): any {
       return NotificationsModule.allDMNotifications?.reverse()?.[0];
     },
+    isMentionsOnly() {
+      const state = localStorage["notificationMentionsOnly"];
+      if (state === undefined) return false;
+      return JSON.parse(state);
+    },
   },
   watch: {
     firstServerNotification: {
@@ -34,7 +39,17 @@ export default defineComponent({
       this.setElectronBadge();
     },
     setElectronBadge() {
-      if (this.firstServerNotification || this.firstDmNotification) {
+      if(this.firstServerNotification) {
+        if(this.isMentionsOnly) {
+          //Return if not mentioned, otherwise continue.
+          if(!this.firstServerNotification[1]) {
+            return;
+          }
+        }
+        electronBridge?.send("notification_badge", 1);
+        return;
+      }
+      if (this.firstDmNotification) {
         electronBridge?.send("notification_badge", 1);
         return;
       }
