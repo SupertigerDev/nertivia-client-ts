@@ -20,6 +20,13 @@
         @change="pushNotificationToggled"
         :description="$t('settings.notification.push-notification-details')"
       />
+      <CheckBox
+        v-model="notificationMentionsOnly"
+        :name="$t('settings.notification.notification-mentions-only')"
+        class="check-box"
+        :description="$t('settings.notification.notification-mentions-only-details')"
+        @change="notificationMentionsOnlyToggled"
+      />
     </div>
   </div>
 </template>
@@ -38,10 +45,12 @@ export default defineComponent({
       notificationSound: false,
       FCMSupported: messagingSupported,
       pushNotification: JSON.parse(localStorage["pushNotification"] || "false"),
+      notificationMentionsOnly: false,
     };
   },
   mounted() {
     this.configureNotificationSound();
+    this.configureNotificationMentionsOnly();
   },
   methods: {
     configureNotificationSound() {
@@ -55,6 +64,19 @@ export default defineComponent({
     notificationSoundToggled(state: boolean) {
       this.notificationSound = state;
       localStorage["notificationSoundDisabled"] = !state;
+    },
+    configureNotificationMentionsOnly() {
+      const state = localStorage["notificationMentionsOnly"];
+      if(state === undefined) {
+        this.notificationMentionsOnly = false;
+        return;
+      }
+      this.notificationMentionsOnly = JSON.parse(state);
+    },
+    notificationMentionsOnlyToggled(state: boolean) {
+      this.notificationMentionsOnly = state;
+      //Should be fine since not inverted like L:65.
+      localStorage["notificationMentionsOnly"] = state;
     },
     pushNotificationToggled(state: boolean) {
       if (!state) {

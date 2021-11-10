@@ -12,6 +12,16 @@ export default defineComponent({
     serverNotificationCount(): any {
       return LastSeenServerChannelsModule.allServerNotifications.length;
     },
+    anyMentionNotifications(): any {
+      let notifPresent = false;
+      for(let i = 0; i < LastSeenServerChannelsModule.allServerNotifications.length; i++) {
+        const currentNotif = LastSeenServerChannelsModule.allServerNotifications[i];
+        if(currentNotif.mentioned) {
+          notifPresent = true;
+        }
+      }
+      return notifPresent;
+    },
     dmNotificationCount(): any {
       return NotificationsModule.allDMNotifications.length;
     },
@@ -25,9 +35,20 @@ export default defineComponent({
     },
   },
   methods: {
+    isMentionsOnly() {
+      const state = localStorage["notificationMentionsOnly"];
+      if (state === undefined) return false;
+      return JSON.parse(state);
+    },
     onNotification() {
-      const condition =
+      let condition =
         this.serverNotificationCount || this.dmNotificationCount;
+      if(this.isMentionsOnly() && !this.anyMentionNotifications) {
+        //No DM's present, then return.
+        if(!(this.dmNotificationCount > 0)) {
+          condition = 0;
+        }
+      }  
       this.setNotificationICO(Boolean(condition));
     },
     setNotificationICO(set: boolean) {

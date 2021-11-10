@@ -18,6 +18,13 @@ interface PlayNotificationData {
   serverID?: string;
 }
 
+function isDirectMessage(server: any) {
+  if(server === undefined) {
+    return true;
+  }
+  return false;
+}
+
 function playNotificationSound(data: PlayNotificationData) {
   const focused = document.hasFocus();
   const channelSelected = ChannelsModule.isChannelOpen(data.channelID);
@@ -25,6 +32,7 @@ function playNotificationSound(data: PlayNotificationData) {
   const scrolledDown = MessageLogStatesModule.isScrolledDown(data.channelID);
   const muteServer =
     data.serverID && MutedServersModule.serverSoundMuted(data.serverID);
+  const dm = isDirectMessage(data.serverID);  
 
   if (muteServer) {
     return;
@@ -33,15 +41,15 @@ function playNotificationSound(data: PlayNotificationData) {
     return;
   }
   if (!focused) {
-    notificationSound.notification(data.mentioned);
+    notificationSound.notification(data.mentioned, dm);
     return;
   }
   if (!scrolledDown) {
-    notificationSound.notification(data.mentioned);
+    notificationSound.notification(data.mentioned, dm);
     return;
   }
   if (!(channelSelected && ["dms", "servers"].includes(tab))) {
-    notificationSound.notification(data.mentioned);
+    notificationSound.notification(data.mentioned, dm);
   }
 }
 
