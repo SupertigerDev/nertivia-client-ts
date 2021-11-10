@@ -4,12 +4,20 @@
       <SuggestionPopouts ref="suggestionPopouts" />
       <FileUpload v-if="uploadFile" :key="uploadFile.name + uploadFile.size" />
       <RateLimitPopup v-if="rateLimit" />
-      <EmojiPicker
+      <PickerArea
         v-if="showEmojiPicker"
         :inputElement="$refs.textarea"
+        defaultTab="EMOJI"
+        buttonClassName=".emoji-button"
         @close="showEmojiPicker = false"
       />
-      <GifPicker v-if="showGifPicker" @close="showGifPicker = false" />
+      <PickerArea
+        v-if="showGifPicker"
+        :inputElement="$refs.textarea"
+        defaultTab="GIF"
+        buttonClassName=".gif-button"
+        @close="showGifPicker = false"
+      />
       <DoodlePopout v-if="showDoodlePopout" @close="showDoodlePopout = false" />
       <ScrollDownButton v-if="!isScrolledDown" />
     </div>
@@ -151,11 +159,9 @@ import {
 import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
 import { TabsModule } from "@/store/modules/tabs";
 import Channel from "@/interfaces/Channel";
-const EmojiPicker = defineAsyncComponent(
-  () => import("@/components/emoji-picker/EmojiPicker.vue")
-);
-const GifPicker = defineAsyncComponent(
-  () => import("@/components/gif-picker/GifPicker.vue")
+
+const PickerArea = defineAsyncComponent(
+  () => import("@/components/picker-area/PickerArea.vue")
 );
 const DoodlePopout = defineAsyncComponent(
   () => import("@/components/chat-area/DoodlePopout.vue")
@@ -167,13 +173,12 @@ export default defineComponent({
     FileUpload,
     TypingStatus,
     EditPanel,
-    EmojiPicker,
     ButtonTemplate,
     SuggestionPopouts,
     ScrollDownButton,
     RateLimitPopup,
     DoodlePopout,
-    GifPicker,
+    PickerArea,
   },
   data() {
     return {

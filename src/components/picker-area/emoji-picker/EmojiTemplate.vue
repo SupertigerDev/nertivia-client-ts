@@ -57,7 +57,7 @@ export default defineComponent({
 }
 .emoji {
   &.default {
-    background-image: url("../../assets/emojiSprites.png");
+    background-image: url("../../../assets/emojiSprites.png");
     background-position: 0px 0px;
     background-repeat: no-repeat;
     background-size: 1000px;
