@@ -7,6 +7,12 @@
       placeholder="Search"
       v-model="search"
     />
+    <GifSearch
+      :inputElement="inputElement"
+      v-if="search.trim().length"
+      :items="searchResults"
+      @close="$emit('close')"
+    />
     <Categories
       v-if="!search.trim().length"
       :items="categories"
@@ -18,18 +24,39 @@
 <script lang="ts">
 import VirtualList from "@supertiger/vue-3-virtual-scroll-list";
 import { defineComponent } from "vue";
-import { tenorCategories, TenorCategory } from "@/services/tenorService";
-import Categories from "./Categories.vue";
+import {
+  tenorCategories,
+  TenorCategory,
+  TenorSearch,
+  tenorSearch,
+} from "@/services/tenorService";
+import Categories from "./GifCategories.vue";
+import GifSearch from "./GifSearch.vue";
 
 export default defineComponent({
   props: ["inputElement"],
   emits: ["click", "close"],
-  components: { Categories },
+  components: { Categories, GifSearch },
   data() {
     return {
       search: "",
       categories: [] as TenorCategory[],
+      searchResults: [] as TenorSearch[],
+      searchTimeout: null as null | number,
     };
+  },
+  methods: {
+    async fetchSearch() {
+      if (!this.search) return;
+      this.searchResults = await tenorSearch(this.search);
+    },
+  },
+  watch: {
+    search() {
+      if (this.searchTimeout) clearTimeout(this.searchTimeout);
+      this.searchTimeout = null;
+      this.searchTimeout = window.setTimeout(this.fetchSearch, 1000);
+    },
   },
   async mounted() {
     this.categories = await tenorCategories();
