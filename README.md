@@ -17,7 +17,7 @@ Check out nertivia at https://nertivia.net
 7. Submit a PR :)
 
 
-## Screenshots
+# Screenshots
 ![alt text](https://raw.githubusercontent.com/supertiger1234/nertivia-client-ts/master/preview/Nertivia%20Client.jpg)
 ![alt text](https://raw.githubusercontent.com/supertiger1234/nertivia-client-ts/master/preview/Nertivia%20Servers%20List.jpg)
 ![alt text](https://raw.githubusercontent.com/supertiger1234/nertivia-client-ts/master/preview/Nertivia%20Dashboard.jpg)
