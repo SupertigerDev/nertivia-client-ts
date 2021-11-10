@@ -28,6 +28,9 @@ const process = {
 module.exports = {
   transpileDependencies: ["vuex-module-decorators"],
   configureWebpack: {},
+  devServer: {
+    disableHostCheck: true,
+  },
   pwa: {
     manifestOptions: {
       name: "Nertivia",
