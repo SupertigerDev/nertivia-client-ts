@@ -13,10 +13,18 @@ function isNotificationDisabled() {
   if (state === undefined) return false;
   return JSON.parse(state);
 }
+function isNotificationMentionOnly() {
+  const state = localStorage["notificationMentionsOnly"];
+  if (state === undefined) return false;
+  return JSON.parse(state);
+}
 
 export default {
-  notification: async (mentioned: boolean) => {
+  notification: async (mentioned: boolean, dm: boolean) => {
     if (isBusy() || isNotificationDisabled()) return;
+    if (isNotificationMentionOnly() && !mentioned && !dm) {
+      return;
+    }
     const audio = new Audio(
       mentioned
         ? (await mentionSound()).default
