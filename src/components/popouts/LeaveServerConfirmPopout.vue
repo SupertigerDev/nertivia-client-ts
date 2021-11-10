@@ -4,8 +4,9 @@
       <div class="content animate-in">
         <div class="header">
           <AvatarImage
-            :imageId="server.avatar"
-            :seedId="server.server_id"
+            v-if="server"
+            :imageId="server?.avatar"
+            :seedId="server?.server_id"
             :animateGif="false"
             size="30px"
             class="avatar"
