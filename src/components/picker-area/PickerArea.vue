@@ -6,6 +6,12 @@
       @click="$emit('click', $event)"
       @close="$emit('close')"
     />
+    <GifPicker
+      v-if="tab === 'GIF'"
+      :inputElement="inputElement"
+      @click="$emit('click', $event)"
+      @close="$emit('close')"
+    />
     <div class="features" v-if="!hideTabs">
       <div
         class="button"
@@ -31,9 +37,12 @@ import { defineAsyncComponent, defineComponent, PropType } from "vue";
 const EmojiPicker = defineAsyncComponent(
   () => import("./emoji-picker/EmojiPicker.vue")
 );
+const GifPicker = defineAsyncComponent(
+  () => import("./gif-picker/GifPicker.vue")
+);
 
 export default defineComponent({
-  components: { EmojiPicker },
+  components: { EmojiPicker, GifPicker },
   emits: ["close", "click"],
   props: {
     inputElement: Object,
