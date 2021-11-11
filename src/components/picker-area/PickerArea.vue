@@ -98,6 +98,7 @@ export default defineComponent({
   height: 35px;
   flex-shrink: 0;
   gap: 10px;
+  margin-top: auto;
   .button {
     padding: 5px;
     font-size: 14px;

@@ -16,13 +16,12 @@
     <Categories
       v-if="!search.trim().length"
       :items="categories"
-      @search="search = $event"
+      @search="searchImmidiate($event)"
     />
   </div>
 </template>
 
 <script lang="ts">
-import VirtualList from "@supertiger/vue-3-virtual-scroll-list";
 import { defineComponent } from "vue";
 import {
   tenorCategories,
@@ -49,6 +48,13 @@ export default defineComponent({
     async fetchSearch() {
       if (!this.search) return;
       this.searchResults = await tenorSearch(this.search);
+    },
+    searchImmidiate(value: string) {
+      this.search = value;
+      this.$nextTick(() => {
+        if (this.searchTimeout) clearTimeout(this.searchTimeout);
+        this.fetchSearch();
+      });
     },
   },
   watch: {
