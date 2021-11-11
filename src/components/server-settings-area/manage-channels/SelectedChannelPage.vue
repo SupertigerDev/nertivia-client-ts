@@ -20,9 +20,10 @@
         @itemClick="onEmojiContextClick"
         :pos="{ x: 0, y: 60 }"
       />
-      <EmojiPicker
+      <PickerArea
         style="top: 60px; left: 0px; height: 500px"
         @click="emojiClicked"
+        :hideTabs="true"
         v-if="showEmojiPicker"
       />
 
@@ -83,7 +84,7 @@
 import CustomInput from "@/components/CustomInput.vue";
 import CustomButton from "@/components/CustomButton.vue";
 import CheckBox from "@/components/CheckBox.vue";
-import EmojiPicker from "@/components/emoji-picker/EmojiPicker.vue";
+import PickerArea from "@/components/picker-area/PickerArea.vue";
 import ContextMenu from "@/components/ContextMenu.vue";
 import {
   deleteServerChannel,
@@ -103,7 +104,7 @@ export default defineComponent({
     CustomButton,
     CheckBox,
     ContextMenu,
-    EmojiPicker,
+    PickerArea,
   },
   props: {
     channelID: {

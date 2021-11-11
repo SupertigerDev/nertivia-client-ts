@@ -47,6 +47,8 @@ export interface Embed {
   site_name: string;
   description: string;
   url: string;
+  width: number;
+  height: number;
   image?: {
     url: string;
     dimensions: { height: number; width: number };

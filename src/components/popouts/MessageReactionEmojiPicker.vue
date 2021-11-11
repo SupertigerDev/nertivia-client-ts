@@ -6,13 +6,18 @@
     v-click-outside="clickOutside"
   >
     <div class="content">
-      <EmojiPicker @click="emojiPicked" class="emoji-picker" />
+      <PickerArea
+        defaultTab="EMOJI"
+        :hideTabs="true"
+        @click="emojiPicked"
+        class="emoji-picker"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import EmojiPicker from "@/components/emoji-picker/EmojiPicker.vue";
+import PickerArea from "@/components/picker-area/PickerArea.vue";
 import { useWindowProperties } from "@/utils/windowProperties";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { addReaction } from "@/services/messagesService";
@@ -30,7 +35,7 @@ interface IProp {
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "MessageReactionEmojiPicker",
-  components: { EmojiPicker },
+  components: { PickerArea },
   props: {
     data: {
       type: Object as PropType<IProp>,
@@ -143,7 +148,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
 }
-.emoji-picker.emoji-panel {
+.emoji-picker {
   position: relative;
   bottom: initial;
   right: initial;

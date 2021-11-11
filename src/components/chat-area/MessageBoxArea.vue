@@ -4,10 +4,19 @@
       <SuggestionPopouts ref="suggestionPopouts" />
       <FileUpload v-if="uploadFile" :key="uploadFile.name + uploadFile.size" />
       <RateLimitPopup v-if="rateLimit" />
-      <EmojiPicker
+      <PickerArea
         v-if="showEmojiPicker"
         :inputElement="$refs.textarea"
+        defaultTab="EMOJI"
+        buttonClassName=".emoji-button"
         @close="showEmojiPicker = false"
+      />
+      <PickerArea
+        v-if="showGifPicker"
+        :inputElement="$refs.textarea"
+        defaultTab="GIF"
+        buttonClassName=".gif-button"
+        @close="showGifPicker = false"
       />
       <DoodlePopout v-if="showDoodlePopout" @close="showDoodlePopout = false" />
       <ScrollDownButton v-if="!isScrolledDown" />
@@ -64,6 +73,11 @@
         v-if="!editingMessageID"
         @click="showDoodlePopout = !showDoodlePopout"
         icon="draw"
+      />
+      <ButtonTemplate
+        class="button gif-button"
+        icon="gif"
+        @click="showGifPicker = !showGifPicker"
       />
       <ButtonTemplate
         class="button emoji-button"
@@ -145,8 +159,9 @@ import {
 import { MessageLogStatesModule } from "@/store/modules/messageLogStates";
 import { TabsModule } from "@/store/modules/tabs";
 import Channel from "@/interfaces/Channel";
-const EmojiPicker = defineAsyncComponent(
-  () => import("@/components/emoji-picker/EmojiPicker.vue")
+
+const PickerArea = defineAsyncComponent(
+  () => import("@/components/picker-area/PickerArea.vue")
 );
 const DoodlePopout = defineAsyncComponent(
   () => import("@/components/chat-area/DoodlePopout.vue")
@@ -158,18 +173,19 @@ export default defineComponent({
     FileUpload,
     TypingStatus,
     EditPanel,
-    EmojiPicker,
     ButtonTemplate,
     SuggestionPopouts,
     ScrollDownButton,
     RateLimitPopup,
     DoodlePopout,
+    PickerArea,
   },
   data() {
     return {
       postTypingTimeout: null as number | null,
       saveInputTimeout: null as number | null,
       showEmojiPicker: false,
+      showGifPicker: false,
       showDoodlePopout: false,
     };
   },

@@ -128,13 +128,11 @@ export default defineComponent({
     );
 
     return (
-      <div v-click-outside={(e) => this.backgroundClick(e)} class="emoji-panel">
-        <div class="emoji-panel-inner">
-          {h(Tabs as any, { onClick: this.tabClicked })}
-          {input}
-          {emojisList}
-          <Preview hoveredEmoji={this.hoveredEmoji} />
-        </div>
+      <div class="emoji-panel">
+        {h(Tabs as any, { onClick: this.tabClicked })}
+        {input}
+        {emojisList}
+        {this.hoveredEmoji && <Preview hoveredEmoji={this.hoveredEmoji} />}
       </div>
     );
   },
@@ -167,9 +165,6 @@ export default defineComponent({
   methods: {
     close() {
       this.$emit("close");
-    },
-    backgroundClick(event) {
-      if (!event.target.closest(".emoji-button")) this.close();
     },
     onEmojiHover(em, addButton?) {
       if (addButton) {
@@ -369,23 +364,7 @@ export default defineComponent({
 .emoji-panel {
   display: flex;
   flex-direction: column;
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  z-index: 111111111111111;
-}
-
-.emoji-panel-inner {
-  display: flex;
-  flex-direction: column;
-  background: var(--card-color);
-  border-radius: 4px;
-  border: solid 1px rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
   transition: 0.3s;
-  z-index: 99999;
-  height: 352px;
-  width: 375px;
   overflow: hidden;
   opacity: 0;
   animation: showUp 0.2s;

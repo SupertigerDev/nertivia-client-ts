@@ -1,6 +1,7 @@
 <template>
   <div class="message-embed" :class="{ image: imageEmbed }">
-    <ImageEmbed v-if="imageEmbed" :image="imageEmbed" />
+    <TenorEmbed v-if="tenorEmbed" :embed="embed" />
+    <ImageEmbed v-else-if="imageEmbed" :image="imageEmbed" />
     <YoutubeEmbed v-else-if="youtubeEmbed" :embed="embed" />
     <GenericEmbed v-else :embed="embed" />
   </div>
@@ -11,11 +12,12 @@ import { Embed } from "@/interfaces/Message";
 import GenericEmbed from "./GenericEmbed.vue";
 import ImageEmbed from "./ImageEmbed.vue";
 import YoutubeEmbed from "./YoutubeEmbed.vue";
+import TenorEmbed from "./TenorEmbed.vue";
 import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "EmbedMessage",
-  components: { GenericEmbed, ImageEmbed, YoutubeEmbed },
+  components: { GenericEmbed, ImageEmbed, YoutubeEmbed, TenorEmbed },
   props: {
     embed: {
       type: Object as PropType<Embed>,
@@ -23,6 +25,9 @@ export default defineComponent({
     },
   },
   computed: {
+    tenorEmbed() {
+      return this.embed.type === "tenor";
+    },
     youtubeEmbed(): any {
       if (this.embed.site_name !== "YouTube") return false;
       if (this.embed.type !== "video.other") return false;
