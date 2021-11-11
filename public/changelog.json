@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.50.0-stable",
+		"date": "10 November 2021",
+		"title": "Tenor Gif Integration",
+		"new": "Integrated tenor gif support"
+	},
+	{
 		"version": "1.49.1-stable",
 		"date": "10 November 2021",
 		"title": "New Notification Setting!",
