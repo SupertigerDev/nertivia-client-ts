@@ -55,8 +55,8 @@ export default defineComponent({
       immediate: true,
       handler() {
         const videoEl = this.$refs.video as HTMLVideoElement;
-        if (this.isWindowFocused) videoEl.play();
-        else videoEl.pause();
+        if (this.isWindowFocused) videoEl?.play();
+        else videoEl?.pause();
       },
     },
   },
