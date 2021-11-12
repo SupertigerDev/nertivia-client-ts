@@ -1,6 +1,6 @@
 <template>
   <div class="popout-background">
-    <div class="generic-popout">
+    <div class="popout" :class="{ electron: $isElectron }">
       <div class="content animate-in">
         <div class="header">
           <div
@@ -13,18 +13,30 @@
           <div class="text">Screen Share</div>
         </div>
         <div class="inner-content">
-          <Selector
-            v-model="selectedQuality"
-            class="selector"
-            name="Quality"
-            :items="qualityItems"
-          />
-          <Selector
-            v-model="selectedFramerate"
-            class="selector"
-            name="Framerate"
-            :items="framerateItems"
-          />
+          <div class="selectors">
+            <Selector
+              v-model="selectedQuality"
+              class="selector"
+              name="Quality"
+              :items="qualityItems"
+            />
+            <Selector
+              v-model="selectedFramerate"
+              class="selector"
+              name="Framerate"
+              :items="framerateItems"
+            />
+          </div>
+          <div class="electron-sources" v-if="$isElectron">
+            <div
+              class="source"
+              v-for="source in electronSources"
+              :key="source.id"
+            >
+              <img class="thumbnail" :src="source.thumbnail" alt="" />
+              <div class="name">{{ source.name }}</div>
+            </div>
+          </div>
 
           <div class="buttons">
             <CustomButton name="Cancel" @click="close" :alert="true" />
@@ -46,6 +58,8 @@ import Selector from "../Selector.vue";
 
 import { defineComponent } from "vue";
 import { voiceChannelModule } from "@/store/modules/voiceChannels";
+import electronBridge from "@/utils/electronBridge";
+import { CaptureSource } from "@/interfaces/ElectronBridge";
 export default defineComponent({
   name: "ScreenSharePopout",
   components: { CustomButton, Selector },
@@ -57,14 +71,24 @@ export default defineComponent({
   },
   data() {
     return {
+      electronSources: [] as CaptureSource[],
       qualityItems: ["480p", "720p", "1080p", "Source"],
       framerateItems: ["30fps", "60fps", "Source"],
       selectedQuality: 3,
       selectedFramerate: 2,
     };
   },
+  mounted() {
+    if (this.$isElectron) this.loadElectronCaptures();
+  },
 
   methods: {
+    async loadElectronCaptures() {
+      const getCaptureSources = electronBridge?.getCaptureSources;
+      if (!getCaptureSources) return;
+      this.electronSources = await getCaptureSources();
+      console.log(this.electronSources);
+    },
     close() {
       PopoutsModule.ClosePopout(this.identity);
     },
@@ -135,7 +159,7 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-.generic-popout {
+.popout {
   background: var(--popout-color);
   border-radius: 4px;
   height: 260px;
@@ -144,7 +168,52 @@ export default defineComponent({
   display: flex;
   overflow: hidden;
 }
-
+.selectors {
+  display: flex;
+  flex-direction: column;
+}
+.electron {
+  width: 650px;
+  height: 600px;
+  .selectors {
+    flex-direction: row;
+    gap: 20px;
+  }
+}
+.electron-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  height: 100%;
+  overflow: auto;
+  margin-top: 10px;
+  .source {
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 200px;
+    height: 140px;
+    background: var(--card-color);
+    .name {
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      text-align: center;
+      margin-right: 5px;
+    }
+    .thumbnail {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+      overflow: hidden;
+    }
+  }
+}
 .animate-in {
   opacity: 0;
   animation: showUp 0.2s;
