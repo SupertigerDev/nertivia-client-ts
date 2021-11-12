@@ -62,7 +62,11 @@
         </div>
       </div>
     </div>
-    <BigPreview v-if="selectedParticipant" :participant="selectedParticipant" />
+    <BigPreview
+      class="big-preview"
+      v-if="selectedParticipant"
+      :participant="selectedParticipant"
+    />
   </div>
 </template>
 
@@ -158,12 +162,13 @@ export default defineComponent({
 .call-preview-expanded {
   position: relative;
   display: flex;
-  height: 350px;
+  height: 100%;
 }
 
 .left {
   display: flex;
   flex-direction: column;
+  max-width: 300px;
   flex: 1;
 }
 .actions {
@@ -218,5 +223,21 @@ export default defineComponent({
   font-size: 18px;
   margin-right: 5px;
   margin-left: 5px;
+}
+@media (max-width: 1220px) {
+  .call-preview-expanded {
+    flex-direction: column;
+    overflow: auto;
+  }
+  .big-preview {
+    max-height: calc(100% - 65px);
+  }
+  .left {
+    order: 2;
+    max-width: initial;
+    .participant-list {
+      order: 2;
+    }
+  }
 }
 </style>

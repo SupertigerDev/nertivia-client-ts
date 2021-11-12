@@ -43,6 +43,8 @@ export default defineComponent({
       handler(id) {
         if (id) {
           this.setExpanded(true);
+        } else {
+          this.setExpanded(false);
         }
       },
       immediate: true,
@@ -74,7 +76,7 @@ export default defineComponent({
   overflow: hidden;
 }
 .expand {
-  height: 350px;
+  height: 60%;
   background: var(--card-color);
 }
 </style>

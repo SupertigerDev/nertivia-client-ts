@@ -6,7 +6,9 @@
       :seedId="participant.user.id"
       size="80px"
     />
-    <video v-else class="video" ref="video" autoplay controls></video>
+    <div class="stream" v-else>
+      <video class="video" ref="video" autoplay></video>
+    </div>
   </div>
 </template>
 
@@ -61,14 +63,23 @@ export default defineComponent({
   margin: 5px;
   margin-left: 0;
   display: flex;
+  flex: 1;
   align-content: center;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 16 / 9;
 }
-.video {
+.stream {
+  display: flex;
+  flex-direction: column;
   height: 100%;
   width: 100%;
+  justify-content: center;
+  overflow: hidden;
+}
+.video {
+  width: 100%;
+  height: 100%;
   border-radius: 4px;
+  overflow: hidden;
 }
 </style>
