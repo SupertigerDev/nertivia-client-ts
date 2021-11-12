@@ -128,17 +128,10 @@ export default defineComponent({
       this.$emit("toggleExpand");
     },
     async shareScreen() {
-      const mediaDevices = navigator.mediaDevices as any;
-      const stream = await mediaDevices
-        .getDisplayMedia({
-          video: true,
-          audio: true,
-        })
-        .catch(() => {
-          console.log("Screenshare cancelled.");
-        });
-      if (!stream) return;
-      voiceChannelModule.addStream({ stream, type: "video" });
+      PopoutsModule.ShowPopout({
+        id: "screenshare-popout",
+        component: "ScreenSharePopout",
+      });
     },
   },
   computed: {

@@ -1,5 +1,12 @@
 [
 	{
+		"version": "1.50.1-stable",
+		"date": "12 November 2021",
+		"title": "Screenshare Quality Selector",
+		"new": "Added Screenshare quality selector!",
+		"body": "I will probably work on adding screenshare support for the desktop electron app next."
+	},
+	{
 		"version": "1.50.0-stable",
 		"date": "10 November 2021",
 		"title": "Tenor Gif Integration",
