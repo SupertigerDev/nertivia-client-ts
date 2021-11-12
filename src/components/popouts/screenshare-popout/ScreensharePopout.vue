@@ -10,7 +10,7 @@
           >
             close
           </div>
-          <div class="text">Screen Share</div>
+          <div class="text">Screen Share {{ selectedSourceId }}</div>
         </div>
         <div class="inner-content">
           <div class="selectors">
@@ -27,16 +27,10 @@
               :items="framerateItems"
             />
           </div>
-          <div class="electron-sources" v-if="$isElectron">
-            <div
-              class="source"
-              v-for="source in electronSources"
-              :key="source.id"
-            >
-              <img class="thumbnail" :src="source.thumbnail" alt="" />
-              <div class="name">{{ source.name }}</div>
-            </div>
-          </div>
+          <ElectronSources
+            v-if="$isElectron"
+            @selectedSourceId="selectedSourceId = $event"
+          />
 
           <div class="buttons">
             <CustomButton name="Cancel" @click="close" :alert="true" />
@@ -54,15 +48,15 @@
 <script lang="ts">
 import { PopoutsModule } from "@/store/modules/popouts";
 import CustomButton from "@/components/CustomButton.vue";
-import Selector from "../Selector.vue";
+import Selector from "../../Selector.vue";
+import ElectronSources from "./ElectronSources.vue";
 
 import { defineComponent } from "vue";
 import { voiceChannelModule } from "@/store/modules/voiceChannels";
-import electronBridge from "@/utils/electronBridge";
-import { CaptureSource } from "@/interfaces/ElectronBridge";
+
 export default defineComponent({
-  name: "ScreenSharePopout",
-  components: { CustomButton, Selector },
+  name: "ScreensharePopout",
+  components: { CustomButton, Selector, ElectronSources },
   props: {
     identity: {
       type: String,
@@ -71,35 +65,48 @@ export default defineComponent({
   },
   data() {
     return {
-      electronSources: [] as CaptureSource[],
       qualityItems: ["480p", "720p", "1080p", "Source"],
       framerateItems: ["30fps", "60fps", "Source"],
       selectedQuality: 3,
       selectedFramerate: 2,
+      selectedSourceId: null,
     };
-  },
-  mounted() {
-    if (this.$isElectron) this.loadElectronCaptures();
   },
 
   methods: {
-    async loadElectronCaptures() {
-      const getCaptureSources = electronBridge?.getCaptureSources;
-      if (!getCaptureSources) return;
-      this.electronSources = await getCaptureSources();
-      console.log(this.electronSources);
-    },
     close() {
       PopoutsModule.ClosePopout(this.identity);
     },
     async selectWindow() {
       const constraints = await this.constructConstraints();
       const mediaDevices = navigator.mediaDevices as any;
-      const stream = await mediaDevices
-        .getDisplayMedia(constraints)
-        .catch(() => {
+
+      let stream: any = null;
+      // handle electron
+      if (this.selectedSourceId) {
+        stream = await mediaDevices.getUserMedia({
+          audio: {
+            mandatory: {
+              chromeMediaSource: "desktop",
+            },
+          },
+          video: {
+            mandatory: {
+              chromeMediaSource: "desktop",
+              chromeMediaSourceId: this.selectedSourceId,
+              minWidth: constraints.video.width,
+              maxWidth: constraints.video.width,
+              minHeight: constraints.video.height,
+              maxHeight: constraints.video.height,
+            },
+          },
+        });
+      } else {
+        stream = await mediaDevices.getDisplayMedia(constraints).catch(() => {
           console.log("Screenshare cancelled.");
         });
+      }
+
       this.close();
       if (!stream) return;
       voiceChannelModule.addStream({ stream, type: "video" });
@@ -173,47 +180,17 @@ export default defineComponent({
   flex-direction: column;
 }
 .electron {
-  width: 650px;
+  width: 680px;
   height: 600px;
   .selectors {
     flex-direction: row;
     gap: 20px;
   }
-}
-.electron-sources {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  height: 100%;
-  overflow: auto;
-  margin-top: 10px;
-  .source {
-    display: flex;
-    flex-direction: column;
-    border-radius: 8px;
-    overflow: hidden;
-    width: 200px;
-    height: 140px;
-    background: var(--card-color);
-    .name {
-      display: -webkit-box;
-      -webkit-line-clamp: 1;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-top: 5px;
-      margin-bottom: 5px;
-      text-align: center;
-      margin-right: 5px;
-    }
-    .thumbnail {
-      height: 100%;
-      width: 100%;
-      object-fit: contain;
-      overflow: hidden;
-    }
+  .buttons {
+    margin-top: auto;
   }
 }
+
 .animate-in {
   opacity: 0;
   animation: showUp 0.2s;

@@ -130,7 +130,7 @@ export default defineComponent({
     async shareScreen() {
       PopoutsModule.ShowPopout({
         id: "screenshare-popout",
-        component: "ScreenSharePopout",
+        component: "ScreensharePopout",
       });
     },
   },

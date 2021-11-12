@@ -107,8 +107,8 @@ const components = {
   Welcome: defineAsyncComponent(
     () => import("@/components/popouts/welcome-popout/Welcome.vue")
   ),
-  ScreenSharePopout: defineAsyncComponent(
-    () => import("@/components/popouts/ScreenSharePopout.vue")
+  ScreensharePopout: defineAsyncComponent(
+    () => import("@/components/popouts/screenshare-popout/ScreensharePopout.vue")
   ),
 };
 export default defineComponent({
