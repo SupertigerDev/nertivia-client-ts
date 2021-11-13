@@ -65,6 +65,7 @@
     <BigPreview
       class="big-preview"
       v-if="selectedParticipant"
+      :key="selectedParticipant.user.id"
       :participant="selectedParticipant"
     />
   </div>

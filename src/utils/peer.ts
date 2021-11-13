@@ -23,10 +23,12 @@ function onStream(stream: MediaStream, channelId: string, userId: string) {
     });
     stream.onremovetrack = null;
   };
-  const test = new Audio();
 
-  test.srcObject = stream;
-  test.play();
+  if (streamType === "audioStream") {
+    const mic = new Audio();
+    mic.srcObject = stream;
+    mic.play();
+  }
   voiceChannelModule.update({
     channelId,
     userId,

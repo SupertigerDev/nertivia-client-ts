@@ -24,7 +24,7 @@ export default defineComponent({
 .source {
   display: flex;
   flex-direction: column;
-  border-radius: 8px;
+  border-radius: 4px;
   overflow: hidden;
   width: 200px;
   height: 140px;
@@ -40,7 +40,7 @@ export default defineComponent({
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-top: 5px;
+    padding-top: 5px;
     padding-bottom: 5px;
     text-align: center;
     margin-right: 5px;

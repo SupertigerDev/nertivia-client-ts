@@ -10,7 +10,7 @@
           >
             close
           </div>
-          <div class="text">Screen Share {{ selectedSourceId }}</div>
+          <div class="text">Screen Share</div>
         </div>
         <div class="inner-content">
           <div class="selectors">
@@ -72,12 +72,12 @@ export default defineComponent({
       selectedSourceId: null,
     };
   },
-
   methods: {
     close() {
       PopoutsModule.ClosePopout(this.identity);
     },
     async selectWindow() {
+      voiceChannelModule.removeVideoStream();
       const constraints = await this.constructConstraints();
       const mediaDevices = navigator.mediaDevices as any;
 
@@ -94,6 +94,7 @@ export default defineComponent({
             mandatory: {
               chromeMediaSource: "desktop",
               chromeMediaSourceId: this.selectedSourceId,
+              maxFrameRate: constraints.video.frameRate,
               minWidth: constraints.video.width,
               maxWidth: constraints.video.width,
               minHeight: constraints.video.height,
@@ -101,11 +102,14 @@ export default defineComponent({
             },
           },
         });
+        await stream.getAudioTracks()[0].applyConstraints(constraints.audio);
       } else {
         stream = await mediaDevices.getDisplayMedia(constraints).catch(() => {
           console.log("Screenshare cancelled.");
         });
       }
+
+      if (this.$isElectron && !this.selectedSourceId) return;
 
       this.close();
       if (!stream) return;
@@ -123,8 +127,18 @@ export default defineComponent({
     },
     async constructConstraints() {
       const constraints = {
-        video: { height: 0, width: 0, frameRate: 0 },
-        audio: true,
+        video: {
+          height: 0,
+          width: 0,
+          frameRate: 0,
+          resizeMode: null as string | null,
+        },
+        audio: {
+          autoGainControl: false,
+          echoCancellation: false,
+          googAutoGainControl: false,
+          noiseSupperession: false,
+        },
       };
       // quality
       switch (this.selectedQuality) {
@@ -160,6 +174,7 @@ export default defineComponent({
         default:
           break;
       }
+      constraints.video.resizeMode = "none";
       return constraints;
     },
   },

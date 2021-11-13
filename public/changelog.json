@@ -1,5 +1,12 @@
 [
 	{
+		"version": "1.51.0-stable",
+		"date": "13 November 2021",
+		"title": "Desktop App Screenshare!",
+		"new": "Added desktop app screenshare support.",
+		"fixes": "improved screenshare audio quality."
+	},
+	{
 		"version": "1.50.1-stable",
 		"date": "12 November 2021",
 		"title": "Screenshare Quality Selector",

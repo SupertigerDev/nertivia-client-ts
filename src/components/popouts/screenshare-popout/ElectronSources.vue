@@ -46,5 +46,6 @@ export default defineComponent({
   gap: 10px;
   overflow: auto;
   margin-top: 10px;
+  margin-bottom: 5px;
 }
 </style>

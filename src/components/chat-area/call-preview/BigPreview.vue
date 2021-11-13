@@ -7,7 +7,7 @@
       size="80px"
     />
     <div class="stream" v-else>
-      <video class="video" ref="video" autoplay></video>
+      <video class="video" ref="video" autoplay :muted="isMyStream"></video>
     </div>
   </div>
 </template>
@@ -38,13 +38,17 @@ export default defineComponent({
         this.$nextTick(() => {
           const video = this.$refs.video as HTMLVideoElement;
           video.srcObject = stream;
+          // console.log(this.videoStream?.getVideoTracks()[0].getSettings());
         });
       },
     },
   },
   computed: {
+    isMyStream() {
+      return MeModule.user.id === this.participant.user.id;
+    },
     videoStream(): MediaStream | null | undefined {
-      if (MeModule.user.id === this.participant.user.id) {
+      if (this.isMyStream) {
         const channelId = this.$route.params.channel_id;
         const joinedChannel = voiceChannelModule.joinedChannelId;
         if (joinedChannel !== channelId) return;
