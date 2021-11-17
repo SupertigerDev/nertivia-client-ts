@@ -1,7 +1,7 @@
 <template>
   <div
     class="check-box"
-    :class="{ checked: modelValue, colored }"
+    :class="{ checked: modelValue, colored, noName: !name }"
     @click="clicked"
   >
     <div class="box"><span class="material-icons">check</span></div>
@@ -63,6 +63,11 @@ export default defineComponent({
       span {
         opacity: 0.6;
       }
+    }
+  }
+  &.noName {
+    .box {
+      margin-right: 0;
     }
   }
 

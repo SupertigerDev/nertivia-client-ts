@@ -20,11 +20,7 @@
       </div>
     </div>
     <div class="actions">
-      <CustomButton
-        @click="viewProfile(user.id)"
-        name="View Profile"
-        icon="person"
-      />
+      <CustomButton @click="viewProfile(user.id)" name="View Profile" icon="person" />
       <CustomButton name="Edit User" icon="edit" />
       <CustomButton
         @click="openSuspendPopout"
@@ -128,10 +124,10 @@ export default defineComponent({
       });
     },
     suspendCallback() {
-      this.$emit("suspended");
+      this.$emit("suspended", this.user);
     },
-    unsuspendCallback(removeIPBan: boolean) {
-      this.$emit("unsuspend", { removeIPBan });
+    unsuspendCallback() {
+      this.$emit("unsuspend", this.user);
     },
   },
 });

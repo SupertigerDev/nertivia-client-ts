@@ -4,6 +4,7 @@
       <div class="content animate-in">
         <div class="header">
           <AvatarImage
+            v-if="!data.users"
             :imageId="user.avatar"
             :seedId="user.id"
             :animateGif="false"
@@ -12,7 +13,7 @@
           />
           <div class="text">
             <span style="font-weight: bold">Suspend</span>
-            {{ user.username }}?
+            {{ data.users ? "Batch" : user.username }}?
           </div>
         </div>
         <div class="inner-content">
@@ -36,6 +37,13 @@
               <CustomButton :name="$t('back')" @click="close" />
               <!-- TODO: i18n -->
               <CustomButton
+                @click="buttonClicked"
+                :name="requestSent ? 'Suspending...' : 'Suspend Users'"
+                :alert="true"
+                v-if="data.users"
+              />
+              <CustomButton
+                v-else
                 @click="buttonClicked"
                 :name="requestSent ? 'Suspending...' : 'Suspend'"
                 :alert="true"
@@ -66,6 +74,7 @@ export default defineComponent({
         id: string;
         serverID: string;
         user: User;
+        users: User[];
         callback: any;
       }>,
       required: true,
@@ -97,6 +106,10 @@ export default defineComponent({
       if (this.requestSent) return;
       this.requestSent = true;
       this.error = null;
+      if (this.data.users) {
+        this.suspendBatch();
+        return;
+      }
       suspendUser(this.data.user.id, this.password, this.reason)
         .then(() => {
           this.data.callback();
@@ -111,6 +124,27 @@ export default defineComponent({
           this.error = message;
         })
         .finally(() => (this.requestSent = false));
+    },
+    suspendBatch(index = 0) {
+      const id = this.data.users[index].id;
+      suspendUser(id, this.password, this.reason)
+        .then(() => {
+          this.data?.callback?.(this.data.users[index]);
+          if (index + 1 === this.data.users.length) {
+            this.close();
+            return;
+          }
+          this.suspendBatch(index + 1);
+        })
+        .catch(async (err) => {
+          this.requestSent = false;
+          if (!err.response) {
+            this.error = "Could not connect to server.";
+            return;
+          }
+          const { message } = await err.response.json();
+          this.error = message;
+        });
     },
   },
 });
@@ -159,6 +193,7 @@ export default defineComponent({
   align-items: center;
   align-content: center;
   padding: 5px;
+  height: 41px;
   background: var(--main-header-bg-color);
   .text {
     margin-left: 10px;

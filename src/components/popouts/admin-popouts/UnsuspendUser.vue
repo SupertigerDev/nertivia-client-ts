@@ -4,6 +4,7 @@
       <div class="content animate-in">
         <div class="header">
           <AvatarImage
+            v-if="!data.users"
             :imageId="user.avatar"
             :seedId="user.id"
             :animateGif="false"
@@ -12,7 +13,7 @@
           />
           <div class="text">
             <span style="font-weight: bold">Unsuspend</span>
-            {{ user.username }}?
+            {{ data.users ? "Batch" : user.username }}?
           </div>
         </div>
         <div class="inner-content">
@@ -61,6 +62,7 @@ export default defineComponent({
         serverID: string;
         user: User;
         callback: any;
+        users: User[];
       }>,
       required: true,
     },
@@ -92,6 +94,10 @@ export default defineComponent({
       if (this.requestSent) return;
       this.requestSent = true;
       this.error = null;
+      if (this.data.users) {
+        this.unsuspendBatch();
+        return;
+      }
       unsuspendUser(this.data.user.id, this.password, this.removeIPBan)
         .then(() => {
           this.data.callback({ removeIPBan: this.removeIPBan });
@@ -106,6 +112,27 @@ export default defineComponent({
           this.error = message;
         })
         .finally(() => (this.requestSent = false));
+    },
+    unsuspendBatch(index = 0) {
+      const user = this.data.users[index];
+      unsuspendUser(user.id, this.password, this.removeIPBan)
+        .then(() => {
+          this.data.callback({ removeIPBan: this.removeIPBan, user });
+          if (index + 1 === this.data.users.length) {
+            this.close();
+            return;
+          }
+          this.unsuspendBatch(index + 1);
+        })
+        .catch(async (err) => {
+          this.requestSent = false;
+          if (!err.response) {
+            this.error = "Could not connect to server.";
+            return;
+          }
+          const { message } = await err.response.json();
+          this.error = message;
+        });
     },
   },
 });
@@ -154,6 +181,7 @@ export default defineComponent({
   align-items: center;
   align-content: center;
   padding: 5px;
+  height: 41px;
   background: var(--main-header-bg-color);
   .text {
     margin-left: 10px;

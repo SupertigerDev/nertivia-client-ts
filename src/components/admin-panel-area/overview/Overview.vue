@@ -6,12 +6,14 @@
         ref="users"
         v-show="!selectedUser"
         @click="selectedUser = $event"
+        @suspendBatch="suspendUser($event)"
+        @unsuspendBatch="unsuspendUser($event.user)"
       />
       <AdminActions v-show="!selectedUser" ref="adminActions" />
 
       <SelectedUserPage
-        @suspended="suspendUser"
-        @unsuspend="unsuspendUser"
+        @suspended="suspendUser($event, true)"
+        @unsuspend="unsuspendUser($event, true)"
         @back="selectedUser = null"
         v-if="selectedUser"
         :user="selectedUser"
@@ -42,18 +44,18 @@ export default defineComponent({
     getAdminActionsComponent() {
       return this.$refs.adminActions as InstanceType<typeof AdminActions>;
     },
-    suspendUser() {
-      if (!this.selectedUser) return;
-      const newUser = { ...this.selectedUser, banned: true };
+    suspendUser(user?: ExpandedUser, selected = false) {
+      if (!user) return;
+      const newUser = { ...user, banned: true };
       this.getUserComponent().updateUser(newUser);
-      this.selectedUser = newUser;
+      selected && (this.selectedUser = newUser);
       this.getAdminActionsComponent().fetchActions();
     },
-    unsuspendUser({ removeIPBan }) {
-      if (!this.selectedUser) return;
-      const newUser = { ...this.selectedUser, banned: false };
+    unsuspendUser(user?: ExpandedUser, selected = false) {
+      if (!user) return;
+      const newUser = { ...user, banned: false };
       this.getUserComponent().updateUser(newUser);
-      this.selectedUser = newUser;
+      selected && (this.selectedUser = newUser);
       this.getAdminActionsComponent().fetchActions();
     },
   },
