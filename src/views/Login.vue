@@ -40,8 +40,7 @@
       <!-- Confirm Email -->
       <div v-if="page === 2">
         <div class="sub-title">
-          Confirm your email before continuing by entering the code that was
-          sent to you.
+          Confirm your email before continuing by entering the code that was sent to you.
         </div>
         <div class="other-error">{{ errors["other"] }}</div>
         <customInput
@@ -95,8 +94,7 @@ export default defineComponent({
           return err.response.json();
         })
         .then((res) => {
-          if (!res)
-            return (this.errors["other"] = "Unable to connect to server");
+          if (!res) return (this.errors["other"] = "Unable to connect to server");
           if (!res.error) return;
           return (this.errors["email_confirm"] = res.error);
         });

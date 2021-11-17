@@ -1,5 +1,8 @@
 <template>
-  <div class="user-template" :class="{ hover }">
+  <div class="user-template" :class="{ hover }" @click="clicked">
+    <div class="checkbox" v-if="showCheckBox" @click="checkboxClicked">
+      <CheckBox :class="{ disableCheckmark: disableCheckmark }" :modelValue="isChecked" />
+    </div>
     <AvatarImage :seedId="user.id" :imageId="user.avatar" size="40px" />
     <div class="content">
       <div class="main-details">
@@ -17,32 +20,67 @@
 
 <script lang="ts">
 import { ExpandedUser } from "@/services/adminService";
+import CheckBox from "@/components/CheckBox.vue";
 import date from "@/utils/date";
 import AvatarImage from "@/components/AvatarImage.vue";
 import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "UserTemplate",
-  components: { AvatarImage },
+  components: { AvatarImage, CheckBox },
+  emits: ["click", "checkBoxClick"],
   props: {
     user: {
       type: Object as PropType<ExpandedUser>,
       required: true,
+    },
+    showCheckBox: {
+      typpe: Boolean,
+      default: false,
+    },
+    checkedUsers: {
+      type: Array as PropType<ExpandedUser[]>,
     },
     hover: {
       type: Boolean,
       required: false,
     },
   },
+  methods: {
+    checkboxClicked() {
+      if (this.disableCheckmark && !this.isChecked) return;
+      this.$emit("checkBoxClick", this.user);
+    },
+    clicked(event: any) {
+      if (event.target.closest(".checkbox")) return;
+      this.$emit("click");
+    },
+  },
   computed: {
     friendlyCreated(): any {
       return date(this.user.created);
+    },
+    isChecked() {
+      return !!this.checkedUsers?.find((u) => u.id === this.user.id);
+    },
+    disableCheckmark() {
+      const anyUser = this.checkedUsers?.[0];
+      if (!anyUser) return false;
+      return anyUser.banned !== this.user.banned;
     },
   },
 });
 </script>
 
 <style lang="scss" scoped>
+.disableCheckmark {
+  opacity: 0.1;
+  cursor: not-allowed;
+}
+.checkbox {
+  height: 100%;
+  flex-shrink: 0;
+}
 .user-template {
   display: flex;
   align-items: center;

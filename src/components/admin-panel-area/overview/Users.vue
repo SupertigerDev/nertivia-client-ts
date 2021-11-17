@@ -18,8 +18,24 @@
         v-for="user in users"
         :key="user.id"
         @click="$emit('click', user)"
+        @checkBoxClick="checkBoxClick"
+        :show-check-box="true"
+        :checkedUsers="checkedUsers"
         :user="user"
         :hover="true"
+      />
+    </div>
+    <div class="checked-actions" v-if="checkedUsers.length">
+      <CustomButton
+        name="Unsuspend selected"
+        v-if="suspendChecked"
+        @click="unsuspendBatch"
+      />
+      <CustomButton
+        v-else
+        name="Suspend selected"
+        :alert="true"
+        @click="suspendBatch"
       />
     </div>
   </div>
@@ -32,23 +48,59 @@ import {
   searchUsers,
 } from "@/services/adminService";
 import UserTemplate from "./UserTemplate.vue";
-
+import CustomButton from "@/components/CustomButton.vue";
 import { defineComponent } from "vue";
+import { PopoutsModule } from "@/store/modules/popouts";
 export default defineComponent({
   name: "Users",
-  emits: ["click"],
-  components: { UserTemplate },
+  emits: ["click", "suspendBatch", "unsuspendBatch"],
+  components: { UserTemplate, CustomButton },
   data() {
     return {
       users: null as ExpandedUser[] | null,
       searchInput: "",
       timeout: null as number | null,
+      checkedUsers: [] as ExpandedUser[],
     };
   },
   mounted() {
     this.fetchUsers();
   },
   methods: {
+    suspendBatch() {
+      PopoutsModule.ShowPopout({
+        id: "admin-suspend-user-popout",
+        component: "AdminSuspendUser",
+        data: { users: this.checkedUsers, callback: this.suspendCallback },
+      });
+    },
+    unsuspendBatch() {
+      PopoutsModule.ShowPopout({
+        id: "admin-unsuspend-user-popout",
+        component: "AdminUnsuspendUser",
+        data: { users: this.checkedUsers, callback: this.unsuspendCallback },
+      });
+    },
+    suspendCallback(user: ExpandedUser) {
+      this.$emit("suspendBatch", user);
+      this.checkedUsers = this.checkedUsers.filter((u) => u.id !== user.id);
+    },
+    unsuspendCallback(data: any) {
+      this.$emit("unsuspendBatch", data);
+      this.checkedUsers = this.checkedUsers.filter(
+        (u) => u.id !== data.user.id
+      );
+    },
+    checkBoxClick(user: ExpandedUser) {
+      const existingIndex = this.checkedUsers.findIndex(
+        (u) => u.id === user.id
+      );
+      if (existingIndex >= 0) {
+        this.checkedUsers.splice(existingIndex, 1);
+        return;
+      }
+      this.checkedUsers.push(user);
+    },
     onInput(event: any) {
       if (this.timeout) {
         clearTimeout(this.timeout);
@@ -77,6 +129,11 @@ export default defineComponent({
       this.users[index] = user;
     },
   },
+  computed: {
+    suspendChecked() {
+      return this.checkedUsers[0].banned;
+    },
+  },
 });
 </script>
 
@@ -98,6 +155,11 @@ export default defineComponent({
   margin: 5px;
 }
 
+.checked-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .actions {
   display: flex;
   align-items: center;
