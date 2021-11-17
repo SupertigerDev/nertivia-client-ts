@@ -7,6 +7,7 @@ import hCaptcha from "@jdinabox/vue-3-hcaptcha";
 import { defineComponent } from "@vue/runtime-core";
 
 export default defineComponent({
+  emits: ["verify"],
   components: { hCaptcha },
   data() {
     return {
