@@ -48,6 +48,7 @@ import { defineComponent } from "vue";
 
 import CustomButton from "@/components/CustomButton.vue";
 import { joinServerByCode } from "@/services/serverService";
+import { PopoutsModule } from "@/store/modules/popouts";
 
 export default defineComponent({
   components: { CustomButton },
@@ -56,7 +57,16 @@ export default defineComponent({
   },
   methods: {
     joinNertiviaServer() {
-      joinServerByCode("nertivia", this.$socket.id);
+      PopoutsModule.ShowPopout({
+        id: "captcha-popout",
+        component: "CaptchaPopout",
+        data: {
+          callback: this.captchaVerified,
+        },
+      });
+    },
+    captchaVerified(token: string) {
+      joinServerByCode("nertivia", { socketID: this.$socket.id, token });
       this.$emit("close");
     },
   },

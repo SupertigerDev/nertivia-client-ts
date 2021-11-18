@@ -84,11 +84,21 @@ export default defineComponent({
         `/app/servers/${this.server.json.server_id}/${this.server.json.default_channel_id}`
       );
     },
+
     joinServer() {
+      PopoutsModule.ShowPopout({
+        id: "captcha-popout",
+        component: "CaptchaPopout",
+        data: {
+          callback: this.captchaVerified,
+        },
+      });
+    },
+    captchaVerified(token: string) {
       if (this.requestSent) return;
       this.requestSent = true;
       this.error = null;
-      joinServerByCode(this.server.code, this.$socket.id)
+      joinServerByCode(this.server.code, { socketID: this.$socket.id, token })
         .then(() => {
           PopoutsModule.ClosePopout("add-server");
           this.requestSent = false;

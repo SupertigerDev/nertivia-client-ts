@@ -11,8 +11,8 @@
 </template>
 
 <script lang="ts">
-import { PopoutsModule } from "@/store/modules/popouts";
 
+import { PopoutsModule } from "@/store/modules/popouts";
 import { defineComponent, defineAsyncComponent } from "vue";
 
 const components = {
@@ -108,7 +108,11 @@ const components = {
     () => import("@/components/popouts/welcome-popout/Welcome.vue")
   ),
   ScreensharePopout: defineAsyncComponent(
-    () => import("@/components/popouts/screenshare-popout/ScreensharePopout.vue")
+    () =>
+      import("@/components/popouts/screenshare-popout/ScreensharePopout.vue")
+  ),
+  CaptchaPopout: defineAsyncComponent(
+    () => import("@/components/popouts/CaptchaPopout.vue")
   ),
 };
 export default defineComponent({

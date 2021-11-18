@@ -45,10 +45,8 @@ export function updateServer(
 export function getServerInfoByCode(code: string) {
   return wrapper().get(`servers/invite/${code}`).json();
 }
-export function joinServerByCode(code: string, socketID?: string) {
-  return wrapper()
-    .post(`servers/invite/${code}`, { json: { socketID } })
-    .json();
+export function joinServerByCode(code: string, data?: any) {
+  return wrapper().post(`servers/invite/${code}`, { json: data }).json();
 }
 export function getInvites(serverID: string): Promise<any> {
   return wrapper().get(`servers/${serverID}/invites`).json();
