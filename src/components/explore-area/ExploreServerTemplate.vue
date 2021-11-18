@@ -122,9 +122,19 @@ export default defineComponent({
       );
     },
     joinClicked() {
+      PopoutsModule.ShowPopout({
+        id: "captcha-popout",
+        component: "CaptchaPopout",
+        data: {
+          callback: this.captchaVerified,
+        },
+      });
+    },
+    captchaVerified(token: string) {
       this.joining = true;
       joinServerById(this.data.server.server_id, {
         socketID: this.$socket.id,
+        token,
       }).finally(() => {
         this.joining = false;
       });

@@ -79,9 +79,18 @@ export default defineComponent({
   },
   methods: {
     joinServer() {
+      PopoutsModule.ShowPopout({
+        id: "captcha-popout",
+        component: "CaptchaPopout",
+        data: {
+          callback: this.captchaVerified,
+        },
+      });
+    },
+    captchaVerified(token: string) {
       if (this.requestSent) return;
       this.requestSent = true;
-      joinServerByCode(this.inviteID)
+      joinServerByCode(this.inviteID, { token })
         .then(() => {
           location.href = `/app/servers/${this.server?.server_id}/${this.server?.default_channel_id}`;
         })

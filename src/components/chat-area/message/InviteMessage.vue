@@ -60,6 +60,7 @@ import LoadingScreen from "@/components/LoadingScreen.vue";
 import { ServersModule } from "@/store/modules/servers";
 import { PropType } from "vue";
 import { defineComponent } from "vue";
+import { PopoutsModule } from "@/store/modules/popouts";
 export default defineComponent({
   name: "InviteMessage",
   components: { AvatarImage, CustomButton, LoadingScreen },
@@ -107,10 +108,19 @@ export default defineComponent({
       );
     },
     joinServer() {
+      PopoutsModule.ShowPopout({
+        id: "captcha-popout",
+        component: "CaptchaPopout",
+        data: {
+          callback: this.captchaVerified,
+        },
+      });
+    },
+    captchaVerified(token: string) {
       if (this.requestSent) return;
       this.requestSent = true;
       const code = this.invite[2];
-      joinServerByCode(code, this.$socket.id);
+      joinServerByCode(code, { socketID: this.$socket.id, token });
     },
   },
 });
