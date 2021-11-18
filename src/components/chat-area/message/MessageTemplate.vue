@@ -5,6 +5,7 @@
     @mouseover="hover = true"
     @mouseleave="hover = false"
     @contextmenu="messageContext"
+    @dblclick="onDoubleClick"
   >
     <div
       class="container blocked"
@@ -14,6 +15,11 @@
       Blocked message. Click to view.
     </div>
     <div class="container" v-else>
+      <CheckBox
+        :modelValue="isSelected"
+        v-if="selectedMessageIds?.length"
+        @click="onCheckBoxClick"
+      />
       <AvatarImage
         class="avatar"
         :imageId="creator.avatar"
@@ -70,6 +76,7 @@ import { UsersModule } from "@/store/modules/users";
 import { PropType } from "vue";
 import User from "@/interfaces/User";
 import { defineComponent } from "vue";
+import CheckBox from "@/components/CheckBox.vue";
 export default defineComponent({
   name: "MessageLogs",
   components: {
@@ -80,6 +87,7 @@ export default defineComponent({
     HTMLEmbed,
     ButtonsMessage,
     Reactions,
+    CheckBox,
   },
   props: {
     message: {
@@ -94,6 +102,9 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    selectedMessageIds: {
+      type: Array as PropType<string[]>,
+    },
   },
   data() {
     return {
@@ -103,6 +114,10 @@ export default defineComponent({
     };
   },
   computed: {
+    isSelected() {
+      if (!this.message.messageID) return false;
+      return this.selectedMessageIds?.includes(this.message.messageID);
+    },
     invite(): any {
       const inviteLinkRegex = new RegExp(
         `${process.env.VUE_APP_MAIN_APP_URL}(invites|i)/([\\S]+)`
@@ -136,30 +151,44 @@ export default defineComponent({
         data: { id: this.creator.id },
       });
     },
+    onDoubleClick(event: MouseEvent & { target: HTMLElement }) {
+      const whitelistArr = [".date", ".time"];
+      const closest = this.elementClosestInArray(event.target, whitelistArr);
+      if (!closest) return;
+      this.$emit("toggleSelect");
+    },
+    onCheckBoxClick() {
+      this.$emit("toggleSelect");
+    },
     messageContext(event: MouseEvent & { target: HTMLElement }) {
       if (this.$isMobile) return;
       const whitelistArr = [".message-content", ".date", ".time"];
-      for (let index = 0; index < whitelistArr.length; index++) {
-        const allowClass = whitelistArr[index];
-        const closestElement = event.target.closest(allowClass);
+      const closest = this.elementClosestInArray(event.target, whitelistArr);
+      if (!closest) return;
+      event.preventDefault();
+      const id = this.message.tempID || this.message.messageID || "";
+      PopoutsModule.ShowPopout({
+        id: "context",
+        component: "MessageContextMenu",
+        key: id + event.pageX + event.pageY,
+        data: {
+          x: event.pageX,
+          y: event.pageY,
+          message: this.message,
+          tempUser: this.message.creator,
+          element: event.target,
+        },
+      });
+    },
+    elementClosestInArray(element: HTMLElement, targets: string[]) {
+      for (let index = 0; index < targets.length; index++) {
+        const allowClass = targets[index];
+        const closestElement = element.closest(allowClass);
         if (closestElement) {
-          event.preventDefault();
-          const id = this.message.tempID || this.message.messageID || "";
-          PopoutsModule.ShowPopout({
-            id: "context",
-            component: "MessageContextMenu",
-            key: id + event.pageX + event.pageY,
-            data: {
-              x: event.pageX,
-              y: event.pageY,
-              message: this.message,
-              tempUser: this.message.creator,
-              element: event.target,
-            },
-          });
-          break;
+          return closestElement;
         }
       }
+      return false;
     },
     userContext(event: MouseEvent) {
       PopoutsModule.ShowPopout({

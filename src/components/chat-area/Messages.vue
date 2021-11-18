@@ -5,6 +5,8 @@
       :key="msg.message.tempID || msg.message.messageID"
       :message="msg.message"
       :grouped="msg.grouped"
+      :selectedMessageIds="selectedMessageIds"
+      @toggleSelect="toggleSelect(msg.message)"
       :is="msg.Component"
     />
   </transition-group>
@@ -14,7 +16,7 @@
 import { MessagesModule } from "@/store/modules/messages";
 import MessageTemplate from "./message/MessageTemplate.vue";
 import ActionMessageTemplate from "./message/ActionMessageTemplate.vue";
-import { defineComponent, computed } from "vue";
+import { defineComponent, computed, ref } from "vue";
 import Message from "@/interfaces/Message";
 
 export default defineComponent({
@@ -26,12 +28,26 @@ export default defineComponent({
     animateMessage: Boolean,
   },
   setup(props) {
+    const selectedMessageIds = ref<string[]>([]);
     const isMoreThanMinute = (before: Message, after: Message) => {
       const minute = 60000;
       const beforeTime = before.created;
       const afterTime = after.created;
       return afterTime - beforeTime > minute;
     };
+
+    const toggleSelect = (message: Message) => {
+      if (!message.messageID) return;
+      const existingIndex = selectedMessageIds.value.findIndex(
+        (id) => id === message.messageID
+      );
+      if (existingIndex >= 0) {
+        selectedMessageIds.value.splice(existingIndex, 1);
+        return;
+      }
+      selectedMessageIds.value.push(message.messageID);
+    };
+
     const creatorMatch = (before: Message, after: Message) =>
       before.creator.id === after.creator.id;
 
@@ -65,7 +81,7 @@ export default defineComponent({
       });
     });
 
-    return { messages };
+    return { messages, toggleSelect, selectedMessageIds };
   },
 });
 </script>

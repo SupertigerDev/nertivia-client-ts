@@ -1,5 +1,10 @@
 <template>
   <div class="message actionMessage">
+    <CheckBox
+      :modelValue="isSelected"
+      v-if="selectedMessageIds?.length"
+      @click="onCheckBoxClick"
+    />
     <AvatarImage
       class="avatar"
       :imageId="message.creator.avatar"
@@ -23,7 +28,7 @@
           >&nbsp;{{ type.message }}</span
         >
       </div>
-      <div class="time">{{ time }}</div>
+      <div class="time" @dblclick="onCheckBoxClick">{{ time }}</div>
     </div>
     <MessageSide :message="message" v-if="!hideContext" />
   </div>
@@ -36,6 +41,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import MessageSide from "./MessageSide.vue";
 import { ServerMembersModule } from "@/store/modules/serverMembers";
 import i18n from "@/i18n";
+import CheckBox from "@/components/CheckBox.vue";
 import { PropType } from "vue";
 
 const types = [
@@ -48,7 +54,7 @@ const types = [
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ActionMessageTemplate",
-  components: { AvatarImage, MessageSide },
+  components: { AvatarImage, MessageSide, CheckBox },
   props: {
     message: {
       type: Object as PropType<Message & { grouped: boolean }>,
@@ -58,6 +64,9 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    selectedMessageIds: {
+      type: Array as PropType<string[]>,
+    },
   },
   data() {
     return {
@@ -65,6 +74,10 @@ export default defineComponent({
     };
   },
   computed: {
+    isSelected() {
+      if (!this.message.messageID) return false;
+      return this.selectedMessageIds?.includes(this.message.messageID);
+    },
     roleColor(): any {
       if (!this.loadRoleColor) return undefined;
       if (!this.server_id) return undefined;
@@ -93,6 +106,9 @@ export default defineComponent({
     }, 10);
   },
   methods: {
+    onCheckBoxClick() {
+      this.$emit("toggleSelect");
+    },
     showUserContext(event: MouseEvent) {
       PopoutsModule.ShowPopout({
         id: "context",

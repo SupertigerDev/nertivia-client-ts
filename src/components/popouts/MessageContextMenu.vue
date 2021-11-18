@@ -39,11 +39,6 @@ export default defineComponent({
       required: true,
     },
   },
-  data() {
-    return {
-      lastItemHover: null,
-    };
-  },
   computed: {
     items(): any {
       const items: any = [
