@@ -18,6 +18,7 @@ import Message, { Reaction } from "@/interfaces/Message";
 import { MeModule } from "./me";
 import { ChannelsModule } from "./channels";
 import { MessageLogStatesModule } from "./messageLogStates";
+import { emitter } from "@/utils/globalBus";
 
 interface MessagesObj {
   [key: string]: Message[];
@@ -359,6 +360,22 @@ class Messages extends VuexModule {
     const index = messages.findIndex((m) => m.messageID === payload.messageID);
     if (index <= -1) return;
     this.DELETE_MESSAGE({ channelID: payload.channelID, index });
+  }
+  @Action
+  public deleteBulk(payload: { channelId: string; messageIds: string[] }) {
+    const messages = this.channelMessages(payload.channelId);
+    const newMessages = messages.filter((message) => {
+      if (!message.messageID) return true;
+      return !payload.messageIds.includes(message.messageID);
+    });
+    this.SET_CHANNEL_MESSAGES({
+      channelID: payload.channelId,
+      messages: newMessages,
+    });
+    emitter.emit("bulkDeleteMessages");
+    if (!newMessages.length) {
+      this.FetchAndSetMessages(payload.channelId);
+    }
   }
 
   @Mutation

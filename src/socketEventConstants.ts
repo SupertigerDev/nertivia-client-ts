@@ -7,6 +7,7 @@ export const AUTH_ERROR = "auth_err";
 // message events
 export const RECEIVE_MESSAGE = "receiveMessage";
 export const DELETE_MESSAGE = "delete_message";
+export const DELETE_MESSAGE_BULK = "delete_message_bulk";
 export const UPDATE_MESSAGE = "update_message";
 // message reaction events
 export const UPDATE_MESSAGE_REACTION = "message:update_reaction";
