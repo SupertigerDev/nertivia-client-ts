@@ -22,6 +22,14 @@ export function fetchMessagesContinue(
     .get(`messages/channels/${channelID}?continue=${continueMessageID}`)
     .json();
 }
+export function deleteMessages(
+  channelID: string,
+  messageIds: string[]
+): Promise<ResponseFetch> {
+  return wrapper()
+    .delete(`messages/${channelID}/bulk`, { json: { ids: messageIds } })
+    .json();
+}
 export function fetchMessagesBefore(
   channelID: string,
   beforeMessageID: string

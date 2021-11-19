@@ -5,6 +5,7 @@
     @mouseover="hover = true"
     @mouseleave="hover = false"
     @contextmenu="messageContext"
+    @dblclick="onDoubleClick"
   >
     <div
       class="container blocked"
@@ -14,6 +15,12 @@
       Blocked message. Click to view.
     </div>
     <div class="container" v-else>
+      <CheckBox
+        v-if="showCheckbox"
+        :class="{ disableCheckmark: !canDeleteMessage }"
+        :modelValue="isSelected"
+        @click="onCheckBoxClick"
+      />
       <AvatarImage
         class="avatar"
         :imageId="creator.avatar"
@@ -70,6 +77,12 @@ import { UsersModule } from "@/store/modules/users";
 import { PropType } from "vue";
 import User from "@/interfaces/User";
 import { defineComponent } from "vue";
+import CheckBox from "@/components/CheckBox.vue";
+import { MessagesModule } from "@/store/modules/messages";
+import { MeModule } from "@/store/modules/me";
+import { permissions } from "@/constants/rolePermissions";
+import { ServerMembersModule } from "@/store/modules/serverMembers";
+import { ServersModule } from "@/store/modules/servers";
 export default defineComponent({
   name: "MessageLogs",
   components: {
@@ -80,6 +93,7 @@ export default defineComponent({
     HTMLEmbed,
     ButtonsMessage,
     Reactions,
+    CheckBox,
   },
   props: {
     message: {
@@ -103,6 +117,41 @@ export default defineComponent({
     };
   },
   computed: {
+    canDeleteMessage(): any {
+      if (!this.message.messageID) return false;
+      if (this.message.localMessage) return false;
+      if (this.messageCreatedByMe) return true;
+      if (!this.serverID) return false;
+      if (this.isServerOwner) return true;
+      if (!MeModule.user.id) return false;
+      return ServerMembersModule.memberHasPermission(
+        MeModule.user.id,
+        this.serverID,
+        permissions.ADMIN.value
+      );
+    },
+    messageCreatedByMe(): any {
+      return MeModule.user.id === this.message.creator.id;
+    },
+    isServerOwner(): any {
+      if (!this.serverID) return false;
+      const server = ServersModule.servers[this.serverID];
+      return MeModule.user.id === server.creator.id;
+    },
+    serverID(): any {
+      if (this.currentTab !== "servers") return undefined;
+      return this.$route.params.server_id;
+    },
+    currentTab(): any {
+      return this.$route.path.split("/")[2];
+    },
+    showCheckbox() {
+      return MessagesModule.selectedMessageIds.length;
+    },
+    isSelected() {
+      if (!this.message.messageID) return false;
+      return MessagesModule.isMessageSelected(this.message.messageID);
+    },
     invite(): any {
       const inviteLinkRegex = new RegExp(
         `${process.env.VUE_APP_MAIN_APP_URL}(invites|i)/([\\S]+)`
@@ -129,6 +178,24 @@ export default defineComponent({
     },
   },
   methods: {
+    selectMessage() {
+      if (!this.message.messageID) return;
+      if (!this.canDeleteMessage && !this.isSelected) return;
+      if (this.isSelected) {
+        MessagesModule.unselectMessage(this.message.messageID);
+        return;
+      }
+      MessagesModule.selectMessage(this.message.messageID);
+    },
+    onDoubleClick(event: MouseEvent & { target: HTMLElement }) {
+      const whitelistArr = [".date", ".time"];
+      const closest = this.elementClosestInArray(event.target, whitelistArr);
+      if (!closest) return;
+      this.selectMessage();
+    },
+    onCheckBoxClick() {
+      this.selectMessage();
+    },
     showProfile() {
       PopoutsModule.ShowPopout({
         id: "profile",
@@ -139,27 +206,32 @@ export default defineComponent({
     messageContext(event: MouseEvent & { target: HTMLElement }) {
       if (this.$isMobile) return;
       const whitelistArr = [".message-content", ".date", ".time"];
-      for (let index = 0; index < whitelistArr.length; index++) {
-        const allowClass = whitelistArr[index];
-        const closestElement = event.target.closest(allowClass);
+      const closest = this.elementClosestInArray(event.target, whitelistArr);
+      if (!closest) return;
+      event.preventDefault();
+      const id = this.message.tempID || this.message.messageID || "";
+      PopoutsModule.ShowPopout({
+        id: "context",
+        component: "MessageContextMenu",
+        key: id + event.pageX + event.pageY,
+        data: {
+          x: event.pageX,
+          y: event.pageY,
+          message: this.message,
+          tempUser: this.message.creator,
+          element: event.target,
+        },
+      });
+    },
+    elementClosestInArray(element: HTMLElement, targets: string[]) {
+      for (let index = 0; index < targets.length; index++) {
+        const allowClass = targets[index];
+        const closestElement = element.closest(allowClass);
         if (closestElement) {
-          event.preventDefault();
-          const id = this.message.tempID || this.message.messageID || "";
-          PopoutsModule.ShowPopout({
-            id: "context",
-            component: "MessageContextMenu",
-            key: id + event.pageX + event.pageY,
-            data: {
-              x: event.pageX,
-              y: event.pageY,
-              message: this.message,
-              tempUser: this.message.creator,
-              element: event.target,
-            },
-          });
-          break;
+          return closestElement;
         }
       }
+      return false;
     },
     userContext(event: MouseEvent) {
       PopoutsModule.ShowPopout({
@@ -206,6 +278,10 @@ export default defineComponent({
   padding-top: 3px;
   padding-bottom: 3px;
   overflow: hidden;
+}
+.disableCheckmark {
+  opacity: 0.1;
+  cursor: not-allowed;
 }
 .container {
   overflow: hidden;

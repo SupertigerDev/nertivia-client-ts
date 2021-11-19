@@ -1,6 +1,6 @@
 <template>
   <div class="overview">
-    <Stats />
+    <Stats v-show="!selectedUser" />
     <div class="content">
       <Users
         ref="users"

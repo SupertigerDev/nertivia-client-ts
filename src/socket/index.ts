@@ -48,6 +48,7 @@ import {
   CUSTOM_EMOJI_UPLOADED,
   UPDATE_MESSAGE_REACTION,
   RECONNECT_ATTEMPT,
+  DELETE_MESSAGE_BULK,
 } from "@/socketEventConstants";
 import { io } from "socket.io-client";
 import * as connectionEvents from "./events/connectionEvents";
@@ -80,6 +81,9 @@ socket.on(UPDATE_MESSAGE, (data) =>
 );
 socket.on(DELETE_MESSAGE, (data) =>
   messageEvents.onMessageDelete(socket, data)
+);
+socket.on(DELETE_MESSAGE_BULK, (data) =>
+  messageEvents.onMessageDeleteBulk(socket, data)
 );
 socket.on(UPDATE_MESSAGE_REACTION, (data) =>
   messageEvents.onReactionUpdate(socket, data)

@@ -3,29 +3,20 @@
     <div class="delete-message-popout">
       <div class="content animate-in">
         <div class="header">
-          <AvatarImage
-            :imageId="user.avatar"
-            :seedId="user.id"
-            :animateGif="false"
-            size="30px"
-            class="avatar"
-          />
-          <div class="text">Delete Message?</div>
+          <div class="text">
+            Delete {{ selectedMessageIds.length }} Message(s)?
+          </div>
         </div>
         <div class="inner-content">
           <div class="description">
-            <component
-              v-bind:is="messageType"
-              class="message"
-              :message="message"
-              :hideContext="true"
-            />
+            {{ selectedMessageIds.length }} messages are selected.
           </div>
           <div class="buttons">
             <CustomButton icon="close" :name="$t('back')" @click="close" />
             <CustomButton
+              :disabled="requestSent"
               :name="$t('generic.delete')"
-              @click="deleteMessage"
+              @click="deleteMessages"
               icon="delete"
               :alert="true"
             />
@@ -36,74 +27,46 @@
   </div>
 </template>
 <script lang="ts">
-import AvatarImage from "@/components/AvatarImage.vue";
-import MessageTemplate from "@/components/chat-area/message/MessageTemplate.vue";
-import ActionMessageTemplate from "@/components/chat-area/message/ActionMessageTemplate.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
-import { deleteMessage } from "@/services/messagesService";
-import { MessagesModule } from "@/store/modules/messages";
 import CustomButton from "@/components/CustomButton.vue";
-import { PropType } from "vue";
 import { defineComponent } from "vue";
+import { MessagesModule } from "@/store/modules/messages";
+import { deleteMessages } from "@/services/messagesService";
 export default defineComponent({
-  name: "ProfilePopout",
+  name: "DeleteMessageBatch",
   components: {
-    AvatarImage,
-    MessageTemplate,
-    ActionMessageTemplate,
     CustomButton,
   },
-  props: {
-    data: {
-      type: Object as PropType<{
-        messageID: string;
-        channelID: string;
-        callback?: any;
-      }>,
-      required: true,
-    },
+  data() {
+    return {
+      requestSent: false,
+    };
   },
   computed: {
-    message(): any {
-      return MessagesModule.channelMessages(this.data.channelID)?.find(
-        (m) => m.messageID === this.data.messageID
-      );
+    selectedMessageIds() {
+      return MessagesModule.selectedMessageIds;
     },
-    messageType(): any {
-      return this.message?.type === 0
-        ? "MessageTemplate"
-        : "ActionMessageTemplate";
-    },
-    user(): any {
-      if (!this.message) return undefined;
-      return this.message.creator;
-    },
-  },
-  watch: {
-    message: {
-      handler: "onMessageChange",
+    channelID(): string {
+      return this.$route.params.channel_id as string;
     },
   },
   methods: {
     close() {
-      PopoutsModule.ClosePopout("delete-message");
+      PopoutsModule.ClosePopout("delete-message-batch");
     },
     backgroundClick(event: any) {
       if (event.target.classList.contains("popout-background")) {
         this.close();
       }
     },
-    async deleteMessage() {
-      if (!this.message) return;
-      if (!this.message.messageID) return;
-      this.close();
-      await deleteMessage(this.message.channelID, this.message.messageID);
-      this.data?.callback?.();
-    },
-    onMessageChange() {
-      if (!this.message) {
+    async deleteMessages() {
+      if (this.requestSent) return;
+      this.requestSent = true;
+      deleteMessages(this.channelID, this.selectedMessageIds).finally(() => {
+        this.requestSent = false;
+        MessagesModule.deselectAll();
         this.close();
-      }
+      });
     },
   },
 });
@@ -153,6 +116,7 @@ export default defineComponent({
   align-items: center;
   align-content: center;
   padding: 5px;
+  height: 30px;
   background: var(--main-header-bg-color);
   .text {
     margin-left: 10px;
@@ -170,10 +134,11 @@ export default defineComponent({
   align-items: center;
 }
 .description {
-  margin-top: 10px;
   display: flex;
   flex-direction: column;
   overflow: auto;
+  margin: 10px;
+  margin-top: 20px;
 }
 .buttons {
   display: flex;

@@ -18,6 +18,7 @@ import Message, { Reaction } from "@/interfaces/Message";
 import { MeModule } from "./me";
 import { ChannelsModule } from "./channels";
 import { MessageLogStatesModule } from "./messageLogStates";
+import { emitter } from "@/utils/globalBus";
 
 interface MessagesObj {
   [key: string]: Message[];
@@ -46,12 +47,16 @@ interface LastMessage {
 class Messages extends VuexModule {
   messages: MessagesObj = {};
   lastMessageSent: LastMessage = {};
+  selectedMessageIds: string[] = [];
 
   get channelMessages() {
     return (id: string) => this.messages[id];
   }
   get lastSentStamp() {
     return (id: string) => this.lastMessageSent[id];
+  }
+  get isMessageSelected() {
+    return (id: string) => this.selectedMessageIds.includes(id);
   }
 
   get messageReactions() {
@@ -93,6 +98,37 @@ class Messages extends VuexModule {
     channelID: string;
   }) {
     this.SET_CHANNEL_MESSAGES(payload);
+  }
+  @Mutation
+  private UNSELECT_MESSAGE(id: string) {
+    const index = this.selectedMessageIds.indexOf(id);
+    if (index < 0) return;
+    this.selectedMessageIds.splice(index, 1);
+  }
+
+  @Action
+  unselectMessage(id: string) {
+    this.UNSELECT_MESSAGE(id);
+  }
+  @Mutation
+  private SELECT_MESSAGE(id: string) {
+    const index = this.selectedMessageIds.indexOf(id);
+    if (index >= 0) return;
+    this.selectedMessageIds.push(id);
+  }
+
+  @Action
+  selectMessage(id: string) {
+    this.SELECT_MESSAGE(id);
+  }
+  @Mutation
+  private DESELECT_ALL() {
+    this.selectedMessageIds = [];
+  }
+
+  @Action
+  deselectAll() {
+    this.DESELECT_ALL();
   }
 
   @Action
@@ -359,6 +395,22 @@ class Messages extends VuexModule {
     const index = messages.findIndex((m) => m.messageID === payload.messageID);
     if (index <= -1) return;
     this.DELETE_MESSAGE({ channelID: payload.channelID, index });
+  }
+  @Action
+  public deleteBulk(payload: { channelId: string; messageIds: string[] }) {
+    const messages = this.channelMessages(payload.channelId);
+    const newMessages = messages.filter((message) => {
+      if (!message.messageID) return true;
+      return !payload.messageIds.includes(message.messageID);
+    });
+    this.SET_CHANNEL_MESSAGES({
+      channelID: payload.channelId,
+      messages: newMessages,
+    });
+    emitter.emit("bulkDeleteMessages");
+    if (!newMessages.length) {
+      this.FetchAndSetMessages(payload.channelId);
+    }
   }
 
   @Mutation

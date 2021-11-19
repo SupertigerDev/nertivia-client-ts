@@ -22,6 +22,7 @@
       <ScrollDownButton v-if="!isScrolledDown" />
     </div>
     <TypingStatus />
+    <SelectedMessagesActions />
     <EditPanel
       v-if="editingMessageID && hasSendMessagePerm"
       :messageID="editingMessageID"
@@ -134,6 +135,7 @@ import { FileUploadModule } from "@/store/modules/fileUpload";
 import FileUpload from "./FileUpload.vue";
 import SuggestionPopouts from "./suggestion-popouts/SuggestionPopouts.vue";
 import TypingStatus from "./TypingStatus.vue";
+import SelectedMessagesActions from "./SelectedMessagesActions.vue";
 import ScrollDownButton from "./ScrollDownButton.vue";
 import RateLimitPopup from "./RateLimitPopup.vue";
 import ButtonTemplate from "./MessageBoxButtonTemplate.vue";
@@ -179,6 +181,7 @@ export default defineComponent({
     RateLimitPopup,
     DoodlePopout,
     PickerArea,
+    SelectedMessagesActions
   },
   data() {
     return {

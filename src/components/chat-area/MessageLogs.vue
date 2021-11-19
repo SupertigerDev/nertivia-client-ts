@@ -72,6 +72,7 @@ export default defineComponent({
     this.fileDragDropHandler.onDragOut(this.fileDragOut);
     this.dismissNotification();
     emitter.on("scrollToMessage", this.goToMessage);
+    emitter.on("bulkDeleteMessages", this.onBulkDelete);
   },
   beforeUnmount() {
     const isScrolledDown = MessageLogStatesModule.isScrolledDown(
@@ -85,8 +86,20 @@ export default defineComponent({
     });
     this.fileDragDropHandler?.destroy();
     emitter.off("scrollToMessage", this.goToMessage);
+    emitter.off("bulkDeleteMessages", this.onBulkDelete);
   },
   methods: {
+    onBulkDelete() {
+      if (!this.channelMessages?.length) return;
+      this.moreTopToLoad = true;
+      this.moreBottomToLoad = true;
+      setTimeout(() => {
+        this.loadMoreBottom(true);
+        setTimeout(() => {
+          this.loadMoreTop(true);
+        }, 1000);
+      }, 1000);
+    },
     fileDragEnter() {
       PopoutsModule.ShowPopout({
         id: "file-drag",
@@ -100,9 +113,9 @@ export default defineComponent({
       PopoutsModule.ClosePopout("file-drag");
       FileUploadModule.SetFile(file);
     },
-    loadMoreTop() {
+    loadMoreTop(forced = false) {
       if (!this.channelMessages) return;
-      if (this.channelMessages.length <= 40) return;
+      if (!forced && this.channelMessages.length <= 40) return;
       if (!this.moreTopToLoad) return;
       const logs: Element = this.$refs.logs as any;
       if (this.isLoadingTopMore) return;
@@ -152,9 +165,9 @@ export default defineComponent({
         }
       );
     },
-    loadMoreBottom() {
+    loadMoreBottom(forced = false) {
       if (!this.channelMessages) return;
-      if (this.channelMessages.length <= 40) return;
+      if (!forced && this.channelMessages.length <= 40) return;
       if (!this.moreBottomToLoad) return;
       const logs: Element = this.$refs.logs as any;
       if (this.isLoadingBottomMore) return;

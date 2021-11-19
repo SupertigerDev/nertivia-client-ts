@@ -24,6 +24,7 @@ import { insert } from "text-field-edit";
 import { PropType } from "vue";
 import { defineComponent } from "vue";
 import { toClipboard } from "@soerenmartius/vue3-clipboard";
+import { MessagesModule } from "@/store/modules/messages";
 export default defineComponent({
   name: "MessageContextMenu",
   components: { ContextMenu },
@@ -38,11 +39,6 @@ export default defineComponent({
       }>,
       required: true,
     },
-  },
-  data() {
-    return {
-      lastItemHover: null,
-    };
   },
   computed: {
     items(): any {
@@ -83,6 +79,11 @@ export default defineComponent({
             warn: true,
           }
         );
+        items.push({
+          id: "select",
+          name: this.$t("generic.select"),
+          icon: "check_box",
+        });
       }
       items.push(
         { type: "seperator" },
@@ -149,6 +150,10 @@ export default defineComponent({
           const messageBox: any = document.getElementById("message-box");
           messageBox && insert(messageBox, `<m${this.message.messageID}>`);
           messageBox.focus();
+          break;
+        }
+        case "select": {
+          MessagesModule.selectMessage(this.message.messageID);
           break;
         }
         case "delete":

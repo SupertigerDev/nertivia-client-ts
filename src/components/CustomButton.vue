@@ -17,7 +17,7 @@
       :style="{ fontSize: iconSize }"
       >{{ icon }}</span
     >
-    {{ name }}
+    <div class="name">{{ name }}</div>
     <span
       v-if="icon && iconPos === 'right'"
       class="material-icons icon right"

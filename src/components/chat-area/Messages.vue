@@ -14,7 +14,7 @@
 import { MessagesModule } from "@/store/modules/messages";
 import MessageTemplate from "./message/MessageTemplate.vue";
 import ActionMessageTemplate from "./message/ActionMessageTemplate.vue";
-import { defineComponent, computed } from "vue";
+import { defineComponent, computed, onBeforeUnmount } from "vue";
 import Message from "@/interfaces/Message";
 
 export default defineComponent({
@@ -32,6 +32,11 @@ export default defineComponent({
       const afterTime = after.created;
       return afterTime - beforeTime > minute;
     };
+
+    onBeforeUnmount(() => {
+      MessagesModule.deselectAll();
+    });
+
     const creatorMatch = (before: Message, after: Message) =>
       before.creator.id === after.creator.id;
 

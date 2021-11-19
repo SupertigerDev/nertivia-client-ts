@@ -123,9 +123,16 @@ interface DeleteData {
   channelID: string;
   messageID: string;
 }
+interface DeleteBulkData {
+  channelId: string;
+  messageIds: string[];
+}
 
 export const onMessageDelete = (socket: Socket, data: DeleteData) => {
   MessagesModule.DeleteMessage(data);
+};
+export const onMessageDeleteBulk = (socket: Socket, data: DeleteBulkData) => {
+  MessagesModule.deleteBulk(data);
 };
 export const onMessageUpdate = (socket: Socket, data: Message) => {
   MessagesModule.UpdateMessage({
