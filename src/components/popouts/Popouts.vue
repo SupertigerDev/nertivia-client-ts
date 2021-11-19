@@ -11,7 +11,6 @@
 </template>
 
 <script lang="ts">
-
 import { PopoutsModule } from "@/store/modules/popouts";
 import { defineComponent, defineAsyncComponent } from "vue";
 
@@ -113,6 +112,9 @@ const components = {
   ),
   CaptchaPopout: defineAsyncComponent(
     () => import("@/components/popouts/CaptchaPopout.vue")
+  ),
+  DeleteMessageBatchPopout: defineAsyncComponent(
+    () => import("@/components/popouts/DeleteMessageBatchPopout.vue")
   ),
 };
 export default defineComponent({

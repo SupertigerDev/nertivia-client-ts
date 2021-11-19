@@ -301,6 +301,7 @@
   },
   "generic": {
     "copy": "Copy",
+    "select": "Select",
     "delete": "Delete",
     "copied": "Copied!",
     "user": "User"

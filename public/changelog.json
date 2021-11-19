@@ -1,5 +1,11 @@
 [
 	{
+		"version": "1.52.0-stable",
+		"date": "19 November 2021",
+		"title": "Delete Multiple Messages",
+		"new": "You can now delete multiple messages by double clicking on the date or opening the message context menu."
+	},
+	{
 		"version": "1.51.0-stable",
 		"date": "13 November 2021",
 		"title": "Desktop App Screenshare!",

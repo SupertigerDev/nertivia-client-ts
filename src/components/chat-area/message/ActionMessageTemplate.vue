@@ -1,8 +1,9 @@
 <template>
   <div class="message actionMessage">
     <CheckBox
+      v-if="showCheckbox"
+      :class="{ disableCheckmark: !canDeleteMessage }"
       :modelValue="isSelected"
-      v-if="selectedMessageIds?.length"
       @click="onCheckBoxClick"
     />
     <AvatarImage
@@ -52,6 +53,10 @@ const types = [
   { color: "#d92121", message: i18n.global.t("messages.banned") },
 ];
 import { defineComponent } from "vue";
+import { MeModule } from "@/store/modules/me";
+import { permissions } from "@/constants/rolePermissions";
+import { ServersModule } from "@/store/modules/servers";
+import { MessagesModule } from "@/store/modules/messages";
 export default defineComponent({
   name: "ActionMessageTemplate",
   components: { AvatarImage, MessageSide, CheckBox },
@@ -64,9 +69,6 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    selectedMessageIds: {
-      type: Array as PropType<string[]>,
-    },
   },
   data() {
     return {
@@ -74,9 +76,40 @@ export default defineComponent({
     };
   },
   computed: {
+    canDeleteMessage(): any {
+      if (!this.message.messageID) return false;
+      if (this.message.localMessage) return false;
+      if (this.messageCreatedByMe) return true;
+      if (!this.serverID) return false;
+      if (this.isServerOwner) return true;
+      if (!MeModule.user.id) return false;
+      return ServerMembersModule.memberHasPermission(
+        MeModule.user.id,
+        this.serverID,
+        permissions.ADMIN.value
+      );
+    },
+    messageCreatedByMe(): any {
+      return MeModule.user.id === this.message.creator.id;
+    },
+    isServerOwner(): any {
+      if (!this.serverID) return false;
+      const server = ServersModule.servers[this.serverID];
+      return MeModule.user.id === server.creator.id;
+    },
+    serverID(): any {
+      if (this.currentTab !== "servers") return undefined;
+      return this.$route.params.server_id;
+    },
+    currentTab(): any {
+      return this.$route.path.split("/")[2];
+    },
+    showCheckbox() {
+      return MessagesModule.selectedMessageIds.length;
+    },
     isSelected() {
       if (!this.message.messageID) return false;
-      return this.selectedMessageIds?.includes(this.message.messageID);
+      return MessagesModule.isMessageSelected(this.message.messageID);
     },
     roleColor(): any {
       if (!this.loadRoleColor) return undefined;
@@ -106,8 +139,17 @@ export default defineComponent({
     }, 10);
   },
   methods: {
+    selectMessage() {
+      if (!this.message.messageID) return;
+      if (!this.canDeleteMessage && !this.isSelected) return;
+      if (this.isSelected) {
+        MessagesModule.unselectMessage(this.message.messageID);
+        return;
+      }
+      MessagesModule.selectMessage(this.message.messageID);
+    },
     onCheckBoxClick() {
-      this.$emit("toggleSelect");
+      this.selectMessage();
     },
     showUserContext(event: MouseEvent) {
       PopoutsModule.ShowPopout({
@@ -137,6 +179,10 @@ export default defineComponent({
   display: flex;
   flex-shrink: 0;
   margin: 10px;
+}
+.disableCheckmark {
+  opacity: 0.1;
+  cursor: not-allowed;
 }
 
 .avatar {

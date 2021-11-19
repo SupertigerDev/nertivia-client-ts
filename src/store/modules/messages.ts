@@ -47,12 +47,16 @@ interface LastMessage {
 class Messages extends VuexModule {
   messages: MessagesObj = {};
   lastMessageSent: LastMessage = {};
+  selectedMessageIds: string[] = [];
 
   get channelMessages() {
     return (id: string) => this.messages[id];
   }
   get lastSentStamp() {
     return (id: string) => this.lastMessageSent[id];
+  }
+  get isMessageSelected() {
+    return (id: string) => this.selectedMessageIds.includes(id);
   }
 
   get messageReactions() {
@@ -94,6 +98,37 @@ class Messages extends VuexModule {
     channelID: string;
   }) {
     this.SET_CHANNEL_MESSAGES(payload);
+  }
+  @Mutation
+  private UNSELECT_MESSAGE(id: string) {
+    const index = this.selectedMessageIds.indexOf(id);
+    if (index < 0) return;
+    this.selectedMessageIds.splice(index, 1);
+  }
+
+  @Action
+  unselectMessage(id: string) {
+    this.UNSELECT_MESSAGE(id);
+  }
+  @Mutation
+  private SELECT_MESSAGE(id: string) {
+    const index = this.selectedMessageIds.indexOf(id);
+    if (index >= 0) return;
+    this.selectedMessageIds.push(id);
+  }
+
+  @Action
+  selectMessage(id: string) {
+    this.SELECT_MESSAGE(id);
+  }
+  @Mutation
+  private DESELECT_ALL() {
+    this.selectedMessageIds = [];
+  }
+
+  @Action
+  deselectAll() {
+    this.DESELECT_ALL();
   }
 
   @Action
