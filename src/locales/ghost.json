@@ -1,0 +1,319 @@
+{
+    "save-changes": "",
+    "saving": "",
+    "back": "",
+    "are-you-sure": "",
+    "copy-id-button": "",
+    "time": {
+        "today-at": "",
+        "yesterday-at": ""
+    },
+    "message-area": {
+        "no-message-perm": "",
+        "not-connected-server": "",
+        "attach-message": "",
+        "type-message": "",
+        "back-to-bottom": "",
+        "new-messages": ""
+    },
+    "upload-dialog": {
+        "compress": "",
+        "upload-to": ""
+    },
+    "user-context": {
+        "view-profile": "",
+        "edit-roles": "",
+        "kick": "",
+        "ban": "",
+        "copy-user-tag": ""
+    },
+    "message-context": {
+        "quote": "",
+        "edit": ""
+    },
+    "server-context": {
+        "mark-as-read": "",
+        "server-settings": "",
+        "leave-server": ""
+    },
+    "channel-context": {
+        "mute-channel": "",
+        "unmute-channel": ""
+    },
+    "settings": {
+        "tab-names": {
+            "account": "",
+            "notification": "",
+            "manage-emojis": "",
+            "call-options": "",
+            "startup-options": "",
+            "program-activity": "",
+            "manage-bots": "",
+            "interface": "",
+            "language": "",
+            "delete-account": "",
+            "changelog": "",
+            "wip-features": ""
+        },
+        "account": {
+            "title": "",
+            "change-password": "",
+            "relink-google-drive": "",
+            "link-google-drive": "",
+            "more-profile": "",
+            "more-profile-notice": ""
+        },
+        "notification": {
+            "title": "",
+            "notification-sound": "",
+            "notification-sound-details": "",
+            "notification-mentions-only": "",
+            "notification-mentions-only-details": "",
+            "push-notification": "",
+            "push-notification-details": ""
+        },
+        "manage-emojis": {
+            "details": "",
+            "supported-types": "",
+            "add-emojis-button": ""
+        },
+        "startup-options": {
+            "title": "",
+            "notice": "",
+            "open-on-startup": ""
+        },
+        "program-activity": {
+            "details": "",
+            "notice": ""
+        },
+        "manage-bots": {
+            "details": "",
+            "command-notice": "",
+            "create-bot-button": "",
+            "add-command-button": "",
+            "edit-bot": "",
+            "edit-commands": "",
+            "create-invite-link": "",
+            "copy-invite-url": "",
+            "manage-token": "",
+            "show-token": "",
+            "copy-token": "",
+            "reset-token": "",
+            "delete-bot": ""
+        },
+        "delete-account": {
+            "notice": "",
+            "what-gets-deleted": "",
+            "what-wont-delete": "",
+            "messages-sent": "",
+            "requirements": "",
+            "delete-leave-server": "",
+            "delete-bots": "",
+            "delete-account-button": ""
+        },
+        "language": {
+            "details": "",
+            "translators": ""
+        },
+        "interface": {
+            "description": "",
+            "colors": "",
+            "time-format": "",
+            "default-theme": "",
+            "amoled-dark": "",
+            "halloween-2020": "",
+            "predefined-themes": "",
+            "custom-css": "",
+            "general": "",
+            "navigation-bar": ""
+        },
+        "wip-features": {
+            "title": "",
+            "none-available": ""
+        }
+    },
+    "server-settings": {
+        "permissions": {
+            "permissions": "",
+            "admin": {
+                "name": "",
+                "info": ""
+            },
+            "send-messages": {
+                "name": "",
+                "info": ""
+            },
+            "manage-roles": {
+                "name": "",
+                "info": ""
+            },
+            "manage-channels": {
+                "name": "",
+                "info": ""
+            },
+            "kick-user": {
+                "name": "",
+                "info": ""
+            },
+            "ban-user": {
+                "name": "",
+                "info": ""
+            }
+        },
+        "tab-names": {
+            "general": "",
+            "manage-channels": "",
+            "manage-roles": "",
+            "manage-invites": "",
+            "server-visibility": "",
+            "manage-notification": "",
+            "banned-users": "",
+            "manage-users": "",
+            "delete-server": ""
+        },
+        "manage-roles": {
+            "manage-your-roles": "",
+            "default-role": "",
+            "bot-role": "",
+            "create-role": "",
+            "notice-bot": "",
+            "notice-default": "",
+            "pick-role-color": "",
+            "role-name": "",
+            "settings": "",
+            "delete-role": "",
+            "deleting-role": "",
+            "hide-role": ""
+        },
+        "general": {
+            "general-server-settings": ""
+        },
+        "manage-channels": {
+            "manage-your-channels": "",
+            "delete-channel": "",
+            "deleting-channel": "",
+            "channel-name": "",
+            "default-channel-notice": "",
+            "create-new-channel": "",
+            "permission": {
+                "send-message": ""
+            },
+            "rate-limit-seconds": "",
+            "text-channel": "",
+            "html-channel": ""
+        },
+        "banned-users": {
+            "notice": "",
+            "unbanning": "",
+            "unban": ""
+        },
+        "manage-invites": {
+            "notice": "",
+            "create-invites": "",
+            "custom-invite": "",
+            "save-custom-link": "",
+            "create-invite": "",
+            "link": "",
+            "creator": "",
+            "uses": ""
+        },
+        "manage-users": {
+            "search-user": ""
+        },
+        "delete-server": {
+            "type-server-name-to-confirm": "",
+            "deleting": ""
+        },
+        "notifications": {
+            "description": "",
+            "notice": "",
+            "enable-notifications": "",
+            "mute-sound": "",
+            "disable-notifications": ""
+        }
+    },
+    "typing-status": {
+        "is-typing": "",
+        "two-are-typing": "",
+        "three-are-typing": "",
+        "more-than-three": ""
+    },
+    "dm-tab": {
+        "friends": "",
+        "recents": "",
+        "saved-notes": "",
+        "add-friend": ""
+    },
+    "dashboard-tab": {
+        "profile": "",
+        "notifications": "",
+        "click-to-add-custom-status": "",
+        "caught-up": "",
+        "direct-messages": "",
+        "servers": "",
+        "explore": "",
+        "dashboard": ""
+    },
+    "add-friend-popout": {
+        "notice": "",
+        "adding": ""
+    },
+    "add-server-popout": {
+        "title": "",
+        "join-server-notice": "",
+        "create-server-notice": "",
+        "tabs": {
+            "join": "",
+            "create": ""
+        }
+    },
+    "presence": {
+        "offline": "",
+        "online": "",
+        "away": "",
+        "busy": "",
+        "looking-to-play": ""
+    },
+    "right-drawer": {
+        "server-members": "",
+        "server-offline-members": ""
+    },
+    "profile-popout": {
+        "common-friends": "",
+        "badges": "",
+        "joined-at": "",
+        "suspended": "",
+        "remove-friend": "",
+        "accept-request": "",
+        "cancel-request": "",
+        "add-friend": "",
+        "send-message": "",
+        "common-servers": ""
+    },
+    "connection": {
+        "loading": "",
+        "ready": "",
+        "authenticating": ""
+    },
+    "navbar": {
+        "update": "",
+        "update-available": ""
+    },
+    "generic": {
+        "copy": "",
+        "select": "",
+        "delete": "",
+        "copied": "",
+        "user": ""
+    },
+    "messages": {
+        "left": "",
+        "kicked": "",
+        "banned": "",
+        "joined": ""
+    },
+    "could-not-connect-to-server": "",
+    "chat-area": {
+        "rate-limit-mode": ""
+    }
+}
