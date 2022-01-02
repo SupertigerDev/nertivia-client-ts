@@ -44,7 +44,7 @@ export interface Action {
   reason?: string;
   user?: User;
   admin: User;
-  ip_ban?: string;
+  bannedIP?: string;
   date: number;
 }
 

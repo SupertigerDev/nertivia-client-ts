@@ -41,10 +41,10 @@ export default defineComponent({
         return `<strong>${this.action.admin.username}</strong> unsuspended <strong>${this.action.user?.username}</strong>`;
       }
       if (this.action.action === "BAN_IP") {
-        return `<strong>${this.action.admin.username}</strong> IP banned <strong>${this.action.ip_ban}</strong> for 5 days.`;
+        return `<strong>${this.action.admin.username}</strong> IP banned <strong>${this.action.bannedIP}</strong> for 5 days.`;
       }
       if (this.action.action === "UNBAN_IP") {
-        return `<strong>${this.action.admin.username}</strong> removed IP Ban <strong>${this.action.ip_ban}</strong>`;
+        return `<strong>${this.action.admin.username}</strong> removed IP Ban <strong>${this.action.bannedIP}</strong>`;
       }
       return `Unknown action: ${this.action.action}`;
     },
