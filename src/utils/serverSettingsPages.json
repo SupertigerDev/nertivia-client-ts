@@ -22,13 +22,6 @@
     "admin": true,
     "component": "ManageRoles"
   },
-  "manage-emojis": {
-    "name": "Manage Emojis",
-    "id": "manage-emojis",
-    "icon": "face",
-    "owner": true,
-    "component": "ManageEmojis"
-  },
   "manage-invites": {
     "name": "Manage Invites",
     "id": "manage-invites",
