@@ -78,7 +78,7 @@ export default defineComponent({
       if (event.target.closest(".context")) return;
       PopoutsModule.ClosePopout(this.identity);
     },
-    emojiPicked(event: { unicode: string; gif: boolean; emojiID: string }) {
+    emojiPicked(event: { unicode: string; gif: boolean; id: string }) {
       PopoutsModule.ClosePopout(this.identity);
 
       const reactions = MessagesModule.messageReactions({
@@ -101,14 +101,14 @@ export default defineComponent({
       let oldReaction: Reaction | undefined = MessagesModule.messageReaction({
         messageID: this.data.messageID,
         channelID: this.data.channelID,
-        emojiID: event.emojiID,
+        emojiID: event.id,
         unicode: event.unicode,
       });
       if (oldReaction && oldReaction.reacted) return;
       if (!oldReaction) {
         oldReaction = {
           count: 0,
-          emojiID: event.emojiID,
+          emojiID: event.id,
           unicode: event.unicode,
           gif: event.gif,
           reacted: false,
@@ -123,7 +123,7 @@ export default defineComponent({
       });
 
       addReaction(this.data.channelID, this.data.messageID, {
-        emojiID: event.emojiID,
+        emojiID: event.id,
         gif: event.gif,
         unicode: event.unicode,
       });

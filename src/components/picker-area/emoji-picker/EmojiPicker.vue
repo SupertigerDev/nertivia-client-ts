@@ -260,9 +260,8 @@ export default defineComponent({
       let rowIndex = 0;
       const newArr: any = [];
       for (let index = 0; index < emojis.length; index++) {
-        const emoji = {
+        let emoji = {
           ...emojis[index],
-          id: index + Math.floor(Math.random() * 12202222222),
         };
 
         if (index === 0) {

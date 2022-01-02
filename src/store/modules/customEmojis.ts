@@ -23,28 +23,28 @@ class CustomEmojis extends VuexModule {
     this.INIT_CUSTOM_EMOJIS(payload);
   }
   @Mutation
-  private DELETE_EMOJI(emojiID: string) {
-    const index = this.customEmojis.findIndex((e) => e.emojiID === emojiID);
+  private DELETE_EMOJI(id: string) {
+    const index = this.customEmojis.findIndex((e) => e.id === id);
     if (index < 0) return;
     this.customEmojis.splice(index);
   }
 
   @Action
-  public DeleteEmoji(emojiID: string) {
-    this.DELETE_EMOJI(emojiID);
+  public DeleteEmoji(id: string) {
+    this.DELETE_EMOJI(id);
   }
   @Mutation
-  private UPDATE_EMOJI(data: { emojiID: string; name: string }) {
+  private UPDATE_EMOJI(data: { id: string; name: string }) {
     const index = this.customEmojis.findIndex(
-      (e) => e.emojiID === data.emojiID
+      (e) => e.id === data.id
     );
     if (index < 0) return;
     this.customEmojis[index].name = data.name;
   }
 
   @Action
-  public UpdateEmoji(data: { emojiID: string; name: string }) {
-    this.UPDATE_EMOJI({ emojiID: data.emojiID, name: data.name });
+  public UpdateEmoji(data: { id: string; name: string }) {
+    this.UPDATE_EMOJI({ id: data.id, name: data.name });
   }
 
   @Mutation

@@ -4,7 +4,7 @@
       <div class="material-icons">add</div>
     </div>
     <div
-      v-else-if="!emoji.emojiID"
+      v-else-if="!emoji.id"
       class="emoji default"
       :style="{ backgroundPosition: emoji.pos }"
     />
@@ -12,7 +12,7 @@
       v-else
       class="emoji custom"
       :style="{
-        backgroundImage: `url(${customEmojiUrl + emoji.emojiID}.${
+        backgroundImage: `url(${customEmojiUrl + emoji.id}.${
           emoji.gif ? 'gif' : 'png'
         })`,
       }"

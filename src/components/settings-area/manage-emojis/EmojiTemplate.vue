@@ -61,7 +61,7 @@ export default defineComponent({
       return (
         process.env.VUE_APP_NERTIVIA_CDN +
         "emojis/" +
-        this.emoji.emojiID +
+        this.emoji.id +
         (this.emoji.gif ? ".gif" : ".png")
       );
     },
@@ -102,10 +102,10 @@ export default defineComponent({
 
       if (this.saving) return;
       this.saving = true;
-      updateEmoji(this.emoji.emojiID, this.emojiName)
+      updateEmoji(this.emoji.id, this.emojiName)
         .then(() => {
           CustomEmojisModule.UpdateEmoji({
-            emojiID: this.emoji.emojiID,
+            id: this.emoji.id,
             name: this.emojiName,
           });
           this.emojiName = this.emoji.name;
@@ -133,9 +133,9 @@ export default defineComponent({
     deleteButton() {
       if (this.deleting) return;
       this.deleting = true;
-      deleteEmoji(this.emoji.emojiID)
+      deleteEmoji(this.emoji.id)
         .then(() => {
-          CustomEmojisModule.DeleteEmoji(this.emoji.emojiID);
+          CustomEmojisModule.DeleteEmoji(this.emoji.id);
         })
         .catch(async (res) => {
           let message;

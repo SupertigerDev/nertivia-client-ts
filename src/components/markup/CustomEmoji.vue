@@ -15,13 +15,13 @@ const EMOJI_URL = process.env.VUE_APP_NERTIVIA_CDN + "emojis";
 import { defineComponent } from "vue";
 export default defineComponent({
   props: {
-    emojiID: String,
+    id: String,
     emojiName: String,
     animated: Boolean,
   },
   computed: {
     src(): string {
-      return `${EMOJI_URL}/${this.emojiID}.${this.animated ? "gif" : "png"}${
+      return `${EMOJI_URL}/${this.id}.${this.animated ? "gif" : "png"}${
         !useWindowProperties().isFocused ? "?type=webp" : ""
       }`;
     },
