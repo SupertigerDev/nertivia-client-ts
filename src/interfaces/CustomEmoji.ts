@@ -1,5 +1,5 @@
 export default interface CustomEmoji {
-  emojiID: string;
+  id: string;
   gif: boolean;
   name: string;
 }

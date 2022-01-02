@@ -217,13 +217,13 @@ export default defineComponent({
       }
     },
     emojiClicked(emoji: any) {
-      const { unicode, emojiID, gif } = emoji;
+      const { unicode, id, gif } = emoji;
       this.showEmojiPicker = false;
       if (unicode) {
         this.channelIcon = unicode;
         return;
       }
-      this.channelIcon = `${gif ? "g" : "c"}_${emojiID}`;
+      this.channelIcon = `${gif ? "g" : "c"}_${id}`;
     },
     isConnected(val: boolean) {
       if (val) {

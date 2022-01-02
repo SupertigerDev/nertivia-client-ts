@@ -34,12 +34,12 @@ export default defineComponent({
       return this.hoveredEmoji.annotation;
     },
     image(): any {
-      const { el, emojiID, gif } = this.hoveredEmoji;
+      const { el, id, gif } = this.hoveredEmoji;
       if (el) return el;
       const image = new Image();
       image.classList.add("emoji");
 
-      image.src = `${process.env.VUE_APP_NERTIVIA_CDN}emojis/${emojiID}.${
+      image.src = `${process.env.VUE_APP_NERTIVIA_CDN}emojis/${id}.${
         gif ? "gif" : "png"
       }`;
       return image.outerHTML;

@@ -49,9 +49,9 @@ export const replaceShortcode = (message: string) => {
     );
     if (customEmoji) {
       if (customEmoji.gif) {
-        return `<g:${customEmoji.name}:${customEmoji.emojiID}>`;
+        return `<g:${customEmoji.name}:${customEmoji.id}>`;
       }
-      return `<:${customEmoji.name}:${customEmoji.emojiID}>`;
+      return `<:${customEmoji.name}:${customEmoji.id}>`;
     }
     return x;
   });

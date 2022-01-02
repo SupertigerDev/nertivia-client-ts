@@ -1,16 +1,16 @@
 import wrapper from "./wrapper";
 
-export function deleteEmoji(emojiID: string): Promise<any> {
+export function deleteEmoji(id: string): Promise<any> {
   return wrapper()
     .delete(`settings/emoji`, {
-      json: { emojiID },
+      json: { id },
     })
     .json();
 }
-export function updateEmoji(emojiID: string, name: string): Promise<any> {
+export function updateEmoji(id: string, name: string): Promise<any> {
   return wrapper()
     .put(`settings/emoji`, {
-      json: { emojiID, name },
+      json: { id, name },
     })
     .json();
 }

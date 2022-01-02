@@ -7,7 +7,6 @@
 
 <script lang="ts">
 import emojiParser from "@/utils/emojiParser";
-import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "EmojiSuggestionTemplate",
@@ -30,7 +29,7 @@ export default defineComponent({
       image.classList.add("emoji");
 
       image.src = `${process.env.VUE_APP_NERTIVIA_CDN}emojis/${
-        this.item.emojiID
+        this.item.id
       }.${this.item.gif ? "gif" : "png"}`;
       return image.outerHTML;
     },

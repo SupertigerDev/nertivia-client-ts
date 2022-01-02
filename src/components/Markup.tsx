@@ -209,7 +209,7 @@ function transformCustomEntity(entity: CustomEntity, ctx: any) {
       return h(CustomEmoji, {
         animated: type.startsWith("animated"),
         emojiName: name,
-        emojiID: id,
+        id,
       });
     }
     case "link": {

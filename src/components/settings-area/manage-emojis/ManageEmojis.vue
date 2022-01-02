@@ -32,7 +32,7 @@
       <div class="list">
         <EmojiTemplate
           v-for="(emoji, i) in emojiArr"
-          :key="emoji.emojiID"
+          :key="emoji.id"
           :defaultFocused="i === 0"
           :emoji="emoji"
         />

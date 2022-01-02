@@ -1,14 +1,6 @@
 import User from "@/interfaces/User";
 import wrapper from "./wrapper";
 
-export function deleteEmoji(emojiID: string): Promise<any> {
-  return wrapper()
-    .delete(`settings/emoji`, {
-      json: { emojiID },
-    })
-    .json();
-}
-
 export interface Stats {
   userCount: number;
   serverCount: number;
@@ -44,7 +36,7 @@ export interface Action {
   reason?: string;
   user?: User;
   admin: User;
-  ip_ban?: string;
+  bannedIP?: string;
   date: number;
 }
 
