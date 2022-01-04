@@ -56,7 +56,7 @@
     </div>
 
     <transition name="embed-animation" v-if="!isBlocked">
-      <HTMLEmbed v-if="message.htmlEmbed" :compressedJSON="message.htmlEmbed" />
+      <HTMLEmbed v-if="message.message && message.htmlEmbed" :leftPadding="true" :compressedJSON="message.htmlEmbed" />
       <EmbedMessage v-else-if="embed && !invite" :embed="embed" />
     </transition>
   </div>

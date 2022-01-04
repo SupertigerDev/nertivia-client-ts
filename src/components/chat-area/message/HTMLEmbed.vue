@@ -7,6 +7,7 @@ import { PopoutsModule } from "@/store/modules/popouts";
 
 interface Props {
   compressedJSON: string;
+  leftPadding: boolean;
 }
 export default function HTMLEmbed(props: Props) {
   let obj: any = {};
@@ -85,8 +86,8 @@ export default function HTMLEmbed(props: Props) {
     }
     return createEl(json, children);
   };
-
-  return h("div", { class: "html-embed", on: { click: clickEvent } }, [
+  const leftPadding = props.leftPadding ? "left-padding" : "";
+  return h("div", { class: "html-embed " + leftPadding, on: { click: clickEvent } }, [
     template(obj),
   ]);
 }
@@ -108,6 +109,8 @@ export default function HTMLEmbed(props: Props) {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   position: relative;
+}
+.html-embed.left-padding {
   margin-left: 50px;
 }
 </style>

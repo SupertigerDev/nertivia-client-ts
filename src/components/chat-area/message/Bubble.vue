@@ -12,6 +12,8 @@
         <div class="badge bot" v-if="creator.bot">BOT</div>
         <div class="date">{{ date }}</div>
       </div>
+      <HTMLEmbed v-if="!message.message && message.htmlEmbed" :compressedJSON="message.htmlEmbed" />
+
       <div class="image-embed" v-if="isFileImage || isVideo">
         <VideoPlayer v-if="isVideo" :file="file" />
         <ImageMessageEmbed v-if="isFileImage" :message="message" />
@@ -46,6 +48,7 @@ import VideoPlayer from "./VideoPlayer.vue";
 import Invite from "@/interfaces/Invite";
 import { PropType } from "vue";
 import { defineComponent } from "vue";
+import HTMLEmbed from "./HTMLEmbed.vue";
 export default defineComponent({
   name: "Bubble",
   components: {
@@ -54,6 +57,7 @@ export default defineComponent({
     InviteMessage,
     Markup,
     VideoPlayer,
+    HTMLEmbed,
   },
   props: {
     message: {
