@@ -13,7 +13,7 @@ Check out nertivia at https://nertivia.net
 3. run `npm i` inside the folder.
 4. Rename `example.env` to `.env`
 5. Run the server by `npm run serve`
-6. Navigate to http://local.nertivia.net and start your development
+6. Navigate to http://local.nertivia.net:8080 and start your development
 7. Submit a PR :)
 
 
