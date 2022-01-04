@@ -2,11 +2,6 @@
 Check out nertivia at https://nertivia.net
 
 # Development
-
-### Hosts File Setup
-1. Navigate to your hosts file. For windows it's in `C:\Windows\System32\drivers\etc`
-2. Open the `hosts` file and add this line to the bottom: `127.0.0.1 local.nertivia.net`
-
 ### Serve The Client
 1. Fork this repo.
 2. Clone the forked github repo
