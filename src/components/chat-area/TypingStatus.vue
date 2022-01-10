@@ -9,6 +9,7 @@
 
 <script lang="ts">
 import Message from "@/interfaces/Message";
+import { USER_TYPING } from "@/ServerEventNames";
 import { MeModule } from "@/store/modules/me";
 import { emitter } from "@/utils/globalBus";
 
@@ -76,11 +77,11 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.$socket.on("typingStatus", this.onTyping);
+    this.$socket.on(USER_TYPING, this.onTyping);
     emitter.on("newMessage", this.onNewMessage);
   },
   beforeUnmount() {
-    this.$socket.off("typingStatus", this.onTyping);
+    this.$socket.off(USER_TYPING, this.onTyping);
     emitter.off("newMessage", this.onNewMessage);
   },
   methods: {

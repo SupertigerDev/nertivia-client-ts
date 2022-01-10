@@ -1,5 +1,12 @@
 [
 	{
+		"version": "1.52.1-stable",
+		"date": "10 January 2022",
+		"title": "Event Name Changes",
+		"new": "Changed event names to be more consistent.",
+		"body": "Nertivia must be updated to make it connect to the server."
+	},
+	{
 		"version": "1.52.0-stable",
 		"date": "19 November 2021",
 		"title": "Delete Multiple Messages",
