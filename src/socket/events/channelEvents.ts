@@ -13,6 +13,7 @@ export const onChannelCreated = (data: { channel: ChannelWithUser }) => {
     UsersModule.AddUser(data.channel.recipients[0]);
   }
   ChannelsModule.AddChannel({
+    type: data.channel.type,
     channelID: data.channel.channelID,
     lastMessaged: data.channel.lastMessaged,
     recipients: data.channel.recipients?.map((u) => u.id),

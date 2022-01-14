@@ -1,6 +1,7 @@
 <template>
   <div class="channel">
     {{ channel.name }}
+    {{channel.type}}
     <div class="material-icons arrow">keyboard_arrow_right</div>
   </div>
 </template>

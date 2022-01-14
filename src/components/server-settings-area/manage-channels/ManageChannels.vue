@@ -23,19 +23,9 @@
         <ContextMenu
           v-if="showContext"
           v-click-outside="outsideClick"
-          :items="[
-            {
-              name: $t('server-settings.manage-channels.text-channel'),
-              icon: 'textsms',
-            },
-            {
-              name: $t('server-settings.manage-channels.html-channel'),
-              icon: 'code',
-              disabled: true,
-            },
-          ]"
+          :items="contextItems"
           :pos="{ x: 15, y: 110 }"
-          @itemClick="createChannel"
+          @itemClick="onContextClick"
         />
         <div class="channel-list">
           <Draggable
@@ -88,6 +78,24 @@ export default defineComponent({
       showContext: false,
       selectedChannelID: null as string | null,
       createRequestSent: false,
+      contextItems: [
+        {
+          name: this.$t("server-settings.manage-channels.text-channel"),
+          icon: "textsms",
+          id: "text-channel",
+        },
+        {
+          name: this.$t("server-settings.manage-channels.category-channel"),
+          icon: "segment",
+          id: "category-channel",
+        },
+        {
+          name: this.$t("server-settings.manage-channels.html-channel"),
+          icon: "code",
+          disabled: true,
+          id: "html-channel",
+        },
+      ],
     };
   },
   computed: {
@@ -115,6 +123,14 @@ export default defineComponent({
     id && this.$router.replace({ params: { id: null as any } });
   },
   methods: {
+    onContextClick(item) {
+      if (item.id === "text-channel") {
+        this.createChannel(1);
+      }
+      if (item.id === "category-channel") {
+        this.createChannel(2);
+      }
+    },
     outsideClick(event: any) {
       if (event.target.classList.contains("button")) return;
       this.showContext = false;
@@ -123,11 +139,12 @@ export default defineComponent({
       const channelIDs = this.channels.map((s) => s.channelID);
       updateServerChannelPosition(this.serverID, channelIDs);
     },
-    createChannel() {
+    createChannel(type = 1) {
       this.showContext = false;
       if (this.createRequestSent) return;
+      const name = type === 1 ? "New Channel" : "New Category";
       this.createRequestSent = true;
-      createServerChannel(this.serverID)
+      createServerChannel(this.serverID, name, type)
         .then((json) => {
           ChannelsModule.AddChannel(json.channel);
           this.selectedChannelID = json.channel.channelID;

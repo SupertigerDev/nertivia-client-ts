@@ -1,11 +1,13 @@
 import wrapper from "./wrapper";
 import User from "@/interfaces/User";
+import { ChannelType } from "@/interfaces/DmChannel";
 
 interface Response {
   channel: ReturnedDmChannel;
   status: boolean;
 }
 interface ReturnedDmChannel {
+  type: ChannelType
   channelID: string;
   recipients: User[];
 }
@@ -43,9 +45,11 @@ export function deleteServerChannel(
 ): Promise<any> {
   return wrapper().delete(`servers/${serverID}/channels/${channelID}`).json();
 }
-export function createServerChannel(serverID: string): Promise<any> {
+export function createServerChannel(serverID: string, name: string, type = 1): Promise<any> {
   return wrapper()
-    .put(`servers/${serverID}/channels`, { json: { name: "New Channel" } })
+    .put(`servers/${serverID}/channels`, {
+      json: { name, type },
+    })
     .json();
 }
 export function updateServerChannelPosition(

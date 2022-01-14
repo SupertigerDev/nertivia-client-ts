@@ -155,6 +155,7 @@ class Channels extends VuexModule {
           UsersModule.AddUser(user);
         }
         this.ADD_CHANNEL({
+          type: res.channel.type,
           channelID: res.channel.channelID,
           recipients: res.channel.recipients.map((u) => u.id),
         });
