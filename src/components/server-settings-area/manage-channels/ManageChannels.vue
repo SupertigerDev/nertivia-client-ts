@@ -38,10 +38,18 @@
           >
             >
             <template #item="{ element }">
-              <ChannelTemplate
-                :channel="element"
-                @click="selectedChannelID = element.channelID"
-              />
+              <div class="templates">
+                <ChannelTemplate
+                  v-if="element.type === 1"
+                  :channel="element"
+                  @click="selectedChannelID = element.channelID"
+                />
+                <CategoryTemplate
+                  v-if="element.type === 2"
+                  :category="element"
+                  @click="selectedChannelID = element.channelID"
+                />
+              </div>
             </template>
           </Draggable>
         </div>
@@ -54,6 +62,7 @@ import Draggable from "vuedraggable";
 import { ServersModule } from "@/store/modules/servers";
 import CustomButton from "@/components/CustomButton.vue";
 import ChannelTemplate from "./ChannelTemplate.vue";
+import CategoryTemplate from "./CategoryTemplate.vue";
 import { ChannelsModule } from "@/store/modules/channels";
 import ContextMenu from "@/components/ContextMenu.vue";
 import SelectedChannelPage from "./SelectedChannelPage.vue";
@@ -69,6 +78,7 @@ export default defineComponent({
   components: {
     CustomButton,
     ChannelTemplate,
+    CategoryTemplate,
     ContextMenu,
     SelectedChannelPage,
     Draggable,

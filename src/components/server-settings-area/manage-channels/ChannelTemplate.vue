@@ -1,7 +1,6 @@
 <template>
   <div class="channel">
     {{ channel.name }}
-    {{channel.type}}
     <div class="material-icons arrow">keyboard_arrow_right</div>
   </div>
 </template>
@@ -10,7 +9,7 @@ import Channel from "@/interfaces/Channel";
 import { PropType } from "vue";
 import { defineComponent } from "vue";
 export default defineComponent({
-  name: "InviteTemplate",
+  name: "ChannelTemplate",
   props: {
     channel: {
       type: Object as PropType<Channel>,
