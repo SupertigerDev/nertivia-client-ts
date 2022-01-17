@@ -29,6 +29,8 @@
         />
         <div class="channel-list">
           <Draggable
+            :group="{ name: 'g1' }"
+            class="dragArea"
             :animation="200"
             :delay="$isMobile ? 400 : 0"
             ghost-class="ghost"
@@ -40,7 +42,7 @@
             <template #item="{ element }">
               <div class="templates">
                 <ChannelTemplate
-                  v-if="element.type === 1"
+                  v-if="element.type === 1 && !element.categoryId"
                   :channel="element"
                   @click="selectedChannelID = element.channelID"
                 />
@@ -145,9 +147,16 @@ export default defineComponent({
       if (event.target.classList.contains("button")) return;
       this.showContext = false;
     },
-    onDragEnd() {
+    onDragEnd(event: any) {
+      let category: null | { id: string; channelId: string } = null;
+      if (event.from !== event.to) {
+        category = {
+          id: event.to.id.split("-")[1],
+          channelId: this.channels[event.oldIndex].channelID,
+        };
+      }
       const channelIDs = this.channels.map((s) => s.channelID);
-      updateServerChannelPosition(this.serverID, channelIDs);
+      updateServerChannelPosition(this.serverID, channelIDs, category);
     },
     createChannel(type = 1) {
       this.showContext = false;
@@ -168,6 +177,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.dragArea {
+  min-height: 50px;
+  outline: 1px dashed;
+}
 .ghost {
   opacity: 0;
 }

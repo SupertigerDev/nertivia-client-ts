@@ -95,6 +95,7 @@ export const onSuccess = (socket: Socket, data: SuccessEvent) => {
         channelID: channel.channelID,
         type: channel.type,
         name: channel.name,
+        categoryId: channel.categoryId,
         server_id: channel.server_id,
         lastMessaged: channel.lastMessaged,
         permissions: channel.permissions,

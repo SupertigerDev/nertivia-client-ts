@@ -91,6 +91,7 @@ interface ReturnedServer {
 }
 interface ReturnedChannel {
   type: ChannelType,
+  categoryId: string | null;
   channelID: string;
   name?: string;
   server_id?: string;

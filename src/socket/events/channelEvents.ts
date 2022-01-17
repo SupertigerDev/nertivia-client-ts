@@ -14,6 +14,7 @@ export const onChannelCreated = (data: { channel: ChannelWithUser }) => {
   }
   ChannelsModule.AddChannel({
     type: data.channel.type,
+    categoryId: null,
     channelID: data.channel.channelID,
     lastMessaged: data.channel.lastMessaged,
     recipients: data.channel.recipients?.map((u) => u.id),
