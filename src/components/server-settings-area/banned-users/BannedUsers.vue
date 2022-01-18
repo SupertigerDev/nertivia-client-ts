@@ -11,12 +11,9 @@
       </div>
       <div class="box">
         <div class="users-list">
-          <UserTemplate
-            v-for="(user, i) in bans"
-            :key="user.id"
-            :user="user"
-            @deleted="userUnbanned(i)"
-          />
+          <template v-for="(user, i) in bans" :key="user?.id || i">
+            <UserTemplate v-if="user" :user="user" @deleted="userUnbanned(i)" />
+          </template>
         </div>
       </div>
     </div>
