@@ -18,7 +18,12 @@
         item-key="channelID"
       >
         <template #item="{ element }">
-          <ChannelTemplate v-if="element.type === 1" :channel="element" />
+          <ChannelTemplate
+            v-if="
+              element.type === 1 && element.categoryId === category.channelID
+            "
+            :channel="element"
+          />
         </template>
       </Draggable>
     </div>
@@ -33,6 +38,7 @@ import { defineComponent } from "vue";
 import ChannelTemplate from "./ChannelTemplate.vue";
 import { ChannelsModule } from "@/store/modules/channels";
 import { ServersModule } from "@/store/modules/servers";
+import { updateServerChannelPosition } from "@/services/channelService";
 export default defineComponent({
   name: "CategoryTemplate",
   components: { ChannelTemplate, Draggable },
@@ -50,15 +56,13 @@ export default defineComponent({
   computed: {
     channels: {
       get(): Channel[] {
-        return ChannelsModule.sortedServerChannels(this.serverID).filter(
-          (channel) => channel.categoryId === this.category.channelID
-        );
+        return ChannelsModule.sortedServerChannels(this.serverID);
       },
       set(channels: Channel[]) {
-        // ServersModule.UpdateServer({
-        //   server_id: this.serverID,
-        //   channel_position: channels.map((c) => c.channelID),
-        // });
+        ServersModule.UpdateServer({
+          server_id: this.serverID,
+          channel_position: channels.map((c) => c.channelID),
+        });
       },
     },
     serverID(): any {
@@ -67,9 +71,16 @@ export default defineComponent({
   },
   methods: {
     onEnd(event: any) {
+      let category: null | { id: string| null; channelId: string } = null;
+
       if (event.from !== event.to) {
-        console.log("de-nested");
+        category = {
+          channelId: event.item.id.split("-")[1],
+          id: event.to.id.split("-")[1],
+        };
       }
+      const channelIDs = this.channels.map((s) => s.channelID);
+      updateServerChannelPosition(this.serverID, channelIDs, category);
     },
   },
 });

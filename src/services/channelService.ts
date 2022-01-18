@@ -55,7 +55,7 @@ export function createServerChannel(serverID: string, name: string, type = 1): P
 export function updateServerChannelPosition(
   serverID: string,
   channelIDArr: string[],
-  category?: null | {id: string, channelId: string}
+  category?: null | {id: string | null, channelId: string}
 ): Promise<any> {
   return wrapper()
     .put(`servers/${serverID}/channels/position`, {

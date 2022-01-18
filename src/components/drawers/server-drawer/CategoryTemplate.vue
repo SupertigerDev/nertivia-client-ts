@@ -1,57 +1,45 @@
 <template>
-  <div
-    class="outer-channel-template"
-    :class="{ nestedChannel: channel.categoryId }"
-  >
-    <router-link
-      :to="path"
+  <div class="outer-channel-template">
+    <a
+      href="#"
       class="channel channel-template"
       @click="closeDrawer"
       @mouseover="hover = true"
       @mouseout="hover = false"
       :class="{
         selected: isChannelSelected,
-        hasNotification: notificationExists,
+        // hasNotification: notificationExists,
         hasIcon: iconURL != null,
-        isMuted,
       }"
       :style="channelStyle"
       @contextmenu.prevent="showContext"
     >
       <div class="icon" aria-hidden="true"></div>
-      <div class="name">{{ channel.name }}</div>
-      <div class="muted material-icons" v-if="isMuted">notifications_off</div>
-    </router-link>
-    <div class="call-participants" v-if="callParticipants.length">
-      <div class="text">In call:</div>
-      <CallTemplate
-        v-for="participant in callParticipants"
-        :key="participant.user.id"
-        :participant="participant"
-      />
-    </div>
+      <div class="name">{{ category.name }}</div>
+    </a>
+    <ul class="channels">
+      <li v-for="channel in channels" :key="channel.channelID">
+        <ChannelTemplate :channel="channel" />
+      </li>
+    </ul>
   </div>
 </template>
 
 <script lang="ts">
 import Channel from "@/interfaces/Channel";
-import {
-  voiceChannelModule,
-  CallParticipant,
-} from "@/store/modules/voiceChannels";
 import { DrawersModule } from "@/store/modules/drawers";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
-import { MutedChannelsModule } from "@/store/modules/mutedChannels";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { emojiURL } from "@/utils/emojiParser";
 import { PropType } from "vue";
-import CallTemplate from "./CallTemplate.vue";
 import { defineComponent } from "vue";
+import { ChannelsModule } from "@/store/modules/channels";
+import ChannelTemplate from './ChannelTemplate.vue'
 export default defineComponent({
-  components: { CallTemplate },
-  name: "ChannelTemplate",
+  name: "CategoryTemplate",
+  components: {ChannelTemplate},
   props: {
-    channel: {
+    category: {
       type: Object as PropType<Channel>,
       required: true,
     },
@@ -62,25 +50,23 @@ export default defineComponent({
     };
   },
   computed: {
-    callParticipants(): CallParticipant[] {
-      return voiceChannelModule.callParticipants(this.channel.channelID);
+    selectedDetails(): any {
+      return {
+        server_id: this.$route.params.server_id,
+        channel_id: this.$route.params.channel_id,
+      };
     },
-    path(): any {
-      return `/app/servers/${this.channel.server_id}/${this.channel.channelID}`;
-    },
-    notificationExists(): any {
-      return LastSeenServerChannelsModule.serverChannelNotification(
-        this.channel.channelID
-      );
-    },
-    isMuted(): any {
-      return MutedChannelsModule.mutedChannels.includes(this.channel.channelID);
+    channels(): any {
+      if (!this.selectedDetails.server_id) return [];
+      return ChannelsModule.sortedServerChannels(
+        this.selectedDetails.server_id
+      ).filter(channel => channel.categoryId === this.category.channelID);
     },
     isChannelSelected(): any {
-      return this.$route.params.channel_id === this.channel.channelID;
+      return this.$route.params.channel_id === this.category.channelID;
     },
     iconURL(): any {
-      const icon = this.channel.icon;
+      const icon = this.category.icon;
       if (!icon) return null;
       const isCustom = icon.startsWith("g_") || icon.startsWith("c_");
       const isGif = icon.startsWith("g_");
@@ -105,12 +91,12 @@ export default defineComponent({
       PopoutsModule.ShowPopout({
         id: "context",
         component: "ChannelContextMenu",
-        key: this.channel.server_id + event.clientX + event.clientY,
+        key: this.category.server_id + event.clientX + event.clientY,
         data: {
           x: event.clientX,
           y: event.clientY,
-          server_id: this.channel.server_id,
-          channelID: this.channel.channelID,
+          server_id: this.category.server_id,
+          channelID: this.category.channelID,
         },
       });
     },
@@ -119,16 +105,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-
-.nestedChannel {
-  .channel {
-    padding-left: 35px;
-    &:before {
-      left: 25px;
-    }
-  }
-}
-
 .channel {
   display: grid;
   grid-template-columns: 1rem 1fr;
@@ -153,13 +129,7 @@ export default defineComponent({
   user-select: none;
   white-space: nowrap;
   overflow: hidden;
-  &.isMuted {
-    grid-template-columns: 1rem 1fr 1rem;
-  }
-  .muted {
-    opacity: 0.4;
-    font-size: 18px;
-  }
+
   &:before {
     content: "";
     position: absolute;
@@ -196,12 +166,15 @@ export default defineComponent({
     }
   }
 }
-.call-participants {
-  margin-left: 40px;
+.channels {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  padding: 0;
+
+  list-style: none;
   margin-top: 5px;
-  .text {
-    font-weight: bold;
-  }
 }
 
 .icon {

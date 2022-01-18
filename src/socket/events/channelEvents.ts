@@ -55,10 +55,23 @@ export const onChannelUnmute = (data: { channelID: string }) => {
 export const onChannelMute = (data: { channelID: string }) => {
   MutedChannelsModule.AddMutedChannel(data.channelID);
 };
+
+interface Category {
+  id: string;
+  channelId: string | null;
+}
+
 export const onServerChannelPositionChange = (data: {
   serverID: string;
   channel_position: string[];
+  category: null | Category;
 }) => {
+  if (data.category?.channelId) {
+    ChannelsModule.updateChannel({
+      channelID: data.category.channelId,
+      update: { categoryId: data.category.id },
+    });
+  }
   ServersModule.UpdateServer({
     server_id: data.serverID,
     channel_position: data.channel_position,

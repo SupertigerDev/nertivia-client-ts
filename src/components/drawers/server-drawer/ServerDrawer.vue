@@ -24,12 +24,17 @@
             transitionDelay: server && server.banner ? '0.2s' : '0.1s',
           }"
         >
-          <li
+          <template
             v-for="channel in selectedServerChannels"
             :key="channel.channelID"
           >
-            <ChannelTemplate :channel="channel" />
-          </li>
+            <li v-if="channel.type === 1 && !channel.categoryId">
+              <ChannelTemplate :channel="channel" />
+            </li>
+            <li v-if="channel.type === 2">
+              <CategoryTemplate :category="channel" />
+            </li>
+          </template>
         </ul>
       </div>
     </transition>
@@ -40,13 +45,14 @@
 import { ChannelsModule } from "@/store/modules/channels";
 import { ServersModule } from "@/store/modules/servers";
 import ChannelTemplate from "@/components/drawers/server-drawer/ChannelTemplate.vue";
+import CategoryTemplate from "@/components/drawers/server-drawer/CategoryTemplate.vue";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ServerDrawer",
-  components: { ChannelTemplate },
+  components: { ChannelTemplate, CategoryTemplate },
   data() {
     return {
       bannerHover: false,
@@ -59,6 +65,12 @@ export default defineComponent({
         channel_id: this.$route.params.channel_id,
       };
     },
+    selectedServerChannels(): any {
+      if (!this.selectedDetails.server_id) return [];
+      return ChannelsModule.sortedServerChannels(
+        this.selectedDetails.server_id
+      );
+    },
     server(): any {
       return ServersModule.servers[this.selectedDetails.server_id];
     },
@@ -69,12 +81,6 @@ export default defineComponent({
         str = str + "?type=webp";
       }
       return str;
-    },
-    selectedServerChannels(): any {
-      if (!this.selectedDetails.server_id) return [];
-      return ChannelsModule.sortedServerChannels(
-        this.selectedDetails.server_id
-      );
     },
   },
   mounted() {
