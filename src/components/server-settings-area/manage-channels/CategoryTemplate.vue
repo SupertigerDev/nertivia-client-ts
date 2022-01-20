@@ -1,6 +1,6 @@
 <template>
   <div class="category">
-    <div class="title">
+    <div class="title" @click="$emit('click', category.channelID)">
       <div class="material-icons icon">segment</div>
       {{ category.name }}
       <div class="material-icons icon arrow">keyboard_arrow_right</div>
@@ -19,6 +19,7 @@
       >
         <template #item="{ element }">
           <ChannelTemplate
+          @click="$emit('click', element.channelID)"
             v-if="
               element.type === 1 && element.categoryId === category.channelID
             "
@@ -42,6 +43,7 @@ import { updateServerChannelPosition } from "@/services/channelService";
 export default defineComponent({
   name: "CategoryTemplate",
   components: { ChannelTemplate, Draggable },
+  emits: ["click"],
   data() {
     return {
       categoryChannels: [],
@@ -88,8 +90,10 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .dragArea {
-  min-height: 50px;
-  outline: 1px dashed;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 5px;
+  padding-bottom: 35px;
 }
 .channel-list {
   padding-left: 30px;

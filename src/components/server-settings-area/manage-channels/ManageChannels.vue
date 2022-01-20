@@ -49,7 +49,7 @@
                 <CategoryTemplate
                   v-if="element.type === 2"
                   :category="element"
-                  @click="selectedChannelID = element.channelID"
+                  @click="selectedChannelID = $event"
                 />
               </div>
             </template>
@@ -179,7 +179,8 @@ export default defineComponent({
 <style lang="scss" scoped>
 .dragArea {
   min-height: 50px;
-  outline: 1px dashed;
+  padding-bottom: 35px;
+  // outline: 1px dashed;
 }
 .ghost {
   opacity: 0;

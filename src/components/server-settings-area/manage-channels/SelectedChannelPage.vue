@@ -8,7 +8,8 @@
     </div>
     <div class="grouped">
       <div class="emoji-button" @click="showIconContext = !showIconContext">
-        <div v-if="channelIcon === null" class="dot" />
+        <div v-if="channelIcon === null && channel.type === 2" class="material-icons">segment</div>
+        <div v-else-if="channelIcon === null && channel.type === 1" class="dot"></div>
         <div v-else v-html="channelIconHTML" />
       </div>
       <ContextMenu

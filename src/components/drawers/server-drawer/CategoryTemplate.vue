@@ -3,21 +3,26 @@
     <a
       href="#"
       class="channel channel-template"
-      @click="closeDrawer"
+      @click="collapsed = !collapsed"
       @mouseover="hover = true"
       @mouseout="hover = false"
       :class="{
-        selected: isChannelSelected,
-        // hasNotification: notificationExists,
+        selected: isChannelSelected && collapsed,
+        hasNotification: channelNotifications?.length,
         hasIcon: iconURL != null,
       }"
       :style="channelStyle"
       @contextmenu.prevent="showContext"
     >
-      <div class="icon" aria-hidden="true"></div>
+      <div v-if="iconURL" class="icon" aria-hidden="true"></div>
+      <div v-if="!iconURL" class="icon material-icons" aria-hidden="true">
+        segment
+      </div>
       <div class="name">{{ category.name }}</div>
+      <div class="collapse-status material-icons" v-if="!collapsed">keyboard_arrow_up</div>
+      <div class="collapse-status material-icons" v-if="collapsed">keyboard_arrow_down</div>
     </a>
-    <ul class="channels">
+    <ul class="channels" v-if="!collapsed">
       <li v-for="channel in channels" :key="channel.channelID">
         <ChannelTemplate :channel="channel" />
       </li>
@@ -34,10 +39,10 @@ import { emojiURL } from "@/utils/emojiParser";
 import { PropType } from "vue";
 import { defineComponent } from "vue";
 import { ChannelsModule } from "@/store/modules/channels";
-import ChannelTemplate from './ChannelTemplate.vue'
+import ChannelTemplate from "./ChannelTemplate.vue";
 export default defineComponent({
   name: "CategoryTemplate",
-  components: {ChannelTemplate},
+  components: { ChannelTemplate },
   props: {
     category: {
       type: Object as PropType<Channel>,
@@ -47,6 +52,7 @@ export default defineComponent({
   data() {
     return {
       hover: false,
+      collapsed: false,
     };
   },
   computed: {
@@ -56,14 +62,19 @@ export default defineComponent({
         channel_id: this.$route.params.channel_id,
       };
     },
-    channels(): any {
+    channelNotifications(): any {
+      return LastSeenServerChannelsModule.serverNotifications(this.selectedDetails.server_id, this.category.channelID)
+    },
+    channels(): any[] {
       if (!this.selectedDetails.server_id) return [];
       return ChannelsModule.sortedServerChannels(
         this.selectedDetails.server_id
-      ).filter(channel => channel.categoryId === this.category.channelID);
+      ).filter((channel) => channel.categoryId === this.category.channelID);
     },
     isChannelSelected(): any {
-      return this.$route.params.channel_id === this.category.channelID;
+      return this.channels.find(
+        (c) => c.channelID === this.selectedDetails.channel_id
+      );
     },
     iconURL(): any {
       const icon = this.category.icon;
@@ -107,7 +118,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .channel {
   display: grid;
-  grid-template-columns: 1rem 1fr;
+  grid-template-columns: 1.3rem 1fr 0fr;
   grid-template-rows: min-content;
   gap: 0.25rem;
   position: relative;
@@ -148,23 +159,22 @@ export default defineComponent({
       opacity: 0.4;
     }
   }
-
-  &.selected,
+  &.selected {
+    color: white;
+    &:before {
+      background: var(--primary-color);
+      opacity: 1;
+    }
+  }
   &.hasNotification {
     &:before {
       background: var(--alert-color);
       opacity: 1;
     }
   }
-
-  &.selected {
-    color: white;
-    background: rgb(255 255 255 / 0.1);
-    &:before {
-      background: var(--primary-color);
-      opacity: 1;
-    }
-  }
+}
+.collapse-status {
+  font-size: 18px;
 }
 .channels {
   display: flex;
@@ -181,22 +191,17 @@ export default defineComponent({
   overflow: hidden;
   align-self: center;
   justify-self: center;
-
   display: flex;
 }
-
-.channel:not(.hasIcon) .icon {
-  width: 0.5rem;
-  height: 0.5rem;
-  background: currentColor;
-  border-radius: 100%;
-}
-
 .hasIcon .icon {
   width: 1rem;
   height: 1rem;
   background-image: var(--icon-url);
   background-size: cover;
+}
+
+.icon.material-icons {
+  font-size: 18px;
 }
 
 .name {
