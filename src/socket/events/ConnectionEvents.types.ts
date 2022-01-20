@@ -1,4 +1,5 @@
 import CustomEmoji from "@/interfaces/CustomEmoji";
+import { ChannelType } from "@/interfaces/DmChannel";
 import ServerRole from "@/interfaces/ServerRole";
 import User from "@/interfaces/User";
 export interface SuccessEvent {
@@ -42,6 +43,7 @@ interface ReturnedProgramActivity {
   user_id: string;
 }
 interface ReturnedDmChannel {
+  type: ChannelType,
   lastMessaged: number;
   channelID: string;
   recipients: User[];
@@ -88,6 +90,8 @@ interface ReturnedServer {
   verified: boolean;
 }
 interface ReturnedChannel {
+  type: ChannelType,
+  categoryId: string | null;
   channelID: string;
   name?: string;
   server_id?: string;

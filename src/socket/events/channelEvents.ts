@@ -13,6 +13,8 @@ export const onChannelCreated = (data: { channel: ChannelWithUser }) => {
     UsersModule.AddUser(data.channel.recipients[0]);
   }
   ChannelsModule.AddChannel({
+    type: data.channel.type,
+    categoryId: null,
     channelID: data.channel.channelID,
     lastMessaged: data.channel.lastMessaged,
     recipients: data.channel.recipients?.map((u) => u.id),
@@ -53,10 +55,23 @@ export const onChannelUnmute = (data: { channelID: string }) => {
 export const onChannelMute = (data: { channelID: string }) => {
   MutedChannelsModule.AddMutedChannel(data.channelID);
 };
+
+interface Category {
+  id: string;
+  channelId: string | null;
+}
+
 export const onServerChannelPositionChange = (data: {
   serverID: string;
   channel_position: string[];
+  category: null | Category;
 }) => {
+  if (data.category?.channelId) {
+    ChannelsModule.updateChannel({
+      channelID: data.category.channelId,
+      update: { categoryId: data.category.id },
+    });
+  }
   ServersModule.UpdateServer({
     server_id: data.serverID,
     channel_position: data.channel_position,

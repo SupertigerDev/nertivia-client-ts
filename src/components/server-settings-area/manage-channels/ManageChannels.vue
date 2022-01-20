@@ -23,22 +23,14 @@
         <ContextMenu
           v-if="showContext"
           v-click-outside="outsideClick"
-          :items="[
-            {
-              name: $t('server-settings.manage-channels.text-channel'),
-              icon: 'textsms',
-            },
-            {
-              name: $t('server-settings.manage-channels.html-channel'),
-              icon: 'code',
-              disabled: true,
-            },
-          ]"
+          :items="contextItems"
           :pos="{ x: 15, y: 110 }"
-          @itemClick="createChannel"
+          @itemClick="onContextClick"
         />
         <div class="channel-list">
           <Draggable
+            :group="{ name: 'g1' }"
+            class="dragArea"
             :animation="200"
             :delay="$isMobile ? 400 : 0"
             ghost-class="ghost"
@@ -48,10 +40,18 @@
           >
             >
             <template #item="{ element }">
-              <ChannelTemplate
-                :channel="element"
-                @click="selectedChannelID = element.channelID"
-              />
+              <div class="templates">
+                <ChannelTemplate
+                  v-if="element.type === 1 && !element.categoryId"
+                  :channel="element"
+                  @click="selectedChannelID = element.channelID"
+                />
+                <CategoryTemplate
+                  v-if="element.type === 2"
+                  :category="element"
+                  @click="selectedChannelID = $event"
+                />
+              </div>
             </template>
           </Draggable>
         </div>
@@ -64,6 +64,7 @@ import Draggable from "vuedraggable";
 import { ServersModule } from "@/store/modules/servers";
 import CustomButton from "@/components/CustomButton.vue";
 import ChannelTemplate from "./ChannelTemplate.vue";
+import CategoryTemplate from "./CategoryTemplate.vue";
 import { ChannelsModule } from "@/store/modules/channels";
 import ContextMenu from "@/components/ContextMenu.vue";
 import SelectedChannelPage from "./SelectedChannelPage.vue";
@@ -79,6 +80,7 @@ export default defineComponent({
   components: {
     CustomButton,
     ChannelTemplate,
+    CategoryTemplate,
     ContextMenu,
     SelectedChannelPage,
     Draggable,
@@ -88,6 +90,24 @@ export default defineComponent({
       showContext: false,
       selectedChannelID: null as string | null,
       createRequestSent: false,
+      contextItems: [
+        {
+          name: this.$t("server-settings.manage-channels.text-channel"),
+          icon: "textsms",
+          id: "text-channel",
+        },
+        {
+          name: this.$t("server-settings.manage-channels.category-channel"),
+          icon: "segment",
+          id: "category-channel",
+        },
+        {
+          name: this.$t("server-settings.manage-channels.html-channel"),
+          icon: "code",
+          disabled: true,
+          id: "html-channel",
+        },
+      ],
     };
   },
   computed: {
@@ -115,19 +135,35 @@ export default defineComponent({
     id && this.$router.replace({ params: { id: null as any } });
   },
   methods: {
+    onContextClick(item) {
+      if (item.id === "text-channel") {
+        this.createChannel(1);
+      }
+      if (item.id === "category-channel") {
+        this.createChannel(2);
+      }
+    },
     outsideClick(event: any) {
       if (event.target.classList.contains("button")) return;
       this.showContext = false;
     },
-    onDragEnd() {
+    onDragEnd(event: any) {
+      let category: null | { id: string; channelId: string } = null;
+      if (event.from !== event.to) {
+        category = {
+          id: event.to.id.split("-")[1],
+          channelId: this.channels[event.oldIndex].channelID,
+        };
+      }
       const channelIDs = this.channels.map((s) => s.channelID);
-      updateServerChannelPosition(this.serverID, channelIDs);
+      updateServerChannelPosition(this.serverID, channelIDs, category);
     },
-    createChannel() {
+    createChannel(type = 1) {
       this.showContext = false;
       if (this.createRequestSent) return;
+      const name = type === 1 ? "New Channel" : "New Category";
       this.createRequestSent = true;
-      createServerChannel(this.serverID)
+      createServerChannel(this.serverID, name, type)
         .then((json) => {
           ChannelsModule.AddChannel(json.channel);
           this.selectedChannelID = json.channel.channelID;
@@ -141,6 +177,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.dragArea {
+  min-height: 50px;
+  padding-bottom: 35px;
+  // outline: 1px dashed;
+}
 .ghost {
   opacity: 0;
 }

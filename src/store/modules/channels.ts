@@ -18,6 +18,7 @@ import { ServersModule } from "./servers";
 import { MessagesModule } from "./messages";
 import { NotificationsModule } from "./notifications";
 import { TabsModule } from "./tabs";
+import { ChannelType } from "@/interfaces/DmChannel";
 
 interface ChannelObj {
   [key: string]: Channel;
@@ -120,6 +121,7 @@ class Channels extends VuexModule {
   }
   @Action
   public RemoveChannel(channelID: string) {
+    const channel = this.channels[channelID];
     TabsModule.tabs.forEach((tab, index) => {
       setTimeout(() => {
         if (channelID === tab.channel_id && tab.path) {
@@ -127,7 +129,24 @@ class Channels extends VuexModule {
         }
       }, index * 100);
     });
+    if (channel.type === ChannelType.SERVER_CATEGORY) {
+      this.removeCategoryFromChannel(channelID);
+    }
     this.REMOVE_CHANNEL(channelID);
+  }
+  @Action
+  removeCategoryFromChannel(categoryId: string) {
+    const category = this.channels[categoryId];
+    if (!category?.server_id) return;
+    const channels = this.serverChannels(category.server_id);
+    for (let index = 0; index < channels.length; index++) {
+      const channel = channels[index];
+      if (channel.categoryId !== categoryId) continue;
+      this.updateChannel({
+        channelID: channel.channelID,
+        update: { categoryId: null },
+      });
+    }
   }
   @Action
   public DeleteAllServerChannels(serverID: string) {
@@ -155,6 +174,7 @@ class Channels extends VuexModule {
           UsersModule.AddUser(user);
         }
         this.ADD_CHANNEL({
+          type: res.channel.type,
           channelID: res.channel.channelID,
           recipients: res.channel.recipients.map((u) => u.id),
         });

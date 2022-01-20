@@ -1,8 +1,8 @@
 import DmChannel from "./DmChannel";
-
 export default interface Channel extends DmChannel {
   channelID: string;
   name?: string;
+  categoryId?: string | null;
   lastMessaged?: number;
   server_id?: string;
   permissions?: ServerPermissions;

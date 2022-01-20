@@ -195,12 +195,13 @@
       "deleting-channel": "Deleting Channel...",
       "channel-name": "Channel Name",
       "default-channel-notice": "This is a default channel. You may change the default channel in the General page. Default channels cannot be deleted.",
-      "create-new-channel": "Create New Channel",
+      "create-new-channel": "Create New",
       "permission": {
         "send-message": "Send Messages"
       },
       "rate-limit-seconds": "Rate Limit (seconds)",
       "text-channel": "Text Channel",
+      "category-channel": "Category",
       "html-channel": "HTML Channel (WIP)"
     },
     "banned-users": {

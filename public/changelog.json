@@ -1,5 +1,13 @@
 [
 	{
+		"version": "1.53.0-stable",
+		"date": "20 January 2022",
+		"title": "Channel Categories!",
+		"new": "Organize your server channels into categories.",
+		"body": "Known Issue: Channels may not be ordered correctly when moving them in/out of a category. Trying again will work.",
+		"image_url": "/img/changelog/server-channel-categories-1.53.0.png"	
+	},
+	{
 		"version": "1.52.1-stable",
 		"date": "10 January 2022",
 		"title": "Event Name Changes",

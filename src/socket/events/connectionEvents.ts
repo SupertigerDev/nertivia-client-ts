@@ -93,7 +93,9 @@ export const onSuccess = (socket: Socket, data: SuccessEvent) => {
       const channel = server.channels[x];
       channels[channel.channelID] = {
         channelID: channel.channelID,
+        type: channel.type,
         name: channel.name,
+        categoryId: channel.categoryId,
         server_id: channel.server_id,
         lastMessaged: channel.lastMessaged,
         permissions: channel.permissions,
