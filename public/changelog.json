@@ -4,6 +4,7 @@
 		"date": "20 January 2022",
 		"title": "Channel Categories!",
 		"new": "Organize your server channels into categories.",
+		"fixes": ["Fixed a bug where channels could not be re-ordered.", "Fixed a bug where roles could not be added/removed from members."],
 		"body": "Known Issue: Channels may not be ordered correctly when moving them in/out of a category. Trying again will work.",
 		"image_url": "/img/changelog/server-channel-categories-1.53.0.png"	
 	},
