@@ -49,4 +49,9 @@ export default {
     unicode: "🇭🇺",
     translators: ["Andrew"],
   },
+  ru: {
+    name: "Russian / Русский",
+    unicde: "🇷🇺",
+    translators: ["plaz"],
+  }
 };
