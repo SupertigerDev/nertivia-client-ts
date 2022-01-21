@@ -1,0 +1,321 @@
+{
+  "save-changes": "Сохранить изменения",
+  "saving": "Сохранение...",
+  "back": "Назад",
+  "are-you-sure": "Вы уверены?",
+  "copy-id-button": "Копировать ID",
+  "time": {
+    "today-at": "{0} Сегодня",
+    "yesterday-at": "{0} Вчера"
+  },
+  "message-area": {
+    "no-message-perm": "У вас нет разрешения разговаривать в этом канале.",
+    "not-connected-server": "Нет соединения",
+    "attach-message": "Прикрепить сообщение",
+    "type-message": "Введите сообщение",
+    "back-to-bottom": "Назад вниз",
+    "new-messages": "Новые сообщения"
+  },
+  "upload-dialog": {
+    "compress": "Сжать файл",
+    "upload-to": "Загрузить"
+  },
+  "user-context": {
+    "view-profile": "Посмотреть профиль",
+    "edit-roles": "Изменить роли",
+    "kick": "Кикнуть",
+    "ban": "Банить",
+    "copy-user-tag": "Копировать user:tag"
+  },
+  "message-context": {
+    "quote": "Цитировать",
+    "edit": "Редактировать"
+  },
+  "server-context": {
+    "mark-as-read": "Пометить как прочитанное",
+    "server-settings": "Настройки сервера",
+    "leave-server": "Выйти из сервера"
+  },
+  "channel-context": {
+    "mute-channel": "Отключить канал",
+    "unmute-channel": "Включить канал"
+  },
+  "settings": {
+    "tab-names": {
+      "account": "Аккаунт",
+      "notification": "Уведомления",
+      "manage-emojis": "Управление эмодзи",
+      "call-options": "Варианты вызова",
+      "startup-options": "Параметры запуска",
+      "program-activity": "Программный статус",
+      "manage-bots": "Управление ботами",
+      "interface": "Интерфейс",
+      "language": "Язык",
+      "delete-account": "Удалить аккаунт",
+      "changelog": "Список изменений",
+      "wip-features": "WIP функции"
+    },
+    "account": {
+      "title": "Редактировать профиль",
+      "change-password": "Изменить пароль",
+      "relink-google-drive": "Переподключить Google Диск",
+      "link-google-drive": "Связать Google Диск",
+      "more-profile": "Дополнительная информация",
+      "more-profile-notice": "Эту информацию видят все."
+    },
+    "notification": {
+      "title": "Измените настройки уведомлений.",
+      "notification-sound": "Звук уведомления",
+      "notification-sound-details": "Издает классный звук, чтобы привлечь ваше внимание",
+      "notification-mentions-only": "Только упоминания/прямые сообщения",
+      "notification-mentions-only-details": "Делает так, что только упоминания и прямые сообщения будут воспроизводиться и отправляться.",
+      "push-notification": "Отправить уведомление",
+      "push-notification-details": "Получайте push-уведомления, даже когда приложение закрыто."
+    },
+    "manage-emojis": {
+      "details": "Загрузите свои собственные красивые эмоджи бесплатно! \nРазмер эмодзи не должен превышать 3МБ.",
+      "supported-types": "Поддерживаемые типы файлов: png, jpg, gif.",
+      "add-emojis-button": "Добавить эмоджи"
+    },
+    "startup-options": {
+      "title": "Настройки при запуске",
+      "notice": "Чтобы изменить эти настройки, необходимо загрузить настольное приложение Nertivia.",
+      "open-on-startup": "Открыть Nertivia при запуске"
+    },
+    "program-activity": {
+      "details": "Поделитесь программами или играми, которые вы запускаете, добавив приложения ниже. \nЭто заменит ваш пользовательский статус при открытии программы и вернется обратно, когда программа будет закрыта.",
+      "notice": "Чтобы использовать функцию активности программы, вы должны загрузить настольное приложение Nertivia."
+    },
+    "manage-bots": {
+      "details": "Создавайте пользователей-ботов, которые позволят вам использовать наш API для создания собственных причудливых ботов.",
+      "command-notice": "Добавьте команды бота, чтобы пользователи могли легко узнать, какие команды существуют для вашего бота.",
+      "create-bot-button": "Создать бота",
+      "add-command-button": "Добавить команду",
+      "edit-bot": "Редактировать бота",
+      "edit-commands": "Редактировать команды",
+      "create-invite-link": "Создать пригласительную ссылку",
+      "copy-invite-url": "Скопировать URL-адрес приглашения",
+      "manage-token": "Управление токеном",
+      "show-token": "Показать токен",
+      "copy-token": "Копировать токен",
+      "reset-token": "Сбросить токен",
+      "delete-bot": "Удалить бота"
+    },
+    "delete-account": {
+      "notice": "Вы собираетесь удалить свой аккаунт",
+      "what-gets-deleted": "Что будет удалено",
+      "what-wont-delete": "Что не будет удалено",
+      "messages-sent": "Ваши сообщения, отправленные на общедоступные серверы",
+      "requirements": "Требования",
+      "delete-leave-server": "Оставить/удалить все серверы",
+      "delete-bots": "Удалить всех ботов",
+      "delete-account-button": "Удалите мой аккаунт"
+    },
+    "language": {
+      "details": "После смены языка может потребоваться перезагрузка. \nВнесите свой вклад, отправив пулл-реквест в репозиторий GitHub.",
+      "translators": "Переводчики"
+    },
+    "interface": {
+      "description": "Измените внешний вид Нертивии.",
+      "colors": "Цвета",
+      "time-format": "Формат времени",
+      "default-theme": "Тема по умолчанию",
+      "amoled-dark": "AMOLED Dark",
+      "halloween-2020": "Хэллоуин 2020",
+      "predefined-themes": "Предустановленные темы",
+      "custom-css": "Собственный CSS",
+      "general": "Общие настройки",
+      "navigation-bar": "Панель навигации"
+    },
+    "wip-features": {
+      "title": "Включите незавершенные или экспериментальные функции.",
+      "none-available": "Сейчас недоступны WIP-функции."
+    }
+  },
+  "server-settings": {
+    "permissions": {
+      "permissions": "Разрешения",
+      "admin": {
+        "name": "Администратор",
+        "info": "Включает ВСЕ разрешения"
+      },
+      "send-messages": {
+        "name": "Отправления сообщения",
+        "info": "Отправка сообщений на каналы сервера"
+      },
+      "manage-roles": {
+        "name": "Управление ролями",
+        "info": "Обновить или удалить роли"
+      },
+      "manage-channels": {
+        "name": "Управление каналами",
+        "info": "Обновите или удалите каналы"
+      },
+      "kick-user": {
+        "name": "Кик",
+        "info": "Выгнать пользователя"
+      },
+      "ban-user": {
+        "name": "Бан",
+        "info": "Заблокировать пользователя от присоеднинения к серверу"
+      }
+    },
+    "tab-names": {
+      "general": "Общий",
+      "manage-channels": "Управление каналами",
+      "manage-roles": "Управление ролями",
+      "manage-invites": "Управление приглашениями",
+      "server-visibility": "Видимость сервера",
+      "manage-emojis": "Управление эмодзи",
+      "manage-notification": "Управление уведомлениями",
+      "banned-users": "Заблокированные пользователи",
+      "manage-users": "Управление пользователями",
+      "delete-server": "Удалить сервер"
+    },
+    "manage-roles": {
+      "manage-your-roles": "Управление ролями.",
+      "default-role": "Роль по умолчанию",
+      "bot-role": "Роль бота",
+      "create-role": "Создать новую роль",
+      "notice-bot": "Эту роль нельзя удалить/назначить другому пользователю, так как она была создана ботом. \nУдалите бота, чтобы удалить эту роль.",
+      "notice-default": "Эту роль нельзя удалить или отменить назначение, так как это роль по умолчанию, которая применяется к каждому участнику.",
+      "pick-role-color": "Выберите цвет роли",
+      "role-name": "Название роли",
+      "settings": "Настройки",
+      "delete-role": "Удалить роль",
+      "deleting-role": "Удаление роли..",
+      "hide-role": "Спрятать роль"
+    },
+    "general": {
+      "general-server-settings": "Общие настройки сервера"
+    },
+    "manage-channels": {
+      "manage-your-channels": "Управление каналами.",
+      "delete-channel": "Удалить канал",
+      "deleting-channel": "Удаление канала...",
+      "channel-name": "Название канала",
+      "default-channel-notice": "Это канал по умолчанию. \nВы можете изменить канал по умолчанию на странице Общие. \nКаналы по умолчанию не могут быть удалены.",
+      "create-new-channel": "Создать новый канал",
+      "permission": {
+        "send-message": "Отправлять сообщения"
+      },
+      "rate-limit-seconds": "Ограничение скорости (секунды)",
+      "text-channel": "Текстовый канал",
+      "category-channel": "Категория",
+      "html-channel": "канал HTML (WIP)"
+    },
+    "banned-users": {
+      "notice": "Разбанить пользователей здесь",
+      "unbanning": "Разбанивание...",
+      "unban": "Разбанить"
+    },
+    "manage-invites": {
+      "notice": "Только администраторы могут видеть все приглашения.",
+      "create-invites": "Создать приглашения",
+      "custom-invite": "Собственное приглашение",
+      "save-custom-link": "Сохранить собственную ссылку",
+      "create-invite": "Создать приглашение",
+      "link": "Ссылка",
+      "creator": "Создатель",
+      "uses": "Сколько раз была использована"
+    },
+    "manage-users": {
+      "search-user": "Поиск пользователя"
+    },
+    "delete-server": {
+      "type-server-name-to-confirm": "Введите имя сервера для подтверждения",
+      "deleting": "Удаление..."
+    },
+    "notifications": {
+      "description": "Изменить настройки уведомлений.",
+      "notice": "Эти настройки будут применяться только к вам и не повлияют на других.",
+      "enable-notifications": "Включить уведомления",
+      "mute-sound": "Отключить звук",
+      "disable-notifications": "Отключить уведомления"
+    }
+  },
+  "typing-status": {
+    "is-typing": "{0} пишет...",
+    "two-are-typing": "{0} и {1} пишут...",
+    "three-are-typing": "{0}, {1} и {2} пишут...",
+    "more-than-three": "{0} человек пишут..."
+  },
+  "dm-tab": {
+    "friends": "Друзья",
+    "recents": "Недавние",
+    "saved-notes": "Сохраненные заметки",
+    "add-friend": "Добавить друга"
+  },
+  "dashboard-tab": {
+    "profile": "Профиль",
+    "notifications": "Уведомления",
+    "click-to-add-custom-status": "Нажмите, чтобы добавить собственный статус",
+    "caught-up": "Все догнали!",
+    "direct-messages": "Сообщения",
+    "servers": "Серверы",
+    "explore": "Посмотреть",
+    "dashboard": "Дэшборд"
+  },
+  "add-friend-popout": {
+    "notice": "Добавьте друга, введя их имя пользователя и тег.",
+    "adding": "Adding..."
+  },
+  "add-server-popout": {
+    "title": "Add Server",
+    "join-server-notice": "Присоединяйтесь к серверу, введя код приглашения.",
+    "create-server-notice": "Создайте свой собственный сервер. \nНачните с присвоения имени вашему серверу.",
+    "tabs": {
+      "join": "Присоединиться",
+      "create": "Создавать"
+    }
+  },
+  "presence": {
+    "offline": "Офлайн",
+    "online": "На связи",
+    "away": "Не доступны на данный момент",
+    "busy": "Заняты",
+    "looking-to-play": "Ищет, с кем поиграть"
+  },
+  "right-drawer": {
+    "server-members": "Участники ({0})",
+    "server-offline-members": "Офлайн ({0})"
+  },
+  "profile-popout": {
+    "common-friends": "Общие друзья",
+    "badges": "Медали",
+    "joined-at": "Присоединились",
+    "suspended": "Заблокированы",
+    "remove-friend": "Удалить друга",
+    "accept-request": "Принять запрос",
+    "cancel-request": "Отменить запрос",
+    "add-friend": "Добавить друга",
+    "send-message": "Отправить сообщение",
+    "common-servers": "Общие серверы"
+  },
+  "connection": {
+    "loading": "Загружается...",
+    "ready": "Готово!",
+    "authenticating": "Аутентификация..."
+  },
+  "navbar": {
+    "update": "Обновление",
+    "update-available": "Доступно обновление"
+  },
+  "generic": {
+    "copy": "Скопировать",
+    "select": "Выделить",
+    "delete": "Удалить",
+    "copied": "Скопировано!",
+    "user": "Пользователь"
+  },
+  "messages": {
+    "left": "ушли из сервера",
+    "kicked": "были кикнуты",
+    "banned": "были блокированы",
+    "joined": "присоединились к серверу!"
+  },
+  "could-not-connect-to-server": "Не удалось подключиться к серверу.",
+  "chat-area": {
+    "rate-limit-mode": "Режим ограничения скорости"
+  }
+}
