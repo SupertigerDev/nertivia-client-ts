@@ -51,7 +51,7 @@ export default {
   },
   ru: {
     name: "Russian / Русский",
-    unicde: "🇷🇺",
+    unicode: "🇷🇺",
     translators: ["plaz"],
   }
 };
