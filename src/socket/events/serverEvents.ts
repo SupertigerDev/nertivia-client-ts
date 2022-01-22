@@ -57,6 +57,8 @@ export const onJoined = (socket: Socket, data: any) => {
     channelObj[channel.channelID] = {
       channelID: channel.channelID,
       name: channel.name,
+      categoryId: channel.categoryId,
+      type: channel.type,
       server_id: channel.server_id,
       lastMessaged: channel.lastMessaged,
       permissions: channel.permissions,
