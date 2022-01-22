@@ -1,5 +1,5 @@
 <template>
-  <div class="notification">
+  <div class="language-area">
     <div class="box">
       <div class="description">
         <div class="material-icons">info</div>
@@ -91,9 +91,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.notification {
+.language-area {
   display: flex;
   flex-direction: column;
+  overflow: auto;
 }
 .description {
   display: flex;
