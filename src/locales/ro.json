@@ -1,0 +1,316 @@
+{
+    "save-changes": "Salvează modificările",
+    "saving": "Salvare...",
+    "back": "Înapoi",
+    "are-you-sure": "Esti sigur?",
+    "copy-id-button": "Copiați ID-ul",
+    "time": {
+      "today-at": "Astăzi la {0}",
+      "yesterday-at": "Ieri la {0}"
+    },
+    "message-area": {
+      "no-message-perm": "Nu aveți permisiunea de a vorbi pe acest canal.",
+      "not-connected-server": "Nu este conectat",
+      "attach-message": "Atașați un mesaj",
+      "type-message": "Introduceți mesajul dvs",
+      "back-to-bottom": "Înapoi în jos",
+      "new-messages": "Mesaje noi"
+    },
+    "upload-dialog": {
+      "compress": "Comprima",
+      "upload-to": "Încărcați în"
+    },
+    "user-context": {
+      "view-profile": "Vezi profil",
+      "edit-roles": "Editați roluri",
+      "kick": "Kick",
+      "ban": "Interzicere",
+      "copy-user-tag": "Copiați utilizator: etichetă"
+    },
+    "message-context": {
+      "quote": "Citat",
+      "edit": "Editați"
+    },
+    "server-context": {
+      "mark-as-read": "Marcheaza ca citit",
+      "server-settings": "Setări server",
+      "leave-server": "Părăsiți serverul"
+    },
+    "channel-context": {
+      "mute-channel": "Dezactivați canalul",
+      "unmute-channel": "Activați canalul"
+    },
+    "settings": {
+      "tab-names": {
+        "account": "Cont",
+        "notification": "Notificări",
+        "manage-emojis": "Gestionați emojiurile",
+        "call-options": "Opțiuni de apel",
+        "startup-options": "Opțiuni de pornire",
+        "program-activity": "Activitate de program",
+        "manage-bots": "Gestionați roboturile",
+        "interface": "Interfață",
+        "language": "Limbaj",
+        "delete-account": "Ștergere cont",
+        "changelog": "Jurnalul modificărilor",
+        "wip-features": "Caracteristici WIP"
+      },
+      "account": {
+        "title": "Editeaza-ți profilul",
+        "change-password": "Schimbați parola",
+        "relink-google-drive": "Reconectați Google Drive",
+        "link-google-drive": "Conectați Google Drive",
+        "more-profile": "Mai mult profil",
+        "more-profile-notice": "Această informație este văzută de toată lumea."
+      },
+      "notification": {
+        "title": "Modificați setările de notificare.",
+        "notification-sound": "Sunet de notificare",
+        "notification-sound-details": "Emite un sunet tare pentru a vă atrage atenția",
+        "push-notification": "Notificare push",
+        "push-notification-details": "Primiți notificări push chiar și atunci când aplicația este închisă."
+      },
+      "manage-emojis": {
+        "details": "Încarcă-ți propriile emoji-uri frumoase gratuit! Emoji-urile trebuie să aibă 3 MB sau mai puțin.",
+        "supported-types": "Tipurile de fișiere acceptate sunt: ​​png, jpg, gif",
+        "add-emojis-button": "Adăugați emojiuri"
+      },
+      "startup-options": {
+        "title": "Opțiuni de pornire a aplicației desktop",
+        "notice": "Pentru a modifica aceste setări, trebuie să descărcați aplicația desktop Nertia.",
+        "open-on-startup": "Deschideți Nertivia la pornire"
+      },
+      "program-activity": {
+        "details": "Partajați programe sau jocuri pe care le rulați adăugând aplicații mai jos. Aceasta va înlocui starea dvs. personalizată atunci când un program este deschis și va reveni înapoi când programul este închis.",
+        "notice": "Pentru a utiliza funcția de activitate a programului, trebuie să descărcați aplicația desktop Nertivia."
+      },
+      "manage-bots": {
+        "details": "Creați utilizatori de bot care vă vor permite să utilizați API-ul nostru pentru a vă crea propriii roboți fantezi.",
+        "command-notice": "Adăugați comenzi pentru bot pentru a informa cu ușurință utilizatorii ce comenzi există pentru botul dvs",
+        "create-bot-button": "Creați bot",
+        "add-command-button": "Adăugați comanda",
+        "edit-bot": "Editați Bot",
+        "edit-commands": "Editați comenzi",
+        "create-invite-link": "Creați linkul de invitație",
+        "copy-invite-url": "Copiați adresa URL a invitației",
+        "manage-token": "Gestionați tokenul",
+        "show-token": "Afișează Token",
+        "copy-token": "Copiere Token",
+        "reset-token": "Resetează Tokenul",
+        "delete-bot": "Ștergeți bot"
+      },
+      "delete-account": {
+        "notice": "Sunteți pe cale să vă ștergeți contul",
+        "what-gets-deleted": "Ce va fi șters",
+        "what-wont-delete": "Ce nu va fi șters",
+        "messages-sent": "Mesajele tale trimise către servere publice",
+        "requirements": "Cerințe",
+        "delete-leave-server": "Lăsați/Ștergeți toate serverele",
+        "delete-bots": "Ștergeți toți roboții",
+        "delete-account-button": "Sterge contul meu"
+      },
+      "language": {
+        "details": "Poate fi necesară reîncărcarea după schimbarea limbii. Contribuiți trimițând un PR în depozitul GitHub.",
+        "translators": "Traducători"
+      },
+      "interface": {
+        "description": "Schimbați aspectul lui Nertivia.",
+        "colors": "Culori",
+        "time-format": "Format de timp",
+        "default-theme": "Tema implicită",
+        "amoled-dark": "AMOLED Dark",
+        "halloween-2020": "Halloween 2020",
+        "predefined-themes": "Teme predefinite",
+        "custom-css": "CSS personalizat",
+        "general": "General",
+        "navigation-bar": "Bară de navigare"
+      },
+      "wip-features": {
+        "title": "Activați funcțiile nefinalizate sau experimentale.",
+        "none-available": "Nu există funcții WIP disponibile momentan."
+      }
+    },
+    "server-settings": {
+      "permissions": {
+        "permissions": "Permisiuni",
+        "admin": {
+          "name": "Admin",
+          "info": "Activează TOATE permisiunile"
+        },
+        "send-messages": {
+          "name": "Trimite mesaje",
+          "info": "Trimiteți mesaje către canalele serverului"
+        },
+        "manage-roles": {
+          "name": "Gestionați rolurile",
+          "info": "Actualizați sau ștergeți roluri"
+        },
+        "manage-channels": {
+          "name": "Gestionați canalele",
+          "info": "Actualizați sau ștergeți canale"
+        },
+        "kick-user": {
+          "name": "Kick",
+          "info": "Kick la un utilizator"
+        },
+        "ban-user": {
+          "name": "Ban",
+          "info": "Kick & restricționați un utilizator să se alăture"
+        }
+      },
+      "tab-names": {
+        "general": "General",
+        "manage-channels": "Gestionați canalele",
+        "manage-roles": "Gestionați rolurile",
+        "manage-invites": "Gestionați invitațiile",
+        "server-visibility": "Vizibilitatea serverului",
+        "manage-notification": "Gestionați notificările",
+        "banned-users": "Utilizatori interziși",
+        "manage-users": "Gestionare Utilizatorilor",
+        "delete-server": "Șterge serverul"
+      },
+      "manage-roles": {
+        "manage-your-roles": "Gestionează-ți rolurile.",
+        "default-role": "Rol implicit",
+        "bot-role": "Rol Bot",
+        "create-role": "Creați un rol nou",
+        "notice-bot": "Acest rol nu poate fi șters/alocat unui alt membru, deoarece a fost creat de un bot. Eliminați botul pentru a elimina acest rol.",
+        "notice-default": "Acest rol nu poate fi șters sau anulat, deoarece acesta este rolul implicit care se aplică fiecărui membru.",
+        "pick-role-color": "Alegeți culoarea rolului",
+        "role-name": "Nume rol",
+        "settings": "Setări",
+        "delete-role": "Șterge rol",
+        "deleting-role": "Ștergerea rolului...",
+        "hide-role": "Ascunde rolul"
+      },
+      "general": {
+        "general-server-settings": "Setări generale ale serverului"
+      },
+      "manage-channels": {
+        "manage-your-channels": "Gestionați-vă canalele.",
+        "delete-channel": "Șterge canalul",
+        "deleting-channel": "Se șterge canalul...",
+        "channel-name": "Numele canalului",
+        "default-channel-notice": "Acesta este un canal implicit. Puteți schimba canalul implicit în pagina General. Canalele implicite nu pot fi șterse.",
+        "create-new-channel": "Creați un canal nou",
+        "permission": {
+          "send-message": "Trimite mesaje"
+        },
+        "rate-limit-seconds": "Limită de rată (secunde)",
+        "text-channel": "Canal text",
+        "html-channel": "Canal HTML (WIP)"
+      },
+      "banned-users": {
+        "notice": "Anulați interzicerea membrilor de aici",
+        "unbanning": "Anularea interdicției...",
+        "unban": "Unban"
+      },
+      "manage-invites": {
+        "notice": "Numai administratorii pot vedea invitațiile tuturor.",
+        "create-invites": "Creați invitații",
+        "custom-invite": "Invitație personalizată",
+        "save-custom-link": "Salvați linkul personalizat",
+        "create-invite": "Creați invitație",
+        "link": "Link",
+        "creator": "Creator",
+        "uses": "Utilizări"
+      },
+      "manage-users": {
+        "search-user": "Caută utilizator"
+      },
+      "delete-server": {
+        "type-server-name-to-confirm": "Tastați numele serverului pentru a confirma",
+        "deleting": "Ștergere..."
+      },
+      "notifications": {
+        "description": "Modificați setările de notificare.",
+        "notice": "Aceste setări se vor aplica numai pentru dvs. și nu îi vor afecta pe alții.",
+        "enable-notifications": "Activați notificările",
+        "mute-sound": "Dezactivați sunetul",
+        "disable-notifications": "Dezactivați notificările"
+      }
+    },
+    "typing-status": {
+      "is-typing": "{0} scrie...",
+      "two-are-typing": "{0} și {1} scrie...",
+      "three-are-typing": "{0}, {1} și {2} scrie...",
+      "more-than-three": "{0} oameni scriu..."
+    },
+    "dm-tab": {
+      "friends": "Prieteni",
+      "recents": "Recente",
+      "saved-notes": "Note salvate",
+      "add-friend": "Adaugă prieten"
+    },
+    "dashboard-tab": {
+      "profile": "Profil",
+      "notifications": "Notificări",
+      "click-to-add-custom-status": "Faceți clic pentru a adăuga un statut personalizat",
+      "caught-up": "Totul este gata!",
+      "direct-messages": "Mesaje directe",
+      "servers": "Servere",
+      "explore": "Exploră",
+      "dashboard": "Bord"
+    },
+    "add-friend-popout": {
+      "notice": "Adăugați un prieten introducând numele de utilizator și eticheta acestuia.",
+      "adding": "Adăugând..."
+    },
+    "add-server-popout": {
+      "title": "Adaugă server",
+      "join-server-notice": "Alăturați-vă unui server introducând un cod de invitație.",
+      "create-server-notice": "Creează-ți propriul server. Începeți prin a numi serverul dvs.",
+      "tabs": {
+        "join": "A te alătura",
+        "create": "Creare"
+      }
+    },
+    "presence": {
+      "offline": "Deconectat",
+      "online": "Conectat",
+      "away": "Departe",
+      "busy": "Ocupat",
+      "looking-to-play": "Caută să Joace"
+    },
+    "right-drawer": {
+      "server-members": "Memberi ({0})",
+      "server-offline-members": "Deconectați ({0})"
+    },
+    "profile-popout": {
+      "common-friends": "Prieteni comuni",
+      "badges": "Ecusoane",
+      "joined-at": "S-a alăturat",
+      "suspended": "Suspendat",
+      "remove-friend": "Șterge prieten",
+      "accept-request": "Acceptă cererea",
+      "cancel-request": "Anulează cererea",
+      "add-friend": "Adaugă prieten",
+      "send-message": "Trimite mesaj",
+      "common-servers": "Servere comune"
+    },
+    "connection": {
+      "loading": "Se încarcă...",
+      "ready": "Gata!",
+      "authenticating": "Authenticating..."
+    },
+    "navbar": {
+      "update": "Actualizare",
+      "update-available": "Actualizare disponibilă"
+    },
+    "generic": {
+      "copy": "Copiază",
+      "delete": "Șterge",
+      "copied": "Copiat!",
+      "user": "Utilizator"
+    },
+    "messages": {
+      "left": "a părăsit serverul",
+      "kicked": "a fost lovit.",
+      "banned": "a fost interzis",
+      "joined": "s-a alăturat serverului!"
+    },
+    "could-not-connect-to-server": "Nu se poate conecta la server.",
+    "chat-area": {
+      "rate-limit-mode": "Modul Rate Limit"
+    }
+  }
