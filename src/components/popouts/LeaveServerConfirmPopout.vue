@@ -66,12 +66,8 @@ export default defineComponent({
   data() {
     return {
       requestSent: false,
+      server: ServersModule.servers[this.data.serverId],
     };
-  },
-  computed: {
-    server() {
-      return ServersModule.servers[this.data.serverId];
-    },
   },
   methods: {
     close() {
