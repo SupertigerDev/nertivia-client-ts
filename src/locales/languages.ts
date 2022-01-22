@@ -53,5 +53,10 @@ export default {
     name: "Russian / Русский",
     unicode: "🇷🇺",
     translators: ["plaz"],
+  },
+  ro: {
+    name: "Romanian / Română",
+    unicode: "🇷🇴",
+    translators: ["Andrew"],
   }
 };
