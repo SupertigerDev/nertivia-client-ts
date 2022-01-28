@@ -11,41 +11,39 @@ interface ResponsePost {
   tempID: string;
   messageCreated: Message;
 }
-export function fetchMessages(channelId: string): Promise<ResponseFetch> {
-  return wrapper().get(`channels/${channelId}/messages`).json();
+export function fetchMessages(channelID: string): Promise<ResponseFetch> {
+  return wrapper().get(`messages/channels/${channelID}`).json();
 }
 export function fetchMessagesContinue(
-  channelId: string,
-  continueMessageId: string
+  channelID: string,
+  continueMessageID: string
 ): Promise<ResponseFetch> {
   return wrapper()
-    .get(`/channels/${channelId}/messages?continue=${continueMessageId}`)
+    .get(`messages/channels/${channelID}?continue=${continueMessageID}`)
     .json();
 }
 export function deleteMessages(
-  channelId: string,
+  channelID: string,
   messageIds: string[]
 ): Promise<ResponseFetch> {
   return wrapper()
-    .delete(`channels/${channelId}/messages/bulk`, {
-      json: { ids: messageIds },
-    })
+    .delete(`messages/${channelID}/bulk`, { json: { ids: messageIds } })
     .json();
 }
 export function fetchMessagesBefore(
-  channelId: string,
-  beforeMessageId: string
+  channelID: string,
+  beforeMessageID: string
 ): Promise<ResponseFetch> {
   return wrapper()
-    .get(`channels/${channelId}/messages?before=${beforeMessageId}`)
+    .get(`messages/channels/${channelID}?before=${beforeMessageID}`)
     .json();
 }
 export function fetchMessagesAround(
-  channelId: string,
-  messageId: string
+  channelID: string,
+  messageID: string
 ): Promise<ResponseFetch> {
   return wrapper()
-    .get(`channels/${channelId}/messages?around=${messageId}`)
+    .get(`messages/channels/${channelID}?around=${messageID}`)
     .json();
 }
 
@@ -56,19 +54,19 @@ export interface PostReaction {
 }
 
 export function addReaction(
-  channelId: string,
-  messageId: string,
+  channelID: string,
+  messageID: string,
   reaction: PostReaction
 ): Promise<any> {
   return wrapper()
-    .post(`channels/${channelId}/messages/${messageId}/reactions`, {
+    .post(`messages/${messageID}/channels/${channelID}/reactions`, {
       json: reaction,
     })
     .json();
 }
 export function getReactedUsers(
-  channelId: string,
-  messageId: string,
+  channelID: string,
+  messageID: string,
   limit: number,
   emojiID?: string,
   unicode?: string
@@ -80,28 +78,28 @@ export function getReactedUsers(
     searchParams.unicode = unicode;
   }
   return wrapper()
-    .get(`channels/${channelId}/messages/${messageId}/reactions`, {
+    .get(`messages/${messageID}/channels/${channelID}/reactions/users`, {
       searchParams,
     })
     .json();
 }
 export function removeReaction(
-  channelId: string,
-  messageId: string,
+  channelID: string,
+  messageID: string,
   reaction: PostReaction
 ): Promise<any> {
   return wrapper()
-    .delete(`channels/${channelId}/messages/${messageId}/reactions`, {
+    .delete(`messages/${messageID}/channels/${channelID}/reactions`, {
       json: reaction,
     })
     .json();
 }
 
 export function deleteMessage(
-  channelId: string,
-  messageId: string
+  channelID: string,
+  messageID: string
 ): Promise<any> {
-  return wrapper().delete(`channels/${channelId}/messages/${messageId}`).json();
+  return wrapper().delete(`messages/${messageID}/channels/${channelID}`).json();
 }
 export function postMessage(
   message: string,
@@ -127,17 +125,17 @@ export function editMessage(
     .json();
 }
 export function buttonClick(
-  channelId: string,
-  messageId: string,
-  buttonId: string
+  channelID: string,
+  messageID: string,
+  buttonID: string
 ): Promise<any> {
   return wrapper()
-    .post(`channels/${channelId}/messages/${messageId}/buttons/${buttonId}`)
+    .post(`channels/${channelID}/messages/${messageID}/button/${buttonID}`)
     .json();
 }
 
-export function postTypingStatus(channelId: string): Promise<ResponsePost> {
-  return wrapper().post(`channels/${channelId}/typing`).json();
+export function postTypingStatus(channelID: string): Promise<ResponsePost> {
+  return wrapper().post(`messages/${channelID}/typing`).json();
 }
 
 export function postFormDataMessage(
