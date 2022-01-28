@@ -12,6 +12,7 @@ import { buttonClick } from "@/services/messagesService";
 import { PopoutsModule } from "@/store/modules/popouts";
 import { PropType } from "vue";
 import { defineComponent } from "vue";
+import { MESSAGE_BUTTON_CALLBACK } from "@/ServerEventNames";
 export default defineComponent({
   name: "MessageSide",
   components: { Markup },
@@ -32,7 +33,7 @@ export default defineComponent({
     };
   },
   unmounted() {
-    this.$socket.off("message_button_click_callback", this.onCallback);
+    this.$socket.off(MESSAGE_BUTTON_CALLBACK, this.onCallback);
   },
   methods: {
     click() {
@@ -40,7 +41,7 @@ export default defineComponent({
       if (!this.message.messageID) return;
       this.posting = true;
 
-      this.$socket.once("message_button_click_callback", this.onCallback);
+      this.$socket.once(MESSAGE_BUTTON_CALLBACK, this.onCallback);
       buttonClick(
         this.message.channelID,
         this.message.messageID,

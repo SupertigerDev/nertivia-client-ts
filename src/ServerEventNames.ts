@@ -26,7 +26,6 @@ export const SERVER_CHANNEL_POSITION_UPDATED = "server:channel_position_updated"
 // server events
 export const SERVER_POSITION_UPDATED = "server:position_updated";
 export const SERVER_JOINED = "server:joined";
-export const SERVER_UPDATED = "server:updated";
 export const SERVER_LEFT = "server:left";
 export const SERVER_MEMBER_ADDED = "server:member_added";
 export const SERVER_MEMBER_REMOVED = "server:member_removed";
@@ -67,9 +66,10 @@ export const RELATIONSHIP_ACCEPTED = "relationship:accepted";
 export const CUSTOM_EMOJI_RENAMED = "custom_emoji:renamed";
 export const CUSTOM_EMOJI_UPLOADED = "custom_emoji:uploaded";
 export const CUSTOM_EMOJI_DELETED = "custom_emoji:deleted";
+export const MESSAGE_BUTTON_CALLBACK = "message_button_click_callback";
 
 // events that are currently not being used in the client
 export const USER_UPDATED = "user:updated";
+export const SERVER_UPDATED = "server:updated";
 
-export const MESSAGE_BUTTON_CALLBACK = "message_button_click_callback";
 export const MESSAGE_BUTTON_CLICKED = "message_button_clicked";
