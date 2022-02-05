@@ -7,10 +7,7 @@ interface ResponseFetch {
   channelID: string;
   messages: Message[];
 }
-interface ResponsePost {
-  tempID: string;
-  messageCreated: Message;
-}
+type ResponsePost = Message & { tempID: string };
 export function fetchMessages(channelId: string): Promise<ResponseFetch> {
   return wrapper().get(`channels/${channelId}/messages`).json();
 }

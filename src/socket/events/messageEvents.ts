@@ -32,7 +32,7 @@ function playNotificationSound(data: PlayNotificationData) {
   const scrolledDown = MessageLogStatesModule.isScrolledDown(data.channelID);
   const muteServer =
     data.serverID && MutedServersModule.serverSoundMuted(data.serverID);
-  const dm = isDirectMessage(data.serverID);  
+  const dm = isDirectMessage(data.serverID);
 
   if (muteServer) {
     return;
@@ -53,23 +53,23 @@ function playNotificationSound(data: PlayNotificationData) {
   }
 }
 
-export const onMessage = (socket: Socket, data: { message: Message }) => {
-  const channel = ChannelsModule.channels[data.message.channelID];
+export const onMessage = (socket: Socket, message: Message) => {
+  const channel = ChannelsModule.channels[message.channelID];
 
-  const isMe = data.message.creator.id === MeModule.user.id;
+  const isMe = message.creator.id === MeModule.user.id;
   ChannelsModule.updateChannel({
-    channelID: data.message.channelID,
+    channelID: message.channelID,
     update: { lastMessaged: Date.now() },
   });
   MessagesModule.AddChannelMessage({
-    ...data.message,
-    type: data.message.type || 0,
+    ...message,
+    type: message.type || 0,
   });
 
   // update last seen if message created by me.
   if (isMe && channel && channel.server_id) {
-    LastSeenServerChannelsModule.SetLastSeenChannel(data.message.channelID);
-    if (data.message.type === 0)
+    LastSeenServerChannelsModule.SetLastSeenChannel(message.channelID);
+    if (message.type === 0)
       MessagesModule.UpdateLastMessageSend({
         channelID: channel.channelID,
         timestamp: Date.now(),
@@ -80,18 +80,18 @@ export const onMessage = (socket: Socket, data: { message: Message }) => {
   // message created by not me
   // server channel = mentioned
   if (!isMe) {
-    emitter.emit("newMessage", data.message);
+    emitter.emit("newMessage", message);
     const notification = NotificationsModule.notificationByChannelID(
-      data.message.channelID
+      message.channelID
     );
     const mentioned = !!(
-      data.message.mentions &&
-      data.message.mentions.find((u) => u.id === MeModule.user.id)
+      message.mentions &&
+      message.mentions.find((u) => u.id === MeModule.user.id)
     );
     // play notification sound.
     playNotificationSound({
       mentioned,
-      channelID: data.message.channelID,
+      channelID: message.channelID,
       serverID: channel?.server_id,
     });
     if (channel && channel.server_id && !mentioned) return;
@@ -101,17 +101,17 @@ export const onMessage = (socket: Socket, data: { message: Message }) => {
       };
       if (mentioned) updateNotification.mentioned = true;
       NotificationsModule.UpdateNotification({
-        channelID: data.message.channelID,
+        channelID: message.channelID,
         notification: updateNotification,
       });
     } else {
       NotificationsModule.AddNotification({
-        channelID: data.message.channelID,
+        channelID: message.channelID,
         notification: {
-          channelID: data.message.channelID,
+          channelID: message.channelID,
           count: 1,
-          lastMessageID: data.message.messageID as any,
-          sender: data.message.creator,
+          lastMessageID: message.messageID as any,
+          sender: message.creator,
           mentioned: mentioned,
         },
       });
