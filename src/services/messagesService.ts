@@ -102,12 +102,12 @@ export function deleteMessage(
 }
 export function postMessage(
   message: string,
-  tempID: string,
-  channelID: string
+  tempId: string,
+  channelId: string
 ): Promise<ResponsePost> {
   return wrapper()
-    .post(`messages/channels/${channelID}`, {
-      json: { message, tempID, socketID: socket.id },
+    .post(`channels/${channelId}/messages`, {
+      json: { message, tempID: tempId, socketID: socket.id },
     })
     .json();
 }
@@ -159,7 +159,7 @@ export function postFormDataMessage(
   const request = new XMLHttpRequest();
   request.open(
     "POST",
-    process.env.VUE_APP_FETCH_PREFIX + `/messages/channels/${channelID}`
+    process.env.VUE_APP_FETCH_PREFIX + `/channels/${channelID}/messages`
   );
   request.setRequestHeader(
     "authorization",
