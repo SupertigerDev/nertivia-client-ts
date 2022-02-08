@@ -16,7 +16,7 @@ export function fetchMessagesContinue(
   continueMessageId: string
 ): Promise<ResponseFetch> {
   return wrapper()
-    .get(`/channels/${channelId}/messages?continue=${continueMessageId}`)
+    .get(`channels/${channelId}/messages?continue=${continueMessageId}`)
     .json();
 }
 export function deleteMessages(
@@ -113,12 +113,12 @@ export function postMessage(
 }
 
 export function editMessage(
-  messageID: string,
-  channelID: string,
+  messageId: string,
+  channelId: string,
   data: any
 ): Promise<ResponsePost> {
   return wrapper()
-    .patch(`messages/${messageID}/channels/${channelID}`, {
+    .patch(`channels/${channelId}/messages/${messageId}`, {
       json: data,
     })
     .json();

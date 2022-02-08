@@ -7,12 +7,12 @@ interface Response {
   status: boolean;
 }
 interface ReturnedDmChannel {
-  type: ChannelType
+  type: ChannelType;
   channelID: string;
   recipients: User[];
 }
 export function getChannelByUserId(id: string): Promise<Response> {
-  return wrapper().post(`channels/${id}`).json();
+  return wrapper().post(`channels/users/${id}`).json();
 }
 
 export function muteServerChannel(
@@ -45,7 +45,11 @@ export function deleteServerChannel(
 ): Promise<any> {
   return wrapper().delete(`servers/${serverID}/channels/${channelID}`).json();
 }
-export function createServerChannel(serverID: string, name: string, type = 1): Promise<any> {
+export function createServerChannel(
+  serverID: string,
+  name: string,
+  type = 1
+): Promise<any> {
   return wrapper()
     .put(`servers/${serverID}/channels`, {
       json: { name, type },
@@ -55,7 +59,7 @@ export function createServerChannel(serverID: string, name: string, type = 1): P
 export function updateServerChannelPosition(
   serverID: string,
   channelIDArr: string[],
-  category?: null | {id: string | null, channelId: string}
+  category?: null | { id: string | null; channelId: string }
 ): Promise<any> {
   return wrapper()
     .put(`servers/${serverID}/channels/position`, {
