@@ -50,6 +50,8 @@ import { PopoutsModule } from "@/store/modules/popouts";
 import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChannel";
 
 import { defineComponent } from "vue";
+import Channel from "@/interfaces/Channel";
+import { ChannelType } from "@/interfaces/DmChannel";
 export default defineComponent({
   name: "ServerDrawer",
   components: { ChannelTemplate, CategoryTemplate },
@@ -65,10 +67,17 @@ export default defineComponent({
         channel_id: this.$route.params.channel_id,
       };
     },
-    selectedServerChannels(): any {
+    // all channels, including categories.
+    selectedServerChannels(): Channel[] {
       if (!this.selectedDetails.server_id) return [];
       return ChannelsModule.sortedServerChannels(
         this.selectedDetails.server_id
+      );
+    },
+    // all text channels only.
+    channelsOnly(): Channel[] {
+      return this.selectedServerChannels.filter(
+        (chan) => chan.type === ChannelType.SERVER_CHANNEL
       );
     },
     server(): any {
@@ -91,7 +100,7 @@ export default defineComponent({
   },
   methods: {
     onKeyDown(event: KeyboardEvent) {
-      if (this.selectedServerChannels.length <= 1) return;
+      if (this.channelsOnly.length <= 1) return;
       if (event.ctrlKey) return;
       if (!event.altKey) return;
       const arrowUp = event.key === "ArrowUp";
@@ -112,7 +121,7 @@ export default defineComponent({
       event.preventDefault();
     },
     goToPreviousChannel() {
-      const channels = this.selectedServerChannels;
+      const channels = this.channelsOnly;
       const currentChannelIndex = channels.findIndex(
         (c) => c.channelID === this.selectedDetails.channel_id
       );
@@ -164,7 +173,7 @@ export default defineComponent({
       });
     },
     goToNextChannel() {
-      const channels = this.selectedServerChannels;
+      const channels = this.channelsOnly;
       const currentChannelIndex = channels.findIndex(
         (c) => c.channelID === this.selectedDetails.channel_id
       );
