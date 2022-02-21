@@ -57,17 +57,20 @@ class Channels extends VuexModule {
     return (id: string) => {
       const server = ServersModule.servers[id];
       const channel_position = server.channel_position;
-      if (channel_position && channel_position.length) {
-        return this.serverChannels(id).sort((a, b) => {
-          const aIndex = channel_position.indexOf(a.channelID);
-          const bIndex = channel_position.indexOf(b.channelID);
-          if (aIndex < 0 || bIndex < 0) {
-            return 1;
-          }
-          return aIndex - bIndex;
-        });
-      }
-      return this.serverChannels(id);
+      if (!channel_position?.length) return this.serverChannels(id);
+
+      return this.serverChannels(id).sort((a, b) => {
+        const categoryAIndex = channel_position.indexOf(a.categoryId || "");
+        const categoryBIndex = channel_position.indexOf(b.categoryId || "");
+
+        if (categoryAIndex !== categoryBIndex)
+          return categoryAIndex - categoryBIndex;
+
+        const aIndex = channel_position.indexOf(a.channelID);
+        const bIndex = channel_position.indexOf(b.channelID);
+        if (aIndex < 0 || bIndex < 0) return 1;
+        return aIndex - bIndex;
+      });
     };
   }
   get getDMChannel() {
