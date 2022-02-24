@@ -47,7 +47,7 @@ export default defineComponent({
           component: "delete-message-popout",
           data: {
             messageID: this.selectedMessages[0],
-            channelID: this.channelID,
+            channelId: this.channelId,
             callback: this.onDeleted,
           },
         });
@@ -62,7 +62,7 @@ export default defineComponent({
       this.deselectAll();
     },
     selectAll() {
-      MessagesModule.messages[this.channelID].forEach((m) => {
+      MessagesModule.messages[this.channelId].forEach((m) => {
         if (!m.messageID) return;
         if (!this.canDeleteMessage(m)) return;
         MessagesModule.selectMessage(m.messageID);
@@ -106,7 +106,7 @@ export default defineComponent({
     currentTab(): any {
       return this.$route.path.split("/")[2];
     },
-    channelID(): string {
+    channelId(): string {
       return this.$route.params.channel_id as string;
     },
   },

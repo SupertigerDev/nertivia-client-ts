@@ -10,7 +10,7 @@
       </div>
       <SelectedChannelPage
         v-if="selectedChannelID"
-        :channelID="selectedChannelID"
+        :channelId="selectedChannelID"
         @close="selectedChannelID = null"
       />
       <div class="box" v-if="!selectedChannelID">
@@ -36,7 +36,7 @@
             ghost-class="ghost"
             v-model="channels"
             @end="onDragEnd"
-            item-key="channelID"
+            item-key="channelId"
           >
             >
             <template #item="{ element }">
@@ -44,7 +44,7 @@
                 <ChannelTemplate
                   v-if="element.type === 1 && !element.categoryId"
                   :channel="element"
-                  @click="selectedChannelID = element.channelID"
+                  @click="selectedChannelID = element.channelId"
                 />
                 <CategoryTemplate
                   v-if="element.type === 2"
@@ -121,7 +121,7 @@ export default defineComponent({
       set(channels: Channel[]) {
         ServersModule.UpdateServer({
           server_id: this.serverID,
-          channel_position: channels.map((c) => c.channelID),
+          channel_position: channels.map((c) => c.channelId),
         });
       },
     },
@@ -152,10 +152,10 @@ export default defineComponent({
       if (event.from !== event.to) {
         category = {
           id: event.to.id.split("-")[1],
-          channelId: this.channels[event.oldIndex].channelID,
+          channelId: this.channels[event.oldIndex].channelId,
         };
       }
-      const channelIDs = this.channels.map((s) => s.channelID);
+      const channelIDs = this.channels.map((s) => s.channelId);
       updateServerChannelPosition(this.serverID, channelIDs, category);
     },
     createChannel(type = 1) {
@@ -166,7 +166,7 @@ export default defineComponent({
       createServerChannel(this.serverID, name, type)
         .then((json) => {
           ChannelsModule.AddChannel(json.channel);
-          this.selectedChannelID = json.channel.channelID;
+          this.selectedChannelID = json.channel.channelId;
         })
         .finally(() => {
           this.createRequestSent = false;

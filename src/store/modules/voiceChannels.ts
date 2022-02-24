@@ -144,8 +144,8 @@ class VoiceChannels extends VuexModule {
     const serverChannels = ChannelsModule.serverChannels(payload.serverId);
     for (let i = 0; i < serverChannels.length; i++) {
       const channel = serverChannels[i];
-      if (!this.voiceChannelUsers[channel.channelID]) continue;
-      this.removeUser({ channelId: channel.channelID, userId: payload.userId });
+      if (!this.voiceChannelUsers[channel.channelId]) continue;
+      this.removeUser({ channelId: channel.channelId, userId: payload.userId });
     }
   }
   @Action
@@ -153,7 +153,7 @@ class VoiceChannels extends VuexModule {
     const serverChannels = ChannelsModule.serverChannels(serverId);
     for (let i = 0; i < serverChannels.length; i++) {
       const channel = serverChannels[i];
-      this.removeChannel(channel.channelID);
+      this.removeChannel(channel.channelId);
     }
   }
   @Mutation

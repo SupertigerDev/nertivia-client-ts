@@ -63,21 +63,21 @@ export default defineComponent({
   },
   computed: {
     callParticipants(): CallParticipant[] {
-      return voiceChannelModule.callParticipants(this.channel.channelID);
+      return voiceChannelModule.callParticipants(this.channel.channelId);
     },
     path(): any {
-      return `/app/servers/${this.channel.server_id}/${this.channel.channelID}`;
+      return `/app/servers/${this.channel.server_id}/${this.channel.channelId}`;
     },
     notificationExists(): any {
       return LastSeenServerChannelsModule.serverChannelNotification(
-        this.channel.channelID
+        this.channel.channelId
       );
     },
     isMuted(): any {
-      return MutedChannelsModule.mutedChannels.includes(this.channel.channelID);
+      return MutedChannelsModule.mutedChannels.includes(this.channel.channelId);
     },
     isChannelSelected(): any {
-      return this.$route.params.channel_id === this.channel.channelID;
+      return this.$route.params.channel_id === this.channel.channelId;
     },
     iconURL(): any {
       const icon = this.channel.icon;
@@ -110,7 +110,7 @@ export default defineComponent({
           x: event.clientX,
           y: event.clientY,
           server_id: this.channel.server_id,
-          channelID: this.channel.channelID,
+          channelId: this.channel.channelId,
         },
       });
     },

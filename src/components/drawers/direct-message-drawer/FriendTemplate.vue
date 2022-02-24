@@ -105,11 +105,11 @@ export default defineComponent({
       if (this.isFriendSelected) {
         this.$router.push("/app/dms");
       }
-      hideDMChannel(this.dmChannel.channelID).then(() => {
+      hideDMChannel(this.dmChannel.channelId).then(() => {
         if (!this.dmChannel) return;
-        ChannelsModule.RemoveChannel(this.dmChannel.channelID);
-        MessagesModule.DeleteChannelMessages(this.dmChannel.channelID);
-        MessageLogStatesModule.RemoveState(this.dmChannel.channelID);
+        ChannelsModule.RemoveChannel(this.dmChannel.channelId);
+        MessagesModule.DeleteChannelMessages(this.dmChannel.channelId);
+        MessageLogStatesModule.RemoveState(this.dmChannel.channelId);
       });
     },
     showProfile() {

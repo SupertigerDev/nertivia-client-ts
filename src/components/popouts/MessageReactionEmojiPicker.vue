@@ -27,7 +27,7 @@ import { PropType } from "vue";
 
 interface IProp {
   messageID: string;
-  channelID: string;
+  channelId: string;
   x: number;
   y: number;
 }
@@ -83,7 +83,7 @@ export default defineComponent({
 
       const reactions = MessagesModule.messageReactions({
         messageID: this.data.messageID,
-        channelID: this.data.channelID,
+        channelId: this.data.channelId,
       });
 
       if (reactions && reactions?.length > 10) {
@@ -100,7 +100,7 @@ export default defineComponent({
 
       let oldReaction: Reaction | undefined = MessagesModule.messageReaction({
         messageID: this.data.messageID,
-        channelID: this.data.channelID,
+        channelId: this.data.channelId,
         emojiID: event.id,
         unicode: event.unicode,
       });
@@ -116,13 +116,13 @@ export default defineComponent({
       }
 
       MessagesModule.UpdateMessageReaction({
-        channelID: this.data.channelID,
+        channelId: this.data.channelId,
         messageID: this.data.messageID,
         reaction: { ...oldReaction, count: oldReaction.count + 1 },
         removeIfZero: false,
       });
 
-      addReaction(this.data.channelID, this.data.messageID, {
+      addReaction(this.data.channelId, this.data.messageID, {
         emojiID: event.id,
         gif: event.gif,
         unicode: event.unicode,

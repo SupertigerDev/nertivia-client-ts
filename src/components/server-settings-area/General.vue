@@ -49,7 +49,7 @@
         class="input"
         title="Default Channel"
         :defaultId="defaultChannelId"
-        IdPath="channelID"
+        IdPath="channelId"
         :key="defaultChannelId"
         @change="defaultChannelId = $event"
         :items="channels"

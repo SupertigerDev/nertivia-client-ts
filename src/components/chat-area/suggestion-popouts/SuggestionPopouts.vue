@@ -201,11 +201,11 @@ export default defineComponent({
 
       return false;
     },
-    channelID(): any {
+    channelId(): any {
       return this.$route.params.channel_id;
     },
     dmChannel(): any {
-      return ChannelsModule.getDMChannel(this.channelID);
+      return ChannelsModule.getDMChannel(this.channelId);
     },
     botCommands(): any {
       if (this.serverID) {
@@ -234,7 +234,7 @@ export default defineComponent({
     },
   },
   watch: {
-    channelID: {
+    channelId: {
       handler: "onChannelChange",
     },
     message: {

@@ -30,7 +30,7 @@ function replaceChannelMentions(message: string, channels: Channel[]) {
     const channel = name[1] && getChannel(name[1]);
     if (channel) {
       result.push(message.slice(lastIndex, name.index));
-      result.push(`<#${channel.channelID}>`);
+      result.push(`<#${channel.channelId}>`);
       lastIndex = name.index + name[0].length;
     } else {
       reg.lastIndex = lastIndex + i;

@@ -8,7 +8,7 @@ interface Response {
 }
 interface ReturnedDmChannel {
   type: ChannelType;
-  channelID: string;
+  channelId: string;
   recipients: User[];
 }
 export function getChannelByUserId(id: string): Promise<Response> {
@@ -17,33 +17,33 @@ export function getChannelByUserId(id: string): Promise<Response> {
 
 export function muteServerChannel(
   serverID: string,
-  channelID: string
+  channelId: string
 ): Promise<any> {
-  return wrapper().put(`servers/${serverID}/channels/${channelID}/mute`).json();
+  return wrapper().put(`servers/${serverID}/channels/${channelId}/mute`).json();
 }
 export function unmuteServerChannel(
   serverID: string,
-  channelID: string
+  channelId: string
 ): Promise<any> {
   return wrapper()
-    .delete(`servers/${serverID}/channels/${channelID}/mute`)
+    .delete(`servers/${serverID}/channels/${channelId}/mute`)
     .json();
 }
 
 export function updateServerChannel(
-  channelID: string,
+  channelId: string,
   serverID: string,
   data: any
 ): Promise<any> {
   return wrapper()
-    .patch(`servers/${serverID}/channels/${channelID}`, { json: data })
+    .patch(`servers/${serverID}/channels/${channelId}`, { json: data })
     .json();
 }
 export function deleteServerChannel(
-  channelID: string,
+  channelId: string,
   serverID: string
 ): Promise<any> {
-  return wrapper().delete(`servers/${serverID}/channels/${channelID}`).json();
+  return wrapper().delete(`servers/${serverID}/channels/${channelId}`).json();
 }
 export function createServerChannel(
   serverID: string,
@@ -67,6 +67,6 @@ export function updateServerChannelPosition(
     })
     .json();
 }
-export function hideDMChannel(channelID: string): Promise<any> {
-  return wrapper().delete(`channels/${channelID}`).json();
+export function hideDMChannel(channelId: string): Promise<any> {
+  return wrapper().delete(`channels/${channelId}`).json();
 }
