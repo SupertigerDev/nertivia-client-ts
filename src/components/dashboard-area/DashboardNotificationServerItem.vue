@@ -14,7 +14,7 @@
       <ChannelTemplate
         class="template"
         v-for="channel in notifications"
-        :key="channel.channelId"
+        :key="channel.channelID"
         :channel="channel"
       />
     </div>

@@ -14,7 +14,7 @@ import { Socket } from "socket.io-client";
 
 interface PlayNotificationData {
   mentioned: boolean;
-  channelId: string;
+  channelID: string;
   serverID?: string;
 }
 
@@ -27,9 +27,9 @@ function isDirectMessage(server: any) {
 
 function playNotificationSound(data: PlayNotificationData) {
   const focused = document.hasFocus();
-  const channelSelected = ChannelsModule.isChannelOpen(data.channelId);
+  const channelSelected = ChannelsModule.isChannelOpen(data.channelID);
   const tab = router.currentRoute.value.path.split("/")[2];
-  const scrolledDown = MessageLogStatesModule.isScrolledDown(data.channelId);
+  const scrolledDown = MessageLogStatesModule.isScrolledDown(data.channelID);
   const muteServer =
     data.serverID && MutedServersModule.serverSoundMuted(data.serverID);
   const dm = isDirectMessage(data.serverID);
@@ -37,7 +37,7 @@ function playNotificationSound(data: PlayNotificationData) {
   if (muteServer) {
     return;
   }
-  if (MutedChannelsModule.mutedChannels.includes(data.channelId)) {
+  if (MutedChannelsModule.mutedChannels.includes(data.channelID)) {
     return;
   }
   if (!focused) {
@@ -54,11 +54,11 @@ function playNotificationSound(data: PlayNotificationData) {
 }
 
 export const onMessage = (socket: Socket, message: Message) => {
-  const channel = ChannelsModule.channels[message.channelId];
+  const channel = ChannelsModule.channels[message.channelID];
 
   const isMe = message.creator.id === MeModule.user.id;
   ChannelsModule.updateChannel({
-    channelId: message.channelId,
+    channelID: message.channelID,
     update: { lastMessaged: Date.now() },
   });
   MessagesModule.AddChannelMessage({
@@ -68,10 +68,10 @@ export const onMessage = (socket: Socket, message: Message) => {
 
   // update last seen if message created by me.
   if (isMe && channel && channel.server_id) {
-    LastSeenServerChannelsModule.SetLastSeenChannel(message.channelId);
+    LastSeenServerChannelsModule.SetLastSeenChannel(message.channelID);
     if (message.type === 0)
       MessagesModule.UpdateLastMessageSend({
-        channelId: channel.channelId,
+        channelID: channel.channelID,
         timestamp: Date.now(),
       });
   }
@@ -81,8 +81,8 @@ export const onMessage = (socket: Socket, message: Message) => {
   // server channel = mentioned
   if (!isMe) {
     emitter.emit("newMessage", message);
-    const notification = NotificationsModule.notificationBychannelId(
-      message.channelId
+    const notification = NotificationsModule.notificationByChannelID(
+      message.channelID
     );
     const mentioned = !!(
       message.mentions &&
@@ -91,7 +91,7 @@ export const onMessage = (socket: Socket, message: Message) => {
     // play notification sound.
     playNotificationSound({
       mentioned,
-      channelId: message.channelId,
+      channelID: message.channelID,
       serverID: channel?.server_id,
     });
     if (channel && channel.server_id && !mentioned) return;
@@ -101,14 +101,14 @@ export const onMessage = (socket: Socket, message: Message) => {
       };
       if (mentioned) updateNotification.mentioned = true;
       NotificationsModule.UpdateNotification({
-        channelId: message.channelId,
+        channelID: message.channelID,
         notification: updateNotification,
       });
     } else {
       NotificationsModule.AddNotification({
-        channelId: message.channelId,
+        channelID: message.channelID,
         notification: {
-          channelId: message.channelId,
+          channelID: message.channelID,
           count: 1,
           lastMessageID: message.messageID as any,
           sender: message.creator,
@@ -120,7 +120,7 @@ export const onMessage = (socket: Socket, message: Message) => {
 };
 
 interface DeleteData {
-  channelId: string;
+  channelID: string;
   messageID: string;
 }
 interface DeleteBulkData {
@@ -136,14 +136,14 @@ export const onMessageDeleteBulk = (socket: Socket, data: DeleteBulkData) => {
 };
 export const onMessageUpdate = (socket: Socket, data: Message) => {
   MessagesModule.UpdateMessage({
-    channelId: data.channelId,
+    channelID: data.channelID,
     messageID: data.messageID,
     message: data,
   });
 };
 
 interface MessageReaction {
-  channelId: string;
+  channelID: string;
   messageID: string;
   reactedByUserID?: string;
   unReactedByUserID?: string;
@@ -159,7 +159,7 @@ export const onReactionUpdate = (socket: Socket, data: MessageReaction) => {
     data.reaction.reacted = false;
   }
   MessagesModule.UpdateMessageReaction({
-    channelId: data.channelId,
+    channelID: data.channelID,
     messageID: data.messageID,
     reaction: data.reaction,
     removeIfZero: true,

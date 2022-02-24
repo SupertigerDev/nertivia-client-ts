@@ -18,7 +18,7 @@ export interface UploadQueue {
   isImage: boolean;
   cdn: number;
   file: File;
-  channelId: string;
+  channelID: string;
   progress: number;
 }
 
@@ -104,7 +104,7 @@ class FileUpload extends VuexModule {
   }
 
   @Mutation
-  private ADD_TO_QUEUE(payload: { channelId: string; message: string }) {
+  private ADD_TO_QUEUE(payload: { channelID: string; message: string }) {
     if (!this.file.file) return;
     this.uploadQueue.push({
       message: payload.message,
@@ -112,14 +112,14 @@ class FileUpload extends VuexModule {
       compress: this.compress,
       isImage: this.isImage,
       cdn: this.cdn,
-      channelId: payload.channelId,
+      channelID: payload.channelID,
       file: this.file.file,
       progress: 0,
     });
   }
 
   @Action
-  public AddToQueue(payload: { channelId: string; message: string }) {
+  public AddToQueue(payload: { channelID: string; message: string }) {
     this.ADD_TO_QUEUE(payload);
     this.SetFile(undefined);
     this.RunQueue();
@@ -135,14 +135,14 @@ class FileUpload extends VuexModule {
     postFormDataMessage(
       currentItem.message,
       currentItem.cdn,
-      currentItem.channelId,
+      currentItem.channelID,
       currentItem.file,
       currentItem.isImage,
       currentItem.compress,
       (error, progress, done) => {
         if (error) {
           MessagesModule.AddChannelMessage({
-            channelId: currentItem.channelId,
+            channelID: currentItem.channelID,
             localMessage: true,
             message:
               JSON.stringify(error.message) +

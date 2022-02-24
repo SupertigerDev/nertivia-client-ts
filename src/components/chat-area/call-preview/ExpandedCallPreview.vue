@@ -146,7 +146,7 @@ export default defineComponent({
       return this.$route.params.channel_id as string;
     },
     isInCall(): boolean {
-      return this.channelId === voiceChannelModule.joinedchannelId;
+      return this.channelId === voiceChannelModule.joinedChannelId;
     },
   },
 });

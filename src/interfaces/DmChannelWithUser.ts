@@ -3,7 +3,7 @@ import User from "./User";
 
 export default interface DmChannel {
   type: ChannelType;
-  channelId: string;
+  channelID: string;
   lastMessaged?: number;
   recipients?: User[];
 }

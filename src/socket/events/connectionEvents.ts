@@ -70,8 +70,8 @@ export const onSuccess = (socket: Socket, data: SuccessEvent) => {
         const recipient = channel.recipients[i];
         users[recipient.id] = recipient;
       }
-    channels[channel.channelId] = {
-      channelId: channel.channelId,
+    channels[channel.channelID] = {
+      channelID: channel.channelID,
       lastMessaged: channel.lastMessaged,
       recipients: channel.recipients?.map((r) => r.id),
     };
@@ -91,8 +91,8 @@ export const onSuccess = (socket: Socket, data: SuccessEvent) => {
     // server channels
     for (let x = 0; x < server.channels.length; x++) {
       const channel = server.channels[x];
-      channels[channel.channelId] = {
-        channelId: channel.channelId,
+      channels[channel.channelID] = {
+        channelID: channel.channelID,
         type: channel.type,
         name: channel.name,
         categoryId: channel.categoryId,
@@ -142,7 +142,7 @@ export const onSuccess = (socket: Socket, data: SuccessEvent) => {
   const notifications: any = {};
   for (let i = 0; i < data.notifications.length; i++) {
     const notification = data.notifications[i];
-    notifications[notification.channelId] = notification;
+    notifications[notification.channelID] = notification;
   }
 
   // current calls

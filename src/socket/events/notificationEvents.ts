@@ -2,11 +2,11 @@ import { LastSeenServerChannelsModule } from "@/store/modules/lastSeenServerChan
 import { NotificationsModule } from "@/store/modules/notifications";
 
 export const onNotificationDismiss = (data: {
-  channelId: string;
+  channelID: string;
   serverNotification: boolean;
 }) => {
   if (data.serverNotification) {
-    LastSeenServerChannelsModule.SetLastSeenChannel(data.channelId);
+    LastSeenServerChannelsModule.SetLastSeenChannel(data.channelID);
   }
-  NotificationsModule.DeleteNotification(data.channelId);
+  NotificationsModule.DeleteNotification(data.channelID);
 };

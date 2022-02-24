@@ -5,7 +5,7 @@ import Peer from "simple-peer";
 
 export const onJoin = (data: { channelId: string; userId: string }) => {
   const channelData: any = data;
-  if (voiceChannelModule.joinedchannelId === data.channelId) {
+  if (voiceChannelModule.joinedChannelId === data.channelId) {
     if (data.userId === MeModule.user.id) return;
     channelData.peer = createPeer(
       data.channelId,
@@ -22,7 +22,7 @@ export const onJoin = (data: { channelId: string; userId: string }) => {
 };
 export const onLeave = (data: { channelId: string; userId: string }) => {
   if (
-    voiceChannelModule.joinedchannelId === data.channelId &&
+    voiceChannelModule.joinedChannelId === data.channelId &&
     data.userId === MeModule.user.id
   ) {
     voiceChannelModule.leave();

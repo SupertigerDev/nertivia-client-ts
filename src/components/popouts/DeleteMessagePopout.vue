@@ -57,7 +57,7 @@ export default defineComponent({
     data: {
       type: Object as PropType<{
         messageID: string;
-        channelId: string;
+        channelID: string;
         callback?: any;
       }>,
       required: true,
@@ -65,7 +65,7 @@ export default defineComponent({
   },
   computed: {
     message(): any {
-      return MessagesModule.channelMessages(this.data.channelId)?.find(
+      return MessagesModule.channelMessages(this.data.channelID)?.find(
         (m) => m.messageID === this.data.messageID
       );
     },
@@ -97,7 +97,7 @@ export default defineComponent({
       if (!this.message) return;
       if (!this.message.messageID) return;
       this.close();
-      await deleteMessage(this.message.channelId, this.message.messageID);
+      await deleteMessage(this.message.channelID, this.message.messageID);
       this.data?.callback?.();
     },
     onMessageChange() {

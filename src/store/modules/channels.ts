@@ -29,9 +29,9 @@ class Channels extends VuexModule {
   channels: ChannelObj = {};
 
   get rateLimitTimeLeft() {
-    return (channelId: string, nowTimeStamp: number) => {
-      const rateLimit = (this.channels[channelId]?.rateLimit || 0) * 1000;
-      const lastStamp = MessagesModule.lastSentStamp(channelId);
+    return (channelID: string, nowTimeStamp: number) => {
+      const rateLimit = (this.channels[channelID]?.rateLimit || 0) * 1000;
+      const lastStamp = MessagesModule.lastSentStamp(channelID);
       return lastStamp - nowTimeStamp + rateLimit;
     };
   }
@@ -45,11 +45,11 @@ class Channels extends VuexModule {
   }
 
   get isChannelOpen() {
-    return (channelId: string) => {
+    return (channelID: string) => {
       const route = router.currentRoute.value;
       const routeName = route.name as string;
       if (!routeName?.endsWith("message-area")) return;
-      return route.params.channel_id === channelId;
+      return route.params.channel_id === channelID;
     };
   }
 
@@ -59,8 +59,8 @@ class Channels extends VuexModule {
       const channel_position = server.channel_position;
       if (channel_position && channel_position.length) {
         return this.serverChannels(id).sort((a, b) => {
-          const aIndex = channel_position.indexOf(a.channelId);
-          const bIndex = channel_position.indexOf(b.channelId);
+          const aIndex = channel_position.indexOf(a.channelID);
+          const bIndex = channel_position.indexOf(b.channelID);
           if (aIndex < 0 || bIndex < 0) {
             return 1;
           }
@@ -71,8 +71,8 @@ class Channels extends VuexModule {
     };
   }
   get getDMChannel() {
-    return (channelId: string) => {
-      const channel = this.channels[channelId];
+    return (channelID: string) => {
+      const channel = this.channels[channelID];
       if (!channel) return;
       if (channel.server_id) return;
       const recipients = channel.recipients?.map((id) => UsersModule.users[id]);
@@ -101,7 +101,7 @@ class Channels extends VuexModule {
   }
   @Mutation
   private ADD_CHANNEL(payload: Channel) {
-    this.channels[payload.channelId] = payload;
+    this.channels[payload.channelID] = payload;
   }
   @Action
   public AddChannel(payload: Channel) {
@@ -116,23 +116,23 @@ class Channels extends VuexModule {
     this.ADD_CHANNELS(payload);
   }
   @Mutation
-  private REMOVE_CHANNEL(channelId: string) {
-    delete this.channels[channelId];
+  private REMOVE_CHANNEL(channelID: string) {
+    delete this.channels[channelID];
   }
   @Action
-  public RemoveChannel(channelId: string) {
-    const channel = this.channels[channelId];
+  public RemoveChannel(channelID: string) {
+    const channel = this.channels[channelID];
     TabsModule.tabs.forEach((tab, index) => {
       setTimeout(() => {
-        if (channelId === tab.channel_id && tab.path) {
+        if (channelID === tab.channel_id && tab.path) {
           TabsModule.closeTabByPath(tab.path);
         }
       }, index * 100);
     });
     if (channel.type === ChannelType.SERVER_CATEGORY) {
-      this.removeCategoryFromChannel(channelId);
+      this.removeCategoryFromChannel(channelID);
     }
-    this.REMOVE_CHANNEL(channelId);
+    this.REMOVE_CHANNEL(channelID);
   }
   @Action
   removeCategoryFromChannel(categoryId: string) {
@@ -143,7 +143,7 @@ class Channels extends VuexModule {
       const channel = channels[index];
       if (channel.categoryId !== categoryId) continue;
       this.updateChannel({
-        channelId: channel.channelId,
+        channelID: channel.channelID,
         update: { categoryId: null },
       });
     }
@@ -154,8 +154,8 @@ class Channels extends VuexModule {
     if (!channels?.length) return;
     for (let i = 0; i < channels.length; i++) {
       const channel = channels[i];
-      NotificationsModule.DeleteNotification(channel.channelId);
-      this.RemoveChannel(channel.channelId);
+      NotificationsModule.DeleteNotification(channel.channelID);
+      this.RemoveChannel(channel.channelID);
     }
   }
   @Action
@@ -164,7 +164,7 @@ class Channels extends VuexModule {
       (c) => c.recipients && c.recipients.includes(id)
     );
     if (findChannel) {
-      router.push(`/app/dms/${findChannel?.channelId}`);
+      router.push(`/app/dms/${findChannel?.channelID}`);
       return;
     }
     getChannelByUserId(id)
@@ -175,10 +175,10 @@ class Channels extends VuexModule {
         }
         this.ADD_CHANNEL({
           type: res.channel.type,
-          channelId: res.channel.channelId,
+          channelID: res.channel.channelID,
           recipients: res.channel.recipients.map((u) => u.id),
         });
-        router.push(`/app/dms/${res.channel.channelId}`);
+        router.push(`/app/dms/${res.channel.channelID}`);
       })
       .catch((err: ky.HTTPError) => {
         console.log(err.name);
@@ -188,17 +188,17 @@ class Channels extends VuexModule {
 
   @Mutation
   private UPDATE_CHANNEL(payload: {
-    channelId: string;
+    channelID: string;
     update: Partial<Channel>;
   }) {
-    Object.assign(this.channels[payload.channelId], payload.update);
+    Object.assign(this.channels[payload.channelID], payload.update);
   }
   @Action
   public updateChannel(payload: {
-    channelId: string;
+    channelID: string;
     update: Partial<Channel>;
   }) {
-    if (!this.channels[payload.channelId]) return;
+    if (!this.channels[payload.channelID]) return;
     this.UPDATE_CHANNEL(payload);
   }
 }

@@ -19,7 +19,7 @@ import Message from "@/interfaces/Message";
 
 export default defineComponent({
   props: {
-    channelId: {
+    channelID: {
       type: String,
       required: true,
     },
@@ -49,7 +49,7 @@ export default defineComponent({
     };
 
     const messages = computed(() => {
-      const messages = MessagesModule.messages[props.channelId];
+      const messages = MessagesModule.messages[props.channelID];
 
       let groupCount = 0;
 

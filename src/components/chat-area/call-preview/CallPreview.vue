@@ -39,7 +39,7 @@ export default defineComponent({
     },
   },
   watch: {
-    joinedVoicechannelId: {
+    joinedVoiceChannelId: {
       handler(id) {
         if (id) {
           this.setExpanded(true);
@@ -51,8 +51,8 @@ export default defineComponent({
     },
   },
   computed: {
-    joinedVoicechannelId(): string | null {
-      return voiceChannelModule.joinedchannelId;
+    joinedVoiceChannelId(): string | null {
+      return voiceChannelModule.joinedChannelId;
     },
   },
 });

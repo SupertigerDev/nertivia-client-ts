@@ -8,7 +8,7 @@
     <Messages
       :animateMessage="messageTransition"
       key="messages"
-      :channelId="channelId"
+      :channelID="channelID"
     />
     <transition name="upload-queue" tag="div">
       <UploadQueueComponent v-if="uploadQueue.length" key="upload-queue" />
@@ -41,19 +41,19 @@ export default defineComponent({
       isLoadingBottomMore: false,
       moreTopToLoad: true,
       moreBottomToLoad: false,
-      currentchannelId: "",
+      currentChannelID: "",
       scrollTop: 0,
       scrollBottom: 0,
     };
   },
   created() {
-    this.currentchannelId = this.channelId;
+    this.currentChannelID = this.channelID;
   },
   mounted() {
-    const scrollTop = MessageLogStatesModule.scrollTop(this.channelId);
+    const scrollTop = MessageLogStatesModule.scrollTop(this.channelID);
     if (scrollTop === undefined) {
       MessageLogStatesModule.UpdateState({
-        channelId: this.channelId,
+        channelID: this.channelID,
         state: {
           isScrolledDown: true,
         },
@@ -62,7 +62,7 @@ export default defineComponent({
     } else {
       this.scrollTop = scrollTop;
       this.moreBottomToLoad =
-        MessageLogStatesModule.isBottomUnloaded(this.channelId) || false;
+        MessageLogStatesModule.isBottomUnloaded(this.channelID) || false;
       (this.$refs.logs as Element).scrollTop = scrollTop;
     }
 
@@ -76,10 +76,10 @@ export default defineComponent({
   },
   beforeUnmount() {
     const isScrolledDown = MessageLogStatesModule.isScrolledDown(
-      this.currentchannelId
+      this.currentChannelID
     );
     MessageLogStatesModule.UpdateState({
-      channelId: this.currentchannelId,
+      channelID: this.currentChannelID,
       state: {
         scrollPosition: isScrolledDown ? undefined : this.scrollTop,
       },
@@ -121,7 +121,7 @@ export default defineComponent({
       if (this.isLoadingTopMore) return;
       this.isLoadingTopMore = true;
       this.moreBottomToLoad = true;
-      MessagesModule.continueLoadMessages(this.channelId).then(
+      MessagesModule.continueLoadMessages(this.channelID).then(
         async (messages) => {
           if (!this.channelMessages) return;
           if (!messages) return;
@@ -130,20 +130,20 @@ export default defineComponent({
             return;
           }
           const clamped = await MessagesModule.ClampChannelMessages({
-            channelId: this.channelId,
+            channelID: this.channelID,
             reverseClamp: true,
             checkScrolledBottom: false,
           });
           if (clamped) {
             MessageLogStatesModule.UpdateState({
-              channelId: this.currentchannelId,
+              channelID: this.currentChannelID,
               state: {
                 bottomUnloaded: true,
               },
             });
           }
           MessagesModule.SetChannelMessages({
-            channelId: this.channelId,
+            channelID: this.channelID,
             messages: [...messages.reverse(), ...this.channelMessages],
           });
 
@@ -173,14 +173,14 @@ export default defineComponent({
       if (this.isLoadingBottomMore) return;
       this.isLoadingBottomMore = true;
       this.moreTopToLoad = true;
-      MessagesModule.beforeLoadMessages(this.channelId).then((messages) => {
+      MessagesModule.beforeLoadMessages(this.channelID).then((messages) => {
         let dontContinue = false;
         if (!this.channelMessages) dontContinue = true;
         if (!messages) dontContinue = true;
 
         if (!messages?.length || messages?.length < 50) {
           MessageLogStatesModule.UpdateState({
-            channelId: this.currentchannelId,
+            channelID: this.currentChannelID,
             state: {
               bottomUnloaded: false,
             },
@@ -193,11 +193,11 @@ export default defineComponent({
           return;
         }
         MessagesModule.ClampChannelMessages({
-          channelId: this.channelId,
+          channelID: this.channelID,
           checkScrolledBottom: false,
         });
         MessagesModule.SetChannelMessages({
-          channelId: this.channelId,
+          channelID: this.channelID,
           messages: [...(this.channelMessages as any), ...messages],
         });
 
@@ -229,7 +229,7 @@ export default defineComponent({
       const isBottom = this.scrollBottom <= maxDistance;
       if (this.isScrolledDown !== isBottom) {
         MessageLogStatesModule.UpdateState({
-          channelId: this.channelId,
+          channelID: this.channelID,
           state: {
             isScrolledDown: isBottom,
           },
@@ -246,7 +246,7 @@ export default defineComponent({
       if (!this.windowIsFocused || !this.isScrolledDown) return;
       if (!(this.hasServerNotification || this.hasDMNotification)) return;
       this.$socket.emit("notification:dismiss", {
-        channelId: this.channelId,
+        channelID: this.channelID,
       });
     },
     goToMessage(messageID: string) {
@@ -257,16 +257,16 @@ export default defineComponent({
         this.highlightMessage(message);
         return;
       }
-      fetchMessagesAround(this.channelId, messageID).then(
-        ({ channelId, messages }) => {
+      fetchMessagesAround(this.channelID, messageID).then(
+        ({ channelID, messages }) => {
           MessageLogStatesModule.UpdateState({
-            channelId: this.currentchannelId,
+            channelID: this.currentChannelID,
             state: {
               bottomUnloaded: true,
             },
           });
           MessagesModule.SetChannelMessages({
-            channelId,
+            channelID,
             messages: messages.reverse(),
           });
 
@@ -374,23 +374,23 @@ export default defineComponent({
 
     hasServerNotification(): any {
       return LastSeenServerChannelsModule.serverChannelNotification(
-        this.channelId
+        this.channelID
       );
     },
     hasDMNotification(): Notification {
-      return NotificationsModule.notificationBychannelId(this.channelId);
+      return NotificationsModule.notificationByChannelID(this.channelID);
     },
     windowIsFocused(): boolean {
       return useWindowProperties().isFocused;
     },
     channelMessages(): Message[] | undefined {
-      return MessagesModule.messages[this.channelId];
+      return MessagesModule.messages[this.channelID];
     },
-    channelId(): string {
+    channelID(): string {
       return this.$route.params.channel_id as string;
     },
     isScrolledDown(): boolean {
-      return MessageLogStatesModule.isScrolledDown(this.channelId);
+      return MessageLogStatesModule.isScrolledDown(this.channelID);
     },
     windowSize(): { height: number; width: number } {
       const { resizeWidth, resizeHeight } = useWindowProperties();

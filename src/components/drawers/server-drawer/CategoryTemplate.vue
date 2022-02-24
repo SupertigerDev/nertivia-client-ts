@@ -23,7 +23,7 @@
       <div class="collapse-status material-icons" v-if="collapsed">keyboard_arrow_down</div>
     </a>
     <ul class="channels" v-if="!collapsed">
-      <li v-for="channel in channels" :key="channel.channelId">
+      <li v-for="channel in channels" :key="channel.channelID">
         <ChannelTemplate :channel="channel" />
       </li>
     </ul>
@@ -63,17 +63,17 @@ export default defineComponent({
       };
     },
     channelNotifications(): any {
-      return LastSeenServerChannelsModule.serverNotifications(this.selectedDetails.server_id, this.category.channelId)
+      return LastSeenServerChannelsModule.serverNotifications(this.selectedDetails.server_id, this.category.channelID)
     },
     channels(): any[] {
       if (!this.selectedDetails.server_id) return [];
       return ChannelsModule.sortedServerChannels(
         this.selectedDetails.server_id
-      ).filter((channel) => channel.categoryId === this.category.channelId);
+      ).filter((channel) => channel.categoryId === this.category.channelID);
     },
     isChannelSelected(): any {
       return this.channels.find(
-        (c) => c.channelId === this.selectedDetails.channel_id
+        (c) => c.channelID === this.selectedDetails.channel_id
       );
     },
     iconURL(): any {
@@ -107,7 +107,7 @@ export default defineComponent({
           x: event.clientX,
           y: event.clientY,
           server_id: this.category.server_id,
-          channelId: this.category.channelId,
+          channelID: this.category.channelID,
         },
       });
     },

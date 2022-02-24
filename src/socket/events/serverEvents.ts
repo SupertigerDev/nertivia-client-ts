@@ -54,8 +54,8 @@ export const onJoined = (socket: Socket, data: any) => {
   const channelObj: any = {};
   for (let x = 0; x < channels.length; x++) {
     const channel = channels[x];
-    channelObj[channel.channelId] = {
-      channelId: channel.channelId,
+    channelObj[channel.channelID] = {
+      channelID: channel.channelID,
       name: channel.name,
       categoryId: channel.categoryId,
       type: channel.type,

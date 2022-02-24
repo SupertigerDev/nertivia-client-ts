@@ -4,7 +4,7 @@ import User from "@/interfaces/User";
 import { socket } from "@/socket";
 
 interface ResponseFetch {
-  channelId: string;
+  channelID: string;
   messages: Message[];
 }
 type ResponsePost = Message & { tempID: string };
@@ -140,7 +140,7 @@ export function postTypingStatus(channelId: string): Promise<ResponsePost> {
 export function postFormDataMessage(
   message: string,
   cdn: number,
-  channelId: string,
+  channelID: string,
   file: File,
   isImage: boolean,
   compress: boolean,
@@ -159,7 +159,7 @@ export function postFormDataMessage(
   const request = new XMLHttpRequest();
   request.open(
     "POST",
-    process.env.VUE_APP_FETCH_PREFIX + `/channels/${channelId}/messages`
+    process.env.VUE_APP_FETCH_PREFIX + `/channels/${channelID}/messages`
   );
   request.setRequestHeader(
     "authorization",
@@ -189,7 +189,7 @@ export function postFormDataMessage(
   request.send(formData);
 
   // return wrapper()
-  //   .post(`messages/chanfnels/${channelId}`, {
+  //   .post(`messages/chanfnels/${channelID}`, {
   //     body: formData,
 
   //   })

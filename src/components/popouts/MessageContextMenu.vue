@@ -162,7 +162,7 @@ export default defineComponent({
             component: "delete-message-popout",
             data: {
               messageID: this.message.messageID,
-              channelId: this.message.channelId,
+              channelID: this.message.channelID,
             },
             id: "delete-message",
           });

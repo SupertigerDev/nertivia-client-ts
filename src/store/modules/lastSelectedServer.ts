@@ -13,7 +13,7 @@ class LastSelectedServers extends VuexModule {
     localStorage["lastSelectedServerChannel"] || "{}"
   );
 
-  get lastServerchannelId() {
+  get lastServerChannelID() {
     return (serverID: string) => {
       return this.lastSelectedServers[serverID];
     };
@@ -22,13 +22,13 @@ class LastSelectedServers extends VuexModule {
   @Mutation
   private UPDATE_LAST_SELECTED(payload: {
     serverID: string;
-    channelId: string;
+    channelID: string;
   }) {
-    this.lastSelectedServers[payload.serverID] = payload.channelId;
+    this.lastSelectedServers[payload.serverID] = payload.channelID;
   }
 
   @Action
-  public UpdateLastSelected(payload: { serverID: string; channelId: string }) {
+  public UpdateLastSelected(payload: { serverID: string; channelID: string }) {
     this.UPDATE_LAST_SELECTED(payload);
     localStorage["lastSelectedServerChannel"] = JSON.stringify(
       this.lastSelectedServers

@@ -1,6 +1,6 @@
 import DmChannel from "./DmChannel";
 export default interface Channel extends DmChannel {
-  channelId: string;
+  channelID: string;
   name?: string;
   categoryId?: string | null;
   lastMessaged?: number;

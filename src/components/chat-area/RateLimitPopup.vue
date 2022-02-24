@@ -27,14 +27,14 @@ export default defineComponent({
   },
   computed: {
     rateLimitDuration(): any {
-      const value = ChannelsModule.channels[this.channelId].rateLimit || 0;
+      const value = ChannelsModule.channels[this.channelID].rateLimit || 0;
       return this.timeConversion(value * 1000);
     },
     rateTimeLeft(): any {
       const now = Date.now();
-      return ChannelsModule.rateLimitTimeLeft(this.channelId, now);
+      return ChannelsModule.rateLimitTimeLeft(this.channelID, now);
     },
-    channelId(): any {
+    channelID(): any {
       return this.$route.params.channel_id;
     },
     serverID(): any {
@@ -67,7 +67,7 @@ export default defineComponent({
     calculate() {
       // TODO: i18n of ratelimit time
       const now = Date.now();
-      const timeLeft = ChannelsModule.rateLimitTimeLeft(this.channelId, now);
+      const timeLeft = ChannelsModule.rateLimitTimeLeft(this.channelID, now);
       if (this.isImmune || isNaN(timeLeft) || timeLeft <= 0) {
         clearInterval(this.interval);
         this.interval = null;

@@ -194,7 +194,7 @@ export default defineComponent({
   },
   mounted() {
     this.resizeTextArea();
-    this.message = getInputCache(this.channelId) || "";
+    this.message = getInputCache(this.channelID) || "";
   },
   beforeUnmount() {
     this.stopPostingTypingStatus();
@@ -294,7 +294,7 @@ export default defineComponent({
 
       if (!this.isImmune) {
         const now = Date.now();
-        const timeLeft = ChannelsModule.rateLimitTimeLeft(this.channelId, now);
+        const timeLeft = ChannelsModule.rateLimitTimeLeft(this.channelID, now);
         if (this.rateLimit && timeLeft > 0) {
           return;
         }
@@ -303,12 +303,12 @@ export default defineComponent({
         TabsModule.openTab({ ...TabsModule.currentTab, opened: true });
       }
 
-      deleteInputCache(this.channelId);
+      deleteInputCache(this.channelID);
 
       if (this.uploadFile) {
         this.message = "";
         FileUploadModule.AddToQueue({
-          channelId: this.$route.params.channel_id as string,
+          channelID: this.$route.params.channel_id as string,
           message,
         });
         return;
@@ -317,7 +317,7 @@ export default defineComponent({
         this.message = "";
         MessagesModule.SendMessage({
           message,
-          channelId: this.$route.params.channel_id as string,
+          channelID: this.$route.params.channel_id as string,
         });
       }
     },
@@ -325,11 +325,11 @@ export default defineComponent({
     editMessage(message: string) {
       if (!this.editingMessageID) return;
       const messageID = this.editingMessageID;
-      const channelId = this.channelId;
+      const channelID = this.channelID;
       if (!this.message.length) {
         PopoutsModule.ShowPopout({
           component: "delete-message-popout",
-          data: { messageID: this.editingMessageID, channelId: this.channelId },
+          data: { messageID: this.editingMessageID, channelID: this.channelID },
           id: "delete-message",
         });
         return;
@@ -346,7 +346,7 @@ export default defineComponent({
       if (message.trim() === findMessage?.message) return;
 
       MessagesModule.UpdateMessage({
-        channelId,
+        channelID,
         messageID,
         message: {
           message,
@@ -354,10 +354,10 @@ export default defineComponent({
         },
       });
 
-      editMessage(messageID, channelId, { message })
+      editMessage(messageID, channelID, { message })
         .then(() => {
           MessagesModule.UpdateMessage({
-            channelId,
+            channelID,
             messageID,
             message: {
               sending: 1,
@@ -367,7 +367,7 @@ export default defineComponent({
         })
         .catch(() => {
           MessagesModule.UpdateMessage({
-            channelId,
+            channelID,
             messageID,
             message: {
               sending: 2,
@@ -409,7 +409,7 @@ export default defineComponent({
         return;
       }
       if (this.postTypingTimeout) return;
-      postTypingStatus(this.channelId);
+      postTypingStatus(this.channelID);
       this.postTypingTimeout = window.setTimeout(() => {
         this.postTypingTimeout = null;
         if (!this.message.trim().length) return;
@@ -423,12 +423,12 @@ export default defineComponent({
         clearTimeout(this.saveInputTimeout);
       }
       this.saveInputTimeout = window.setTimeout(() => {
-        cacheInput(this.channelId, this.message);
+        cacheInput(this.channelID, this.message);
       }, 500);
       this.resizeTextArea();
       this.postTypingStatus();
     },
-    channelId(after: string, before: string) {
+    channelID(after: string, before: string) {
       if (this.saveInputTimeout) {
         clearTimeout(this.saveInputTimeout);
       }
@@ -524,14 +524,14 @@ export default defineComponent({
     uploadFile(): File | undefined {
       return FileUploadModule.file.file;
     },
-    channelId(): string {
+    channelID(): string {
       return this.$route.params.channel_id as string;
     },
     serverChannel(): Channel {
-      return ChannelsModule.channels[this.channelId];
+      return ChannelsModule.channels[this.channelID];
     },
     channelMessages(): Message[] {
-      return MessagesModule.channelMessages(this.channelId);
+      return MessagesModule.channelMessages(this.channelID);
     },
     message: {
       get(): string {
@@ -560,7 +560,7 @@ export default defineComponent({
       },
     },
     isScrolledDown(): boolean {
-      return MessageLogStatesModule.isScrolledDown(this.channelId);
+      return MessageLogStatesModule.isScrolledDown(this.channelID);
     },
     rateLimit(): number | undefined {
       return this.serverChannel?.rateLimit;

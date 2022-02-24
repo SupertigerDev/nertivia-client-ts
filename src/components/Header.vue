@@ -59,7 +59,7 @@ export default defineComponent({
   },
   methods: {
     onCallClicked() {
-      if (this.channelId === voiceChannelModule.joinedchannelId) return;
+      if (this.channelId === voiceChannelModule.joinedChannelId) return;
       PopoutsModule.ShowPopout({
         id: "call-ip-leak-warning",
         component: "generic-popout",

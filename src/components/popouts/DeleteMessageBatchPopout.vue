@@ -46,7 +46,7 @@ export default defineComponent({
     selectedMessageIds() {
       return MessagesModule.selectedMessageIds;
     },
-    channelId(): string {
+    channelID(): string {
       return this.$route.params.channel_id as string;
     },
   },
@@ -62,7 +62,7 @@ export default defineComponent({
     async deleteMessages() {
       if (this.requestSent) return;
       this.requestSent = true;
-      deleteMessages(this.channelId, this.selectedMessageIds).finally(() => {
+      deleteMessages(this.channelID, this.selectedMessageIds).finally(() => {
         this.requestSent = false;
         MessagesModule.deselectAll();
         this.close();

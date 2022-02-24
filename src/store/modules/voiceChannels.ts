@@ -23,7 +23,7 @@ export interface CallParticipant {
 
 @Module({ dynamic: true, store, namespaced: true, name: "calls" })
 class VoiceChannels extends VuexModule {
-  joinedchannelId: string | null = null;
+  joinedChannelId: string | null = null;
   audioStream: MediaStream | null = null;
   videoStream: MediaStream | null = null;
   // voiceChannelUsers[channelId][userId]
@@ -32,7 +32,7 @@ class VoiceChannels extends VuexModule {
   get callParticipants() {
     return (channelId: string) => {
       const list: (CallParticipant & { user: User })[] = [];
-      if (this.joinedchannelId === channelId) {
+      if (this.joinedChannelId === channelId) {
         list.push({ user: MeModule.user as User });
       }
       const channelCalls = this.voiceChannelUsers[channelId];
@@ -56,7 +56,7 @@ class VoiceChannels extends VuexModule {
 
   @Mutation
   private JOIN(payload: { channelId: string }) {
-    this.joinedchannelId = payload.channelId;
+    this.joinedChannelId = payload.channelId;
   }
 
   @Action
@@ -65,7 +65,7 @@ class VoiceChannels extends VuexModule {
   }
   @Mutation
   private LEAVE() {
-    this.joinedchannelId = null;
+    this.joinedChannelId = null;
     const tracks = (this.videoStream?.getTracks() || []).concat(
       this.audioStream?.getTracks() || []
     );
@@ -77,14 +77,14 @@ class VoiceChannels extends VuexModule {
   @Action
   public leave() {
     const voiceChannelUsers =
-      this.voiceChannelUsers[this.joinedchannelId as string];
+      this.voiceChannelUsers[this.joinedChannelId as string];
     if (voiceChannelUsers) {
       for (const userId in voiceChannelUsers) {
         const vc = voiceChannelUsers[userId];
         vc.peer?.end();
         vc.peer?.destroy();
         this.update({
-          channelId: this.joinedchannelId as string,
+          channelId: this.joinedChannelId as string,
           userId,
           update: { peer: undefined },
         });
@@ -144,8 +144,8 @@ class VoiceChannels extends VuexModule {
     const serverChannels = ChannelsModule.serverChannels(payload.serverId);
     for (let i = 0; i < serverChannels.length; i++) {
       const channel = serverChannels[i];
-      if (!this.voiceChannelUsers[channel.channelId]) continue;
-      this.removeUser({ channelId: channel.channelId, userId: payload.userId });
+      if (!this.voiceChannelUsers[channel.channelID]) continue;
+      this.removeUser({ channelId: channel.channelID, userId: payload.userId });
     }
   }
   @Action
@@ -153,7 +153,7 @@ class VoiceChannels extends VuexModule {
     const serverChannels = ChannelsModule.serverChannels(serverId);
     for (let i = 0; i < serverChannels.length; i++) {
       const channel = serverChannels[i];
-      this.removeChannel(channel.channelId);
+      this.removeChannel(channel.channelID);
     }
   }
   @Mutation
@@ -162,7 +162,7 @@ class VoiceChannels extends VuexModule {
   }
   @Action
   public removeChannel(channelId: string) {
-    if (channelId === this.joinedchannelId) {
+    if (channelId === this.joinedChannelId) {
       this.leave();
     }
     const voiceChannel = this.voiceChannelUsers[channelId];
@@ -238,7 +238,7 @@ class VoiceChannels extends VuexModule {
     const videoStream = this.videoStream;
     if (!videoStream) return;
     const voiceChannelPeers = Object.values(
-      this.voiceChannelUsers[this.joinedchannelId || ""] || {}
+      this.voiceChannelUsers[this.joinedChannelId || ""] || {}
     );
     videoStream.getTracks().forEach((track) => track.stop());
     voiceChannelPeers.forEach((p) => {
@@ -257,7 +257,7 @@ class VoiceChannels extends VuexModule {
     if (videoTracks[0]) {
       videoTracks[0].onended = () => {
         const voiceChannelPeers = Object.values(
-          this.voiceChannelUsers[this.joinedchannelId || ""] || {}
+          this.voiceChannelUsers[this.joinedChannelId || ""] || {}
         );
         voiceChannelPeers.forEach((p) => {
           p.peer?.removeStream(payload.stream);
@@ -268,7 +268,7 @@ class VoiceChannels extends VuexModule {
     }
 
     const voiceChannelPeers = Object.values(
-      this.voiceChannelUsers[this.joinedchannelId || ""] || {}
+      this.voiceChannelUsers[this.joinedChannelId || ""] || {}
     );
     if (!voiceChannelPeers.length) {
       this.UPDATE_LOCAL_STREAM(payload);
@@ -287,7 +287,7 @@ class VoiceChannels extends VuexModule {
   public removeAudioStream() {
     if (!this.audioStream) return;
     const voiceChannelPeers = Object.values(
-      this.voiceChannelUsers[this.joinedchannelId || ""] || {}
+      this.voiceChannelUsers[this.joinedChannelId || ""] || {}
     );
     this.audioStream.getTracks().forEach((track) => track.stop());
     voiceChannelPeers.forEach((p) => {

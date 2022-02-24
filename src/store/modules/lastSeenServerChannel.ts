@@ -27,11 +27,11 @@ class LastSeenServerChannels extends VuexModule {
   lastSeenServers: LastSeenObj = {};
 
   get allServerNotifications() {
-    const channelIdArr = Object.keys(ChannelsModule.channels);
+    const channelIDArr = Object.keys(ChannelsModule.channels);
     const res: (Channel & { mentioned?: boolean })[] = [];
-    for (let i = 0; i < channelIdArr.length; i++) {
-      const channelId = channelIdArr[i];
-      const notificationExists = this.serverChannelNotification(channelId);
+    for (let i = 0; i < channelIDArr.length; i++) {
+      const channelID = channelIDArr[i];
+      const notificationExists = this.serverChannelNotification(channelID);
       if (notificationExists) {
         res.push(notificationExists);
       }
@@ -40,22 +40,22 @@ class LastSeenServerChannels extends VuexModule {
   }
 
   get serverChannelNotification() {
-    return (channelId: string) => {
+    return (channelID: string) => {
       if (!MeModule.connected) return undefined;
-      const channel = ChannelsModule.channels[channelId];
+      const channel = ChannelsModule.channels[channelID];
       if (!channel) return undefined;
       if (!channel.server_id) return undefined;
       if (!channel.lastMessaged) return undefined;
-      if (MutedChannelsModule.mutedChannels.includes(channelId))
+      if (MutedChannelsModule.mutedChannels.includes(channelID))
         return undefined;
       if (MutedServersModule.shouldMuteServerNotification(channel.server_id)) {
         return undefined;
       }
-      const lastSeenStamp = this.lastSeenServers[channel.channelId];
+      const lastSeenStamp = this.lastSeenServers[channel.channelID];
       if (!lastSeenStamp || lastSeenStamp < channel.lastMessaged) {
         // check if being mentioned
         const notification =
-          NotificationsModule.notificationBychannelId(channelId);
+          NotificationsModule.notificationByChannelID(channelID);
         return {
           ...channel,
           mentioned: notification && notification.mentioned,
@@ -76,7 +76,7 @@ class LastSeenServerChannels extends VuexModule {
         const channel = channels[i];
         if (categoryId && channel.categoryId !== categoryId) continue;
         const notificationExists = this.serverChannelNotification(
-          channel.channelId
+          channel.channelID
         );
         if (notificationExists) {
           res.push(notificationExists);
@@ -97,13 +97,13 @@ class LastSeenServerChannels extends VuexModule {
   }
 
   @Mutation
-  private SET_LAST_SEEN_CHANNEL(channelId: string) {
-    this.lastSeenServers[channelId] = Date.now();
+  private SET_LAST_SEEN_CHANNEL(channelID: string) {
+    this.lastSeenServers[channelID] = Date.now();
   }
 
   @Action
-  public SetLastSeenChannel(channelId: string) {
-    this.SET_LAST_SEEN_CHANNEL(channelId);
+  public SetLastSeenChannel(channelID: string) {
+    this.SET_LAST_SEEN_CHANNEL(channelID);
   }
 }
 export const LastSeenServerChannelsModule = getModule(LastSeenServerChannels);

@@ -1,9 +1,9 @@
 import wrapper from "./wrapper";
 import { socket } from "@/socket";
 
-export function joinCall(channelId: string): Promise<any> {
+export function joinCall(channelID: string): Promise<any> {
   return wrapper()
-    .post(`voice/channels/${channelId}`, { json: { socketId: socket.id } })
+    .post(`voice/channels/${channelID}`, { json: { socketId: socket.id } })
     .json();
 }
 export function leaveCall(): Promise<any> {

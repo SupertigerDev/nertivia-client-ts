@@ -20,26 +20,26 @@ class Notifications extends VuexModule {
 
   get newDMNotifications() {
     return Object.values(this.notifications).filter(
-      (n) => !ChannelsModule.channels[n.channelId]
+      (n) => !ChannelsModule.channels[n.channelID]
     );
   }
   get allDMNotifications() {
     return Object.values(this.notifications).filter((n) => {
-      const channel = ChannelsModule.channels[n.channelId];
+      const channel = ChannelsModule.channels[n.channelID];
       if (!channel) return true;
       if (channel.server_id) return false;
       return true;
     });
   }
 
-  get notificationBychannelId() {
-    return (channelId: string) => this.notifications[channelId];
+  get notificationByChannelID() {
+    return (channelID: string) => this.notifications[channelID];
   }
 
   get notificationByUserID() {
     return (id: string) =>
       Object.values(this.notifications).find((n) => {
-        const channel = ChannelsModule.channels[n.channelId];
+        const channel = ChannelsModule.channels[n.channelID];
         if (channel && channel.server_id) return false;
         return n.sender.id === id;
       });
@@ -55,40 +55,40 @@ class Notifications extends VuexModule {
     this.INIT_NOTIFICATIONS(notification);
   }
   @Mutation
-  private DELETE_NOTIFICATION(channelId: string) {
-    delete this.notifications[channelId];
+  private DELETE_NOTIFICATION(channelID: string) {
+    delete this.notifications[channelID];
   }
 
   @Action
-  public DeleteNotification(channelId: string) {
-    this.DELETE_NOTIFICATION(channelId);
+  public DeleteNotification(channelID: string) {
+    this.DELETE_NOTIFICATION(channelID);
   }
 
   @Mutation
   private ADD_NOTIFICATION(payload: {
-    channelId: string;
+    channelID: string;
     notification: Notification;
   }) {
-    this.notifications[payload.channelId] = payload.notification;
+    this.notifications[payload.channelID] = payload.notification;
   }
   @Action
   public AddNotification(payload: {
-    channelId: string;
+    channelID: string;
     notification: Notification;
   }) {
     this.ADD_NOTIFICATION({
-      channelId: payload.channelId,
+      channelID: payload.channelID,
       notification: payload.notification,
     });
   }
   @Action
   public UpdateNotification(payload: {
-    channelId: string;
+    channelID: string;
     notification: Partial<Notification>;
   }) {
-    const currentNotification = this.notifications[payload.channelId];
+    const currentNotification = this.notifications[payload.channelID];
     this.ADD_NOTIFICATION({
-      channelId: payload.channelId,
+      channelID: payload.channelID,
       notification: { ...currentNotification, ...payload.notification },
     });
   }

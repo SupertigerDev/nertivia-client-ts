@@ -44,11 +44,11 @@ export default defineComponent({
   },
   computed: {
     path(): any {
-      const serverchannelId = LastSelectedServersModule.lastServerchannelId(
+      const serverChannelID = LastSelectedServersModule.lastServerChannelID(
         this.server.server_id || ""
       );
       return `/app/servers/${this.server.server_id}/${
-        serverchannelId || this.server.default_channel_id
+        serverChannelID || this.server.default_channel_id
       }`;
     },
     mentionedNotificationExists(): any {

@@ -35,7 +35,7 @@ export default defineComponent({
         file: File;
         uploading: boolean;
         progress: number;
-        channelId: string;
+        channelID: string;
       }>,
       required: true,
     },
@@ -55,10 +55,10 @@ export default defineComponent({
       return username;
     },
     DMChannel(): any {
-      return ChannelsModule.getDMChannel(this.item.channelId);
+      return ChannelsModule.getDMChannel(this.item.channelID);
     },
     channel(): any {
-      return ChannelsModule.channels[this.item.channelId];
+      return ChannelsModule.channels[this.item.channelID];
     },
   },
 });

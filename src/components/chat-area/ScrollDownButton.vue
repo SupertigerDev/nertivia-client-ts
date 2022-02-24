@@ -27,10 +27,10 @@ export default defineComponent({
   computed: {
     hasNotification(): any {
       return LastSeenServerChannelsModule.serverChannelNotification(
-        this.channelId
+        this.channelID
       );
     },
-    channelId(): any {
+    channelID(): any {
       return this.$route.params.channel_id;
     },
   },
@@ -38,7 +38,7 @@ export default defineComponent({
     ScrollDown() {
       const messageLogs = document.getElementById("messageLogs");
       if (!messageLogs) return;
-      if (!MessageLogStatesModule.isBottomUnloaded(this.channelId)) {
+      if (!MessageLogStatesModule.isBottomUnloaded(this.channelID)) {
         document.getElementById("messageLogs")?.scrollTo({
           behavior: "smooth",
           top: messageLogs.scrollHeight,
@@ -47,13 +47,13 @@ export default defineComponent({
         return;
       }
       // MessagesModule.SetChannelMessages({
-      //   channelId: this.channelId,
+      //   channelID: this.channelID,
       //   messages: null
       // });
 
-      fetchMessages(this.channelId).then((json) => {
+      fetchMessages(this.channelID).then((json) => {
         MessagesModule.SetChannelMessages({
-          channelId: this.channelId,
+          channelID: this.channelID,
           messages: json.messages.reverse(),
         });
         this.$nextTick(() => {
@@ -69,7 +69,7 @@ export default defineComponent({
     },
     resetState() {
       MessageLogStatesModule.UpdateState({
-        channelId: this.channelId,
+        channelID: this.channelID,
         state: {
           isScrolledDown: true,
           bottomUnloaded: undefined,

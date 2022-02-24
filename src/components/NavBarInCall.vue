@@ -42,7 +42,7 @@ export default defineComponent({
   components: { AvatarImage },
   setup() {
     const channel = computed(() => {
-      const channelId = voiceChannelModule.joinedchannelId as string;
+      const channelId = voiceChannelModule.joinedChannelId as string;
       return ChannelsModule.channels[channelId];
     });
     const server = computed(() => {
@@ -58,7 +58,7 @@ export default defineComponent({
     const endCall = () => voiceChannelModule.leave();
     const goToChannel = () =>
       router.push(
-        `/app/servers/${channel.value.server_id}/${channel.value.channelId}`
+        `/app/servers/${channel.value.server_id}/${channel.value.channelID}`
       );
 
     return {

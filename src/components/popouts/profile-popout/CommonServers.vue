@@ -36,12 +36,12 @@ export default defineComponent({
   },
   methods: {
     serverClicked(server: Server) {
-      const serverchannelId = LastSelectedServersModule.lastServerchannelId(
+      const serverChannelID = LastSelectedServersModule.lastServerChannelID(
         server.server_id || ""
       );
       this.$router.push(
         `/app/servers/${server.server_id}/${
-          serverchannelId || server.default_channel_id
+          serverChannelID || server.default_channel_id
         }`
       );
       PopoutsModule.ClosePopout("profile");
