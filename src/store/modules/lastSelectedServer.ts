@@ -22,13 +22,13 @@ class LastSelectedServers extends VuexModule {
   @Mutation
   private UPDATE_LAST_SELECTED(payload: {
     serverID: string;
-    channelID: string;
+    channelId: string;
   }) {
-    this.lastSelectedServers[payload.serverID] = payload.channelID;
+    this.lastSelectedServers[payload.serverID] = payload.channelId;
   }
 
   @Action
-  public UpdateLastSelected(payload: { serverID: string; channelID: string }) {
+  public UpdateLastSelected(payload: { serverID: string; channelId: string }) {
     this.UPDATE_LAST_SELECTED(payload);
     localStorage["lastSelectedServerChannel"] = JSON.stringify(
       this.lastSelectedServers

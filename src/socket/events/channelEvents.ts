@@ -15,7 +15,7 @@ export const onChannelCreated = (data: { channel: ChannelWithUser }) => {
   ChannelsModule.AddChannel({
     type: data.channel.type,
     categoryId: null,
-    channelID: data.channel.channelID,
+    channelId: data.channel.channelId,
     lastMessaged: data.channel.lastMessaged,
     recipients: data.channel.recipients?.map((u) => u.id),
   });
@@ -25,35 +25,35 @@ export const onServerChannelCreated = (data: { channel: Channel }) => {
   ChannelsModule.AddChannel(data.channel);
 };
 export const onServerChannelUpdate = (channel: Partial<Channel>) => {
-  if (!channel.channelID) return;
+  if (!channel.channelId) return;
   MessagesModule.UpdateLastMessageSend({
-    channelID: channel.channelID,
+    channelId: channel.channelId,
     timestamp: 0,
   });
   ChannelsModule.updateChannel({
-    channelID: channel.channelID,
+    channelId: channel.channelId,
     update: channel,
   });
 };
 export const onServerChannelRemoved = (data: {
-  channelID: string;
+  channelId: string;
   server_id: string;
 }) => {
   const joinedVoiceChanneId = voiceChannelModule.joinedChannelId;
-  if (joinedVoiceChanneId === data.channelID) {
+  if (joinedVoiceChanneId === data.channelId) {
     voiceChannelModule.leave();
   }
-  NotificationsModule.DeleteNotification(data.channelID);
-  ChannelsModule.RemoveChannel(data.channelID);
+  NotificationsModule.DeleteNotification(data.channelId);
+  ChannelsModule.RemoveChannel(data.channelId);
 };
-export const onChannelRemoved = (data: { channelID: string }) => {
-  ChannelsModule.RemoveChannel(data.channelID);
+export const onChannelRemoved = (data: { channelId: string }) => {
+  ChannelsModule.RemoveChannel(data.channelId);
 };
-export const onChannelUnmute = (data: { channelID: string }) => {
-  MutedChannelsModule.RemoveMutedChannel(data.channelID);
+export const onChannelUnmute = (data: { channelId: string }) => {
+  MutedChannelsModule.RemoveMutedChannel(data.channelId);
 };
-export const onChannelMute = (data: { channelID: string }) => {
-  MutedChannelsModule.AddMutedChannel(data.channelID);
+export const onChannelMute = (data: { channelId: string }) => {
+  MutedChannelsModule.AddMutedChannel(data.channelId);
 };
 
 interface Category {
@@ -68,7 +68,7 @@ export const onServerChannelPositionChange = (data: {
 }) => {
   if (data.category?.channelId) {
     ChannelsModule.updateChannel({
-      channelID: data.category.channelId,
+      channelId: data.category.channelId,
       update: { categoryId: data.category.id },
     });
   }

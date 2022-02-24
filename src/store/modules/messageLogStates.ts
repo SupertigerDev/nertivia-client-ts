@@ -21,53 +21,53 @@ class MessageLogStates extends VuexModule {
   states: MessageStates = {};
 
   get isScrolledDown() {
-    return (channelID: string) => {
-      if (!this.states[channelID]) return true;
-      return this.states[channelID].isScrolledDown;
+    return (channelId: string) => {
+      if (!this.states[channelId]) return true;
+      return this.states[channelId].isScrolledDown;
     };
   }
   get isBottomUnloaded() {
-    return (channelID: string) => {
-      if (!this.states[channelID]) return false;
-      return this.states[channelID].bottomUnloaded;
+    return (channelId: string) => {
+      if (!this.states[channelId]) return false;
+      return this.states[channelId].bottomUnloaded;
     };
   }
 
   get scrollTop() {
-    return (channelID: string) => {
-      if (!this.states[channelID]) return undefined;
-      return this.states[channelID].scrollPosition;
+    return (channelId: string) => {
+      if (!this.states[channelId]) return undefined;
+      return this.states[channelId].scrollPosition;
     };
   }
 
   @Mutation
   private UPDATE_STATE(payload: {
-    channelID: string;
+    channelId: string;
     state: Partial<MessageState>;
   }) {
-    if (this.states[payload.channelID]) {
-      this.states[payload.channelID] = {
-        ...this.states[payload.channelID],
+    if (this.states[payload.channelId]) {
+      this.states[payload.channelId] = {
+        ...this.states[payload.channelId],
         ...payload.state,
       };
       return;
     }
-    this.states[payload.channelID] = payload.state as MessageState;
+    this.states[payload.channelId] = payload.state as MessageState;
   }
   @Action
   public UpdateState(payload: {
-    channelID: string;
+    channelId: string;
     state: Partial<MessageState>;
   }) {
     this.UPDATE_STATE(payload);
   }
   @Mutation
-  private REMOVE_STATE(channelID: string) {
-    delete this.states[channelID];
+  private REMOVE_STATE(channelId: string) {
+    delete this.states[channelId];
   }
   @Action
-  public RemoveState(channelID: string) {
-    this.REMOVE_STATE(channelID);
+  public RemoveState(channelId: string) {
+    this.REMOVE_STATE(channelId);
   }
 }
 export const MessageLogStatesModule = getModule(MessageLogStates);

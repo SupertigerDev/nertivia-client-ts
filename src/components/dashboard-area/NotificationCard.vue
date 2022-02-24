@@ -11,7 +11,7 @@
     </div>
     <DashboardNotificationItem
       v-for="notification in dmNotifications"
-      :key="notification.channelID"
+      :key="notification.channelId"
       :dmNotification="notification"
     />
     <div class="item-title" v-if="serverChannelNotifications.length">

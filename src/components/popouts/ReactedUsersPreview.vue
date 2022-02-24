@@ -31,7 +31,7 @@ import { PropType } from "vue";
 
 interface IProp {
   messageID: string;
-  channelID: string;
+  channelId: string;
   emojiID?: string;
   unicode?: string;
   x: number;
@@ -78,7 +78,7 @@ export default defineComponent({
     reaction(): any {
       return MessagesModule.messageReaction({
         messageID: this.data.messageID,
-        channelID: this.data.channelID,
+        channelId: this.data.channelId,
         emojiID: this.data.emojiID,
         unicode: this.data.unicode,
       });
@@ -123,7 +123,7 @@ export default defineComponent({
   methods: {
     async fetchReactions() {
       this.users = await getReactedUsers(
-        this.data.channelID,
+        this.data.channelId,
         this.data.messageID,
         3,
         this.data.emojiID,

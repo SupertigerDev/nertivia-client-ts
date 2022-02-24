@@ -58,7 +58,7 @@ export default defineComponent({
     const endCall = () => voiceChannelModule.leave();
     const goToChannel = () =>
       router.push(
-        `/app/servers/${channel.value.server_id}/${channel.value.channelID}`
+        `/app/servers/${channel.value.server_id}/${channel.value.channelId}`
       );
 
     return {

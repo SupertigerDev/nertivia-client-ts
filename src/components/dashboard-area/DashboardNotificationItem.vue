@@ -68,7 +68,7 @@ export default defineComponent({
     onClick() {
       if (this.isServer) {
         this.$router.push(
-          `/app/servers/${this.channel.server_id}/${this.channel.channelID}`
+          `/app/servers/${this.channel.server_id}/${this.channel.channelId}`
         );
         return;
       }

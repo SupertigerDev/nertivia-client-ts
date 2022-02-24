@@ -149,9 +149,9 @@ export default defineComponent({
     },
     markAsRead() {
       for (let i = 0; i < this.notifications.length; i++) {
-        const { channelID } = this.notifications[i];
+        const { channelId } = this.notifications[i];
         this.$socket.emit("notification:dismiss", {
-          channelID,
+          channelId,
         });
       }
     },

@@ -10,7 +10,7 @@
       :participants="callParticipants"
     />
     <LoadingScreen v-if="!channelMessages" />
-    <MessageLogs :key="channelID" v-else />
+    <MessageLogs :key="channelId" v-else />
     <MessageBoxArea />
   </div>
 </template>
@@ -48,33 +48,33 @@ export default defineComponent({
   },
   computed: {
     callParticipants(): CallParticipant[] {
-      return voiceChannelModule.callParticipants(this.channelID);
+      return voiceChannelModule.callParticipants(this.channelId);
     },
     isFocused(): any {
       return useWindowProperties().isFocused;
     },
     hasServerNotification(): any {
       return LastSeenServerChannelsModule.serverChannelNotification(
-        this.channelID
+        this.channelId
       );
     },
     hasDMNotification(): any {
-      return NotificationsModule.notificationByChannelID(this.channelID);
+      return NotificationsModule.notificationByChannelID(this.channelId);
     },
     channelMessages(): any {
-      return MessagesModule.channelMessages(this.channelID);
+      return MessagesModule.channelMessages(this.channelId);
     },
-    channelID(): any {
+    channelId(): any {
       return this.$route.params.channel_id;
     },
     isServerChannel(): any {
       return this.$route.params.server_id;
     },
     channel(): any {
-      return ChannelsModule.channels[this.channelID];
+      return ChannelsModule.channels[this.channelId];
     },
     DMChannel(): any {
-      return ChannelsModule.getDMChannel(this.channelID);
+      return ChannelsModule.getDMChannel(this.channelId);
     },
     server(): any {
       if (this.serverID) {
@@ -98,7 +98,7 @@ export default defineComponent({
     isConnected: {
       handler: "onConnected",
     },
-    channelID: {
+    channelId: {
       handler: "channalIDChanged",
     },
     channel: {
@@ -130,17 +130,17 @@ export default defineComponent({
       if (!this.channel) return;
       if (!this.isConnected) return;
       if (this.channelMessages) return;
-      if (!this.channelID) return;
-      MessagesModule.FetchAndSetMessages(this.channelID);
+      if (!this.channelId) return;
+      MessagesModule.FetchAndSetMessages(this.channelId);
       this.loadCommands();
     },
     dismissNotification() {
-      if (!MessageLogStatesModule.isScrolledDown(this.channelID)) return;
+      if (!MessageLogStatesModule.isScrolledDown(this.channelId)) return;
       if (!this.isConnected) return;
       if (!this.isFocused) return;
       if (!(this.hasServerNotification || this.hasDMNotification)) return;
       this.$socket.emit("notification:dismiss", {
-        channelID: this.channelID,
+        channelId: this.channelId,
       });
     },
     setTitle() {
@@ -159,7 +159,7 @@ export default defineComponent({
         TabsModule.setCurrentTab({
           name: `${serverName}#${channelName}`,
           server_id: this.serverID,
-          channel_id: this.channelID,
+          channel_id: this.channelId,
         });
       }
     },

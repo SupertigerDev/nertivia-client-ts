@@ -1,7 +1,7 @@
 import User from "./User";
 
 export default interface Notification {
-  channelID: string;
+  channelId: string;
   count: number;
   lastMessageID: string;
   mentioned?: boolean;

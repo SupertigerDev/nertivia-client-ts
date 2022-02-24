@@ -25,7 +25,7 @@ interface Settings {
 }
 
 interface Notification {
-  channelID: string;
+  channelId: string;
   count: number;
   lastMessageID: string;
   mentioned: boolean;
@@ -45,7 +45,7 @@ interface ReturnedProgramActivity {
 interface ReturnedDmChannel {
   type: ChannelType,
   lastMessaged: number;
-  channelID: string;
+  channelId: string;
   recipients: User[];
 }
 
@@ -92,7 +92,7 @@ interface ReturnedServer {
 interface ReturnedChannel {
   type: ChannelType,
   categoryId: string | null;
-  channelID: string;
+  channelId: string;
   name?: string;
   server_id?: string;
   icon?: string | null;

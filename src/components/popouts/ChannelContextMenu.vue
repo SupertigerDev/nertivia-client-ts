@@ -34,7 +34,7 @@ export default defineComponent({
         x: number;
         y: number;
         server_id: string;
-        channelID: string;
+        channelId: string;
       }>,
       required: true,
     },
@@ -85,7 +85,7 @@ export default defineComponent({
       return ServersModule.servers[this.data.server_id];
     },
     channel(): any {
-      return ChannelsModule.channels[this.data.channelID];
+      return ChannelsModule.channels[this.data.channelId];
     },
     isCreator(): any {
       return this.server?.creator?.id === MeModule.user.id;
@@ -99,11 +99,11 @@ export default defineComponent({
     },
     notifications(): any {
       return LastSeenServerChannelsModule.serverChannelNotification(
-        this.data.channelID
+        this.data.channelId
       );
     },
     isMuted(): any {
-      return MutedChannelsModule.mutedChannels.includes(this.channel.channelID);
+      return MutedChannelsModule.mutedChannels.includes(this.channel.channelId);
     },
   },
   methods: {
@@ -113,20 +113,20 @@ export default defineComponent({
     itemClick(item: any) {
       switch (item.id) {
         case "copy_id":
-          toClipboard(this.data.channelID);
+          toClipboard(this.data.channelId);
           break;
         case "mark_as_read":
           this.markAsRead();
           break;
         case "unmute_channel":
-          unmuteServerChannel(this.server.server_id, this.channel.channelID);
+          unmuteServerChannel(this.server.server_id, this.channel.channelId);
           break;
         case "mute_channel":
-          muteServerChannel(this.server.server_id, this.channel.channelID);
+          muteServerChannel(this.server.server_id, this.channel.channelId);
           break;
         case "channel_settings":
           this.$router.push(
-            `/app/servers/${this.server.server_id}/settings/manage-channels/${this.data.channelID}`
+            `/app/servers/${this.server.server_id}/settings/manage-channels/${this.data.channelId}`
           );
           break;
         default:
@@ -135,7 +135,7 @@ export default defineComponent({
     },
     markAsRead() {
       this.$socket.emit("notification:dismiss", {
-        channelID: this.data.channelID,
+        channelId: this.data.channelId,
       });
     },
   },

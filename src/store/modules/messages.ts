@@ -60,8 +60,8 @@ class Messages extends VuexModule {
   }
 
   get messageReactions() {
-    return (payload: { messageID: string; channelID: string }) => {
-      const messages = this.messages[payload.channelID];
+    return (payload: { messageID: string; channelId: string }) => {
+      const messages = this.messages[payload.channelId];
       const message = messages?.find((m) => m.messageID === payload.messageID);
       if (!message) return undefined;
       if (!message.reactions?.length) return undefined;
@@ -71,7 +71,7 @@ class Messages extends VuexModule {
   get messageReaction() {
     return (payload: {
       messageID: string;
-      channelID: string;
+      channelId: string;
       emojiID?: string;
       unicode?: string;
     }) => {
@@ -87,15 +87,15 @@ class Messages extends VuexModule {
   @Mutation
   private SET_CHANNEL_MESSAGES(payload: {
     messages: Message[] | null;
-    channelID: string;
+    channelId: string;
   }) {
-    this.messages[payload.channelID] = payload.messages as Message[];
+    this.messages[payload.channelId] = payload.messages as Message[];
   }
 
   @Action
   SetChannelMessages(payload: {
     messages: Message[] | null;
-    channelID: string;
+    channelId: string;
   }) {
     this.SET_CHANNEL_MESSAGES(payload);
   }
@@ -132,12 +132,12 @@ class Messages extends VuexModule {
   }
 
   @Action
-  public async FetchAndSetMessages(channelID: string) {
-    fetchMessages(channelID)
+  public async FetchAndSetMessages(channelId: string) {
+    fetchMessages(channelId)
       .then((res) => {
         this.SetChannelMessages({
           messages: res.messages.reverse(),
-          channelID,
+          channelId,
         });
       })
       .catch((err: ky.HTTPError) => {
@@ -146,14 +146,14 @@ class Messages extends VuexModule {
       });
   }
   @Action
-  public async continueLoadMessages(channelID: string) {
-    const messages = this.messages[channelID];
+  public async continueLoadMessages(channelId: string) {
+    const messages = this.messages[channelId];
     if (!messages) return;
     const firstMessage = messages?.find((msg) => msg.messageID);
     if (!firstMessage) return;
 
     return new Promise<Message[]>((resolve, reject) => {
-      fetchMessagesContinue(channelID, firstMessage.messageID || "")
+      fetchMessagesContinue(channelId, firstMessage.messageID || "")
         .then((res) => {
           resolve(res.messages);
         })
@@ -165,15 +165,15 @@ class Messages extends VuexModule {
     });
   }
   @Action
-  public async beforeLoadMessages(channelID: string) {
-    const messages = this.messages[channelID];
+  public async beforeLoadMessages(channelId: string) {
+    const messages = this.messages[channelId];
     if (!messages) return;
     const messagesReversed = [...messages].reverse();
     const latestMessage = messagesReversed.find((msg) => msg.messageID);
     if (!latestMessage) return;
 
     return new Promise<Message[]>((resolve, reject) => {
-      fetchMessagesBefore(channelID, latestMessage.messageID || "")
+      fetchMessagesBefore(channelId, latestMessage.messageID || "")
         .then((res) => {
           resolve(res.messages);
         })
@@ -186,12 +186,12 @@ class Messages extends VuexModule {
   }
 
   @Action
-  public SendMessage(payload: { message: string; channelID: string }) {
+  public SendMessage(payload: { message: string; channelId: string }) {
     const trimmedMessage = payload.message.trim();
     const tempID = generateNum(25);
     const creator: any = MeModule.user;
     this.AddChannelMessage({
-      channelID: payload.channelID,
+      channelId: payload.channelId,
       message: trimmedMessage,
       tempID,
       type: 0,
@@ -200,21 +200,21 @@ class Messages extends VuexModule {
       creator,
       quotes: [],
     });
-    postMessage(trimmedMessage, tempID, payload.channelID)
+    postMessage(trimmedMessage, tempID, payload.channelId)
       .then((res) => {
-        if (ChannelsModule.getDMChannel(payload.channelID)) {
+        if (ChannelsModule.getDMChannel(payload.channelId)) {
           ChannelsModule.updateChannel({
-            channelID: payload.channelID,
+            channelId: payload.channelId,
             update: { lastMessaged: Date.now() },
           });
         }
         this.UpdateLastMessageSend({
-          channelID: payload.channelID,
+          channelId: payload.channelId,
           timestamp: Date.now(),
         });
         const message = res.messageCreated;
         this.UpdateMessage({
-          channelID: message.channelID,
+          channelId: message.channelId,
           message: { ...message, sending: 1 },
           tempID,
         });
@@ -228,22 +228,22 @@ class Messages extends VuexModule {
         const ttl = res.ttl;
         if (ttl) {
           const rateLimit =
-            ChannelsModule.channels[payload.channelID].rateLimit;
+            ChannelsModule.channels[payload.channelId].rateLimit;
           if (rateLimit) {
             const ms = rateLimit * 1000;
             this.UpdateLastMessageSend({
-              channelID: payload.channelID,
+              channelId: payload.channelId,
               timestamp: Date.now() - (ms - ttl),
             });
           }
         }
         this.UpdateMessage({
-          channelID: payload.channelID,
+          channelId: payload.channelId,
           message: { sending: 2 },
           tempID,
         });
         this.AddChannelMessage({
-          channelID: payload.channelID,
+          channelId: payload.channelId,
           message: res.message,
           messageID: Math.random().toString(),
           type: 0,
@@ -262,41 +262,41 @@ class Messages extends VuexModule {
 
   @Mutation
   private REMOVE_CHANNEL_MESSAGE(payload: {
-    channelID: string;
+    channelId: string;
     index: number;
   }) {
-    this.messages[payload.channelID].splice(payload.index, 1);
+    this.messages[payload.channelId].splice(payload.index, 1);
   }
 
   @Action
   RemoveChannelMessage(payload: Message) {
-    const index = this.channelMessages(payload.channelID).findIndex(
+    const index = this.channelMessages(payload.channelId).findIndex(
       (c) => c.messageID === payload.messageID
     );
-    this.REMOVE_CHANNEL_MESSAGE({ index, channelID: payload.channelID });
+    this.REMOVE_CHANNEL_MESSAGE({ index, channelId: payload.channelId });
   }
 
   @Mutation
   private CLAMP_CHANNEL_MESSAGES(data: {
-    channelID: string;
+    channelId: string;
     reverseClamp: boolean;
   }) {
     let clamped: Message[] = [];
     if (!data.reverseClamp) {
-      clamped = this.messages[data.channelID].slice(
-        this.messages[data.channelID].length - 51,
-        this.messages[data.channelID].length
+      clamped = this.messages[data.channelId].slice(
+        this.messages[data.channelId].length - 51,
+        this.messages[data.channelId].length
       );
     } else {
-      clamped = this.messages[data.channelID].slice(0, -51);
+      clamped = this.messages[data.channelId].slice(0, -51);
     }
 
-    this.messages[data.channelID] = clamped;
+    this.messages[data.channelId] = clamped;
   }
 
   @Action
   ClampChannelMessages(data: {
-    channelID: string;
+    channelId: string;
     reverseClamp?: boolean;
     checkScrolledBottom?: boolean;
   }) {
@@ -305,15 +305,15 @@ class Messages extends VuexModule {
     const checkScrolledBottom =
       data.checkScrolledBottom === undefined ? true : data.checkScrolledBottom;
 
-    const channelMessagesLength = this.channelMessages(data.channelID).length;
+    const channelMessagesLength = this.channelMessages(data.channelId).length;
     const isScrolledDown = MessageLogStatesModule.isScrolledDown(
-      data.channelID
+      data.channelId
     );
 
     if (channelMessagesLength >= 60) {
       if (checkScrolledBottom ? isScrolledDown : true) {
         this.CLAMP_CHANNEL_MESSAGES({
-          channelID: data.channelID,
+          channelId: data.channelId,
           reverseClamp,
         });
         return true;
@@ -324,29 +324,29 @@ class Messages extends VuexModule {
 
   @Mutation
   private ADD_CHANNEL_MESSAGE(payload: Message) {
-    this.messages[payload.channelID].push(payload);
+    this.messages[payload.channelId].push(payload);
   }
 
   @Action
   public AddChannelMessage(payload: Message) {
-    if (!this.channelMessages(payload.channelID)) return;
-    if (MessageLogStatesModule.isBottomUnloaded(payload.channelID)) {
+    if (!this.channelMessages(payload.channelId)) return;
+    if (MessageLogStatesModule.isBottomUnloaded(payload.channelId)) {
       return;
     }
     this.ADD_CHANNEL_MESSAGE(payload);
-    this.ClampChannelMessages({ channelID: payload.channelID });
+    this.ClampChannelMessages({ channelId: payload.channelId });
   }
   @Mutation
   private UNSHIFT_CHANNEL_MESSAGE(payload: Message) {
-    this.messages[payload.channelID].unshift(payload);
+    this.messages[payload.channelId].unshift(payload);
   }
 
   @Action
   public UnshiftChannelMessage(payload: Message) {
-    if (!this.channelMessages(payload.channelID)) return;
+    if (!this.channelMessages(payload.channelId)) return;
     this.UNSHIFT_CHANNEL_MESSAGE(payload);
     this.ClampChannelMessages({
-      channelID: payload.channelID,
+      channelId: payload.channelId,
       reverseClamp: true,
     });
   }
@@ -354,22 +354,22 @@ class Messages extends VuexModule {
   private UPDATE_MESSAGE(payload: {
     updateMessage: Partial<Message>;
     index: number;
-    channelID: string;
+    channelId: string;
   }) {
     Object.assign(
-      this.messages[payload.channelID][payload.index],
+      this.messages[payload.channelId][payload.index],
       payload.updateMessage
     );
   }
 
   @Action
   public UpdateMessage(payload: {
-    channelID: string;
+    channelId: string;
     messageID?: string;
     tempID?: string;
     message: Partial<Message>;
   }) {
-    const messages = this.channelMessages(payload.channelID);
+    const messages = this.channelMessages(payload.channelId);
     if (!messages) return;
     const findIndex = messages.findIndex(({ messageID, tempID }) =>
       payload.messageID
@@ -380,21 +380,21 @@ class Messages extends VuexModule {
     this.UPDATE_MESSAGE({
       index: findIndex,
       updateMessage: payload.message,
-      channelID: payload.channelID,
+      channelId: payload.channelId,
     });
   }
 
   @Mutation
-  private DELETE_MESSAGE(payload: { channelID: string; index: number }) {
-    this.messages[payload.channelID].splice(payload.index, 1);
+  private DELETE_MESSAGE(payload: { channelId: string; index: number }) {
+    this.messages[payload.channelId].splice(payload.index, 1);
   }
   @Action
-  public DeleteMessage(payload: { channelID: string; messageID: string }) {
-    const messages = this.channelMessages(payload.channelID);
+  public DeleteMessage(payload: { channelId: string; messageID: string }) {
+    const messages = this.channelMessages(payload.channelId);
     if (!messages) return;
     const index = messages.findIndex((m) => m.messageID === payload.messageID);
     if (index <= -1) return;
-    this.DELETE_MESSAGE({ channelID: payload.channelID, index });
+    this.DELETE_MESSAGE({ channelId: payload.channelId, index });
   }
   @Action
   public deleteBulk(payload: { channelId: string; messageIds: string[] }) {
@@ -404,7 +404,7 @@ class Messages extends VuexModule {
       return !payload.messageIds.includes(message.messageID);
     });
     this.SET_CHANNEL_MESSAGES({
-      channelID: payload.channelId,
+      channelId: payload.channelId,
       messages: newMessages,
     });
     emitter.emit("bulkDeleteMessages");
@@ -414,12 +414,12 @@ class Messages extends VuexModule {
   }
 
   @Mutation
-  private DELETE_CHANNEL_MESSAGES(channelID: string) {
-    delete this.messages[channelID];
+  private DELETE_CHANNEL_MESSAGES(channelId: string) {
+    delete this.messages[channelId];
   }
   @Action
-  public DeleteChannelMessages(channelID: string) {
-    this.DELETE_CHANNEL_MESSAGES(channelID);
+  public DeleteChannelMessages(channelId: string) {
+    this.DELETE_CHANNEL_MESSAGES(channelId);
   }
   @Action
   public DeleteServerMessages(serverID: string) {
@@ -427,18 +427,18 @@ class Messages extends VuexModule {
     if (!channels?.length) return;
     for (let i = 0; i < channels.length; i++) {
       const channel = channels[i];
-      this.DeleteChannelMessages(channel.channelID);
+      this.DeleteChannelMessages(channel.channelId);
     }
   }
 
   @Action
   public UpdateMessageReaction(data: {
-    channelID: string;
+    channelId: string;
     messageID: string;
     reaction: Partial<Reaction>;
     removeIfZero: boolean;
   }) {
-    const message = this.messages[data.channelID]?.find(
+    const message = this.messages[data.channelId]?.find(
       (m) => m.messageID === data.messageID
     );
     if (!message) return;
@@ -487,14 +487,14 @@ class Messages extends VuexModule {
   }
   @Mutation
   private UPDATE_LAST_MESSAGE_SENT(payload: {
-    channelID: string;
+    channelId: string;
     timestamp: number;
   }) {
-    this.lastMessageSent[payload.channelID] = payload.timestamp;
+    this.lastMessageSent[payload.channelId] = payload.timestamp;
   }
   @Action
   public UpdateLastMessageSend(payload: {
-    channelID: string;
+    channelId: string;
     timestamp: number;
   }) {
     this.UPDATE_LAST_MESSAGE_SENT(payload);

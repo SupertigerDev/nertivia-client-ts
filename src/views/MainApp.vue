@@ -205,7 +205,7 @@ export default defineComponent({
       if (this.currentTab === "servers") {
         LastSelectedServersModule.UpdateLastSelected({
           serverID: this.currentServerID,
-          channelID: this.currentChannelID,
+          channelId: this.currentChannelID,
         });
         localStorage.setItem("lastSelectedServerID", this.currentServerID);
       } else if (this.currentTab === "dms" && this.currentChannelID) {
