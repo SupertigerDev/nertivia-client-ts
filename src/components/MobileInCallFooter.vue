@@ -33,7 +33,7 @@ export default defineComponent({
   components: { MentionChannel },
   setup() {
     const channel = computed(() => {
-      const channelId = voiceChannelModule.joinedChannelId as string;
+      const channelId = voiceChannelModule.joinedchannelId as string;
       return ChannelsModule.channels[channelId];
     });
 

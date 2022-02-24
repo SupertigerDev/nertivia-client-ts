@@ -70,7 +70,7 @@ export default defineComponent({
         component: "MessageReactionEmojiPicker",
         data: {
           messageID: this.message.messageID,
-          channelID: this.message.channelID,
+          channelId: this.message.channelId,
           x: event.pageX,
           y: event.pageY,
         },

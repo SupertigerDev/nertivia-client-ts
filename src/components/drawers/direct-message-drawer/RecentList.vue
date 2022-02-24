@@ -3,7 +3,7 @@
     <RecycleScroller
       style="height: 100%"
       :items="recentListArr"
-      key-field="channelID"
+      key-field="channelId"
       :item-size="44"
       v-slot="{ item }"
     >
@@ -50,8 +50,8 @@ export default defineComponent({
       );
       // move channels with notifications to top.
       const sort = filter.sort((a, b) => {
-        const aN = NotificationsModule.notificationByChannelID(a.channelID);
-        const bN = NotificationsModule.notificationByChannelID(b.channelID);
+        const aN = NotificationsModule.notificationBychannelId(a.channelId);
+        const bN = NotificationsModule.notificationBychannelId(b.channelId);
         if (aN && !bN) return -1;
         if (!aN && bN) return 1;
         return 0;

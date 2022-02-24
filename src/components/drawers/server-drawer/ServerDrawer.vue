@@ -26,7 +26,7 @@
         >
           <template
             v-for="channel in selectedServerChannels"
-            :key="channel.channelID"
+            :key="channel.channelId"
           >
             <li v-if="channel.type === 1 && !channel.categoryId">
               <ChannelTemplate :channel="channel" />
@@ -123,7 +123,7 @@ export default defineComponent({
     goToPreviousChannel() {
       const channels = this.channelsOnly;
       const currentChannelIndex = channels.findIndex(
-        (c) => c.channelID === this.selectedDetails.channel_id
+        (c) => c.channelId === this.selectedDetails.channel_id
       );
       let gotoIndex = currentChannelIndex;
       if (currentChannelIndex === -1) return;
@@ -132,25 +132,25 @@ export default defineComponent({
       } else {
         gotoIndex = currentChannelIndex - 1;
       }
-      const channelID = channels[gotoIndex].channelID;
+      const channelId = channels[gotoIndex].channelId;
       this.$router.push({
-        params: { channel_id: channelID },
+        params: { channel_id: channelId },
       });
     },
     goToPreviousUnreadChannel() {
       const servers = ServersModule.sortedServers;
-      const allUnreadChannelIds =
+      const allUnreadchannelIds =
         LastSeenServerChannelsModule.allServerNotifications.map(
-          (notification) => notification.channelID
+          (notification) => notification.channelId
         );
-      if (allUnreadChannelIds.length === 0) return;
+      if (allUnreadchannelIds.length === 0) return;
 
       const channels = servers
         .map((server) => ChannelsModule.sortedServerChannels(server.server_id))
         .flatMap((serverChannels) => serverChannels.map((channel) => channel));
 
       const startIndex = channels.findIndex(
-        (channel) => channel.channelID === this.selectedDetails.channel_id
+        (channel) => channel.channelId === this.selectedDetails.channel_id
       );
       if (startIndex === -1) {
         throw new Error("Couldn't find currently selected channel.");
@@ -160,7 +160,7 @@ export default defineComponent({
       do {
         currentIndex--;
         if (currentIndex === -1) currentIndex = channels.length - 1;
-        if (allUnreadChannelIds.includes(channels[currentIndex].channelID))
+        if (allUnreadchannelIds.includes(channels[currentIndex].channelId))
           break;
       } while (currentIndex !== startIndex);
 
@@ -168,14 +168,14 @@ export default defineComponent({
         params: {
           server_id:
             channels[currentIndex].server_id ?? this.selectedDetails.server_id,
-          channel_id: channels[currentIndex].channelID,
+          channel_id: channels[currentIndex].channelId,
         },
       });
     },
     goToNextChannel() {
       const channels = this.channelsOnly;
       const currentChannelIndex = channels.findIndex(
-        (c) => c.channelID === this.selectedDetails.channel_id
+        (c) => c.channelId === this.selectedDetails.channel_id
       );
       let gotoIndex = currentChannelIndex;
       if (currentChannelIndex === -1) return;
@@ -184,25 +184,25 @@ export default defineComponent({
       } else {
         gotoIndex = currentChannelIndex + 1;
       }
-      const channelID = channels[gotoIndex].channelID;
+      const channelId = channels[gotoIndex].channelId;
       this.$router.push({
-        params: { channel_id: channelID },
+        params: { channel_id: channelId },
       });
     },
     goToNextUnreadChannel() {
       const servers = ServersModule.sortedServers;
-      const allUnreadChannelIds =
+      const allUnreadchannelIds =
         LastSeenServerChannelsModule.allServerNotifications.map(
-          (notification) => notification.channelID
+          (notification) => notification.channelId
         );
-      if (allUnreadChannelIds.length === 0) return;
+      if (allUnreadchannelIds.length === 0) return;
 
       const channels = servers
         .map((server) => ChannelsModule.sortedServerChannels(server.server_id))
         .flatMap((serverChannels) => serverChannels.map((channel) => channel));
 
       const startIndex = channels.findIndex(
-        (channel) => channel.channelID === this.selectedDetails.channel_id
+        (channel) => channel.channelId === this.selectedDetails.channel_id
       );
       if (startIndex === -1) {
         throw new Error("Couldn't find currently selected channel.");
@@ -211,7 +211,7 @@ export default defineComponent({
       let currentIndex = startIndex;
       do {
         currentIndex = ++currentIndex % channels.length;
-        if (allUnreadChannelIds.includes(channels[currentIndex].channelID))
+        if (allUnreadchannelIds.includes(channels[currentIndex].channelId))
           break;
       } while (currentIndex !== startIndex);
 
@@ -219,7 +219,7 @@ export default defineComponent({
         params: {
           server_id:
             channels[currentIndex].server_id ?? this.selectedDetails.server_id,
-          channel_id: channels[currentIndex].channelID,
+          channel_id: channels[currentIndex].channelId,
         },
       });
     },

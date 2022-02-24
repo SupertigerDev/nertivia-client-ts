@@ -72,12 +72,12 @@ export default defineComponent({
         gotoIndex = index + 1;
       }
       const server = this.servers[gotoIndex];
-      const serverChannelID = LastSelectedServersModule.lastServerChannelID(
+      const serverchannelId = LastSelectedServersModule.lastServerchannelId(
         server.server_id || ""
       );
       this.$router.push(
         `/app/servers/${server.server_id}/${
-          serverChannelID || server.default_channel_id
+          serverchannelId || server.default_channel_id
         }`
       );
     },
@@ -93,12 +93,12 @@ export default defineComponent({
         gotoIndex = index - 1;
       }
       const server = this.servers[gotoIndex];
-      const serverChannelID = LastSelectedServersModule.lastServerChannelID(
+      const serverchannelId = LastSelectedServersModule.lastServerchannelId(
         server.server_id || ""
       );
       this.$router.push(
         `/app/servers/${server.server_id}/${
-          serverChannelID || server.default_channel_id
+          serverchannelId || server.default_channel_id
         }`
       );
     },

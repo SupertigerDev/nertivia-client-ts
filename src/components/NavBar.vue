@@ -131,7 +131,7 @@ export default defineComponent({
   components: { AvatarImage, NavBarInCall },
   computed: {
     isInCall() {
-      return voiceChannelModule.joinedChannelId;
+      return voiceChannelModule.joinedchannelId;
     },
     isMobileWidth() {
       return useWindowProperties().isMobileWidth;
@@ -187,18 +187,18 @@ export default defineComponent({
   methods: {
     changeTab(name: string) {
       const selectedServerID = this.lastSelectedServerID();
-      const serverChannelID = LastSelectedServersModule.lastServerChannelID(
+      const serverchannelId = LastSelectedServersModule.lastServerchannelId(
         selectedServerID || ""
       );
 
-      const selectedDmChannelId = this.lastSelectedDMChannelID();
+      const selectedDmchannelId = this.lastSelectedDMchannelId();
       let path = name;
       if (this.currentTab === name) return;
-      if (name === "servers" && selectedServerID && serverChannelID) {
-        path += `/${selectedServerID}/${serverChannelID}`;
+      if (name === "servers" && selectedServerID && serverchannelId) {
+        path += `/${selectedServerID}/${serverchannelId}`;
       }
-      if (name === "dms" && selectedDmChannelId) {
-        path += `/${selectedDmChannelId}`;
+      if (name === "dms" && selectedDmchannelId) {
+        path += `/${selectedDmchannelId}`;
       }
       this.$router.push("/app/" + path);
     },
@@ -211,8 +211,8 @@ export default defineComponent({
     lastSelectedServerID(): string | null {
       return localStorage.getItem("lastSelectedServerID");
     },
-    lastSelectedDMChannelID(): string | null {
-      return localStorage.getItem("lastSelectedDMChannelID");
+    lastSelectedDMchannelId(): string | null {
+      return localStorage.getItem("lastSelectedDMchannelId");
     },
     showCardPopup() {
       PopoutsModule.ShowPopout({

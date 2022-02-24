@@ -43,7 +43,7 @@ export default defineComponent({
 
       this.$socket.once(MESSAGE_BUTTON_CALLBACK, this.onCallback);
       buttonClick(
-        this.message.channelID,
+        this.message.channelId,
         this.message.messageID,
         this.button.id
       );

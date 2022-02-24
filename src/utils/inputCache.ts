@@ -6,25 +6,25 @@ function getAllInputCache(): { [key: string]: string } {
   return JSON.parse(jsonStr);
 }
 
-function addInputCache(channelID: string, message: string) {
+function addInputCache(channelId: string, message: string) {
   const cache = getAllInputCache();
-  cache[channelID] = message.substring(0, 5000);
+  cache[channelId] = message.substring(0, 5000);
   localStorage["inputCache"] = JSON.stringify(cache);
 }
 
-export function getInputCache(channelID: string) {
-  return getAllInputCache()[channelID];
+export function getInputCache(channelId: string) {
+  return getAllInputCache()[channelId];
 }
 
-export function deleteInputCache(channelID: string) {
+export function deleteInputCache(channelId: string) {
   const cache = getAllInputCache();
-  delete cache[channelID];
+  delete cache[channelId];
   localStorage["inputCache"] = JSON.stringify(cache);
 }
-export function cacheInput(channelID: string, message?: string) {
+export function cacheInput(channelId: string, message?: string) {
   if (!message?.trim()) {
-    deleteInputCache(channelID);
+    deleteInputCache(channelId);
     return;
   }
-  addInputCache(channelID, message);
+  addInputCache(channelId, message);
 }

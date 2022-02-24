@@ -45,13 +45,13 @@
         v-model="serverName"
       />
       <CustomDropDown
-        v-if="defaultChannelId"
+        v-if="defaultchannelId"
         class="input"
         title="Default Channel"
-        :defaultId="defaultChannelId"
-        IdPath="channelID"
-        :key="defaultChannelId"
-        @change="defaultChannelId = $event"
+        :defaultId="defaultchannelId"
+        IdPath="channelId"
+        :key="defaultchannelId"
+        @change="defaultchannelId = $event"
         :items="channels"
       />
       <CustomButton
@@ -96,7 +96,7 @@ export default defineComponent({
   data() {
     return {
       serverName: "",
-      defaultChannelId: "",
+      defaultchannelId: "",
       newAvatar: "",
       newBanner: "",
       errors: {} as any,
@@ -138,7 +138,7 @@ export default defineComponent({
       const avatarChanged = this.newAvatar.length || false;
       const nameChanged = this.serverName !== this.server.name;
       const defaultChannelChanged =
-        this.defaultChannelId !== this.server.default_channel_id;
+        this.defaultchannelId !== this.server.default_channel_id;
       return {
         bannerChanged,
         avatarChanged,
@@ -158,7 +158,7 @@ export default defineComponent({
   methods: {
     resetValues() {
       this.serverName = this.server?.name || "";
-      this.defaultChannelId = this.server.default_channel_id;
+      this.defaultchannelId = this.server.default_channel_id;
       this.newBanner = "";
       this.newAvatar = "";
     },
@@ -170,7 +170,7 @@ export default defineComponent({
 
       this.itemsChanged.nameChanged && (data.name = this.serverName.trim());
       this.itemsChanged.defaultChannelChanged &&
-        (data.default_channel_id = this.defaultChannelId);
+        (data.default_channel_id = this.defaultchannelId);
       this.itemsChanged.avatarChanged && (data.avatar = this.newAvatar);
       this.itemsChanged.bannerChanged && (data.banner = this.newBanner);
 

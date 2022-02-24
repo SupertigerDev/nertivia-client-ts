@@ -10,7 +10,7 @@
         <LeftDrawer />
       </template>
       <template v-slot:drawer-right>
-        <RightDrawer v-if="currentTab === 'servers' && currentChannelID" />
+        <RightDrawer v-if="currentTab === 'servers' && currentchannelId" />
       </template>
       <template v-slot:content>
         <div class="content">
@@ -94,7 +94,7 @@ export default defineComponent({
     };
   },
   computed: {
-    currentChannelID(): any {
+    currentchannelId(): any {
       return this.$route.params.channel_id;
     },
     currentServerID(): any {
@@ -110,11 +110,11 @@ export default defineComponent({
       return useWindowProperties().isMobileWidth;
     },
     isInCall() {
-      return voiceChannelModule.joinedChannelId;
+      return voiceChannelModule.joinedchannelId;
     }
   },
   watch: {
-    currentChannelID: {
+    currentchannelId: {
       handler: "saveLastSelected",
     },
     currentServerID: {
@@ -141,7 +141,7 @@ export default defineComponent({
     }
   },
   created() {
-    localStorage.removeItem("lastSelectedDMChannelID");
+    localStorage.removeItem("lastSelectedDMchannelId");
     localStorage.removeItem("lastSelectedServerID");
     this.saveLastSelected();
     this.loadCache();
@@ -205,11 +205,11 @@ export default defineComponent({
       if (this.currentTab === "servers") {
         LastSelectedServersModule.UpdateLastSelected({
           serverID: this.currentServerID,
-          channelID: this.currentChannelID,
+          channelId: this.currentchannelId,
         });
         localStorage.setItem("lastSelectedServerID", this.currentServerID);
-      } else if (this.currentTab === "dms" && this.currentChannelID) {
-        localStorage.setItem("lastSelectedDMChannelID", this.currentChannelID);
+      } else if (this.currentTab === "dms" && this.currentchannelId) {
+        localStorage.setItem("lastSelectedDMchannelId", this.currentchannelId);
       }
     },
     showConnectionPopout() {

@@ -38,11 +38,11 @@ export default defineComponent({
     };
   },
   computed: {
-    channelID(): any {
+    channelId(): any {
       return this.$route.params.channel_id;
     },
     formatedRecipients(): any {
-      const arr = Object.values(this.typingObj[this.channelID]);
+      const arr = Object.values(this.typingObj[this.channelId]);
       if (!arr.length) return null;
       switch (true) {
         case arr.length == 1:
@@ -71,8 +71,8 @@ export default defineComponent({
     },
     showTyping(): any {
       return (
-        this.typingObj[this.channelID] &&
-        Object.values(this.typingObj[this.channelID]).length
+        this.typingObj[this.channelId] &&
+        Object.values(this.typingObj[this.channelId]).length
       );
     },
   },
@@ -95,7 +95,7 @@ export default defineComponent({
     },
     onTyping(data: TypingData) {
       if (data.user.id === MeModule.user.id) return;
-      if (data.channel_id !== this.channelID) return;
+      if (data.channel_id !== this.channelId) return;
       const isTyping = this.typingObj[data.channel_id]?.[data.user.id];
       if (isTyping?.timer) {
         clearTimeout(isTyping.timer);
@@ -115,14 +115,14 @@ export default defineComponent({
         ),
       };
     },
-    timeout(channelID: string, id: string) {
-      delete this.typingObj[channelID][id];
+    timeout(channelId: string, id: string) {
+      delete this.typingObj[channelId][id];
     },
     onNewMessage(message: Message) {
-      const objExists = this.typingObj[message.channelID]?.[message.creator.id];
+      const objExists = this.typingObj[message.channelId]?.[message.creator.id];
       if (objExists) {
         objExists.timer && clearTimeout(objExists.timer);
-        delete this.typingObj[message.channelID][message.creator.id];
+        delete this.typingObj[message.channelId][message.creator.id];
       }
     },
     makeStrong(text: string) {

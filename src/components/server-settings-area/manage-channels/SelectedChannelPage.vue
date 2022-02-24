@@ -2,7 +2,7 @@
   <div class="container selected-channel-page" v-if="channel">
     <div
       class="notice warn"
-      v-if="channel.channelID === server.default_channel_id"
+      v-if="channel.channelId === server.default_channel_id"
     >
       {{ $t("server-settings.manage-channels.default-channel-notice") }}
     </div>
@@ -71,7 +71,7 @@
       "
       :alert="true"
       icon="delete"
-      v-if="channel.channelID !== server.default_channel_id"
+      v-if="channel.channelId !== server.default_channel_id"
       @click="deleteChannel"
     />
     <CustomButton
@@ -108,7 +108,7 @@ export default defineComponent({
     PickerArea,
   },
   props: {
-    channelID: {
+    channelId: {
       type: String,
       required: true,
     },
@@ -152,7 +152,7 @@ export default defineComponent({
       return image.outerHTML;
     },
     channel(): Channel | undefined {
-      return ChannelsModule.channels[this.channelID];
+      return ChannelsModule.channels[this.channelId];
     },
     server(): any {
       return ServersModule.servers[this.channel?.server_id || ""];
@@ -245,10 +245,10 @@ export default defineComponent({
       }
       this.deleteRequestSent = true;
 
-      deleteServerChannel(this.channelID, this.channel.server_id)
+      deleteServerChannel(this.channelId, this.channel.server_id)
         .then(() => {
           this.$emit("close");
-          ChannelsModule.RemoveChannel(this.channelID);
+          ChannelsModule.RemoveChannel(this.channelId);
         })
         .finally(() => {
           this.deleteRequestSent = false;
@@ -260,7 +260,7 @@ export default defineComponent({
       this.requestSent = true;
       if (!this.channel?.server_id) return;
       this.error = null;
-      updateServerChannel(this.channel.channelID, this.channel.server_id, {
+      updateServerChannel(this.channel.channelId, this.channel.server_id, {
         name: this.channelName,
         permissions: { send_message: this.sendMessagePermission },
         rateLimit: parseInt(this.rateLimit as any),
@@ -268,7 +268,7 @@ export default defineComponent({
       })
         .then((json) => {
           ChannelsModule.updateChannel({
-            channelID: json.channelID,
+            channelId: json.channelId,
             update: json,
           });
           this.reset();

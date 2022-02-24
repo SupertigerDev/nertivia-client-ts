@@ -50,7 +50,7 @@ export default defineComponent({
     videoStream(): MediaStream | null | undefined {
       if (this.isMyStream) {
         const channelId = this.$route.params.channel_id;
-        const joinedChannel = voiceChannelModule.joinedChannelId;
+        const joinedChannel = voiceChannelModule.joinedchannelId;
         if (joinedChannel !== channelId) return;
         return voiceChannelModule.videoStream;
       }

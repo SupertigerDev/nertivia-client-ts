@@ -4,7 +4,7 @@ export enum ChannelType {
   SERVER_CATEGORY = 2,
 }
 export default interface DmChannel {
-  channelID: string;
+  channelId: string;
   type: ChannelType;
   recipients?: string[];
 }

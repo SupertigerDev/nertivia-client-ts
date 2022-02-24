@@ -1,5 +1,5 @@
 <template>
-  <div class="channel" :id="`channel-${channel.channelID}`">
+  <div class="channel" :id="`channel-${channel.channelId}`">
     {{ channel.name }}
     <div class="material-icons arrow">keyboard_arrow_right</div>
   </div>

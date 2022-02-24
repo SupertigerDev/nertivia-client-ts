@@ -80,7 +80,7 @@ export default defineComponent({
         id: "reacted-users-preview",
         component: "ReactedUsersPreview",
         data: {
-          channelID: this.message.channelID,
+          channelId: this.message.channelId,
           messageID: this.message.messageID,
           unicode: this.reaction.unicode,
           emojiID: this.reaction.emojiID,
@@ -101,12 +101,12 @@ export default defineComponent({
       if (this.requestSent) return;
       this.requestSent = true;
       MessagesModule.UpdateMessageReaction({
-        channelID: this.message.channelID,
+        channelId: this.message.channelId,
         messageID: this.message.messageID,
         reaction: { ...this.reaction, count: this.reaction.count + 1 },
         removeIfZero: false,
       });
-      addReaction(this.message.channelID, this.message.messageID, {
+      addReaction(this.message.channelId, this.message.messageID, {
         emojiID: this.reaction.emojiID,
         gif: this.reaction.gif,
         unicode: this.reaction.unicode,
@@ -117,12 +117,12 @@ export default defineComponent({
       if (this.requestSent) return;
       this.requestSent = true;
       MessagesModule.UpdateMessageReaction({
-        channelID: this.message.channelID,
+        channelId: this.message.channelId,
         messageID: this.message.messageID,
         reaction: { ...this.reaction, count: this.reaction.count - 1 },
         removeIfZero: false,
       });
-      removeReaction(this.message.channelID, this.message.messageID, {
+      removeReaction(this.message.channelId, this.message.messageID, {
         emojiID: this.reaction.emojiID,
         unicode: this.reaction.unicode,
       }).finally(() => (this.requestSent = false));

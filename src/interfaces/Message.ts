@@ -3,7 +3,7 @@ export default interface Message {
   message?: string;
   creator: User & UserExtra;
   messageID?: string;
-  channelID: string;
+  channelId: string;
   tempID?: string;
   type?: Type;
   sending?: Sending;

@@ -9,11 +9,11 @@
         {{ $t("server-settings.manage-channels.manage-your-channels") }}
       </div>
       <SelectedChannelPage
-        v-if="selectedChannelID"
-        :channelID="selectedChannelID"
-        @close="selectedChannelID = null"
+        v-if="selectedchannelId"
+        :channelId="selectedchannelId"
+        @close="selectedchannelId = null"
       />
-      <div class="box" v-if="!selectedChannelID">
+      <div class="box" v-if="!selectedchannelId">
         <CustomButton
           class="button"
           :name="$t('server-settings.manage-channels.create-new-channel')"
@@ -36,7 +36,7 @@
             ghost-class="ghost"
             v-model="channels"
             @end="onDragEnd"
-            item-key="channelID"
+            item-key="channelId"
           >
             >
             <template #item="{ element }">
@@ -44,12 +44,12 @@
                 <ChannelTemplate
                   v-if="element.type === 1 && !element.categoryId"
                   :channel="element"
-                  @click="selectedChannelID = element.channelID"
+                  @click="selectedchannelId = element.channelId"
                 />
                 <CategoryTemplate
                   v-if="element.type === 2"
                   :category="element"
-                  @click="selectedChannelID = $event"
+                  @click="selectedchannelId = $event"
                 />
               </div>
             </template>
@@ -88,7 +88,7 @@ export default defineComponent({
   data() {
     return {
       showContext: false,
-      selectedChannelID: null as string | null,
+      selectedchannelId: null as string | null,
       createRequestSent: false,
       contextItems: [
         {
@@ -121,7 +121,7 @@ export default defineComponent({
       set(channels: Channel[]) {
         ServersModule.UpdateServer({
           server_id: this.serverID,
-          channel_position: channels.map((c) => c.channelID),
+          channel_position: channels.map((c) => c.channelId),
         });
       },
     },
@@ -131,7 +131,7 @@ export default defineComponent({
   },
   mounted() {
     const { id } = this.$route.params as { [key: string]: string };
-    this.selectedChannelID = id || null;
+    this.selectedchannelId = id || null;
     id && this.$router.replace({ params: { id: null as any } });
   },
   methods: {
@@ -152,11 +152,11 @@ export default defineComponent({
       if (event.from !== event.to) {
         category = {
           id: event.to.id.split("-")[1],
-          channelId: this.channels[event.oldIndex].channelID,
+          channelId: this.channels[event.oldIndex].channelId,
         };
       }
-      const channelIDs = this.channels.map((s) => s.channelID);
-      updateServerChannelPosition(this.serverID, channelIDs, category);
+      const channelIds = this.channels.map((s) => s.channelId);
+      updateServerChannelPosition(this.serverID, channelIds, category);
     },
     createChannel(type = 1) {
       this.showContext = false;
@@ -166,7 +166,7 @@ export default defineComponent({
       createServerChannel(this.serverID, name, type)
         .then((json) => {
           ChannelsModule.AddChannel(json.channel);
-          this.selectedChannelID = json.channel.channelID;
+          this.selectedchannelId = json.channel.channelId;
         })
         .finally(() => {
           this.createRequestSent = false;

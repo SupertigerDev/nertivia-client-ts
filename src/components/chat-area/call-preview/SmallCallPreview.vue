@@ -36,7 +36,7 @@ export default defineComponent({
   computed: {
     allowExpand(): boolean {
       return (
-        voiceChannelModule.joinedChannelId === this.$route.params.channel_id
+        voiceChannelModule.joinedchannelId === this.$route.params.channel_id
       );
     },
   },

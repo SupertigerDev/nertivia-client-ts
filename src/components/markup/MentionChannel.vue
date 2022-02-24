@@ -26,7 +26,7 @@ export default defineComponent({
     changeChannel() {
       DrawersModule.SetLeftDrawer(false);
       this.$router.push(
-        `/app/servers/${this.channel.server_id}/${this.channel.channelID}`
+        `/app/servers/${this.channel.server_id}/${this.channel.channelId}`
       );
     },
   },

@@ -1,6 +1,6 @@
 <template>
   <div class="category">
-    <div class="title" @click="$emit('click', category.channelID)">
+    <div class="title" @click="$emit('click', category.channelId)">
       <div class="material-icons icon">segment</div>
       {{ category.name }}
       <div class="material-icons icon arrow">keyboard_arrow_right</div>
@@ -12,16 +12,16 @@
         :delay="$isMobile ? 400 : 0"
         ghost-class="ghost"
         class="dragArea"
-        :id="`category-${category.channelID}`"
+        :id="`category-${category.channelId}`"
         @end="onEnd"
         v-model="channels"
-        item-key="channelID"
+        item-key="channelId"
       >
         <template #item="{ element }">
           <ChannelTemplate
-          @click="$emit('click', element.channelID)"
+          @click="$emit('click', element.channelId)"
             v-if="
-              element.type === 1 && element.categoryId === category.channelID
+              element.type === 1 && element.categoryId === category.channelId
             "
             :channel="element"
           />
@@ -63,7 +63,7 @@ export default defineComponent({
       set(channels: Channel[]) {
         ServersModule.UpdateServer({
           server_id: this.serverID,
-          channel_position: channels.map((c) => c.channelID),
+          channel_position: channels.map((c) => c.channelId),
         });
       },
     },
@@ -81,8 +81,8 @@ export default defineComponent({
           id: event.to.id.split("-")[1],
         };
       }
-      const channelIDs = this.channels.map((s) => s.channelID);
-      updateServerChannelPosition(this.serverID, channelIDs, category);
+      const channelIds = this.channels.map((s) => s.channelId);
+      updateServerChannelPosition(this.serverID, channelIds, category);
     },
   },
 });
