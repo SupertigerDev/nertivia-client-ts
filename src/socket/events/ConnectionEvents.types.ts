@@ -5,7 +5,7 @@ import User from "@/interfaces/User";
 export interface SuccessEvent {
   user: MeUser;
   serverMembers: ReturnedServerMember[];
-  memberStatusArr: any[];
+  presences: Presence[];
   dms: ReturnedDmChannel[];
   serverRoles: ServerRole[];
   lastSeenServerChannels: LastSeenServerChannels;
@@ -13,10 +13,14 @@ export interface SuccessEvent {
   settings: Settings;
   mutedChannels: string[];
   mutedServers: { muted: number; server_id: string }[];
-  customStatusArr: [string, string][];
-  programActivityArr: ReturnedProgramActivity[];
+  programActivities: ReturnedProgramActivity[];
   bannedUserIDs: string[];
   callingChannelUserIds: { [key: string]: Array<string> };
+}
+interface Presence {
+  userId: string;
+  status: number;
+  custom: string;
 }
 interface Settings {
   server_position: string[];
@@ -40,7 +44,7 @@ interface LastSeenServerChannels {
 interface ReturnedProgramActivity {
   name: string;
   status: string;
-  user_id: string;
+  userId: string;
 }
 interface ReturnedDmChannel {
   type: ChannelType,

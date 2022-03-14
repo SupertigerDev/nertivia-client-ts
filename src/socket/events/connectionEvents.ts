@@ -122,12 +122,6 @@ export const onSuccess = (socket: Socket, data: SuccessEvent) => {
     users[serverMember.member.id] = serverMember.member;
   }
 
-  const presenceObj: any = {};
-  for (let i = 0; i < data.memberStatusArr.length; i++) {
-    const id = data.memberStatusArr[i][0];
-    const status = data.memberStatusArr[i][1];
-    presenceObj[id] = parseInt(status);
-  }
 
   const serverRolesObj: any = {};
   for (let i = 0; i < data.serverRoles.length; i++) {
@@ -164,17 +158,21 @@ export const onSuccess = (socket: Socket, data: SuccessEvent) => {
     mutedServersObj[obj.server_id] = { type: obj.muted };
   }
 
-  // custom status
+  const presenceObj: any = {};
   const customStatusObj: any = {};
-  for (let i = 0; i < data.customStatusArr.length; i++) {
-    const element = data.customStatusArr[i];
-    customStatusObj[element[0]] = element[1];
+  for (let i = 0; i < data.presences.length; i++) {
+    const presence = data.presences[i];
+    const status = presence.status as unknown as string;
+    const custom = presence.custom;
+    status && (presenceObj[presence.userId] = parseInt(status));
+    custom && (customStatusObj[presence.userId] = custom);
   }
+
   // programActivity
   const programActivityObj: any = {};
-  for (let i = 0; i < data.programActivityArr.length; i++) {
-    const programActivity = data.programActivityArr[i];
-    programActivityObj[programActivity.user_id] = {
+  for (let i = 0; i < data.programActivities.length; i++) {
+    const programActivity = data.programActivities[i];
+    programActivityObj[programActivity.userId] = {
       status: programActivity.status,
       name: programActivity.name,
     };
