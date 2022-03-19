@@ -117,7 +117,8 @@ export default defineComponent({
       });
     },
     async joinCall() {
-      await leaveCall();
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      await leaveCall().catch(() => {});
       voiceChannelModule.join({
         channelId: this.channelId,
       });

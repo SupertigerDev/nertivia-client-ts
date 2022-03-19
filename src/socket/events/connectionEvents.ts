@@ -177,7 +177,7 @@ export const onSuccess = (socket: Socket, data: SuccessEvent) => {
       name: programActivity.name,
     };
   }
-  UsersModule.InitBlockedUsers(data.bannedUserIDs);
+  UsersModule.InitBlockedUsers(data.blockedUserIds);
   ServersModule.SetServerPositions(data.settings.server_position || []);
   programActivitiesModule.InitProgramActivity(programActivityObj);
   CustomStatusesModule.InitCustomStatus(customStatusObj);

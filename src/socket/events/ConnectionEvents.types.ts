@@ -14,7 +14,7 @@ export interface SuccessEvent {
   mutedChannels: string[];
   mutedServers: { muted: number; server_id: string }[];
   programActivities: ReturnedProgramActivity[];
-  bannedUserIDs: string[];
+  blockedUserIds: string[];
   callingChannelUserIds: { [key: string]: Array<string> };
 }
 interface Presence {
