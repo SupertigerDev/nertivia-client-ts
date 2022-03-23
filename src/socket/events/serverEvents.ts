@@ -153,9 +153,8 @@ export const onMemberAdd = ({ serverMember, presence, custom_status }) => {
 // get all members after joining the server
 export const onMembers = ({
   serverMembers,
-  memberPresences,
-  memberCustomStatusArr,
-  programActivityArr,
+  programActivities,
+  presences,
   callingChannelUserIds,
 }) => {
   const serverMembersObj: any = {};
@@ -174,18 +173,18 @@ export const onMembers = ({
       filterServerMemberKeys(serverMember);
     usersObj[serverMember.member.id] = serverMember.member;
   }
-  for (let i = 0; i < memberPresences.length; i++) {
-    const [id, presence] = memberPresences[i];
-    presenceObj[id] = parseInt(presence);
+
+  for (let index = 0; index < presences.length; index++) {
+    const { userId, custom, status } = presences[index];
+    presenceObj[userId] = status;
+    customStatusObj[userId] = custom;
   }
-  for (let i = 0; i < memberCustomStatusArr.length; i++) {
-    const [id, custom_status] = memberCustomStatusArr[i];
-    customStatusObj[id] = custom_status;
+
+  for (let i = 0; i < programActivities.length; i++) {
+    const { name, status, userId } = programActivities[i];
+    activity[userId] = { name, status };
   }
-  for (let i = 0; i < programActivityArr.length; i++) {
-    const { name, status, user_id } = programActivityArr[i];
-    activity[user_id] = { name, status };
-  }
+
   for (const channelId in callingChannelUserIds) {
     const userIds = callingChannelUserIds[channelId];
     calls[channelId] = {};
