@@ -5,9 +5,7 @@
         <div class="material-icons">info</div>
         {{ $t("server-settings.tab-names.manage-roles") }}
       </div>
-      <div class="notice">
-        {{ $t("server-settings.manage-roles.manage-your-roles") }}
-      </div>
+      <div class="notice">{{ $t("server-settings.manage-roles.manage-your-roles") }}</div>
       <SelectedRolesPage
         v-if="selectedRoleID"
         :roleID="selectedRoleID"
@@ -36,10 +34,7 @@
             </template>
           </Draggable>
           <!-- Default role always stays at the bottom. -->
-          <RoleTemplate
-            :role="defaultRole"
-            @click="selectedRoleID = defaultRole.id"
-          />
+          <RoleTemplate :role="defaultRole" @click="selectedRoleID = defaultRole.id" />
         </div>
       </div>
     </div>
@@ -84,29 +79,19 @@ export default defineComponent({
         ) || 0
       );
     },
-    allowedToMoveRoles(): any {
-      return this.roles.map((r) => {
-        return {
-          ...r,
-          canModify: this.isServerCreator || this.myHighestRoleOrder < r.order,
-        };
-      });
-    },
-    isServerCreator(): any {
-      return ServersModule.isServerOwner(
-        this.serverID,
-        MeModule?.user?.id || ""
-      );
-    },
-    roles: {
-      get(): ServerRole[] {
-        return ServerRolesModule.sortedServerRolesArr(this.serverID).filter(
-          (r) => !r.default
-        );
+    allowedToMoveRoles: {
+      get(): any {
+        return this.roles.map((r) => {
+          return {
+            ...r,
+            canModify:
+              this.isServerCreator || this.myHighestRoleOrder < r.order,
+          };
+        });
       },
-      set(roles: ServerRole[]) {
+      set(roles: any) {
         const orderedRoles = roles.map((r, index) => {
-          return { ...r, order: index };
+          return { ...r, order: index, canModify: undefined };
         });
         // to obj
         const obj: any = {};
@@ -120,6 +105,17 @@ export default defineComponent({
           serverID: this.serverID,
         });
       },
+    },
+    isServerCreator(): any {
+      return ServersModule.isServerOwner(
+        this.serverID,
+        MeModule?.user?.id || ""
+      );
+    },
+    roles(): ServerRole[] {
+      return ServerRolesModule.sortedServerRolesArr(this.serverID).filter(
+        (r) => !r.default
+      );
     },
     defaultRole(): any {
       return ServerRolesModule.defaultServerRole(this.serverID);
