@@ -1,5 +1,16 @@
 [
 	{
+		"version": "1.53.1-stable",
+		"date": "01 April 2022",
+		"title": "Bug Fix & Improvements",
+		"fixes": [
+			"Fixed roles not re-ordering."
+		],
+		"changes": [
+			"GIF profile picture and emojis now require a premium plan"
+		]
+	},
+	{
 		"version": "1.53.0-stable",
 		"date": "20 January 2022",
 		"title": "Channel Categories!",
