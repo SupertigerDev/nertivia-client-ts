@@ -42,14 +42,14 @@ export function updateUser(
 }
 export function changeStatus(status: number): Promise<any> {
   return wrapper()
-    .post(`settings/status`, {
+    .post(`account/status`, {
       json: { status },
     })
     .json();
 }
 export function changeCustomStatus(CustomStatus: string): Promise<any> {
   return wrapper()
-    .post(`settings/custom-status`, {
+    .post(`account/custom-status`, {
       json: { custom_status: CustomStatus },
     })
     .json();
