@@ -55,10 +55,8 @@ export function googleDriveLinkURL(): Promise<any> {
   return wrapper().get(`account/drive/url`).json();
 }
 export function GoogleDriveLink(code: string, token: string): Promise<any> {
-  return wrapper()
-    .post(`account/drive/auth`, { json: { code, token } })
-    .json();
+  return wrapper().post(`account/drive/auth`, { json: { code, token } }).json();
 }
 export function AgreePolicy(): Promise<any> {
-  return wrapper().post(`user/agreeingPolicies`).json();
+  return wrapper().post(`user/agree-terms`).json();
 }
