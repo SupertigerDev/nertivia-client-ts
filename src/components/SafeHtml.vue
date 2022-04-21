@@ -65,6 +65,9 @@ const SafeHtml = (props: { zippedJsonHtml: string }) => {
         process.env.VUE_APP_IMAGE_PROXY_URL + encodeURIComponent(attrs.src);
     }
     if (jsonEl.tag === "a") {
+      if (!attrs.href.startsWith("http")) {
+        attrs.href = `https://${attrs.href}`;
+      }
       attrs.onClick = onUrlClick;
     }
     if (jsonEl.tag === "style") {
