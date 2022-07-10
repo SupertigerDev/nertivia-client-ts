@@ -85,7 +85,7 @@ export default defineComponent({
     },
     bannerURL(): any {
       const isGif = this.server.banner.endsWith(".gif");
-      let str = `${process.env.VUE_APP_NERTIVIA_CDN}/${this.server.banner}`;
+      let str = `${process.env.VUE_APP_NERTIVIA_CDN}${this.server.banner}`;
       if (isGif && !this.bannerHover) {
         str = str + "?type=webp";
       }
