@@ -27,7 +27,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@master
       - name: Install Dependencies
-        run: npm install
+        run: npm install --force
       - name: Build App
         run: npm run build
         env:
