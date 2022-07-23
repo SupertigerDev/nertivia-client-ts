@@ -1,6 +1,6 @@
 {
     "save-changes": "परिवर्तनों को सुरक्षित करें",
-    "saving": "बचत ...",
+    "saving": "बचत…",
     "back": "पीछे",
     "are-you-sure": "क्या आपको यकीन है?",
     "copy-id-button": "प्रतिलिपि आईडी",
@@ -13,7 +13,7 @@
       "not-connected-server": "जुड़े नहीं हैं",
       "attach-message": "एक संदेश संलग्न करें",
       "type-message": "अपना संदेश टाइप करें",
-      "back-to-bottom": "पीछे To Bottom",
+      "back-to-bottom": "वापस नीचे की ओर",
       "new-messages": "नए संदेश"
     },
     "upload-dialog": {
@@ -53,13 +53,13 @@
         "language": "भाषा",
         "delete-account": "मिटाना खाता",
         "changelog": "बदलाव का",
-        "wip-features": "WIP सुविधाएँ"
+        "wip-features": "कार्य-प्रगति सुविधाएँ"
       },
       "account": {
-        "title": "संपादन करना Your प्रोफ़ाइल",
+        "title": "संपादन करना आपके प्रोफ़ाइल",
         "change-password": "पासवर्ड बदलें",
-        "relink-google-drive": "Google ड्राइव को फिर से लिंक करें",
-        "link-google-drive": "Google ड्राइव को लिंक करें",
+        "relink-google-drive": "गूगल ड्राइव को फिर से लिंक करें",
+        "link-google-drive": "गूगल ड्राइव को लिंक करें",
         "more-profile": "अधिक प्रोफ़ाइल",
         "more-profile-notice": "यह जानकारी सभी ने देखी है।"
       },
@@ -73,17 +73,17 @@
         "push-notification-details": "ऐप बंद होने पर भी पुश नोटिफिकेशन प्राप्त करें।"
       },
       "manage-emojis": {
-        "details": "मुफ्त में अपने खुद के सुंदर इमोजी अपलोड करें! Emojis 3MB या उससे कम होना चाहिए।",
-        "supported-types": "समर्थित फ़ाइल प्रकार हैं: PNG, JPG, GIF",
+        "details": "मुफ्त में अपने खुद के सुंदर इमोजी अपलोड करें! इमोजी 3 एमबी या उससे कम होना चाहिए।",
+        "supported-types": "समर्थित फ़ाइल प्रकार हैं: पीएनजी, जेपीजी, जीआईएफ",
         "add-emojis-button": "इमोजी जोड़ें"
       },
       "startup-options": {
-        "title": "Desktop App स्टार्टअप विकल्प",
+        "title": "डेस्कटॉप ऐप स्टार्टअप विकल्प",
         "notice": "इन सेटिंग्स को संशोधित करने के लिए, आपको Nertivia डेस्कटॉप ऐप डाउनलोड करना होगा।",
         "open-on-startup": "स्टार्टअप पर नर्टिविया खोलें"
       },
       "program-activity": {
-        "details": "नीचे दिए गए ऐप्स जोड़कर आप कार्यक्रम या गेम साझा कर रहे हैं। जब कोई प्रोग्राम खोला जाता है तो यह आपकी कस्टम स्थिति को बदल देगा और प्रोग्राम क                के बंद होने पर वापस वापस आ जाएगा।",
+        "details": "नीचे दिए गए ऐप्स जोड़कर अपने द्वारा चलाए जा रहे प्रोग्राम या गेम साझा करें। जब कोई प्रोग्राम खोला जाता है तो यह आपकी कस्टम स्थिति को बदल देगा और प्रोग्राम बंद होने पर वापस वापस आ जाएगा।",
         "notice": "प्रोग्राम गतिविधि सुविधा का उपयोग करने के लिए, आपको Nextiva डेस्कटॉप ऐप डाउनलोड करना होगा।"
       },
       "manage-bots": {
@@ -112,7 +112,7 @@
         "delete-account-button": "मिटाना My खाता"
       },
       "language": {
-        "details": "भाषा बदलने के बाद पुनः लोड की आवश्यकता हो सकती है। GitHub Repo में एक PR जमा करके योगदान करें।",
+        "details": "भाषा बदलने के बाद पुनः लोड की आवश्यकता हो सकती है। गिटहब रिपॉसिटरी में एक पुल रिक्वेस्ट जमा करके योगदान करें।",
         "translators": "अनुवादकों"
       },
       "interface": {
@@ -129,7 +129,7 @@
       },
       "wip-features": {
         "title": "अधूरा या प्रयोगात्मक सुविधाओं को सक्षम करें।",
-        "none-available": "No WIP सुविधाएँ available right now."
+        "none-available": "अभी कोई कार्य-प्रगति सुविधाएँ उपलब्ध नहीं हैं।"
       }
     },
     "server-settings": {
@@ -153,11 +153,11 @@
         },
         "kick-user": {
           "name": "लात मारना",
-          "info": "लात मारना a user"
+          "info": "उपयोगकर्ता को लात मारो"
         },
         "ban-user": {
           "name": "प्रतिबंध",
-          "info": "लात मारना & restrict a user from joining"
+          "info": "लात मारना और उपयोगकर्ता को शामिल होने से प्रतिबंधित करें"
         }
       },
       "tab-names": {
@@ -168,7 +168,7 @@
         "server-visibility": "सर्वर दृश्यता",
         "manage-emojis": "इमोजी का प्रबंधन करें",
         "manage-notification": "अधिसूचना का प्रबंधन करें",
-        "banned-users": "प्रतिबंधned उपयोगकर्ताs",
+        "banned-users": "प्रतिबंधित उपयोगकर्ता",
         "manage-users": "उपयोगकर्ताओं को प्रबंधित करें",
         "delete-server": "सर्वर हटाएं"
       },
@@ -183,7 +183,7 @@
         "role-name": "भूमिका का नाम",
         "settings": "समायोजन",
         "delete-role": "भूमिका हटाएं",
-        "deleting-role": "भूमिका हटाना ...",
+        "deleting-role": "भूमिका हटाना…",
         "hide-role": "भूमिका छिपाना"
       },
       "general": {
@@ -192,9 +192,9 @@
       "manage-channels": {
         "manage-your-channels": "अपने चैनलों को प्रबंधित करें।",
         "delete-channel": "हटाएं चैनल",
-        "deleting-channel": "चैनल हटाना ...",
+        "deleting-channel": "चैनल हटाना…",
         "channel-name": "चैनल का नाम",
-        "default-channel-notice": "This is a default channel. You may change the default channel in the सामान्य page. Default channels cannot be deleted.",      
+        "default-channel-notice": "यह एक डिफ़ॉल्ट चैनल है। आप सामान्य पृष्ठ में डिफ़ॉल्ट चैनल बदल सकते हैं। डिफ़ॉल्ट चैनल मिटाए नहीं जा सकते।",      
         "create-new-channel": "नया बनाओ",
         "permission": {
           "send-message": "संदेश भेजो"
@@ -202,11 +202,11 @@
         "rate-limit-seconds": "दर सीमा (सेकंड)",
         "text-channel": "पाठ चैनल",
         "category-channel": "श्रेणी",
-        "html-channel": "HTML चैनल (WIP)"
+        "html-channel": "एचटीएमएल चैनल (कार्य प्रगति पर है)"
       },
       "banned-users": {
         "notice": "यहाँ से अनबैन सदस्य",
-        "unbanning": "अनबनिंग ...",
+        "unbanning": "अनबनिंग…",
         "unban": "अप्रतिबंधित करें"
       },
       "manage-invites": {
@@ -224,21 +224,21 @@
       },
       "delete-server": {
         "type-server-name-to-confirm": "पुष्टि करने के लिए सर्वर नाम टाइप करें",
-        "deleting": "हटाना ..."
+        "deleting": "हटाना…"
       },
       "notifications": {
         "description": "अधिसूचना सेटिंग्स बदलें।",
         "notice": "ये सेटिंग्स केवल आप पर लागू होंगी और दूसरों को प्रभावित नहीं करेंगे।",
-        "enable-notifications": "Enable अधिसूचना",
+        "enable-notifications": "सूचनाएं सक्षम करें",
         "mute-sound": "ध्वनि म्यूट करें",
-        "disable-notifications": "Disable अधिसूचना"
+        "disable-notifications": "सूचनाएं बंद करें"
       }
     },
     "typing-status": {
-      "is-typing": "{0} टाइप कर रहा है ...",
-      "two-are-typing": "{0} और {1} टाइप कर रहे हैं ...",
-      "three-are-typing": "{0}, {1} और {2} टाइप कर रहे हैं ...",
-      "more-than-three": "{0} लोग टाइप कर रहे हैं ..."
+      "is-typing": "{0} टाइप कर रहा है…",
+      "two-are-typing": "{0} और {1} टाइप कर रहे हैं…",
+      "three-are-typing": "{0}, {1} और {2} टाइप कर रहे हैं…",
+      "more-than-three": "{0} लोग टाइप कर रहे हैं…"
     },
     "dm-tab": {
       "friends": "मित्र",
@@ -258,7 +258,7 @@
     },
     "add-friend-popout": {
       "notice": "उनके उपयोगकर्ता नाम और टैग को टाइप करके एक दोस्त जोड़ें।",
-      "adding": "जोड़ना ..."
+      "adding": "जोड़ना…"
     },
     "add-server-popout": {
       "title": "सर्वर जोड़े",
@@ -295,7 +295,7 @@
     "connection": {
       "loading": "लोड हो रहा है...",
       "ready": "तैयार!",
-      "authenticating": "प्रमाणित ..."
+      "authenticating": "प्रमाणित…"
     },
     "navbar": {
       "update": "अद्यतन",
