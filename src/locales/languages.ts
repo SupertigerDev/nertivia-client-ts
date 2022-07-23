@@ -45,7 +45,7 @@ export default {
     translators: ["ekto", "sicey9", "0xClique"],
   },
   hu: {
-    name: "Hungarian /Magyar",
+    name: "Hungarian / Magyar",
     unicode: "🇭🇺",
     translators: ["Andrew"],
   },
@@ -58,5 +58,10 @@ export default {
     name: "Romanian / Română",
     unicode: "🇷🇴",
     translators: ["Andrew"],
+  },
+  hi: {
+    name: "Hindi / हिंदी",
+    unicode: "🇮🇳",
+    translators: ["Omkaar"],
   }
 };
