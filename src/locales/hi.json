@@ -1,0 +1,321 @@
+{
+    "save-changes": "परिवर्तनों को सुरक्षित करें",
+    "saving": "बचत…",
+    "back": "पीछे",
+    "are-you-sure": "क्या आपको यकीन है?",
+    "copy-id-button": "प्रतिलिपि आईडी",
+    "time": {
+      "today-at": "आज {0} पर",
+      "yesterday-at": "कल {0} पर"
+    },
+    "message-area": {
+      "no-message-perm": "आपके पास इस चैनल में बात करने की अनुमति नहीं है।",
+      "not-connected-server": "जुड़े नहीं हैं",
+      "attach-message": "एक संदेश संलग्न करें",
+      "type-message": "अपना संदेश टाइप करें",
+      "back-to-bottom": "वापस नीचे की ओर",
+      "new-messages": "नए संदेश"
+    },
+    "upload-dialog": {
+      "compress": "संकुचित करें",
+      "upload-to": "अपलोड करने के लिए"
+    },
+    "user-context": {
+      "view-profile": "प्रोफ़ाइल देखें",
+      "edit-roles": "भूमिकाएँ संपादित करें",
+      "kick": "लात मारना",
+      "ban": "प्रतिबंध",
+      "copy-user-tag": "कॉपी यूजर: टैग"
+    },
+    "message-context": {
+      "quote": "उद्धरण",
+      "edit": "संपादन करना"
+    },
+    "server-context": {
+      "mark-as-read": "पढ़े हुए का चिह्न",
+      "server-settings": "सर्वर सेटिंग्स",
+      "leave-server": "सर्वर छोड़ दें"
+    },
+    "channel-context": {
+      "mute-channel": "मूक चैनल",
+      "unmute-channel": "अनम्यूट चैनल"
+    },
+    "settings": {
+      "tab-names": {
+        "account": "खाता",
+        "notification": "अधिसूचना",
+        "manage-emojis": "इमोजी का प्रबंधन करें",
+        "call-options": "कॉल विकल्प",
+        "startup-options": "स्टार्टअप विकल्प",
+        "program-activity": "कार्यक्रम गतिविधि",
+        "manage-bots": "बॉट का प्रबंधन करें",
+        "interface": "इंटरफेस",
+        "language": "भाषा",
+        "delete-account": "मिटाना खाता",
+        "changelog": "बदलाव का",
+        "wip-features": "कार्य-प्रगति सुविधाएँ"
+      },
+      "account": {
+        "title": "संपादन करना आपके प्रोफ़ाइल",
+        "change-password": "पासवर्ड बदलें",
+        "relink-google-drive": "गूगल ड्राइव को फिर से लिंक करें",
+        "link-google-drive": "गूगल ड्राइव को लिंक करें",
+        "more-profile": "अधिक प्रोफ़ाइल",
+        "more-profile-notice": "यह जानकारी सभी ने देखी है।"
+      },
+      "notification": {
+        "title": "अपनी अधिसूचना सेटिंग्स बदलें।",
+        "notification-sound": "सूचना ध्वनि",
+        "notification-sound-details": "अपना ध्यान आकर्षित करने के लिए एक शांत ध्वनि बनाता है",
+        "notification-mentions-only": "केवल उल्लेख/प्रत्यक्ष संदेश",
+        "notification-mentions-only-details": "यह केवल उल्लेख करता है और प्रत्यक्ष संदेश ध्वनि बनाएंगे और धकेल दिए जाएंगे।",
+        "push-notification": "सर्वर पुश नोटीफिकेशन",
+        "push-notification-details": "ऐप बंद होने पर भी पुश नोटिफिकेशन प्राप्त करें।"
+      },
+      "manage-emojis": {
+        "details": "मुफ्त में अपने खुद के सुंदर इमोजी अपलोड करें! इमोजी 3 एमबी या उससे कम होना चाहिए।",
+        "supported-types": "समर्थित फ़ाइल प्रकार हैं: पीएनजी, जेपीजी, जीआईएफ",
+        "add-emojis-button": "इमोजी जोड़ें"
+      },
+      "startup-options": {
+        "title": "डेस्कटॉप ऐप स्टार्टअप विकल्प",
+        "notice": "इन सेटिंग्स को संशोधित करने के लिए, आपको Nertivia डेस्कटॉप ऐप डाउनलोड करना होगा।",
+        "open-on-startup": "स्टार्टअप पर नर्टिविया खोलें"
+      },
+      "program-activity": {
+        "details": "नीचे दिए गए ऐप्स जोड़कर अपने द्वारा चलाए जा रहे प्रोग्राम या गेम साझा करें। जब कोई प्रोग्राम खोला जाता है तो यह आपकी कस्टम स्थिति को बदल देगा और प्रोग्राम बंद होने पर वापस वापस आ जाएगा।",
+        "notice": "प्रोग्राम गतिविधि सुविधा का उपयोग करने के लिए, आपको Nextiva डेस्कटॉप ऐप डाउनलोड करना होगा।"
+      },
+      "manage-bots": {
+        "details": "बॉट उपयोगकर्ता बनाएं जो आपको अपने स्वयं के फैंसी बॉट बनाने के लिए हमारे एपीआई का उपयोग करने की अनुमति देगा।",
+        "command-notice": "उपयोगकर्ताओं को आसानी से बताने के लिए बॉट कमांड जोड़ें",
+        "create-bot-button": "बॉट बनाएँ",
+        "add-command-button": "कमांड जोड़ें",
+        "edit-bot": "संपादन करना Bot",
+        "edit-commands": "संपादन करना Commands",
+        "create-invite-link": "आमंत्रित लिंक बनाएं",
+        "copy-invite-url": "कॉपी आमंत्रित URL",
+        "manage-token": "टोकन को प्रबंधित करें",
+        "show-token": "टोकन दिखाएं",
+        "copy-token": "कॉपी टोकन",
+        "reset-token": "टोकन रीसेट करें",
+        "delete-bot": "बॉट हटाएं"
+      },
+      "delete-account": {
+        "notice": "आप अपना खाता हटाने वाले हैं",
+        "what-gets-deleted": "क्या हटा दिया जाएगा",
+        "what-wont-delete": "क्या डिलीट नहीं होगा",
+        "messages-sent": "आपके संदेश सार्वजनिक सर्वर को भेजे गए",
+        "requirements": "आवश्यकताएं",
+        "delete-leave-server": "सभी सर्वर को छोड़ें/हटाएं",
+        "delete-bots": "सभी बॉट हटाएं",
+        "delete-account-button": "मिटाना My खाता"
+      },
+      "language": {
+        "details": "भाषा बदलने के बाद पुनः लोड की आवश्यकता हो सकती है। गिटहब रिपॉसिटरी में एक पुल रिक्वेस्ट जमा करके योगदान करें।",
+        "translators": "अनुवादकों"
+      },
+      "interface": {
+        "description": "नर्टिविया की उपस्थिति को बदलें।",
+        "colors": "रंग की",
+        "time-format": "समय प्रारूप",
+        "default-theme": "पूर्व निर्धारित विषय",
+        "amoled-dark": "अमोल्ड डार्क",
+        "halloween-2020": "हैलोवीन 2020",
+        "predefined-themes": "पूर्व-परिभाषित थीम",
+        "custom-css": "कस्टम सीएसएस",
+        "general": "सामान्य",
+        "navigation-bar": "नेविगेशन पट्टी"
+      },
+      "wip-features": {
+        "title": "अधूरा या प्रयोगात्मक सुविधाओं को सक्षम करें।",
+        "none-available": "अभी कोई कार्य-प्रगति सुविधाएँ उपलब्ध नहीं हैं।"
+      }
+    },
+    "server-settings": {
+      "permissions": {
+        "permissions": "अनुमतियां",
+        "admin": {
+          "name": "व्यवस्थापक",
+          "info": "सभी अनुमतियों को सक्षम करता है"
+        },
+        "send-messages": {
+          "name": "संदेश भेजो",
+          "info": "सर्वर चैनलों को संदेश भेजें"
+        },
+        "manage-roles": {
+          "name": "भूमिकाएँ प्रबंधित करें",
+          "info": "भूमिकाओं को अपडेट या हटाएं"
+        },
+        "manage-channels": {
+          "name": "चैनल प्रबंधित करें",
+          "info": "चैनल को अपडेट या हटाएं"
+        },
+        "kick-user": {
+          "name": "लात मारना",
+          "info": "उपयोगकर्ता को लात मारो"
+        },
+        "ban-user": {
+          "name": "प्रतिबंध",
+          "info": "लात मारना और उपयोगकर्ता को शामिल होने से प्रतिबंधित करें"
+        }
+      },
+      "tab-names": {
+        "general": "सामान्य",
+        "manage-channels": "चैनल प्रबंधित करें",
+        "manage-roles": "भूमिकाएँ प्रबंधित करें",
+        "manage-invites": "आमंत्रित करें",
+        "server-visibility": "सर्वर दृश्यता",
+        "manage-emojis": "इमोजी का प्रबंधन करें",
+        "manage-notification": "अधिसूचना का प्रबंधन करें",
+        "banned-users": "प्रतिबंधित उपयोगकर्ता",
+        "manage-users": "उपयोगकर्ताओं को प्रबंधित करें",
+        "delete-server": "सर्वर हटाएं"
+      },
+      "manage-roles": {
+        "manage-your-roles": "अपनी भूमिकाओं का प्रबंधन करें।",
+        "default-role": "डिफ़ॉल्ट भूमिका",
+        "bot-role": "बॉट भूमिका",
+        "create-role": "नई भूमिका बनाएं",
+        "notice-bot": "इस भूमिका को किसी अन्य सदस्य को हटा नहीं दिया जा सकता है क्योंकि यह एक बॉट द्वारा बनाया गया था। इस भूमिका को हटाने के लिए बॉट निकालें।",  
+        "notice-default": "इस भूमिका को हटाया नहीं जा सकता है या अन-असाइन किया जा सकता है क्योंकि यह डिफ़ॉल्ट भूमिका है जो प्रत्येक सदस्य पर लागू होती है।",     
+        "pick-role-color": "भूमिका रंग चुनें",
+        "role-name": "भूमिका का नाम",
+        "settings": "समायोजन",
+        "delete-role": "भूमिका हटाएं",
+        "deleting-role": "भूमिका हटाना…",
+        "hide-role": "भूमिका छिपाना"
+      },
+      "general": {
+        "general-server-settings": "सामान्य सर्वर सेटिंग्स"
+      },
+      "manage-channels": {
+        "manage-your-channels": "अपने चैनलों को प्रबंधित करें।",
+        "delete-channel": "हटाएं चैनल",
+        "deleting-channel": "चैनल हटाना…",
+        "channel-name": "चैनल का नाम",
+        "default-channel-notice": "यह एक डिफ़ॉल्ट चैनल है। आप सामान्य पृष्ठ में डिफ़ॉल्ट चैनल बदल सकते हैं। डिफ़ॉल्ट चैनल मिटाए नहीं जा सकते।",      
+        "create-new-channel": "नया बनाओ",
+        "permission": {
+          "send-message": "संदेश भेजो"
+        },
+        "rate-limit-seconds": "दर सीमा (सेकंड)",
+        "text-channel": "पाठ चैनल",
+        "category-channel": "श्रेणी",
+        "html-channel": "एचटीएमएल चैनल (कार्य प्रगति पर है)"
+      },
+      "banned-users": {
+        "notice": "यहाँ से अनबैन सदस्य",
+        "unbanning": "अनबनिंग…",
+        "unban": "अप्रतिबंधित करें"
+      },
+      "manage-invites": {
+        "notice": "केवल एडमिन सभी के आमंत्रण देख सकते हैं।",
+        "create-invites": "आमंत्रित करें",
+        "custom-invite": "कस्टम आमंत्रण",
+        "save-custom-link": "कस्टम लिंक सहेजें",
+        "create-invite": "आमंत्रित करें",
+        "link": "संपर्क",
+        "creator": "बनाने वाला",
+        "uses": "उपयोग"
+      },
+      "manage-users": {
+        "search-user": "खोज उपयोगकर्ता"
+      },
+      "delete-server": {
+        "type-server-name-to-confirm": "पुष्टि करने के लिए सर्वर नाम टाइप करें",
+        "deleting": "हटाना…"
+      },
+      "notifications": {
+        "description": "अधिसूचना सेटिंग्स बदलें।",
+        "notice": "ये सेटिंग्स केवल आप पर लागू होंगी और दूसरों को प्रभावित नहीं करेंगे।",
+        "enable-notifications": "सूचनाएं सक्षम करें",
+        "mute-sound": "ध्वनि म्यूट करें",
+        "disable-notifications": "सूचनाएं बंद करें"
+      }
+    },
+    "typing-status": {
+      "is-typing": "{0} टाइप कर रहा है…",
+      "two-are-typing": "{0} और {1} टाइप कर रहे हैं…",
+      "three-are-typing": "{0}, {1} और {2} टाइप कर रहे हैं…",
+      "more-than-three": "{0} लोग टाइप कर रहे हैं…"
+    },
+    "dm-tab": {
+      "friends": "मित्र",
+      "recents": "हाल ही",
+      "saved-notes": "बचाए गए नोट्स",
+      "add-friend": "दोस्त जोड़ें"
+    },
+    "dashboard-tab": {
+      "profile": "प्रोफ़ाइल",
+      "notifications": "अधिसूचना",
+      "click-to-add-custom-status": "कस्टम स्थिति जोड़ने के लिए क्लिक करें",
+      "caught-up": "सारी जानकारी प्राप्त!",
+      "direct-messages": "सीधे संदेश",
+      "servers": "सर्वर",
+      "explore": "अन्वेषण करना",
+      "dashboard": "धूर्तता"
+    },
+    "add-friend-popout": {
+      "notice": "उनके उपयोगकर्ता नाम और टैग को टाइप करके एक दोस्त जोड़ें।",
+      "adding": "जोड़ना…"
+    },
+    "add-server-popout": {
+      "title": "सर्वर जोड़े",
+      "join-server-notice": "एक आमंत्रित कोड में प्रवेश करके एक सर्वर से जुड़ें।",
+      "create-server-notice": "अपना खुद का सर्वर बनाएं। अपने सर्वर का नामकरण करके शुरू करें।",
+      "tabs": {
+        "join": "जोड़ना",
+        "create": "सृजन करना"
+      }
+    },
+    "presence": {
+      "offline": "ऑफलाइन",
+      "online": "ऑनलाइन",
+      "away": "दूर",
+      "busy": "व्यस्त",
+      "looking-to-play": "खेलने के लिए देख रहे हैं"
+    },
+    "right-drawer": {
+      "server-members": "सदस्य ({0})",
+      "server-offline-members": "ऑफलाइन ({0})"
+    },
+    "profile-popout": {
+      "common-friends": "परस्पर मित्र",
+      "badges": "बैज",
+      "joined-at": "में शामिल हुए",
+      "suspended": "निलंबित",
+      "remove-friend": "मित्र हटायें",
+      "accept-request": "अनुरोध स्वीकार करें",
+      "cancel-request": "अनुरोध रद्द",
+      "add-friend": "दोस्त जोड़ें",
+      "send-message": "मेसेज भेजें",
+      "common-servers": "परस्पर सर्वर"
+    },
+    "connection": {
+      "loading": "लोड हो रहा है...",
+      "ready": "तैयार!",
+      "authenticating": "प्रमाणित…"
+    },
+    "navbar": {
+      "update": "अद्यतन",
+      "update-available": "अद्यतन उपलब्ध है"
+    },
+    "generic": {
+      "copy": "प्रतिलिपि",
+      "select": "चुनना",
+      "delete": "मिटाना",
+      "copied": "कॉपी!",
+      "user": "उपयोगकर्ता"
+    },
+    "messages": {
+      "left": "सर्वर छोड़ दिया",
+      "kicked": "लात मार दी गई है",
+      "banned": "को बैन कर दिया गया है",
+      "joined": "सर्वर में शामिल हो गया!"
+    },
+    "could-not-connect-to-server": "सर्वर से कनेक्ट नहीं कर सकते।",
+    "chat-area": {
+      "rate-limit-mode": "दर सीमा विधा"
+    }
+  }
