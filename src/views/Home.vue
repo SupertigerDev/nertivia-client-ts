@@ -120,7 +120,7 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   flex-direction: column;
-  width: 370px;
+  width: 400px;
   margin: 10px;
 }
 a.button {
