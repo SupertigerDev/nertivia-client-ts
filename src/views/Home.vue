@@ -16,7 +16,7 @@
           </a>
           <a
             class="button"
-            href="https://github.com/supertiger1234/nertivia-desktop-app/releases"
+            href="https://github.com/Supertigerr/nertivia-desktop-app/releases"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -27,7 +27,7 @@
         <div class="other-buttons">
           <a
             class="button github"
-            href="https://github.com/supertiger1234/"
+            href="https://github.com/Supertigerr/"
             target="_blank"
             rel="noopener noreferrer"
           >
