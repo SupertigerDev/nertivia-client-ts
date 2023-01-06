@@ -148,8 +148,10 @@ export default defineComponent({
       const username = this.username;
       const password = this.password;
       postRegister(username, email, password, token)
-        .then(() => {
-          this.page = 2;
+        .then((data) => {
+          localStorage.clear();
+          localStorage["hauthid"] = data.token;
+          location.href = "/app";
         })
         .catch((err) => {
           this.page = 0;
