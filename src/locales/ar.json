@@ -1,0 +1,321 @@
+{
+  "save-changes": "إحفظ التغييرات",
+  "saving": "…يتم الحفظ",
+  "back": "الرجوع",
+  "are-you-sure": "هل أنت متأكد؟",
+  "copy-id-button": "(ID)نسخ المعرف",
+  "time": {
+    "today-at": "اليوم على {0}",
+    "yesterday-at": "البارحة على {0}"
+  },
+  "message-area": {
+    "no-message-perm": ".ليس لديك الصلاحية للتحدث في هذه القناة",
+    "not-connected-server": "غير متصل",
+    "attach-message": "إلحاق رسالة",
+    "type-message": "أكتب رسالتك",
+    "back-to-bottom": "الرجوع للأسفل",
+    "new-messages": "رسائل جديدة"
+  },
+  "upload-dialog": {
+    "compress": "ضغط",
+    "upload-to": "الرفع إلى"
+  },
+  "user-context": {
+    "view-profile": "رؤية الملف الشخصي",
+    "edit-roles": "تعديل الأدوار",
+    "kick": "طرد",
+    "ban": "حظر",
+    "copy-user-tag": "(tag)نسخ شعار المستخدم"
+  },
+  "message-context": {
+    "quote": "اقتباس",
+    "edit": "تعديل"
+  },
+  "server-context": {
+    "mark-as-read": "وضع إشارة مقروء",
+    "server-settings": "إعدادات السيرفر",
+    "leave-server": "مغادرة السيرفر"
+  },
+  "channel-context": {
+    "mute-channel": "كتم صوت القناة",
+    "unmute-channel": "إلغاء كتم صوت القناة"
+  },
+  "settings": {
+    "tab-names": {
+      "account": "الحساب الشخصي",
+      "notification": "الإشعارات",
+      "manage-emojis": "إدارة الرموز التعبيرية",
+      "call-options": "خيارات الإتصال",
+      "startup-options": "خيارات بدء التشغيل",
+      "program-activity": "نشاط البرنامج",
+      "manage-bots": "إدارة البوتات",
+      "interface": "الواجهة",
+      "language": "اللغة",
+      "delete-account": "حذف الحساب",
+      "changelog": "سجل التغييرات",
+      "wip-features": "(العمل قيد التقدم) الميزات الغير المكتلمة"
+    },
+    "account": {
+      "title": "عدل ملفك الشخصي",
+      "change-password": "غير كلمة السر",
+      "relink-google-drive": "أعد ربط جوجل درايف",
+      "link-google-drive": "ربط جوجل درايف",
+      "more-profile": "المزيد من الملف الشخصي",
+      "more-profile-notice": ".هذه المعلومات يمكن رؤيتها من طرف الجميع"
+    },
+    "notification": {
+      "title": "تغيير إعدادات الإشعارات الخاصة بك",
+      "notification-sound": "صوت الإشعار",
+      "notification-sound-details": "يصدر صوتًا رائعًا لجذب انتباهك",
+      "notification-mentions-only": "الإشارات أو الرسائل المباشرة فقط",
+      "notification-mentions-only-details": ".يجعل ذلك الإشارات والرسائل المباشرة فقط تنبثق و تصدر صوتًا",
+      "push-notification": "إشعار منبثق",
+      "push-notification-details": ".احصل على الإشعارات المنبثقة حتى عندما يكون التطبيق مغلقًا"
+    },
+    "manage-emojis": {
+      "details": ".قم بتحميل الرموز التعبيرية الجميلة الخاصة بك مجانًا! يجب أن يكون حجم الرموز التعبيرية 3 ميغا بايت أو أقل",
+      "supported-types": "png ،jpg ،gif :أنواع الملفات المدعومة هي",
+      "add-emojis-button": "أضف الرموز التعبيرية"
+    },
+    "startup-options": {
+      "title": "خيارات بدء التشغيل لتطبيق سطح المكتب",
+      "notice": "على سطح المكتب Nertivia لتعديل هذه الإعدادات، يجب عليك تنزيل تطبيق",
+      "open-on-startup": "عند بدء التشغيل Nertivia افتح"
+    },
+    "program-activity": {
+      "details": ".شارك البرامج أو الألعاب التي تقوم بتشغيلها عن طريق إضافة التطبيقات أدناه. سيحل هذا محل حالتك المخصصة عند فتح البرنامج وسيعود مرة أخرى عند إغلاق البرنامج",
+      "notice": "الخاص بسطح المكتب Nertivia لاستخدام ميزة نشاط البرنامج، يجب عليك تنزيل تطبيق"
+    },
+    "manage-bots": {
+      "details": ".أنشئ بوتات كمستخدمين مما سيتيح لك استخدام واجهة برمجة التطبيقات الخاصة بنا لإنشاء روبوتات خيالية خاصة بك",
+      "command-notice": "أضف أوامر البوت للسماح للمستخدمين بمعرفة الأوامر الموجودة لبوتك بسهولة",
+      "create-bot-button": "إنشاء بوت",
+      "add-command-button": "أضف الأمر",
+      "edit-bot": "تعديل البوت",
+      "edit-commands": "تعديل الأوامر",
+      "create-invite-link": "إنشاء رابط دعوة",
+      "copy-invite-url": "نسخ رابط دعوة",
+      "manage-token": "إدارة الرمز",
+      "show-token": "إظهار الرمز",
+      "copy-token": "نسخ الرمز",
+      "reset-token": "إعادة تعيين الرمز",
+      "delete-bot": "حذف بوت"
+    },
+    "delete-account": {
+      "notice": "أنت على وشك حذف حسابك",
+      "what-gets-deleted": "ما سيتم حذفه",
+      "what-wont-delete": "ما لن يتم حذفه",
+      "messages-sent": "رسائلك المرسلة إلى السيرفرات العامة",
+      "requirements": "المتطلبات",
+      "delete-leave-server": "مغادرة أو حذف جميع السيرفرات",
+      "delete-bots": "حذف جميع البوتات",
+      "delete-account-button": "حذف حسابي"
+    },
+    "language": {
+      "details": ".GitHub repo في ال PR قد يلزم إعادة التحميل بعد تغيير اللغة. ساهم عن طريق إرسال",
+      "translators": "المترجمون"
+    },
+    "interface": {
+      "description": ".تغيير مظهر Nertivia",
+      "colors": "الألوان",
+      "time-format": "تنسيق الوقت",
+      "default-theme": "الثيم الافتراضي",
+      "amoled-dark": "AMOLED Dark",
+      "halloween-2020": "عيد الهالوين 2020",
+      "predefined-themes": "ثيمات محددة مسبقًا",
+      "custom-css": "(CSS)تنسيقات مخصصة",
+      "general": "عام",
+      "navigation-bar": "شريط التنقل"
+    },
+    "wip-features": {
+      "title": ".تمكين الميزات التجريبية أو غير المكتملة",
+      "none-available": ".لا تتوفر ميزات العمل قيد التقدم الآن"
+    }
+  },
+  "server-settings": {
+    "permissions": {
+      "permissions": "الأذونات",
+      "admin": {
+        "name": "الأدمين",
+        "info": "تفعيل جميع الأذونات"
+      },
+      "send-messages": {
+        "name": "إرسال الرسائل",
+        "info": "إرسال الرسائل إلى قنوات السيرفر"
+      },
+      "manage-roles": {
+        "name": "إدارة الأدوار",
+        "info": "تعديل أو حذف الأدوار"
+      },
+      "manage-channels": {
+        "name": "إدارة القنوات",
+        "info": "تعديل أو حذف القنوات"
+      },
+      "kick-user": {
+        "name": "طرد",
+        "info": "طرد مستخدم"
+      },
+      "ban-user": {
+        "name": "حظر",
+        "info": "طرد و تقييد مستخدم"
+      }
+    },
+    "tab-names": {
+      "general": "عام",
+      "manage-channels": "إدارة القنوات",
+      "manage-roles": "إدارة الأدوار",
+      "manage-invites": "إدارة الدعوات",
+      "server-visibility": "إمكانية رؤية السيرفر",
+      "manage-emojis": "إدارة الرموز التعبيرية",
+      "manage-notification": "إدارة الإشعارات",
+      "banned-users": "المستخدمون المحظورون",
+      "manage-users": "إدارة المستخدمين",
+      "delete-server": "حذف السيرفر"
+    },
+    "manage-roles": {
+      "manage-your-roles": "إدارة أدوارك",
+      "default-role": "الدور الإفتراضي",
+      "bot-role": "دور البوت",
+      "create-role": "إنشاء دور جديد",
+      "notice-bot": ".لا يمكن حذف أو تعيين هذا الدور لعضو آخر لأنه تم إنشاؤه بواسطة بوت. قم بإزالة البوت لإزالة هذا الدور",
+      "notice-default": ".لا يمكن حذف هذا الدور أو إلغاء تعيينه لأن هذا هو الدور الافتراضي الذي يتم تطبيقه على كل عضو",
+      "pick-role-color": "إختر لون الدور",
+      "role-name": "إسم الدور",
+      "settings": "الإعدادات",
+      "delete-role": "حذف الدور",
+      "deleting-role": "…يتم حذف الدور",
+      "hide-role": "إخفاء الدور"
+    },
+    "general": {
+      "general-server-settings": "إعدادات السيرفر العامة"
+    },
+    "manage-channels": {
+      "manage-your-channels": "إدارة قناواتك",
+      "delete-channel": "حذف القناة",
+      "deleting-channel": "…يتم حذف القناة",
+      "channel-name": "قناة جديدة",
+      "default-channel-notice": ".هذه قناة افتراضية. يمكنك تغيير القناة الافتراضية في الصفحة العامة. لا يمكن حذف القنوات الافتراضية",
+      "create-new-channel": "إنشاء قناة جديدة",
+      "permission": {
+        "send-message": "إرسال رسائل"
+      },
+      "rate-limit-seconds": "معدل الحد الأقصى (ثواني)",
+      "text-channel": "قناة نصية",
+      "category-channel": "الفئة",
+      "html-channel": "(العمل قيد التقدم) HTML قناة"
+    },
+    "banned-users": {
+      "notice": "إلغاء حظر الأعضاء من هنا",
+      "unbanning": "يتم إلغاء الحظر",
+      "unban": "إلغاء الحظر"
+    },
+    "manage-invites": {
+      "notice": ".يمكن للمسؤولين فقط رؤية دعوات الجميع",
+      "create-invites": "إنشاء دعوات",
+      "custom-invite": "دعوة مخصصة",
+      "save-custom-link": "حفظ الرابط المخصص",
+      "create-invite": "إنشاء دعوة",
+      "link": "الرابط",
+      "creator": "المنشئ",
+      "uses": "الاستخدامات"
+    },
+    "manage-users": {
+      "search-user": "البحث عن مستخدم"
+    },
+    "delete-server": {
+      "type-server-name-to-confirm": "أدخل إسم السيرفر للتأكيد",
+      "deleting": "…يتم الحذف"
+    },
+    "notifications": {
+      "description": ".تغيير إعدادات الإشعارات",
+      "notice": ".ستنطبق هذه الإعدادات عليك فقط ولن تؤثر على الآخرين",
+      "enable-notifications": "تفعيل الإشعارات",
+      "mute-sound": "كتم الصوت",
+      "disable-notifications": "تعطيل الإشعارات"
+    }
+  },
+  "typing-status": {
+    "is-typing": "{0} …يكتب",
+    "two-are-typing": "{0}، {1} …يكتبون",
+    "three-are-typing": "{0}، {1}، {2} …يكتبون",
+    "more-than-three": "{0} …يكتبون"
+  },
+  "dm-tab": {
+    "friends": "أصدقاء",
+    "recents": "الأخيرة",
+    "saved-notes": "الملاحظات المحفوظة",
+    "add-friend": "إضافة صديق"
+  },
+  "dashboard-tab": {
+    "profile": "الملف الشخصي",
+    "notifications": "إشعارات",
+    "click-to-add-custom-status": "انقر لإضافة حالة مخصصة",
+    "caught-up": "!قرأت الكل",
+    "direct-messages": "رسائل مباشرة",
+    "servers": "سيرفرات",
+    "explore": "إكتشاف",
+    "dashboard": "لوحة التحكم"
+  },
+  "add-friend-popout": {
+    "notice": ".(tag)أضف صديقًا عن طريق كتابة اسم المستخدم والشعار",
+    "adding": "…يتم الإضافة"
+  },
+  "add-server-popout": {
+    "title": "إضافة سيرفر",
+    "join-server-notice": ".انضم إلى سيرفر عن طريق إدخال رمز دعوة",
+    "create-server-notice": ".قم بإنشاء السيرفر الخاص بك. ابدأ بتسمية السيرفر الخاص بك",
+    "tabs": {
+      "join": "إنضمام",
+      "create": "إنشاء"
+    }
+  },
+  "presence": {
+    "offline": "غير متصل",
+    "online": "متصل",
+    "away": "بعيد",
+    "busy": "مشغول",
+    "looking-to-play": "تتطلع للعب؟"
+  },
+  "right-drawer": {
+    "server-members": "الأعضاء ({0})",
+    "server-offline-members": "غير متصل ({0})"
+  },
+  "profile-popout": {
+    "common-friends": "أصدقاء مشتركون",
+    "badges": "شارات",
+    "joined-at": "منضم",
+    "suspended": "موقوف مأقتا",
+    "remove-friend": "حذف الصديق",
+    "accept-request": "قبول الطلب",
+    "cancel-request": "إلغاء الطلب",
+    "add-friend": "إضافة صديق",
+    "send-message": "أرسل رسالة",
+    "common-servers": "سيرفرات مشتركة"
+  },
+  "connection": {
+    "loading": "…يتم التحميل",
+    "ready": "!جاهز",
+    "authenticating": "…يتم المصادقة"
+  },
+  "navbar": {
+    "update": "تحديث",
+    "update-available": "التحديث متاح"
+  },
+  "generic": {
+    "copy": "نسخ",
+    "select": "تحديد",
+    "delete": "حذف",
+    "copied": "!تم النسخ",
+    "user": "المستخدم"
+  },
+  "messages": {
+    "left": "غادر(ت) السيرفر",
+    "kicked": "تم طرده(ا)",
+    "banned": "تم حظره(ا)",
+    "joined": "!إنضم(ت) للسيرفر"
+  },
+  "could-not-connect-to-server": "فشل الإتصال بالسيرفر",
+  "chat-area": {
+    "rate-limit-mode": "وضع معدل الحد الإقصى"
+  }
+}

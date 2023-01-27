@@ -63,5 +63,10 @@ export default {
     name: "Hindi / हिंदी",
     unicode: "🇮🇳",
     translators: ["Omkaar"],
+  },
+  ar: {
+    name: "Arabic / العربية",
+    unicode: "🇸🇦",
+    translators: ["Devx"],
   }
 };
