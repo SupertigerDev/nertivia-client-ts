@@ -7,19 +7,16 @@ interface ResponseFetch {
   channelId: string;
   messages: Message[];
 }
-interface ResponsePost {
-  tempID: string;
-  messageCreated: Message;
-}
+type ResponsePost = Message & { tempID: string };
 export function fetchMessages(channelId: string): Promise<ResponseFetch> {
-  return wrapper().get(`messages/channels/${channelId}`).json();
+  return wrapper().get(`channels/${channelId}/messages`).json();
 }
 export function fetchMessagesContinue(
   channelId: string,
-  continueMessageID: string
+  continueMessageId: string
 ): Promise<ResponseFetch> {
   return wrapper()
-    .get(`messages/channels/${channelId}?continue=${continueMessageID}`)
+    .get(`channels/${channelId}/messages?continue=${continueMessageId}`)
     .json();
 }
 export function deleteMessages(
@@ -27,23 +24,25 @@ export function deleteMessages(
   messageIds: string[]
 ): Promise<ResponseFetch> {
   return wrapper()
-    .delete(`messages/${channelId}/bulk`, { json: { ids: messageIds } })
+    .delete(`channels/${channelId}/messages/bulk`, {
+      json: { ids: messageIds },
+    })
     .json();
 }
 export function fetchMessagesBefore(
   channelId: string,
-  beforeMessageID: string
+  beforeMessageId: string
 ): Promise<ResponseFetch> {
   return wrapper()
-    .get(`messages/channels/${channelId}?before=${beforeMessageID}`)
+    .get(`channels/${channelId}/messages?before=${beforeMessageId}`)
     .json();
 }
 export function fetchMessagesAround(
   channelId: string,
-  messageID: string
+  messageId: string
 ): Promise<ResponseFetch> {
   return wrapper()
-    .get(`messages/channels/${channelId}?around=${messageID}`)
+    .get(`channels/${channelId}/messages?around=${messageId}`)
     .json();
 }
 
@@ -55,18 +54,18 @@ export interface PostReaction {
 
 export function addReaction(
   channelId: string,
-  messageID: string,
+  messageId: string,
   reaction: PostReaction
 ): Promise<any> {
   return wrapper()
-    .post(`messages/${messageID}/channels/${channelId}/reactions`, {
+    .post(`channels/${channelId}/messages/${messageId}/reactions`, {
       json: reaction,
     })
     .json();
 }
 export function getReactedUsers(
   channelId: string,
-  messageID: string,
+  messageId: string,
   limit: number,
   emojiID?: string,
   unicode?: string
@@ -78,18 +77,18 @@ export function getReactedUsers(
     searchParams.unicode = unicode;
   }
   return wrapper()
-    .get(`messages/${messageID}/channels/${channelId}/reactions/users`, {
+    .get(`channels/${channelId}/messages/${messageId}/reactions`, {
       searchParams,
     })
     .json();
 }
 export function removeReaction(
   channelId: string,
-  messageID: string,
+  messageId: string,
   reaction: PostReaction
 ): Promise<any> {
   return wrapper()
-    .delete(`messages/${messageID}/channels/${channelId}/reactions`, {
+    .delete(`channels/${channelId}/messages/${messageId}/reactions`, {
       json: reaction,
     })
     .json();
@@ -97,45 +96,45 @@ export function removeReaction(
 
 export function deleteMessage(
   channelId: string,
-  messageID: string
+  messageId: string
 ): Promise<any> {
-  return wrapper().delete(`messages/${messageID}/channels/${channelId}`).json();
+  return wrapper().delete(`channels/${channelId}/messages/${messageId}`).json();
 }
 export function postMessage(
   message: string,
-  tempID: string,
+  tempId: string,
   channelId: string
 ): Promise<ResponsePost> {
   return wrapper()
-    .post(`messages/channels/${channelId}`, {
-      json: { message, tempID, socketID: socket.id },
+    .post(`channels/${channelId}/messages`, {
+      json: { message, tempID: tempId, socketID: socket.id },
     })
     .json();
 }
 
 export function editMessage(
-  messageID: string,
+  messageId: string,
   channelId: string,
   data: any
 ): Promise<ResponsePost> {
   return wrapper()
-    .patch(`messages/${messageID}/channels/${channelId}`, {
+    .patch(`channels/${channelId}/messages/${messageId}`, {
       json: data,
     })
     .json();
 }
 export function buttonClick(
   channelId: string,
-  messageID: string,
-  buttonID: string
+  messageId: string,
+  buttonId: string
 ): Promise<any> {
   return wrapper()
-    .post(`channels/${channelId}/messages/${messageID}/button/${buttonID}`)
+    .post(`channels/${channelId}/messages/${messageId}/buttons/${buttonId}`)
     .json();
 }
 
 export function postTypingStatus(channelId: string): Promise<ResponsePost> {
-  return wrapper().post(`messages/${channelId}/typing`).json();
+  return wrapper().post(`channels/${channelId}/typing`).json();
 }
 
 export function postFormDataMessage(
@@ -160,7 +159,7 @@ export function postFormDataMessage(
   const request = new XMLHttpRequest();
   request.open(
     "POST",
-    process.env.VUE_APP_FETCH_PREFIX + `/messages/channels/${channelId}`
+    process.env.VUE_APP_FETCH_PREFIX + `/channels/${channelId}/messages`
   );
   request.setRequestHeader(
     "authorization",

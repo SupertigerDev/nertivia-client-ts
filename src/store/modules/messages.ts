@@ -201,7 +201,7 @@ class Messages extends VuexModule {
       quotes: [],
     });
     postMessage(trimmedMessage, tempID, payload.channelId)
-      .then((res) => {
+      .then((message) => {
         if (ChannelsModule.getDMChannel(payload.channelId)) {
           ChannelsModule.updateChannel({
             channelId: payload.channelId,
@@ -212,7 +212,6 @@ class Messages extends VuexModule {
           channelId: payload.channelId,
           timestamp: Date.now(),
         });
-        const message = res.messageCreated;
         this.UpdateMessage({
           channelId: message.channelId,
           message: { ...message, sending: 1 },

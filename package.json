@@ -31,7 +31,7 @@
     "register-service-worker": "^1.7.1",
     "seeded-color": "^1.0.2",
     "simple-peer": "^9.11.0",
-    "socket.io-client": "^4.1.2",
+    "socket.io-client": "^4.4.1",
     "style-scoped": "^0.2.2",
     "text-field-edit": "^3.1.0",
     "twemoji": "^13.0.1",

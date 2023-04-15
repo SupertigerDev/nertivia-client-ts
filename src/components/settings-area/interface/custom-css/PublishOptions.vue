@@ -38,7 +38,7 @@
         />
       </div>
 
-      <CustomInput :value="theme.name" title="Name" :disabled="true" />
+      <CustomInput :modelValue="theme.name" title="Name" :disabled="true" />
       <CustomInput
         title="Description"
         :textArea="true"

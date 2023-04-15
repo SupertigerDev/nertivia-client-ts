@@ -5,9 +5,7 @@
         <div class="material-icons">info</div>
         {{ $t("server-settings.tab-names.manage-roles") }}
       </div>
-      <div class="notice">
-        {{ $t("server-settings.manage-roles.manage-your-roles") }}
-      </div>
+      <div class="notice">{{ $t("server-settings.manage-roles.manage-your-roles") }}</div>
       <SelectedRolesPage
         v-if="selectedRoleID"
         :roleID="selectedRoleID"
@@ -36,10 +34,7 @@
             </template>
           </Draggable>
           <!-- Default role always stays at the bottom. -->
-          <RoleTemplate
-            :role="defaultRole"
-            @click="selectedRoleID = defaultRole.id"
-          />
+          <RoleTemplate :role="defaultRole" @click="selectedRoleID = defaultRole.id" />
         </div>
       </div>
     </div>
