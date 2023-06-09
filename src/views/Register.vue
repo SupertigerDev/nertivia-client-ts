@@ -2,7 +2,6 @@
   <div class="register">
     <div class="center-box">
       <img class="logo" src="../assets/logo.svg" />
-      <div class="title">Discontinued</div>
       <div class="text">Nertivia has been discontinued.</div>
       <div class="text">
         Please try out <a href="https://nerimity.com">https://nerimity.com</a> instead.
@@ -135,11 +134,15 @@ export default defineComponent({
   margin: auto;
   max-width: 300px;
   width: 100%;
+  text-align: center;
 }
 .logo {
   height: 120px;
   width: 120px;
   flex-shrink: 0;
+}
+.text {
+  margin-bottom: 10px;
 }
 .title {
   font-size: 18px;

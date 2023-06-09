@@ -79,6 +79,9 @@ const components = {
   UpdatePopout: defineAsyncComponent(
     () => import("@/components/popouts/UpdatePopout.vue")
   ),
+  DiscontinuedPopout: defineAsyncComponent(
+    () => import("@/components/popouts/DiscontinuedPopout.vue")
+  ),
   ChangelogPopout: defineAsyncComponent(
     () => import("@/components/popouts/ChangelogPopout.vue")
   ),
