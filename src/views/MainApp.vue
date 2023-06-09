@@ -131,7 +131,7 @@ export default defineComponent({
     const result = confirm("Nertivia is in a read-only state due to the database reaching full capacity.\nPlease try out Nerimity instead.\n\nOK: Visit https://nerimity.com\nCancel: Do nothing.")
     
     if (result) {
-      window.open("https://nerimity.com", '_blank').focus();
+      window?.open("https://nerimity.com", '_blank')?.focus?.();
     }
 
     this.$socket.connect();
