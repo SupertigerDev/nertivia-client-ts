@@ -11,7 +11,7 @@
           </div>
           <div class="buttons">
             <CustomButton name="Don't visit" :alert="true" @click="buttonClicked" />
-            <CustomButton name="Visit" :filled="true" @click="updateClicked" />
+            <CustomButton name="Visit Nerimity" :filled="true" @click="updateClicked" />
           </div>
         </div>
       </div>
