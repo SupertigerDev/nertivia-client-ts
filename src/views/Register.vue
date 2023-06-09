@@ -2,83 +2,10 @@
   <div class="register">
     <div class="center-box">
       <img class="logo" src="../assets/logo.svg" />
-      <div class="title">Welcome To Nertivia!</div>
-      <div class="card" v-if="page === 0">
-        <div class="description">
-          <div class="material-icons alert">favorite</div>
-          <div class="text">Thanks for trying out Nertivia!</div>
-        </div>
-        <div class="description">
-          <div class="material-icons warn">report_problem</div>
-          <div class="text">
-            Nertivia is a fun project, Please don't come here just to be toxic
-            :(
-          </div>
-        </div>
-        <div class="description">
-          <div class="material-icons">info</div>
-          <div class="text">Email verification will be required.</div>
-        </div>
-      </div>
-      <!-- Form -->
-      <form
-        v-if="page === 0"
-        class="form"
-        action="#"
-        @submit.prevent="formSubmit"
-        @keydown="keyDownEvent"
-      >
-        <div class="other-error">{{ errors["other"] }}</div>
-        <customInput
-          class="input"
-          v-model="email"
-          title="Email"
-          prefixIcon="alternate_email"
-          type="email"
-          :error="errors['email']"
-        />
-        <customInput
-          class="input"
-          v-model="username"
-          prefixIcon="account_box"
-          title="Username"
-          type="text"
-          :error="errors['username']"
-        />
-        <customInput
-          class="input"
-          v-model="password"
-          title="Password"
-          type="password"
-          prefixIcon="lock"
-          :error="errors['password']"
-        />
-        <AgreementMessage
-          class="agree-message"
-          prefix="By creating an account,"
-        />
-        <CustomButton name="Register" :filled="true" :disabled="requestSent" />
-        <a class="link" href="/login">Login</a>
-      </form>
-      <!-- Captcha -->
-      <div class="captcha" v-if="page === 1">
-        <div class="sub-title">Verify that you're not a bot.</div>
-        <Captcha ref="captcha" @verify="captchaSubmit" />
-      </div>
-      <!-- Confirm Email -->
-      <div v-if="page === 2">
-        <div class="sub-title">
-          Confirm your email before continuing by entering the code that was
-          sent to you.
-        </div>
-        <div class="other-error">{{ errors["other"] }}</div>
-        <customInput
-          class="input"
-          v-model="confirmEmail"
-          title="Confirm Code"
-          type="email"
-          :error="errors['email_confirm']"
-        />
+      <div class="title">Discontinued</div>
+      <div class="text">Nertivia has been discontinued.</div>
+      <div class="text">
+        Please try out <a href="https://nerimity.com">https://nerimity.com</a> instead.
       </div>
     </div>
   </div>
