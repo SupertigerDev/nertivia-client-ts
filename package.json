@@ -15,6 +15,7 @@
     "@supertiger/vue-3-virtual-scroll-list": "^1.0.8",
     "@vue/compiler-sfc": "^3.2.11",
     "base64-arraybuffer": "^0.1.4",
+    "caniuse-lite": "^1.0.30001497",
     "codemirror-editor-vue3": "^0.2.4",
     "core-js": "^3.6.5",
     "doodlepad": "^4.0.2",
