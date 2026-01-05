@@ -2,7 +2,7 @@
 export const CONNECT = "connect";
 export const DISCONNECT = "disconnect";
 export const RECONNECT_ATTEMPT = "reconnect_attempt";
-export const AUTHENTICATED = "authenticated";
+export const AUTHENTICATED = "user:authenticated";
 export const AUTHENTICATION_ERROR = "authentication_error";
 // message events
 export const MESSAGE_CREATED = "message:created";
@@ -22,7 +22,8 @@ export const CHANNEL_UNMUTED = "channel:unmuted";
 export const SERVER_CHANNEL_CREATED = "server:channel_created";
 export const SERVER_CHANNEL_DELETED = "server:channel_deleted";
 export const SERVER_CHANNEL_UPDATED = "server:channel_updated";
-export const SERVER_CHANNEL_POSITION_UPDATED = "server:channel_position_updated";
+export const SERVER_CHANNEL_POSITION_UPDATED =
+  "server:channel_position_updated";
 // server events
 export const SERVER_POSITION_UPDATED = "server:position_updated";
 export const SERVER_JOINED = "server:joined";
@@ -37,7 +38,8 @@ export const SERVER_ROLE_UPDATED = "server:role_updated";
 export const SERVER_ROLE_DELETED = "server:role_deleted";
 
 export const SERVER_ROLE_ADDED_TO_MEMBER = "server:role_added_to_member";
-export const SERVER_ROLE_REMOVED_FROM_MEMBER = "server:role_removed_from_member";
+export const SERVER_ROLE_REMOVED_FROM_MEMBER =
+  "server:role_removed_from_member";
 export const SERVER_MUTED = "server:muted";
 // user events
 export const SELF_STATUS_CHANGE = "multiDeviceStatus";

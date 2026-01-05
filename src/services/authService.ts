@@ -6,7 +6,7 @@ export function postLogin(
   token?: string
 ): Promise<any> {
   return wrapper()
-    .post(`user/login`, {
+    .post(`users/login`, {
       json: { email, password, token },
     })
     .json();

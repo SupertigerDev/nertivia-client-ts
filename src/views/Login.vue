@@ -40,7 +40,8 @@
       <!-- Confirm Email -->
       <div v-if="page === 2">
         <div class="sub-title">
-          Confirm your email before continuing by entering the code that was sent to you.
+          Confirm your email before continuing by entering the code that was
+          sent to you.
         </div>
         <div class="other-error">{{ errors["other"] }}</div>
         <customInput
@@ -94,7 +95,8 @@ export default defineComponent({
           return err.response.json();
         })
         .then((res) => {
-          if (!res) return (this.errors["other"] = "Unable to connect to server");
+          if (!res)
+            return (this.errors["other"] = "Unable to connect to server");
           if (!res.error) return;
           return (this.errors["email_confirm"] = res.error);
         });
@@ -113,12 +115,8 @@ export default defineComponent({
       const password = this.password;
       postLogin(email, password, token)
         .then((data) => {
-          if (data.action === "logged_in") {
-            localStorage.clear();
-            localStorage["hauthid"] = data.token;
-            this.redirect();
-            return;
-          }
+          localStorage["hauthid"] = data.token;
+          this.redirect();
         })
         .catch((err) => {
           this.page = 0;
@@ -130,24 +128,10 @@ export default defineComponent({
         })
         .then((res) => {
           if (!res) return;
-          if (res.code === "CONFIRM_EMAIL") {
-            this.page = 2;
-            return;
-          }
-          if (!res.errors) return;
-          if (res.errors[0].code === 1) {
-            this.page = 1;
-            return;
-          }
+
           const errors: any = {};
-          for (let i = 0; i < res.errors.length; i++) {
-            const error = res.errors[i];
-            if (error.param === "email" || error.param === "password") {
-              errors[error.param] = error.msg;
-              continue;
-            }
-            errors["other"] = error.msg;
-          }
+
+          errors["other"] = res.message;
           this.errors = errors;
         });
     },

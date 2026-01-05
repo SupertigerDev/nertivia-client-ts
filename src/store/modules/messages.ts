@@ -141,7 +141,7 @@ class Messages extends VuexModule {
         });
       })
       .catch((err: ky.HTTPError) => {
-        console.log(err.name);
+        console.log(err);
         // console.log(err.response)
       });
   }

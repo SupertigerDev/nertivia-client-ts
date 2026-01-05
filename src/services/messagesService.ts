@@ -2,6 +2,7 @@ import wrapper from "./wrapper";
 import Message from "@/interfaces/Message";
 import User from "@/interfaces/User";
 import { socket } from "@/socket";
+import { RawMessage } from "@/socket/events/NewRawData";
 
 interface ResponseFetch {
   channelId: string;
@@ -12,7 +13,27 @@ interface ResponsePost {
   messageCreated: Message;
 }
 export function fetchMessages(channelId: string): Promise<ResponseFetch> {
-  return wrapper().get(`messages/channels/${channelId}`).json();
+  return wrapper()
+    .get(`channels/${channelId}/messages`)
+    .json()
+    .then((res) => {
+      return {
+        channelId,
+        messages: (res as any)
+          .map((msg: RawMessage) => ({
+            ...msg,
+            creator: msg.createdBy,
+            message: msg.content,
+            created: msg.createdAt,
+            files:
+              msg.attachments?.map((a) => ({
+                url: process.env.VUE_APP_NERTIVIA_CDN! + a.path,
+                dimensions: { height: a.height!, width: a.width! },
+              })) || [],
+          }))
+          .reverse(),
+      };
+    });
 }
 export function fetchMessagesContinue(
   channelId: string,
